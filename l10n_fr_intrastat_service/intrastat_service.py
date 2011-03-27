@@ -23,9 +23,7 @@
 ##############################################################################
 
 #TODO
-# Arrondis
-# Dépôt DES fait le .... sur pro douane
-# faire un multi sur les 2 champs calculés de report_intrastat_service
+# Dépôt DES fait le .... sur pro douane, ac attachement de l'Accusé de réception ?
 
 from osv import osv, fields
 from tools.sql import drop_view_if_exists
@@ -80,6 +78,7 @@ class report_intrastat_service(osv.osv):
         'total_amount': fields.function(_compute_numbers, method=True, digits=(16,0), multi='numbers', string='Total amount', store={
             'report.intrastat.service.line': (_get_intrastat_from_service_line, ['amount_company_currency', 'parent_id'], 20),
                 }, help="Total amount in company currency of the declaration."),
+        'currency_id': fields.related('company_id', 'currency_id', readonly=True, type='many2one', relation='res.currency', string='Currency'),
         'state' : fields.selection([
             ('draft','Draft'),
             ('done','Done'),
@@ -116,15 +115,17 @@ class report_intrastat_service(osv.osv):
 
     def generate_service_lines(self, cr, uid, ids, context=None):
         print "generate lines, ids=", ids
-#TODO delete service lines
         if len(ids) != 1:
             raise osv.except_osv(_('Error :'), _('Hara kiri in generate_service_lines'))
-        # Get current lines and delete them
+        intrastat = self.browse(cr, uid, ids[0], context=context)
+        # Check that the company currency is EUR
+        if not intrastat.currency_id.code == 'EUR':
+            raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
+        # Get current service lines and delete them
         line_remove = self.read(cr, uid, ids[0], ['service_line_ids'], context=context)
         print "line_remove", line_remove
         if line_remove['service_line_ids']:
             self.pool.get('report.intrastat.service.line').unlink(cr, uid, line_remove['service_line_ids'], context=context)
-        #TODO : check on company
         sql = '''
         select
             min(inv_line.id) as id,
@@ -190,16 +191,17 @@ class report_intrastat_service(osv.osv):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         company_id = str(user.company_id.id)
         print "company_id =", company_id
-        dates = self.read(cr, uid, ids[0], ['start_date', 'end_date'], context=context)
-        start_date_str = dates['start_date']
-        end_date_str = dates['end_date']
-        print "START date", start_date_str
-        print "END date", end_date_str
+        start_date_str = intrastat.start_date
+        end_date_str = intrastat.end_date
+        # Execute the big SQL query to get all service lines
         cr.execute(sql, (company_id, start_date_str, end_date_str))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
         line_obj = self.pool.get('report.intrastat.service.line')
         for id, name, company_id, invoice_number, date_invoice, invoice_currency_id, partner_vat, partner_name, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
+            print "amount_invoice_currency =", amount_invoice_currency
+            print "amount_company_currency =", amount_company_currency
+            # Store the service lines
             line_obj.create(cr, uid, {
                 'parent_id': ids[0],
                 'name': name,
@@ -207,9 +209,9 @@ class report_intrastat_service(osv.osv):
                 'partner_vat': partner_vat,
                 'partner_name': partner_name,
                 'date_invoice': date_invoice,
-                'amount_invoice_currency': amount_invoice_currency,
+                'amount_invoice_currency': int(round(amount_invoice_currency, 0)),
                 'invoice_currency_id': invoice_currency_id,
-                'amount_company_currency': amount_company_currency,
+                'amount_company_currency': int(round(amount_company_currency, 0)),
                 'company_currency_id': company_currency_id,
                     }, context=context)
         return None
@@ -234,16 +236,16 @@ class report_intrastat_service(osv.osv):
         from lxml import etree
         import base64
         if len(ids) != 1:
-            raise osv.except_osv(_('Error :'), _('Hara kiri in generate_xml'))
-        dates = self.read(cr, uid, ids[0], ['start_date', 'end_date'], context=context)
-        start_date_str = dates['start_date']
-        end_date_str = dates['end_date']
+            raise osv.except_osv(_('Error :'), 'Hara kiri in generate_xml')
+        intrastat = self.browse(cr, uid, ids[0], context=context)
+        start_date_str = intrastat.start_date
+        end_date_str = intrastat.end_date
         start_date_datetime = datetime.strptime(start_date_str, '%Y-%m-%d')
 
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
 
-        if not user.company_id.currency_id.code == 'EUR':
-            raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%user.company_id.currency_id.code))
+        if not intrastat.currency_id.code == 'EUR':
+            raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
 
         if not user.company_id.partner_id.vat:
             raise osv.except_osv(_('Error :'), _('The VAT number is not set for the partner "%s".'%user.company_id.partner_id.name))
@@ -261,20 +263,16 @@ class report_intrastat_service(osv.osv):
         mois_des.text = datetime.strftime(start_date_datetime, '%m') # month 2 digits
         an_des = etree.SubElement(decl, 'an_des')
         an_des.text = datetime.strftime(start_date_datetime, '%Y')
-        lines = self.pool.get('report.intrastat.service').browse(cr, uid, context['active_ids'], context=context)
         line = 0
-        total_value_cc = 0
         # we now go through each service line
-        for sline in self.browse(cr, uid, ids[0], context=context).service_line_ids:
+        for sline in intrastat.service_line_ids:
             line += 1 # increment line number
             ligne_des = etree.SubElement(decl, 'ligne_des')
             numlin_des = etree.SubElement(ligne_des, 'numlin_des')
             numlin_des.text = str(line)
             valeur = etree.SubElement(ligne_des, 'valeur')
             # We take amount_company_currency, to be sure we have amounts in EUR
-            value_cc = int(round(sline.amount_company_currency,0))
-            total_value_cc += value_cc
-            valeur.text= str(value_cc)
+            valeur.text = str(sline.amount_company_currency)
             partner_des = etree.SubElement(ligne_des, 'partner_des')
             try: partner_des.text = sline.partner_vat.replace(' ', '')
             except: raise osv.except_osv(_('Error :'), _('Missing VAT number for partner "%s".'%sline.partner_name))
