@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!-- Form view of DES -->
+<record id="view_report_intrastat_service_form" model="ir.ui.view">
+    <field name="name">report.intrastat.service.form</field>
+    <field name="model">report.intrastat.service</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form>
+            <group colspan="4" col="8">
+                <field name="start_date" select="1" />
+                <field name="end_date" />
+                <field name="num_lines" />
+                <field name="total_amount" />
+            </group>
+            <separator colspan="4" string="Notes"/>
+            <group colspan="4">
+                <field name="notes" colspan="4" nolabel="1" />
+            </group>
+            <button icon="gtk-ok" name="generate_service_lines" string="Re-generate lines" type="object" states="draft" colspan="2" />
+            <button icon="gtk-ok" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
+            <field name="service_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
+            <group colspan="2">
+                <field name="state" select="2" />
+                <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
+                <button icon="gtk-convert" name="back2draft" string="Back to draft" type="object" colspan="1" states="done" />
+            </group>
+        </form>
+    </field>
+</record>
+
+<!-- Tree view of list of DES -->
+<record id="view_report_intrastat_service_tree" model="ir.ui.view">
+    <field name="name">report.intrastat.service.tree</field>
+    <field name="model">report.intrastat.service</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Intrastat Service">
+            <field name="start_date" />
+            <field name="end_date" />
+            <field name="num_lines" />
+            <field name="total_amount" sum="Total amount" />
+            <field name="state" />
+        </tree>
+    </field>
+</record>
+
+<!-- Form view for service lines -->
+<record id="view_report_intrastat_service_line_form" model="ir.ui.view">
+    <field name="name">report.intrastat.service.line.form</field>
+    <field name="model">report.intrastat.service.line</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Intrastat service lines">
+            <field name="name" />
+            <field name="invoice_number" />
+            <field name="partner_vat" />
+            <field name="partner_name" />
+            <field name="date_invoice" />
+            <field name="amount_invoice_currency" />
+            <field name="invoice_currency_id" />
+            <field name="amount_company_currency" />
+            <field name="company_currency_id" />
+        </form>
+    </field>
+</record>
+
+<!-- Tree view for service lines -->
+<record id="view_report_intrastat_service_line_tree" model="ir.ui.view">
+    <field name="name">report.intrastat.service.line.tree</field>
+    <field name="model">report.intrastat.service.line</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Intrastat service lines">
+            <field name="partner_vat" />
+            <field name="amount_company_currency" string="Amount in CC" />
+            <field name="company_currency_id" string="Comp. Cur." />
+            <field name="amount_invoice_currency" string="Amount in IC" />
+            <field name="invoice_currency_id" string="Inv. Cur." />
+            <field name="partner_name" />
+            <field name="date_invoice" />
+            <field name="invoice_number" string="Inv. number" />
+        </tree>
+    </field>
+</record>
+
+
+<!-- Action related -->
+<record id="action_report_intrastat_service_tree" model="ir.actions.act_window">
+    <field name="name">Intrastat Service</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">report.intrastat.service</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+
+<!-- Intrastat service menu -->
+<menuitem id="menu_report_intrastat_service" name="Intrastat Service" parent="l10n_fr_intrastat_base.menu_fr_intrastat_base_root" action="action_report_intrastat_service_tree" />
+
+</data>
+</openerp>
