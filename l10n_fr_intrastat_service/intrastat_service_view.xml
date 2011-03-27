@@ -9,11 +9,12 @@
     <field name="type">form</field>
     <field name="arch" type="xml">
         <form>
-            <group colspan="4" col="8">
+            <group colspan="4" col="9">
                 <field name="start_date" select="1" />
                 <field name="end_date" />
                 <field name="num_lines" />
                 <field name="total_amount" />
+                <field name="currency_id" nolabel="1"/>
             </group>
             <separator colspan="4" string="Notes"/>
             <group colspan="4">
@@ -42,6 +43,7 @@
             <field name="end_date" />
             <field name="num_lines" />
             <field name="total_amount" sum="Total amount" />
+            <field name="currency_id" />
             <field name="state" />
         </tree>
     </field>
