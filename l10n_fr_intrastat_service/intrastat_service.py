@@ -40,26 +40,19 @@ class report_intrastat_service(osv.osv):
     _rec_name = "start_date"
     _description = "Intrastat report for service"
 
-
-    def _compute_num_lines(self, cr, uid, ids, name, arg, context=None):
-        print "START _compute_num_lines"
+    def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
+        print "START compute numbers ids=", ids
         result = {}
         for intrastat in self.browse(cr, uid, ids, context=context):
-            result[intrastat.id] = 0
+            total_amount = 0.0
+            num_lines = 0
             for line in intrastat.service_line_ids:
-                result[intrastat.id] += 1
-        print "_compute_num_lines res = ", result
+                total_amount += line.amount_company_currency
+                num_lines += 1
+            result[intrastat.id] = {'num_lines': num_lines, 'total_amount': total_amount}
+        print "_compute_numbers res = ", result
         return result
 
-    def _compute_total_amount(self, cr, uid, ids, name, arg, context=None):
-        print "_compute_total_amount START ids=", ids
-        result = {}
-        for intrastat in self.browse(cr, uid, ids, context=context):
-            result[intrastat.id] = 0.0
-            for line in intrastat.service_line_ids:
-                result[intrastat.id] += line.amount_company_currency
-        print "_compute_total_amount res = ", result
-        return result
 
     def _compute_end_date(self, cr, uid, ids, name, arg, context=None):
         print "_compute_end_date START ids=", ids
@@ -70,7 +63,7 @@ class report_intrastat_service(osv.osv):
             result[intrastat.id] = end_date_str
         print "_compute_end_date res=", result
         return result
- 
+
 
     def _get_intrastat_from_service_line(self, cr, uid, ids, context=None):
         print "invalidation function CALLED !!!"
@@ -81,10 +74,10 @@ class report_intrastat_service(osv.osv):
         'start_date': fields.date('Start date', required=True, states={'done':[('readonly',True)]}, help="Start date of the declaration. Must be the first day of a month."),
         'end_date': fields.function(_compute_end_date, method=True, type='date', string='End date', store=True, help="End date for the declaration. Must be the last day of the month of the start date."),
         'service_line_ids': fields.one2many('report.intrastat.service.line', 'parent_id', 'Report intrastat service lines', states={'done':[('readonly',True)]}),
-        'num_lines': fields.function(_compute_num_lines, method=True, type='integer', string='Number of lines', store={
+        'num_lines': fields.function(_compute_numbers, method=True, type='integer', multi='numbers', string='Number of lines', store={
             'report.intrastat.service.line': (_get_intrastat_from_service_line, ['parent_id'], 20),
             }, help="Number of lines in this declaration."),
-        'total_amount': fields.function(_compute_total_amount, method=True, digits=(16,0), string='Total amount', store={
+        'total_amount': fields.function(_compute_numbers, method=True, digits=(16,0), multi='numbers', string='Total amount', store={
             'report.intrastat.service.line': (_get_intrastat_from_service_line, ['amount_company_currency', 'parent_id'], 20),
                 }, help="Total amount in company currency of the declaration."),
         'state' : fields.selection([
