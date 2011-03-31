@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat service module for OpenERP
+#    Report intrastat product module for OpenERP
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,4 +19,3 @@
 #
 ##############################################################################
 
-import intrastat_service

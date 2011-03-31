@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat service module for OpenERP
+#    Report intrastat product module for OpenERP
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,4 +19,22 @@
 #
 ##############################################################################
 
-import intrastat_service
+from osv import osv, fields
+from tools.translate import _
+
+class stock_picking(osv.osv):
+    _inherit = "stock.picking"
+    _columns = {
+        'intrastat_transport' : fields.selection([(1, 'Transport maritime'), \
+            (2, 'Transport par chemin de fer'), \
+            (3, 'Transport par route'), \
+            (4, 'Transport par air'), \
+            (5, 'Envois postaux'), \
+            (7, 'Installations de transport fixes'), \
+            (8, 'Transport par navigation intérieure'), \
+            (9, 'Propulsion propre')], 'Type of transport', \
+            help="Select the type of transport. This information is required for the product intrastat report.")
+            }
+
+stock_picking()
+
