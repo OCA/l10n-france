@@ -24,6 +24,7 @@
 
 #TODO
 # Dépôt DES fait le .... sur pro douane, ac attachement de l'Accusé de réception ?
+# revoir champ calculé end_date
 
 from osv import osv, fields
 from tools.sql import drop_view_if_exists
