@@ -33,8 +33,10 @@ class stock_picking(osv.osv):
             (7, 'Installations de transport fixes'), \
             (8, 'Transport par navigation intérieure'), \
             (9, 'Propulsion propre')], 'Type of transport', \
-            help="Select the type of transport. This information is required for the product intrastat report.")
+            help="Select the type of transport. This information is required for the product intrastat report (DEB).")
             }
+
+# Do we put a default value, taken from res_company ?
 
 stock_picking()
 
