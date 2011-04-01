@@ -22,7 +22,7 @@
             </group>
             <button icon="gtk-execute" name="generate_service_lines" string="Re-generate lines" type="object" states="draft" colspan="2" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
-            <field name="service_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
+            <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
             <group col="4" colspan="4">
                 <field name="state" select="2" />
                 <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
@@ -82,8 +82,8 @@
             <field name="amount_invoice_currency" string="Amount in IC" />
             <field name="invoice_currency_id" string="Inv. Cur." />
             <field name="partner_name" />
-            <field name="date_invoice" />
             <field name="invoice_number" string="Inv. number" />
+            <field name="date_invoice" />
         </tree>
     </field>
 </record>
@@ -92,7 +92,6 @@
 <!-- Action related -->
 <record id="action_report_intrastat_service_tree" model="ir.actions.act_window">
     <field name="name">Intrastat Service</field>
-    <field name="type">ir.actions.act_window</field>
     <field name="res_model">report.intrastat.service</field>
     <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
@@ -100,7 +99,7 @@
 
 
 <!-- Intrastat service menu -->
-<menuitem id="menu_report_intrastat_service" name="Intrastat Service" parent="l10n_fr_intrastat_base.menu_fr_intrastat_base_root" action="action_report_intrastat_service_tree" />
+<menuitem id="menu_report_intrastat_service" parent="l10n_fr_intrastat_base.menu_fr_intrastat_base_root" action="action_report_intrastat_service_tree" />
 
 </data>
 </openerp>

@@ -27,7 +27,6 @@
 # revoir champ calculé end_date
 
 from osv import osv, fields
-from tools.sql import drop_view_if_exists
 import netsvc
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -37,42 +36,29 @@ class report_intrastat_service(osv.osv):
     _name = "report.intrastat.service"
     _order = "start_date"
     _rec_name = "start_date"
-    _description = "Intrastat report for service"
+    _description = "Intrastat report for services"
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
-        print "START compute numbers ids=", ids
-        result = {}
-        for intrastat in self.browse(cr, uid, ids, context=context):
-            total_amount = 0.0
-            num_lines = 0
-            for line in intrastat.service_line_ids:
-                total_amount += line.amount_company_currency
-                num_lines += 1
-            result[intrastat.id] = {'num_lines': num_lines, 'total_amount': total_amount}
-        print "_compute_numbers res = ", result
-        return result
+        print "SERVICE _compute numbers start ids=", ids
+        return self.pool.get('report.intrastat.common')._compute_numbers(cr, uid, ids, self, context=context)
 
 
     def _compute_end_date(self, cr, uid, ids, name, arg, context=None):
-        print "_compute_end_date START ids=", ids
-        result = {}
-        for intrastat in self.browse(cr, uid, ids, context=context):
-            start_date_datetime = datetime.strptime(intrastat.start_date, '%Y-%m-%d')
-            end_date_str = datetime.strftime(start_date_datetime + relativedelta(day=31), '%Y-%m-%d')
-            result[intrastat.id] = end_date_str
-        print "_compute_end_date res=", result
-        return result
+        print "SERVICE _compute_end_date START ids=", ids
+        return self.pool.get('report.intrastat.common')._compute_end_date(cr, uid, ids, self, context=context)
 
 
     def _get_intrastat_from_service_line(self, cr, uid, ids, context=None):
         print "invalidation function CALLED !!!"
-        return self.pool.get('report.intrastat.service').search(cr, uid, [('service_line_ids', 'in', ids)], context=context)
+        return self.pool.get('report.intrastat.service').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
         'company_id': fields.many2one('res.company', 'Company', required=True, states={'done':[('readonly',True)]}, help="Related company."),
         'start_date': fields.date('Start date', required=True, states={'done':[('readonly',True)]}, help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_end_date, method=True, type='date', string='End date', store=True, help="End date for the declaration. Must be the last day of the month of the start date."),
-        'service_line_ids': fields.one2many('report.intrastat.service.line', 'parent_id', 'Report intrastat service lines', states={'done':[('readonly',True)]}),
+        'end_date': fields.function(_compute_end_date, method=True, type='date', string='End date', store={
+            'report.intrastat.service': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20)
+        }, help="End date for the declaration. Must be the last day of the month of the start date."),
+        'intrastat_line_ids': fields.one2many('report.intrastat.service.line', 'parent_id', 'Report intrastat service lines', states={'done':[('readonly',True)]}),
         'num_lines': fields.function(_compute_numbers, method=True, type='integer', multi='numbers', string='Number of lines', store={
             'report.intrastat.service.line': (_get_intrastat_from_service_line, ['parent_id'], 20),
             }, help="Number of lines in this declaration."),
@@ -84,7 +70,7 @@ class report_intrastat_service(osv.osv):
             ('draft','Draft'),
             ('done','Done'),
         ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
-        'notes' : fields.text('Notes', help="You can add some comments here if you want.")
+        'notes' : fields.text('Notes', help="You can add some comments here if you want."),
     }
 
     _defaults = {
@@ -98,13 +84,7 @@ class report_intrastat_service(osv.osv):
 
 #TODO : add check on date of children lines ?
     def _check_start_date(self, cr, uid, ids, context=None):
-        '''Check that the start date if the first day of the month'''
-        for cur_id in ids:
-            date_to_check = self.read(cr, uid, cur_id, ['start_date'], context=context)['start_date']
-            datetime_to_check = datetime.strptime(date_to_check, '%Y-%m-%d')
-            if datetime_to_check.day != 1:
-                return False
-        return True
+        return self.pool.get('report.intrastat.common')._check_start_date(cr, uid, ids, self, context=context)
 
     _constraints = [
         (_check_start_date, "Start date must be the first day of a month", ['start_date']),
@@ -123,10 +103,10 @@ class report_intrastat_service(osv.osv):
         if not intrastat.currency_id.code == 'EUR':
             raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
         # Get current service lines and delete them
-        line_remove = self.read(cr, uid, ids[0], ['service_line_ids'], context=context)
+        line_remove = self.read(cr, uid, ids[0], ['intrastat_line_ids'], context=context)
         print "line_remove", line_remove
-        if line_remove['service_line_ids']:
-            self.pool.get('report.intrastat.service.line').unlink(cr, uid, line_remove['service_line_ids'], context=context)
+        if line_remove['intrastat_line_ids']:
+            self.pool.get('report.intrastat.service.line').unlink(cr, uid, line_remove['intrastat_line_ids'], context=context)
         sql = '''
         select
             min(inv_line.id) as id,
@@ -189,17 +169,12 @@ class report_intrastat_service(osv.osv):
 
         group by company.id, inv.date_invoice, inv.number, inv.currency_id, prt.vat, prt.name, inv.name, invoice_currency_rate, company_currency_id
         '''
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company_id = str(user.company_id.id)
-        print "company_id =", company_id
-        start_date_str = intrastat.start_date
-        end_date_str = intrastat.end_date
         # Execute the big SQL query to get all service lines
-        cr.execute(sql, (company_id, start_date_str, end_date_str))
+        cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
         line_obj = self.pool.get('report.intrastat.service.line')
-        for id, name, company_id, invoice_number, date_invoice, invoice_currency_id, partner_vat, partner_name, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
+        for id, company_id, name, invoice_number, date_invoice, invoice_currency_id, partner_vat, partner_name, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
             print "amount_invoice_currency =", amount_invoice_currency
             print "amount_company_currency =", amount_company_currency
             # Store the service lines
@@ -243,14 +218,12 @@ class report_intrastat_service(osv.osv):
         end_date_str = intrastat.end_date
         start_date_datetime = datetime.strptime(start_date_str, '%Y-%m-%d')
 
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-
         if not intrastat.currency_id.code == 'EUR':
             raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
 
-        if not user.company_id.partner_id.vat:
-            raise osv.except_osv(_('Error :'), _('The VAT number is not set for the partner "%s".'%user.company_id.partner_id.name))
-        my_company_vat = user.company_id.partner_id.vat.replace(' ', '')
+        if not intrastat.company_id.partner_id.vat:
+            raise osv.except_osv(_('Error :'), _('The VAT number is not set for the partner "%s".'%intrastat.company_id.partner_id.name))
+        my_company_vat = intrastat.company_id.partner_id.vat.replace(' ', '')
 
         # Tech spec of XML export are available here :
         # https://pro.douane.gouv.fr/download/downloadUrl.asp?file=PubliwebBO/fichiers/DES_DTIPlus.pdf
@@ -266,7 +239,7 @@ class report_intrastat_service(osv.osv):
         an_des.text = datetime.strftime(start_date_datetime, '%Y')
         line = 0
         # we now go through each service line
-        for sline in intrastat.service_line_ids:
+        for sline in intrastat.intrastat_line_ids:
             line += 1 # increment line number
             ligne_des = etree.SubElement(decl, 'ligne_des')
             numlin_des = etree.SubElement(ligne_des, 'numlin_des')
@@ -306,7 +279,7 @@ report_intrastat_service()
 
 class report_intrastat_service_line(osv.osv):
     _name = "report.intrastat.service.line"
-    _description = "Lines of intrastat service declaration"
+    _description = "Lines of intrastat service declaration (DES)"
     _order = 'invoice_number'
     _columns = {
         'parent_id': fields.many2one('report.intrastat.service', 'Intrastat service ref', ondelete='cascade', select=True),
