@@ -1,8 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2009 Tiny SPRL (http://tiny.be). All Rights Reserved
+#    Report intrastat product module for OpenERP
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,11 +19,22 @@
 #
 ##############################################################################
 
-import report_intrastat
-import country
-import product
-import account_invoice
-import partner_address
-import company
-import intrastat_common
+from osv import osv, fields
+from tools.translate import _
+
+class account_invoice(osv.osv):
+    _inherit = "account.invoice"
+    _columns = {
+        'intrastat_transport' : fields.selection([(1, 'Transport maritime'), \
+            (2, 'Transport par chemin de fer'), \
+            (3, 'Transport par route'), \
+            (4, 'Transport par air'), \
+            (5, 'Envois postaux'), \
+            (7, 'Installations de transport fixes'), \
+            (8, 'Transport par navigation intérieure'), \
+            (9, 'Propulsion propre')], 'Type of transport', \
+            help="Select the type of transport. This information is required for the product intrastat report (DEB).")
+            }
+
+account_invoice()
 

@@ -34,8 +34,12 @@ Please contact Alexis de Lattre from Akretion for any help or question.
     'init_xml': [],
     'update_xml': [
         'security/ir.model.access.csv',
-#        'intrastat_product_view.xml',
+        'intrastat_product_view.xml',
+        'intrastat_type_view.xml',
         'company_view.xml',
+        'product_view.xml',
+        'stock_view.xml',
+        'invoice_view.xml',
     ],
     'demo_xml': [],
     'installable': True,

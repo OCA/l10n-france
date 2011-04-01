@@ -1,9 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat service module for OpenERP
-#    The service declaration (DES i.e. Déclaration Européenne de Services)
-#    was in introduced in France on January 1st 2010
+#    Report intrastat module for OpenERP
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/). All rights reserved.
 #       Code written by Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -22,77 +20,48 @@
 #
 ##############################################################################
 
-#TODO
-# Dépôt DES fait le .... sur pro douane, ac attachement de l'Accusé de réception ?
-# revoir champ calculé end_date
-
 from osv import osv, fields
 import netsvc
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from tools.translate import _
 
-class report_intrastat_service(osv.osv):
-    _name = "report.intrastat.service"
-    _order = "start_date"
-    _rec_name = "start_date"
-    _description = "Intrastat report for services"
+class report_intrastat_common(osv.osv_memory):
+    _name = "report.intrastat.common"
+    _description = "Common functions for intrastat reports for products and services"
 
-    def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
-        print "SERVICE _compute numbers start ids=", ids
-        return self.pool.get('report.intrastat.common')._compute_numbers(cr, uid, ids, self, context=context)
+    def _compute_numbers(self, cr, uid, ids, object, context=None):
+        print "COMMON START compute numbers ids=", ids
+        result = {}
+        for intrastat in object.browse(cr, uid, ids, context=context):
+            total_amount = 0.0
+            num_lines = 0
+            for line in intrastat.intrastat_line_ids:
+                total_amount += line.amount_company_currency
+                num_lines += 1
+            result[intrastat.id] = {'num_lines': num_lines, 'total_amount': total_amount}
+        print "COMMON _compute_numbers res = ", result
+        return result
 
 
-    def _compute_end_date(self, cr, uid, ids, name, arg, context=None):
-        print "SERVICE _compute_end_date START ids=", ids
-        return self.pool.get('report.intrastat.common')._compute_end_date(cr, uid, ids, self, context=context)
+    def _compute_end_date(self, cr, uid, ids, object, context=None):
+        print "COMMON _compute_end_date START ids=", ids
+        result = {}
+        for intrastat in object.browse(cr, uid, ids, context=context):
+            start_date_datetime = datetime.strptime(intrastat.start_date, '%Y-%m-%d')
+            end_date_str = datetime.strftime(start_date_datetime + relativedelta(day=31), '%Y-%m-%d')
+            result[intrastat.id] = end_date_str
+        print "COMMON _compute_end_date res=", result
+        return result
 
 
-    def _get_intrastat_from_service_line(self, cr, uid, ids, context=None):
-        print "invalidation function CALLED !!!"
-        return self.pool.get('report.intrastat.service').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
-
-    _columns = {
-        'company_id': fields.many2one('res.company', 'Company', required=True, states={'done':[('readonly',True)]}, help="Related company."),
-        'start_date': fields.date('Start date', required=True, states={'done':[('readonly',True)]}, help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_end_date, method=True, type='date', string='End date', store={
-            'report.intrastat.service': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20)
-        }, help="End date for the declaration. Must be the last day of the month of the start date."),
-        'intrastat_line_ids': fields.one2many('report.intrastat.service.line', 'parent_id', 'Report intrastat service lines', states={'done':[('readonly',True)]}),
-        'num_lines': fields.function(_compute_numbers, method=True, type='integer', multi='numbers', string='Number of lines', store={
-            'report.intrastat.service.line': (_get_intrastat_from_service_line, ['parent_id'], 20),
-            }, help="Number of lines in this declaration."),
-        'total_amount': fields.function(_compute_numbers, method=True, digits=(16,0), multi='numbers', string='Total amount', store={
-            'report.intrastat.service.line': (_get_intrastat_from_service_line, ['amount_company_currency', 'parent_id'], 20),
-                }, help="Total amount in company currency of the declaration."),
-        'currency_id': fields.related('company_id', 'currency_id', readonly=True, type='many2one', relation='res.currency', string='Currency'),
-        'state' : fields.selection([
-            ('draft','Draft'),
-            ('done','Done'),
-        ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
-        'notes' : fields.text('Notes', help="You can add some comments here if you want."),
-    }
-
-    _defaults = {
-        # By default, we propose 'current month -1', because you prepare in
-        # february the DES of January
-        'start_date': lambda *a: datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m-%d'),
-        'state': lambda *a: 'draft',
-        'company_id': lambda self, cr, uid, context: \
-         self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id,
-        }
-
-#TODO : add check on date of children lines ?
-    def _check_start_date(self, cr, uid, ids, context=None):
-        return self.pool.get('report.intrastat.common')._check_start_date(cr, uid, ids, self, context=context)
-
-    _constraints = [
-        (_check_start_date, "Start date must be the first day of a month", ['start_date']),
-    ]
-
-    _sql_constraints = [
-        ('date_uniq', 'unique(start_date, company_id)', 'You have already created a DES for this month !'),
-    ]
+    def _check_start_date(self, cr, uid, ids, object, context=None):
+        '''Check that the start date if the first day of the month'''
+        for date_to_check in object.read(cr, uid, ids, ['start_date'], context=context):
+            datetime_to_check = datetime.strptime(date_to_check['start_date'], '%Y-%m-%d')
+            if datetime_to_check.day != 1:
+                return False
+        return True
 
     def generate_service_lines(self, cr, uid, ids, context=None):
         print "generate lines, ids=", ids
@@ -169,12 +138,17 @@ class report_intrastat_service(osv.osv):
 
         group by company.id, inv.date_invoice, inv.number, inv.currency_id, prt.vat, prt.name, inv.name, invoice_currency_rate, company_currency_id
         '''
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        company_id = str(user.company_id.id)
+        print "company_id =", company_id
+        start_date_str = intrastat.start_date
+        end_date_str = intrastat.end_date
         # Execute the big SQL query to get all service lines
-        cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date))
+        cr.execute(sql, (company_id, start_date_str, end_date_str))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
         line_obj = self.pool.get('report.intrastat.service.line')
-        for id, company_id, name, invoice_number, date_invoice, invoice_currency_id, partner_vat, partner_name, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
+        for id, name, company_id, invoice_number, date_invoice, invoice_currency_id, partner_vat, partner_name, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
             print "amount_invoice_currency =", amount_invoice_currency
             print "amount_company_currency =", amount_company_currency
             # Store the service lines
@@ -207,23 +181,19 @@ class report_intrastat_service(osv.osv):
 
 
     def generate_xml(self, cr, uid, ids, context=None):
-        print "generate xml ids=", ids
-        import des_xsd
-        from lxml import etree
-        import base64
-        if len(ids) != 1:
-            raise osv.except_osv(_('Error :'), 'Hara kiri in generate_xml')
         intrastat = self.browse(cr, uid, ids[0], context=context)
         start_date_str = intrastat.start_date
         end_date_str = intrastat.end_date
         start_date_datetime = datetime.strptime(start_date_str, '%Y-%m-%d')
 
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+
         if not intrastat.currency_id.code == 'EUR':
             raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
 
-        if not intrastat.company_id.partner_id.vat:
-            raise osv.except_osv(_('Error :'), _('The VAT number is not set for the partner "%s".'%intrastat.company_id.partner_id.name))
-        my_company_vat = intrastat.company_id.partner_id.vat.replace(' ', '')
+        if not user.company_id.partner_id.vat:
+            raise osv.except_osv(_('Error :'), _('The VAT number is not set for the partner "%s".'%user.company_id.partner_id.name))
+        my_company_vat = user.company_id.partner_id.vat.replace(' ', '')
 
         # Tech spec of XML export are available here :
         # https://pro.douane.gouv.fr/download/downloadUrl.asp?file=PubliwebBO/fichiers/DES_DTIPlus.pdf
@@ -275,24 +245,5 @@ class report_intrastat_service(osv.osv):
         return None
 
 
-report_intrastat_service()
-
-class report_intrastat_service_line(osv.osv):
-    _name = "report.intrastat.service.line"
-    _description = "Lines of intrastat service declaration (DES)"
-    _order = 'invoice_number'
-    _columns = {
-        'parent_id': fields.many2one('report.intrastat.service', 'Intrastat service ref', ondelete='cascade', select=True),
-        'name': fields.char('Invoice description', size=64, readonly=True),
-        'invoice_number': fields.char('Invoice number', size=32, readonly=True, select=True),
-        'partner_vat': fields.char('Customer VAT', size=32, readonly=True),
-        'partner_name': fields.char('Customer name', size=128, readonly=True),
-        'date_invoice' : fields.date('Invoice date', readonly=True),
-        'amount_invoice_currency': fields.integer('Amount in invoice cur.', readonly=True),
-        'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
-        'amount_company_currency': fields.integer('Amount in company cur.', readonly=True),
-        'company_currency_id': fields.many2one('res.currency', "Company currency", readonly=True),
-    }
-
-report_intrastat_service_line()
+report_intrastat_common()
 
