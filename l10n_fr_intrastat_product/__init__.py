@@ -19,7 +19,8 @@
 #
 ##############################################################################
 
-#import intrastat_product
+import intrastat_product
 import product
 import stock
 import company
+import invoice
