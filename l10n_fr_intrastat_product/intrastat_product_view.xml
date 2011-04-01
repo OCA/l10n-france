@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!-- Form view of DEB -->
+<record id="fr_intrastat_product_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.form</field>
+    <field name="model">report.intrastat.product</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form>
+            <group colspan="4" col="8">
+                <field name="start_date" select="1" />
+                <field name="end_date" />
+                <field name="type" select="1" on_change="type_on_change(company_id, type)" />
+                <field name="obligation_level" select="2" />
+            </group>
+            <group colspan="4" col="7">
+                <field name="num_lines" />
+                <field name="total_amount" />
+                <field name="currency_id" nolabel="1"/>
+                <field name="company_id" invisible="1" />
+            </group>
+            <separator colspan="4" string="Notes"/>
+            <group colspan="4">
+                <field name="notes" colspan="4" nolabel="1" />
+            </group>
+            <button icon="gtk-execute" name="generate_product_lines" string="Re-generate lines" type="object" states="draft" colspan="2" />
+            <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
+            <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
+            <group col="4" colspan="4">
+                <field name="state" select="2" />
+                <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
+                <button icon="gtk-convert" name="back2draft" string="Back to draft" type="object" colspan="1" states="done" />
+            </group>
+        </form>
+    </field>
+</record>
+
+<!-- Tree view for DEB -->
+<record id="fr_intrastat_product_tree" model="ir.ui.view">
+    <field name="name">report.intrastat.product.tree</field>
+    <field name="model">report.intrastat.product</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Intrastat Product">
+            <field name="start_date" />
+            <field name="end_date" />
+            <field name="type" />
+            <field name="obligation_level" />
+            <field name="num_lines" />
+            <field name="total_amount" sum="Total amount" />
+            <field name="currency_id" />
+            <field name="state" />
+        </tree>
+    </field>
+</record>
+
+<!-- Form view for product lines -->
+<record id="fr_intrastat_product_line_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.line.form</field>
+    <field name="model">report.intrastat.product.line</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Intrastat product lines">
+            <field name="intrastat_code_8" />
+            <field name="partner_country" />
+            <field name="amount_company_currency" />
+            <field name="company_currency_id" />
+            <field name="amount_invoice_currency" />
+            <field name="invoice_currency_id" />
+            <field name="procedure_code" />
+            <field name="stat_value_company_currency" />
+            <field name="company_currency_id" />
+            <field name="weight" />
+            <field name="invoice_qty" />
+            <field name="invoice_uom" />
+            <field name="intrastat_uom" />
+            <field name="transaction_code" />
+            <field name="product_country_origin" />
+            <field name="partner_vat" />
+            <field name="partner_name" />
+            <field name="invoice_number" />
+            <field name="date_invoice" />
+        </form>
+    </field>
+</record>
+
+<!-- Tree view for product lines -->
+<record id="fr_intrastat_product_line_tree" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.line.tree</field>
+    <field name="model">report.intrastat.product.line</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Intrastat product lines">
+            <field name="intrastat_code_8" string="H.S. code" />
+            <field name="partner_country" string="Partner C."/>
+            <field name="amount_company_currency" string="Value CC" />
+            <field name="company_currency_id" string="Comp. Cur." />
+            <field name="amount_invoice_currency" string="Value IC" />
+            <field name="invoice_currency_id" string="Inv. Cur." />
+            <field name="procedure_code" string="Procedure" />
+            <field name="stat_value_company_currency" string="Stat. value CC" />
+            <field name="company_currency_id" string="Comp. Cur." />
+            <field name="weight" />
+            <field name="invoice_qty" string="Inv. qty" />
+            <field name="invoice_uom" string="Inv. UoM" />
+            <field name="intrastat_uom" string="Intra. UoM" />
+            <field name="transaction_code" string="Transac." />
+            <field name="product_country_origin" string="Product C/O" />
+            <field name="partner_vat" />
+            <field name="partner_name" />
+            <field name="invoice_number" string="Inv. number" />
+            <field name="date_invoice" />
+        </tree>
+    </field>
+</record>
+
+
+<!-- Action related -->
+<record id="fr_intrastat_product_tree_action" model="ir.actions.act_window">
+    <field name="name">Intrastat Product</field>
+    <field name="res_model">report.intrastat.product</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+
+<!-- Intrastat product menu -->
+<menuitem id="fr_intrastat_product_menu" parent="l10n_fr_intrastat_base.menu_fr_intrastat_base_root" action="fr_intrastat_product_tree_action" />
+
+</data>
+</openerp>
