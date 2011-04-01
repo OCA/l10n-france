@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!-- Add fields on product.product view -->
+<record id="fr_intrastat_product_normal_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.normal.form</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="account.product_normal_form_view" />
+    <field name="arch" type="xml">
+        <data>
+            <field name="exclude_from_intrastat" position="before">
+                <field name="intrastat_id" select="2" />
+            </field>
+            <field name="ean13" position="after">
+                <field name="country_id"/>
+            </field>
+        </data>
+    </field>
+</record>
+
+<!-- Same on product.template view -->
+<record id="fr_intrastat_product_template_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.template.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="account.product_template_form_view"/>
+    <field name="arch" type="xml">
+        <data>
+            <field name="exclude_from_intrastat" position="before">
+                <field name="intrastat_id" select="2" />
+            </field>
+            <field name="name" position="after">
+                <field name="country_id"/>
+            </field>
+        </data>
+    </field>
+</record>
+
+<!-- Add the field intrastat_label on product UoM -->
+<record id="fr_intrastat_product_uom_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.uom.form</field>
+    <field name="model">product.uom</field>
+    <field name="inherit_id" ref="product.product_uom_form_view" />
+    <field name="arch" type="xml">
+        <data>
+            <field name="category_id" position="after">
+                <field name="intrastat_label"/>
+            </field>
+        </data>
+    </field>
+</record>
+
+<!-- Add tree view for H.S. code -->
+<record id="fr_intrastat_product_intrastat_code_tree" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.intrastat.code.tree</field>
+    <field name="model">report.intrastat.code</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Intrastat code">
+            <field name="name" />
+            <field name="code8" />
+            <field name="description" />
+            <field name="intrastat_uom_id" />
+        </tree>
+    </field>
+</record>
+
+
+<!-- Add form view for H.S. code -->
+<record id="fr_intrastat_product_intrastat_code_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.intrastat.code.form</field>
+    <field name="model">report.intrastat.code</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Intrastat code">
+            <field name="name" select="1" />
+            <field name="code8" select="2" />
+            <field name="description" select="1" />
+            <field name="intrastat_uom_id" select="2" />
+        </form>
+    </field>
+</record>
+
+<!-- Action for H.S. code -->
+<record id="fr_intrastat_product_intrastat_code_act" model="ir.actions.act_window">
+    <field name="name">Intrastat code</field>
+    <field name="res_model">report.intrastat.code</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<!-- Menu entry for H.S. code -->
+<menuitem id="fr_intrastat_product_intrastat_code_menu" action="fr_intrastat_product_intrastat_code_act" parent="product.menu_config_product" />
+
+
+</data>
+</openerp>
