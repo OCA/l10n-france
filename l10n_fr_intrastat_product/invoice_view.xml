@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!-- Add field on supplier invoice -->
+<record id="fr_intrastat_product_invoice_in_trp" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.supplier.invoice.in.trp</field>
+    <field name="model">account.invoice</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="account.invoice_supplier_form"/>
+    <field name="arch" type="xml">
+        <field name="origin" position="after">
+            <field name="intrastat_transport" />
+        </field>
+    </field>
+</record>
+
+
+<!-- Add field on customer invoice -->
+<record id="fr_intrastat_product_invoice_out_trp" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.invoice.out.trp</field>
+    <field name="model">account.invoice</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="account.invoice_form"/>
+    <field name="arch" type="xml">
+        <field name="origin" position="after">
+            <field name="intrastat_transport" />
+        </field>
+    </field>
+</record>
+
+
+</data>
+</openerp>

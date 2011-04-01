@@ -19,29 +19,22 @@
 #
 ##############################################################################
 
+from osv import osv, fields
+from tools.translate import _
 
-{
-    'name': 'Module for Intrastat product reporting (DEB) for France',
-    'version': '1.1',
-    'category': 'Localisation/Report Intrastat',
-    'license': 'AGPL-3',
-    'description': """This module adds support for the "Déclaration d'Echange de Biens" (DEB).
-Please contact Alexis de Lattre from Akretion for any help or question.
-    """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['l10n_fr_intrastat_base', 'stock'],
-    'init_xml': [],
-    'update_xml': [
-        'security/ir.model.access.csv',
-        'intrastat_product_view.xml',
-        'intrastat_type_view.xml',
-        'company_view.xml',
-        'product_view.xml',
-        'stock_view.xml',
-        'invoice_view.xml',
-    ],
-    'demo_xml': [],
-    'installable': True,
-    'active': False,
-}
+class account_invoice(osv.osv):
+    _inherit = "account.invoice"
+    _columns = {
+        'intrastat_transport' : fields.selection([(1, 'Transport maritime'), \
+            (2, 'Transport par chemin de fer'), \
+            (3, 'Transport par route'), \
+            (4, 'Transport par air'), \
+            (5, 'Envois postaux'), \
+            (7, 'Installations de transport fixes'), \
+            (8, 'Transport par navigation intérieure'), \
+            (9, 'Propulsion propre')], 'Type of transport', \
+            help="Select the type of transport. This information is required for the product intrastat report (DEB).")
+            }
+
+account_invoice()
+

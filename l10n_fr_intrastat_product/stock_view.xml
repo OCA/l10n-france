@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!-- TODO : only "required" if export obligation level = detailed -->
+<record id="fr_intrastat_product_picking_out_trp" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.picking.out.trp</field>
+    <field name="model">stock.picking</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="stock.view_picking_out_form"/>
+    <field name="arch" type="xml">
+        <field name="origin" position="after">
+            <field name="intrastat_transport" />
+        </field>
+    </field>
+</record>
+
+<record id="fr_intrastat_product_picking_in_trp" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.picking.in.trp</field>
+    <field name="model">stock.picking</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="stock.view_picking_in_form"/>
+    <field name="arch" type="xml">
+        <field name="backorder_id" position="after">
+            <field name="intrastat_transport" />
+        </field>
+    </field>
+</record>
+
+<!--
+<record id="report_intrastat_stock_location_department" model="ir.ui.view">
+    <field name="name">report.intrastat.stock.location.department</field>
+    <field name="model">stock.location</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="stock.view_location_form" />
+    <field name="arch" type="xml">
+        <field name="icon" position="after">
+            <field name="intrastat_department" />
+        </field>
+    </field>
+</record>
+-->
+
+</data>
+</openerp>
