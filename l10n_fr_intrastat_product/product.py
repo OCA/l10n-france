@@ -43,7 +43,7 @@ class report_intrastat_code(osv.osv):
     def _digits(self, cr, uid, ids):
         for code_to_check in self.read(cr, uid, ids, ['name']):
             if code_to_check['name']:
-                if not code_to_check.isdigit():
+                if not code_to_check['name'].isdigit():
                     return False
         return True
 
