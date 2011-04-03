@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __terp__.py
+-->
+
 <openerp>
 <data>
 
-<!-- TODO : only "required" if export obligation level = detailed -->
 <record id="fr_intrastat_product_picking_out_trp" model="ir.ui.view">
     <field name="name">fr.intrastat.product.picking.out.trp</field>
     <field name="model">stock.picking</field>
