@@ -1,11 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat service module for OpenERP
-#    The service declaration (DES i.e. Déclaration Européenne de Services)
-#    was in introduced in France on January 1st 2010
+#    Report intrastat service module for OpenERP (DES)
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/). All rights reserved.
-#       Code written by Alexis de Lattre <alexis.delattre@akretion.com>
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,12 +20,8 @@
 #
 ##############################################################################
 
-#TODO
-# Dépôt DES fait le .... sur pro douane, ac attachement de l'Accusé de réception ?
-# revoir champ calculé end_date
 
 from osv import osv, fields
-import netsvc
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from tools.translate import _
@@ -70,6 +64,7 @@ class report_intrastat_service(osv.osv):
             ('draft','Draft'),
             ('done','Done'),
         ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
+        'date_done' : fields.date('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
         'notes' : fields.text('Notes', help="You can add some comments here if you want."),
     }
 
@@ -96,12 +91,8 @@ class report_intrastat_service(osv.osv):
 
     def generate_service_lines(self, cr, uid, ids, context=None):
         print "generate lines, ids=", ids
-        if len(ids) != 1:
-            raise osv.except_osv(_('Error :'), _('Hara kiri in generate_service_lines'))
         intrastat = self.browse(cr, uid, ids[0], context=context)
-        # Check that the company currency is EUR
-        if not intrastat.currency_id.code == 'EUR':
-            raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
+        self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, ids, intrastat, context=context)
         # Get current service lines and delete them
         line_remove = self.read(cr, uid, ids[0], ['intrastat_line_ids'], context=context)
         print "line_remove", line_remove
@@ -194,14 +185,12 @@ class report_intrastat_service(osv.osv):
 
 
     def done(self, cr, uid, ids, context=None):
-        if len(ids) != 1:
-            raise osv.except_osv(_('Error :'), _('Hara kiri in generate_xml'))
-        self.write(cr, uid, ids[0], {'state': 'done'}, context=context)
+        if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in done')
+        self.write(cr, uid, ids[0], {'state': 'done', 'date_done': datetime.strftime(datetime.today(), '%Y-%m-%d')}, context=context)
         return None
 
     def back2draft(self, cr, uid, ids, context=None):
-        if len(ids) != 1:
-            raise osv.except_osv(_('Error :'), _('Hara kiri in generate_xml'))
+        if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in back2draft')
         self.write(cr, uid, ids[0], {'state': 'draft'}, context=context)
         return None
 
@@ -210,19 +199,13 @@ class report_intrastat_service(osv.osv):
         print "generate xml ids=", ids
         import des_xsd
         from lxml import etree
-        import base64
-        if len(ids) != 1:
-            raise osv.except_osv(_('Error :'), 'Hara kiri in generate_xml')
         intrastat = self.browse(cr, uid, ids[0], context=context)
         start_date_str = intrastat.start_date
         end_date_str = intrastat.end_date
         start_date_datetime = datetime.strptime(start_date_str, '%Y-%m-%d')
 
-        if not intrastat.currency_id.code == 'EUR':
-            raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
+        self.pool.get('report.intrastat.common')._check_generate_xml(cr, uid, ids, intrastat, context=context)
 
-        if not intrastat.company_id.partner_id.vat:
-            raise osv.except_osv(_('Error :'), _('The VAT number is not set for the partner "%s".'%intrastat.company_id.partner_id.name))
         my_company_vat = intrastat.company_id.partner_id.vat.replace(' ', '')
 
         # Tech spec of XML export are available here :
@@ -254,24 +237,9 @@ class report_intrastat_service(osv.osv):
         print "xml_string", xml_string
 
         # We now validate the XML file against the official XML Schema Definition
-        official_des_xml_schema = etree.XMLSchema(etree.fromstring(des_xsd.des_xsd))
-        try: official_des_xml_schema.assertValid(root)
-        except Exception, e:   # if the validation of the XSD fails, we arrive here
-            logger = netsvc.Logger()
-            logger.notifyChannel('intrastat_service', netsvc.LOG_WARNING, "The XML file is invalid against the XSD")
-            logger.notifyChannel('intrastat_service', netsvc.LOG_WARNING, xml_string)
-            logger.notifyChannel('intrastat_service', netsvc.LOG_WARNING, e)
-            raise osv.except_osv(_('Error :'), _('The generated XML file is not valid against the official XML schema. The generated XML file and the full error have been written in the server logs. Here is the exact error, which may give you an idea of the cause of the problem : ' + str(e)))
-        #let's give a pretty name to the filename : <year-month_des.xml>
-        filename = datetime.strftime(start_date_datetime, '%Y-%m') + '_des.xml'
-        attach_name = 'DES ' + datetime.strftime(start_date_datetime, '%Y-%m')
-
-        # Attach the XML file to the intrastat_service object
-        attach_obj = self.pool.get('ir.attachment')
-        if not context:
-            context = {}
-        context.update({'default_res_id' : ids[0], 'default_res_model': 'report.intrastat.service'})
-        attach_id = attach_obj.create(cr, uid, {'name': attach_name, 'datas': base64.encodestring(xml_string), 'datas_fname': filename}, context=context)
+        self.pool.get('report.intrastat.common')._check_xml_schema(cr, uid, root, xml_string, des_xsd.des_xsd, context=context)
+        # Attach the XML file
+        self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'des', context=context)
         return None
 
 
