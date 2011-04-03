@@ -3,6 +3,7 @@
 #
 #    Report intrastat product module for OpenERP
 #    Copyright (C) 2009-2011 Akretion (http://www.akretion.com). All Rights Reserved.
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,16 +21,13 @@
 ##############################################################################
 
 # TODO :
-# Roud the value amounts in the SQL view, not in the XML export
 # When a line is selected, only this line will be in XML export
 # -> convert the SQL view to a real object, and re-organise everything accordingly
 # We don't have the statistical value in the XML export !!!
-# Fully implement the 2 levels
-# Re-organise modules
-# Full implementation of detailed DEB
+# Render fields invisible when in "simplified" level
 # WISH : modify title of report_intrastat tree view if export vs import
 
-#TODO : vérifier le mult-company
+#TODO : vérifier le multi-company
 
 #TODO ajouter données pour procedure code et transaction code
 
@@ -40,7 +38,6 @@ import time
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from tools.translate import _
-import netsvc
 
 class report_intrastat_type(osv.osv):
     _inherit = "report.intrastat.type"
@@ -51,7 +48,7 @@ class report_intrastat_type(osv.osv):
 
     def _code_check(self, cr, uid, ids):
     # Procedure_code and transaction codes are an integers, so they always have a value
-        for intrastat_type in self.read(cr, uid, ids, ['type', 'procedure_code', 'transaction_code'], context=context):
+        for intrastat_type in self.read(cr, uid, ids, ['type', 'procedure_code', 'transaction_code']):
             if intrastat_type['type'] == 'other':
                 continue
             else:
@@ -104,6 +101,7 @@ class report_intrastat_product(osv.osv):
             ('draft','Draft'),
             ('done','Done'),
         ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
+        'date_done' : fields.date('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
         'notes' : fields.text('Notes', help="You can add some comments here if you want."),
     }
 
@@ -151,12 +149,8 @@ class report_intrastat_product(osv.osv):
 
     def generate_product_lines(self, cr, uid, ids, context=None):
         print "generate lines, ids=", ids
-        if len(ids) != 1:
-            raise osv.except_osv(_('Error :'), _('Hara kiri in generate_service_lines'))
         intrastat = self.browse(cr, uid, ids[0], context=context)
-        # Check that the company currency is EUR
-        if not intrastat.currency_id.code == 'EUR':
-            raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
+        self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, ids, intrastat, context=context)
         # Get current service lines and delete them
         line_remove = self.read(cr, uid, ids[0], ['intrastat_line_ids'], context=context)
         print "line_remove", line_remove
@@ -225,7 +219,9 @@ class report_intrastat_product(osv.osv):
             intr.transaction_code,
             prt.vat as partner_vat,
             prt.name as partner_name,
-            intr.type as type
+            intr.type as type,
+            inv.intrastat_transport as transport,
+            inv.intrastat_department as department
 
         FROM
             account_invoice inv
@@ -252,7 +248,6 @@ class report_intrastat_product(osv.osv):
             and inv_line.product_id is not null
             and inv_line.price_subtotal != 0
             and inv_country.intrastat=true
-            and intrastat_id is not null
             and pt.exclude_from_intrastat is not true
             and intr.type != 'other'
             and company.id = %s
@@ -260,14 +255,24 @@ class report_intrastat_product(osv.osv):
             and inv.date_invoice <= %s
             and intr.type = %s
 
-        GROUP BY company.id, inv.name, inv.date_invoice, code8, intr.type, product_country_origin, inv_country.code, inv.number,  inv.currency_id, intr.procedure_code, intr.transaction_code, prt.vat, prt.name, company_currency_id, intrastat_uom, invoice_uom
+        GROUP BY company.id, inv.name, inv.date_invoice, code8, intr.type, product_country_origin, inv_country.code, inv.number,  inv.currency_id, intr.procedure_code, intr.transaction_code, prt.vat, prt.name, company_currency_id, intrastat_uom, invoice_uom, transport, department
         '''
         # Execute the big SQL query to get all the lines
         cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date, intrastat.type))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
         line_obj = self.pool.get('report.intrastat.product.line')
-        for id, company_id, date_invoice, name, invoice_currency_id, company_currency_id, intrastat_code_8, partner_country, product_country_origin, amount_invoice_currency, amount_company_currency, stat_value_company_currency, weight, invoice_qty, invoice_uom, intrastat_uom, invoice_number, procedure_code, transaction_code, partner_vat, partner_name, type in res_sql:
+        for id, company_id, date_invoice, name, invoice_currency_id, company_currency_id, intrastat_code_8, partner_country, product_country_origin, amount_invoice_currency, amount_company_currency, stat_value_company_currency, weight, invoice_qty, invoice_uom, intrastat_uom, invoice_number, procedure_code, transaction_code, partner_vat, partner_name, type, transport, department in res_sql:
+            print "weight =", weight
+            print "invoice_uom =", invoice_uom,
+            print "intrastat_uom =", intrastat_uom,
+            print "company_currency_id =", company_currency_id
+            print "stat_value_company_currency, =", stat_value_company_currency
+            if not weight:
+                raise osv.except_osv(_('Error :'), _('Missing weight on one of the products of invoice %s with HS code %s.'%(invoice_number, intrastat_code_8)))
+            # TODO : ça crashe quand les valeurs "integer" valent false -> à tester !
+            # invoice_qty et subtotal -> déjà vérifié dans requête SQL... quid de stat_value ?
+            # Idem pr intrastat_uom et invoice_uom ???
             line_obj.create(cr, uid, {
                 'parent_id': ids[0],
                 'name': name,
@@ -284,6 +289,8 @@ class report_intrastat_product(osv.osv):
                 'invoice_currency_id': invoice_currency_id,
                 'company_currency_id': company_currency_id,
                 'product_country_origin': product_country_origin,
+                'transport': transport,
+                'department': department,
                 'procedure_code': procedure_code,
                 'transaction_code': transaction_code,
                 'partner_vat': partner_vat,
@@ -294,46 +301,29 @@ class report_intrastat_product(osv.osv):
 
 
     def done(self, cr, uid, ids, context=None):
-        if len(ids) != 1: raise osv.except_osv(_('Error :'), _('Hara kiri'))
-        self.write(cr, uid, ids[0], {'state': 'done'}, context=context)
+        if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in done')
+        self.write(cr, uid, ids[0], {'state': 'done', 'date_done': datetime.strftime(datetime.today(), '%Y-%m-%d')}, context=context)
         return None
 
     def back2draft(self, cr, uid, ids, context=None):
-        if len(ids) != 1: raise osv.except_osv(_('Error :'), _('Hara kiri'))
-        self.write(cr, uid, ids[0], {'state': 'done'}, context=context)
+        if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in back2draft')
+        self.write(cr, uid, ids[0], {'state': 'draft'}, context=context)
         return None
 
-    def check_len(self, field, size):
-        '''Convert to string and check size of the string'''
-        if len(str(field)) == size:
-            return str(field)
-        else:
-            raise osv.except_osv(_('Error :'), _("OpenERP failed at generating the INSTAT file because the value '%s' is not %d caracters long")%(str(field), size))
 
     def generate_xml(self, cr, uid, ids, context=None):
         '''Generate the INSTAT XML file export.'''
-        import base64
         from lxml import etree
         import deb_xsd
-        if len(ids) != 1:
-            raise osv.except_osv(_('Error :'), 'Hara kiri in generate_xml')
         intrastat = self.browse(cr, uid, ids[0], context=context)
         start_date_str = intrastat.start_date
         end_date_str = intrastat.end_date
         start_date_datetime = datetime.strptime(start_date_str, '%Y-%m-%d')
-#TODO : factoriser les checks entre product/service, et entre gene lines et gen xml ?
-        if not intrastat.company_id.currency_id.code:
-            raise osv.except_osv(_('Error :'), _('The currency code is not set on the currency "%s".'%intrastat.company_id.currency_id.name))
 
-        if not intrastat.currency_id.code == 'EUR':
-            raise osv.except_osv(_('Error :'), _('The company currency must be "EUR", but is currently "%s".'%intrastat.currency_id.code))
+        self.pool.get('report.intrastat.common')._check_generate_xml(cr, uid, ids, intrastat, context=context)
 
-        if not intrastat.company_id.partner_id.vat:
-            raise osv.except_osv(_('Error :'), _('The VAT number is not set for the partner "%s".'%intrastat.company_id.partner_id.name))
         my_company_vat = intrastat.company_id.partner_id.vat.replace(' ', '')
 
-        if not my_company_vat[0:2] == 'FR':
-            raise osv.except_osv(_('Error :'), _('The INSTAT file export only works for France-based companies.'))
         if not intrastat.company_id.siret_complement:
             raise osv.except_osv(_('Error :'), _('The SIRET complement is not set.'))
         my_company_id = my_company_vat + intrastat.company_id.siret_complement
@@ -386,7 +376,7 @@ class report_intrastat_product(osv.osv):
         if my_company_currency == 'EUR': # TODO : remove, already tested
             currency_code.text = my_company_currency
         else:
-            raise osv.except_osv(_('Error :'), _("Company currency must be 'EUR' for the INSTAT file export, but it is currently '%s'." %my_company_currency))
+            raise osv.except_osv(_('Error :'), _("Company currency must be 'EUR' for the XML file export, but it is currently '%s'." %my_company_currency))
 
         # THEN, the fields which vary from a line to the next
         line = 0
@@ -430,7 +420,7 @@ class report_intrastat_product(osv.osv):
             # START of elements that are part of all DEBs
             invoiced_amount = etree.SubElement(item, 'invoicedAmount')
             try:
-                invoiced_amount.text = str(pline.fiscal_value_company_currency)
+                invoiced_amount.text = str(pline.amount_company_currency)
             except: raise osv.except_osv(_('Error :'), _('Missing fiscal value on line %d.' %line))
             partner_id = etree.SubElement(item, 'partnerId')
             try: partner_id.text = pline.partner_vat.replace(' ', '')
@@ -456,24 +446,9 @@ class report_intrastat_product(osv.osv):
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         # We now validate the XML file against the official XML Schema Definition
         # Because we may catch some problems with the content of the XML file this way
-        official_instat_xml_schema = etree.XMLSchema(etree.fromstring(deb_xsd.deb_xsd))
-        try: official_instat_xml_schema.assertValid(root)
-        except Exception, e:
-            logger = netsvc.Logger()
-            logger.notifyChannel('intrastat_product', netsvc.LOG_WARNING, "The XML file is invalid against the XSD")
-            logger.notifyChannel('intrastat_product', netsvc.LOG_WARNING, xml_string)
-            logger.notifyChannel('intrastat_product', netsvc.LOG_WARNING, e)
-
-            raise osv.except_osv(_('Error :'), _('The generated XML INSTAT file is not valid against the official XML schema. The generated XML file and the full error have been written in the server logs. Here is the exact error, which may give you an idea of the cause of the problem : ' + str(e)))
-        filename = datetime.strftime(start_date_datetime, '%Y-%m') + '_deb.xml'
-        attach_name = 'DEB ' + datetime.strftime(start_date_datetime, '%Y-%m')
-
-        # Attach the XML file to the intrastat_product object
-        attach_obj = self.pool.get('ir.attachment')
-        if not context:
-            context = {}
-        context.update({'default_res_id' : ids[0], 'default_res_model': 'report.intrastat.product'})
-        attach_id = attach_obj.create(cr, uid, {'name': attach_name, 'datas': base64.encodestring(xml_string), 'datas_fname': filename}, context=context)
+        self.pool.get('report.intrastat.common')._check_xml_schema(cr, uid, root, xml_string, deb_xsd.deb_xsd, context=context)
+        # Attach the XML file to the current object
+        self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'deb', context=context)
         return None
 
 report_intrastat_product()
@@ -499,6 +474,15 @@ class report_intrastat_product_line(osv.osv):
         'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
         'company_currency_id': fields.many2one('res.currency', "Company currency", readonly=True),
         'product_country_origin' : fields.char('Product country of origin', size=2, readonly=True),
+        'transport' : fields.selection([(1, 'Transport maritime'), \
+            (2, 'Transport par chemin de fer'), \
+            (3, 'Transport par route'), \
+            (4, 'Transport par air'), \
+            (5, 'Envois postaux'), \
+            (7, 'Installations de transport fixes'), \
+            (8, 'Transport par navigation intérieure'), \
+            (9, 'Propulsion propre')], 'Type of transport', readonly=True),
+        'department' : fields.char('Department', size=2, readonly=True),
         'procedure_code': fields.integer('Procedure code', readonly=True),
         'transaction_code': fields.integer('Transaction code', readonly=True),
         'partner_vat': fields.char('Partner VAT', size=32, readonly=True),
