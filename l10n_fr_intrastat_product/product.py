@@ -2,7 +2,9 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
+#    Copyright (C) 2004-2009 Tiny SPRL (http://tiny.be). All Rights Reserved
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -58,7 +60,7 @@ report_intrastat_code()
 class product_uom(osv.osv):
     _inherit = "product.uom"
     _columns = {
-        'intrastat_label': fields.char('Intrastat label', size=12, help="Label used in the INSTAT XML export of the Intrastat product report for this unit of measure."),
+        'intrastat_label': fields.char('Intrastat label', size=12, help="Label used in the XML file export of the Intrastat product report for this unit of measure."),
         }
 
 product_uom()
