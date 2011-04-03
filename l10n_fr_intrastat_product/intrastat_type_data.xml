@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __terp__.py
+-->
+
+<openerp>
+<data noupdate="1">
+
+<record id="l10n_fr_intrastat_base.regular_export" model="report.intrastat.type">
+    <field name="procedure_code">21</field>
+    <field name="transaction_code">11</field>
+</record>
+
+<record id="repair_export" model="report.intrastat.type">
+    <field name="name">Repair export (DEB only)</field>
+    <field name="procedure_code">29</field>
+    <field name="transaction_code">64</field>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="type">export</field>
+    <field eval="True" name="intrastat_only"/>
+</record>
+
+<record id="l10n_fr_intrastat_base.regular_import" model="report.intrastat.type">
+    <field name="procedure_code">11</field>
+    <field name="transaction_code">11</field>
+</record>
+
+<record id="repair_import" model="report.intrastat.type">
+    <field name="name">Repair import (DEB only)</field>
+    <field name="procedure_code">19</field>
+    <field name="transaction_code">63</field>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="type">import</field>
+    <field eval="True" name="intrastat_only"/>
+</record>
+
+<record id="l10n_fr_intrastat_base.other" model="report.intrastat.type">
+    <field name="procedure_code">0</field>
+    <field name="transaction_code">0</field>
+</record>
+
+
+</data>
+</openerp>
