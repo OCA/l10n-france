@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __terp__.py
+-->
+
 <openerp>
 <data>
 
@@ -23,8 +30,9 @@
             <button icon="gtk-execute" name="generate_service_lines" string="Re-generate lines" type="object" states="draft" colspan="2" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
             <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
-            <group col="4" colspan="4">
+            <group col="6" colspan="4">
                 <field name="state" select="2" />
+                <field name="date_done" />
                 <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
                 <button icon="gtk-convert" name="back2draft" string="Back to draft" type="object" colspan="1" states="done" />
             </group>
