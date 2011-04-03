@@ -3,6 +3,7 @@
 #
 #    Report intrastat product module for OpenERP
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +21,6 @@
 ##############################################################################
 
 from osv import osv, fields
-from tools.translate import _
 
 class account_invoice(osv.osv):
     _inherit = "account.invoice"
@@ -33,7 +33,8 @@ class account_invoice(osv.osv):
             (7, 'Installations de transport fixes'), \
             (8, 'Transport par navigation intérieure'), \
             (9, 'Propulsion propre')], 'Type of transport', \
-            help="Select the type of transport. This information is required for the product intrastat report (DEB).")
+            help="Select the type of transport. This information is required for the product intrastat report (DEB)."),
+        'intrastat_department' : fields.char('Department', size=2),
             }
 
 account_invoice()

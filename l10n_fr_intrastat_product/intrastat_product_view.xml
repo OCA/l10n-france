@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __terp__.py
+-->
+
 <openerp>
 <data>
 
@@ -28,8 +35,9 @@
             <button icon="gtk-execute" name="generate_product_lines" string="Re-generate lines" type="object" states="draft" colspan="2" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
             <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
-            <group col="4" colspan="4">
+            <group col="6" colspan="4">
                 <field name="state" select="2" />
+                <field name="date_done" select="2" />
                 <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
                 <button icon="gtk-convert" name="back2draft" string="Back to draft" type="object" colspan="1" states="done" />
             </group>
@@ -57,12 +65,14 @@
 </record>
 
 <!-- Form view for product lines -->
+<!-- TODO : the first "company_currency_id" is displayed empty in form view" -->
 <record id="fr_intrastat_product_line_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.line.form</field>
     <field name="model">report.intrastat.product.line</field>
     <field name="type">form</field>
     <field name="arch" type="xml">
         <form string="Intrastat product lines">
+            <group colspan="4" col="6">
             <field name="intrastat_code_8" />
             <field name="partner_country" />
             <field name="amount_company_currency" />
@@ -78,10 +88,13 @@
             <field name="intrastat_uom" />
             <field name="transaction_code" />
             <field name="product_country_origin" />
+            <field name="transport" />
+            <field name="department" />
             <field name="partner_vat" />
             <field name="partner_name" />
             <field name="invoice_number" />
             <field name="date_invoice" />
+            </group>
         </form>
     </field>
 </record>
@@ -108,6 +121,8 @@
             <field name="intrastat_uom" string="Intra. UoM" />
             <field name="transaction_code" string="Transac." />
             <field name="product_country_origin" string="Product C/O" />
+            <field name="transport" string="Transport" />
+            <field name="department" string="Dpt" />
             <field name="partner_vat" />
             <field name="partner_name" />
             <field name="invoice_number" string="Inv. number" />
