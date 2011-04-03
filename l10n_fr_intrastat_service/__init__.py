@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat service module for OpenERP
+#    Report intrastat service module for OpenERP (DES)
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
