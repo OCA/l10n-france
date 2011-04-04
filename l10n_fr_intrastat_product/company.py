@@ -56,12 +56,14 @@ class res_company(osv.osv):
         for dpt in dpt_list:
             if not dpt:
                 continue
-            if dpt in ['2A', '2B']:
+            if len(dpt) <> 2: # '1' is not accepted -> must be '01'
+                raise osv.except_osv(_('Error :'), _("The department code must be 2 caracters long."))
+            if dpt in ['2A', '2B', '99']: # 99 = Monaco, cf page 24 du BOD n°6883 du 06/01/2011
                 continue
             if not dpt.isdigit():
                 raise osv.except_osv(_('Error :'), _("The department code must be a number or have the value '2A' or '2B' for Corsica."))
             if int(dpt) < 1 or int(dpt) > 95:
-                raise osv.except_osv(_('Error :'), _("The department code must be between 01 and 95 or have the value '2A' or '2B'."))
+                raise osv.except_osv(_('Error :'), _("The department code must be between 01 and 95 or have the value '2A' or '2B' for Corsica or '99' for Monaco."))
         return True
 
     def _check_default_intrastat_department(self, cr, uid, ids):
