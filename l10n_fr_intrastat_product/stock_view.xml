@@ -9,6 +9,7 @@
 <openerp>
 <data>
 
+<!-- Add Type of transport on picking form view -->
 <record id="fr_intrastat_product_picking_out_trp" model="ir.ui.view">
     <field name="name">fr.intrastat.product.picking.out.trp</field>
     <field name="model">stock.picking</field>
@@ -33,19 +34,19 @@
     </field>
 </record>
 
-<!--
-<record id="report_intrastat_stock_location_department" model="ir.ui.view">
-    <field name="name">report.intrastat.stock.location.department</field>
-    <field name="model">stock.location</field>
+
+<!-- Add department on warehouse form view -->
+<record id="fr_intrastat_product_warehouse_department" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.warehouse.department</field>
+    <field name="model">stock.warehouse</field>
     <field name="type">form</field>
-    <field name="inherit_id" ref="stock.view_location_form" />
+    <field name="inherit_id" ref="stock.view_warehouse"/>
     <field name="arch" type="xml">
-        <field name="icon" position="after">
+        <field name="partner_address_id" position="after">
             <field name="intrastat_department" />
         </field>
     </field>
 </record>
--->
 
 </data>
 </openerp>
