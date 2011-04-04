@@ -160,8 +160,8 @@ class report_intrastat_product(osv.osv):
             inv.currency_id as invoice_currency_id,
             company.currency_id as company_currency_id,
             hs.code8 as intrastat_code_8,
-            upper(inv_country.code) as partner_country,
-            upper(product_country.code) as product_country_origin,
+            inv_address.country_id as partner_country_id,
+            pt.country_id as product_country_origin_id,
             sum(case when not intr.intrastat_only
                 then inv_line.price_subtotal
                 else 0
@@ -219,7 +219,6 @@ class report_intrastat_product(osv.osv):
             left join account_invoice_line inv_line on inv_line.invoice_id=inv.id
             left join (product_template pt
                 left join product_product pp on (pp.product_tmpl_id = pt.id)
-                left join res_country product_country on (product_country.id = pt.country_id)
                 left join product_uom pt_uom on (pt.uom_id = pt_uom.id )
                 left join (report_intrastat_code hs
                     left join product_uom intrastat_uom on ( intrastat_uom.id = hs.intrastat_uom_id )
@@ -246,7 +245,7 @@ class report_intrastat_product(osv.osv):
             and inv.date_invoice <= %s
             and intr.type = %s
 
-        GROUP BY company.id, inv.id, code8, intr.type, product_country_origin, inv_country.code, inv.currency_id, intr.procedure_code, intr.transaction_code, prt.vat, inv.partner_id, company_currency_id, intrastat_uom.id, inv_uom.id, transport, department
+        GROUP BY company.id, inv.id, code8, intr.type, product_country_origin_id, partner_country_id, inv.currency_id, intr.procedure_code, intr.transaction_code, prt.vat, inv.partner_id, company_currency_id, intrastat_uom.id, inv_uom.id, transport, department
         '''
         # Execute the big SQL query to get all the lines
         cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date, intrastat.type))
@@ -254,7 +253,7 @@ class report_intrastat_product(osv.osv):
         print "res_sql=", res_sql
         print "intrastat.type =", intrastat.type
         line_obj = self.pool.get('report.intrastat.product.line')
-        for id, company_id, invoice_id, invoice_currency_id, company_currency_id, intrastat_code_8, partner_country, product_country_origin, amount_invoice_currency, amount_company_currency, stat_value_company_currency, weight, invoice_qty, invoice_uom_id, intrastat_uom_id, procedure_code, transaction_code, partner_vat, partner_id, type, transport, department in res_sql:
+        for id, company_id, invoice_id, invoice_currency_id, company_currency_id, intrastat_code_8, partner_country_id, product_country_origin_id, amount_invoice_currency, amount_company_currency, stat_value_company_currency, weight, invoice_qty, invoice_uom_id, intrastat_uom_id, procedure_code, transaction_code, partner_vat, partner_id, type, transport, department in res_sql:
             print "weight =", weight
             print "company_currency_id =", company_currency_id
             print "stat_value_company_currency, =", stat_value_company_currency
@@ -271,7 +270,7 @@ class report_intrastat_product(osv.osv):
                 'invoice_qty': int(round(invoice_qty, 0)),
                 'invoice_uom_id': invoice_uom_id,
                 'intrastat_uom_id': intrastat_uom_id,
-                'partner_country': partner_country,
+                'partner_country_id': partner_country_id,
                 'intrastat_code_8': intrastat_code_8,
                 'weight': int(round(weight, 0)),
                 'amount_invoice_currency': int(round(amount_invoice_currency, 0)),
@@ -279,7 +278,7 @@ class report_intrastat_product(osv.osv):
                 'stat_value_company_currency': int(round(stat_value_company_currency, 0)),
                 'invoice_currency_id': invoice_currency_id,
                 'company_currency_id': company_currency_id,
-                'product_country_origin': product_country_origin,
+                'product_country_origin_id': product_country_origin_id,
                 'transport': transport,
                 'department': department,
                 'procedure_code': procedure_code,
@@ -401,9 +400,9 @@ class report_intrastat_product(osv.osv):
                     country_origin = etree.SubElement(item, 'countryOfOriginCode')
                     weight = etree.SubElement(item, 'netMass')
 
-                try: destination_country.text = pline.partner_country
+                try: destination_country.text = pline.partner_country_code
                 except: raise osv.except_osv(_('Error :'), _('Missing partner country on line %d.' %line))
-                try: country_origin.text = pline.product_country_origin
+                try: country_origin.text = pline.product_country_origin_code
                 except: raise osv.except_osv(_('Error :'), _('Missing product country of origin on line %d.' %line))
                 try: weight.text = str(pline.weight)
                 except: raise osv.except_osv(_('Error :'), _('Missing weight on line %d.' %line))
@@ -466,7 +465,8 @@ class report_intrastat_product_line(osv.osv):
         'invoice_qty': fields.integer('Invoice quantity', readonly=True),
         'invoice_uom_id': fields.many2one('product.uom', 'Invoice UoM', readonly=True),
         'intrastat_uom_id': fields.many2one('product.uom', 'Intrastat UoM', readonly=True),
-        'partner_country': fields.char('Partner country', size=2, readonly=True),
+        'partner_country_id': fields.many2one('res.country', 'Partner country (id)', readonly=True),
+        'partner_country_code' : fields.related('partner_country_id', 'code', type='string', relation='res.country', string='Partner country', readonly=True),
         'intrastat_code_8': fields.char('Intrastat code', size=8, readonly=True),
         'weight': fields.integer('Weight', readonly=True),
         'amount_invoice_currency': fields.integer('Fiscal value in invoice currency', readonly=True),
@@ -474,7 +474,8 @@ class report_intrastat_product_line(osv.osv):
         'stat_value_company_currency' : fields.integer('Stat value in company currency', readonly=True),
         'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
         'company_currency_id': fields.many2one('res.currency', "Company currency", readonly=True),
-        'product_country_origin' : fields.char('Product country of origin', size=2, readonly=True),
+        'product_country_origin_id' : fields.many2one('res.country', 'Product country of origin (id)', readonly=True),
+        'product_country_origin_code' : fields.related('product_country_origin_id', 'code', type='string', relation='res.country', string='Product country of origin', readonly=True),
         'transport' : fields.selection([(1, 'Transport maritime'), \
             (2, 'Transport par chemin de fer'), \
             (3, 'Transport par route'), \
