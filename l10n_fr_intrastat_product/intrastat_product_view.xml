@@ -72,7 +72,6 @@
     <field name="type">form</field>
     <field name="arch" type="xml">
         <form string="Intrastat product lines">
-            <group colspan="4" col="6">
             <field name="intrastat_code_8" />
             <field name="partner_country" />
             <field name="amount_company_currency" />
@@ -81,20 +80,22 @@
             <field name="invoice_currency_id" />
             <field name="procedure_code" />
             <field name="stat_value_company_currency" />
-            <field name="company_currency_id" />
             <field name="weight" />
             <field name="invoice_qty" />
-            <field name="invoice_uom" />
-            <field name="intrastat_uom" />
+            <field name="invoice_uom_id" />
+            <field name="intrastat_uom_id" />
             <field name="transaction_code" />
             <field name="product_country_origin" />
             <field name="transport" />
             <field name="department" />
-            <field name="partner_vat" />
-            <field name="partner_name" />
-            <field name="invoice_number" />
-            <field name="date_invoice" />
+            <!-- Ca marche qd c dans group. Qd c dans field, il affiche à tt les coups -->
+            <group attrs="{'invisible':[('parent_type','=','import')]}" colspan="2">
+            <field name="partner_vat" attrs="{'invisible':[('parent_type','=','import')]}" />
             </group>
+            <field name="partner_id" />
+            <field name="invoice_id" />
+            <field name="date_invoice" />
+            <field name="parent_type" invisible="1" />
         </form>
     </field>
 </record>
@@ -106,26 +107,33 @@
     <field name="type">tree</field>
     <field name="arch" type="xml">
         <tree string="Intrastat product lines">
-            <field name="intrastat_code_8" string="H.S. code" />
-            <field name="partner_country" string="Partner C."/>
+<!--            <group attrs="{'invisible':[('parent_id.obligation_level','=','simplified')]}" > -->
+                <field name="intrastat_code_8" string="H.S. code" />
+                <field name="partner_country" string="Partner C."/>
+<!--            </group> -->
             <field name="amount_company_currency" string="Value CC" />
             <field name="company_currency_id" string="Comp. Cur." />
             <field name="amount_invoice_currency" string="Value IC" />
             <field name="invoice_currency_id" string="Inv. Cur." />
             <field name="procedure_code" string="Procedure" />
             <field name="stat_value_company_currency" string="Stat. value CC" />
-            <field name="company_currency_id" string="Comp. Cur." />
-            <field name="weight" />
-            <field name="invoice_qty" string="Inv. qty" />
-            <field name="invoice_uom" string="Inv. UoM" />
-            <field name="intrastat_uom" string="Intra. UoM" />
-            <field name="transaction_code" string="Transac." />
-            <field name="product_country_origin" string="Product C/O" />
-            <field name="transport" string="Transport" />
-            <field name="department" string="Dpt" />
-            <field name="partner_vat" />
-            <field name="partner_name" />
-            <field name="invoice_number" string="Inv. number" />
+<!--            <group attrs="{'invisible':[('parent_id.obligation_level','=','simplified')]}" > -->
+                <field name="weight" />
+                <field name="invoice_qty" string="Inv. qty" />
+                <field name="invoice_uom_id" string="Inv. UoM" />
+                <field name="intrastat_uom_id" string="Intra. UoM" />
+                <field name="transaction_code" string="Transac." />
+                <field name="transport" string="Transport" />
+                <field name="department" string="Dpt" />
+                <field name="product_country_origin" string="Product C/O" />
+<!--            </group> -->
+            <field name="parent_type" invisible="1" />
+            <group attrs="{'invisible':[('parent_type','=','import')]}">
+                <field name="partner_vat"/>
+            </group>
+<!-- Qd c dans field, il affiche tjs - Qd c dans group, il affiche jamais !-->
+            <field name="partner_id" />
+            <field name="invoice_id" />
             <field name="date_invoice" />
         </tree>
     </field>
