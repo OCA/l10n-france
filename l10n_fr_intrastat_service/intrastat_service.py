@@ -43,7 +43,7 @@ class report_intrastat_service(osv.osv):
 
 
     def _get_intrastat_from_service_line(self, cr, uid, ids, context=None):
-        print "invalidation function CALLED !!!"
+        print "invalidation function CALLED !"
         return self.pool.get('report.intrastat.service').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
@@ -92,12 +92,12 @@ class report_intrastat_service(osv.osv):
     def generate_service_lines(self, cr, uid, ids, context=None):
         print "generate lines, ids=", ids
         intrastat = self.browse(cr, uid, ids[0], context=context)
+        line_obj = self.pool.get('report.intrastat.service.line')
         self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, ids, intrastat, context=context)
         # Get current service lines and delete them
         line_remove = self.read(cr, uid, ids[0], ['intrastat_line_ids'], context=context)
-        print "line_remove", line_remove
         if line_remove['intrastat_line_ids']:
-            self.pool.get('report.intrastat.service.line').unlink(cr, uid, line_remove['intrastat_line_ids'], context=context)
+            line_obj.unlink(cr, uid, line_remove['intrastat_line_ids'], context=context)
         sql = '''
         select
             min(inv_line.id) as id,
@@ -139,7 +139,6 @@ class report_intrastat_service(osv.osv):
                 left join res_country inv_country on (inv_country.id = inv_address.country_id))
             on (inv_address.id = inv.address_invoice_id)
             left join res_partner prt on inv.partner_id = prt.id
-            left join report_intrastat_type intr on inv.intrastat_type_id = intr.id
             left join res_currency_rate on (inv.currency_id = res_currency_rate.currency_id and inv.date_invoice = res_currency_rate.name)
             left join res_company company on inv.company_id=company.id
 
@@ -151,7 +150,6 @@ class report_intrastat_service(osv.osv):
             and inv_country.intrastat = true
             and pt.type = 'service'
             and pt.exclude_from_intrastat is not true
-            and intr.type != 'other'
             and company.id = %s
             and inv.date_invoice >= %s
             and inv.date_invoice <= %s
@@ -162,7 +160,6 @@ class report_intrastat_service(osv.osv):
         cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
-        line_obj = self.pool.get('report.intrastat.service.line')
         for id, company_id, invoice_id, invoice_currency_id, partner_vat, partner_id, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
             print "amount_invoice_currency =", amount_invoice_currency
             print "amount_company_currency =", amount_company_currency
