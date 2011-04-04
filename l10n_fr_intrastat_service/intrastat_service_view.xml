@@ -106,7 +106,7 @@
 
 
 <!-- Intrastat service menu -->
-<menuitem id="menu_report_intrastat_service" parent="l10n_fr_intrastat_base.menu_fr_intrastat_base_root" action="action_report_intrastat_service_tree" />
+<menuitem id="menu_report_intrastat_service" parent="intrastat_base.menu_intrastat_base_root" action="action_report_intrastat_service_tree" />
 
 </data>
 </openerp>
