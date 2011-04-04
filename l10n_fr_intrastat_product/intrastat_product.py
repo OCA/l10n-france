@@ -24,38 +24,12 @@
 
 #TODO : vérifier le multi-company
 
-# TODO : display invoice type ?
-
 from osv import osv, fields
 import time
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from tools.translate import _
 
-class report_intrastat_type(osv.osv):
-    _inherit = "report.intrastat.type"
-    _columns = {
-        'procedure_code': fields.integer('Procedure code', help="For the 'DEB' declaration to France's customs administration, you should enter the 'code régime' here."),
-        'transaction_code': fields.integer('Transaction code', help="For the 'DEB' declaration to France's customs administration, you should enter the number 'nature de la transaction' here."),
-    }
-
-    def _code_check(self, cr, uid, ids):
-    # Procedure_code and transaction codes are an integers, so they always have a value
-        for intrastat_type in self.read(cr, uid, ids, ['type', 'procedure_code', 'transaction_code']):
-            if intrastat_type['type'] == 'other':
-                continue
-            else:
-                if not 10 <= intrastat_type['procedure_code'] <= 99:
-                    raise osv.except_osv(_('Error :'), _('Procedure code must be between 10 and 99'))
-                if not 10 <= intrastat_type['transaction_code'] <= 99:
-                    raise osv.except_osv(_('Error :'), _('Transaction code must be between 10 and 99'))
-        return True
-
-    _constraints = [
-        (_code_check, "Error msg in raise", ['procedure_code', 'transaction_code']),
-    ]
-
-report_intrastat_type()
 
 class report_intrastat_product(osv.osv):
     _name = "report.intrastat.product"
@@ -73,7 +47,7 @@ class report_intrastat_product(osv.osv):
         return self.pool.get('report.intrastat.common')._compute_end_date(cr, uid, ids, self, context=context)
 
     def _get_intrastat_from_product_line(self, cr, uid, ids, context=None):
-        print "invalidation function CALLED !!!"
+        print "invalidation function CALLED"
         return self.pool.get('report.intrastat.product').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
@@ -115,9 +89,7 @@ class report_intrastat_product(osv.osv):
             if type == 'import': # The only level possible for DEB import is detailed
                 result['value'].update({'obligation_level': 'detailed'})
             if type == 'export':
-                print "company_id", company_id
                 company = self.pool.get('res.company').read(cr, uid, company_id, ['export_obligation_level'])
-                print "company =", company
                 if company['export_obligation_level']:
                     result['value'].update({'obligation_level': company['export_obligation_level']})
         return result
@@ -144,14 +116,14 @@ class report_intrastat_product(osv.osv):
         print "generate lines, ids=", ids
         intrastat = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, ids, intrastat, context=context)
-        # Get current service lines and delete them
-        line_remove = self.read(cr, uid, ids[0], ['intrastat_line_ids'], context=context)
-        print "line_remove", line_remove
-        if line_remove['intrastat_line_ids']:
-            self.pool.get('report.intrastat.product.line').unlink(cr, uid, line_remove['intrastat_line_ids'], context=context)
+        line_obj = self.pool.get('report.intrastat.product.line')
+        # Get current lines that were generated from invoices and delete them
+        line_remove_ids = line_obj.search(cr, uid, [('parent_id', '=', ids[0]), ('invoice_id', '!=', False)], context=context)
+        print "line_remove", line_remove_ids
+        if line_remove_ids:
+            line_obj.unlink(cr, uid, line_remove_ids, context=context)
 
 # What about if we sell a product with 100% discount ?
-# Here, we suppose that list_price on product template is in company_currency
         sql = '''
         SELECT
             min(inv_line.id) as id,
@@ -162,23 +134,13 @@ class report_intrastat_product(osv.osv):
             hs.code8 as intrastat_code_8,
             inv_address.country_id as partner_country_id,
             pt.country_id as product_country_origin_id,
-            sum(case when not intr.intrastat_only
-                then inv_line.price_subtotal
-                else 0
-                end) as amount_invoice_currency,
-            sum(case when not intr.intrastat_only and company.currency_id != inv.currency_id and res_currency_rate.rate is not null
+            sum(inv_line.price_subtotal) as amount_invoice_currency,
+            sum(case when company.currency_id != inv.currency_id and res_currency_rate.rate is not null
                 then round(inv_line.price_subtotal/res_currency_rate.rate, 2)
-                when not intr.intrastat_only and company.currency_id = inv.currency_id
+                when company.currency_id = inv.currency_id
                 then inv_line.price_subtotal
                 else 0
                 end) as amount_company_currency,
-
-            sum(case when intr.intrastat_only and company.currency_id != inv.currency_id and res_currency_rate.rate is not null
-                then round(inv_line.price_subtotal/res_currency_rate.rate, 2)
-                    when intr.intrastat_only and company.currency_id = inv.currency_id
-                        then inv_line.price_subtotal
-                        else 0
-                end) as stat_value_company_currency,
 
             sum(
                 case when inv_uom.category_id != pt_uom.category_id then pt.weight_net * inv_line.quantity
@@ -210,7 +172,6 @@ class report_intrastat_product(osv.osv):
             intr.transaction_code,
             prt.vat as partner_vat,
             inv.partner_id as partner_id,
-            intr.type as type,
             inv.intrastat_transport as transport,
             inv.intrastat_department as department
 
@@ -228,39 +189,42 @@ class report_intrastat_product(osv.osv):
                     left join (res_partner_address inv_address
                         left join res_country inv_country on (inv_country.id = inv_address.country_id))
                     on (inv_address.id = inv.address_invoice_id)
-            left join report_intrastat_type intr on inv.intrastat_type_id = intr.id
+            left join report_intrastat_type intr on inv.type = intr.invoice_type
             left join res_partner prt on inv.partner_id = prt.id
             left join res_currency_rate on (inv.currency_id = res_currency_rate.currency_id and inv.date_invoice = res_currency_rate.name)
             left join res_company company on inv.company_id=company.id
 
         WHERE
-            inv.state in ('open', 'paid', 'legal_intrastat')
+            inv.state in ('open', 'paid')
             and inv_line.product_id is not null
             and inv_line.price_subtotal != 0
             and inv_country.intrastat=true
             and pt.exclude_from_intrastat is not true
-            and intr.type != 'other'
             and company.id = %s
             and inv.date_invoice >= %s
             and inv.date_invoice <= %s
-            and intr.type = %s
+            and inv.type in %s
 
-        GROUP BY company.id, inv.id, code8, intr.type, product_country_origin_id, partner_country_id, inv.currency_id, intr.procedure_code, intr.transaction_code, prt.vat, inv.partner_id, company_currency_id, intrastat_uom.id, inv_uom.id, transport, department
+        GROUP BY company.id, inv.id, code8, product_country_origin_id, partner_country_id, inv.currency_id, intr.procedure_code, intr.transaction_code, prt.vat, inv.partner_id, company_currency_id, intrastat_uom.id, inv_uom.id, transport, department
         '''
         # Execute the big SQL query to get all the lines
-        cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date, intrastat.type))
+        invoice_type = False
+        if intrastat.type == 'import':
+            invoice_type = ('in_invoice', 'out_refund')
+        if intrastat.type == 'export':
+            invoice_type = ('out_invoice', 'in_refund')
+
+        cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date, invoice_type))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
-        print "intrastat.type =", intrastat.type
-        line_obj = self.pool.get('report.intrastat.product.line')
-        for id, company_id, invoice_id, invoice_currency_id, company_currency_id, intrastat_code_8, partner_country_id, product_country_origin_id, amount_invoice_currency, amount_company_currency, stat_value_company_currency, weight, invoice_qty, invoice_uom_id, intrastat_uom_id, procedure_code, transaction_code, partner_vat, partner_id, type, transport, department in res_sql:
+        print "invoice_type =", invoice_type
+        for id, company_id, invoice_id, invoice_currency_id, company_currency_id, intrastat_code_8, partner_country_id, product_country_origin_id, amount_invoice_currency, amount_company_currency, weight, invoice_qty, invoice_uom_id, intrastat_uom_id, procedure_code, transaction_code, partner_vat, partner_id, transport, department in res_sql:
             print "weight =", weight
             print "company_currency_id =", company_currency_id
-            print "stat_value_company_currency, =", stat_value_company_currency
             # TODO : apply check only when in "detailed" obligation level ?
             if not weight:
-                invoice = self.pool.get('account.invoice').read(cr, uid, invoice_id, ['invoice_number'], context=context)
-                raise osv.except_osv(_('Error :'), _('Missing weight on one of the products of invoice %s with HS code %s.'%(invoice['invoice_number'], intrastat_code_8)))
+                invoice = self.pool.get('account.invoice').read(cr, uid, invoice_id, ['number'], context=context)
+                raise osv.except_osv(_('Error :'), _('Missing weight on one of the products of invoice %s with HS code %s.'%(invoice['number'], intrastat_code_8)))
             # TODO : ça crashe quand les valeurs "integer" valent false -> à tester !
             # invoice_qty et subtotal -> déjà vérifié dans requête SQL... quid de stat_value ?
             # Idem pr intrastat_uom et invoice_uom ???
@@ -275,7 +239,6 @@ class report_intrastat_product(osv.osv):
                 'weight': int(round(weight, 0)),
                 'amount_invoice_currency': int(round(amount_invoice_currency, 0)),
                 'amount_company_currency': int(round(amount_company_currency, 0)),
-                'stat_value_company_currency': int(round(stat_value_company_currency, 0)),
                 'invoice_currency_id': invoice_currency_id,
                 'company_currency_id': company_currency_id,
                 'product_country_origin_id': product_country_origin_id,
@@ -370,7 +333,6 @@ class report_intrastat_product(osv.osv):
         # THEN, the fields which vary from a line to the next
         line = 0
         for pline in intrastat.intrastat_line_ids:
-            print "parent_type =", pline.parent_type, type(pline.parent_type)
             line += 1 #increment line number
             item = etree.SubElement(declaration, 'Item')
             item_number = etree.SubElement(item, 'itemNumber')

@@ -34,7 +34,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['l10n_fr_intrastat_base', 'stock'],
+    'depends': ['intrastat_base', 'stock'],
     'init_xml': ['intrastat_type_data.xml'],
     'update_xml': [
         'security/ir.model.access.csv',
@@ -45,7 +45,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
         'stock_view.xml',
         'invoice_view.xml',
     ],
-    'demo_xml': [],
+    'demo_xml': ['intrastat_demo.xml'],
     'installable': True,
     'active': False,
 }
