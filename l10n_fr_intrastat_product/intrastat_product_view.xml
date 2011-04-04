@@ -73,7 +73,7 @@
     <field name="arch" type="xml">
         <form string="Intrastat product lines">
             <field name="intrastat_code_8" />
-            <field name="partner_country" />
+            <field name="partner_country_code" />
             <field name="amount_company_currency" />
             <field name="company_currency_id" />
             <field name="amount_invoice_currency" />
@@ -85,7 +85,7 @@
             <field name="invoice_uom_id" />
             <field name="intrastat_uom_id" />
             <field name="transaction_code" />
-            <field name="product_country_origin" />
+            <field name="product_country_origin_code" />
             <field name="transport" />
             <field name="department" />
             <!-- Ca marche qd c dans group. Qd c dans field, il affiche à tt les coups -->
@@ -109,7 +109,7 @@
         <tree string="Intrastat product lines">
 <!--            <group attrs="{'invisible':[('parent_id.obligation_level','=','simplified')]}" > -->
                 <field name="intrastat_code_8" string="H.S. code" />
-                <field name="partner_country" string="Partner C."/>
+                <field name="partner_country_code" string="Partner C."/>
 <!--            </group> -->
             <field name="amount_company_currency" string="Value CC" />
             <field name="company_currency_id" string="Comp. Cur." />
@@ -125,7 +125,7 @@
                 <field name="transaction_code" string="Transac." />
                 <field name="transport" string="Transport" />
                 <field name="department" string="Dpt" />
-                <field name="product_country_origin" string="Product C/O" />
+                <field name="product_country_origin_code" string="Product C/O" />
 <!--            </group> -->
             <field name="parent_type" invisible="1" />
             <group attrs="{'invisible':[('parent_type','=','import')]}">
