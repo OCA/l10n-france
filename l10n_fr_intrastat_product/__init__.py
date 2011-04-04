@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+import intrastat_type
 import intrastat_product
 import product
 import stock
