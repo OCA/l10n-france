@@ -102,12 +102,10 @@ class report_intrastat_service(osv.osv):
         select
             min(inv_line.id) as id,
             company.id,
-            inv.name as name,
-            inv.number as invoice_number,
-            inv.date_invoice,
+            inv.id as invoice_id,
             inv.currency_id as invoice_currency_id,
             prt.vat as partner_vat,
-            prt.name as partner_name,
+            inv.partner_id as partner_id,
             res_currency_rate.rate as invoice_currency_rate,
             sum(case when inv.type = 'out_refund'
                 then inv_line.price_subtotal * (-1)
@@ -158,24 +156,22 @@ class report_intrastat_service(osv.osv):
             and inv.date_invoice >= %s
             and inv.date_invoice <= %s
 
-        group by company.id, inv.date_invoice, inv.number, inv.currency_id, prt.vat, prt.name, inv.name, invoice_currency_rate, company_currency_id
+        group by company.id, inv.currency_id, prt.vat, inv.partner_id, inv.id, invoice_currency_rate, company_currency_id
         '''
         # Execute the big SQL query to get all service lines
         cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
         line_obj = self.pool.get('report.intrastat.service.line')
-        for id, company_id, name, invoice_number, date_invoice, invoice_currency_id, partner_vat, partner_name, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
+        for id, company_id, invoice_id, invoice_currency_id, partner_vat, partner_id, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
             print "amount_invoice_currency =", amount_invoice_currency
             print "amount_company_currency =", amount_company_currency
             # Store the service lines
             line_obj.create(cr, uid, {
                 'parent_id': ids[0],
-                'name': name,
-                'invoice_number': invoice_number,
+                'invoice_id': invoice_id,
                 'partner_vat': partner_vat,
-                'partner_name': partner_name,
-                'date_invoice': date_invoice,
+                'partner_id': partner_id,
                 'amount_invoice_currency': int(round(amount_invoice_currency, 0)),
                 'invoice_currency_id': invoice_currency_id,
                 'amount_company_currency': int(round(amount_company_currency, 0)),
@@ -232,7 +228,7 @@ class report_intrastat_service(osv.osv):
             valeur.text = str(sline.amount_company_currency)
             partner_des = etree.SubElement(ligne_des, 'partner_des')
             try: partner_des.text = sline.partner_vat.replace(' ', '')
-            except: raise osv.except_osv(_('Error :'), _('Missing VAT number for partner "%s".'%sline.partner_name))
+            except: raise osv.except_osv(_('Error :'), _('Missing VAT number for partner "%s".'%sline.partner_id.name))
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         print "xml_string", xml_string
 
@@ -248,14 +244,14 @@ report_intrastat_service()
 class report_intrastat_service_line(osv.osv):
     _name = "report.intrastat.service.line"
     _description = "Lines of intrastat service declaration (DES)"
-    _order = 'invoice_number'
+    _rec_name = "partner_vat"
+    _order = 'invoice_id'
     _columns = {
         'parent_id': fields.many2one('report.intrastat.service', 'Intrastat service ref', ondelete='cascade', select=True),
-        'name': fields.char('Invoice description', size=64, readonly=True),
-        'invoice_number': fields.char('Invoice number', size=32, readonly=True, select=True),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice ref', readonly=True),
         'partner_vat': fields.char('Customer VAT', size=32, readonly=True),
-        'partner_name': fields.char('Customer name', size=128, readonly=True),
-        'date_invoice' : fields.date('Invoice date', readonly=True),
+        'partner_id': fields.many2one('res.partner', 'Partner name', readonly=True),
+        'date_invoice' : fields.related('invoice_id', 'date_invoice', type='date', relation='account.invoice', string='Invoice date', readonly=True),
         'amount_invoice_currency': fields.integer('Amount in invoice cur.', readonly=True),
         'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
         'amount_company_currency': fields.integer('Amount in company cur.', readonly=True),
