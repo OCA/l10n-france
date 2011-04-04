@@ -20,18 +20,11 @@
 #
 ##############################################################################
 
-# TODO :
-# When a line is selected, only this line will be in XML export
-# -> convert the SQL view to a real object, and re-organise everything accordingly
-# We don't have the statistical value in the XML export !!!
-# Render fields invisible when in "simplified" level
-# WISH : modify title of report_intrastat tree view if export vs import
+# TODO : We don't have the statistical value in the XML export !!!
 
 #TODO : vérifier le multi-company
 
-#TODO ajouter données pour procedure code et transaction code
-
-# TODO add mode de trp on SQL, view, columns, etc... write
+# TODO : display invoice type ?
 
 from osv import osv, fields
 import time
@@ -163,8 +156,7 @@ class report_intrastat_product(osv.osv):
         SELECT
             min(inv_line.id) as id,
             company.id,
-            inv.date_invoice,
-            inv.name as name,
+            inv.id as invoice_id,
             inv.currency_id as invoice_currency_id,
             company.currency_id as company_currency_id,
             hs.code8 as intrastat_code_8,
@@ -211,14 +203,13 @@ class report_intrastat_product(osv.osv):
                     end
                 end
                 ) as invoice_qty,
-            inv_uom.intrastat_label as invoice_uom,
-            intrastat_uom.intrastat_label as intrastat_uom,
+            inv_uom.id as invoice_uom_id,
+            intrastat_uom.id as intrastat_uom_id,
 
-            inv.number as invoice_number,
             intr.procedure_code,
             intr.transaction_code,
             prt.vat as partner_vat,
-            prt.name as partner_name,
+            inv.partner_id as partner_id,
             intr.type as type,
             inv.intrastat_transport as transport,
             inv.intrastat_department as department
@@ -255,31 +246,31 @@ class report_intrastat_product(osv.osv):
             and inv.date_invoice <= %s
             and intr.type = %s
 
-        GROUP BY company.id, inv.name, inv.date_invoice, code8, intr.type, product_country_origin, inv_country.code, inv.number,  inv.currency_id, intr.procedure_code, intr.transaction_code, prt.vat, prt.name, company_currency_id, intrastat_uom, invoice_uom, transport, department
+        GROUP BY company.id, inv.id, code8, intr.type, product_country_origin, inv_country.code, inv.currency_id, intr.procedure_code, intr.transaction_code, prt.vat, inv.partner_id, company_currency_id, intrastat_uom.id, inv_uom.id, transport, department
         '''
         # Execute the big SQL query to get all the lines
         cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date, intrastat.type))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
+        print "intrastat.type =", intrastat.type
         line_obj = self.pool.get('report.intrastat.product.line')
-        for id, company_id, date_invoice, name, invoice_currency_id, company_currency_id, intrastat_code_8, partner_country, product_country_origin, amount_invoice_currency, amount_company_currency, stat_value_company_currency, weight, invoice_qty, invoice_uom, intrastat_uom, invoice_number, procedure_code, transaction_code, partner_vat, partner_name, type, transport, department in res_sql:
+        for id, company_id, invoice_id, invoice_currency_id, company_currency_id, intrastat_code_8, partner_country, product_country_origin, amount_invoice_currency, amount_company_currency, stat_value_company_currency, weight, invoice_qty, invoice_uom_id, intrastat_uom_id, procedure_code, transaction_code, partner_vat, partner_id, type, transport, department in res_sql:
             print "weight =", weight
-            print "invoice_uom =", invoice_uom,
-            print "intrastat_uom =", intrastat_uom,
             print "company_currency_id =", company_currency_id
             print "stat_value_company_currency, =", stat_value_company_currency
+            # TODO : apply check only when in "detailed" obligation level ?
             if not weight:
-                raise osv.except_osv(_('Error :'), _('Missing weight on one of the products of invoice %s with HS code %s.'%(invoice_number, intrastat_code_8)))
+                invoice = self.pool.get('account.invoice').read(cr, uid, invoice_id, ['invoice_number'], context=context)
+                raise osv.except_osv(_('Error :'), _('Missing weight on one of the products of invoice %s with HS code %s.'%(invoice['invoice_number'], intrastat_code_8)))
             # TODO : ça crashe quand les valeurs "integer" valent false -> à tester !
             # invoice_qty et subtotal -> déjà vérifié dans requête SQL... quid de stat_value ?
             # Idem pr intrastat_uom et invoice_uom ???
             line_obj.create(cr, uid, {
                 'parent_id': ids[0],
-                'name': name,
+                'invoice_id': invoice_id,
                 'invoice_qty': int(round(invoice_qty, 0)),
-                'invoice_uom': invoice_uom,
-                'intrastat_uom': intrastat_uom,
-                'invoice_number': invoice_number,
+                'invoice_uom_id': invoice_uom_id,
+                'intrastat_uom_id': intrastat_uom_id,
                 'partner_country': partner_country,
                 'intrastat_code_8': intrastat_code_8,
                 'weight': int(round(weight, 0)),
@@ -294,8 +285,7 @@ class report_intrastat_product(osv.osv):
                 'procedure_code': procedure_code,
                 'transaction_code': transaction_code,
                 'partner_vat': partner_vat,
-                'partner_name': partner_name,
-                'date_invoice': date_invoice,
+                'partner_id': partner_id,
                     }, context=context)
         return None
 
@@ -381,6 +371,7 @@ class report_intrastat_product(osv.osv):
         # THEN, the fields which vary from a line to the next
         line = 0
         for pline in intrastat.intrastat_line_ids:
+            print "parent_type =", pline.parent_type, type(pline.parent_type)
             line += 1 #increment line number
             item = etree.SubElement(declaration, 'Item')
             item_number = etree.SubElement(item, 'itemNumber')
@@ -391,12 +382,12 @@ class report_intrastat_product(osv.osv):
                 cn8_code = etree.SubElement(cn8, 'CN8Code')
                 try: cn8_code.text = pline.intrastat_code_8
                 except: raise osv.except_osv(_('Error :'), _('Missing Intrastat code on line %d.' %line))
-                if pline.intrastat_uom:
-                    if pline.intrastat_uom != pline.invoice_uom:
+                if pline.intrastat_uom_id:
+                    if pline.intrastat_uom_id != pline.invoice_uom_id:
                         raise osv.except_osv(_('Error :'), _("On line %d, the unit of measure on invoice and intrastat code are different. We don't handle this scenario for the moment."%i))
                     else:
                         su_code = etree.SubElement(cn8, 'SUCode')
-                        try: su_code.text = str(pline.intrastat_uom)
+                        try: su_code.text = pline.intrastat_uom_id.intrastat_label
                         except: raise osv.except_osv(_('Error :'), _('Missing Intrastat UoM on line %d.' %line))
                         destination_country = etree.SubElement(item, 'MSConsDestCode')
                         country_origin = etree.SubElement(item, 'countryOfOriginCode')
@@ -422,9 +413,11 @@ class report_intrastat_product(osv.osv):
             try:
                 invoiced_amount.text = str(pline.amount_company_currency)
             except: raise osv.except_osv(_('Error :'), _('Missing fiscal value on line %d.' %line))
-            partner_id = etree.SubElement(item, 'partnerId')
-            try: partner_id.text = pline.partner_vat.replace(' ', '')
-            except: raise osv.except_osv(_('Error :'), _('Missing VAT number for partner "%s".' %pline.partner_name))
+            # Partner VAT is only declared for export
+            if intrastat.type == 'export':
+                partner_id = etree.SubElement(item, 'partnerId')
+                try: partner_id.text = pline.partner_vat.replace(' ', '')
+                except: raise osv.except_osv(_('Error :'), _('Missing VAT number for partner "%s".' %pline.partner_name))
             statistical_procedure_code = etree.SubElement(item, 'statisticalProcedureCode')
             statistical_procedure_code.text = str(pline.procedure_code) # str(integrer) always have a value, so it should never crash here -> no try/except
 
@@ -437,11 +430,19 @@ class report_intrastat_product(osv.osv):
                 try: transaction_nature_b.text = str(pline.transaction_code)[1]
                 except: raise osv.except_osv(_('Error :'), _('Transaction code on line %d should have 2 digits.' %line))
                 mode_of_transport_code = etree.SubElement(item, 'modeOfTransportCode')
-                try: mode_of_transport_code.text = str(intrastat.company_id.default_intrastat_transport)
-                except: raise osv.except_osv(_('Error :'), _('Mode of transport is not set on line %d nor the default mode of transport for the company %s.' %(line, intrastat.company_id.name)))
+                if pline.transport:
+                    mode_of_transport_code.text = str(pline.transport)
+                elif intrastat.company_id.default_intrastat_transport:
+                    mode_of_transport_code.text = str(intrastat.company_id.default_intrastat_transport)
+                else:
+                    raise osv.except_osv(_('Error :'), _('Mode of transport is not set on line %d nor the default mode of transport for the company %s.' %(line, intrastat.company_id.name)))
                 region_code = etree.SubElement(item, 'regionCode')
-                try: region_code.text = intrastat.company_id.default_intrastat_department
-                except: raise osv.except_osv(_('Error :'), _('Department code is not set on line %d nor the default department code for the company %s.' % (line, intrastat.company_id.name)))
+                if pline.department:
+                    region_code.text = pline.department
+                elif intrastat.company_id.default_intrastat_department:
+                    region_code.text = intrastat.company_id.default_intrastat_department
+                else:
+                    raise osv.except_osv(_('Error :'), _('Department code is not set on line %d nor the default department code for the company %s.' % (line, intrastat.company_id.name)))
 
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         # We now validate the XML file against the official XML Schema Definition
@@ -457,14 +458,14 @@ report_intrastat_product()
 class report_intrastat_product_line(osv.osv):
     _name = "report.intrastat.product.line"
     _description = "Lines of intrastat product declaration (DEB)"
-    _order = 'invoice_number'
+    _order = 'invoice_id'
     _columns = {
         'parent_id': fields.many2one('report.intrastat.product', 'Intrastat product ref', ondelete='cascade', select=True),
-        'name': fields.char('Invoice description', size=64, readonly=True),
+        'parent_type' : fields.related('parent_id', 'type', type='string', relation='report.intrastat.product', string='Declaration type', readonly=True),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice ref', readonly=True),
         'invoice_qty': fields.integer('Invoice quantity', readonly=True),
-        'invoice_uom': fields.char('Invoice UoM', size=12, readonly=True),
-        'intrastat_uom': fields.char('Intrastat UoM', size=12, readonly=True),
-        'invoice_number': fields.char('Invoice number', size=32, readonly=True),
+        'invoice_uom_id': fields.many2one('product.uom', 'Invoice UoM', readonly=True),
+        'intrastat_uom_id': fields.many2one('product.uom', 'Intrastat UoM', readonly=True),
         'partner_country': fields.char('Partner country', size=2, readonly=True),
         'intrastat_code_8': fields.char('Intrastat code', size=8, readonly=True),
         'weight': fields.integer('Weight', readonly=True),
@@ -486,8 +487,8 @@ class report_intrastat_product_line(osv.osv):
         'procedure_code': fields.integer('Procedure code', readonly=True),
         'transaction_code': fields.integer('Transaction code', readonly=True),
         'partner_vat': fields.char('Partner VAT', size=32, readonly=True),
-        'partner_name': fields.char('Partner name', size=128, readonly=True),
-        'date_invoice' : fields.date('Invoice date', readonly=True),
+        'partner_id': fields.many2one('res.partner', 'Partner name', readonly=True),
+        'date_invoice' : fields.related('invoice_id', 'date_invoice', type='date', relation='account.invoice', string='Invoice date', readonly=True),
     }
 
 report_intrastat_product_line()
