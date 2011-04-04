@@ -37,5 +37,15 @@ class account_invoice(osv.osv):
         'intrastat_department' : fields.char('Department', size=2),
             }
 
+    def _check_intrastat_department(self, cr, uid, ids):
+        dpt_list = []
+        for dpt_to_check in self.read(cr, uid, ids, ['intrastat_department']):
+            dpt_list.append(dpt_to_check['intrastat_department'])
+        return self.pool.get('res.company').real_department_check(dpt_list)
+
+    _constraints = [
+        (_check_intrastat_department, "Error msg is in raise", ['intrastat_department']),
+    ]
+
 account_invoice()
 
