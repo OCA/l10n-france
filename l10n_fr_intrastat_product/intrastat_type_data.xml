@@ -9,39 +9,36 @@
 <openerp>
 <data noupdate="1">
 
-<record id="l10n_fr_intrastat_base.regular_export" model="report.intrastat.type">
+<record id="regular_export" model="report.intrastat.type">
+    <field name="name">Regular customer invoice</field>
+    <field name="invoice_type">out_invoice</field>
     <field name="procedure_code">21</field>
     <field name="transaction_code">11</field>
 </record>
 
-<record id="repair_export" model="report.intrastat.type">
-    <field name="name">Repair export (DEB only)</field>
-    <field name="procedure_code">29</field>
-    <field name="transaction_code">64</field>
-    <field name="company_id" ref="base.main_company"/>
-    <field name="type">export</field>
-    <field eval="True" name="intrastat_only"/>
+<record id="out_refund" model="report.intrastat.type">
+    <field name="name">Full customer refund</field>
+    <field name="invoice_type">out_refund</field>
+    <field name="procedure_code">19</field>
+    <field name="transaction_code">21</field>
 </record>
 
-<record id="l10n_fr_intrastat_base.regular_import" model="report.intrastat.type">
+
+<record id="regular_import" model="report.intrastat.type">
+    <field name="name">Regular supplier invoice</field>
+    <field name="invoice_type">in_invoice</field>
     <field name="procedure_code">11</field>
     <field name="transaction_code">11</field>
 </record>
 
-<record id="repair_import" model="report.intrastat.type">
-    <field name="name">Repair import (DEB only)</field>
-    <field name="procedure_code">19</field>
-    <field name="transaction_code">63</field>
-    <field name="company_id" ref="base.main_company"/>
-    <field name="type">import</field>
-    <field eval="True" name="intrastat_only"/>
-</record>
-
-<record id="l10n_fr_intrastat_base.other" model="report.intrastat.type">
-    <field name="procedure_code">0</field>
-    <field name="transaction_code">0</field>
+<record id="in_refund" model="report.intrastat.type">
+    <field name="name">Full supplier refund</field>
+    <field name="invoice_type">in_refund</field>
+    <field name="procedure_code">29</field>
+    <field name="transaction_code">21</field>
 </record>
 
 
 </data>
 </openerp>
+
