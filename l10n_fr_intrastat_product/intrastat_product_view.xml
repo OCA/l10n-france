@@ -32,7 +32,7 @@
             <group colspan="4">
                 <field name="notes" colspan="4" nolabel="1" />
             </group>
-            <button icon="gtk-execute" name="generate_product_lines" string="Re-generate lines" type="object" states="draft" colspan="2" />
+            <button icon="gtk-execute" name="generate_product_lines" string="Re-generate lines from invoices" type="object" states="draft" colspan="2" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
             <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
             <group col="6" colspan="4">
@@ -150,7 +150,7 @@
 
 
 <!-- Intrastat product menu -->
-<menuitem id="fr_intrastat_product_menu" parent="l10n_fr_intrastat_base.menu_fr_intrastat_base_root" action="fr_intrastat_product_tree_action" />
+<menuitem id="fr_intrastat_product_menu" parent="intrastat_base.menu_intrastat_base_root" action="fr_intrastat_product_tree_action" />
 
 </data>
 </openerp>

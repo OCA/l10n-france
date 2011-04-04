@@ -2,40 +2,54 @@
 
 <!--
     Copyright (C) 2010-2011 Akretion (http://www.akretion.com/)
-    @author Alexis de Lattre <alexis.delattre@akretion.com>
     The licence is in the file __terp__.py
 -->
 
 <openerp>
 <data>
 
-<!-- Add codes to form view -->
-<record id="fr_intrastat_product_intrastat_type_form" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.intrastat.type.form</field>
+<!-- Intrastat Type - Tree view -->
+<record id="fr_intrastat_product_report_intrastat_type_tree" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.report.intrastat.type.tree</field>
     <field name="model">report.intrastat.type</field>
-    <field name="inherit_id" ref="l10n_fr_intrastat_base.fr_intrastat_base_report_intrastat_type_form" />
-    <field name="type">form</field>
+    <field name="type">tree</field>
     <field name="arch" type="xml">
-        <field name="active" position="after">
+        <tree string="Intrastat Type">
+            <field name="name" />
+            <field name="invoice_type" />
             <field name="procedure_code" />
             <field name="transaction_code" />
-        </field>
+        </tree>
     </field>
 </record>
 
-<!-- Add codes to tree view -->
-<record id="fr_intrastat_product_intrastat_type_tree" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.intrastat.type.tree</field>
+<!-- Intrastat Type - Form view -->
+<record id="fr_intrastat_product_report_intrastat_type_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.report.intrastat.type.form</field>
     <field name="model">report.intrastat.type</field>
-    <field name="inherit_id" ref="l10n_fr_intrastat_base.fr_intrastat_base_report_intrastat_type_tree" />
-    <field name="type">tree</field>
+    <field name="type">form</field>
     <field name="arch" type="xml">
-        <field name="name" position="after">
-            <field name="procedure_code" />
-            <field name="transaction_code" />
-        </field>
+        <form string="Intrastat Type">
+            <field name="name" select="1" />
+            <field name="active" select="2" />
+            <field name="invoice_type" select="1" />
+            <field name="procedure_code" select="2" />
+            <field name="transaction_code" select="2" />
+        </form>
     </field>
 </record>
+
+<!-- Intrastat type - Action for Configuration -->
+<record id="fr_intrastat_product_report_intrastat_type_action" model="ir.actions.act_window">
+    <field name="name">Intrastat types</field>
+    <field name="res_model">report.intrastat.type</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<!-- Menu entry for Intrastat type -->
+<menuitem id="menu_fr_intrastat_product_report_intrastat_type" action="fr_intrastat_product_report_intrastat_type_action" parent="account.menu_finance_configuration" />
+
 
 </data>
 </openerp>
