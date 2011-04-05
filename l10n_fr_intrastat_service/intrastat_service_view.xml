@@ -46,7 +46,7 @@
     <field name="model">report.intrastat.service</field>
     <field name="type">tree</field>
     <field name="arch" type="xml">
-        <tree string="Intrastat Service">
+        <tree string="Intrastat Service" colors="blue:state=='draft'">
             <field name="start_date" />
             <field name="end_date" />
             <field name="num_lines" />
