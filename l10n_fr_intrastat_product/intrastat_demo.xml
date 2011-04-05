@@ -20,21 +20,21 @@
 <record id="84715000" model="report.intrastat.code">
     <field name="name">84715000</field>
     <field name="description">Automatic data-processing machines (computers)</field>
-    <field name="code8">84715000</field>
+    <field name="intrastat_code">84715000</field>
     <field name="intrastat_uom_id" ref="product.product_uom_unit"/>
 </record>
 
 <record id="84717050" model="report.intrastat.code">
     <field name="name">84717050</field>
     <field name="description">Storage units</field>
-    <field name="code8">84717050</field>
+    <field name="intrastat_code">84717050</field>
     <field name="intrastat_uom_id" ref="product.product_uom_unit"/>
 </record>
 
 <record id="85340090" model="report.intrastat.code">
     <field name="name">85340090</field>
     <field name="description">Printed circuits</field>
-    <field name="code8">85340090</field>
+    <field name="intrastat_code">85340090</field>
 </record>
 
 <record id="product.product_uom_unit" model="product.uom">

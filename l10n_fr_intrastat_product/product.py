@@ -29,20 +29,20 @@ class report_intrastat_code(osv.osv):
     _description = "Intrastat code"
     _order = "name"
     _columns = {
-        'name': fields.char('Intrastat code', size=16, required=True, help="Full lenght H.S. code"),
+        'name': fields.char('H.S. code', size=16, required=True, help="Full lenght H.S. code"),
         'description': fields.char('Description', size=128, help='Short text description of the H.S. category'),
-        'code8': fields.char('Intrastat code 8 digits', size=8, required=True, help="8 digits long H.S. code. Used for the DEB in France (called 'Nomenclature combinée NC8')"),
+        'intrastat_code': fields.char('Intrastat code for DEB', size=9, required=True, help="H.S. code used for the DEB in France. Must be part of the 'Nomenclature combinée' (NC) with 8 digits with sometimes a 9th digit for the 'Nomenclature Générale des Produits' (NGP)."),
         'intrastat_uom_id': fields.many2one('product.uom', 'UoM for intrastat product report', help="Select the unit of measure if one is required for this particular intrastat code. If no particular unit of measure is required, leave empty and the Intrastat product report will contain the weight."),
     }
 
-    def _8digits(self, cr, uid, ids):
-        for code8_to_check in self.read(cr, uid, ids, ['code8']):
-            if code8_to_check['code8']:
-                if not code8_to_check['code8'].isdigit() or len(code8_to_check['code8']) != 8:
+    def _intrastat_code(self, cr, uid, ids):
+        for intrastat_code_to_check in self.read(cr, uid, ids, ['intrastat_code']):
+            if intrastat_code_to_check['intrastat_code']:
+                if not intrastat_code_to_check['intrastat_code'].isdigit() or len(intrastat_code_to_check['intrastat_code']) not in (8, 9):
                     return False
         return True
 
-    def _digits(self, cr, uid, ids):
+    def _hs_code(self, cr, uid, ids):
         for code_to_check in self.read(cr, uid, ids, ['name']):
             if code_to_check['name']:
                 if not code_to_check['name'].isdigit():
@@ -50,8 +50,8 @@ class report_intrastat_code(osv.osv):
         return True
 
     _constraints = [
-        (_8digits, "'Intrastat code 8 digits' should have exactly 8 digits !", ['code8']),
-        (_digits, "'Intrastat code' should only contain digits.", ['name']),
+        (_intrastat_code, "The 'Intrastat code for DEB' should have exactly 8 or 9 digits.", ['intrastat_code']),
+        (_hs_code, "'Intrastat code' should only contain digits.", ['name']),
          ]
 
 report_intrastat_code()
