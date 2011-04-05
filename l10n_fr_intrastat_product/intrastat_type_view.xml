@@ -18,6 +18,7 @@
             <field name="name" />
             <field name="invoice_type" />
             <field name="procedure_code" />
+            <field name="is_fiscal_only" />
             <field name="transaction_code" />
         </tree>
     </field>
@@ -34,7 +35,8 @@
             <field name="active" select="2" />
             <field name="invoice_type" select="1" />
             <field name="procedure_code" select="2" />
-            <field name="transaction_code" select="2" />
+            <field name="is_fiscal_only" select="2" on_change="is_fiscal_only_on_change(is_fiscal_only)"/>
+            <field name="transaction_code" select="2" attrs="{'readonly':[('is_fiscal_only','=',True)]}"/>
         </form>
     </field>
 </record>
