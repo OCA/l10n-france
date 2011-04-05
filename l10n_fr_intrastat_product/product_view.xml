@@ -65,7 +65,7 @@
     <field name="arch" type="xml">
         <tree string="Intrastat code">
             <field name="name" />
-            <field name="code8" />
+            <field name="intrastat_code" />
             <field name="description" />
             <field name="intrastat_uom_id" />
         </tree>
@@ -81,7 +81,7 @@
     <field name="arch" type="xml">
         <form string="Intrastat code">
             <field name="name" select="1" />
-            <field name="code8" select="2" />
+            <field name="intrastat_code" select="2" />
             <field name="description" select="1" />
             <field name="intrastat_uom_id" select="2" />
         </form>
