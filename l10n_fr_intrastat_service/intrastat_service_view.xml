@@ -65,12 +65,12 @@
     <field name="arch" type="xml">
         <form string="Intrastat service lines">
             <field name="partner_vat" />
-            <field name="amount_invoice_currency" />
-            <field name="invoice_currency_id" />
             <field name="amount_company_currency" />
             <field name="company_currency_id" />
             <field name="partner_id" />
             <field name="invoice_id" />
+            <field name="amount_invoice_currency" />
+            <field name="invoice_currency_id" />
             <field name="date_invoice" />
         </form>
     </field>
@@ -86,10 +86,10 @@
             <field name="partner_vat" />
             <field name="amount_company_currency" string="Amount in CC" />
             <field name="company_currency_id" string="Comp. Cur." />
-            <field name="amount_invoice_currency" string="Amount in IC" />
-            <field name="invoice_currency_id" string="Inv. Cur." />
             <field name="partner_id" />
             <field name="invoice_id" />
+            <field name="amount_invoice_currency" string="Amount in IC" />
+            <field name="invoice_currency_id" string="Inv. Cur." />
             <field name="date_invoice" />
         </tree>
     </field>
