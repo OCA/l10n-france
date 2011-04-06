@@ -71,28 +71,30 @@
     <field name="type">form</field>
     <field name="arch" type="xml">
         <form string="Intrastat product lines">
-            <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" />
-            <field name="intrastat_code" />
-            <field name="partner_country_id" domain="[('intrastat', '=', True)]"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
+            <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent_id)" />
+            <field name="procedure_code" />
+            <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+            <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
+            <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
             <field name="amount_company_currency" />
             <field name="company_currency_id" />
-            <field name="intrastat_type_id" on_change="intrastat_type_on_change(intrastat_type_id)" />
-            <field name="procedure_code" />
-            <field name="weight" />
-            <field name="quantity" />
-            <field name="intrastat_uom_id" />
-            <field name="transaction_code" />
-            <field name="product_country_origin_id" />
-            <field name="transport" />
-            <field name="department" />
-            <field name="partner_vat" />
+            <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+            <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
+            <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+            <field name="transaction_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+            <field name="product_country_origin_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+            <field name="transport" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+            <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
             <field name="partner_id" on_change="partner_on_change(partner_id)"/>
+            <field name="partner_vat" />
             <field name="invoice_id" />
             <field name="amount_invoice_currency" />
             <field name="invoice_currency_id" />
-            <field name="invoice_uom_id" />
+            <field name="invoice_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
             <field name="date_invoice" />
             <field name="parent_type" invisible="1"  />
+            <field name="parent_id" invisible="1"  />
+            <field name="is_fiscal_only" invisible="1"  />
         </form>
     </field>
 </record>
