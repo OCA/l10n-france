@@ -52,8 +52,14 @@ class report_intrastat_product(osv.osv):
         'company_id': fields.many2one('res.company', 'Company', required=True, states={'done':[('readonly',True)]}, help="Related company."),
         'start_date': fields.date('Start date', required=True, states={'done':[('readonly',True)]}, help="Start date of the declaration. Must be the first day of a month."),
         'end_date': fields.function(_compute_end_date, method=True, type='date', string='End date', store=True, help="End date for the declaration. Must be the last day of the month of the start date."),
-        'type': fields.selection([('import', 'Import'), ('export', 'Export')], 'Type', required=True, states={'done':[('readonly',True)]}, help="Select the type of DEB."),
-        'obligation_level' : fields.selection([('detailed', 'Detailed'), ('simplified', 'Simplified')], 'Obligation level', required=True, states={'done':[('readonly',True)]}, help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for Import."),
+        'type': fields.selection([
+            ('import', 'Import'),
+            ('export', 'Export')
+            ], 'Type', required=True, states={'done':[('readonly',True)]}, help="Select the type of DEB."),
+        'obligation_level' : fields.selection([
+            ('detailed', 'Detailed'),
+            ('simplified', 'Simplified')
+            ], 'Obligation level', required=True, states={'done':[('readonly',True)]}, help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for Import."),
         'intrastat_line_ids': fields.one2many('report.intrastat.product.line', 'parent_id', 'Report intrastat product lines', states={'done':[('readonly',True)]}),
         'num_lines': fields.function(_compute_numbers, method=True, type='integer', multi='numbers', string='Number of lines', store={
             'report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
@@ -495,7 +501,8 @@ class report_intrastat_product_line(osv.osv):
             (9, 'Propulsion propre')], 'Type of transport', states={'done':[('readonly',True)]}),
         'department' : fields.char('Department', size=2, states={'done':[('readonly',True)]}),
         'intrastat_type_id' : fields.many2one('report.intrastat.type', 'Intrastat type', states={'done':[('readonly',True)]}),
-        'is_fiscal_only' : fields.related('intrastat_type_id', 'is_fiscal_only', type="boolean", relation='report.intrastat.type', string='Intrastat type', readonly=True),
+# Is fiscal_only is not fields.related because, if obligation_level = simplified, is_fiscal_only is always true
+        'is_fiscal_only' : fields.boolean('Intrastat type'),
         'procedure_code': fields.char('Procedure code', size=2, required=True, states={'done':[('readonly',True)]}),
         'transaction_code': fields.char('Transaction code', size=2, states={'done':[('readonly',True)]}),
         'partner_vat': fields.char('Partner VAT', size=32, states={'done':[('readonly',True)]}),
@@ -539,16 +546,23 @@ class report_intrastat_product_line(osv.osv):
             result['value'].update({'intrastat_code': intrastat_code['intrastat_code']})
         return result
 
-    def intrastat_type_on_change(self, cr, uid, ids, intrastat_type_id=False, parent_id=False):
+    def intrastat_type_on_change(self, cr, uid, ids, intrastat_type_id=False, type=False, obligation_level=False):
         result = {}
         result['value'] = {}
-        print "parent_id=", parent_id
-        # Parent_id : tjs False, même après -> solution : tt mettre dans la même vue ??
+        print "parent.type =", type
+        print "parent.obligation_level =", obligation_level
+        if type:
+            result['value'].update({'parent_type': type})
+        if obligation_level=='simplified':
+            result['value'].update({'is_fiscal_only': True})
         if intrastat_type_id:
             intrastat_type = self.pool.get('report.intrastat.type').read(cr, uid, intrastat_type_id, ['procedure_code', 'transaction_code', 'is_fiscal_only'])
-            result['value'].update({'procedure_code': intrastat_type['procedure_code'], 'transaction_code': intrastat_type['transaction_code'], 'is_fiscal_only': intrastat_type['is_fiscal_only']})
-            if intrastat_type['is_fiscal_only']:
-                result['value'].update({
+            result['value'].update({'procedure_code': intrastat_type['procedure_code'], 'transaction_code': intrastat_type['transaction_code']})
+            if obligation_level=='detailed':
+                result['value'].update({'is_fiscal_only': intrastat_type['is_fiscal_only']})
+
+        if result['value'].get('is_fiscal_only', False):
+            result['value'].update({
                 'quantity': False,
                 'invoice_uom_id': False,
                 'intrastat_uom_id': False,
@@ -559,7 +573,7 @@ class report_intrastat_product_line(osv.osv):
                 'product_country_origin_id': False,
                 'transport': False,
                 'department': False
-                })
+            })
         print "intrastat_type_on_change res=", result
         return result
 
