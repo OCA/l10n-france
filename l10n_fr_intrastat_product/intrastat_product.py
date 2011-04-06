@@ -66,7 +66,7 @@ class report_intrastat_product(osv.osv):
             ('draft','Draft'),
             ('done','Done'),
         ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
-        'date_done' : fields.date('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
+        'date_done' : fields.datetime('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
         'notes' : fields.text('Notes', help="You can add some comments here if you want."),
     }
 
@@ -300,7 +300,7 @@ class report_intrastat_product(osv.osv):
 
     def done(self, cr, uid, ids, context=None):
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in done')
-        self.write(cr, uid, ids[0], {'state': 'done', 'date_done': datetime.strftime(datetime.today(), '%Y-%m-%d')}, context=context)
+        self.write(cr, uid, ids[0], {'state': 'done', 'date_done': datetime.strftime(datetime.today(), '%Y-%m-%d %H:%M:%S')}, context=context)
         return None
 
     def back2draft(self, cr, uid, ids, context=None):
