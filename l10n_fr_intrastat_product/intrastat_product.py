@@ -495,6 +495,7 @@ class report_intrastat_product_line(osv.osv):
             (9, 'Propulsion propre')], 'Type of transport', states={'done':[('readonly',True)]}),
         'department' : fields.char('Department', size=2, states={'done':[('readonly',True)]}),
         'intrastat_type_id' : fields.many2one('report.intrastat.type', 'Intrastat type', states={'done':[('readonly',True)]}),
+        'is_fiscal_only' : fields.related('intrastat_type_id', 'is_fiscal_only', type="boolean", relation='report.intrastat.type', string='Intrastat type', readonly=True),
         'procedure_code': fields.char('Procedure code', size=2, required=True, states={'done':[('readonly',True)]}),
         'transaction_code': fields.char('Transaction code', size=2, states={'done':[('readonly',True)]}),
         'partner_vat': fields.char('Partner VAT', size=32, states={'done':[('readonly',True)]}),
@@ -538,12 +539,14 @@ class report_intrastat_product_line(osv.osv):
             result['value'].update({'intrastat_code': intrastat_code['intrastat_code']})
         return result
 
-    def intrastat_type_on_change(self, cr, uid, ids, intrastat_type_id=False):
+    def intrastat_type_on_change(self, cr, uid, ids, intrastat_type_id=False, parent_id=False):
         result = {}
         result['value'] = {}
+        print "parent_id=", parent_id
+        # Parent_id : tjs False, même après -> solution : tt mettre dans la même vue ??
         if intrastat_type_id:
             intrastat_type = self.pool.get('report.intrastat.type').read(cr, uid, intrastat_type_id, ['procedure_code', 'transaction_code', 'is_fiscal_only'])
-            result['value'].update({'procedure_code': intrastat_type['procedure_code'], 'transaction_code': intrastat_type['transaction_code']})
+            result['value'].update({'procedure_code': intrastat_type['procedure_code'], 'transaction_code': intrastat_type['transaction_code'], 'is_fiscal_only': intrastat_type['is_fiscal_only']})
             if intrastat_type['is_fiscal_only']:
                 result['value'].update({
                 'quantity': False,
@@ -557,7 +560,7 @@ class report_intrastat_product_line(osv.osv):
                 'transport': False,
                 'department': False
                 })
-
+        print "intrastat_type_on_change res=", result
         return result
 
 
