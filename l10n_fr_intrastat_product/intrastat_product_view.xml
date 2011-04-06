@@ -9,7 +9,7 @@
 <openerp>
 <data>
 
-<!-- Form view of DEB -->
+<!-- Form view of DEB, with integrated form+tree view of lines -->
 <record id="fr_intrastat_product_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.form</field>
     <field name="model">report.intrastat.product</field>
@@ -34,7 +34,57 @@
             </group>
             <button icon="gtk-execute" name="generate_product_lines" string="Re-generate lines from invoices" type="object" states="draft" colspan="2" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
-            <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
+            <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4">
+        <!-- START of form view for DEB lines -->
+                <form string="Intrastat product lines">
+                    <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent.type, parent.obligation_level)" />
+                    <field name="procedure_code" />
+                    <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                    <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
+                    <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
+                    <field name="amount_company_currency" />
+                    <field name="company_currency_id" />
+                    <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                    <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
+                    <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                    <field name="transaction_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                    <field name="product_country_origin_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" /> <!-- TODO : put readonly for exports -->
+                    <field name="transport" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                    <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                    <field name="partner_id" on_change="partner_on_change(partner_id)" attrs="{'readonly': [('parent_type', '=', 'import')]}" /> <!-- TODO : filter on UE partners ? -->
+                    <field name="partner_vat" attrs="{'readonly': [('parent_type', '=', 'import')], 'required': [('parent_type', '=', 'export')]}" />
+                    <field name="invoice_id" />
+                    <field name="amount_invoice_currency" />
+                    <field name="invoice_currency_id" />
+                    <field name="invoice_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
+                    <field name="date_invoice" />
+                    <field name="parent_type" invisible="1"  />
+                    <field name="parent_id" invisible="1"  />
+                    <field name="is_fiscal_only" invisible="1"  />
+                </form>
+                <tree string="Intrastat product lines">
+                    <field name="intrastat_code" string="H.S. code" />
+                    <field name="partner_country_code" string="Partner C."/>
+                    <field name="amount_company_currency" string="Value CC" />
+                    <field name="company_currency_id" string="Comp. Cur." />
+                    <field name="procedure_code" string="Procedure" />
+                    <field name="weight" />
+                    <field name="quantity" string="Qty" />
+                    <field name="intrastat_uom_id" string="Intra. UoM" />
+                    <field name="transaction_code" string="Transac." />
+                    <field name="transport" string="Transport" />
+                    <field name="department" string="Dpt" />
+                    <field name="product_country_origin_code" string="Product C/O" />
+                    <field name="parent_type" invisible="1" />
+                    <field name="partner_vat"/>
+                    <field name="partner_id" />
+                    <field name="invoice_id" />
+                    <field name="amount_invoice_currency" string="Value IC" />
+                    <field name="invoice_currency_id" string="Inv. Cur." />
+                    <field name="date_invoice" />
+                </tree>
+            </field>
+
             <group col="6" colspan="4">
                 <field name="state" select="2" />
                 <field name="date_done" select="2" />
@@ -65,6 +115,7 @@
 </record>
 
 <!-- Form view for product lines -->
+<!--
 <record id="fr_intrastat_product_line_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.line.form</field>
     <field name="model">report.intrastat.product.line</field>
@@ -75,7 +126,7 @@
             <field name="procedure_code" />
             <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
             <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-            <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
+            <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>  I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view --><!--
             <field name="amount_company_currency" />
             <field name="company_currency_id" />
             <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
@@ -98,8 +149,10 @@
         </form>
     </field>
 </record>
+-->
 
 <!-- Tree view for product lines -->
+<!--
 <record id="fr_intrastat_product_line_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.product.line.tree</field>
     <field name="model">report.intrastat.product.line</field>
@@ -128,7 +181,7 @@
         </tree>
     </field>
 </record>
-
+-->
 
 <!-- Action related -->
 <record id="fr_intrastat_product_tree_action" model="ir.actions.act_window">
