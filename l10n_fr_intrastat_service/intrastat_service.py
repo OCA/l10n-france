@@ -33,17 +33,14 @@ class report_intrastat_service(osv.osv):
     _description = "Intrastat report for services"
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
-        print "SERVICE _compute numbers start ids=", ids
         return self.pool.get('report.intrastat.common')._compute_numbers(cr, uid, ids, self, context=context)
 
 
     def _compute_end_date(self, cr, uid, ids, name, arg, context=None):
-        print "SERVICE _compute_end_date START ids=", ids
         return self.pool.get('report.intrastat.common')._compute_end_date(cr, uid, ids, self, context=context)
 
 
     def _get_intrastat_from_service_line(self, cr, uid, ids, context=None):
-        print "invalidation function CALLED !"
         return self.pool.get('report.intrastat.service').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
@@ -161,8 +158,6 @@ class report_intrastat_service(osv.osv):
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
         for id, company_id, invoice_id, invoice_currency_id, partner_vat, partner_id, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
-            print "amount_invoice_currency =", amount_invoice_currency
-            print "amount_company_currency =", amount_company_currency
             # Store the service lines
             line_obj.create(cr, uid, {
                 'parent_id': ids[0],
