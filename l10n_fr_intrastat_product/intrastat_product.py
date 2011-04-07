@@ -37,15 +37,12 @@ class report_intrastat_product(osv.osv):
 
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
-        print "PRODUCT _compute numbers start ids=", ids
         return self.pool.get('report.intrastat.common')._compute_numbers(cr, uid, ids, self, context=context)
 
     def _compute_end_date(self, cr, uid, ids, name, arg, context=None):
-        print "PRODUCT _compute_end_date START ids=", ids
         return self.pool.get('report.intrastat.common')._compute_end_date(cr, uid, ids, self, context=context)
 
     def _get_intrastat_from_product_line(self, cr, uid, ids, context=None):
-        print "invalidation function CALLED"
         return self.pool.get('report.intrastat.product').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
@@ -222,7 +219,6 @@ class report_intrastat_product(osv.osv):
             invoice_type = ('in_invoice', 'POUET') # I need 'POUET' to make it a tuple
         if intrastat.type == 'export':
             invoice_type = ('out_invoice', 'out_refund')
-        print "invoice_type=", invoice_type
 
         cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date, invoice_type))
         res_sql = cr.fetchall()

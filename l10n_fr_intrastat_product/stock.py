@@ -78,14 +78,12 @@ class stock_picking(osv.osv):
                     location_to_search = picking.move_lines[0].location_id
                 if picking.type == 'in':
                     location_to_search = picking.move_lines[0].location_dest_id
-            print "location_to_search =", location_to_search
             warehouse_obj = self.pool.get('stock.warehouse')
             warehouse_all_ids = warehouse_obj.search(cr, uid, [], context=context)
             dpt_to_copy = False
             for warehouse in warehouse_obj.browse(cr, uid, warehouse_all_ids, context=context):
                 if (picking.type == 'out' and location_to_search == warehouse.lot_stock_id) or (picking.type == 'in' and location_to_search == warehouse.lot_input_id):
                     dpt_to_copy = warehouse.intrastat_department
-                    print "dpt_to_copy=", dpt_to_copy
                     break
             if dpt_to_copy:
                 invoice_obj.write(cr, uid, res[picking_id], {
