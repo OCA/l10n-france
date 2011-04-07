@@ -231,6 +231,8 @@ class report_intrastat_product(osv.osv):
             print "weight =", weight
             print "transport =", transport
             print "invoice num =", invoice_number
+            if not weight:
+                raise osv.except_osv(_('Error :'), _('Missing weight on one of the products of invoice %s with HS code %s.'%(invoice_number, intrastat_code)))
             # TODO : apply check only when in "detailed" obligation level ?
             quantity_to_write = str(int(round(invoice_qty, 0)))
             invoice_uom_id_to_write = invoice_uom_id
@@ -275,9 +277,7 @@ class report_intrastat_product(osv.osv):
 
             if intrastat_uom_id and intrastat_uom_id != invoice_uom_id:
                 raise osv.except_osv(_('Error :'), _("On invoice %s, on one of the products with HS code %s, the unit of measure on invoice and on the intrastat code are different. We don't handle this scenario for the moment."%(invoice_number, intrastat_code)))
-            if not weight:
-                raise osv.except_osv(_('Error :'), _('Missing weight on one of the products of invoice %s with HS code %s.'%(invoice_number, intrastat_code)))
-            # TODO : ça crashe quand les valeurs "integer" valent false -> à tester !
+           # TODO : ça crashe quand les valeurs "integer" valent false -> à tester !
             # Idem pr intrastat_uom et invoice_uom ???
             line_obj.create(cr, uid, {
                 'parent_id': ids[0],
