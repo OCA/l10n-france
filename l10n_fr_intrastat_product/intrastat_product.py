@@ -346,11 +346,12 @@ class report_intrastat_product(osv.osv):
                     continue # TODO : info/warning pop-up ??
                 else:
                     quantity_to_write = str(int(round(move_line.product_qty, 0)))
-
-                if not move_line.product_id.standard_price: # = "valeur marchande" ???
-                    raise osv.except_osv(_('Error :'), 'Product %s, used on picking %s, has no cost price !'%(move_line.product_id.name, picking.name))
-                else:
-                    amount_company_currency_to_write = int(round(move_line.product_id.standard_price * move_line.product_qty, 0))
+                #TODO : we can't just read cost price, we have to call the dedicated function
+# because other it doesn't take into account the variants
+#                if not move_line.product_id.standard_price: # = "valeur marchande" ???
+#                    raise osv.except_osv(_('Error :'), 'Product %s, used on picking %s, has no cost price !'%(move_line.product_id.name, picking.name))
+#                else:
+                amount_company_currency_to_write = int(round(move_line.product_id.standard_price * move_line.product_qty, 0))
 
                 # round(False) = 0.0 -> so we can't use try/except
                 if not move_line.product_id.weight_net:
