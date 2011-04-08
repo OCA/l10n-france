@@ -13,7 +13,7 @@
 <record id="fr_intrastat_product_normal_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.normal.form</field>
     <field name="model">product.product</field>
-    <field name="inherit_id" ref="account.product_normal_form_view" />
+    <field name="inherit_id" ref="intrastat_base.intrastat_base_product_normal_form" />
     <field name="arch" type="xml">
         <data>
             <field name="exclude_from_intrastat" position="before">
@@ -30,7 +30,7 @@
 <record id="fr_intrastat_product_template_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.template.form</field>
     <field name="model">product.template</field>
-    <field name="inherit_id" ref="account.product_template_form_view"/>
+    <field name="inherit_id" ref="intrastat_base.intrastat_base_product_template_form"/>
     <field name="arch" type="xml">
         <data>
             <field name="exclude_from_intrastat" position="before">
