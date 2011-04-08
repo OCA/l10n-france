@@ -32,7 +32,8 @@
             <group colspan="4">
                 <field name="notes" colspan="4" nolabel="1" />
             </group>
-            <button icon="gtk-execute" name="generate_product_lines" string="Re-generate lines from invoices" type="object" states="draft" colspan="2" />
+            <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Re-generate lines from invoices" type="object" states="draft" colspan="1" />
+            <button icon="gtk-execute" name="generate_product_lines_from_picking" string="Re-generate lines from picking (BETA)" type="object" states="draft" colspan="1" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
             <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4">
         <!-- START of form view for DEB lines -->
@@ -58,6 +59,7 @@
                     <field name="invoice_currency_id" />
                     <field name="invoice_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
                     <field name="date_invoice" />
+                    <field name="picking_id" />
                     <field name="parent_type" invisible="1"  />
                     <field name="parent_id" invisible="1"  />
                     <field name="is_fiscal_only" invisible="1"  />
@@ -79,9 +81,7 @@
                     <field name="partner_vat"/>
                     <field name="partner_id" />
                     <field name="invoice_id" />
-                    <field name="amount_invoice_currency" string="Value IC" />
-                    <field name="invoice_currency_id" string="Inv. Cur." />
-                    <field name="date_invoice" />
+                    <field name="picking_id" />
                 </tree>
             </field>
 
