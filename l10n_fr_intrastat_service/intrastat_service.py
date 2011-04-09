@@ -97,7 +97,6 @@ class report_intrastat_service(osv.osv):
             line_obj.unlink(cr, uid, line_remove['intrastat_line_ids'], context=context)
         sql = '''
         select
-            min(inv_line.id) as id,
             company.id,
             inv.id as invoice_id,
             inv.currency_id as invoice_currency_id,
@@ -157,7 +156,7 @@ class report_intrastat_service(osv.osv):
         cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
-        for id, company_id, invoice_id, invoice_currency_id, partner_vat, partner_id, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
+        for company_id, invoice_id, invoice_currency_id, partner_vat, partner_id, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
             # Store the service lines
             line_obj.create(cr, uid, {
                 'parent_id': ids[0],
