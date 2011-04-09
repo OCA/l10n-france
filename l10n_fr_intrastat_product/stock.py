@@ -44,6 +44,30 @@ stock_warehouse()
 
 class stock_picking(osv.osv):
     _inherit = "stock.picking"
+
+    def _compute_department(self, cr, uid, ids, name, arg, context=None):
+        print "_compute_department ids=", ids
+        result = {}
+        warehouse_obj = self.pool.get('stock.warehouse')
+        warehouse_all_ids = warehouse_obj.search(cr, uid, [], context=context)
+        for picking in self.browse(cr, uid, ids, context=context):
+            location_to_search = False
+            result[picking.id] = False
+            if picking.move_lines:
+                if picking.type == 'out':
+                    location_to_search = picking.move_lines[0].location_id
+                elif picking.type == 'in':
+                    location_to_search = picking.move_lines[0].location_dest_id
+                else:
+                    break
+            for warehouse in warehouse_obj.browse(cr, uid, warehouse_all_ids, context=context):
+                if (picking.type == 'out' and location_to_search == warehouse.lot_stock_id) or (picking.type == 'in' and location_to_search == warehouse.lot_input_id):
+                    result[picking.id] = warehouse.intrastat_department
+                    break
+        print "_compute_department result=", result
+        return result
+
+
     _columns = {
         'intrastat_transport' : fields.selection([(1, 'Transport maritime'), \
             (2, 'Transport par chemin de fer'), \
@@ -53,7 +77,8 @@ class stock_picking(osv.osv):
             (7, 'Installations de transport fixes'), \
             (8, 'Transport par navigation intérieure'), \
             (9, 'Propulsion propre')], 'Type of transport', \
-            help="Select the type of transport. This information is required for the product intrastat report (DEB).")
+            help="Select the type of transport. This information is required for the product intrastat report (DEB)."),
+        'intrastat_department': fields.function(_compute_department, method=True, type='char', string='Intrastat department', help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
             }
 
 # Do we put a default value, taken from res_company ?
@@ -66,30 +91,14 @@ class stock_picking(osv.osv):
             journal_id=journal_id, group=group, type=type, context=context)
         invoice_obj = self.pool.get('account.invoice')
         for picking_id in res:
-            picking = self.browse(cr, uid, picking_id, context=context)
-            if picking.intrastat_transport:
-                invoice_obj.write(cr, uid, res[picking_id], {
-                    'intrastat_transport': picking.intrastat_transport,
-                 }, context=context)
-
-            location_to_search = False
-            if picking.move_lines:
-                if picking.type == 'out':
-                    location_to_search = picking.move_lines[0].location_id
-                if picking.type == 'in':
-                    location_to_search = picking.move_lines[0].location_dest_id
-            warehouse_obj = self.pool.get('stock.warehouse')
-            warehouse_all_ids = warehouse_obj.search(cr, uid, [], context=context)
-            dpt_to_copy = False
-            for warehouse in warehouse_obj.browse(cr, uid, warehouse_all_ids, context=context):
-                if (picking.type == 'out' and location_to_search == warehouse.lot_stock_id) or (picking.type == 'in' and location_to_search == warehouse.lot_input_id):
-                    dpt_to_copy = warehouse.intrastat_department
-                    break
-            if dpt_to_copy:
-                invoice_obj.write(cr, uid, res[picking_id], {
-                    'intrastat_department': dpt_to_copy,
-                }, context=context)
-
+            picking = self.read(cr, uid, picking_id, ['intrastat_transport', 'intrastat_department'], context=context)
+            data_to_write = {}
+            if picking['intrastat_transport']:
+                data_to_write['intrastat_transport'] = picking['intrastat_transport']
+            if picking['intrastat_department']:
+                data_to_write['intrastat_department'] = picking['intrastat_department']
+            if data_to_write:
+                invoice_obj.write(cr, uid, res[picking_id], data_to_write, context=context)
         return res
 
 stock_picking()
