@@ -303,26 +303,27 @@ class report_intrastat_product(osv.osv):
         return None
 
     def generate_product_lines_from_picking(self, cr, uid, ids, context=None):
-        # used to have the lines for repairs
+        '''Function used to have the DEB lines corresponding to repairs'''
         print "generate_product_lines_from_picking ids=", ids
         intrastat = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, ids, intrastat, context=context)
         # not needed when type = export and oblig_level = simplified, cf p26 du BOD
         if intrastat.type == 'export' and intrastat.obligation_level == 'simplified':
-            raise osv.except_osv(_('Error :'), "You don't need to get lines from picking for an export DEB in Simplified obligation level")
+            raise osv.except_osv(_('Error :'), "You don't need to get lines from picking for an export DEB in 'Simplified' obligation level.")
 
         line_obj = self.pool.get('report.intrastat.product.line')
+        # Remove existing lines
         line_remove_ids = line_obj.search(cr, uid, [('parent_id', '=', ids[0]), ('picking_id', '!=', False)], context=context)
         print "line_remove", line_remove_ids
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-
-        if not user.company_id.statistical_pricelist_id:
-            raise osv.except_osv(_('Error :'), "You must select a 'Pricelist for statistical value' for the company %s."%(user.company_id.name))
-        elif user.company_id.statistical_pricelist_id.currency_id.code <> 'EUR':
-            raise osv.except_osv(_('Error :'), "The 'Pricelist for statistical value' that you selected (%s) for the company %s is in %s currency and should be in EUR."%(user.company_id.statistical_pricelist_id.name, user.company_id.name, user.company_id.statistical_pricelist_id.currency_id.code))
-
         if line_remove_ids:
             line_obj.unlink(cr, uid, line_remove_ids, context=context)
+
+        # Check pricelist for stat value
+        if not intrastat.company_id.statistical_pricelist_id:
+            raise osv.except_osv(_('Error :'), "You must select a 'Pricelist for statistical value' for the company %s."%(intrastat.company_id.name))
+        elif intrastat.company_id.statistical_pricelist_id.currency_id.code <> 'EUR':
+            raise osv.except_osv(_('Error :'), "The 'Pricelist for statistical value' that you selected (%s) for the company %s is in %s currency and should be in EUR."%(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, intrastat.company_id.statistical_pricelist_id.currency_id.code))
+
         print "New we start to generate new lines"
         pick_obj = self.pool.get('stock.picking')
         pick_type = False
@@ -330,7 +331,8 @@ class report_intrastat_product(osv.osv):
             pick_type = 'in'
         if intrastat.type == 'export':
             pick_type = 'out'
-        picking_ids = pick_obj.search(cr, uid, [('type', '=', pick_type), ('date_done', '<=', intrastat.end_date), ('date_done', '>=', intrastat.start_date), ('invoice_state', '=', 'none'), ('state', 'not in', ('draft', 'waiting', 'confirmed', 'assigned', 'cancel'))], context=context)  # state = dernière étape du workflow
+        # TODO : add criteria on company !!!
+        picking_ids = pick_obj.search(cr, uid, [('type', '=', pick_type), ('date_done', '<=', intrastat.end_date), ('date_done', '>=', intrastat.start_date), ('invoice_state', '=', 'none'), ('state', 'not in', ('draft', 'waiting', 'confirmed', 'assigned', 'cancel'))], context=context)
         print "picking_ids =", picking_ids
         for picking in pick_obj.browse(cr, uid, picking_ids, context=context):
             print "PICKING =", picking.name
@@ -338,8 +340,6 @@ class report_intrastat_product(osv.osv):
                 continue
             if not picking.address_id.country_id.intrastat:
                 continue
-            # TODO : regrouper si
-# - même intrastat_id, même pays d'origine, même uom
 
             if not picking.address_id.country_id:
                 raise osv.except_osv(_('Error :'), "Missing country on partner address '%s' used on picking %s !"%(picking.address_id.name, picking.name))
@@ -349,13 +349,15 @@ class report_intrastat_product(osv.osv):
 
             if not picking.intrastat_transport:
                 try: transport_to_write = intrastat.company_id.default_intrastat_transport
-                except: raise osv.except_osv(_('Error :'), _('Mode of transport is not set on invoice %s nor the default mode of transport for the company %s.' %(invoice_number, intrastat.company_id.name)))
+                except: raise osv.except_osv(_('Error :'), _('Mode of transport is not set on picking %s nor the default mode of transport for the company %s.' %(picking.name, intrastat.company_id.name)))
             else:
                 transport_to_write = picking.intrastat_transport
 
-            # TODO if not department:
-            try: department_to_write = user.company_id.default_intrastat_department
-            except: raise osv.except_osv(_('Error :'), _('Missing default department for the company %s.' %(user.company_id.name)))
+            if not picking.intrastat_department:
+                try: department_to_write = intrastat.company_id.default_intrastat_department
+                except: raise osv.except_osv(_('Error :'), _("The intrastat department hasn't been computed on picking %s and the default intrastat department is missing for the company %s." %(picking.name, intrastat.company_id.name)))
+            else:
+                department_to_write = picking.intrastat_department
 
             if not picking.address_id.partner_id:
                 raise osv.except_osv(_('Error :'), "Partner address '%s' used on picking %s is not linked to a partner !"%(move_line.address_id.name, picking.name))
@@ -383,9 +385,9 @@ class report_intrastat_product(osv.osv):
                     quantity_to_write = move_line.product_qty
 
                 # Compute the "valeur marchande"
-                unit_stat_price = self.pool.get('product.pricelist').price_get(cr, uid, [user.company_id.statistical_pricelist_id.id], move_line.product_id.id, 1.0)[user.company_id.statistical_pricelist_id.id]
+                unit_stat_price = self.pool.get('product.pricelist').price_get(cr, uid, [intrastat.company_id.statistical_pricelist_id.id], move_line.product_id.id, 1.0)[intrastat.company_id.statistical_pricelist_id.id]
                 if not unit_stat_price:
-                    raise osv.except_osv(_('Error :'), "The 'Pricelist for statistical value' that you selected () for the company %s."%(user.company_id.statistical_pricelist_id.name))
+                    raise osv.except_osv(_('Error :'), "The 'Pricelist for statistical value' that you selected () for the company %s."%(intrastat.company_id.statistical_pricelist_id.name))
                 else:
                     amount_company_currency_to_write = unit_stat_price * move_line.product_qty
                 print "amount_company_currency_to_write =", amount_company_currency_to_write
@@ -432,8 +434,6 @@ class report_intrastat_product(osv.osv):
                 if len(intrastat_type_id_29) <> 1:
                     raise osv.except_osv(_('Error :'), _('We should only have one intrastat type with procedure code = 29.'))
                 intrastat_type_id_to_write= intrastat_type_id_29[0]
-
-#                department_to_write = '93'
 
                 # Check if a line with the same parameters 
 # Parameters to check : H.S. code, UoM, intrastat_type_id, product_country_id
