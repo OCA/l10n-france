@@ -17,6 +17,10 @@
 <!--    <field name="default_intrastat_transport">3</field> TODO : make it work -->
 </record>
 
+<record id="stock.warehouse0" model="stock.warehouse">
+    <field name="intrastat_department">93</field>
+</record>
+
 <record id="84715000" model="report.intrastat.code">
     <field name="name">84715000</field>
     <field name="description">Automatic data-processing machines (computers)</field>
