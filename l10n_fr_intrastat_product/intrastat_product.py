@@ -127,7 +127,6 @@ class report_intrastat_product(osv.osv):
 # What about if we sell a product with 100% discount ?
         sql = '''
         SELECT
-            min(inv_line.id) as id,
             company.id,
             inv.id as invoice_id,
             inv.number as invoice_number,
@@ -223,7 +222,7 @@ class report_intrastat_product(osv.osv):
         cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date, invoice_type))
         res_sql = cr.fetchall()
         print "res_sql=", res_sql
-        for id, company_id, invoice_id, invoice_number, invoice_currency_id, intrastat_code, intrastat_code_id, partner_country_id, product_country_origin_id, amount_invoice_currency, amount_company_currency, weight_net, invoice_qty, source_uom_id, intrastat_uom_id, intrastat_type_id, procedure_code, transaction_code, is_fiscal_only, partner_vat, partner_id, transport, department in res_sql:
+        for company_id, invoice_id, invoice_number, invoice_currency_id, intrastat_code, intrastat_code_id, partner_country_id, product_country_origin_id, amount_invoice_currency, amount_company_currency, weight_net, invoice_qty, source_uom_id, intrastat_uom_id, intrastat_type_id, procedure_code, transaction_code, is_fiscal_only, partner_vat, partner_id, transport, department in res_sql:
             print "weight_net =", weight_net
             print "transport =", transport
             print "invoice num =", invoice_number
