@@ -22,6 +22,7 @@
                 <field name="export_obligation_level" />
                 <field name="default_intrastat_transport" />
                 <field name="default_intrastat_department" />
+                <field name="statistical_pricelist_id" domain="[('currency_id.code','=', 'EUR')]" />
             </page>
         </notebook>
     </field>
