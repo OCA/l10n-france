@@ -326,12 +326,15 @@ class report_intrastat_product(osv.osv):
         print "New we start to generate new lines"
         pick_obj = self.pool.get('stock.picking')
         pick_type = False
+        exclude_field = False
         if intrastat.type == 'import':
             pick_type = 'in'
+            exclude_field = 'purchase_id'
         if intrastat.type == 'export':
             pick_type = 'out'
+            exclude_field = 'sale_id'
         # TODO : add criteria on company !!!
-        picking_ids = pick_obj.search(cr, uid, [('type', '=', pick_type), ('date_done', '<=', intrastat.end_date), ('date_done', '>=', intrastat.start_date), ('invoice_state', '=', 'none'), ('state', 'not in', ('draft', 'waiting', 'confirmed', 'assigned', 'cancel'))], context=context)
+        picking_ids = pick_obj.search(cr, uid, [('type', '=', pick_type), ('date_done', '<=', intrastat.end_date), ('date_done', '>=', intrastat.start_date), ('invoice_state', '=', 'none'), (exclude_field, '=', False), ('state', 'not in', ('draft', 'waiting', 'confirmed', 'assigned', 'cancel'))], context=context)
         print "picking_ids =", picking_ids
         for picking in pick_obj.browse(cr, uid, picking_ids, context=context):
             print "PICKING =", picking.name
