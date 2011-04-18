@@ -3,6 +3,7 @@
 #
 #    Report intrastat base module for OpenERP
 #    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/) All Rights Reserved
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,22 +23,88 @@
 from osv import osv, fields
 from tools.translate import _
 
+# TODO : put transaction code as False when is_fiscal_only
+
+# If you modify the line below, please also update intrastat_type_view.xml
+# (form view of report.intrastat.type, field transaction_code
+fiscal_only_tuple = ('25', '26', '31')
+
 class report_intrastat_type(osv.osv):
     _name = "report.intrastat.type"
     _description = "Intrastat type"
     _order = "procedure_code, transaction_code"
+
+
+    def _compute_booleans(self, cr, uid, ids, name, arg, context=None):
+        print "enter _compute_booleans, ids=", ids
+        result = {}
+        for intr_type in self.read(cr, uid, ids, ['id', 'procedure_code'], context=context):
+            print "intr_type['id'] =", intr_type['id']
+            result[intr_type['id']] = {}
+            if intr_type['procedure_code'] in ('19', '29'):
+                result[intr_type['id']]['is_taxable'] = False
+            else:
+                result[intr_type['id']]['is_taxable'] = True
+            if intr_type['procedure_code'] in fiscal_only_tuple:
+                result[intr_type['id']]['is_fiscal_only'] = True
+            else:
+                result[intr_type['id']]['is_fiscal_only'] = False
+            if intr_type['procedure_code'] in ('11', '19', '29'):
+                result[intr_type['id']]['is_vat_required'] = False
+            else:
+                result[intr_type['id']]['is_vat_required'] = True
+            if intr_type['procedure_code'] in ('11', '19'):
+                result[intr_type['id']]['intrastat_product_type'] = 'import'
+            else:
+                result[intr_type['id']]['intrastat_product_type'] = 'export'
+        print "result =", result
+        return result
+
+
     _columns = {
         'name': fields.char('Name', size=64, help="Description of the Intrastat type."),
         'active' : fields.boolean('Active', help="The active field allows you to hide the Intrastat type without deleting it."),
-        'invoice_type' : fields.selection([
+        'object_type' : fields.selection([
             ('out_invoice', 'Customer Invoice'),
             ('in_invoice', 'Supplier Invoice'),
             ('out_refund', 'Customer Refund'),
+            ('out', 'Outgoing products'),
+            ('in', 'Incoming products'),
             ('none', 'None'),
-        ], 'Invoice type', select=True),
-        'procedure_code': fields.char('Procedure code', required=True, size=2, help="For the 'DEB' declaration to France's customs administration, you should enter the 'code régime' here."),
-        'transaction_code': fields.char('Transaction code', size=2, help="For the 'DEB' declaration to France's customs administration, you should enter the number 'nature de la transaction' here."),
-        'is_fiscal_only': fields.boolean('Is fiscal only ?', help="Only fiscal data should be provided for this procedure code."),
+        ], 'Possible on', select=True, required=True),
+        'procedure_code': fields.selection([
+            ('11', "11. Acquisitions intracomm. taxables en France"),
+            ('19', "19. Autres introductions"),
+            ('21', "21. Livraisons intracomm. exo. en France et taxables dans l'Etat d'arrivée"),
+            ('25', "25. Régularisation commerciale - minoration de valeur"),
+            ('26', "26. Régularisation commerciale - majoration de valeur"),
+            ('29', "29. Autres expéditions intracomm. : travail à façon, réparation..."),
+            ('31', "31. Refacturation dans le cadre d'une opération triangulaire")
+            ], 'Procedure code', required=True, help="For the 'DEB' declaration to France's customs administration, you should enter the 'code régime' here."),
+        'transaction_code': fields.selection([
+            (False, '-'),
+            ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'), ('19', '19'),
+            ('21', '21'), ('22', '22'), ('23', '23'), ('29', '29'),
+            ('30', '30'),
+            ('41', '41'), ('42', '42'),
+            ('51', '51'), ('52', '52'),
+            ('63', '63'), ('64', '64'),
+            ('70', '70'),
+            ('80', '80'),
+            ('91', '91'), ('99', '99'),
+            ], 'Transaction code', help="For the 'DEB' declaration to France's customs administration, you should enter the number 'nature de la transaction' here."),
+        'is_fiscal_only': fields.function(_compute_booleans, method=True, multi="booleans", type='boolean', string='Is fiscal only ?', store={
+            'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
+                }, help="Only fiscal data should be provided for this procedure code."),
+        'is_taxable': fields.function(_compute_booleans, method=True, multi="booleans", type='boolean', string='Is taxable?', store={
+            'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
+                }, help='True for all intrastat types except 19 and 29. When False, the line is not taken into account for the total fiscal value.'),
+        'is_vat_required': fields.function(_compute_booleans, method=True, multi="booleans", type='boolean', string='Is partner VAT required?', store={
+            'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
+                }, help='True for all intrastat types except 11, 19 and 29. When False, the VAT number should not be filled in the Intrastat product line.'),
+        'intrastat_product_type': fields.function(_compute_booleans, method=True, type='char', size=10, multi="booleans", string='Intrastat product type', store={
+            'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
+                }, help="Decides on which kind of Intrastat product report ('Import' or 'Export') this Intrastat type can be selected."),
     }
 
     _defaults = {
@@ -64,18 +131,26 @@ class report_intrastat_type(osv.osv):
 
 
     def _code_check(self, cr, uid, ids):
-        for intrastat_type in self.read(cr, uid, ids, ['procedure_code', 'transaction_code', 'is_fiscal_only']):
+        for intrastat_type in self.read(cr, uid, ids, ['procedure_code', 'transaction_code', 'is_fiscal_only', 'object_type']):
             self.real_code_check(intrastat_type)
+            if intrastat_type['object_type'] == 'out' and intrastat_type['procedure_code'] <> '29':
+                raise osv.except_osv(_('Error :'), _("Procedure code must be '29' for an Outgoing products."))
+            elif intrastat_type['object_type'] == 'in' and intrastat_type['procedure_code'] <> '19':
+                raise osv.except_osv(_('Error :'), _("Procedure code must be '19' for an Incoming products."))
+            if intrastat_type['procedure_code'] not in fiscal_only_tuple and not intrastat_type['transaction_code']:
+                raise osv.except_osv(_('Error :'), _('You must enter a value for the transaction code.'))
+            if intrastat_type['procedure_code'] in fiscal_only_tuple and intrastat_type['transaction_code']:
+                raise osv.except_osv(_('Error :'), _("You should not set a Transaction code when the Procedure code is '25', '26' or '31'."))
         return True
 
     _constraints = [
         (_code_check, "Error msg in raise", ['procedure_code', 'transaction_code']),
     ]
 
-    def is_fiscal_only_on_change(self, cr, uid, ids, is_fiscal_only=False):
+    def procedure_code_on_change(self, cr, uid, ids, procedure_code=False):
         result = {}
         result['value'] = {}
-        if is_fiscal_only:
+        if procedure_code in fiscal_only_tuple:
             result['value'].update({'transaction_code': False})
         return result
 
