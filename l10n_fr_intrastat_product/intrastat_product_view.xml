@@ -22,9 +22,10 @@
                 <field name="type" select="1" on_change="type_on_change(company_id, type)" />
                 <field name="obligation_level" select="2" />
             </group>
-            <group colspan="4" col="7">
+            <group colspan="4" col="9">
                 <field name="num_lines" />
                 <field name="total_amount" />
+                <field name="total_fiscal_amount" />
                 <field name="currency_id" nolabel="1"/>
                 <field name="company_id" invisible="1" />
             </group>
@@ -32,13 +33,14 @@
             <group colspan="4">
                 <field name="notes" colspan="4" nolabel="1" />
             </group>
-            <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Re-generate lines from invoices" type="object" states="draft" colspan="1" />
-            <button icon="gtk-execute" name="generate_product_lines_from_picking" string="Re-generate lines from picking" type="object" states="draft" colspan="1" />
+            <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Generate lines from invoices" type="object" states="draft" colspan="1" />
+            <!-- <button icon="gtk-execute" name="generate_product_lines_from_picking" string="Generate repair lines from picking" type="object" colspan="1" attrs="{'invisible':['|',('obligation_level', '=', 'simplified'), ('state', '=', 'done')]}" /> -->
+            <button icon="gtk-execute" name="generate_product_lines_from_picking" string="Generate repair lines from picking" type="object" colspan="1" states="draft" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
             <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4">
         <!-- START of form view for DEB lines -->
                 <form string="Intrastat product lines">
-                    <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent.type, parent.obligation_level)" />
+                    <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent.type, parent.obligation_level)" domain="[('intrastat_product_type', '=', parent.type)]" />
                     <field name="procedure_code" />
                     <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
                     <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
@@ -52,16 +54,16 @@
                     <field name="product_country_origin_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" /> <!-- TODO : put readonly for exports -->
                     <field name="transport" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
                     <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                    <field name="partner_id" on_change="partner_on_change(partner_id)" attrs="{'readonly': [('parent_type', '=', 'import')]}" /> <!-- TODO : filter on UE partners ? -->
-                    <field name="partner_vat" attrs="{'readonly': [('parent_type', '=', 'import')], 'required': [('parent_type', '=', 'export')]}" />
+                    <field name="partner_id" on_change="partner_on_change(partner_id)" attrs="{'readonly': [('parent.type', '=', 'import')]}" /> <!-- TODO : filter on UE partners ? -->
+                    <field name="partner_vat" attrs="{'readonly': [('is_vat_required', '=', False)], 'required': [('is_vat_required', '=', True)]}" />
                     <field name="invoice_id" />
                     <field name="amount_invoice_currency" />
                     <field name="invoice_currency_id" />
                     <field name="source_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
                     <field name="picking_id" />
-                    <field name="parent_type" invisible="1"  />
+                    <field name="is_fiscal_only" />
                     <field name="parent_id" invisible="1"  />
-                    <field name="is_fiscal_only" invisible="1"  />
+                    <field name="is_vat_required" invisible="1"  />
                 </form>
                 <tree string="Intrastat product lines">
                     <field name="intrastat_code" string="H.S. code" />
@@ -76,7 +78,6 @@
                     <field name="transport" string="Transport" />
                     <field name="department" string="Dpt" />
                     <field name="product_country_origin_code" string="Product C/O" />
-                    <field name="parent_type" invisible="1" />
                     <field name="partner_vat"/>
                     <field name="partner_id" />
                     <field name="invoice_id" />
@@ -107,78 +108,13 @@
             <field name="obligation_level" />
             <field name="num_lines" />
             <field name="total_amount" sum="Total amount" />
+            <field name="total_fiscal_amount" sum="Total fiscal amount" />
             <field name="currency_id" />
             <field name="state" />
         </tree>
     </field>
 </record>
 
-<!-- Form view for product lines -->
-<!--
-<record id="fr_intrastat_product_line_form" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.line.form</field>
-    <field name="model">report.intrastat.product.line</field>
-    <field name="type">form</field>
-    <field name="arch" type="xml">
-        <form string="Intrastat product lines">
-            <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent_id)" />
-            <field name="procedure_code" />
-            <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-            <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-            <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>  I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view --><!--
-            <field name="amount_company_currency" />
-            <field name="company_currency_id" />
-            <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-            <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-            <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-            <field name="transaction_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-            <field name="product_country_origin_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-            <field name="transport" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-            <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-            <field name="partner_id" on_change="partner_on_change(partner_id)"/>
-            <field name="partner_vat" />
-            <field name="invoice_id" />
-            <field name="amount_invoice_currency" />
-            <field name="invoice_currency_id" />
-            <field name="source_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-            <field name="parent_type" invisible="1"  />
-            <field name="parent_id" invisible="1"  />
-            <field name="is_fiscal_only" invisible="1"  />
-        </form>
-    </field>
-</record>
--->
-
-<!-- Tree view for product lines -->
-<!--
-<record id="fr_intrastat_product_line_tree" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.line.tree</field>
-    <field name="model">report.intrastat.product.line</field>
-    <field name="type">tree</field>
-    <field name="arch" type="xml">
-        <tree string="Intrastat product lines">
-            <field name="intrastat_code" string="H.S. code" />
-            <field name="partner_country_code" string="Partner C."/>
-            <field name="amount_company_currency" string="Value CC" />
-            <field name="company_currency_id" string="Comp. Cur." />
-            <field name="procedure_code" string="Procedure" />
-            <field name="weight" />
-            <field name="quantity" string="Qty" />
-            <field name="intrastat_uom_id" string="Intra. UoM" />
-            <field name="transaction_code" string="Transac." />
-            <field name="transport" string="Transport" />
-            <field name="department" string="Dpt" />
-            <field name="product_country_origin_code" string="Product C/O" />
-            <field name="parent_type" invisible="1" />
-            <field name="partner_vat"/>
-            <field name="partner_id" />
-            <field name="invoice_id" />
-            <field name="amount_invoice_currency" string="Value IC" />
-            <field name="invoice_currency_id" string="Inv. Cur." />
-        </tree>
-    </field>
-</record>
--->
 
 <!-- Action related -->
 <record id="fr_intrastat_product_tree_action" model="ir.actions.act_window">

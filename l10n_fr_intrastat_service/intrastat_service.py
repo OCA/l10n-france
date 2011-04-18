@@ -62,7 +62,7 @@ class report_intrastat_service(osv.osv):
             ('done','Done'),
         ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
         'date_done' : fields.datetime('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
-        'notes' : fields.text('Notes', help="You can add some comments here if you want."),
+        'notes' : fields.text('Notes', help="You can write some comments here if you want."),
     }
 
     _defaults = {
@@ -74,7 +74,7 @@ class report_intrastat_service(osv.osv):
          self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id,
         }
 
-#TODO : add check on date of children lines ?
+
     def _check_start_date(self, cr, uid, ids, context=None):
         return self.pool.get('report.intrastat.common')._check_start_date(cr, uid, ids, self, context=context)
 
@@ -90,84 +90,74 @@ class report_intrastat_service(osv.osv):
         print "generate lines, ids=", ids
         intrastat = self.browse(cr, uid, ids[0], context=context)
         line_obj = self.pool.get('report.intrastat.service.line')
-        self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, ids, intrastat, context=context)
+        invoice_obj = self.pool.get('account.invoice')
+        self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, intrastat, context=context)
         # Get current service lines and delete them
         line_remove = self.read(cr, uid, ids[0], ['intrastat_line_ids'], context=context)
         if line_remove['intrastat_line_ids']:
             line_obj.unlink(cr, uid, line_remove['intrastat_line_ids'], context=context)
-        sql = '''
-        select
-            company.id,
-            inv.id as invoice_id,
-            inv.currency_id as invoice_currency_id,
-            prt.vat as partner_vat,
-            inv.partner_id as partner_id,
-            res_currency_rate.rate as invoice_currency_rate,
-            sum(case when inv.type = 'out_refund'
-                then inv_line.price_subtotal * (-1)
-                when inv.type = 'out_invoice'
-                then inv_line.price_subtotal
-               end) as amount_invoice_currency,
-            sum(case when company.currency_id != inv.currency_id and res_currency_rate.rate is not null
-                then
-                  case when inv.type = 'out_refund'
-                    then round(inv_line.price_subtotal/res_currency_rate.rate * (-1), 2)
-                  when inv.type = 'out_invoice'
-                    then round(inv_line.price_subtotal/res_currency_rate.rate, 2)
-                  end
-                when company.currency_id = inv.currency_id
-                then
-                   case when inv.type = 'out_refund'
-                     then inv_line.price_subtotal * (-1)
-                   when inv.type = 'out_invoice'
-                     then inv_line.price_subtotal
-                   end
-                end) as amount_company_currency,
-                company.currency_id as company_currency_id
 
-        from account_invoice inv
-            left join account_invoice_line inv_line on inv_line.invoice_id=inv.id
-            left join (product_template pt
-                left join product_product pp on pp.product_tmpl_id = pt.id
-                )
-            on (inv_line.product_id = pt.id)
-            left join (res_partner_address inv_address
-                left join res_country inv_country on (inv_country.id = inv_address.country_id))
-            on (inv_address.id = inv.address_invoice_id)
-            left join res_partner prt on inv.partner_id = prt.id
-            left join res_currency_rate on (inv.currency_id = res_currency_rate.currency_id and inv.date_invoice = res_currency_rate.name)
-            left join res_company company on inv.company_id=company.id
+        invoice_ids = invoice_obj.search(cr, uid, [
+            ('type', 'in', ('out_invoice', 'out_refund')),
+            ('date_invoice', '<=', intrastat.end_date),
+            ('date_invoice', '>=', intrastat.start_date),
+            ('state', 'in', ('open', 'paid')),
+            ('company_id', '=', intrastat.company_id.id)
+        ], order='date_invoice', context=context)
+        print "invoice_ids=", invoice_ids
+        for invoice in invoice_obj.browse(cr, uid, invoice_ids, context=context):
 
-        where
-            inv.type in ('out_invoice', 'out_refund')
-            and inv.state in ('open', 'paid')
-            and inv_line.product_id is not null
-            and inv_line.price_subtotal != 0
-            and inv_country.intrastat = true
-            and pt.type = 'service'
-            and pt.exclude_from_intrastat is not true
-            and company.id = %s
-            and inv.date_invoice >= %s
-            and inv.date_invoice <= %s
+            if not invoice.address_invoice_id.country_id:
+                raise osv.except_osv(_('Error :'), _("Missing country on partner address '%s' of partner '%s'.") %(invoice.address_invoice_id.name, invoice.address_invoice_id.partner_id.name))
+            elif not invoice.address_invoice_id.country_id.intrastat:
+                continue
 
-        group by company.id, inv.currency_id, prt.vat, inv.partner_id, inv.id, invoice_currency_rate, company_currency_id
-        '''
-        # Execute the big SQL query to get all service lines
-        cr.execute(sql, (intrastat.company_id.id, intrastat.start_date, intrastat.end_date))
-        res_sql = cr.fetchall()
-        print "res_sql=", res_sql
-        for company_id, invoice_id, invoice_currency_id, partner_vat, partner_id, invoice_currency_rate, amount_invoice_currency, amount_company_currency, company_currency_id in res_sql:
-            # Store the service lines
-            line_obj.create(cr, uid, {
-                'parent_id': ids[0],
-                'invoice_id': invoice_id,
-                'partner_vat': partner_vat,
-                'partner_id': partner_id,
-                'amount_invoice_currency': int(round(amount_invoice_currency, 0)),
-                'invoice_currency_id': invoice_currency_id,
-                'amount_company_currency': int(round(amount_company_currency, 0)),
-                'company_currency_id': company_currency_id,
+            if not invoice.partner_id.vat:
+                raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %invoice.partner_id.name)
+            else:
+                partner_vat_to_write = invoice.partner_id.vat
+
+            amount_invoice_currency_to_write = 0.0
+            amount_company_currency_to_write = 0.0
+            context['date'] = invoice.date_invoice
+
+            for line in invoice.invoice_line:
+                if not line.product_id:
+                    continue
+
+                if line.product_id.type <> 'service':
+                    continue
+
+                if line.product_id.exclude_from_intrastat:
+                    continue
+
+                if not line.quantity:
+                    continue
+
+                if not line.price_subtotal:
+                    continue
+                else:
+                    amount_invoice_currency_to_write += line.price_subtotal
+                    if invoice.currency_id.code <> 'EUR':
+                        amount_company_currency_to_write += self.pool.get('res.currency').compute(cr, uid, invoice.currency_id.id, intrastat.company_id.currency_id.id, line.price_subtotal, round=False, context=context)
+                    else:
+                        amount_company_currency_to_write += line.price_subtotal
+
+            if amount_company_currency_to_write:
+                if invoice.type == 'out_refund':
+                    amount_invoice_currency_to_write = amount_invoice_currency_to_write * (-1)
+                    amount_company_currency_to_write = amount_company_currency_to_write * (-1)
+
+                line_obj.create(cr, uid, {
+                    'parent_id': ids[0],
+                    'invoice_id': invoice.id,
+                    'partner_vat': partner_vat_to_write,
+                    'partner_id': invoice.partner_id.id,
+                    'invoice_currency_id': invoice.currency_id.id,
+                    'amount_invoice_currency': int(round(amount_invoice_currency_to_write, 0)),
+                    'amount_company_currency': int(round(amount_company_currency_to_write, 0)),
                     }, context=context)
+
         return None
 
 
@@ -191,7 +181,7 @@ class report_intrastat_service(osv.osv):
         end_date_str = intrastat.end_date
         start_date_datetime = datetime.strptime(start_date_str, '%Y-%m-%d')
 
-        self.pool.get('report.intrastat.common')._check_generate_xml(cr, uid, ids, intrastat, context=context)
+        self.pool.get('report.intrastat.common')._check_generate_xml(cr, uid, intrastat, context=context)
 
         my_company_vat = intrastat.company_id.partner_id.vat.replace(' ', '')
 
@@ -219,7 +209,7 @@ class report_intrastat_service(osv.osv):
             valeur.text = str(sline.amount_company_currency)
             partner_des = etree.SubElement(ligne_des, 'partner_des')
             try: partner_des.text = sline.partner_vat.replace(' ', '')
-            except: raise osv.except_osv(_('Error :'), _('Missing VAT number for partner "%s".'%sline.partner_id.name))
+            except: raise osv.except_osv(_('Error :'), _("Missing VAT number for partner '%s'.") %sline.partner_id.name)
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         print "xml_string", xml_string
 
@@ -236,18 +226,23 @@ class report_intrastat_service_line(osv.osv):
     _name = "report.intrastat.service.line"
     _description = "Lines of intrastat service declaration (DES)"
     _rec_name = "partner_vat"
-    _order = 'invoice_id'
+    _order = 'id'
     _columns = {
         'parent_id': fields.many2one('report.intrastat.service', 'Intrastat service ref', ondelete='cascade', select=True),
+        'state' : fields.related('parent_id', 'state', type='string', relation='report.intrastat.service', string='State', readonly=True),
+        'company_id': fields.related('parent_id', 'company_id', type='many2one', relation='res.company', string="Company", readonly=True),
+        'company_currency_id': fields.related('company_id', 'currency_id', type='many2one', relation='res.currency', string="Company currency", readonly=True),
         'invoice_id': fields.many2one('account.invoice', 'Invoice ref', readonly=True),
-        'partner_vat': fields.char('Customer VAT', size=32, readonly=True),
-        'partner_id': fields.many2one('res.partner', 'Partner name', readonly=True),
         'date_invoice' : fields.related('invoice_id', 'date_invoice', type='date', relation='account.invoice', string='Invoice date', readonly=True),
+        'partner_vat': fields.char('Customer VAT', size=32, states={'done':[('readonly',True)]}),
+        'partner_id': fields.many2one('res.partner', 'Partner name', states={'done':[('readonly',True)]}),
+        'amount_company_currency': fields.integer('Amount in company cur.', states={'done':[('readonly',True)]}),
         'amount_invoice_currency': fields.integer('Amount in invoice cur.', readonly=True),
         'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
-        'amount_company_currency': fields.integer('Amount in company cur.', readonly=True),
-        'company_currency_id': fields.many2one('res.currency', "Company currency", readonly=True),
     }
+
+    def partner_on_change(self, cr, uid, ids, partner_id=False):
+        return self.pool.get('report.intrastat.common').partner_on_change(cr, uid, ids, partner_id)
 
 report_intrastat_service_line()
 
