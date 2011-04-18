@@ -16,10 +16,13 @@
     <field name="arch" type="xml">
         <tree string="Intrastat Type">
             <field name="name" />
-            <field name="invoice_type" />
             <field name="procedure_code" />
-            <field name="is_fiscal_only" />
             <field name="transaction_code" />
+            <field name="object_type" />
+            <field name="is_fiscal_only" />
+            <field name="is_taxable" />
+            <field name="is_vat_required" />
+            <field name="intrastat_product_type" />
         </tree>
     </field>
 </record>
@@ -33,10 +36,13 @@
         <form string="Intrastat Type">
             <field name="name" select="1" />
             <field name="active" select="2" />
-            <field name="invoice_type" select="1" />
-            <field name="procedure_code" select="2" />
-            <field name="is_fiscal_only" select="2" on_change="is_fiscal_only_on_change(is_fiscal_only)"/>
-            <field name="transaction_code" select="2" attrs="{'readonly':[('is_fiscal_only','=',True)]}"/>
+            <field name="object_type" select="1" />
+            <field name="procedure_code" select="2" on_change="procedure_code_on_change(procedure_code)" />
+            <field name="transaction_code" select="2" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}"/>
+            <field name="is_fiscal_only" />
+            <field name="is_taxable" />
+            <field name="is_vat_required" />
+            <field name="intrastat_product_type" />
         </form>
     </field>
 </record>
