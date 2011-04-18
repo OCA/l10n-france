@@ -22,12 +22,12 @@
 
 from osv import osv, fields
 
-
-class stock_warehouse(osv.osv):
-    _inherit = "stock.warehouse"
+class stock_location(osv.osv):
+    _inherit = "stock.location"
     _columns = {
-        'intrastat_department' : fields.char('Department', size=2, help="France's department where the warehouse is located. This parameter is required for the DEB (Déclaration d'Echange de Biens)."),
-            }
+        'intrastat_department' : fields.char('Department', size=2, help="France's department where the stock location is located. This parameter is required for the DEB (Déclaration d'Echange de Biens)."),
+    }
+
 
     def _check_intrastat_department(self, cr, uid, ids):
         dpt_list = []
@@ -39,7 +39,7 @@ class stock_warehouse(osv.osv):
         (_check_intrastat_department, "Error msg is in raise", ['intrastat_department']),
     ]
 
-stock_warehouse()
+stock_location()
 
 
 class stock_picking(osv.osv):
@@ -48,37 +48,40 @@ class stock_picking(osv.osv):
     def _compute_department(self, cr, uid, ids, name, arg, context=None):
         print "_compute_department ids=", ids
         result = {}
-        warehouse_obj = self.pool.get('stock.warehouse')
-        warehouse_all_ids = warehouse_obj.search(cr, uid, [], context=context)
         for picking in self.browse(cr, uid, ids, context=context):
-            location_to_search = False
             result[picking.id] = False
+            start_point = False
             if picking.move_lines:
-                if picking.type == 'out':
-                    location_to_search = picking.move_lines[0].location_id
-                elif picking.type == 'in':
-                    location_to_search = picking.move_lines[0].location_dest_id
-                else:
-                    break
-            for warehouse in warehouse_obj.browse(cr, uid, warehouse_all_ids, context=context):
-                if (picking.type == 'out' and location_to_search == warehouse.lot_stock_id) or (picking.type == 'in' and location_to_search == warehouse.lot_input_id):
-                    result[picking.id] = warehouse.intrastat_department
-                    break
+                if picking.type == 'out' and picking.move_lines[0].location_id.location_dest_id == 'customer':
+                    start_point = picking.move_lines[0].location_id
+                elif picking.type == 'in' and picking.move_lines[0].location_id.usage == 'internal':
+                    start_point = location_to_search = picking.move_lines[0].location_dest_id
+                while start_point:
+                    if start_point.intrastat_department:
+                        result[picking.id] = start_point.intrastat_department
+                        break
+                    elif start_point.location_id:
+                        start_point = start_point.location_id
+                        continue
+                    else:
+                        break
         print "_compute_department result=", result
         return result
 
 
     _columns = {
-        'intrastat_transport' : fields.selection([(1, 'Transport maritime'), \
-            (2, 'Transport par chemin de fer'), \
-            (3, 'Transport par route'), \
-            (4, 'Transport par air'), \
-            (5, 'Envois postaux'), \
-            (7, 'Installations de transport fixes'), \
-            (8, 'Transport par navigation intérieure'), \
-            (9, 'Propulsion propre')], 'Type of transport', \
+        'intrastat_transport' : fields.selection([
+            (1, 'Transport maritime'),
+            (2, 'Transport par chemin de fer'),
+            (3, 'Transport par route'),
+            (4, 'Transport par air'),
+            (5, 'Envois postaux'),
+            (7, 'Installations de transport fixes'),
+            (8, 'Transport par navigation intérieure'),
+            (9, 'Propulsion propre')], 'Type of transport',
             help="Select the type of transport. This information is required for the product intrastat report (DEB)."),
         'intrastat_department': fields.function(_compute_department, method=True, type='char', string='Intrastat department', help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
+        'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
             }
 
 # Do we put a default value, taken from res_company ?
