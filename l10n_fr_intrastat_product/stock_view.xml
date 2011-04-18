@@ -22,6 +22,7 @@
         </field>
         <field name="move_type" position="after">
             <field name="intrastat_department" />
+            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
         </field>
     </data>
     </field>
@@ -36,19 +37,20 @@
         <field name="backorder_id" position="after">
                 <field name="intrastat_transport" />
                 <field name="intrastat_department" />
+                <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
         </field>
     </field>
 </record>
 
 
-<!-- Add department on warehouse form view -->
-<record id="fr_intrastat_product_warehouse_department" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.warehouse.department</field>
-    <field name="model">stock.warehouse</field>
+<!-- Add department on stock location form view -->
+<record id="fr_intrastat_product_stock_location_department" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.stock.location.department</field>
+    <field name="model">stock.location</field>
     <field name="type">form</field>
-    <field name="inherit_id" ref="stock.view_warehouse"/>
+    <field name="inherit_id" ref="stock.view_location_form" />
     <field name="arch" type="xml">
-        <field name="partner_address_id" position="after">
+        <field name="address_id" position="after">
             <field name="intrastat_department" />
         </field>
     </field>
