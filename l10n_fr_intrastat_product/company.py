@@ -34,16 +34,23 @@ class res_company(osv.osv):
         'siret_complement' : fields.char('SIRET complement', size=5, help="5 last digits of the SIRET number of the company."),
         'export_obligation_level': fields.selection([('detailed', 'Detailed'), ('simplified', 'Simplified')], 'Obligation level for export', help='If your volume of export of products to EU countries is over 460 000 € per year, your obligation level for export for the DEB is "Detailed". If you are under this limit, your obligation level for export for the DEB is "Simplified".'),
         'default_intrastat_department': fields.char('Default departement code', size=2, help='If the Departement code is not set on the invoice line, OpenERP will use this value.'),
-        'default_intrastat_transport': fields.selection([(1, 'Transport maritime'), \
-            (2, 'Transport par chemin de fer'), \
-            (3, 'Transport par route'), \
-            (4, 'Transport par air'), \
-            (5, 'Envois postaux'), \
-            (7, 'Installations de transport fixes'), \
-            (8, 'Transport par navigation intérieure'), \
-            (9, 'Propulsion propre')], 'Type of transport', \
+        'default_intrastat_transport': fields.selection([
+            (1, 'Transport maritime'),
+            (2, 'Transport par chemin de fer'),
+            (3, 'Transport par route'),
+            (4, 'Transport par air'),
+            (5, 'Envois postaux'),
+            (7, 'Installations de transport fixes'),
+            (8, 'Transport par navigation intérieure'),
+            (9, 'Propulsion propre'),
+            ], 'Type of transport',
             help="If the 'Type of Transport' is not set on the invoice, OpenERP will use this value."),
         'statistical_pricelist_id' : fields.many2one('product.pricelist', 'Pricelist for statistical value', help="Select the pricelist that will be used to compute the statistical value (used in DEB lines generated from repair picking). The pricelist that you select must be in EUR."),
+        'default_intrastat_type_out_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for Customer invoice'),
+        'default_intrastat_type_out_refund': fields.many2one('report.intrastat.type', 'Default intrastat type for Customer refund'),
+        'default_intrastat_type_in_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for Supplier invoice'),
+        'default_intrastat_type_in_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for Incoming products'),
+        'default_intrastat_type_out_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for Outgoing products'),
     }
 
     def _5digits(self, cr, uid, ids):
