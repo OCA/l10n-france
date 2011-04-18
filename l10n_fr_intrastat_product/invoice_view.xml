@@ -10,8 +10,8 @@
 <data>
 
 <!-- Add field on supplier invoice -->
-<record id="fr_intrastat_product_invoice_in_trp" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.supplier.invoice.in.trp</field>
+<record id="fr_intrastat_product_invoice_in" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.supplier.invoice.in</field>
     <field name="model">account.invoice</field>
     <field name="type">form</field>
     <field name="inherit_id" ref="account.invoice_supplier_form"/>
@@ -19,14 +19,15 @@
         <field name="origin" position="after">
             <field name="intrastat_transport" />
             <field name="intrastat_department" />
+            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
         </field>
     </field>
 </record>
 
 
 <!-- Add field on customer invoice -->
-<record id="fr_intrastat_product_invoice_out_trp" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.invoice.out.trp</field>
+<record id="fr_intrastat_product_invoice_out" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.invoice.out</field>
     <field name="model">account.invoice</field>
     <field name="type">form</field>
     <field name="inherit_id" ref="account.invoice_form"/>
@@ -34,6 +35,7 @@
         <field name="origin" position="after">
             <field name="intrastat_transport" />
             <field name="intrastat_department" />
+            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
         </field>
     </field>
 </record>
