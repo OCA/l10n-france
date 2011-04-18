@@ -25,16 +25,19 @@ from osv import osv, fields
 class account_invoice(osv.osv):
     _inherit = "account.invoice"
     _columns = {
-        'intrastat_transport' : fields.selection([(1, 'Transport maritime'), \
-            (2, 'Transport par chemin de fer'), \
-            (3, 'Transport par route'), \
-            (4, 'Transport par air'), \
-            (5, 'Envois postaux'), \
-            (7, 'Installations de transport fixes'), \
-            (8, 'Transport par navigation intérieure'), \
-            (9, 'Propulsion propre')], 'Type of transport', \
+        'intrastat_transport' : fields.selection([
+            (1, 'Transport maritime'),
+            (2, 'Transport par chemin de fer'),
+            (3, 'Transport par route'),
+            (4, 'Transport par air'),
+            (5, 'Envois postaux'),
+            (7, 'Installations de transport fixes'),
+            (8, 'Transport par navigation intérieure'),
+            (9, 'Propulsion propre')
+            ], 'Type of transport',
             help="Select the type of transport. This information is required for the product intrastat report (DEB)."),
         'intrastat_department' : fields.char('Department', size=2),
+        'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
             }
 
     def _check_intrastat_department(self, cr, uid, ids):
