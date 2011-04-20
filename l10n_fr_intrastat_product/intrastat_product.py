@@ -184,6 +184,12 @@ class report_intrastat_product(osv.osv):
                 quantity_to_write = False
 
             if src == 'invoice':
+                skip_this_line = False
+                for line_tax in line.invoice_line_tax_id:
+                    if line_tax in intrastat.company_id.exclude_if_tax_present:
+                        skip_this_line = True
+                if skip_this_line:
+                    continue
                 amount_invoice_currency_to_write = line.price_subtotal
                 invoice_currency_id_to_write = parent_obj.currency_id.id
                 if parent_obj.currency_id.code <> 'EUR':
