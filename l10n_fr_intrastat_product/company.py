@@ -51,7 +51,7 @@ class res_company(osv.osv):
         'default_intrastat_type_in_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for Supplier invoice'),
         'default_intrastat_type_in_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for Incoming products'),
         'default_intrastat_type_out_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for Outgoing products'),
-        'exclude_if_tax_present': fields.many2many('account.tax', 'intrastat_company_tax_rel', 'company_id', 'tax_id', 'Exclude invoice if one of these taxes is present', help="If one of these taxes if present on an invoice, this invoice will be skipped when generating Intrastat product lines from invoices."),
+        'exclude_if_tax_present': fields.many2many('account.tax', 'intrastat_company_tax_rel', 'company_id', 'tax_id', 'Exclude invoice line if one of these taxes is present', help="If one of these taxes if present on an invoice line, this invoice line will be skipped when generating Intrastat product lines from invoices."),
     }
 
     def _5digits(self, cr, uid, ids):
