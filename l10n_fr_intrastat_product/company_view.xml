@@ -28,6 +28,8 @@
                 <field name="default_intrastat_type_in_picking" domain="[('object_type', '=', 'in')]" />
                 <field name="default_intrastat_type_out_picking" domain="[('object_type', '=', 'out')]" />
                 <field name="statistical_pricelist_id" domain="[('currency_id.code','=', 'EUR')]" />
+                <newline />
+                <field name="exclude_if_tax_present" colspan="4" />
             </page>
         </notebook>
     </field>
