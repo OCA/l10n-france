@@ -20,32 +20,24 @@
 #
 ##############################################################################
 
+from osv import osv, fields
 
-{
-    'name': 'Module for Intrastat product reporting (DEB) for France',
-    'version': '1.1',
-    'category': 'Localisation/Report Intrastat',
-    'license': 'AGPL-3',
-    'description': """This module adds support for the "Déclaration d'Echange de Biens" (DEB).
+class sale_order(osv.osv):
+    _inherit = "sale.order"
 
-More information about the DEB is available on this official web page : http://www.douane.gouv.fr/page.asp?id=322
+    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed','done','exception']):
+        '''Copy destination country and departure department on invoice'''
+        print "action_invoice_create ids=", ids
+        res = super(sale_order,self).action_invoice_create(cr, uid, ids, grouped, states)
+        for sale in self.browse(cr, uid, ids):
+            for rel_invoice in sale.invoice_ids:
+                dico_write = {}
+                if sale.partner_shipping_id and sale.partner_shipping_id.country_id:
+                    dico_write['intrastat_country_id'] = sale.partner_shipping_id.country_id.id
+                if sale.picking_ids:
+                    dico_write['intrastat_department'] = sale.picking_ids[0].intrastat_department
+                self.pool.get('account.invoice').write(cr, uid, rel_invoice.id, dico_write)
+        return res
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
-    """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['intrastat_base', 'stock', 'sale'],
-    'init_xml': [],
-    'update_xml': [
-        'security/ir.model.access.csv',
-        'intrastat_product_view.xml',
-        'intrastat_type_view.xml',
-        'company_view.xml',
-        'product_view.xml',
-        'stock_view.xml',
-        'invoice_view.xml',
-    ],
-    'demo_xml': ['intrastat_demo.xml'],
-    'installable': True,
-    'active': False,
-}
+sale_order()
+
