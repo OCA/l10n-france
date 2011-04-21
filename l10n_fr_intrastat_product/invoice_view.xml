@@ -19,6 +19,7 @@
         <field name="origin" position="after">
             <field name="intrastat_transport" />
             <field name="intrastat_department" />
+            <field name="intrastat_country_id" string="Origin country" />
             <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
         </field>
     </field>
@@ -35,6 +36,7 @@
         <field name="origin" position="after">
             <field name="intrastat_transport" />
             <field name="intrastat_department" />
+            <field name="intrastat_country_id" string="Destination country" />
             <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
         </field>
     </field>
