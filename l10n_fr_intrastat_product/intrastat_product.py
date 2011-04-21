@@ -379,13 +379,19 @@ class report_intrastat_product(osv.osv):
         ], order='date_invoice', context=context)
         print "invoice_ids=", invoice_ids
         for invoice in invoice_obj.browse(cr, uid, invoice_ids, context=context):
-            print "INVOICE =", invoice.name
+            print "INVOICE num =", invoice.number
             parent_values = {}
             # TODO selection criteria will be modified
             if not invoice.address_invoice_id.country_id:
                 raise osv.except_osv(_('Error :'), _("Missing country on partner address '%s' of partner '%s'.") %(invoice.address_invoice_id.name, invoice.address_invoice_id.partner_id.name))
             elif not invoice.address_invoice_id.country_id.intrastat:
                 continue
+
+            if invoice.intrastat_country_id:
+                if not invoice.intrastat_country_id.intrastat:
+                    continue
+                else:
+                    parent_values['partner_country_id_to_write'] = invoice.intrastat_country_id.id
             else:
                 parent_values['partner_country_id_to_write'] = invoice.address_invoice_id.country_id.id
 

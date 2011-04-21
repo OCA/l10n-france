@@ -54,7 +54,7 @@ class stock_picking(osv.osv):
             if picking.move_lines:
                 if picking.type == 'out' and picking.move_lines[0].location_dest_id.usage == 'customer':
                     start_point = picking.move_lines[0].location_id
-                elif picking.type == 'in' and picking.move_lines[0].location_id.usage == 'internal':
+                elif picking.type == 'in' and picking.move_lines[0].location_dest_id.usage == 'internal':
                     start_point = location_to_search = picking.move_lines[0].location_dest_id
                 while start_point:
                     if start_point.intrastat_department:
@@ -68,6 +68,9 @@ class stock_picking(osv.osv):
         print "_compute_department result=", result
         return result
 
+    def _get_picking_from_move_lines(self, cr, uid, ids, context=None):
+        print "invalid function dpt ids=", ids
+        return self.pool.get('stock.picking').search(cr, uid, [('move_lines', 'in', ids)], context=context)
 
     _columns = {
         'intrastat_transport' : fields.selection([
@@ -80,7 +83,10 @@ class stock_picking(osv.osv):
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre')], 'Type of transport',
             help="Select the type of transport. This information is required for the product intrastat report (DEB)."),
-        'intrastat_department': fields.function(_compute_department, method=True, type='char', string='Intrastat department', help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
+        'intrastat_department': fields.function(_compute_department, method=True, type='char', size=2, string='Intrastat department', store={
+            'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
+            'stock.move': (_get_picking_from_move_lines, ['location_dest_id', 'location_id', 'picking_id'], 20),
+            }, help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
         'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
             }
 
@@ -94,12 +100,14 @@ class stock_picking(osv.osv):
             journal_id=journal_id, group=group, type=type, context=context)
         invoice_obj = self.pool.get('account.invoice')
         for picking_id in res:
-            picking = self.read(cr, uid, picking_id, ['intrastat_transport', 'intrastat_department'], context=context)
+            picking = self.browse(cr, uid, picking_id, context=context)
             data_to_write = {}
-            if picking['intrastat_transport']:
-                data_to_write['intrastat_transport'] = picking['intrastat_transport']
-            if picking['intrastat_department']:
-                data_to_write['intrastat_department'] = picking['intrastat_department']
+            if picking.intrastat_transport:
+                data_to_write['intrastat_transport'] = picking.intrastat_transport
+            if picking.intrastat_department:
+                data_to_write['intrastat_department'] = picking.intrastat_department
+            if picking.address_id:
+                data_to_write['intrastat_country_id'] = picking.address_id.country_id.id
             if data_to_write:
                 invoice_obj.write(cr, uid, res[picking_id], data_to_write, context=context)
         return res

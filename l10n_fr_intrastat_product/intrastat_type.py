@@ -82,7 +82,7 @@ class report_intrastat_type(osv.osv):
             ('31', "31. Refacturation dans le cadre d'une opération triangulaire")
             ], 'Procedure code', required=True, help="For the 'DEB' declaration to France's customs administration, you should enter the 'code régime' here."),
         'transaction_code': fields.selection([
-            (False, '-'),
+            ('', '-'),
             ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'), ('19', '19'),
             ('21', '21'), ('22', '22'), ('23', '23'), ('29', '29'),
             ('30', '30'),
