@@ -37,6 +37,7 @@ class account_invoice(osv.osv):
             ], 'Type of transport',
             help="Select the type of transport. This information is required for the product intrastat report (DEB)."),
         'intrastat_department' : fields.char('Department', size=2),
+        'intrastat_country_id' : fields.many2one('res.country', 'Destination/Origin country of the goods'),
         'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
             }
 
