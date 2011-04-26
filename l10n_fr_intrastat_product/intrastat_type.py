@@ -35,16 +35,18 @@ class report_intrastat_type(osv.osv):
     _order = "procedure_code, transaction_code"
 
 
-    def _compute_booleans(self, cr, uid, ids, name, arg, context=None):
+    def _compute_all(self, cr, uid, ids, name, arg, context=None):
         print "enter _compute_booleans, ids=", ids
         result = {}
         for intr_type in self.read(cr, uid, ids, ['id', 'procedure_code'], context=context):
             print "intr_type['id'] =", intr_type['id']
             result[intr_type['id']] = {}
             if intr_type['procedure_code'] in ('19', '29'):
-                result[intr_type['id']]['is_taxable'] = False
+                result[intr_type['id']]['fiscal_value_multiplier'] = 0
+            elif intr_type['procedure_code'] == '25':
+                result[intr_type['id']]['fiscal_value_multiplier'] = -1
             else:
-                result[intr_type['id']]['is_taxable'] = True
+                result[intr_type['id']]['fiscal_value_multiplier'] = 1
             if intr_type['procedure_code'] in fiscal_only_tuple:
                 result[intr_type['id']]['is_fiscal_only'] = True
             else:
@@ -93,16 +95,16 @@ class report_intrastat_type(osv.osv):
             ('80', '80'),
             ('91', '91'), ('99', '99'),
             ], 'Transaction code', help="For the 'DEB' declaration to France's customs administration, you should enter the number 'nature de la transaction' here."),
-        'is_fiscal_only': fields.function(_compute_booleans, method=True, multi="booleans", type='boolean', string='Is fiscal only ?', store={
+        'is_fiscal_only': fields.function(_compute_all, method=True, multi="akretionrules", type='boolean', string='Is fiscal only ?', store={
             'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
                 }, help="Only fiscal data should be provided for this procedure code."),
-        'is_taxable': fields.function(_compute_booleans, method=True, multi="booleans", type='boolean', string='Is taxable?', store={
+        'fiscal_value_multiplier': fields.function(_compute_all, method=True, multi="akretionrules", type='integer', string='Fiscal value multiplier', store={
             'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
-                }, help='True for all intrastat types except 19 and 29. When False, the line is not taken into account for the total fiscal value.'),
-        'is_vat_required': fields.function(_compute_booleans, method=True, multi="booleans", type='boolean', string='Is partner VAT required?', store={
+                }, help="'0' for intrastat types 19 and 29, '-1' for intrastat type 25, '1' for all the others. This multiplier is used to compute the fiscal value of the declaration."),
+        'is_vat_required': fields.function(_compute_all, method=True, multi="akretionrules", type='boolean', string='Is partner VAT required?', store={
             'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
                 }, help='True for all intrastat types except 11, 19 and 29. When False, the VAT number should not be filled in the Intrastat product line.'),
-        'intrastat_product_type': fields.function(_compute_booleans, method=True, type='char', size=10, multi="booleans", string='Intrastat product type', store={
+        'intrastat_product_type': fields.function(_compute_all, method=True, type='char', size=10, multi="akretionrules", string='Intrastat product type', store={
             'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
                 }, help="Decides on which kind of Intrastat product report ('Import' or 'Export') this Intrastat type can be selected."),
     }
