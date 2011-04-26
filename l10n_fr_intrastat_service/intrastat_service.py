@@ -158,18 +158,18 @@ class report_intrastat_service(osv.osv):
                     'amount_company_currency': int(round(amount_company_currency_to_write, 0)),
                     }, context=context)
 
-        return None
+        return True
 
 
     def done(self, cr, uid, ids, context=None):
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in done')
         self.write(cr, uid, ids[0], {'state': 'done', 'date_done': datetime.strftime(datetime.today(), '%Y-%m-%d %H:%M:%S')}, context=context)
-        return None
+        return True
 
     def back2draft(self, cr, uid, ids, context=None):
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in back2draft')
         self.write(cr, uid, ids[0], {'state': 'draft'}, context=context)
-        return None
+        return True
 
 
     def generate_xml(self, cr, uid, ids, context=None):
@@ -216,11 +216,14 @@ class report_intrastat_service(osv.osv):
         # We now validate the XML file against the official XML Schema Definition
         self.pool.get('report.intrastat.common')._check_xml_schema(cr, uid, root, xml_string, des_xsd.des_xsd, context=context)
         # Attach the XML file
-        self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'des', context=context)
-        return None
+        attach_id = self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'des', context=context)
+
+#        return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, 'DES XML file', context=context) # Works on v6 only - Makes the client crash on v5
+        return True
 
 
 report_intrastat_service()
+
 
 class report_intrastat_service_line(osv.osv):
     _name = "report.intrastat.service.line"
