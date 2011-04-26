@@ -1,7 +1,7 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 "access_report_intrastat_type","report.intrastat.type","model_report_intrastat_type","account.group_account_manager",1,1,1,1
 "access_report_intrastat_code","report.intrastat.code finance manager","model_report_intrastat_code","account.group_account_manager",1,1,1,1
-"access_report_intrastat_code_product_manager","report.intrastat.code product manager","model_report_intrastat_code","product.group_product_manager",1,1,1,1
+"access_report_intrastat_code_product_manager","report.intrastat.code product manager","model_report_intrastat_code","account.group_account_manager",1,1,1,1
 "access_report_intrastat_code_employee","report.intrastat.code read for employee","model_report_intrastat_code","base.group_user",1,0,0,0
 "access_report_intrastat_product","report.intrastat.product","model_report_intrastat_product","account.group_account_manager",1,1,1,1
 "access_report_intrastat_product_line","report.intrastat.product.line","model_report_intrastat_product_line","account.group_account_manager",1,1,1,1

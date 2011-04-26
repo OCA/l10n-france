@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    Copyright (C) 2011 Akretion (http://www.akretion.com). All Rights Reserved
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,12 +20,14 @@
 #
 ##############################################################################
 
-import intrastat_type
-import product
-import stock
-import company
-import invoice
-import tax
-import sale
-import purchase
-import intrastat_product
+from osv import osv, fields
+
+
+class account_tax(osv.osv):
+    _inherit = "account.tax"
+    _columns = {
+        'exclude_from_intrastat_if_present': fields.boolean('Exclude invoice line from intrastat if this tax is present', help="If this tax is present on an invoice line, this invoice line will be skipped when generating Intrastat Product lines from invoices."),
+    }
+
+account_tax()
+
