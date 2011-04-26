@@ -98,7 +98,7 @@
 
 <!-- Menu entry for H.S. code -->
 <menuitem id="fr_intrastat_product_intrastat_code_menu" action="fr_intrastat_product_intrastat_code_act" parent="product.menu_config_product" />
-
+<!-- v6 : parent="product.prod_config_main" -->
 
 </data>
 </openerp>
