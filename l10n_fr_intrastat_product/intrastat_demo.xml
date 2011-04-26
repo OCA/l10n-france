@@ -99,40 +99,5 @@
     <field name="weight_net">0.8</field>
 </record>
 
-<record id="base.main_partner" model="res.partner">
-    <field name="vat">FR58441019213</field>
-</record>
-
-<record id="base.res_partner_8" model="res.partner">
-    <field name="vat">BE0828696437</field>
-    <field name="supplier">True</field>
-</record>
-
-<record id="base.res_partner_5" model="res.partner">
-    <field name="vat">BE0443167858</field>
-    <field name="supplier">True</field>
-</record>
-
-<record id="base.res_partner_agrolait" model="res.partner">
-    <field name="vat">BE0884025633</field>
-    <field name="supplier">True</field>
-</record>
-
-<record id="account.sales_journal" model="account.journal">
-    <field name="update_posted">True</field>
-</record>
-
-<record id="account.refund_sales_journal" model="account.journal">
-    <field name="update_posted">True</field>
-</record>
-
-<record id="account.expenses_journal" model="account.journal">
-    <field name="update_posted">True</field>
-</record>
-
-<record id="account.refund_expenses_journal" model="account.journal">
-    <field name="update_posted">True</field>
-</record>
-
 </data>
 </openerp>
