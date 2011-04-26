@@ -42,9 +42,7 @@ class report_intrastat_product(osv.osv):
         for intrastat in self.browse(cr, uid, ids, context=context):
             total_fiscal_amount = 0.0
             for line in intrastat.intrastat_line_ids:
-                # TODO : pour type = 25, est-ce qu'on soustrait le montant ??
-                if line.intrastat_type_id.is_taxable:
-                    total_fiscal_amount += line.amount_company_currency
+                total_fiscal_amount += line.amount_company_currency * line.intrastat_type_id.fiscal_value_multiplier
             result[intrastat.id] = total_fiscal_amount
         return result
 
@@ -186,7 +184,7 @@ class report_intrastat_product(osv.osv):
             if src == 'invoice':
                 skip_this_line = False
                 for line_tax in line.invoice_line_tax_id:
-                    if line_tax in intrastat.company_id.exclude_if_tax_present:
+                    if line_tax.exclude_from_intrastat_if_present:
                         skip_this_line = True
                 if skip_this_line:
                     continue
@@ -295,12 +293,12 @@ class report_intrastat_product(osv.osv):
                 })
 
         for line_to_create in lines_to_create:
-            for value in ['quantity', 'amount_company_currency', 'weight']:
+            for value in ['quantity', 'weight', 'amount_company_currency', 'amount_invoice_currency']:
                 if line_to_create[value]:
                     line_to_create[value] = str(int(round(line_to_create[value], 0)))
             line_obj.create(cr, uid, line_to_create, context=context)
 
-        return None
+        return True
 
 
     def common_compute_invoice_picking(self, cr, uid, intrastat, parent_obj, parent_values, context=None):
@@ -430,7 +428,7 @@ class report_intrastat_product(osv.osv):
 
             self.create_intrastat_product_lines(cr, uid, ids, intrastat, invoice, parent_values, context=context)
 
-        return None
+        return True
 
 
 
@@ -517,7 +515,7 @@ class report_intrastat_product(osv.osv):
 
             self.create_intrastat_product_lines(cr, uid, ids, intrastat, picking, parent_values, context=context)
 
-        return None
+        return True
 
 
 
@@ -525,12 +523,12 @@ class report_intrastat_product(osv.osv):
     def done(self, cr, uid, ids, context=None):
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in done')
         self.write(cr, uid, ids[0], {'state': 'done', 'date_done': datetime.strftime(datetime.today(), '%Y-%m-%d %H:%M:%S')}, context=context)
-        return None
+        return True
 
     def back2draft(self, cr, uid, ids, context=None):
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in back2draft')
         self.write(cr, uid, ids[0], {'state': 'draft'}, context=context)
-        return None
+        return True
 
 
     def generate_xml(self, cr, uid, ids, context=None):
@@ -676,7 +674,7 @@ class report_intrastat_product(osv.osv):
         self.pool.get('report.intrastat.common')._check_xml_schema(cr, uid, root, xml_string, deb_xsd.deb_xsd, context=context)
         # Attach the XML file to the current object
         self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'deb', context=context)
-        return None
+        return True
 
 report_intrastat_product()
 
