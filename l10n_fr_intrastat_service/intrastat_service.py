@@ -134,6 +134,13 @@ class report_intrastat_service(osv.osv):
                 if not line.quantity:
                     continue
 
+                skip_this_line = False
+                for line_tax in line.invoice_line_tax_id:
+                    if line_tax.exclude_from_intrastat_if_present:
+                        skip_this_line = True
+                if skip_this_line:
+                    continue
+
                 if not line.price_subtotal:
                     continue
                 else:
