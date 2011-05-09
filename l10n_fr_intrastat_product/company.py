@@ -43,7 +43,7 @@ class res_company(osv.osv):
             (7, 'Installations de transport fixes'),
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre'),
-            ], 'Type of transport',
+            ], 'Default type of transport',
             help="If the 'Type of Transport' is not set on the invoice, OpenERP will use this value."),
         'statistical_pricelist_id' : fields.many2one('product.pricelist', 'Pricelist for statistical value', help="Select the pricelist that will be used to compute the statistical value (used in DEB lines generated from repair picking). The pricelist that you select must be in EUR."),
         'default_intrastat_type_out_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for Customer invoice'),
