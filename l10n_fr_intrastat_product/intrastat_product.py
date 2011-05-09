@@ -742,7 +742,6 @@ class report_intrastat_product_line(osv.osv):
         return True
 
     _constraints = [
-#        (_intrastat_code, "The 'Intrastat code' should have exactly 8 or 9 digits.", ['intrastat_code']),
         (_code_check, "Error msg in raise", ['procedure_code', 'transaction_code']),
         (_integer_check, "Error msg in raise", ['weight', 'quantity']),
     ]
@@ -765,13 +764,11 @@ class report_intrastat_product_line(osv.osv):
     def intrastat_type_on_change(self, cr, uid, ids, intrastat_type_id=False, type=False, obligation_level=False):
         result = {}
         result['value'] = {}
-        print "parent.type =", type
-        print "parent.obligation_level =", obligation_level
         if obligation_level=='simplified':
             result['value'].update({'is_fiscal_only': True})
         if intrastat_type_id:
-            intrastat_type = self.pool.get('report.intrastat.type').read(cr, uid, intrastat_type_id, ['procedure_code', 'transaction_code', 'is_fiscal_only'])
-            result['value'].update({'procedure_code': intrastat_type['procedure_code'], 'transaction_code': intrastat_type['transaction_code']})
+            intrastat_type = self.pool.get('report.intrastat.type').read(cr, uid, intrastat_type_id, ['procedure_code', 'transaction_code', 'is_fiscal_only', 'is_vat_required'])
+            result['value'].update({'procedure_code': intrastat_type['procedure_code'], 'transaction_code': intrastat_type['transaction_code'], 'is_vat_required': intrastat_type['is_vat_required']})
             if obligation_level=='detailed':
                 result['value'].update({'is_fiscal_only': intrastat_type['is_fiscal_only']})
 
