@@ -728,11 +728,6 @@ class report_intrastat_product_line(osv.osv):
         'partner_id': fields.many2one('res.partner', 'Partner name', states={'done':[('readonly',True)]}),
     }
 
-    def _code_check(self, cr, uid, ids):
-        for lines in self.read(cr, uid, ids, ['procedure_code', 'transaction_code']):
-            self.pool.get('report.intrastat.type').real_code_check(lines)
-        return True
-
     def _integer_check(self, cr, uid, ids):
         for values in self.read(cr, uid, ids, ['weight', 'quantity']):
             if values['weight'] and not values['weight'].isdigit():
@@ -743,7 +738,6 @@ class report_intrastat_product_line(osv.osv):
 
     _constraints = [
 #        (_intrastat_code, "The 'Intrastat code' should have exactly 8 or 9 digits.", ['intrastat_code']),
-        (_code_check, "Error msg in raise", ['procedure_code', 'transaction_code']),
         (_integer_check, "Error msg in raise", ['weight', 'quantity']),
     ]
 
@@ -755,8 +749,11 @@ class report_intrastat_product_line(osv.osv):
         result = {}
         result['value'] = {}
         if intrastat_code_id:
-            intrastat_code = self.pool.get('report.intrastat.code').read(cr, uid, intrastat_code_id, ['intrastat_code'])
-            result['value'].update({'intrastat_code': intrastat_code['intrastat_code']})
+            intrastat_code = self.pool.get('report.intrastat.code').browse(cr, uid, intrastat_code_id)
+            if intrastat_code.intrastat_uom_id:
+                result['value'].update({'intrastat_code': intrastat_code.intrastat_code, 'intrastat_uom_id': intrastat_code.intrastat_uom_id.id})
+            else:
+                result['value'].update({'intrastat_code': intrastat_code.intrastat_code, 'intrastat_uom_id': False})
         return result
 
     def intrastat_type_on_change(self, cr, uid, ids, intrastat_type_id=False, type=False, obligation_level=False):
