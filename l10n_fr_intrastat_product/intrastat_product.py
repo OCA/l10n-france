@@ -722,8 +722,8 @@ class report_intrastat_product_line(osv.osv):
         'is_vat_required' : fields.related('intrastat_type_id', 'is_vat_required', type='boolean', relation='report.intrastat.type', string='Is Partner VAT required', readonly=True),
         # Is fiscal_only is not fields.related because, if obligation_level = simplified, is_fiscal_only is always true
         'is_fiscal_only' : fields.boolean('Is fiscal only?', readonly=True),
-        'procedure_code': fields.char('Procedure code', size=2, readonly=True),
-        'transaction_code': fields.char('Transaction code', size=2, readonly=True),
+        'procedure_code': fields.char('Procedure code', size=2),
+        'transaction_code': fields.char('Transaction code', size=2),
         'partner_vat': fields.char('Partner VAT', size=32, states={'done':[('readonly',True)]}),
         'partner_id': fields.many2one('res.partner', 'Partner name', states={'done':[('readonly',True)]}),
     }
@@ -736,8 +736,14 @@ class report_intrastat_product_line(osv.osv):
                 raise osv.except_osv(_('Error :'), _('Quantity must be an integer.'))
         return True
 
+    def _code_check(self, cr, uid, ids):
+        for lines in self.read(cr, uid, ids, ['procedure_code', 'transaction_code']):
+            self.pool.get('report.intrastat.type').real_code_check(lines)
+        return True
+
     _constraints = [
 #        (_intrastat_code, "The 'Intrastat code' should have exactly 8 or 9 digits.", ['intrastat_code']),
+        (_code_check, "Error msg in raise", ['procedure_code', 'transaction_code']),
         (_integer_check, "Error msg in raise", ['weight', 'quantity']),
     ]
 
