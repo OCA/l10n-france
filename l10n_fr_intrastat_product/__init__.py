@@ -25,7 +25,6 @@ import product
 import stock
 import company
 import invoice
-import tax
 import sale
 import purchase
 import intrastat_product
