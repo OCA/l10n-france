@@ -218,20 +218,24 @@ class report_intrastat_product(osv.osv):
                 else:
                     source_uom_id_to_write = source_uom.id
 
-                if not line.product_id.intrastat_id:
-                    raise osv.except_osv(_('Error :'), _("Missing H.S. code on product '%s'.") %(line.product_id.name))
-                else:
-                    intrastat_code_id_to_write = line.product_id.intrastat_id.id
+                product_intrastat_code = line.product_id.intrastat_id
+                if not product_intrastat_code:
+                    # If the H.S. code is not set on the product, we check if it's set
+                    # on it's related category
+                    product_intrastat_code = line.product_id.categ_id.intrastat_id
+                    if not product_intrastat_code:
+                        raise osv.except_osv(_('Error :'), _("Missing H.S. code on product '%s' or on it's related category '%s'.") %(line.product_id.name, line.product_id.categ_id.complete_name))
+                intrastat_code_id_to_write = product_intrastat_code.id
 
-                if not line.product_id.intrastat_id.intrastat_code:
-                    raise osv.except_osv(_('Error :'), _("Missing intrastat code on H.S. code '%s' (%s).") %(line.product_id.intrastat_id.name, line.product_id.intrastat_id.description))
+                if not product_intrastat_code.intrastat_code:
+                    raise osv.except_osv(_('Error :'), _("Missing intrastat code on H.S. code '%s' (%s).") %(product_intrastat_code.name, product_intrastat_code.description))
                 else:
-                    intrastat_code_to_write = line.product_id.intrastat_id.intrastat_code
+                    intrastat_code_to_write = product_intrastat_code.intrastat_code
 
-                if not line.product_id.intrastat_id.intrastat_uom_id:
+                if not product_intrastat_code.intrastat_uom_id:
                     intrastat_uom_id_to_write = False
                 else:
-                    intrastat_uom_id_to_write = line.product_id.intrastat_id.intrastat_uom_id.id
+                    intrastat_uom_id_to_write = product_intrastat_code.intrastat_uom_id.id
 
                 if intrastat_uom_id_to_write and intrastat_uom_id_to_write != source_uom_id_to_write:
                     raise osv.except_osv(_('Error :'), _("On %s '%s', on the line with %d product(s) '%s' has a unit of measure (%s) which is different from the UoM of it's intrastat code (%s). We don't handle this scenario for the moment.") %(src, parent_name, line_qty, line.product_id.name, source_uom_id_to_write, intrastat_uom_id_to_write))
