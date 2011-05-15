@@ -75,3 +75,11 @@ class product_template(osv.osv):
 
 product_template()
 
+
+class product_category(osv.osv):
+    _inherit = "product.category"
+    _columns = {
+        'intrastat_id': fields.many2one('report.intrastat.code', 'Intrastat code', help="Code from the Harmonised System. If this code is not set on the product itself, it will be read here, on the related product category."),
+    }
+
+product_category()
