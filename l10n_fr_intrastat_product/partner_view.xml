@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2011 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __terp__.py
+-->
+
+<openerp>
+<data>
+
+<!-- Add Type of transport on picking form view -->
+<record id="fr_intrastat_product_res_partner" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.res.partner</field>
+    <field name="model">res.partner</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="base_vat.view_partner_form"/>
+    <field name="arch" type="xml">
+        <field name="vat_subjected" position="after">
+            <field name="intrastat_fiscal_representative" />
+        </field>
+    </field>
+</record>
+
+</data>
+</openerp>
