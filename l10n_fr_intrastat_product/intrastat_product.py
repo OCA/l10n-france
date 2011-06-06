@@ -194,7 +194,7 @@ class report_intrastat_product(osv.osv):
                     context['date'] = parent_obj.date_invoice
                     print "context=", context
 # TODO : add invoice_currency, also in add loop, WARN picking
-                    amount_company_currency_to_write = self.pool.get('res.currency').compute(cr, uid, parent_obj.currency_id.id, intrastat.company_id.currency_id.id, line.price_subtotal, round=False, context=context)
+                    amount_company_currency_to_write = self.pool.get('res.currency').compute(cr, uid, parent_obj.currency_id.id, intrastat.company_id.currency_id.id, line.price_subtotal, context=context)
                 else:
                     amount_company_currency_to_write = line.price_subtotal
             elif src == 'picking':
@@ -383,20 +383,26 @@ class report_intrastat_product(osv.osv):
         for invoice in invoice_obj.browse(cr, uid, invoice_ids, context=context):
             print "INVOICE num =", invoice.number
             parent_values = {}
-            # TODO selection criteria will be modified
+
+            # We should always have a country on address_invoice_id
             if not invoice.address_invoice_id.country_id:
                 raise osv.except_osv(_('Error :'), _("Missing country on partner address '%s' of partner '%s'.") %(invoice.address_invoice_id.name, invoice.address_invoice_id.partner_id.name))
-            elif not invoice.address_invoice_id.country_id.intrastat:
-                continue
 
-            if invoice.intrastat_country_id:
+            # If I have no invoice.intrastat_country_id, which is the case the first month
+            # of the deployment of the module, then I use the country on invoice address
+            if not invoice.intrastat_country_id:
+                if not invoice.address_invoice_id.country_id.intrastat:
+                    continue
+                else:
+                    parent_values['partner_country_id_to_write'] = invoice.address_invoice_id.country_id.id
+
+            # If I have invoice.intrastat_country_id, which should be the case after the
+            # first month of use of the module, then I use invoice.intrastat_country_id
+            else:
                 if not invoice.intrastat_country_id.intrastat:
                     continue
                 else:
                     parent_values['partner_country_id_to_write'] = invoice.intrastat_country_id.id
-            else:
-                parent_values['partner_country_id_to_write'] = invoice.address_invoice_id.country_id.id
-
             if not invoice.intrastat_type_id:
                 if invoice.type == 'out_invoice':
                     if intrastat.company_id.default_intrastat_type_out_invoice:
@@ -420,15 +426,29 @@ class report_intrastat_product(osv.osv):
 
             parent_values = self.common_compute_invoice_picking(cr, uid, intrastat, invoice, parent_values, context=context)
 
-            parent_values['partner_id_to_write'] = invoice.partner_id.id
-
             if parent_values['is_vat_required']:
-                if not invoice.partner_id.vat:
-                    raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %invoice.partner_id.name)
+                # If I have invoice.intrastat_country_id and we the invoice address
+                # is outside the EU, then I look for the fiscal rep of the partner
+                if invoice.intrastat_country_id and not invoice.address_invoice_id.country_id.intrastat:
+                    if not invoice.partner_id.intrastat_fiscal_representative:
+                        raise osv.except_osv(_('Error :'), _("Missing fiscal representative for partner '%s'.") %invoice.partner_id.name)
+                    else:
+                        parent_values['partner_vat_to_write'] = invoice.partner_id.intrastat_fiscal_representative.vat
+                # Otherwise, I just read the vat number on the partner of the invoice
                 else:
-                    parent_values['partner_vat_to_write'] = invoice.partner_id.vat
+
+                    if not invoice.partner_id.vat:
+                        raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %invoice.partner_id.name)
+                    else:
+                        parent_values['partner_vat_to_write'] = invoice.partner_id.vat
             else:
                 parent_values['partner_vat_to_write'] = False
+
+            if invoice.intrastat_country_id and not invoice.address_invoice_id.country_id.intrastat and invoice.partner_id.intrastat_fiscal_representative:
+                # fiscal rep
+                parent_values['partner_id_to_write'] = invoice.partner_id.intrastat_fiscal_representative.id
+            else:
+                parent_values['partner_id_to_write'] = invoice.partner_id.id
 
             self.create_intrastat_product_lines(cr, uid, ids, intrastat, invoice, parent_values, context=context)
 
@@ -652,7 +672,7 @@ class report_intrastat_product(osv.osv):
             if intrastat.type == 'export' and pline.intrastat_type_id.is_vat_required:
                 partner_id = etree.SubElement(item, 'partnerId')
                 try: partner_id.text = pline.partner_vat.replace(' ', '')
-                except: raise osv.except_osv(_('Error :'), _("Missing VAT number for partner '%s'.") %pline.partner_name)
+                except: raise osv.except_osv(_('Error :'), _("Missing VAT number for partner '%s'.") %pline.partner_id.name)
             # Code régime is on all DEBs
             statistical_procedure_code = etree.SubElement(item, 'statisticalProcedureCode')
             statistical_procedure_code.text = pline.procedure_code
@@ -791,7 +811,6 @@ class report_intrastat_product_line(osv.osv):
             })
         print "intrastat_type_on_change res=", result
         return result
-
 
 
 report_intrastat_product_line()
