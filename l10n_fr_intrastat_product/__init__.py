@@ -21,6 +21,7 @@
 ##############################################################################
 
 import intrastat_type
+import partner
 import product
 import stock
 import company

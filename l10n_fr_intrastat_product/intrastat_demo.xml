@@ -17,10 +17,6 @@
 <!--    <field name="default_intrastat_transport">3</field> TODO : make it work -->
 </record>
 
-<record id="stock.warehouse0" model="stock.warehouse">
-    <field name="intrastat_department">93</field>
-</record>
-
 <record id="84715000" model="report.intrastat.code">
     <field name="name">84715000</field>
     <field name="description">Automatic data-processing machines (computers)</field>
@@ -97,6 +93,11 @@
     <field name="country_id" ref="base.tw" />
     <field name="intrastat_id" ref="85340090" />
     <field name="weight_net">0.8</field>
+</record>
+
+<!-- Mediapole is the fiscal rep of Asustek -->
+<record id="base.res_partner_asus" model="res.partner">
+    <field name="intrastat_fiscal_representative" ref="base.res_partner_8" />
 </record>
 
 </data>
