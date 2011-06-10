@@ -142,7 +142,7 @@ class report_intrastat_type(osv.osv):
             if intrastat_type['procedure_code'] not in fiscal_only_tuple and not intrastat_type['transaction_code']:
                 raise osv.except_osv(_('Error :'), _('You must enter a value for the transaction code.'))
             if intrastat_type['procedure_code'] in fiscal_only_tuple and intrastat_type['transaction_code']:
-                raise osv.except_osv(_('Error :'), _("You should not set a Transaction code when the Procedure code is '25', '26' or '31'."))
+                raise osv.except_osv(_('Error :'), _("You should not set a transaction code when the Procedure code is '25', '26' or '31'."))
         return True
 
     _constraints = [
