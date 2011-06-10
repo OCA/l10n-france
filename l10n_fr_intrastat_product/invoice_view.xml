@@ -20,7 +20,7 @@
             <field name="intrastat_transport" />
             <field name="intrastat_department" />
             <field name="intrastat_country_id" string="Origin country" />
-            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
+            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" /> <!-- v6 : add widget="selection" -->
         </field>
     </field>
 </record>

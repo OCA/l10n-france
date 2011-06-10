@@ -14,7 +14,7 @@
     <field name="model">report.intrastat.type</field>
     <field name="type">tree</field>
     <field name="arch" type="xml">
-        <tree string="Intrastat Type">
+        <tree string="Intrastat type">
             <field name="name" />
             <field name="procedure_code" />
             <field name="transaction_code" />
@@ -33,7 +33,7 @@
     <field name="model">report.intrastat.type</field>
     <field name="type">form</field>
     <field name="arch" type="xml">
-        <form string="Intrastat Type">
+        <form string="Intrastat type">
             <field name="name" select="1" />
             <field name="active" select="2" />
             <field name="object_type" select="1" />
