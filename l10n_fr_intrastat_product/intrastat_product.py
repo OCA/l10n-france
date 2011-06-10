@@ -22,7 +22,7 @@
 
 from osv import osv, fields
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from tools.translate import _
 
@@ -58,7 +58,7 @@ class report_intrastat_product(osv.osv):
         'start_date': fields.date('Start date', required=True, states={'done':[('readonly',True)]}, help="Start date of the declaration. Must be the first day of a month."),
         'end_date': fields.function(_compute_end_date, method=True, type='date', string='End date', store={
             'report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10),
-                }, help="End date for the declaration. Must be the last day of the month of the start date."),
+                }, help="End date for the declaration. Is the last day of the month of the start date."),
         'type': fields.selection([
             ('import', 'Import'),
             ('export', 'Export')
@@ -66,7 +66,7 @@ class report_intrastat_product(osv.osv):
         'obligation_level' : fields.selection([
             ('detailed', 'Detailed'),
             ('simplified', 'Simplified')
-            ], 'Obligation level', required=True, states={'done':[('readonly',True)]}, help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for Import."),
+            ], 'Obligation level', required=True, states={'done':[('readonly',True)]}, help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for an Import DEB."),
         'intrastat_line_ids': fields.one2many('report.intrastat.product.line', 'parent_id', 'Report intrastat product lines', states={'done':[('readonly',True)]}),
         'num_lines': fields.function(_compute_numbers, method=True, type='integer', multi='numbers', string='Number of lines', store={
             'report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
@@ -77,7 +77,6 @@ class report_intrastat_product(osv.osv):
         'total_fiscal_amount': fields.function(_compute_total_fiscal_amount, method=True, digits=(16,0), string='Total fiscal amount', store={
             'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
             }, help="Total fiscal amount in company currency of the declaration. This is the total amount that is displayed on the Prodouane website."),
-
         'currency_id': fields.related('company_id', 'currency_id', readonly=True, type='many2one', relation='res.currency', string='Currency'),
         'state' : fields.selection([
             ('draft','Draft'),
@@ -202,7 +201,7 @@ class report_intrastat_product(osv.osv):
                 amount_invoice_currency_to_write = False
                 unit_stat_price = self.pool.get('product.pricelist').price_get(cr, uid, [intrastat.company_id.statistical_pricelist_id.id], line.product_id.id, 1.0)[intrastat.company_id.statistical_pricelist_id.id]
                 if not unit_stat_price:
-                    raise osv.except_osv(_('Error :'), _("The Pricelist for statistical value '%s' that you selected for the company '%s' gives a price of 0 for the product '%s'.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, line.product_id.name))
+                    raise osv.except_osv(_('Error :'), _("The Pricelist for statistical value '%s' that is set for the company '%s' gives a price of 0 for the product '%s'.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, line.product_id.name))
                 else:
                     amount_company_currency_to_write = unit_stat_price * line_qty
             print "amount_company_currency_to_write =", amount_company_currency_to_write
@@ -238,7 +237,7 @@ class report_intrastat_product(osv.osv):
                     intrastat_uom_id_to_write = product_intrastat_code.intrastat_uom_id.id
 
                 if intrastat_uom_id_to_write and intrastat_uom_id_to_write != source_uom_id_to_write:
-                    raise osv.except_osv(_('Error :'), _("On %s '%s', on the line with %d product(s) '%s' has a unit of measure (%s) which is different from the UoM of it's intrastat code (%s). We don't handle this scenario for the moment.") %(src, parent_name, line_qty, line.product_id.name, source_uom_id_to_write, intrastat_uom_id_to_write))
+                    raise osv.except_osv(_('Error :'), _("On %s '%s', the line with %d product(s) '%s' has a unit of measure (%s) which is different from the UoM of it's intrastat code (%s). We don't handle this scenario for the moment.") %(src, parent_name, line_qty, line.product_id.name, source_uom_id_to_write, intrastat_uom_id_to_write))
 
                 # The origin country should only be declated on Import
                 if intrastat.type == 'export':
@@ -328,7 +327,7 @@ class report_intrastat_product(osv.osv):
         if not parent_values['is_fiscal_only']:
             if not parent_obj.intrastat_transport:
                 try: parent_values['transport_to_write'] = intrastat.company_id.default_intrastat_transport
-                except: raise osv.except_osv(_('Error :'), _("Mode of transport is not set on %s '%s' nor the default mode of transport on the company '%s'.") %(src, parent_name, intrastat.company_id.name))
+                except: raise osv.except_osv(_('Error :'), _("The mode of transport is not set on %s '%s' nor the default mode of transport on the company '%s'.") %(src, parent_name, intrastat.company_id.name))
             else:
                 parent_values['transport_to_write'] = parent_obj.intrastat_transport
 
@@ -408,17 +407,17 @@ class report_intrastat_product(osv.osv):
                     if intrastat.company_id.default_intrastat_type_out_invoice:
                         parent_values['intrastat_type_id_to_write'] = intrastat.company_id.default_intrastat_type_out_invoice.id
                     else:
-                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on invoice '%s' and the 'Default intrastat type for Customer invoice' is missing for the company '%s'.") %(invoice.number, intrastat.company_id.name))
+                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on invoice '%s' and the 'default intrastat type for customer invoice' is missing for the company '%s'.") %(invoice.number, intrastat.company_id.name))
                 elif invoice.type == 'out_refund':
                     if intrastat.company_id.default_intrastat_type_out_refund:
                         parent_values['intrastat_type_id_to_write'] = intrastat.company_id.default_intrastat_type_out_refund.id
                     else:
-                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on invoice '%s' and the 'Default intrastat type for Customer refund' is missing for the company '%s'.") %(invoice.number, intrastat.company_id.name))
+                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on invoice '%s' and the 'default intrastat type for customer refund' is missing for the company '%s'.") %(invoice.number, intrastat.company_id.name))
                 elif invoice.type == 'in_invoice':
                     if intrastat.company_id.default_intrastat_type_in_invoice:
                         parent_values['intrastat_type_id_to_write'] = intrastat.company_id.default_intrastat_type_in_invoice.id
                     else:
-                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on invoice '%s' and the 'Default intrastat type for Supplier invoice' is missing for the company '%s'.") %(invoice.number, intrastat.company_id.name))
+                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on invoice '%s' and the 'Default intrastat type for supplier invoice' is missing for the company '%s'.") %(invoice.number, intrastat.company_id.name))
                 else: raise osv.except_osv(_('Error :'), "Hara kiri... we can't have a supplier refund")
 
             else:
@@ -472,7 +471,7 @@ class report_intrastat_product(osv.osv):
         if not intrastat.company_id.statistical_pricelist_id:
             raise osv.except_osv(_('Error :'), _("You must select a 'Pricelist for statistical value' for the company %s.") %intrastat.company_id.name)
         elif intrastat.company_id.statistical_pricelist_id.currency_id.code <> 'EUR':
-            raise osv.except_osv(_('Error :'), _("The 'Pricelist for statistical value' that you selected (%s) for the company %s is in %s currency and should be in EUR.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, intrastat.company_id.statistical_pricelist_id.currency_id.code))
+            raise osv.except_osv(_('Error :'), _("The 'Pricelist for statistical value' that you selected (%s) for the company '%s' is in %s currency and should be in EUR.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, intrastat.company_id.statistical_pricelist_id.currency_id.code))
 
         pick_obj = self.pool.get('stock.picking')
         pick_type = False
@@ -518,12 +517,12 @@ class report_intrastat_product(osv.osv):
                     if intrastat.company_id.default_intrastat_type_out_picking:
                         parent_values['intrastat_type_id_to_write'] = intrastat.company_id.default_intrastat_type_out_picking.id
                     else:
-                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on picking '%s' and the 'Default intrastat type for Outgoing products' is missing for the company '%s'.") %(picking.name, intrastat.company_id.name))
+                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on picking '%s' and the 'default intrastat type for outgoing products' is missing for the company '%s'.") %(picking.name, intrastat.company_id.name))
                 elif picking.type == 'in':
                     if intrastat.company_id.default_intrastat_type_in_picking:
                         parent_values['intrastat_type_id_to_write'] = intrastat.company_id.default_intrastat_type_in_picking.id
                     else:
-                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on picking '%s' and the 'Default intrastat type for Incoming products' is missing for the company '%s'.") %(picking.name, intrastat.company_id.name))
+                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on picking '%s' and the 'default intrastat type for incoming products' is missing for the company '%s'.") %(picking.name, intrastat.company_id.name))
                 else: raise osv.except_osv(_('Error :'), "Hara kiri... we can't arrive here")
             else:
                 parent_values['intrastat_type_id_to_write'] = picking.intrastat_type_id.id
@@ -608,7 +607,7 @@ class report_intrastat_product(osv.osv):
         elif intrastat.obligation_level == 'simplified':
             declaration_type_code.text = '4'
         else:
-            raise osv.except_osv(_('Error :'), _("The obligation level for DEB should be 'simplified' or 'detailed'."))
+            raise osv.except_osv(_('Error :'), "The obligation level for DEB should be 'simplified' or 'detailed'.")
         flow_code = etree.SubElement(declaration, 'flowCode')
 
         if intrastat.type == 'export':
@@ -616,12 +615,12 @@ class report_intrastat_product(osv.osv):
         elif intrastat.type == 'import':
             flow_code.text = 'A'
         else:
-            raise osv.except_osv(_('Error :'), _("The DEB must be of type 'Import' or 'Export'"))
+            raise osv.except_osv(_('Error :'), "The DEB must be of type 'Import' or 'Export'")
         currency_code = etree.SubElement(declaration, 'currencyCode')
         if my_company_currency == 'EUR': # already tested in generate_lines function !
             currency_code.text = my_company_currency
         else:
-            raise osv.except_osv(_('Error :'), _("Company currency must be 'EUR' for the XML file export, but it is currently '%s'.") %my_company_currency)
+            raise osv.except_osv(_('Error :'), "Company currency must be 'EUR' but is currently '%s'." %my_company_currency)
 
         # THEN, the fields which vary from a line to the next
         line = 0
@@ -629,7 +628,7 @@ class report_intrastat_product(osv.osv):
             line += 1 #increment line number
             print "line =", line
             try: intrastat_type = self.pool.get('report.intrastat.type').read(cr, uid, pline.intrastat_type_id.id, ['is_fiscal_only'], context=context)
-            except: raise osv.except_osv(_('Error :'), _('Missing Intrastat type id on line %d.') %line)
+            except: raise osv.except_osv(_('Error :'), "Missing Intrastat type id on line %d." %line)
             item = etree.SubElement(declaration, 'Item')
             item_number = etree.SubElement(item, 'itemNumber')
             item_number.text = str(line)
@@ -709,7 +708,6 @@ class report_intrastat_product_line(osv.osv):
     _order = 'id'
     _columns = {
         'parent_id': fields.many2one('report.intrastat.product', 'Intrastat product ref', ondelete='cascade', select=True, readonly=True),
-        # Fields.related
         'state' : fields.related('parent_id', 'state', type='string', relation='report.intrastat.product', string='State', readonly=True),
         'company_id': fields.related('parent_id', 'company_id', type='many2one', relation='res.company', string="Company", readonly=True),
         'company_currency_id': fields.related('company_id', 'currency_id', type='many2one', relation='res.currency', string="Company currency", readonly=True),
@@ -724,7 +722,7 @@ class report_intrastat_product_line(osv.osv):
         'intrastat_code_id': fields.many2one('report.intrastat.code', 'Intrastat code (not used in XML)', states={'done':[('readonly',True)]}),
         # Weight should be an integer... but I want to be able to display nothing in
         # tree view when the value is False (if weight is an integer, a False value would
-        # be displayed as 0), that's why weight is now a char !
+        # be displayed as 0), that's why weight is a char !
         'weight': fields.char('Weight', size=10, states={'done':[('readonly',True)]}),
         'amount_invoice_currency': fields.integer('Fiscal value in invoice currency', readonly=True),
         'amount_company_currency': fields.integer('Fiscal value in company currency', required=True, states={'done':[('readonly',True)]}),

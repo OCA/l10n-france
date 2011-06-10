@@ -37,7 +37,6 @@ class purchase_order(osv.osv):
                 dico_write['intrastat_department'] = purchase.picking_ids[0].intrastat_department
             # invoice_id many2one -> invoice_ids many2many on v6 -> same code as sale.py
             self.pool.get('account.invoice').write(cr, uid, purchase.invoice_id.id, dico_write)
-            print "write all !"
         return res
 
 purchase_order()
