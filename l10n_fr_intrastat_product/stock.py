@@ -82,7 +82,7 @@ class stock_picking(osv.osv):
             (7, 'Installations de transport fixes'),
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre')], 'Type of transport',
-            help="Select the type of transport. This information is required for the product intrastat report (DEB)."),
+            help="Select the type of transport of the goods. This information is required for the product intrastat report (DEB)."),
         'intrastat_department': fields.function(_compute_department, method=True, type='char', size=2, string='Intrastat department', store={
             'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
             'stock.move': (_get_picking_from_move_lines, ['location_dest_id', 'location_id', 'picking_id'], 20),

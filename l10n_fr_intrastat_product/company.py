@@ -32,8 +32,8 @@ class res_company(osv.osv):
         # As this module only implement DEB for France, we use size=4
         'customs_accreditation': fields.char('Customs accreditation identifier', size=4, help="Company identifier for Intrastat file export. Size : 4 characters."),
         'siret_complement' : fields.char('SIRET complement', size=5, help="5 last digits of the SIRET number of the company."),
-        'export_obligation_level': fields.selection([('detailed', 'Detailed'), ('simplified', 'Simplified')], 'Obligation level for export', help='If your volume of export of products to EU countries is over 460 000 € per year, your obligation level for export for the DEB is "Detailed". If you are under this limit, your obligation level for export for the DEB is "Simplified".'),
-        'default_intrastat_department': fields.char('Default departement code', size=2, help='If the Departement code is not set on the invoice line, OpenERP will use this value.'),
+        'export_obligation_level': fields.selection([('detailed', 'Detailed'), ('simplified', 'Simplified')], 'Obligation level for export', help='For the DEB : if your volume of export of products to EU countries is over 460 000 € per year, your obligation level for export is "Detailed" ; if you are under this limit, your obligation level for export is "Simplified".'),
+        'default_intrastat_department': fields.char('Default departement code', size=2, help='If the Departement code is not set on the invoice, OpenERP will use this value.'),
         'default_intrastat_transport': fields.selection([
             (1, 'Transport maritime'),
             (2, 'Transport par chemin de fer'),
@@ -44,13 +44,13 @@ class res_company(osv.osv):
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre'),
             ], 'Default type of transport',
-            help="If the 'Type of Transport' is not set on the invoice, OpenERP will use this value."),
+            help="If the 'Type of Transport' is not set on the invoice or picking, OpenERP will use this value."),
         'statistical_pricelist_id' : fields.many2one('product.pricelist', 'Pricelist for statistical value', help="Select the pricelist that will be used to compute the statistical value (used in DEB lines generated from repair picking). The pricelist that you select must be in EUR."),
-        'default_intrastat_type_out_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for Customer invoice'),
-        'default_intrastat_type_out_refund': fields.many2one('report.intrastat.type', 'Default intrastat type for Customer refund'),
-        'default_intrastat_type_in_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for Supplier invoice'),
-        'default_intrastat_type_in_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for Incoming products'),
-        'default_intrastat_type_out_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for Outgoing products'),
+        'default_intrastat_type_out_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for customer invoice'),
+        'default_intrastat_type_out_refund': fields.many2one('report.intrastat.type', 'Default intrastat type for customer refund'),
+        'default_intrastat_type_in_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for supplier invoice'),
+        'default_intrastat_type_in_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for incoming products'),
+        'default_intrastat_type_out_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for outgoing products'),
     }
 
     def _5digits(self, cr, uid, ids):
@@ -88,7 +88,7 @@ class res_company(osv.osv):
         return True
 
     _constraints = [
-            (_5digits, "'SIRET complement' should have exactly 5 digits !", ['siret_complement']),
+            (_5digits, "The 'SIRET complement' should have exactly 5 digits.", ['siret_complement']),
             (_check_default_intrastat_department, "Error msg is in raise", ['default_intrastat_department']),
             (_check_statistical_pricelist_id, "Error msg in raise", ['statistical_pricelist_id']),
             ]
