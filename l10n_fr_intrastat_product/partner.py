@@ -25,7 +25,7 @@ from osv import osv, fields
 class res_partner(osv.osv):
     _inherit = "res.partner"
     _columns = {
-        'intrastat_fiscal_representative' : fields.many2one('res.partner', string="EU fiscal representative", help="If the company is located outside the EU but you deliver the goods inside the UE, the company needs to have a fiscal representative with a VAT number inside the EU. In this scenario, the VAT number of the fiscal representative will be used for the Intrastat Product report."),
+        'intrastat_fiscal_representative' : fields.many2one('res.partner', string="EU fiscal representative", help="If this partner is located outside the EU but you deliver the goods inside the UE, the partner needs to have a fiscal representative with a VAT number inside the EU. In this scenario, the VAT number of the fiscal representative will be used for the Intrastat Product report (DEB)."),
     }
 
     def _check_fiscal_representative(self, cr, uid, ids, context=None):
@@ -35,11 +35,11 @@ class res_partner(osv.osv):
         for partner in self.browse(cr, uid, ids, context=context):
             if partner.intrastat_fiscal_representative:
                 if not partner.intrastat_fiscal_representative.country:
-                    raise osv.except_osv(_('Error :'), _("The fiscal representative '%s' of partner '%s' must have a country") %(partner.intrastat_fiscal_representative.name, partner.name))
+                    raise osv.except_osv(_('Error :'), _("The fiscal representative '%s' of partner '%s' must have a country.") %(partner.intrastat_fiscal_representative.name, partner.name))
                 if not partner.intrastat_fiscal_representative.country.intrastat and partner.intrastat_fiscal_representative.country.id <> my_company_country_id:
-                    raise osv.except_osv(_('Error :'), _("The fiscal representative '%s' of partner '%s' must be based in an EU country") % (partner.intrastat_fiscal_representative.name, partner.name))
+                    raise osv.except_osv(_('Error :'), _("The fiscal representative '%s' of partner '%s' must be based in an EU country.") % (partner.intrastat_fiscal_representative.name, partner.name))
                 if not partner.intrastat_fiscal_representative.vat:
-                    raise osv.except_osv(_('Error :'), _("The fiscal representative '%s' of partner '%s' must have a VAT number") % (partner.intrastat_fiscal_representative.name, partner.name))
+                    raise osv.except_osv(_('Error :'), _("The fiscal representative '%s' of partner '%s' must have a VAT number.") % (partner.intrastat_fiscal_representative.name, partner.name))
 
         return True
 
