@@ -35,9 +35,9 @@ class account_invoice(osv.osv):
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre')
             ], 'Type of transport',
-            help="Select the type of transport. This information is required for the product intrastat report (DEB)."),
-        'intrastat_department' : fields.char('Department', size=2),
-        'intrastat_country_id' : fields.many2one('res.country', 'Destination/Origin country of the goods'),
+            help="Type of transport of the goods. This information is required for the product intrastat report (DEB)."),
+        'intrastat_department' : fields.char('Department', size=2, help="For a customer invoice, contains France's department number from which the goods have be shipped. For a supplier invoice, contains France's department number of reception of the goods. This information is required for the product intrastat report (DEB)."),
+        'intrastat_country_id' : fields.many2one('res.country', 'Destination/Origin country of the goods', help="For a customer invoice, contains the country to which the goods have been shipped. For a supplier invoice, contains the country from which the goods have been shipped."),
         'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
             }
 
