@@ -430,7 +430,7 @@ class report_intrastat_product(osv.osv):
                 # is outside the EU, then I look for the fiscal rep of the partner
                 if invoice.intrastat_country_id and not invoice.address_invoice_id.country_id.intrastat:
                     if not invoice.partner_id.intrastat_fiscal_representative:
-                        raise osv.except_osv(_('Error :'), _("Missing fiscal representative for partner '%s'.") %invoice.partner_id.name)
+                        raise osv.except_osv(_('Error :'), _("Missing fiscal representative for partner '%s'. It is required for invoice '%s' which has an invoice address outside the EU but the goods were delivered to or received from inside the EU.") % (invoice.partner_id.name, invoice.number))
                     else:
                         parent_values['partner_vat_to_write'] = invoice.partner_id.intrastat_fiscal_representative.vat
                 # Otherwise, I just read the vat number on the partner of the invoice
