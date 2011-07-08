@@ -543,7 +543,7 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: help:report.intrastat.type,fiscal_value_multiplier:0
-msgid "'0' for intrastat types 19 and 29, '-1' for intrastat type 25, '1' for all the others. This multiplier is used to compute the fiscal value of the declaration."
+msgid "'0' for procedure codes 19 and 29, '-1' for procedure code 25, '1' for all the others. This multiplier is used to compute the total fiscal value of the declaration."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -579,7 +579,7 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: field:report.intrastat.product.line,is_vat_required:0
-msgid "Is Partner VAT required"
+msgid "Is Partner VAT required ?"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1106,7 +1106,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:0
 #, python-format
-msgid "The intrastat type hasn't been set on invoice '%s' and the 'default intrastat type for customer refund' is missing for the company '%s'."
+msgid "The intrastat type hasn't been set on refund '%s' and the 'default intrastat type for customer refund' is missing for the company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1132,7 +1132,7 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: help:report.intrastat.type,is_vat_required:0
-msgid "True for all intrastat types except 11, 19 and 29. When False, the VAT number should not be filled in the Intrastat product line."
+msgid "True for all procedure codes except 11, 19 and 29. When False, the VAT number should not be filled in the Intrastat product line."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
