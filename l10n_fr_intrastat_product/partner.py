@@ -21,6 +21,7 @@
 ##############################################################################
 
 from osv import osv, fields
+from tools.translate import _
 
 class res_partner(osv.osv):
     _inherit = "res.partner"
