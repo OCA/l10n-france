@@ -100,10 +100,10 @@ class report_intrastat_type(osv.osv):
                 }, help="Only fiscal data should be provided for this procedure code."),
         'fiscal_value_multiplier': fields.function(_compute_all, method=True, multi="akretionrules", type='integer', string='Fiscal value multiplier', store={
             'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
-                }, help="'0' for intrastat types 19 and 29, '-1' for intrastat type 25, '1' for all the others. This multiplier is used to compute the fiscal value of the declaration."),
+                }, help="'0' for procedure codes 19 and 29, '-1' for procedure code 25, '1' for all the others. This multiplier is used to compute the total fiscal value of the declaration."),
         'is_vat_required': fields.function(_compute_all, method=True, multi="akretionrules", type='boolean', string='Is partner VAT required?', store={
             'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
-                }, help='True for all intrastat types except 11, 19 and 29. When False, the VAT number should not be filled in the Intrastat product line.'),
+                }, help='True for all procedure codes except 11, 19 and 29. When False, the VAT number should not be filled in the Intrastat product line.'),
         'intrastat_product_type': fields.function(_compute_all, method=True, type='char', size=10, multi="akretionrules", string='Intrastat product type', store={
             'report.intrastat.type': (lambda self, cr, uid, ids, c={}: ids, ['procedure_code'], 10),
                 }, help="Decides on which kind of Intrastat product report ('Import' or 'Export') this Intrastat type can be selected."),
