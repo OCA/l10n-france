@@ -412,7 +412,7 @@ class report_intrastat_product(osv.osv):
                     if intrastat.company_id.default_intrastat_type_out_refund:
                         parent_values['intrastat_type_id_to_write'] = intrastat.company_id.default_intrastat_type_out_refund.id
                     else:
-                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on invoice '%s' and the 'default intrastat type for customer refund' is missing for the company '%s'.") %(invoice.number, intrastat.company_id.name))
+                        raise osv.except_osv(_('Error :'), _("The intrastat type hasn't been set on refund '%s' and the 'default intrastat type for customer refund' is missing for the company '%s'.") %(invoice.number, intrastat.company_id.name))
                 elif invoice.type == 'in_invoice':
                     if intrastat.company_id.default_intrastat_type_in_invoice:
                         parent_values['intrastat_type_id_to_write'] = intrastat.company_id.default_intrastat_type_in_invoice.id
@@ -741,7 +741,7 @@ class report_intrastat_product_line(osv.osv):
             ], 'Type of transport', states={'done':[('readonly',True)]}),
         'department' : fields.char('Department', size=2, states={'done':[('readonly',True)]}),
         'intrastat_type_id' : fields.many2one('report.intrastat.type', 'Intrastat type', states={'done':[('readonly',True)]}),
-        'is_vat_required' : fields.related('intrastat_type_id', 'is_vat_required', type='boolean', relation='report.intrastat.type', string='Is Partner VAT required', readonly=True),
+        'is_vat_required' : fields.related('intrastat_type_id', 'is_vat_required', type='boolean', relation='report.intrastat.type', string='Is Partner VAT required ?', readonly=True),
         # Is fiscal_only is not fields.related because, if obligation_level = simplified, is_fiscal_only is always true
         'is_fiscal_only' : fields.boolean('Is fiscal only?', readonly=True),
         'procedure_code': fields.char('Procedure code', size=2),
