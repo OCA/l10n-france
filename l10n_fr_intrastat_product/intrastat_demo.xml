@@ -95,9 +95,9 @@
     <field name="weight_net">0.8</field>
 </record>
 
-<!-- Mediapole is the fiscal rep of Asustek -->
+<!-- Elec import is the fiscal rep of Asustek -->
 <record id="base.res_partner_asus" model="res.partner">
-    <field name="intrastat_fiscal_representative" ref="base.res_partner_8" />
+    <field name="intrastat_fiscal_representative" ref="base.res_partner_6" />
 </record>
 
 </data>
