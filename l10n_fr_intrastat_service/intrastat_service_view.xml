@@ -85,8 +85,8 @@
     <field name="arch" type="xml">
         <tree string="Intrastat service lines">
             <field name="partner_vat" />
-            <field name="amount_company_currency" string="Amount in Comp. Cur." />
-            <field name="company_currency_id" string="Comp. Cur." />
+            <field name="amount_company_currency" string="Amount in comp. cur." />
+            <field name="company_currency_id" string="Comp. cur." />
             <field name="partner_id" />
             <field name="invoice_id" />
         </tree>
