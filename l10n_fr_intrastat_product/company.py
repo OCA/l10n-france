@@ -83,7 +83,7 @@ class res_company(osv.osv):
     def _check_statistical_pricelist_id(self, cr, uid, ids):
         for company_to_check in self.browse(cr, uid, ids):
             if company_to_check.statistical_pricelist_id:
-                if company_to_check.statistical_pricelist_id.currency_id.code <> 'EUR':
+                if company_to_check.statistical_pricelist_id.currency_id.name <> 'EUR':
                     raise osv.except_osv(_('Error :'), _("The pricelist for statistical value must be in EUR currency."))
         return True
 
