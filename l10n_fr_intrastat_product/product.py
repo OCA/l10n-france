@@ -70,7 +70,7 @@ class product_template(osv.osv):
     _inherit = "product.template"
     _columns = {
         'intrastat_id': fields.many2one('report.intrastat.code', 'Intrastat code', help="Code from the Harmonised System. Nomenclature is available from the World Customs Organisation, see http://www.wcoomd.org/. Some countries have made their own extensions to this nomenclature."),
-        'country_id' : fields.many2one('res.country', 'Country of origin', help="Country of origin of the product i.e. product 'made in xxx'."),
+        'country_id' : fields.many2one('res.country', 'Country of origin', help="Country of origin of the product i.e. product 'made in ___'."),
     }
 
 product_template()

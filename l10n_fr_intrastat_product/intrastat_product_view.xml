@@ -17,17 +17,18 @@
     <field name="arch" type="xml">
         <form>
             <group colspan="4" col="8">
-                <field name="start_date" select="1" />
+                <field name="start_date" />
                 <field name="end_date" />
-                <field name="type" select="1" on_change="type_on_change(company_id, type)" />
-                <field name="obligation_level" select="2" />
+                <field name="type" on_change="type_on_change(company_id, type)" />
+                <field name="obligation_level" />
             </group>
             <group colspan="4" col="9">
                 <field name="num_lines" />
                 <field name="total_amount" />
                 <field name="total_fiscal_amount" />
                 <field name="currency_id" nolabel="1"/>
-                <field name="company_id" invisible="1" />
+                <newline />
+                <field name="company_id" groups="base.group_multi_company" widget="selection" />
             </group>
             <separator colspan="4" string="Notes"/>
             <group colspan="4">
@@ -86,8 +87,8 @@
             </field>
 
             <group col="6" colspan="4">
-                <field name="state" select="2" />
-                <field name="date_done" select="2" />
+                <field name="state" />
+                <field name="date_done" />
                 <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
                 <button icon="gtk-convert" name="back2draft" string="Back to draft" type="object" colspan="1" states="done" />
             </group>
@@ -97,7 +98,7 @@
 
 <!-- Tree view for DEB -->
 <record id="fr_intrastat_product_tree" model="ir.ui.view">
-    <field name="name">report.intrastat.product.tree</field>
+    <field name="name">fr.intrastat.product.tree</field>
     <field name="model">report.intrastat.product</field>
     <field name="type">tree</field>
     <field name="arch" type="xml">
@@ -111,10 +112,36 @@
             <field name="total_fiscal_amount" sum="Total fiscal amount" />
             <field name="currency_id" />
             <field name="state" />
+            <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
         </tree>
     </field>
 </record>
 
+
+<!-- Search view for DEB -->
+<record id="fr_intrastat_product_search" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.search</field>
+    <field name="model">report.intrastat.product</field>
+    <field name="type">search</field>
+    <field name="arch" type="xml">
+        <search>
+            <filter string="Import" domain="[('type', '=', 'import')]" icon="terp-gtk-go-back-ltr" />
+            <filter string="Export" domain="[('type', '=', 'export')]" icon="terp-gtk-go-back-rtl" />
+            <separator orientation="vertical"/>
+            <filter string="Draft" domain="[('state', '=', 'draft')]" icon="terp-folder-orange" />
+            <filter string="Done" domain="[('state', '=', 'done')]" icon="terp-folder-green" />
+            <separator orientation="vertical"/>
+            <field name="start_date" />
+        <newline />
+        <group expand="False" string="Extended Filters...">
+            <field name="total_amount" />
+            <field name="total_fiscal_amount" />
+            <field name="num_lines" />
+            <field name="obligation_level" />
+        </group>
+        </search>
+    </field>
+</record>
 
 <!-- Action related -->
 <record id="fr_intrastat_product_tree_action" model="ir.actions.act_window">
