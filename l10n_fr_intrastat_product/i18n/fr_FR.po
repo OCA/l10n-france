@@ -268,7 +268,7 @@ msgstr "Numéro d'habilitation pour les fichiers de DEB délivré par l'administ
 #: field:report.intrastat.product.line,transport:0
 #: field:stock.picking,intrastat_transport:0
 msgid "Type of transport"
-msgstr "Type de transport"
+msgstr "Mode de transport"
 
 #. module: l10n_fr_intrastat_product
 #: field:report.intrastat.type,intrastat_product_type:0
@@ -336,7 +336,7 @@ msgstr "Ref facture"
 #. module: l10n_fr_intrastat_product
 #: help:account.invoice,intrastat_transport:0
 msgid "Type of transport of the goods. This information is required for the product intrastat report (DEB)."
-msgstr "Type de transport des biens. Information requise pour la DEB."
+msgstr "Mode de transport des marchandises. Information requise pour la DEB."
 
 #. module: l10n_fr_intrastat_product
 #: view:report.intrastat.product:0
@@ -1064,7 +1064,7 @@ msgstr "Niveau d'obligation"
 #. module: l10n_fr_intrastat_product
 #: field:product.uom,intrastat_label:0
 msgid "Intrastat label"
-msgstr "Libellé pour la DEB"
+msgstr "Code pour la DEB"
 
 #. module: l10n_fr_intrastat_product
 #: constraint:ir.model:0
