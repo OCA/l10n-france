@@ -27,16 +27,15 @@ class purchase_order(osv.osv):
 
     def action_invoice_create(self, cr, uid, ids, *args):
         '''Copy country of partner_address_id =("origin country") and arrival department on invoice'''
-        print "action_invoice_create ids=", ids
         res = super(purchase_order,self).action_invoice_create(cr, uid, ids, *args)
         for purchase in self.browse(cr, uid, ids):
-            dico_write = {}
-            if purchase.partner_address_id and purchase.partner_address_id.country_id:
-                dico_write['intrastat_country_id'] = purchase.partner_address_id.country_id.id
-            if purchase.picking_ids:
-                dico_write['intrastat_department'] = purchase.picking_ids[0].intrastat_department
-            # invoice_id many2one -> invoice_ids many2many on v6 -> same code as sale.py
-            self.pool.get('account.invoice').write(cr, uid, purchase.invoice_id.id, dico_write)
+            for rel_invoice in purchase.invoice_ids:
+                dico_write = {}
+                if purchase.partner_address_id and purchase.partner_address_id.country_id:
+                    dico_write['intrastat_country_id'] = purchase.partner_address_id.country_id.id
+                if purchase.picking_ids:
+                    dico_write['intrastat_department'] = purchase.picking_ids[0].intrastat_department
+                self.pool.get('account.invoice').write(cr, uid, rel_invoice.id, dico_write)
         return res
 
 purchase_order()

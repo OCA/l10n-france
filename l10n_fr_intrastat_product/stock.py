@@ -46,7 +46,6 @@ class stock_picking(osv.osv):
     _inherit = "stock.picking"
 
     def _compute_department(self, cr, uid, ids, name, arg, context=None):
-        print "_compute_department ids=", ids
         result = {}
         for picking in self.browse(cr, uid, ids, context=context):
             result[picking.id] = False
@@ -65,11 +64,11 @@ class stock_picking(osv.osv):
                         continue
                     else:
                         break
-        print "_compute_department result=", result
+        #print "_compute_department result=", result
         return result
 
     def _get_picking_from_move_lines(self, cr, uid, ids, context=None):
-        print "invalid function dpt ids=", ids
+        #print "invalid function dpt ids=", ids
         return self.pool.get('stock.picking').search(cr, uid, [('move_lines', 'in', ids)], context=context)
 
     _columns = {
