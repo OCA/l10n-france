@@ -50,7 +50,7 @@
     <field name="type">form</field>
     <field name="inherit_id" ref="product.product_category_form_view"/>
     <field name="arch" type="xml">
-        <field name="sequence" position="after">
+        <field name="type" position="after">
             <field name="intrastat_id" select="2" />
         </field>
     </field>
@@ -110,8 +110,11 @@
 </record>
 
 <!-- Menu entry for H.S. code -->
-<menuitem id="fr_intrastat_product_intrastat_code_menu" action="fr_intrastat_product_intrastat_code_act" parent="product.menu_config_product" />
-<!-- v6 : parent="product.prod_config_main" -->
+<menuitem id="fr_intrastat_product_intrastat_code_menu" action="fr_intrastat_product_intrastat_code_act" parent="product.prod_config_main" />
+
+<menuitem id="fr_intrastat_product_intrastat_code_menu_purchase" action="fr_intrastat_product_intrastat_code_act" parent="purchase.menu_product_in_config_purchase" />
+
+<menuitem id="fr_intrastat_product_intrastat_code_menu_stock" action="fr_intrastat_product_intrastat_code_act" parent="stock.menu_product_in_config_stock" />
 
 </data>
 </openerp>

@@ -856,7 +856,7 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: help:product.template,country_id:0
-msgid "Country of origin of the product i.e. product 'made in xxx'."
+msgid "Country of origin of the product i.e. product 'made in ___'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
