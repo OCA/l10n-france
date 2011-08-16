@@ -60,7 +60,7 @@ class report_intrastat_service(osv.osv):
         'state' : fields.selection([
             ('draft','Draft'),
             ('done','Done'),
-        ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
+        ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the fields become read-only."),
         'date_done' : fields.datetime('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
         'notes' : fields.text('Notes', help="You can write some comments here if you want."),
     }
@@ -216,7 +216,7 @@ class report_intrastat_service(osv.osv):
             valeur.text = str(sline.amount_company_currency)
             partner_des = etree.SubElement(ligne_des, 'partner_des')
             try: partner_des.text = sline.partner_vat.replace(' ', '')
-            except: raise osv.except_osv(_('Error :'), _("Missing VAT number for partner '%s'.") %sline.partner_id.name)
+            except: raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %sline.partner_id.name)
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         print "xml_string", xml_string
 
