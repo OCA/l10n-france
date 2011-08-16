@@ -9,19 +9,21 @@
 <openerp>
 <data>
 
-<!-- Form view of DES -->
-<record id="view_report_intrastat_service_form" model="ir.ui.view">
-    <field name="name">report.intrastat.service.form</field>
+<!-- Form view for DES -->
+<record id="fr_intrastat_service_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.form</field>
     <field name="model">report.intrastat.service</field>
     <field name="type">form</field>
     <field name="arch" type="xml">
         <form>
             <group colspan="4" col="9">
-                <field name="start_date" select="1" />
+                <field name="start_date" />
                 <field name="end_date" />
                 <field name="num_lines" />
                 <field name="total_amount" />
                 <field name="currency_id" nolabel="1"/>
+                <newline />
+                <field name="company_id" groups="base.group_multi_company" widget="selection" />
             </group>
             <separator colspan="4" string="Notes"/>
             <group colspan="4">
@@ -31,7 +33,7 @@
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
             <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
             <group col="6" colspan="4">
-                <field name="state" select="2" />
+                <field name="state" />
                 <field name="date_done" />
                 <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
                 <button icon="gtk-convert" name="back2draft" string="Back to draft" type="object" colspan="1" states="done" />
@@ -40,9 +42,9 @@
     </field>
 </record>
 
-<!-- Tree view of list of DES -->
-<record id="view_report_intrastat_service_tree" model="ir.ui.view">
-    <field name="name">report.intrastat.service.tree</field>
+<!-- Tree view for DES -->
+<record id="fr_intrastat_service_tree" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.tree</field>
     <field name="model">report.intrastat.service</field>
     <field name="type">tree</field>
     <field name="arch" type="xml">
@@ -53,13 +55,34 @@
             <field name="total_amount" sum="Total amount" />
             <field name="currency_id" />
             <field name="state" />
+            <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
         </tree>
     </field>
 </record>
 
+<!-- Search view for DES -->
+<record id="fr_intrastat_service_search" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.search</field>
+    <field name="model">report.intrastat.service</field>
+    <field name="type">search</field>
+    <field name="arch" type="xml">
+        <search>
+            <filter string="Draft" domain="[('state', '=', 'draft')]" icon="terp-folder-orange" />
+            <filter string="Done" domain="[('state', '=', 'done')]" icon="terp-folder-green" />
+            <separator orientation="vertical"/>
+            <field name="start_date" />
+            <newline />
+            <group expand="False" string="Extended Filters...">
+                <field name="total_amount" />
+                <field name="num_lines" />
+            </group>
+        </search>
+    </field>
+</record>
+
 <!-- Form view for service lines -->
-<record id="view_report_intrastat_service_line_form" model="ir.ui.view">
-    <field name="name">report.intrastat.service.line.form</field>
+<record id="fr_intrastat_service_line_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.line.form</field>
     <field name="model">report.intrastat.service.line</field>
     <field name="type">form</field>
     <field name="arch" type="xml">
@@ -78,15 +101,15 @@
 </record>
 
 <!-- Tree view for service lines -->
-<record id="view_report_intrastat_service_line_tree" model="ir.ui.view">
-    <field name="name">report.intrastat.service.line.tree</field>
+<record id="fr_intrastat_service_line_tree" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.line.tree</field>
     <field name="model">report.intrastat.service.line</field>
     <field name="type">tree</field>
     <field name="arch" type="xml">
         <tree string="Intrastat service lines">
             <field name="partner_vat" />
-            <field name="amount_company_currency" string="Amount in Comp. Cur." />
-            <field name="company_currency_id" string="Comp. Cur." />
+            <field name="amount_company_currency" string="Amount in comp. cur." />
+            <field name="company_currency_id" string="Comp. cur." />
             <field name="partner_id" />
             <field name="invoice_id" />
         </tree>
@@ -95,7 +118,7 @@
 
 
 <!-- Action related -->
-<record id="action_report_intrastat_service_tree" model="ir.actions.act_window">
+<record id="fr_intrastat_service_tree_action" model="ir.actions.act_window">
     <field name="name">Intrastat Service</field>
     <field name="res_model">report.intrastat.service</field>
     <field name="view_type">form</field>
@@ -104,7 +127,7 @@
 
 
 <!-- Intrastat service menu -->
-<menuitem id="menu_report_intrastat_service" parent="intrastat_base.menu_intrastat_base_root" action="action_report_intrastat_service_tree" />
+<menuitem id="fr_intrastat_service_menu" parent="intrastat_base.menu_intrastat_base_root" action="fr_intrastat_service_tree_action" />
 
 </data>
 </openerp>

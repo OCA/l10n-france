@@ -60,7 +60,7 @@ class report_intrastat_service(osv.osv):
         'state' : fields.selection([
             ('draft','Draft'),
             ('done','Done'),
-        ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
+        ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the fields become read-only."),
         'date_done' : fields.datetime('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
         'notes' : fields.text('Notes', help="You can write some comments here if you want."),
     }
@@ -87,7 +87,7 @@ class report_intrastat_service(osv.osv):
     ]
 
     def generate_service_lines(self, cr, uid, ids, context=None):
-        print "generate lines, ids=", ids
+        #print "generate lines, ids=", ids
         intrastat = self.browse(cr, uid, ids[0], context=context)
         line_obj = self.pool.get('report.intrastat.service.line')
         invoice_obj = self.pool.get('account.invoice')
@@ -104,7 +104,7 @@ class report_intrastat_service(osv.osv):
             ('state', 'in', ('open', 'paid')),
             ('company_id', '=', intrastat.company_id.id)
         ], order='date_invoice', context=context)
-        print "invoice_ids=", invoice_ids
+        #print "invoice_ids=", invoice_ids
         for invoice in invoice_obj.browse(cr, uid, invoice_ids, context=context):
 
             if not invoice.address_invoice_id.country_id:
@@ -145,7 +145,7 @@ class report_intrastat_service(osv.osv):
                     continue
                 else:
                     amount_invoice_currency_to_write += line.price_subtotal
-                    if invoice.currency_id.code <> 'EUR':
+                    if invoice.currency_id.name <> 'EUR':
                         amount_company_currency_to_write += self.pool.get('res.currency').compute(cr, uid, invoice.currency_id.id, intrastat.company_id.currency_id.id, line.price_subtotal, round=False, context=context)
                     else:
                         amount_company_currency_to_write += line.price_subtotal
@@ -180,7 +180,7 @@ class report_intrastat_service(osv.osv):
 
 
     def generate_xml(self, cr, uid, ids, context=None):
-        print "generate xml ids=", ids
+        #print "generate xml ids=", ids
         import des_xsd
         from lxml import etree
         intrastat = self.browse(cr, uid, ids[0], context=context)
@@ -216,17 +216,16 @@ class report_intrastat_service(osv.osv):
             valeur.text = str(sline.amount_company_currency)
             partner_des = etree.SubElement(ligne_des, 'partner_des')
             try: partner_des.text = sline.partner_vat.replace(' ', '')
-            except: raise osv.except_osv(_('Error :'), _("Missing VAT number for partner '%s'.") %sline.partner_id.name)
+            except: raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %sline.partner_id.name)
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
-        print "xml_string", xml_string
+        #print "xml_string", xml_string
 
         # We now validate the XML file against the official XML Schema Definition
         self.pool.get('report.intrastat.common')._check_xml_schema(cr, uid, root, xml_string, des_xsd.des_xsd, context=context)
         # Attach the XML file
         attach_id = self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'des', context=context)
 
-#        return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, 'DES XML file', context=context) # Works on v6 only - Makes the client crash on v5
-        return True
+        return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, 'DES XML file', context=context) # Works on v6 only - Makes the client crash on v5
 
 
 report_intrastat_service()

@@ -18,7 +18,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,object_type:0
 msgid "Incoming products"
-msgstr "Incoming products"
+msgstr "Réception produit"
 
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:0
@@ -268,7 +268,7 @@ msgstr "Numéro d'habilitation pour les fichiers de DEB délivré par l'administ
 #: field:report.intrastat.product.line,transport:0
 #: field:stock.picking,intrastat_transport:0
 msgid "Type of transport"
-msgstr "Type de transport"
+msgstr "Mode de transport"
 
 #. module: l10n_fr_intrastat_product
 #: field:report.intrastat.type,intrastat_product_type:0
@@ -336,7 +336,7 @@ msgstr "Ref facture"
 #. module: l10n_fr_intrastat_product
 #: help:account.invoice,intrastat_transport:0
 msgid "Type of transport of the goods. This information is required for the product intrastat report (DEB)."
-msgstr "Type de transport des biens. Information requise pour la DEB."
+msgstr "Mode de transport des marchandises. Information requise pour la DEB."
 
 #. module: l10n_fr_intrastat_product
 #: view:report.intrastat.product:0
@@ -861,13 +861,13 @@ msgstr "N° TVA du partenaire"
 
 #. module: l10n_fr_intrastat_product
 #: help:product.template,country_id:0
-msgid "Country of origin of the product i.e. product 'made in xxx'."
-msgstr "Pays d'origine des produits i.e. produit 'made in xxx'."
+msgid "Country of origin of the product i.e. product 'made in ___'."
+msgstr "Pays d'origine des produits i.e. produit 'made in ___'."
 
 #. module: l10n_fr_intrastat_product
 #: help:product.uom,intrastat_label:0
 msgid "Label used in the XML file export of the Intrastat product report for this unit of measure."
-msgstr "Libellé utilisé dans l'export du fichier XML de DEB pour cette unité de mesure."
+msgstr "Code utilisé dans l'export du fichier XML de DEB pour cette unité de mesure."
 
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/company.py:0
@@ -1064,7 +1064,7 @@ msgstr "Niveau d'obligation"
 #. module: l10n_fr_intrastat_product
 #: field:product.uom,intrastat_label:0
 msgid "Intrastat label"
-msgstr "Libellé pour la DEB"
+msgstr "Code pour la DEB"
 
 #. module: l10n_fr_intrastat_product
 #: constraint:ir.model:0
