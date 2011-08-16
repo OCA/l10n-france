@@ -18,7 +18,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,object_type:0
 msgid "Incoming products"
-msgstr "Incoming products"
+msgstr "Réception produit"
 
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:0
@@ -861,13 +861,13 @@ msgstr "N° TVA du partenaire"
 
 #. module: l10n_fr_intrastat_product
 #: help:product.template,country_id:0
-msgid "Country of origin of the product i.e. product 'made in xxx'."
-msgstr "Pays d'origine des produits i.e. produit 'made in xxx'."
+msgid "Country of origin of the product i.e. product 'made in ___'."
+msgstr "Pays d'origine des produits i.e. produit 'made in ___'."
 
 #. module: l10n_fr_intrastat_product
 #: help:product.uom,intrastat_label:0
 msgid "Label used in the XML file export of the Intrastat product report for this unit of measure."
-msgstr "Libellé utilisé dans l'export du fichier XML de DEB pour cette unité de mesure."
+msgstr "Code utilisé dans l'export du fichier XML de DEB pour cette unité de mesure."
 
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/company.py:0
