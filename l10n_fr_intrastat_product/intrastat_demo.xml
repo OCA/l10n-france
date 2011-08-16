@@ -14,7 +14,8 @@
     <field name="siret_complement">00042</field>
     <field name="export_obligation_level">detailed</field>
     <field name="default_intrastat_department">94</field>
-<!--    <field name="default_intrastat_transport">3</field> TODO : make it work -->
+    <field name="default_intrastat_transport" eval="int(3)" />
+    <field name="statistical_pricelist_id" ref="product.list0" />
 </record>
 
 <record id="84715000" model="report.intrastat.code">
