@@ -56,7 +56,7 @@
 </record>
 
 <!-- Menu entry for Intrastat type -->
-<menuitem id="menu_fr_intrastat_product_report_intrastat_type" action="fr_intrastat_product_report_intrastat_type_action" parent="account.menu_finance_configuration" />
+<menuitem id="menu_fr_intrastat_product_report_intrastat_type" action="fr_intrastat_product_report_intrastat_type_action" parent="account.menu_configuration_misc" />
 
 
 </data>

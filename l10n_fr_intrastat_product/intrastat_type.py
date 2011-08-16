@@ -36,10 +36,8 @@ class report_intrastat_type(osv.osv):
 
 
     def _compute_all(self, cr, uid, ids, name, arg, context=None):
-        print "enter _compute_booleans, ids=", ids
         result = {}
         for intr_type in self.read(cr, uid, ids, ['id', 'procedure_code'], context=context):
-            print "intr_type['id'] =", intr_type['id']
             result[intr_type['id']] = {}
             if intr_type['procedure_code'] in ('19', '29'):
                 result[intr_type['id']]['fiscal_value_multiplier'] = 0
@@ -59,7 +57,7 @@ class report_intrastat_type(osv.osv):
                 result[intr_type['id']]['intrastat_product_type'] = 'import'
             else:
                 result[intr_type['id']]['intrastat_product_type'] = 'export'
-        print "result =", result
+        #print "result =", result
         return result
 
 
