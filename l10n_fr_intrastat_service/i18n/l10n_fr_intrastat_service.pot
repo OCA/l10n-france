@@ -1,0 +1,270 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_intrastat_service
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.16\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-07-09 10:11:46+0000\n"
+"PO-Revision-Date: 2011-07-09 10:11:46+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,invoice_id:0
+msgid "Invoice ref"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,amount_company_currency:0
+msgid "Amount in company cur."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,company_currency_id:0
+msgid "Company currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service,notes:0
+msgid "You can write some comments here if you want."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:report.intrastat.service,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service.line:0
+msgid "Comp. cur."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service,start_date:0
+msgid "Start date"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
+msgid "Back to draft"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service.line:0
+msgid "Amount in comp. cur."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,partner_id:0
+msgid "Partner name"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model,name:l10n_fr_intrastat_service.model_report_intrastat_service_line
+msgid "Lines of intrastat service declaration (DES)"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service,date_done:0
+msgid "Last date when the intrastat declaration was converted to 'Done' state."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.module.module,description:l10n_fr_intrastat_service.module_meta_information
+msgid "This module adds support for the \"Déclaration Européenne des Services\" (DES).\n"
+"\n"
+"The DES declaration has been introduced on January 1st 2010 in France. All French companies must send this declaration each month to France's Customs administration if they sell services to other EU companies.\n"
+"\n"
+"More information about the DES is available on this official web page : http://www.douane.gouv.fr/page.asp?id=3846\n"
+"\n"
+"Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.\n"
+"    "
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service,company_id:0
+#: field:report.intrastat.service.line,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,invoice_currency_id:0
+msgid "Invoice currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
+msgid "Attach XML file"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service,num_lines:0
+msgid "Number of lines in this declaration."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
+#: field:report.intrastat.service,total_amount:0
+msgid "Total amount"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#, python-format
+msgid "Missing VAT number on partner '%s'."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#, python-format
+msgid "Error :"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service,intrastat_line_ids:0
+msgid "Report intrastat service lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
+#: field:report.intrastat.service,notes:0
+msgid "Notes"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,date_invoice:0
+msgid "Invoice date"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.action_report_intrastat_service_tree
+#: model:ir.ui.menu,name:l10n_fr_intrastat_service.menu_report_intrastat_service
+#: view:report.intrastat.service:0
+msgid "Intrastat Service"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service.line:0
+msgid "Intrastat service lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service,start_date:0
+msgid "Start date of the declaration. Must be the first day of a month."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service,end_date:0
+msgid "End date"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service,end_date:0
+msgid "End date for the declaration. Must be the last day of the month of the start date."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service,total_amount:0
+msgid "Total amount in company currency of the declaration."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service,state:0
+msgid "State of the declaration. When the state is set to 'Done', the fields become read-only."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service,company_id:0
+msgid "Related company."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,amount_invoice_currency:0
+msgid "Amount in invoice cur."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,partner_vat:0
+msgid "Customer VAT"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#, python-format
+msgid "Missing country on partner address '%s' of partner '%s'."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service,state:0
+#: field:report.intrastat.service.line,state:0
+msgid "State"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service,currency_id:0
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
+#: selection:report.intrastat.service,state:0
+msgid "Done"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,parent_id:0
+msgid "Intrastat service ref"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.module.module,shortdesc:l10n_fr_intrastat_service.module_meta_information
+msgid "Module for Intrastat service reporting (DES) for France"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#, python-format
+msgid "Missing VAT number for partner '%s'."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
+msgid "Re-generate lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service,num_lines:0
+msgid "Number of lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service,date_done:0
+msgid "Date done"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model,name:l10n_fr_intrastat_service.model_report_intrastat_service
+msgid "Intrastat report for services"
+msgstr ""
+
