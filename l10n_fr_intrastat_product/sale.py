@@ -27,7 +27,6 @@ class sale_order(osv.osv):
 
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed','done','exception']):
         '''Copy destination country and departure department on invoice'''
-        print "action_invoice_create ids=", ids
         res = super(sale_order,self).action_invoice_create(cr, uid, ids, grouped, states)
         for sale in self.browse(cr, uid, ids):
             for rel_invoice in sale.invoice_ids:
