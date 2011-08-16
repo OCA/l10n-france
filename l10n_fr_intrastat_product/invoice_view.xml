@@ -20,11 +20,12 @@
             <field name="intrastat_transport" />
             <field name="intrastat_department" />
             <field name="intrastat_country_id" string="Origin country" />
-            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" /> <!-- v6 : add widget="selection" -->
+            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
+            <!-- widget="selection" is not compatible with domain= ??
+            If I put both, I get a crash : "NameError: name 'type' is not defined" -->
         </field>
     </field>
 </record>
-
 
 <!-- Add field on customer invoice -->
 <record id="fr_intrastat_product_invoice_out" model="ir.ui.view">
@@ -41,7 +42,6 @@
         </field>
     </field>
 </record>
-
 
 </data>
 </openerp>

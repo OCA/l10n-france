@@ -128,7 +128,7 @@ class report_intrastat_product(osv.osv):
 
 
     def create_intrastat_product_lines(self, cr, uid, ids, intrastat, parent_obj, parent_values, context=None):
-        print "create_intrastat_product_line ids=", ids
+        #print "create_intrastat_product_line ids=", ids
 
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in build_intrastat_product_line')
         line_obj = self.pool.get('report.intrastat.product.line')
@@ -153,7 +153,6 @@ class report_intrastat_product(osv.osv):
             elif src == 'picking':
                 line_qty = line.product_qty
                 source_uom = line.product_uom
-            print "ENTER in lines"
             # TODO : what do when there is no product_id ??? Warning ? Error ?
 
             if not line.product_id:
@@ -189,9 +188,8 @@ class report_intrastat_product(osv.osv):
                     continue
                 amount_invoice_currency_to_write = line.price_subtotal
                 invoice_currency_id_to_write = parent_obj.currency_id.id
-                if parent_obj.currency_id.code <> 'EUR':
+                if parent_obj.currency_id.name <> 'EUR':
                     context['date'] = parent_obj.date_invoice
-                    print "context=", context
 # TODO : add invoice_currency, also in add loop, WARN picking
                     amount_company_currency_to_write = self.pool.get('res.currency').compute(cr, uid, parent_obj.currency_id.id, intrastat.company_id.currency_id.id, line.price_subtotal, context=context)
                 else:
@@ -204,7 +202,6 @@ class report_intrastat_product(osv.osv):
                     raise osv.except_osv(_('Error :'), _("The Pricelist for statistical value '%s' that is set for the company '%s' gives a price of 0 for the product '%s'.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, line.product_id.name))
                 else:
                     amount_company_currency_to_write = unit_stat_price * line_qty
-            print "amount_company_currency_to_write =", amount_company_currency_to_write
 
             if not parent_values['is_fiscal_only']:
                 if not line.product_id.weight_net:
@@ -256,9 +253,9 @@ class report_intrastat_product(osv.osv):
                 product_country_origin_id_to_write = False
 
             create_new_line = True
-            print "lines_to_create =", lines_to_create
+            #print "lines_to_create =", lines_to_create
             for line_to_create in lines_to_create:
-                print "line_to_create =", line_to_create
+                #print "line_to_create =", line_to_create
                 if line_to_create.get('intrastat_code_id', False) == intrastat_code_id_to_write \
                     and line_to_create.get('source_uom_id', False) == source_uom_id_to_write \
                     and line_to_create.get('intrastat_type_id', False) == parent_values['intrastat_type_id_to_write'] \
@@ -269,7 +266,6 @@ class report_intrastat_product(osv.osv):
                     line_to_create['weight'] += weight_to_write
                     line_to_create['amount_invoice_currency'] += amount_invoice_currency_to_write
                     break
-            print "TODO quantity_to_write =", quantity_to_write
             if create_new_line == True:
                 lines_to_create.append({
                     'parent_id': ids[0],
@@ -326,14 +322,19 @@ class report_intrastat_product(osv.osv):
 
         if not parent_values['is_fiscal_only']:
             if not parent_obj.intrastat_transport:
-                try: parent_values['transport_to_write'] = intrastat.company_id.default_intrastat_transport
-                except: raise osv.except_osv(_('Error :'), _("The mode of transport is not set on %s '%s' nor the default mode of transport on the company '%s'.") %(src, parent_name, intrastat.company_id.name))
+# PAS de try / except, car ça marche quand le truc vaut FALSE !!!
+                if not intrastat.company_id.default_intrastat_transport:
+                    raise osv.except_osv(_('Error :'), _("The mode of transport is not set on %s '%s' nor the default mode of transport on the company '%s'.") %(src, parent_name, intrastat.company_id.name))
+                else:
+                    parent_values['transport_to_write'] = intrastat.company_id.default_intrastat_transport
             else:
                 parent_values['transport_to_write'] = parent_obj.intrastat_transport
 
             if not parent_obj.intrastat_department:
-                try: parent_values['department_to_write'] = intrastat.company_id.default_intrastat_department
-                except: raise osv.except_osv(_('Error :'), _("The intrastat department hasn't been set on %s '%s' and the default intrastat department is missing on the company '%s'.") %(src, parent_name, intrastat.company_id.name))
+                if not intrastat.company_id.default_intrastat_department:
+                    raise osv.except_osv(_('Error :'), _("The intrastat department hasn't been set on %s '%s' and the default intrastat department is missing on the company '%s'.") %(src, parent_name, intrastat.company_id.name))
+                else:
+                    parent_values['department_to_write'] = intrastat.company_id.default_intrastat_department
             else:
                 parent_values['department_to_write'] = parent_obj.intrastat_department
         else:
@@ -341,7 +342,7 @@ class report_intrastat_product(osv.osv):
             parent_values['transport_to_write'] = False
             parent_values['transaction_code_to_write'] = False
             parent_values['partner_country_id_to_write'] = False
-
+        #print "parent_values =", parent_values
         return parent_values
 
 
@@ -350,13 +351,13 @@ class report_intrastat_product(osv.osv):
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in remove_intrastat_product_lines')
         line_obj = self.pool.get('report.intrastat.product.line')
         line_remove_ids = line_obj.search(cr, uid, [('parent_id', '=', ids[0]), (field, '!=', False)], context=context)
-        print "line_remove_ids = ", line_remove_ids
+        #print "line_remove_ids = ", line_remove_ids
         if line_remove_ids:
             line_obj.unlink(cr, uid, line_remove_ids, context=context)
 
 
     def generate_product_lines_from_invoice(self, cr, uid, ids, context=None):
-        print "generate lines, ids=", ids
+        #print "generate lines, ids=", ids
         intrastat = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, intrastat, context=context)
         self.remove_intrastat_product_lines(cr, uid, ids, 'invoice_id', context=context)
@@ -369,8 +370,6 @@ class report_intrastat_product(osv.osv):
             invoice_type = ('in_invoice', 'POUET') # I need 'POUET' to make it a tuple
         if intrastat.type == 'export':
             invoice_type = ('out_invoice', 'out_refund')
-        print "BEFORE SEARCH in invoice"
-        print "invoice_type =", invoice_type
         invoice_ids = invoice_obj.search(cr, uid, [
             ('type', 'in', invoice_type),
             ('date_invoice', '<=', intrastat.end_date),
@@ -378,9 +377,9 @@ class report_intrastat_product(osv.osv):
             ('state', 'in', ('open', 'paid')),
             ('company_id', '=', intrastat.company_id.id)
         ], order='date_invoice', context=context)
-        print "invoice_ids=", invoice_ids
+        #print "invoice_ids=", invoice_ids
         for invoice in invoice_obj.browse(cr, uid, invoice_ids, context=context):
-            print "INVOICE num =", invoice.number
+            #print "INVOICE num =", invoice.number
             parent_values = {}
 
             # We should always have a country on address_invoice_id
@@ -457,7 +456,7 @@ class report_intrastat_product(osv.osv):
 
     def generate_product_lines_from_picking(self, cr, uid, ids, context=None):
         '''Function used to have the DEB lines corresponding to repairs'''
-        print "generate_product_lines_from_picking ids=", ids
+        #print "generate_product_lines_from_picking ids=", ids
         intrastat = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, intrastat, context=context)
         # not needed when type = export and oblig_level = simplified, cf p26 du BOD
@@ -470,8 +469,8 @@ class report_intrastat_product(osv.osv):
         # Check pricelist for stat value
         if not intrastat.company_id.statistical_pricelist_id:
             raise osv.except_osv(_('Error :'), _("You must select a 'Pricelist for statistical value' for the company %s.") %intrastat.company_id.name)
-        elif intrastat.company_id.statistical_pricelist_id.currency_id.code <> 'EUR':
-            raise osv.except_osv(_('Error :'), _("The 'Pricelist for statistical value' that you selected (%s) for the company '%s' is in %s currency and should be in EUR.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, intrastat.company_id.statistical_pricelist_id.currency_id.code))
+        elif intrastat.company_id.statistical_pricelist_id.currency_id.name <> 'EUR':
+            raise osv.except_osv(_('Error :'), _("The 'Pricelist for statistical value' that you selected (%s) for the company '%s' is in %s currency and should be in EUR.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, intrastat.company_id.statistical_pricelist_id.currency_id.name))
 
         pick_obj = self.pool.get('stock.picking')
         pick_type = False
@@ -491,10 +490,10 @@ class report_intrastat_product(osv.osv):
             (exclude_field, '=', False),
             ('state', 'not in', ('draft', 'waiting', 'confirmed', 'assigned', 'cancel'))
         ], order='date_done', context=context)
-        print "picking_ids =", picking_ids
+        #print "picking_ids =", picking_ids
         for picking in pick_obj.browse(cr, uid, picking_ids, context=context):
             parent_values = {}
-            print "PICKING =", picking.name
+            #print "PICKING =", picking.name
             if not picking.address_id:
                 continue
 
@@ -556,7 +555,7 @@ class report_intrastat_product(osv.osv):
 
     def generate_xml(self, cr, uid, ids, context=None):
         '''Generate the INSTAT XML file export.'''
-        print "generate_xml ids=", ids
+        #print "generate_xml ids=", ids
         from lxml import etree
         import deb_xsd
         intrastat = self.browse(cr, uid, ids[0], context=context)
@@ -572,7 +571,7 @@ class report_intrastat_product(osv.osv):
             raise osv.except_osv(_('Error :'), _("The SIRET complement is not set on company '%s'.") %intrastat.company_id.name)
         my_company_id = my_company_vat + intrastat.company_id.siret_complement
 
-        my_company_currency = intrastat.company_id.currency_id.code
+        my_company_currency = intrastat.company_id.currency_id.name
 
         root = etree.Element('INSTAT')
         envelope = etree.SubElement(root, 'Envelope')
@@ -626,7 +625,7 @@ class report_intrastat_product(osv.osv):
         line = 0
         for pline in intrastat.intrastat_line_ids:
             line += 1 #increment line number
-            print "line =", line
+            #print "line =", line
             try: intrastat_type = self.pool.get('report.intrastat.type').read(cr, uid, pline.intrastat_type_id.id, ['is_fiscal_only'], context=context)
             except: raise osv.except_osv(_('Error :'), "Missing Intrastat type id on line %d." %line)
             item = etree.SubElement(declaration, 'Item')
@@ -685,8 +684,12 @@ class report_intrastat_product(osv.osv):
                 try: transaction_nature_b.text = pline.transaction_code[1]
                 except: raise osv.except_osv(_('Error :'), _('Transaction code on line %d should have 2 digits.') %line)
                 mode_of_transport_code = etree.SubElement(item, 'modeOfTransportCode')
-                try: mode_of_transport_code.text = str(pline.transport)
-                except: raise osv.except_osv(_('Error :'), _('Mode of transport is not set on line %d.') %line)
+                # I can't do a try/except as usual, because field.text = str(integer)
+                # will always work, even if integer is False
+                if not pline.transport:
+                    raise osv.except_osv(_('Error :'), _('Mode of transport is not set on line %d.') %line)
+                else:
+                    mode_of_transport_code.text = str(pline.transport)
                 region_code = etree.SubElement(item, 'regionCode')
                 try: region_code.text = pline.department
                 except: raise osv.except_osv(_('Error :'), _('Department code is not set on line %d.') %line)
@@ -696,8 +699,8 @@ class report_intrastat_product(osv.osv):
         # Because we may catch some problems with the content of the XML file this way
         self.pool.get('report.intrastat.common')._check_xml_schema(cr, uid, root, xml_string, deb_xsd.deb_xsd, context=context)
         # Attach the XML file to the current object
-        self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'deb', context=context)
-        return True
+        attach_id = self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'deb', context=context)
+        return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, title="DEB XML file", context=context)
 
 report_intrastat_product()
 
@@ -807,7 +810,7 @@ class report_intrastat_product_line(osv.osv):
                 'transport': False,
                 'department': False
             })
-        print "intrastat_type_on_change res=", result
+        #print "intrastat_type_on_change res=", result
         return result
 
 
