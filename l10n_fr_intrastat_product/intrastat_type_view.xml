@@ -35,10 +35,10 @@
     <field name="arch" type="xml">
         <form string="Intrastat type">
             <field name="name" select="1" />
-            <field name="active" select="2" />
+            <field name="active" />
             <field name="object_type" select="1" />
-            <field name="procedure_code" select="2" on_change="procedure_code_on_change(procedure_code)" />
-            <field name="transaction_code" select="2" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}"/>
+            <field name="procedure_code" on_change="procedure_code_on_change(procedure_code)" />
+            <field name="transaction_code" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}"/>
             <field name="is_fiscal_only" />
             <field name="fiscal_value_multiplier" />
             <field name="is_vat_required" />
