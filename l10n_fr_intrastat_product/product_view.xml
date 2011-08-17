@@ -17,7 +17,7 @@
     <field name="arch" type="xml">
         <data>
             <field name="exclude_from_intrastat" position="before">
-                <field name="intrastat_id" select="2" />
+                <field name="intrastat_id" />
             </field>
             <field name="ean13" position="after">
                 <field name="country_id"/>
@@ -34,7 +34,7 @@
     <field name="arch" type="xml">
         <data>
             <field name="exclude_from_intrastat" position="before">
-                <field name="intrastat_id" select="2" />
+                <field name="intrastat_id" />
             </field>
             <field name="name" position="after">
                 <field name="country_id"/>
@@ -51,7 +51,7 @@
     <field name="inherit_id" ref="product.product_category_form_view"/>
     <field name="arch" type="xml">
         <field name="type" position="after">
-            <field name="intrastat_id" select="2" />
+            <field name="intrastat_id" />
         </field>
     </field>
 </record>
@@ -94,9 +94,9 @@
     <field name="arch" type="xml">
         <form string="Intrastat code">
             <field name="name" select="1" />
-            <field name="intrastat_code" select="2" />
+            <field name="intrastat_code" />
             <field name="description" select="1" />
-            <field name="intrastat_uom_id" select="2" />
+            <field name="intrastat_uom_id" />
         </form>
     </field>
 </record>
