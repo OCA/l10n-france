@@ -425,7 +425,7 @@ class report_intrastat_product(osv.osv):
             parent_values = self.common_compute_invoice_picking(cr, uid, intrastat, invoice, parent_values, context=context)
 
             if parent_values['is_vat_required']:
-                # If I have invoice.intrastat_country_id and we the invoice address
+                # If I have invoice.intrastat_country_id and the invoice address
                 # is outside the EU, then I look for the fiscal rep of the partner
                 if invoice.intrastat_country_id and not invoice.address_invoice_id.country_id.intrastat:
                     if not invoice.partner_id.intrastat_fiscal_representative:
