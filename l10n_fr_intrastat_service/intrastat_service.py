@@ -112,11 +112,6 @@ class report_intrastat_service(osv.osv):
             elif not invoice.address_invoice_id.country_id.intrastat:
                 continue
 
-            if not invoice.partner_id.vat:
-                raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %invoice.partner_id.name)
-            else:
-                partner_vat_to_write = invoice.partner_id.vat
-
             amount_invoice_currency_to_write = 0.0
             amount_company_currency_to_write = 0.0
             context['date'] = invoice.date_invoice
@@ -154,6 +149,18 @@ class report_intrastat_service(osv.osv):
                 if invoice.type == 'out_refund':
                     amount_invoice_currency_to_write = amount_invoice_currency_to_write * (-1)
                     amount_company_currency_to_write = amount_company_currency_to_write * (-1)
+
+                # Why do I check that the Partner has a VAT number only here and not earlier ?
+                # Because, if I sell to a physical person in the EU with VAT, then
+                # the corresponding partner will not have a VAT number, and the entry
+                # will be skipped because line_tax.exclude_from_intrastat_if_present is always
+                # True and amount_company_currency_to_write = 0
+                # So we should not block with a raise before the end of the loop on the
+                # invoice lines and the "if amount_company_currency_to_write:"
+                if not invoice.partner_id.vat:
+                    raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %invoice.partner_id.name)
+                else:
+                    partner_vat_to_write = invoice.partner_id.vat
 
                 line_obj.create(cr, uid, {
                     'parent_id': ids[0],
