@@ -284,14 +284,42 @@ class report_intrastat_product(osv.osv):
                     'intrastat_type_id': parent_values['intrastat_type_id_to_write'],
                     'procedure_code': parent_values['procedure_code_to_write'],
                     'transaction_code': parent_values['transaction_code_to_write'],
-                    'partner_vat': parent_values['partner_vat_to_write'],
                     'partner_id': parent_values['partner_id_to_write'],
                     'invoice_currency_id': invoice_currency_id_to_write,
                     'amount_invoice_currency': amount_invoice_currency_to_write,
                     'is_fiscal_only': parent_values['is_fiscal_only'],
                 })
+        # End of the loop on invoice/picking lines
+
+        # Why do I manage the Partner VAT number only here and not earlier in the code ?
+        # Because, if I sell to a physical person in the EU with VAT, then
+        # the corresponding partner will not have a VAT number, and the entry
+        # will be skipped because line_tax.exclude_from_intrastat_if_present is always True
+        # So we should not block with a raise before the end of the loop on the
+        # invoice/picking lines
+        if lines_to_create:
+            if parent_values['is_vat_required']:
+                if src <> 'invoice':
+                    raise osv.except_osv(_('Error :'), "We can't have such an intrastat type in a repair picking.")
+                # If I have invoice.intrastat_country_id and the invoice address
+                # is outside the EU, then I look for the fiscal rep of the partner
+                if parent_obj.intrastat_country_id and not parent_obj.address_invoice_id.country_id.intrastat:
+                    if not parent_obj.partner_id.intrastat_fiscal_representative:
+                        raise osv.except_osv(_('Error :'), _("Missing fiscal representative for partner '%s'. It is required for invoice '%s' which has an invoice address outside the EU but the goods were delivered to or received from inside the EU.") % (parent_obj.partner_id.name, parent_obj.number))
+                    else:
+                        parent_values['partner_vat_to_write'] = parent_obj.partner_id.intrastat_fiscal_representative.vat
+                # Otherwise, I just read the vat number on the partner of the invoice
+                else:
+
+                    if not parent_obj.partner_id.vat:
+                        raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %parent_obj.partner_id.name)
+                    else:
+                        parent_values['partner_vat_to_write'] = parent_obj.partner_id.vat
+            else:
+                parent_values['partner_vat_to_write'] = False
 
         for line_to_create in lines_to_create:
+            line_to_create['partner_vat'] = parent_values['partner_vat_to_write']
             for value in ['quantity', 'weight', 'amount_company_currency', 'amount_invoice_currency']:
                 if line_to_create[value]:
                     line_to_create[value] = str(int(round(line_to_create[value], 0)))
@@ -422,31 +450,13 @@ class report_intrastat_product(osv.osv):
             else:
                 parent_values['intrastat_type_id_to_write'] = invoice.intrastat_type_id.id
 
-            parent_values = self.common_compute_invoice_picking(cr, uid, intrastat, invoice, parent_values, context=context)
-
-            if parent_values['is_vat_required']:
-                # If I have invoice.intrastat_country_id and the invoice address
-                # is outside the EU, then I look for the fiscal rep of the partner
-                if invoice.intrastat_country_id and not invoice.address_invoice_id.country_id.intrastat:
-                    if not invoice.partner_id.intrastat_fiscal_representative:
-                        raise osv.except_osv(_('Error :'), _("Missing fiscal representative for partner '%s'. It is required for invoice '%s' which has an invoice address outside the EU but the goods were delivered to or received from inside the EU.") % (invoice.partner_id.name, invoice.number))
-                    else:
-                        parent_values['partner_vat_to_write'] = invoice.partner_id.intrastat_fiscal_representative.vat
-                # Otherwise, I just read the vat number on the partner of the invoice
-                else:
-
-                    if not invoice.partner_id.vat:
-                        raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %invoice.partner_id.name)
-                    else:
-                        parent_values['partner_vat_to_write'] = invoice.partner_id.vat
-            else:
-                parent_values['partner_vat_to_write'] = False
-
             if invoice.intrastat_country_id and not invoice.address_invoice_id.country_id.intrastat and invoice.partner_id.intrastat_fiscal_representative:
                 # fiscal rep
                 parent_values['partner_id_to_write'] = invoice.partner_id.intrastat_fiscal_representative.id
             else:
                 parent_values['partner_id_to_write'] = invoice.partner_id.id
+
+            parent_values = self.common_compute_invoice_picking(cr, uid, intrastat, invoice, parent_values, context=context)
 
             self.create_intrastat_product_lines(cr, uid, ids, intrastat, invoice, parent_values, context=context)
 
@@ -528,12 +538,6 @@ class report_intrastat_product(osv.osv):
 
 
             parent_values = self.common_compute_invoice_picking(cr, uid, intrastat, picking, parent_values, context=context)
-
-            # We don't need to declare the VAT number
-            if parent_values['is_vat_required']:
-                raise osv.except_osv(_('Error :'), "We can't have such an intrastat type in a repair picking.")
-            else:
-                parent_values['partner_vat_to_write'] = False
 
             self.create_intrastat_product_lines(cr, uid, ids, intrastat, picking, parent_values, context=context)
 
