@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.16\n"
+"Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-07-09 10:11:46+0000\n"
-"PO-Revision-Date: 2011-07-09 10:11:46+0000\n"
+"POT-Creation-Date: 2011-09-09 08:18+0000\n"
+"PO-Revision-Date: 2011-09-09 08:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,11 +26,6 @@ msgid "Amount in company cur."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: constraint:ir.model:0
-msgid "The Object name must start with x_ and not contain any special character !"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service.line,company_currency_id:0
 msgid "Company currency"
 msgstr ""
@@ -41,18 +36,9 @@ msgid "You can write some comments here if you want."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
 #: selection:report.intrastat.service,state:0
 msgid "Draft"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
-msgid "Comp. cur."
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: constraint:ir.actions.act_window:0
-msgid "Invalid model name in the action definition."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -61,13 +47,13 @@ msgid "Start date"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
-msgid "Back to draft"
+#: sql_constraint:report.intrastat.service:0
+msgid "A DES for this month already exists !"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
-msgid "Amount in comp. cur."
+#: view:report.intrastat.service:0
+msgid "Back to draft"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -104,6 +90,11 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service.line:0
+msgid "Comp. cur."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service.line,invoice_currency_id:0
 msgid "Invoice currency"
 msgstr ""
@@ -120,25 +111,30 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: view:report.intrastat.service:0
+msgid "Extended Filters..."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
 #: field:report.intrastat.service,total_amount:0
 msgid "Total amount"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:161
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:226
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:111
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:161
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:179
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:184
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:226
 #, python-format
 msgid "Error :"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -158,8 +154,13 @@ msgid "Invoice date"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.action_report_intrastat_service_tree
-#: model:ir.ui.menu,name:l10n_fr_intrastat_service.menu_report_intrastat_service
+#: help:report.intrastat.service,state:0
+msgid "State of the declaration. When the state is set to 'Done', the fields become read-only."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.fr_intrastat_service_tree_action
+#: model:ir.ui.menu,name:l10n_fr_intrastat_service.fr_intrastat_service_menu
 #: view:report.intrastat.service:0
 msgid "Intrastat Service"
 msgstr ""
@@ -172,6 +173,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: help:report.intrastat.service,start_date:0
 msgid "Start date of the declaration. Must be the first day of a month."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service.line:0
+msgid "Amount in comp. cur."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -190,11 +196,6 @@ msgid "Total amount in company currency of the declaration."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,state:0
-msgid "State of the declaration. When the state is set to 'Done', the fields become read-only."
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
 #: help:report.intrastat.service,company_id:0
 msgid "Related company."
 msgstr ""
@@ -210,7 +211,7 @@ msgid "Customer VAT"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:111
 #, python-format
 msgid "Missing country on partner address '%s' of partner '%s'."
 msgstr ""
@@ -219,6 +220,11 @@ msgstr ""
 #: field:report.intrastat.service,state:0
 #: field:report.intrastat.service.line,state:0
 msgid "State"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: constraint:report.intrastat.service:0
+msgid "Start date must be the first day of a month"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -240,12 +246,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.module.module,shortdesc:l10n_fr_intrastat_service.module_meta_information
 msgid "Module for Intrastat service reporting (DES) for France"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
-#, python-format
-msgid "Missing VAT number for partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
