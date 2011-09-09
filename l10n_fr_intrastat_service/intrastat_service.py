@@ -83,7 +83,7 @@ class report_intrastat_service(osv.osv):
     ]
 
     _sql_constraints = [
-        ('date_uniq', 'unique(start_date, company_id)', 'You have already created a DES for this month !'),
+        ('date_uniq', 'unique(start_date, company_id)', 'A DES for this month already exists !'),
     ]
 
     def generate_service_lines(self, cr, uid, ids, context=None):
