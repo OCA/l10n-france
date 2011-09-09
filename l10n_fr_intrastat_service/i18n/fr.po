@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.16\n"
+"Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-07-09 10:13:56+0000\n"
-"PO-Revision-Date: 2011-07-09 10:13:56+0000\n"
+"POT-Creation-Date: 2011-09-09 08:25+0000\n"
+"PO-Revision-Date: 2011-09-09 08:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,11 +26,6 @@ msgid "Amount in company cur."
 msgstr "Montant en monnaie société"
 
 #. module: l10n_fr_intrastat_service
-#: constraint:ir.model:0
-msgid "The Object name must start with x_ and not contain any special character !"
-msgstr "Le nom de l'objet doit commencer avec x_ et ne pas contenir de charactères spéciaux !"
-
-#. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service.line,company_currency_id:0
 msgid "Company currency"
 msgstr "Monnaie société"
@@ -41,19 +36,10 @@ msgid "You can write some comments here if you want."
 msgstr "Vous pouvez écrire un commentaire ici."
 
 #. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
 #: selection:report.intrastat.service,state:0
 msgid "Draft"
 msgstr "Brouillon"
-
-#. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
-msgid "Comp. cur."
-msgstr "Monn. soc."
-
-#. module: l10n_fr_intrastat_service
-#: constraint:ir.actions.act_window:0
-msgid "Invalid model name in the action definition."
-msgstr "Invalid model name in the action definition."
 
 #. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service,start_date:0
@@ -61,14 +47,14 @@ msgid "Start date"
 msgstr "Date de début"
 
 #. module: l10n_fr_intrastat_service
+#: sql_constraint:report.intrastat.service:0
+msgid "A DES for this month already exists !"
+msgstr "Une DES est déjà crée pour ce mois !"
+
+#. module: l10n_fr_intrastat_service
 #: view:report.intrastat.service:0
 msgid "Back to draft"
 msgstr "Retour au brouillon"
-
-#. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
-msgid "Amount in comp. cur."
-msgstr "Montant en monn. soc."
 
 #. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service.line,partner_id:0
@@ -111,6 +97,11 @@ msgid "Company"
 msgstr "Société"
 
 #. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service.line:0
+msgid "Comp. cur."
+msgstr "Monn. soc."
+
+#. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service.line,invoice_currency_id:0
 msgid "Invoice currency"
 msgstr "Monnaie de la facture"
@@ -127,26 +118,31 @@ msgstr "Nombre de lignes de la déclaration."
 
 #. module: l10n_fr_intrastat_service
 #: view:report.intrastat.service:0
+msgid "Extended Filters..."
+msgstr "Filtres avancés..."
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service:0
 #: field:report.intrastat.service,total_amount:0
 msgid "Total amount"
 msgstr "Montant total"
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:161
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:226
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr "Numéro de TVA non renseigné pour le partenaire '%s'."
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:111
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:161
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:179
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:184
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:226
 #, python-format
 msgid "Error :"
 msgstr "Erreur :"
-
-#. module: l10n_fr_intrastat_service
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
-msgstr "XML non valide pour l'architecture de la vue"
 
 #. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service,intrastat_line_ids:0
@@ -165,8 +161,13 @@ msgid "Invoice date"
 msgstr "Date de facture"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.action_report_intrastat_service_tree
-#: model:ir.ui.menu,name:l10n_fr_intrastat_service.menu_report_intrastat_service
+#: help:report.intrastat.service,state:0
+msgid "State of the declaration. When the state is set to 'Done', the fields become read-only."
+msgstr "Etat de la déclaration. Quand l'état est à 'Déclaré', les champs passent en lecture seule."
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.fr_intrastat_service_tree_action
+#: model:ir.ui.menu,name:l10n_fr_intrastat_service.fr_intrastat_service_menu
 #: view:report.intrastat.service:0
 msgid "Intrastat Service"
 msgstr "DES"
@@ -180,6 +181,11 @@ msgstr "Lignes de DES"
 #: help:report.intrastat.service,start_date:0
 msgid "Start date of the declaration. Must be the first day of a month."
 msgstr "Date de début de la déclaration. Doit être le premier jour d'un mois."
+
+#. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service.line:0
+msgid "Amount in comp. cur."
+msgstr "Montant en monn. soc."
 
 #. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service,end_date:0
@@ -197,11 +203,6 @@ msgid "Total amount in company currency of the declaration."
 msgstr "Montant total en monnaie société de la déclaration."
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,state:0
-msgid "State of the declaration. When the state is set to 'Done', the fields become read-only."
-msgstr "Etat de la déclaration. Quand l'état est à 'Déclaré', les champs passent en lecture seule."
-
-#. module: l10n_fr_intrastat_service
 #: help:report.intrastat.service,company_id:0
 msgid "Related company."
 msgstr "Société associée."
@@ -217,7 +218,7 @@ msgid "Customer VAT"
 msgstr "N° TVA du client"
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:0
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:111
 #, python-format
 msgid "Missing country on partner address '%s' of partner '%s'."
 msgstr "Pays non renseigné sur l'adresse partenaire '%s' du partenaire '%s'."
@@ -227,6 +228,11 @@ msgstr "Pays non renseigné sur l'adresse partenaire '%s' du partenaire '%s'."
 #: field:report.intrastat.service.line,state:0
 msgid "State"
 msgstr "Etat"
+
+#. module: l10n_fr_intrastat_service
+#: constraint:report.intrastat.service:0
+msgid "Start date must be the first day of a month"
+msgstr "La date de début doit être le premier jour d'un mois"
 
 #. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service,currency_id:0
