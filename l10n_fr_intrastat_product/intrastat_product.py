@@ -123,7 +123,7 @@ class report_intrastat_product(osv.osv):
     ]
 
     _sql_constraints = [
-        ('date_uniq', 'unique(start_date, company_id, type)', 'You have already created a DEB of the same type for this month !'),
+        ('date_uniq', 'unique(start_date, company_id, type)', 'A DEB of the same type already exists for this month !'),
     ]
 
 
