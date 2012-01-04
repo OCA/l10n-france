@@ -2,6 +2,8 @@
 <openerp>
 	<data>
 		<!--  Add the APE (main activity) -->
+		<!--  The context key "partner_category_display" is only usefull if you merge this into your server :
+                lp:~numerigraphe/openobject-server/6.0-partner-category-short-name -->
 		<record model="ir.ui.view" id="view_partner_add">
 			<field name="name">res.partner.form.ape</field>
 			<field name="model">res.partner</field>

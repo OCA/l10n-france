@@ -30,6 +30,12 @@ the NACE categories of the European Union.
 
 It will also add a field to the partner form, to enter the partner's APE \
 (official main activity of the company), picked among the NAF nomenclature.
+
+Note: The display of the APE on the partner form may be further improved by \
+merging an unofficial branch into your OpenERP Server. This can be done with \
+the following command in your server branch:
+  bzr merge lp:~numerigraphe/openobject-server/6.0-partner-category-short-name
+This module will operate correctly whether you patch the server or not.
 ''',
     'depends' : [
                  'base',
