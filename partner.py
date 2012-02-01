@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from osv import fields,osv,orm
+from osv import osv, fields
 
 class Partner(osv.osv):
     """Add the French APE (official main activity of the company)"""
