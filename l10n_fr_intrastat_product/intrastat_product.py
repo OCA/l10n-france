@@ -132,6 +132,24 @@ class report_intrastat_product(osv.osv):
 
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in build_intrastat_product_line')
         line_obj = self.pool.get('report.intrastat.product.line')
+        irdata_obj = self.pool.get('ir.model.data')
+
+        weight_uom_categ_res = irdata_obj.get_object_reference(cr, uid, 'product',
+            'product_uom_categ_kgm')
+        if weight_uom_categ_res[0] == 'product.uom.categ':
+            weight_uom_categ_id = weight_uom_categ_res[1]
+        else:
+            raise osv.except_osv(_('Error :'), 'Hara kiri product.uom.categ in build_intrastat_product_line')
+        kg_uom_res = irdata_obj.get_object_reference(cr, uid, 'product', 'product_uom_kgm')
+        if kg_uom_res[0] == 'product.uom':
+            kg_uom_id = kg_uom_res[1]
+        else:
+            raise osv.except_osv(_('Error :'), 'Hara kiri kg/product.uom in build_intrastat_product_line')
+        pce_uom_res = irdata_obj.get_object_reference(cr, uid, 'product', 'product_uom_unit')
+        if pce_uom_res[0] == 'product.uom':
+            pce_uom_id = pce_uom_res[1]
+        else:
+            raise osv.except_osv(_('Error :'), 'Hara kiri pce/product.uom in build_intrastat_product_line')
 
         if parent_obj._name == 'account.invoice':
             src = 'invoice'
@@ -153,7 +171,7 @@ class report_intrastat_product(osv.osv):
             elif src == 'picking':
                 line_qty = line.product_qty
                 source_uom = line.product_uom
-            # TODO : what do when there is no product_id ??? Warning ? Error ?
+            # We don't do anything when there is no product_id... this may be a problem...
 
             if not line.product_id:
                 continue
@@ -174,10 +192,6 @@ class report_intrastat_product(osv.osv):
 
             if not line_qty:
                 continue
-            elif not parent_values['is_fiscal_only']:
-                quantity_to_write = line_qty
-            else:
-                quantity_to_write = False
 
             if src == 'invoice':
                 skip_this_line = False
@@ -204,15 +218,26 @@ class report_intrastat_product(osv.osv):
                     amount_company_currency_to_write = unit_stat_price * line_qty
 
             if not parent_values['is_fiscal_only']:
-                if not line.product_id.weight_net:
-                    raise osv.except_osv(_('Error :'), _("Missing net weight on product '%s'.") %(line.product_id.name))
-                else:
-                    weight_to_write = line.product_id.weight_net * line_qty
 
                 if not source_uom:
                     raise osv.except_osv(_('Error :'), _("Missing unit of measure on the line with %d product(s) '%s' on %s '%s'.") %(line_qty, line.product_id.name, src, parent_name))
                 else:
                     source_uom_id_to_write = source_uom.id
+
+                if source_uom.id == kg_uom_id:
+                    weight_to_write = line_qty
+                elif source_uom.category_id.id == weight_uom_categ_id:
+                    dest_uom = self.pool.get('product.uom').browse(cr, uid,
+                        kg_uom_id, context=context)
+                    weight_to_write = self.pool.get('product.uom')._compute_qty_obj(cr, uid,
+                        source_uom, line_qty, dest_uom, context=context)
+                elif source_uom.id == pce_uom_id:
+                    if not line.product_id.weight_net:
+                        raise osv.except_osv(_('Error :'), _("Missing net weight on product '%s'.") %(line.product_id.name))
+                    else:
+                        weight_to_write = line.product_id.weight_net * line_qty
+                else:
+                    raise osv.except_osv(_('Error :'), _("Conversion from unit of measure '%s' to 'Kg' is not implemented yet.") %(source_uom.name))
 
                 product_intrastat_code = line.product_id.intrastat_id
                 if not product_intrastat_code:
@@ -230,27 +255,57 @@ class report_intrastat_product(osv.osv):
 
                 if not product_intrastat_code.intrastat_uom_id:
                     intrastat_uom_id_to_write = False
+                    quantity_to_write = False
                 else:
                     intrastat_uom_id_to_write = product_intrastat_code.intrastat_uom_id.id
-
-                if intrastat_uom_id_to_write and intrastat_uom_id_to_write != source_uom_id_to_write:
-                    raise osv.except_osv(_('Error :'), _("On %s '%s', the line with %d product(s) '%s' has a unit of measure (%s) which is different from the UoM of it's intrastat code (%s). We don't handle this scenario for the moment.") %(src, parent_name, line_qty, line.product_id.name, source_uom_id_to_write, intrastat_uom_id_to_write))
+                    if intrastat_uom_id_to_write == source_uom_id_to_write:
+                        quantity_to_write = line_qty
+                    elif source_uom.category_id == product_intrastat_code.intrastat_uom_id.category_id:
+                        quantity_to_write = self.pool.get('product.uom')._compute_qty_obj(cr,
+                            uid, source_uom, line_qty,
+                            product_intrastat_code.intrastat_uom_id, context=context)
+                    else:
+                        raise osv.except_osv(_('Error :'), _("On %s '%s', the line with product '%s' has a unit of measure (%s) which can't be converted to UoM of it's intrastat code (%s).") %(src, parent_name, line.product_id.name, source_uom_id_to_write, intrastat_uom_id_to_write))
 
                 # The origin country should only be declated on Import
                 if intrastat.type == 'export':
                     product_country_origin_id_to_write = False
-                elif not line.product_id.country_id:
-                    raise osv.except_osv(_('Error :'), _("Missing country of origin on product '%s'.") %(line.product_id.name))
-                else:
+                elif line.product_id.country_id:
+                # If we have the country of origin on the product -> take it
                     product_country_origin_id_to_write = line.product_id.country_id.id
+                else:
+                    # If we don't, look on the product supplier info
+                    # We only have parent_values['origin_partner_id'] when src = invoice
+                    origin_partner_id = parent_values.get('origin_partner_id', False)
+                    if origin_partner_id:
+                        supplieri_obj = self.pool.get('product.supplierinfo')
+                        supplier_ids = supplieri_obj.search(cr, uid, [
+                            ('name', '=', origin_partner_id),
+                            ('product_id', '=', line.product_id.id),
+                            ('origin_country_id', '!=', 'null')
+                            ], context=context)
+                        if not supplier_ids:
+                            raise osv.except_osv(_('Error :'),
+                                _("Missing country of origin on product '%s' or on it's supplier information for partner '%s'.")
+                                %(line.product_id.name, parent_values.get('origin_partner_name', 'none')))
+                        else:
+                            product_country_origin_id_to_write = supplieri_obj.read(cr, uid,
+                                supplier_ids[0], ['origin_country_id'],
+                                context=context)['origin_country_id'][0]
+                    else:
+                        raise osv.except_osv(_('Error :'),
+                            _("Missing country of origin on product '%s' (it's not possible to get the country of origin from the 'supplier information' in this case because we don't know the supplier of this product for the %s '%s').")
+                            %(line.product_id.name, src, parent_name))
 
             else:
                 weight_to_write = False
                 source_uom_id_to_write = False
                 intrastat_code_id_to_write = False
                 intrastat_code_to_write = False
+                quantity_to_write = False
                 intrastat_uom_id_to_write = False
                 product_country_origin_id_to_write = False
+
 
             create_new_line = True
             #print "lines_to_create =", lines_to_create
@@ -455,6 +510,10 @@ class report_intrastat_product(osv.osv):
                 parent_values['partner_id_to_write'] = invoice.partner_id.intrastat_fiscal_representative.id
             else:
                 parent_values['partner_id_to_write'] = invoice.partner_id.id
+
+            # Get partner on which we will check the 'country of origin' on product_supplierinfo
+            parent_values['origin_partner_id'] = invoice.partner_id.id
+            parent_values['origin_partner_name'] = invoice.partner_id.name
 
             parent_values = self.common_compute_invoice_picking(cr, uid, intrastat, invoice, parent_values, context=context)
 
