@@ -43,6 +43,19 @@
     </field>
 </record>
 
+<!-- Add field on product.supplierinfo -->
+<record id="fr_intrastat_product_supplierinfo_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.product.supplierinfo.form</field>
+    <field name="model">product.supplierinfo</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+    <field name="arch" type="xml">
+        <field name="product_uom" position="after">
+            <field name="origin_country_id" />
+        </field>
+    </field>
+</record>
+
 <!-- Add intrastat_id on Product category -->
 <record id="fr_intrastat_product_category_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.category.form</field>

@@ -70,7 +70,10 @@ class product_template(osv.osv):
     _inherit = "product.template"
     _columns = {
         'intrastat_id': fields.many2one('report.intrastat.code', 'Intrastat code', help="Code from the Harmonised System. Nomenclature is available from the World Customs Organisation, see http://www.wcoomd.org/. Some countries have made their own extensions to this nomenclature."),
-        'country_id' : fields.many2one('res.country', 'Country of origin', help="Country of origin of the product i.e. product 'made in ___'."),
+        'country_id' : fields.many2one('res.country', 'Country of origin',
+            help="Country of origin of the product i.e. product 'made in ____'. If you have different countries of origin depending on the supplier from which you purchased the product, leave this field empty and use the equivalent field on the 'product supplier info' form."),
+        # This field should be called origin_country_id, but it's named country_id to keep "compatibility with OpenERP users that used the "report_intrastat" module
+
     }
 
 product_template()
@@ -83,3 +86,39 @@ class product_category(osv.osv):
     }
 
 product_category()
+
+
+class product_supplierinfo(osv.osv):
+    _inherit = "product.supplierinfo"
+    _columns = {
+        'origin_country_id' : fields.many2one('res.country', 'Country of origin',
+            help="Country of origin of the product (i.e. product 'made in ____') when purchased from this supplier. This field is used only when the equivalent field on the product form is empty."),
+        }
+
+    def _same_supplier_same_origin(self, cr, uid, ids):
+        """Products from the same supplier should have the same origin"""
+        # I must search in all suppliers, not just in the ids
+        all_supplieri = self.search(cr, uid, [])
+        supplier_dict = {} # contains {(supplier_id, product_id) : country_origin_id}
+        # 'name' on product_supplierinfo is a many2one to res.partner
+        for supplieri in self.read(cr, uid, all_supplieri, ['name', 'product_id', 'origin_country_id']):
+            if supplieri['origin_country_id']:
+                same_supplier_origin_country_id = supplier_dict.get((supplieri['name'][0], supplieri['product_id'][0]), False)
+                if not same_supplier_origin_country_id:
+                    # Add entry in supplier_dict
+                    supplier_dict[(supplieri['name'][0], supplieri['product_id'][0])] = supplieri['origin_country_id'][0]
+                else:
+                    if same_supplier_origin_country_id == supplieri['origin_country_id'][0]:
+                        # It's OK, we have same supplier/same origin
+                        continue
+                    else:
+                        #print "supplier_dict=", supplier_dict
+                        raise osv.except_osv(_('Error !'), _("For a particular product, all supplier info entries with the same supplier should have the same country of origin. But, for product '%s' with supplier '%s', there is one entry with country of origin '%s' and another entry with country of origin '%s'.") % (supplieri['product_id'][1], supplieri['name'][1], self.pool.get('res.country').read(cr, uid, same_supplier_origin_country_id, ['name'])['name'], supplieri['origin_country_id'][1]))
+
+        return True
+
+
+    _constraints = [
+        (_same_supplier_same_origin, "error msg in raise", ['origin_country_id', 'name', 'product_id'])]
+
+product_supplierinfo()
