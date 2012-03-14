@@ -30,7 +30,7 @@ class report_intrastat_code(osv.osv):
     _order = "name"
     _columns = {
         'name': fields.char('H.S. code', size=16, required=True, help="Full lenght H.S. code"),
-        'description': fields.char('Description', size=128, help='Short text description of the H.S. category'),
+        'description': fields.char('Description', size=255, help='Short text description of the H.S. category'),
         'intrastat_code': fields.char('Intrastat code for DEB', size=9, required=True, help="H.S. code used for the DEB in France. Must be part of the 'Nomenclature combinée' (NC) with 8 digits with sometimes a 9th digit for the 'Nomenclature Générale des Produits' (NGP)."),
         'intrastat_uom_id': fields.many2one('product.uom', 'UoM for intrastat product report', help="Select the unit of measure if one is required for this particular intrastat code (other than the weight in Kg). If no particular unit of measure is required, leave empty."),
     }
