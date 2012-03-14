@@ -126,30 +126,28 @@ class report_intrastat_product(osv.osv):
         ('date_uniq', 'unique(start_date, company_id, type)', 'A DEB of the same type already exists for this month !'),
     ]
 
+    def _get_id_from_xmlid(self, cr, uid, module, xml_id, model_name, context=None):
+        irdata_obj = self.pool.get('ir.model.data')
+        res = irdata_obj.get_object_reference(cr, uid, module, xml_id)
+        if res[0] == model_name:
+            res_id = res[1]
+        else:
+            raise osv.except_osv(_('Error :'), 'Hara kiri %s in _get_id_from_xmlid' % xml_id)
+        return res_id
 
     def create_intrastat_product_lines(self, cr, uid, ids, intrastat, parent_obj, parent_values, context=None):
         #print "create_intrastat_product_line ids=", ids
 
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in build_intrastat_product_line')
         line_obj = self.pool.get('report.intrastat.product.line')
-        irdata_obj = self.pool.get('ir.model.data')
 
-        weight_uom_categ_res = irdata_obj.get_object_reference(cr, uid, 'product',
-            'product_uom_categ_kgm')
-        if weight_uom_categ_res[0] == 'product.uom.categ':
-            weight_uom_categ_id = weight_uom_categ_res[1]
-        else:
-            raise osv.except_osv(_('Error :'), 'Hara kiri product.uom.categ in build_intrastat_product_line')
-        kg_uom_res = irdata_obj.get_object_reference(cr, uid, 'product', 'product_uom_kgm')
-        if kg_uom_res[0] == 'product.uom':
-            kg_uom_id = kg_uom_res[1]
-        else:
-            raise osv.except_osv(_('Error :'), 'Hara kiri kg/product.uom in build_intrastat_product_line')
-        pce_uom_res = irdata_obj.get_object_reference(cr, uid, 'product', 'product_uom_unit')
-        if pce_uom_res[0] == 'product.uom':
-            pce_uom_id = pce_uom_res[1]
-        else:
-            raise osv.except_osv(_('Error :'), 'Hara kiri pce/product.uom in build_intrastat_product_line')
+        weight_uom_categ_id = self._get_id_from_xmlid(cr, uid, 'product', 'product_uom_categ_kgm', 'product.uom.categ', context=context)
+
+        kg_uom_id = self._get_id_from_xmlid(cr, uid, 'product', 'product_uom_kgm', 'product.uom', context=context)
+
+        pce_uom_categ_id = self._get_id_from_xmlid(cr, uid, 'product', 'product_uom_categ_unit', 'product.uom.categ', context=context)
+
+        pce_uom_id = self._get_id_from_xmlid(cr, uid, 'product', 'product_uom_unit', 'product.uom', context=context)
 
         if parent_obj._name == 'account.invoice':
             src = 'invoice'
@@ -227,15 +225,21 @@ class report_intrastat_product(osv.osv):
                 if source_uom.id == kg_uom_id:
                     weight_to_write = line_qty
                 elif source_uom.category_id.id == weight_uom_categ_id:
-                    dest_uom = self.pool.get('product.uom').browse(cr, uid,
+                    dest_uom_kg = self.pool.get('product.uom').browse(cr, uid,
                         kg_uom_id, context=context)
                     weight_to_write = self.pool.get('product.uom')._compute_qty_obj(cr, uid,
-                        source_uom, line_qty, dest_uom, context=context)
-                elif source_uom.id == pce_uom_id:
+                        source_uom, line_qty, dest_uom_kg, context=context)
+                elif source_uom.category_id.id == pce_uom_categ_id:
                     if not line.product_id.weight_net:
                         raise osv.except_osv(_('Error :'), _("Missing net weight on product '%s'.") %(line.product_id.name))
-                    else:
+                    if source_uom.id == pce_uom_id:
                         weight_to_write = line.product_id.weight_net * line_qty
+                    else:
+                        dest_uom_pce = self.pool.get('product.uom').browse(cr, uid,
+                            pce_uom_id, context=context)
+                        # Here, I suppose that, on the product, the weight is per PCE and not per uom_id
+                        weight_to_write = line.product_id.weight_net * self.pool.get('product.uom')._compute_qty_obj(cr, uid, source_uom, line_qty, dest_uom_pce, context=context)
+
                 else:
                     raise osv.except_osv(_('Error :'), _("Conversion from unit of measure '%s' to 'Kg' is not implemented yet.") %(source_uom.name))
 
