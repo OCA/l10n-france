@@ -379,9 +379,14 @@ class report_intrastat_product(osv.osv):
 
         for line_to_create in lines_to_create:
             line_to_create['partner_vat'] = parent_values['partner_vat_to_write']
-            for value in ['quantity', 'weight', 'amount_company_currency', 'amount_invoice_currency']:
+            line_to_create['amount_company_currency'] = int(round(line_to_create['amount_company_currency']))
+            if line_to_create['amount_company_currency'] == 0:
+                # p20 of the BOD : lines with value rounded to 0 mustn't be declared
+                continue
+            for value in ['quantity', 'weight']: # These 2 fields are char
                 if line_to_create[value]:
                     line_to_create[value] = str(int(round(line_to_create[value], 0)))
+            line_to_create['amount_invoice_currency'] = int(round(line_to_create['amount_invoice_currency']))
             line_obj.create(cr, uid, line_to_create, context=context)
 
         return True
