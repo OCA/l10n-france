@@ -25,9 +25,9 @@ from osv import osv, fields
 class sale_order(osv.osv):
     _inherit = "sale.order"
 
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed','done','exception']):
+    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed','done','exception'], date_inv=False, context=None):
         '''Copy destination country and departure department on invoice'''
-        res = super(sale_order,self).action_invoice_create(cr, uid, ids, grouped, states)
+        res = super(sale_order,self).action_invoice_create(cr, uid, ids, grouped, states, date_inv, context)
         for sale in self.browse(cr, uid, ids):
             for rel_invoice in sale.invoice_ids:
                 dico_write = {}
@@ -39,4 +39,3 @@ class sale_order(osv.osv):
         return res
 
 sale_order()
-
