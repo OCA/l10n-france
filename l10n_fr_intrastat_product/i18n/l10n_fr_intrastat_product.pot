@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Project-Id-Version: OpenERP Server 6.0.4\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-09-09 08:18+0000\n"
-"PO-Revision-Date: 2011-09-09 08:18+0000\n"
+"POT-Creation-Date: 2012-06-05 14:14+0000\n"
+"PO-Revision-Date: 2012-06-05 14:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,18 +16,18 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/company.py:87
-#, python-format
-msgid "The pricelist for statistical value must be in EUR currency."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,object_type:0
 msgid "Incoming products"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:672
+#: code:addons/l10n_fr_intrastat_product/product.py:116
+#, python-format
+msgid "For a particular product, all supplier info entries with the same supplier should have the same country of origin. But, for product '%s' with supplier '%s', there is one entry with country of origin '%s' and another entry with country of origin '%s'."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:792
 #, python-format
 msgid "Missing fiscal value on line %d."
 msgstr ""
@@ -130,7 +130,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: constraint:report.intrastat.product.line:0
 #: constraint:report.intrastat.type:0
-#: constraint:res.company:0
 #: constraint:res.partner:0
 msgid "Error msg in raise"
 msgstr ""
@@ -144,6 +143,12 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: help:report.intrastat.product,obligation_level:0
 msgid "Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for an Import DEB."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/intrastat_type.py:139
+#, python-format
+msgid "Procedure code must be '19' for an Incoming products."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -167,7 +172,7 @@ msgid "Description of the Intrastat type."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:643
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:763
 #, python-format
 msgid "Missing Intrastat code on line %d."
 msgstr ""
@@ -183,27 +188,26 @@ msgid "The active field allows you to hide the Intrastat type without deleting i
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:655
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:775
 #, python-format
 msgid "Missing quantity on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:511
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:631
 #, python-format
 msgid "Missing country on partner address '%s' used on picking '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:694
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:814
 #, python-format
 msgid "Mode of transport is not set on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:474
-#, python-format
-msgid "You don't need to get lines from picking for an export DEB in 'Simplified' obligation level."
+#: field:report.intrastat.type,object_type:0
+msgid "Possible on"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -218,14 +222,9 @@ msgid "Dpt"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:529
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:649
 #, python-format
 msgid "The intrastat type hasn't been set on picking '%s' and the 'default intrastat type for outgoing products' is missing for the company '%s'."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: sql_constraint:report.intrastat.product:0
-msgid "A DEB of the same type already exists for this month !"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -237,12 +236,6 @@ msgstr ""
 #: view:report.intrastat.product:0
 #: field:report.intrastat.product,notes:0
 msgid "Notes"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:243
-#, python-format
-msgid "Missing country of origin on product '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -258,6 +251,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,transaction_code:0
 msgid "12"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: constraint:product.supplierinfo:0
+msgid "Error: The default UOM and the Supplier Product UOM must be in the same category."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -299,12 +297,6 @@ msgid "Intrastat code"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_type.py:141
-#, python-format
-msgid "You must enter a value for the transaction code."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
 #: help:report.intrastat.product,end_date:0
 msgid "End date for the declaration. Is the last day of the month of the start date."
 msgstr ""
@@ -327,6 +319,7 @@ msgid "Error ! You can not create recursive categories."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: field:product.supplierinfo,origin_country_id:0
 #: field:product.template,country_id:0
 msgid "Country of origin"
 msgstr ""
@@ -358,14 +351,15 @@ msgid "Intrastat types"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:534
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:654
 #, python-format
 msgid "The intrastat type hasn't been set on picking '%s' and the 'default intrastat type for incoming products' is missing for the company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: help:product.template,country_id:0
-msgid "Country of origin of the product i.e. product 'made in ___'."
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:639
+#, python-format
+msgid "Partner address '%s' used on picking '%s' is not linked to a partner !"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -375,8 +369,8 @@ msgid "Draft"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: view:report.intrastat.product:0
-msgid "Product C/O"
+#: model:ir.model,name:l10n_fr_intrastat_product.model_sale_order
+msgid "Sales Order"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -456,7 +450,7 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:661
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:781
 #, python-format
 msgid "Missing partner country on line %d."
 msgstr ""
@@ -504,15 +498,14 @@ msgid "Product Category"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: help:account.invoice,intrastat_country_id:0
-msgid "For a customer invoice, contains the country to which the goods have been shipped. For a supplier invoice, contains the country from which the goods have been shipped."
+#: code:addons/l10n_fr_intrastat_product/product.py:116
+#, python-format
+msgid "Error !"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: selection:account.invoice,intrastat_transport:0
-#: selection:res.company,default_intrastat_transport:0
-#: selection:stock.picking,intrastat_transport:0
-msgid "Transport par air"
+#: field:report.intrastat.product.line,amount_product_value_inv_cur:0
+msgid "Amount of product value in invoice currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -557,18 +550,19 @@ msgid "29. Autres expéditions intracomm. : travail à façon, réparation..."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: field:report.intrastat.type,object_type:0
-msgid "Possible on"
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:302
+#, python-format
+msgid "On %s '%s', the line with product '%s' has a unit of measure (%s) which can't be converted to UoM of it's intrastat code (%s)."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:664
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:784
 #, python-format
 msgid "Missing product country of origin on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:315
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:408
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr ""
@@ -577,57 +571,58 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/company.py:68
 #: code:addons/l10n_fr_intrastat_product/company.py:72
 #: code:addons/l10n_fr_intrastat_product/company.py:74
-#: code:addons/l10n_fr_intrastat_product/company.py:87
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:133
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:146
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:202
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:208
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:213
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:223
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:227
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:237
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:243
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:303
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:308
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:315
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:349
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:355
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:363
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:379
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:415
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:437
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:442
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:447
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:448
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:474
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:157
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:164
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:187
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:244
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:251
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:264
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:274
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:282
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:286
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:302
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:322
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:330
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:396
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:401
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:408
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:467
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:473
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:481
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:483
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:511
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:519
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:529
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:534
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:535
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:550
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:497
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:533
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:555
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:575
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:584
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:613
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:621
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:626
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:634
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:643
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:648
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:560
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:565
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:566
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:596
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:603
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:631
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:639
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:649
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:654
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:655
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:661
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:664
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:666
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:672
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:677
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:689
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:694
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:699
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:670
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:675
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:695
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:704
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:733
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:741
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:746
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:754
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:763
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:765
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:768
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:775
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:781
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:784
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:786
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:792
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:797
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:809
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:814
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:819
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:895
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:897
 #: code:addons/l10n_fr_intrastat_product/intrastat_type.py:120
 #: code:addons/l10n_fr_intrastat_product/intrastat_type.py:122
 #: code:addons/l10n_fr_intrastat_product/intrastat_type.py:124
@@ -655,12 +650,12 @@ msgid "H.S. code used for the DEB in France. Must be part of the 'Nomenclature c
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: help:res.company,statistical_pricelist_id:0
-msgid "Select the pricelist that will be used to compute the statistical value (used in DEB lines generated from repair picking). The pricelist that you select must be in EUR."
+#: view:report.intrastat.product:0
+msgid "Value CC"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:442
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:560
 #, python-format
 msgid "The intrastat type hasn't been set on refund '%s' and the 'default intrastat type for customer refund' is missing for the company '%s'."
 msgstr ""
@@ -677,7 +672,7 @@ msgid "Partner country"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:689
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:809
 #, python-format
 msgid "Transaction code on line %d should have 2 digits."
 msgstr ""
@@ -695,6 +690,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: view:report.intrastat.product:0
 msgid "Generate repair lines from picking"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: help:product.template,intrastat_id:0
+msgid "Code from the Harmonised System. Nomenclature is available from the World Customs Organisation, see http://www.wcoomd.org/. Some countries have made their own extensions to this nomenclature."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -719,9 +719,8 @@ msgid "Total fiscal amount"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_type.py:139
-#, python-format
-msgid "Procedure code must be '19' for an Incoming products."
+#: help:report.intrastat.product.line,amount_product_value_inv_cur:0
+msgid "Amount of product value in invoice currency. For invoices, it is the amount of the invoice line or group of invoice lines. For pickings, it is the value of the product given by the pricelist for statistical value of the company."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -737,13 +736,19 @@ msgid "5 last digits of the SIRET number of the company."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: view:report.intrastat.product:0
+msgid "Information to declare"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,procedure_code:0
 msgid "21. Livraisons intracomm. exo. en France et taxables dans l'Etat d'arrivée"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model,name:l10n_fr_intrastat_product.model_sale_order
-msgid "Sales Order"
+#: code:addons/l10n_fr_intrastat_product/intrastat_type.py:141
+#, python-format
+msgid "You must enter a value for the transaction code."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -759,8 +764,9 @@ msgid "Intrastat Product"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: field:report.intrastat.product.line,weight:0
-msgid "Weight"
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:323
+#, python-format
+msgid "Missing country of origin on product '%s' or on it's supplier information for partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -818,7 +824,7 @@ msgid "Destination/Origin country of the goods"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:677
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:797
 #, python-format
 msgid "Missing VAT number for partner '%s'."
 msgstr ""
@@ -844,12 +850,17 @@ msgid "The pair (procedure code, transaction code) must be unique."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: help:report.intrastat.product.line,amount_invoice_currency:0
+msgid "Amount in invoice currency = amount of product value in invoice currency + amount of accessory cost in invoice currency (not rounded)"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,object_type:0
 msgid "Customer Refund"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:648
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:768
 #, python-format
 msgid "Missing Intrastat UoM on line %d."
 msgstr ""
@@ -880,7 +891,7 @@ msgid "Select the unit of measure if one is required for this particular intrast
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:575
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:695
 #, python-format
 msgid "The SIRET complement is not set on company '%s'."
 msgstr ""
@@ -922,6 +933,12 @@ msgid "Default intrastat type for customer invoice"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:274
+#, python-format
+msgid "Conversion from unit of measure '%s' to 'Kg' is not implemented yet."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: help:report.intrastat.product,company_id:0
 msgid "Related company."
 msgstr ""
@@ -947,13 +964,13 @@ msgid "Generate lines from invoices"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:699
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:819
 #, python-format
 msgid "Department code is not set on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:223
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:282
 #, python-format
 msgid "Missing H.S. code on product '%s' or on it's related category '%s'."
 msgstr ""
@@ -984,7 +1001,12 @@ msgid "Extended Filters..."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:227
+#: view:report.intrastat.product:0
+msgid "Additionnal information"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:286
 #, python-format
 msgid "Missing intrastat code on H.S. code '%s' (%s)."
 msgstr ""
@@ -1021,20 +1043,24 @@ msgid "Fiscal value in invoice currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:208
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:264
 #, python-format
 msgid "Missing net weight on product '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:437
-#, python-format
-msgid "The intrastat type hasn't been set on invoice '%s' and the 'default intrastat type for customer invoice' is missing for the company '%s'."
+#: model:ir.model,name:l10n_fr_intrastat_product.model_product_supplierinfo
+msgid "Information about a product supplier"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_res_company
 msgid "Companies"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: help:res.company,statistical_pricelist_id:0
+msgid "Select the pricelist that will be used to compute the statistical value (used in DEB lines generated from repair picking)."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1054,7 +1080,7 @@ msgid "The 'SIRET complement' should have exactly 5 digits."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:202
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:244
 #, python-format
 msgid "The Pricelist for statistical value '%s' that is set for the company '%s' gives a price of 0 for the product '%s'."
 msgstr ""
@@ -1067,13 +1093,7 @@ msgid "Transport par chemin de fer"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:483
-#, python-format
-msgid "The 'Pricelist for statistical value' that you selected (%s) for the company '%s' is in %s currency and should be in EUR."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:363
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:481
 #, python-format
 msgid "The intrastat department hasn't been set on %s '%s' and the default intrastat department is missing on the company '%s'."
 msgstr ""
@@ -1081,6 +1101,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,transaction_code:0
 msgid "91"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: help:report.intrastat.type,procedure_code:0
+msgid "For the 'DEB' declaration to France's customs administration, you should enter the 'code régime' here."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1146,7 +1171,7 @@ msgid "14"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:666
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:786
 #, python-format
 msgid "Missing weight on line %d."
 msgstr ""
@@ -1167,9 +1192,8 @@ msgid "Report intrastat product lines"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:237
-#, python-format
-msgid "On %s '%s', the line with %d product(s) '%s' has a unit of measure (%s) which is different from the UoM of it's intrastat code (%s). We don't handle this scenario for the moment."
+#: view:report.intrastat.product:0
+msgid "Product C/O"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1212,6 +1236,12 @@ msgid "Transport maritime"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:596
+#, python-format
+msgid "You don't need to get lines from picking for an export DEB in 'Simplified' obligation level."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: field:report.intrastat.product,obligation_level:0
 msgid "Obligation level"
 msgstr ""
@@ -1222,7 +1252,7 @@ msgid "Intrastat label"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:447
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:565
 #, python-format
 msgid "The intrastat type hasn't been set on invoice '%s' and the 'Default intrastat type for supplier invoice' is missing for the company '%s'."
 msgstr ""
@@ -1238,13 +1268,14 @@ msgid "Customer Invoice"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: view:report.intrastat.product:0
-msgid "Value CC"
+#: help:product.category,intrastat_id:0
+msgid "Code from the Harmonised System. If this code is not set on the product itself, it will be read here, on the related product category."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: help:product.category,intrastat_id:0
-msgid "Code from the Harmonised System. If this code is not set on the product itself, it will be read here, on the related product category."
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:331
+#, python-format
+msgid "Missing country of origin on product '%s' (it's not possible to get the country of origin from the 'supplier information' in this case because we don't know the supplier of this product for the %s '%s')."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1253,7 +1284,7 @@ msgid "Origin country"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:765
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:897
 #, python-format
 msgid "Quantity must be an integer."
 msgstr ""
@@ -1269,9 +1300,9 @@ msgid "Is fiscal only?"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:519
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:895
 #, python-format
-msgid "Partner address '%s' used on picking '%s' is not linked to a partner !"
+msgid "Weight must be an integer."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1291,7 +1322,7 @@ msgid "Default type of transport"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:481
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:603
 #, python-format
 msgid "You must select a 'Pricelist for statistical value' for the company %s."
 msgstr ""
@@ -1327,15 +1358,26 @@ msgid "42"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: sql_constraint:report.intrastat.product:0
+msgid "A DEB of the same type already exists for this month !"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,transaction_code:0
 msgid "41"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: constraint:account.invoice:0
+#: constraint:product.template:0
 #: constraint:res.company:0
 #: constraint:stock.location:0
 msgid "Error msg is in raise"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: field:report.intrastat.product.line,amount_accessory_cost_inv_cur:0
+msgid "Amount of accessory costs in invoice currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1356,7 +1398,7 @@ msgid "Procedure code must be a number."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:355
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:473
 #, python-format
 msgid "The mode of transport is not set on %s '%s' nor the default mode of transport on the company '%s'."
 msgstr ""
@@ -1367,7 +1409,7 @@ msgid "Short text description of the H.S. category"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:213
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:251
 #, python-format
 msgid "Missing unit of measure on the line with %d product(s) '%s' on %s '%s'."
 msgstr ""
@@ -1375,6 +1417,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:report.intrastat.type,name:0
 msgid "Name"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: constraint:product.supplierinfo:0
+msgid "error msg in raise"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1395,12 +1442,12 @@ msgid "Customs accreditation identifier"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: help:product.template,intrastat_id:0
-msgid "Code from the Harmonised System. Nomenclature is available from the World Customs Organisation, see http://www.wcoomd.org/. Some countries have made their own extensions to this nomenclature."
+#: help:report.intrastat.product.line,amount_company_currency:0
+msgid "Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date (for pickings : with the rate of the 'date done') and rounded at 0 digits"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:415
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:533
 #, python-format
 msgid "Missing country on partner address '%s' of partner '%s'."
 msgstr ""
@@ -1417,6 +1464,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.type,transaction_code:0
 msgid "70"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: help:account.invoice,intrastat_country_id:0
+msgid "For a customer invoice, contains the country to which the goods have been shipped. For a supplier invoice, contains the country from which the goods have been shipped."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1441,14 +1493,27 @@ msgid "Detailed"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:584
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:555
+#, python-format
+msgid "The intrastat type hasn't been set on invoice '%s' and the 'default intrastat type for customer invoice' is missing for the company '%s'."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:account.invoice,intrastat_transport:0
+#: selection:res.company,default_intrastat_transport:0
+#: selection:stock.picking,intrastat_transport:0
+msgid "Transport par air"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:704
 #, python-format
 msgid "The customs accreditation identifier is not set for the company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: help:report.intrastat.type,procedure_code:0
-msgid "For the 'DEB' declaration to France's customs administration, you should enter the 'code régime' here."
+#: help:product.template,country_id:0
+msgid "Country of origin of the product i.e. product 'made in ____'. If you have different countries of origin depending on the supplier from which you purchased the product, leave this field empty and use the equivalent field on the 'product supplier info' form."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1458,15 +1523,14 @@ msgid "You must enter a value for the procedure code."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:308
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:401
 #, python-format
 msgid "Missing fiscal representative for partner '%s'. It is required for invoice '%s' which has an invoice address outside the EU but the goods were delivered to or received from inside the EU."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:763
-#, python-format
-msgid "Weight must be an integer."
+#: help:report.intrastat.product.line,amount_accessory_cost_inv_cur:0
+msgid "Amount of accessory costs in invoice currency = total amount of accessory costs of the invoice broken down into each product line at the pro-rata of the value"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1482,6 +1546,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:report.intrastat.product.line,transport:0
 msgid "4. Transport par air"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: field:report.intrastat.product.line,weight:0
+msgid "Weight"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1514,5 +1583,10 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: help:res.company,export_obligation_level:0
 msgid "For the DEB : if your volume of export of products to EU countries is over 460 000 € per year, your obligation level for export is \"Detailed\" ; if you are under this limit, your obligation level for export is \"Simplified\"."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: help:product.supplierinfo,origin_country_id:0
+msgid "Country of origin of the product (i.e. product 'made in ____') when purchased from this supplier. This field is used only when the equivalent field on the product form is empty."
 msgstr ""
 
