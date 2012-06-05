@@ -25,10 +25,12 @@ from osv import osv, fields
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from tools.translate import _
+import decimal_precision as dp
+
 
 class report_intrastat_service(osv.osv):
     _name = "report.intrastat.service"
-    _order = "start_date"
+    _order = "start_date desc"
     _rec_name = "start_date"
     _description = "Intrastat report for services"
 
@@ -44,25 +46,45 @@ class report_intrastat_service(osv.osv):
         return self.pool.get('report.intrastat.service').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
-        'company_id': fields.many2one('res.company', 'Company', required=True, states={'done':[('readonly',True)]}, help="Related company."),
-        'start_date': fields.date('Start date', required=True, states={'done':[('readonly',True)]}, help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_end_date, method=True, type='date', string='End date', store={
-            'report.intrastat.service': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20)
-        }, help="End date for the declaration. Must be the last day of the month of the start date."),
-        'intrastat_line_ids': fields.one2many('report.intrastat.service.line', 'parent_id', 'Report intrastat service lines', states={'done':[('readonly',True)]}),
-        'num_lines': fields.function(_compute_numbers, method=True, type='integer', multi='numbers', string='Number of lines', store={
-            'report.intrastat.service.line': (_get_intrastat_from_service_line, ['parent_id'], 20),
-            }, help="Number of lines in this declaration."),
-        'total_amount': fields.function(_compute_numbers, method=True, digits=(16,0), multi='numbers', string='Total amount', store={
-            'report.intrastat.service.line': (_get_intrastat_from_service_line, ['amount_company_currency', 'parent_id'], 20),
-                }, help="Total amount in company currency of the declaration."),
-        'currency_id': fields.related('company_id', 'currency_id', readonly=True, type='many2one', relation='res.currency', string='Currency'),
+        'company_id': fields.many2one('res.company', 'Company',
+            required=True, states={'done':[('readonly',True)]},
+            help="Related company."),
+        'start_date': fields.date('Start date', required=True,
+            states={'done':[('readonly',True)]},
+            help="Start date of the declaration. Must be the first day of a month."),
+        'end_date': fields.function(_compute_end_date, method=True,
+            type='date', string='End date', store={
+                'report.intrastat.service': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20)
+                },
+            help="End date for the declaration. Must be the last day of the month of the start date."),
+        'intrastat_line_ids': fields.one2many('report.intrastat.service.line',
+            'parent_id', 'Report intrastat service lines',
+            states={'done':[('readonly',True)]}),
+        'num_lines': fields.function(_compute_numbers, method=True,
+            type='integer', multi='numbers', string='Number of lines',
+            store={
+                'report.intrastat.service.line': (_get_intrastat_from_service_line, ['parent_id'], 20),
+                },
+            help="Number of lines in this declaration."),
+        'total_amount': fields.function(_compute_numbers, method=True,
+            digits_compute=dp.get_precision('Account'),
+            multi='numbers', string='Total amount',
+            store={
+                'report.intrastat.service.line': (_get_intrastat_from_service_line, ['amount_company_currency', 'parent_id'], 20),
+                },
+            help="Total amount in company currency of the declaration."),
+        'currency_id': fields.related('company_id', 'currency_id',
+            readonly=True, type='many2one', relation='res.currency',
+            string='Currency'),
         'state' : fields.selection([
-            ('draft','Draft'),
-            ('done','Done'),
-        ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the fields become read-only."),
-        'date_done' : fields.datetime('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
-        'notes' : fields.text('Notes', help="You can write some comments here if you want."),
+                ('draft','Draft'),
+                ('done','Done'),
+            ], 'State', select=True, readonly=True,
+            help="State of the declaration. When the state is set to 'Done', the fields become read-only."),
+        'date_done' : fields.datetime('Date done', readonly=True,
+            help="Last date when the intrastat declaration was converted to 'Done' state."),
+        'notes' : fields.text('Notes',
+            help="You can write some comments here if you want."),
     }
 
     _defaults = {
@@ -112,21 +134,28 @@ class report_intrastat_service(osv.osv):
             elif not invoice.address_invoice_id.country_id.intrastat:
                 continue
 
-            amount_invoice_currency_to_write = 0.0
-            amount_company_currency_to_write = 0.0
-            context['date'] = invoice.date_invoice
+            amount_invoice_cur_to_write = 0.0
+            amount_company_cur_to_write = 0.0
+            amount_invoice_cur_regular_service = 0.0
+            amount_invoice_cur_accessory_cost = 0.0
+            regular_product_in_invoice = False
 
             for line in invoice.invoice_line:
                 if not line.product_id:
                     continue
 
-                if line.product_id.type <> 'service':
-                    continue
-
                 if line.product_id.exclude_from_intrastat:
                     continue
 
-                if not line.quantity:
+                if not line.quantity or not line.price_subtotal:
+                    continue
+
+                # If we have a regular product/consu in the invoice, we
+                # don't take the is_accessory_cost in DES (it will be in DEB)
+                # If we don't, we declare the is_accessory_cost in DES as other
+                # regular services
+                if line.product_id.type != 'service':
+                    regular_product_in_invoice = True
                     continue
 
                 skip_this_line = False
@@ -136,27 +165,35 @@ class report_intrastat_service(osv.osv):
                 if skip_this_line:
                     continue
 
-                if not line.price_subtotal:
-                    continue
+                if line.product_id.is_accessory_cost:
+                    amount_invoice_cur_accessory_cost += line.price_subtotal
                 else:
-                    amount_invoice_currency_to_write += line.price_subtotal
-                    if invoice.currency_id.name <> 'EUR':
-                        amount_company_currency_to_write += self.pool.get('res.currency').compute(cr, uid, invoice.currency_id.id, intrastat.company_id.currency_id.id, line.price_subtotal, round=False, context=context)
-                    else:
-                        amount_company_currency_to_write += line.price_subtotal
+                    amount_invoice_cur_regular_service += line.price_subtotal
 
-            if amount_company_currency_to_write:
+            # END of the loop on invoice lines
+            if regular_product_in_invoice:
+                amount_invoice_cur_to_write = amount_invoice_cur_regular_service
+            else:
+                amount_invoice_cur_to_write = amount_invoice_cur_regular_service + amount_invoice_cur_accessory_cost
+
+            if invoice.currency_id.name <> 'EUR':
+                context['date'] = invoice.date_invoice
+                amount_company_cur_to_write = int(round(self.pool.get('res.currency').compute(cr, uid, invoice.currency_id.id, intrastat.company_id.currency_id.id, amount_invoice_cur_to_write, round=False, context=context), 0))
+            else:
+                amount_company_cur_to_write = int(round(amount_invoice_cur_to_write, 0))
+
+            if amount_company_cur_to_write:
                 if invoice.type == 'out_refund':
-                    amount_invoice_currency_to_write = amount_invoice_currency_to_write * (-1)
-                    amount_company_currency_to_write = amount_company_currency_to_write * (-1)
+                    amount_invoice_cur_to_write = amount_invoice_cur_to_write * (-1)
+                    amount_company_cur_to_write = amount_company_cur_to_write * (-1)
 
                 # Why do I check that the Partner has a VAT number only here and not earlier ?
                 # Because, if I sell to a physical person in the EU with VAT, then
                 # the corresponding partner will not have a VAT number, and the entry
                 # will be skipped because line_tax.exclude_from_intrastat_if_present is always
-                # True and amount_company_currency_to_write = 0
+                # True and amount_company_cur_to_write = 0
                 # So we should not block with a raise before the end of the loop on the
-                # invoice lines and the "if amount_company_currency_to_write:"
+                # invoice lines and the "if amount_company_cur_to_write:"
                 if not invoice.partner_id.vat:
                     raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %invoice.partner_id.name)
                 else:
@@ -168,8 +205,8 @@ class report_intrastat_service(osv.osv):
                     'partner_vat': partner_vat_to_write,
                     'partner_id': invoice.partner_id.id,
                     'invoice_currency_id': invoice.currency_id.id,
-                    'amount_invoice_currency': int(round(amount_invoice_currency_to_write, 0)),
-                    'amount_company_currency': int(round(amount_company_currency_to_write, 0)),
+                    'amount_invoice_currency': amount_invoice_cur_to_write,
+                    'amount_company_currency': amount_company_cur_to_write,
                     }, context=context)
 
         return True
@@ -244,17 +281,33 @@ class report_intrastat_service_line(osv.osv):
     _rec_name = "partner_vat"
     _order = 'id'
     _columns = {
-        'parent_id': fields.many2one('report.intrastat.service', 'Intrastat service ref', ondelete='cascade', select=True),
-        'state' : fields.related('parent_id', 'state', type='string', relation='report.intrastat.service', string='State', readonly=True),
-        'company_id': fields.related('parent_id', 'company_id', type='many2one', relation='res.company', string="Company", readonly=True),
-        'company_currency_id': fields.related('company_id', 'currency_id', type='many2one', relation='res.currency', string="Company currency", readonly=True),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice ref', readonly=True),
-        'date_invoice' : fields.related('invoice_id', 'date_invoice', type='date', relation='account.invoice', string='Invoice date', readonly=True),
-        'partner_vat': fields.char('Customer VAT', size=32, states={'done':[('readonly',True)]}),
-        'partner_id': fields.many2one('res.partner', 'Partner name', states={'done':[('readonly',True)]}),
-        'amount_company_currency': fields.integer('Amount in company cur.', states={'done':[('readonly',True)]}),
-        'amount_invoice_currency': fields.integer('Amount in invoice cur.', readonly=True),
-        'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
+        'parent_id': fields.many2one('report.intrastat.service',
+            'Intrastat service ref', ondelete='cascade', select=True),
+        'state' : fields.related('parent_id', 'state', type='string',
+            relation='report.intrastat.service', string='State', readonly=True),
+        'company_id': fields.related('parent_id', 'company_id',
+            type='many2one', relation='res.company',
+            string="Company", readonly=True),
+        'company_currency_id': fields.related('company_id', 'currency_id',
+            type='many2one', relation='res.currency',
+            string="Company currency", readonly=True),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice ref',
+            readonly=True),
+        'date_invoice' : fields.related('invoice_id', 'date_invoice',
+            type='date', relation='account.invoice',
+            string='Invoice date', readonly=True),
+        'partner_vat': fields.char('Customer VAT', size=32,
+            states={'done':[('readonly',True)]}),
+        'partner_id': fields.many2one('res.partner', 'Partner name',
+            states={'done':[('readonly',True)]}),
+        'amount_company_currency': fields.integer('Amount in company currency',
+            states={'done':[('readonly',True)]},
+            help="Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date and rounded at 0 digits"),
+        'amount_invoice_currency': fields.float('Amount in invoice currency',
+            digits_compute=dp.get_precision('Account'), readonly=True,
+            help="Amount in invoice currency (not rounded)"),
+        'invoice_currency_id': fields.many2one('res.currency',
+            "Invoice currency", readonly=True),
     }
 
     def partner_on_change(self, cr, uid, ids, partner_id=False):
