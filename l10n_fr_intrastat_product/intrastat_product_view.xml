@@ -41,13 +41,16 @@
             <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4">
         <!-- START of form view for DEB lines -->
                 <form string="Intrastat product lines">
+                    <separator colspan="4" string="Information to declare" />
                     <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent.type, parent.obligation_level)" domain="[('intrastat_product_type', '=', parent.type)]" />
                     <field name="procedure_code" />
                     <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
                     <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
                     <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
+                    <newline />
                     <field name="amount_company_currency" />
-                    <field name="company_currency_id" />
+                    <field name="company_currency_id" nolabel="1"/>
+                    <newline />
                     <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
                     <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
                     <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
@@ -57,11 +60,22 @@
                     <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
                     <field name="partner_id" on_change="partner_on_change(partner_id)" attrs="{'readonly': [('parent.type', '=', 'import')]}" /> <!-- TODO : filter on UE partners ? -->
                     <field name="partner_vat" attrs="{'readonly': [('is_vat_required', '=', False)], 'required': [('is_vat_required', '=', True)]}" />
+                    <separator colspan="4" string="Additionnal information" />
                     <field name="invoice_id" />
+                    <field name="picking_id" />
+                    <newline />
                     <field name="amount_invoice_currency" />
                     <field name="invoice_currency_id" />
+                    <newline />
+                    <field name="amount_product_value_inv_cur"/>
+                    <!-- I can't display the same field several times
+                     cf https://bugs.launchpad.net/openobject-server/+bug/1008948
+                    <field name="invoice_currency_id" nolabel="1" />
+                    <newline /> -->
+                    <field name="amount_accessory_cost_inv_cur"/>
+                    <!-- <field name="invoice_currency_id" nolabel="1" /> -->
+                    <newline />
                     <field name="source_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-                    <field name="picking_id" />
                     <field name="is_fiscal_only" />
                     <field name="parent_id" invisible="1"  />
                     <field name="is_vat_required" invisible="1"  />
