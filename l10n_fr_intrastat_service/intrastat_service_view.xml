@@ -87,13 +87,16 @@
     <field name="type">form</field>
     <field name="arch" type="xml">
         <form string="Intrastat service lines">
+            <separator colspan="4" string="Information to declare" />
             <field name="partner_id" on_change="partner_on_change(partner_id)" />
             <field name="partner_vat" />
             <newline />
             <field name="amount_company_currency" />
-            <field name="company_currency_id" />
+            <field name="company_currency_id" nolabel="1" />
+            <separator colspan="4" string="Additionnal information" />
             <field name="amount_invoice_currency" />
-            <field name="invoice_currency_id" />
+            <field name="invoice_currency_id" nolabel="1"/>
+            <newline />
             <field name="invoice_id" />
             <field name="date_invoice" />
         </form>
