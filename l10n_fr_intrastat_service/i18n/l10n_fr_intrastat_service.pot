@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Project-Id-Version: OpenERP Server 6.0.4\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-09-09 08:18+0000\n"
-"PO-Revision-Date: 2011-09-09 08:18+0000\n"
+"POT-Creation-Date: 2012-06-05 14:48+0000\n"
+"PO-Revision-Date: 2012-06-05 14:48+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,8 +21,10 @@ msgid "Invoice ref"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,amount_company_currency:0
-msgid "Amount in company cur."
+#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.fr_intrastat_service_tree_action
+#: model:ir.ui.menu,name:l10n_fr_intrastat_service.fr_intrastat_service_menu
+#: view:report.intrastat.service:0
+msgid "Intrastat Service"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -47,13 +49,13 @@ msgid "Start date"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: sql_constraint:report.intrastat.service:0
-msgid "A DES for this month already exists !"
+#: view:report.intrastat.service:0
+msgid "Back to draft"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
-msgid "Back to draft"
+#: help:report.intrastat.service.line,amount_company_currency:0
+msgid "Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date and rounded at 0 digits"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -100,8 +102,8 @@ msgid "Invoice currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
-msgid "Attach XML file"
+#: view:report.intrastat.service.line:0
+msgid "Information to declare"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -121,25 +123,35 @@ msgid "Total amount"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:161
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:226
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:198
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:263
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:111
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:161
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:179
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:184
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:226
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:133
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:198
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:216
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:221
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:263
 #, python-format
 msgid "Error :"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
+#: view:report.intrastat.service.line:0
+msgid "Additionnal information"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service,intrastat_line_ids:0
 msgid "Report intrastat service lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:report.intrastat.service.line,amount_invoice_currency:0
+msgid "Amount in invoice currency (not rounded)"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -159,15 +171,23 @@ msgid "State of the declaration. When the state is set to 'Done', the fields bec
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.fr_intrastat_service_tree_action
-#: model:ir.ui.menu,name:l10n_fr_intrastat_service.fr_intrastat_service_menu
+#: sql_constraint:report.intrastat.service:0
+msgid "A DES for this month already exists !"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
 #: view:report.intrastat.service:0
-msgid "Intrastat Service"
+msgid "Attach XML file"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: view:report.intrastat.service.line:0
 msgid "Intrastat service lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,amount_company_currency:0
+msgid "Amount in company currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -201,17 +221,12 @@ msgid "Related company."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,amount_invoice_currency:0
-msgid "Amount in invoice cur."
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
 #: field:report.intrastat.service.line,partner_vat:0
 msgid "Customer VAT"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:111
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:133
 #, python-format
 msgid "Missing country on partner address '%s' of partner '%s'."
 msgstr ""
@@ -225,6 +240,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: constraint:report.intrastat.service:0
 msgid "Start date must be the first day of a month"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:report.intrastat.service.line,amount_invoice_currency:0
+msgid "Amount in invoice currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
