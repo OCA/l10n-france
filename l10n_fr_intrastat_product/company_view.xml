@@ -31,7 +31,7 @@
                 <field name="default_intrastat_type_in_picking" domain="[('object_type', '=', 'in')]" />
                 <field name="default_intrastat_type_out_picking" domain="[('object_type', '=', 'out')]" />
                 <newline />
-                <field name="statistical_pricelist_id" domain="[('currency_id.name','=', 'EUR')]" />
+                <field name="statistical_pricelist_id" />
             </page>
         </notebook>
     </field>
