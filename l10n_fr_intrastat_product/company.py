@@ -45,7 +45,7 @@ class res_company(osv.osv):
             (9, 'Propulsion propre'),
             ], 'Default type of transport',
             help="If the 'Type of Transport' is not set on the invoice or picking, OpenERP will use this value."),
-        'statistical_pricelist_id' : fields.many2one('product.pricelist', 'Pricelist for statistical value', help="Select the pricelist that will be used to compute the statistical value (used in DEB lines generated from repair picking). The pricelist that you select must be in EUR."),
+        'statistical_pricelist_id' : fields.many2one('product.pricelist', 'Pricelist for statistical value', help="Select the pricelist that will be used to compute the statistical value (used in DEB lines generated from repair picking)."),
         'default_intrastat_type_out_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for customer invoice'),
         'default_intrastat_type_out_refund': fields.many2one('report.intrastat.type', 'Default intrastat type for customer refund'),
         'default_intrastat_type_in_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for supplier invoice'),
@@ -80,17 +80,9 @@ class res_company(osv.osv):
             dpt_list.append(dpt_to_check['default_intrastat_department'])
         return self.real_department_check(dpt_list)
 
-    def _check_statistical_pricelist_id(self, cr, uid, ids):
-        for company_to_check in self.browse(cr, uid, ids):
-            if company_to_check.statistical_pricelist_id:
-                if company_to_check.statistical_pricelist_id.currency_id.name <> 'EUR':
-                    raise osv.except_osv(_('Error :'), _("The pricelist for statistical value must be in EUR currency."))
-        return True
-
     _constraints = [
             (_5digits, "The 'SIRET complement' should have exactly 5 digits.", ['siret_complement']),
             (_check_default_intrastat_department, "Error msg is in raise", ['default_intrastat_department']),
-            (_check_statistical_pricelist_id, "Error msg in raise", ['statistical_pricelist_id']),
             ]
 
 res_company()

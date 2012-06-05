@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2009-2011 Akretion (http://www.akretion.com). All Rights Reserved.
+#    Copyright (C) 2009-2012 Akretion (http://www.akretion.com). All Rights Reserved.
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -25,13 +25,13 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from tools.translate import _
-
+import decimal_precision as dp
 
 class report_intrastat_product(osv.osv):
     _name = "report.intrastat.product"
     _description = "Intrastat report for products"
     _rec_name = "start_date"
-    _order = "start_date, type"
+    _order = "start_date desc, type"
 
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
@@ -54,36 +54,58 @@ class report_intrastat_product(osv.osv):
         return self.pool.get('report.intrastat.product').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
-        'company_id': fields.many2one('res.company', 'Company', required=True, states={'done':[('readonly',True)]}, help="Related company."),
-        'start_date': fields.date('Start date', required=True, states={'done':[('readonly',True)]}, help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_end_date, method=True, type='date', string='End date', store={
-            'report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10),
-                }, help="End date for the declaration. Is the last day of the month of the start date."),
+        'company_id': fields.many2one('res.company', 'Company', required=True,
+            states={'done':[('readonly',True)]}, help="Related company."),
+        'start_date': fields.date('Start date', required=True,
+            states={'done':[('readonly',True)]},
+            help="Start date of the declaration. Must be the first day of a month."),
+        'end_date': fields.function(_compute_end_date, method=True, type='date',
+            string='End date', store={
+                'report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10),
+                },
+            help="End date for the declaration. Is the last day of the month of the start date."),
         'type': fields.selection([
-            ('import', 'Import'),
-            ('export', 'Export')
-            ], 'Type', required=True, states={'done':[('readonly',True)]}, help="Select the type of DEB."),
+                ('import', 'Import'),
+                ('export', 'Export')
+            ], 'Type', required=True, states={'done':[('readonly',True)]},
+            help="Select the type of DEB."),
         'obligation_level' : fields.selection([
-            ('detailed', 'Detailed'),
-            ('simplified', 'Simplified')
-            ], 'Obligation level', required=True, states={'done':[('readonly',True)]}, help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for an Import DEB."),
-        'intrastat_line_ids': fields.one2many('report.intrastat.product.line', 'parent_id', 'Report intrastat product lines', states={'done':[('readonly',True)]}),
-        'num_lines': fields.function(_compute_numbers, method=True, type='integer', multi='numbers', string='Number of lines', store={
-            'report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
-        }, help="Number of lines in this declaration."),
-        'total_amount': fields.function(_compute_numbers, method=True, digits=(16,0), multi='numbers', string='Total amount', store={
-            'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
-            }, help="Total amount in company currency of the declaration."),
-        'total_fiscal_amount': fields.function(_compute_total_fiscal_amount, method=True, digits=(16,0), string='Total fiscal amount', store={
-            'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
-            }, help="Total fiscal amount in company currency of the declaration. This is the total amount that is displayed on the Prodouane website."),
-        'currency_id': fields.related('company_id', 'currency_id', readonly=True, type='many2one', relation='res.currency', string='Currency'),
+                ('detailed', 'Detailed'),
+                ('simplified', 'Simplified')
+            ], 'Obligation level', required=True,
+            states={'done':[('readonly',True)]},
+            help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for an Import DEB."),
+        'intrastat_line_ids': fields.one2many('report.intrastat.product.line',
+            'parent_id', 'Report intrastat product lines',
+            states={'done':[('readonly',True)]}),
+        'num_lines': fields.function(_compute_numbers, method=True, type='integer',
+            multi='numbers', string='Number of lines', store={
+                'report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
+            },
+            help="Number of lines in this declaration."),
+        'total_amount': fields.function(_compute_numbers, method=True,
+            digits_compute=dp.get_precision('Account'), multi='numbers',
+            string='Total amount', store={
+                'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
+            },
+            help="Total amount in company currency of the declaration."),
+        'total_fiscal_amount': fields.function(_compute_total_fiscal_amount,
+            method=True, digits_compute=dp.get_precision('Account'),
+            string='Total fiscal amount', store={
+                'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
+            },
+            help="Total fiscal amount in company currency of the declaration. This is the total amount that is displayed on the Prodouane website."),
+        'currency_id': fields.related('company_id', 'currency_id', readonly=True,
+            type='many2one', relation='res.currency', string='Currency'),
         'state' : fields.selection([
-            ('draft','Draft'),
-            ('done','Done'),
-        ], 'State', select=True, readonly=True, help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
-        'date_done' : fields.datetime('Date done', readonly=True, help="Last date when the intrastat declaration was converted to 'Done' state."),
-        'notes' : fields.text('Notes', help="You can add some comments here if you want."),
+                ('draft','Draft'),
+                ('done','Done'),
+            ], 'State', select=True, readonly=True,
+            help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
+        'date_done' : fields.datetime('Date done', readonly=True,
+            help="Last date when the intrastat declaration was converted to 'Done' state."),
+        'notes' : fields.text('Notes',
+            help="You can add some comments here if you want."),
     }
 
     _defaults = {
@@ -136,6 +158,7 @@ class report_intrastat_product(osv.osv):
         return res_id
 
     def create_intrastat_product_lines(self, cr, uid, ids, intrastat, parent_obj, parent_values, context=None):
+        """This function is called for each invoice and for each picking"""
         #print "create_intrastat_product_line ids=", ids
 
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in build_intrastat_product_line')
@@ -154,14 +177,18 @@ class report_intrastat_product(osv.osv):
             browse_on = parent_obj.invoice_line
             parent_name = parent_obj.number
             product_line_ref_field = 'invoice_id'
+            currency_obj = parent_obj.currency_id
         elif parent_obj._name == 'stock.picking':
             src = 'picking'
             browse_on = parent_obj.move_lines
             parent_name = parent_obj.name
             product_line_ref_field = 'picking_id'
+            currency_obj = intrastat.company_id.statistical_pricelist_id.currency_id
         else: raise osv.except_osv(_('Error :'), 'The function build_intrastat_product_lines() should have parent_obj as invoice or picking')
 
         lines_to_create = []
+        total_invoice_cur_accessory_cost = 0.0
+        total_invoice_cur_product_value = 0.0
         for line in browse_on:
             if src == 'invoice':
                 line_qty = line.quantity
@@ -169,15 +196,21 @@ class report_intrastat_product(osv.osv):
             elif src == 'picking':
                 line_qty = line.product_qty
                 source_uom = line.product_uom
-            # We don't do anything when there is no product_id... this may be a problem...
 
+            # We don't do anything when there is no product_id...
+            # this may be a problem... but i think a raise would be too violent
             if not line.product_id:
                 continue
 
-            if line.product_id.type not in ('product', 'consu'):
+            if line.product_id.exclude_from_intrastat:
                 continue
 
-            if line.product_id.exclude_from_intrastat:
+            if not line_qty:
+                continue
+
+            # If type = "service" and is_accessory_cost=True, then we keep
+            # the line (it will be skipped later on)
+            if line.product_id.type not in ('product', 'consu') and not line.product_id.is_accessory_cost:
                 continue
 
             if src == 'picking':
@@ -188,9 +221,6 @@ class report_intrastat_product(osv.osv):
                 if parent_obj.type == 'out' and line.location_dest_id.usage == 'internal':
                     continue
 
-            if not line_qty:
-                continue
-
             if src == 'invoice':
                 skip_this_line = False
                 for line_tax in line.invoice_line_tax_id:
@@ -198,22 +228,22 @@ class report_intrastat_product(osv.osv):
                         skip_this_line = True
                 if skip_this_line:
                     continue
-                amount_invoice_currency_to_write = line.price_subtotal
-                invoice_currency_id_to_write = parent_obj.currency_id.id
-                if parent_obj.currency_id.name <> 'EUR':
-                    context['date'] = parent_obj.date_invoice
-# TODO : add invoice_currency, also in add loop, WARN picking
-                    amount_company_currency_to_write = self.pool.get('res.currency').compute(cr, uid, parent_obj.currency_id.id, intrastat.company_id.currency_id.id, line.price_subtotal, context=context)
-                else:
-                    amount_company_currency_to_write = line.price_subtotal
+                if line.product_id.is_accessory_cost and line.product_id.type == 'service':
+                    total_invoice_cur_accessory_cost += line.price_subtotal
+                    continue
+                # END OF "continue" instructions
+                ## AFTER THIS POINT, we are sure to have real products that have to be declared to DEB
+                amount_product_value_inv_cur_to_write = line.price_subtotal
+                total_invoice_cur_product_value += line.price_subtotal
+                invoice_currency_id_to_write = currency_obj.id
+
             elif src == 'picking':
-                invoice_currency_id_to_write = False
-                amount_invoice_currency_to_write = False
+                invoice_currency_id_to_write = currency_obj.id
                 unit_stat_price = self.pool.get('product.pricelist').price_get(cr, uid, [intrastat.company_id.statistical_pricelist_id.id], line.product_id.id, 1.0)[intrastat.company_id.statistical_pricelist_id.id]
                 if not unit_stat_price:
                     raise osv.except_osv(_('Error :'), _("The Pricelist for statistical value '%s' that is set for the company '%s' gives a price of 0 for the product '%s'.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, line.product_id.name))
                 else:
-                    amount_company_currency_to_write = unit_stat_price * line_qty
+                    amount_product_value_inv_cur_to_write = unit_stat_price * line_qty
 
             if not parent_values['is_fiscal_only']:
 
@@ -321,9 +351,10 @@ class report_intrastat_product(osv.osv):
                     and line_to_create.get('product_country_origin_id', False) == product_country_origin_id_to_write:
                     create_new_line = False
                     line_to_create['quantity'] += quantity_to_write
-                    line_to_create['amount_company_currency'] += amount_company_currency_to_write
+#                    line_to_create['amount_company_currency'] += amount_company_currency_to_write
                     line_to_create['weight'] += weight_to_write
-                    line_to_create['amount_invoice_currency'] += amount_invoice_currency_to_write
+#                    line_to_create['amount_invoice_currency'] += amount_invoice_currency_to_write
+                    line_to_create['amount_product_value_inv_cur'] += amount_product_value_inv_cur_to_write
                     break
             if create_new_line == True:
                 lines_to_create.append({
@@ -336,7 +367,7 @@ class report_intrastat_product(osv.osv):
                     'intrastat_code': intrastat_code_to_write,
                     'intrastat_code_id': intrastat_code_id_to_write,
                     'weight': weight_to_write,
-                    'amount_company_currency': amount_company_currency_to_write,
+#                    'amount_company_currency': amount_company_currency_to_write,
                     'product_country_origin_id': product_country_origin_id_to_write,
                     'transport': parent_values['transport_to_write'],
                     'department': parent_values['department_to_write'],
@@ -345,15 +376,18 @@ class report_intrastat_product(osv.osv):
                     'transaction_code': parent_values['transaction_code_to_write'],
                     'partner_id': parent_values['partner_id_to_write'],
                     'invoice_currency_id': invoice_currency_id_to_write,
-                    'amount_invoice_currency': amount_invoice_currency_to_write,
+#                    'amount_invoice_currency': amount_invoice_currency_to_write,
+                    'amount_product_value_inv_cur': amount_product_value_inv_cur_to_write,
                     'is_fiscal_only': parent_values['is_fiscal_only'],
                 })
         # End of the loop on invoice/picking lines
 
-        # Why do I manage the Partner VAT number only here and not earlier in the code ?
+        # Why do I manage the Partner VAT number only here and not earlier
+        # in the code ?
         # Because, if I sell to a physical person in the EU with VAT, then
         # the corresponding partner will not have a VAT number, and the entry
-        # will be skipped because line_tax.exclude_from_intrastat_if_present is always True
+        # will be skipped because line_tax.exclude_from_intrastat_if_present
+        # is always True
         # So we should not block with a raise before the end of the loop on the
         # invoice/picking lines
         if lines_to_create:
@@ -379,6 +413,27 @@ class report_intrastat_product(osv.osv):
 
         for line_to_create in lines_to_create:
             line_to_create['partner_vat'] = parent_values['partner_vat_to_write']
+
+            if src == 'picking':
+                context['date'] = parent_obj.date_done # for currency conversion
+                line_to_create['amount_accessory_cost_inv_cur'] = 0
+            elif src == 'invoice':
+                context['date'] = parent_obj.date_invoice # for currency conversion
+                if not total_invoice_cur_accessory_cost:
+                    line_to_create['amount_accessory_cost_inv_cur'] = 0
+                else:
+                    # The accessory costs are added at the pro-rata of value
+                    line_to_create['amount_accessory_cost_inv_cur'] = total_invoice_cur_accessory_cost * line_to_create['amount_product_value_inv_cur'] / total_invoice_cur_product_value
+
+            line_to_create['amount_invoice_currency'] = line_to_create['amount_product_value_inv_cur'] + line_to_create['amount_accessory_cost_inv_cur']
+
+
+            # We do currency conversion NOW
+            if currency_obj.name != 'EUR':
+                line_to_create['amount_company_currency'] = self.pool.get('res.currency').compute(cr, uid, currency_obj.id, intrastat.company_id.currency_id.id, line_to_create['amount_invoice_currency'], context=context)
+            else:
+                line_to_create['amount_company_currency'] = line_to_create['amount_invoice_currency']
+            # We round
             line_to_create['amount_company_currency'] = int(round(line_to_create['amount_company_currency']))
             if line_to_create['amount_company_currency'] == 0:
                 # p20 of the BOD : lines with value rounded to 0 mustn't be declared
@@ -386,7 +441,6 @@ class report_intrastat_product(osv.osv):
             for value in ['quantity', 'weight']: # These 2 fields are char
                 if line_to_create[value]:
                     line_to_create[value] = str(int(round(line_to_create[value], 0)))
-            line_to_create['amount_invoice_currency'] = int(round(line_to_create['amount_invoice_currency']))
             line_obj.create(cr, uid, line_to_create, context=context)
 
         return True
@@ -547,8 +601,6 @@ class report_intrastat_product(osv.osv):
         # Check pricelist for stat value
         if not intrastat.company_id.statistical_pricelist_id:
             raise osv.except_osv(_('Error :'), _("You must select a 'Pricelist for statistical value' for the company %s.") %intrastat.company_id.name)
-        elif intrastat.company_id.statistical_pricelist_id.currency_id.name <> 'EUR':
-            raise osv.except_osv(_('Error :'), _("The 'Pricelist for statistical value' that you selected (%s) for the company '%s' is in %s currency and should be in EUR.") %(intrastat.company_id.statistical_pricelist_id.name, intrastat.company_id.name, intrastat.company_id.statistical_pricelist_id.currency_id.name))
 
         pick_obj = self.pool.get('stock.picking')
         pick_type = False
@@ -559,12 +611,12 @@ class report_intrastat_product(osv.osv):
         if intrastat.type == 'export':
             pick_type = 'out'
             exclude_field = 'sale_id'
-        # TODO : add criteria on company !!!
         picking_ids = pick_obj.search(cr, uid, [
             ('type', '=', pick_type),
             ('date_done', '<=', intrastat.end_date),
             ('date_done', '>=', intrastat.start_date),
             ('invoice_state', '=', 'none'),
+            ('company_id', '=', intrastat.company_id.id),
             (exclude_field, '=', False),
             ('state', 'not in', ('draft', 'waiting', 'confirmed', 'assigned', 'cancel'))
         ], order='date_done', context=context)
@@ -799,8 +851,20 @@ class report_intrastat_product_line(osv.osv):
         # tree view when the value is False (if weight is an integer, a False value would
         # be displayed as 0), that's why weight is a char !
         'weight': fields.char('Weight', size=10, states={'done':[('readonly',True)]}),
-        'amount_invoice_currency': fields.integer('Fiscal value in invoice currency', readonly=True),
-        'amount_company_currency': fields.integer('Fiscal value in company currency', required=True, states={'done':[('readonly',True)]}),
+        'amount_company_currency': fields.integer('Fiscal value in company currency',
+            required=True, states={'done':[('readonly',True)]},
+            help="Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date (for pickings : with the rate of the 'date done') and rounded at 0 digits"),
+        'amount_invoice_currency': fields.float('Fiscal value in invoice currency',
+            digits_compute=dp.get_precision('Account'), readonly=True,
+            help="Amount in invoice currency = amount of product value in invoice currency + amount of accessory cost in invoice currency (not rounded)"),
+        'amount_accessory_cost_inv_cur': fields.float(
+            'Amount of accessory costs in invoice currency',
+            digits_compute=dp.get_precision('Account'), readonly=True,
+            help="Amount of accessory costs in invoice currency = total amount of accessory costs of the invoice broken down into each product line at the pro-rata of the value"),
+        'amount_product_value_inv_cur': fields.float(
+            'Amount of product value in invoice currency',
+            digits_compute=dp.get_precision('Account'), readonly=True,
+            help="Amount of product value in invoice currency. For invoices, it is the amount of the invoice line or group of invoice lines. For pickings, it is the value of the product given by the pricelist for statistical value of the company."),
         'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
         'product_country_origin_id' : fields.many2one('res.country', 'Product country of origin', states={'done':[('readonly',True)]}),
         'product_country_origin_code' : fields.related('product_country_origin_id', 'code', type='string', relation='res.country', string='Product country of origin', readonly=True),
