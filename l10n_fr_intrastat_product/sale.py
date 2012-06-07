@@ -25,17 +25,13 @@ from osv import osv, fields
 class sale_order(osv.osv):
     _inherit = "sale.order"
 
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed','done','exception'], date_inv=False, context=None):
+    def _prepare_invoice(self, cr, uid, order, lines, context=None):
         '''Copy destination country and departure department on invoice'''
-        res = super(sale_order,self).action_invoice_create(cr, uid, ids, grouped, states, date_inv, context)
-        for sale in self.browse(cr, uid, ids):
-            for rel_invoice in sale.invoice_ids:
-                dico_write = {}
-                if sale.partner_shipping_id and sale.partner_shipping_id.country_id:
-                    dico_write['intrastat_country_id'] = sale.partner_shipping_id.country_id.id
-                if sale.picking_ids:
-                    dico_write['intrastat_department'] = sale.picking_ids[0].intrastat_department
-                self.pool.get('account.invoice').write(cr, uid, rel_invoice.id, dico_write)
-        return res
+        invoice_vals = super(sale_order, self)._prepare_invoice(cr, uid, order, lines, context=context)
+        if order.partner_shipping_id and order.partner_shipping_id.country_id:
+            invoice_vals['intrastat_country_id'] = order.partner_shipping_id.country_id.id
+        if order.picking_ids:
+            invoice_vals['intrastat_department'] = order.picking_ids[0].intrastat_department
+        return invoice_vals
 
 sale_order()
