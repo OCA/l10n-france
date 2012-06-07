@@ -89,27 +89,18 @@ class stock_picking(osv.osv):
         'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
             }
 
-# Do we put a default value, taken from res_company ?
 
-    def action_invoice_create(self, cr, uid, ids, journal_id=False,
-        group=False, type='out_invoice', context=None):
+    def _prepare_invoice(self, cr, uid, picking, partner, inv_type, journal_id, context=None):
         '''Copy transport from picking to invoice'''
 
-        res = super(stock_picking, self).action_invoice_create(cr, uid, ids,
-            journal_id=journal_id, group=group, type=type, context=context)
-        invoice_obj = self.pool.get('account.invoice')
-        for picking_id in res:
-            picking = self.browse(cr, uid, picking_id, context=context)
-            data_to_write = {}
-            if picking.intrastat_transport:
-                data_to_write['intrastat_transport'] = picking.intrastat_transport
-            if picking.intrastat_department:
-                data_to_write['intrastat_department'] = picking.intrastat_department
-            if picking.address_id:
-                data_to_write['intrastat_country_id'] = picking.address_id.country_id.id
-            if data_to_write:
-                invoice_obj.write(cr, uid, res[picking_id], data_to_write, context=context)
-        return res
+        invoice_vals = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context=context)
+        invoice_vals.update({
+            'intrastat_transport': picking.intrastat_transport,
+            'intrastat_department': picking.intrastat_department,
+        })
+        if picking.address_id and picking.address_id.country_id:
+            invoice_vals['intrastat_country_id'] = picking.address_id.country_id.id
+        return invoice_vals
 
 stock_picking()
 
