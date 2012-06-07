@@ -101,5 +101,9 @@
     <field name="intrastat_fiscal_representative" ref="base.res_partner_6" />
 </record>
 
+<record id="stock.stock_location_stock" model="stock.location">
+    <field name="intrastat_department">69</field>
+</record>
+
 </data>
 </openerp>
