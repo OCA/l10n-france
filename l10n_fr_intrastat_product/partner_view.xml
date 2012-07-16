@@ -16,9 +16,9 @@
     <field name="type">form</field>
     <field name="inherit_id" ref="base_vat.view_partner_form"/>
     <field name="arch" type="xml">
-        <field name="vat_subjected" position="after">
+        <group colspan="2" col="6" position="after">
             <field name="intrastat_fiscal_representative" />
-        </field>
+        </group>
     </field>
 </record>
 
