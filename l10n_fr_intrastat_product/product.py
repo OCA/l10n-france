@@ -97,24 +97,14 @@ class product_supplierinfo(osv.osv):
 
     def _same_supplier_same_origin(self, cr, uid, ids):
         """Products from the same supplier should have the same origin"""
-        # I must search in all suppliers, not just in the ids
-        all_supplieri = self.search(cr, uid, [])
-        supplier_dict = {} # contains {(supplier_id, product_id) : country_origin_id}
-        # 'name' on product_supplierinfo is a many2one to res.partner
-        for supplieri in self.read(cr, uid, all_supplieri, ['name', 'product_id', 'origin_country_id']):
-            if supplieri['origin_country_id']:
-                same_supplier_origin_country_id = supplier_dict.get((supplieri['name'][0], supplieri['product_id'][0]), False)
-                if not same_supplier_origin_country_id:
-                    # Add entry in supplier_dict
-                    supplier_dict[(supplieri['name'][0], supplieri['product_id'][0])] = supplieri['origin_country_id'][0]
-                else:
-                    if same_supplier_origin_country_id == supplieri['origin_country_id'][0]:
-                        # It's OK, we have same supplier/same origin
-                        continue
-                    else:
-                        #print "supplier_dict=", supplier_dict
-                        raise osv.except_osv(_('Error !'), _("For a particular product, all supplier info entries with the same supplier should have the same country of origin. But, for product '%s' with supplier '%s', there is one entry with country of origin '%s' and another entry with country of origin '%s'.") % (supplieri['product_id'][1], supplieri['name'][1], self.pool.get('res.country').read(cr, uid, same_supplier_origin_country_id, ['name'])['name'], supplieri['origin_country_id'][1]))
-
+        for supplierinfo in self.browse(cr, uid, ids):
+            country_origin_id = supplierinfo.origin_country_id.id
+            # Search for same supplier and same product
+            same_product_same_supplier_ids = self.search(cr, uid, [('product_id', '=', supplierinfo.product_id.id), ('name', '=', supplierinfo.name.id)])
+            # 'name' on product_supplierinfo is a many2one to res.partner
+            for supplieri in self.browse(cr, uid, same_product_same_supplier_ids):
+                if country_origin_id != supplieri.origin_country_id.id:
+                    raise osv.except_osv(_('Error !'), _("For a particular product, all supplier info entries with the same supplier should have the same country of origin. But, for product '%s' with supplier '%s', there is one entry with country of origin '%s' and another entry with country of origin '%s'.") % (supplieri.product_id.name, supplieri.name.name, supplierinfo.origin_country_id.name, supplieri.origin_country_id.name))
         return True
 
 
