@@ -29,11 +29,11 @@ class res_partner(osv.osv):
         'intrastat_fiscal_representative' : fields.many2one('res.partner', string="EU fiscal representative", help="If this partner is located outside the EU but you deliver the goods inside the UE, the partner needs to have a fiscal representative with a VAT number inside the EU. In this scenario, the VAT number of the fiscal representative will be used for the Intrastat Product report (DEB)."),
     }
 
-    def _check_fiscal_representative(self, cr, uid, ids, context=None):
+    def _check_fiscal_representative(self, cr, uid, ids):
         '''The Fiscal rep. must be based in the same country as our company or in an intrastat country'''
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        user = self.pool.get('res.users').browse(cr, uid, uid)
         my_company_country_id = user.company_id.partner_id.country and user.company_id.partner_id.country.id or False
-        for partner in self.browse(cr, uid, ids, context=context):
+        for partner in self.browse(cr, uid, ids):
             if partner.intrastat_fiscal_representative:
                 if not partner.intrastat_fiscal_representative.country:
                     raise osv.except_osv(_('Error :'), _("The fiscal representative '%s' of partner '%s' must have a country.") %(partner.intrastat_fiscal_representative.name, partner.name))
