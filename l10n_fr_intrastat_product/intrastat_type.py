@@ -108,7 +108,7 @@ class report_intrastat_type(osv.osv):
     }
 
     _defaults = {
-        'active': lambda *a: 1,
+        'active': 1,
     }
 
     _sql_constraints = [
