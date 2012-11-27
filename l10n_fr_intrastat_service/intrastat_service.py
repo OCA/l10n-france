@@ -91,14 +91,14 @@ class report_intrastat_service(osv.osv):
         # By default, we propose 'current month -1', because you prepare in
         # february the DES of January
         'start_date': lambda *a: datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m-%d'),
-        'state': lambda *a: 'draft',
+        'state': 'draft',
         'company_id': lambda self, cr, uid, context: \
          self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id,
         }
 
 
-    def _check_start_date(self, cr, uid, ids, context=None):
-        return self.pool.get('report.intrastat.common')._check_start_date(cr, uid, ids, self, context=context)
+    def _check_start_date(self, cr, uid, ids):
+        return self.pool.get('report.intrastat.common')._check_start_date(cr, uid, ids, self)
 
     _constraints = [
         (_check_start_date, "Start date must be the first day of a month", ['start_date']),
