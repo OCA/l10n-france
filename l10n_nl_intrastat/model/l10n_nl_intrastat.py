@@ -234,7 +234,8 @@ class l10n_nl_report_intrastat_line(osv.osv):
             'l10n_nl.report.intrastat',
             'ICP report',
             readonly=True,
-            required=True),
+            required=True,
+            ondelete="CASCADE"),
         'partner_id': fields.many2one(
             'res.partner', 'Partner',
             readonly=True,
