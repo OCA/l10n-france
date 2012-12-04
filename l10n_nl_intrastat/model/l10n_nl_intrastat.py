@@ -30,6 +30,7 @@ from dateutil.relativedelta import relativedelta
 from tools.translate import _
 import decimal_precision as dp
 
+
 class l10n_nl_report_intrastat(osv.osv):
     _name = "l10n_nl.report.intrastat"
     _description = "Declaration of intracommunautary transactions (ICP)"
@@ -217,11 +218,11 @@ class l10n_nl_report_intrastat(osv.osv):
             raise osv.except_osv(
                 _('Error'),
                 _('Cannot remove IPC reports in a non-draft state'))
-        return super(l10n_nl_intrastat_report, self).unlink(
+        return super(l10n_nl_report_intrastat, self).unlink(
             cr, uid, ids, context=context)
 
 
-class l10n_nl_report_intrastat(osv.osv):
+class l10n_nl_report_intrastat_line(osv.osv):
     _name = "l10n_nl.report.intrastat.line"
     _description = "ICP report line"
     _order = "report_id, country_code"

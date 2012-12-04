@@ -53,6 +53,7 @@ included in the reported amounts
     'depends': ['intrastat_base'],
     'data': [
         'view/l10n_nl_intrastat.xml',
+        'security/ir.model.access.csv',
     ],
 }
 
