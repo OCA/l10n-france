@@ -188,6 +188,8 @@ class l10n_nl_report_intrastat(osv.osv):
             
         # Create report lines
         for (partner_id, vals) in partner_amounts_map.items():
+            if not (vals['amount_service'] or vals['amount_product']):
+                continue
             vals.update({
                     'partner_id': partner_id,
                     'report_id': report.id
