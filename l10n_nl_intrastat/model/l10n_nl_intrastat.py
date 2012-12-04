@@ -175,7 +175,6 @@ class l10n_nl_report_intrastat(osv.osv):
                 amount_type = 'amount_product'
             sign = line.invoice_id.type == 'out_refund' and -1 or 1
             amount = sign * line.price_subtotal
-            # TODO: check wether refund invoices give a negative amount
             if (line.invoice_id.currency_id
                 and line.invoice_id.currency_id.id !=
                 report.company_id.currency_id.id):
