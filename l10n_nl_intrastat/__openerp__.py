@@ -40,13 +40,13 @@ tax authority has not yet been implemented.
 The intrastat base module requires the country field required on
 partner addresses. Selected countries are marked for inclusion in this report.
 
-Amounts for products and services are reported separately. You can mark
-products internally as 'Accessory costs'. Invoiced amounts for such 
-products will be listed under the 'service amount'.
+Amounts for products and services are reported separately. All services
+are reported, regardless of the 'Accessory cost setting' which is used in
+the French version of this report.
 
 To exclude specific lines from the report, you can mark specific taxes
 as such. If such a tax is applied to the line, the line will not be
-included in the reported amounts
+included in the reported amounts.
 """,
     'author': 'Therp BV',
     'website': 'https://launchpad.net/new-report-intrastat',

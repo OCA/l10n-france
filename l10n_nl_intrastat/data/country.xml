@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="base.fr" model="res.country">
+            <field eval="True" name="intrastat"/>
+        </record>
+    </data>
+</openerp>
+
