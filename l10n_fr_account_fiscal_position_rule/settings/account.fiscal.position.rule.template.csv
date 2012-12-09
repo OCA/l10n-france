@@ -1,5 +1,6 @@
 id,description,from_country/id,to_shipping_country/id,to_invoice_country/id,fiscal_position_id/id,name,sequence,use_sale,use_invoice,use_picking,use_purchase,vat_rule
 rule_normal_fr,,base.fr,base.fr,,,France,10,True,True,True,False,both
+rule_normal_mc,,base.fr,base.mc,,,Monaco,10,True,True,True,False,both
 rule_partner_euro_b2c_at,,base.fr,base.at,,,Particulier Autriche,20,True,True,True,False,without
 rule_partner_euro_b2c_be,,base.fr,base.be,,,Particulier Belgique,20,True,True,True,False,without
 rule_partner_euro_b2c_bg,,base.fr,base.bg,,,Particulier Bulgarie,20,True,True,True,False,without
