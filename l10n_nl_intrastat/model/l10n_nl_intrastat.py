@@ -168,7 +168,8 @@ class l10n_nl_report_intrastat(osv.osv):
                     'amount_service': 0.0,
                     }
             amounts = partner_amounts_map[line.invoice_id.partner_id.id]
-            if (line.product_id.type == 'service'
+            if line.product_id and (
+                line.product_id.type == 'service'
                 or line.product_id.is_accessory_cost):
                 amount_type = 'amount_service'
             else:
