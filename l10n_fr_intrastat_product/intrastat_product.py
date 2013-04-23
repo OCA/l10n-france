@@ -537,6 +537,8 @@ class report_intrastat_product(osv.osv):
             if not invoice.intrastat_country_id:
                 if not invoice.address_invoice_id.country_id.intrastat:
                     continue
+                elif invoice.address_invoice_id.country_id.id == intrastat.company_id.country_id.id:
+                    continue
                 else:
                     parent_values['partner_country_id_to_write'] = invoice.address_invoice_id.country_id.id
 
@@ -544,6 +546,8 @@ class report_intrastat_product(osv.osv):
             # first month of use of the module, then I use invoice.intrastat_country_id
             else:
                 if not invoice.intrastat_country_id.intrastat:
+                    continue
+                elif invoice.intrastat_country_id.id == intrastat.company_id.country_id.id:
                     continue
                 else:
                     parent_values['partner_country_id_to_write'] = invoice.intrastat_country_id.id
