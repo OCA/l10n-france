@@ -133,6 +133,8 @@ class report_intrastat_service(osv.osv):
                 raise osv.except_osv(_('Error :'), _("Missing country on partner address '%s' of partner '%s'.") %(invoice.address_invoice_id.name, invoice.address_invoice_id.partner_id.name))
             elif not invoice.address_invoice_id.country_id.intrastat:
                 continue
+            elif invoice.address_invoice_id.country_id.id == intrastat.company_id.country_id.id:
+                continue
 
             amount_invoice_cur_to_write = 0.0
             amount_company_cur_to_write = 0.0
