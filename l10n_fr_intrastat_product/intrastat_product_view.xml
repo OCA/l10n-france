@@ -34,9 +34,7 @@
             <group colspan="4">
                 <field name="notes" colspan="4" nolabel="1" />
             </group>
-            <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Generate lines from invoices" type="object" states="draft" colspan="1" />
-            <!-- <button icon="gtk-execute" name="generate_product_lines_from_picking" string="Generate repair lines from picking" type="object" colspan="1" attrs="{'invisible':['|',('obligation_level', '=', 'simplified'), ('state', '=', 'done')]}" /> -->
-            <button icon="gtk-execute" name="generate_product_lines_from_picking" string="Generate repair lines from picking" type="object" colspan="1" states="draft" />
+            <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Generate lines from invoices" type="object" states="draft" colspan="2" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
             <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4">
         <!-- START of form view for DEB lines -->
