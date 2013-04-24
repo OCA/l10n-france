@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat service module for OpenERP (DES)
-#    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,11 @@
 
 
 {
-    'name': 'Module for Intrastat service reporting (DES) for France',
+    'name': 'France Intrastat Service',
     'version': '1.1',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
+    'summary': 'Module for Intrastat service reporting (DES) for France',
     'description': """This module adds support for the "Déclaration Européenne des Services" (DES).
 
 The DES declaration has been introduced on January 1st 2010 in France. All French companies must send this declaration each month to France's Customs administration if they sell services to other EU companies.
@@ -45,4 +46,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'demo_xml': [],
     'installable': True,
     'active': False,
+    'application': True,
 }
