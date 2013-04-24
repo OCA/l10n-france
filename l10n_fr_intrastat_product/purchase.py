@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 
-class purchase_order(osv.osv):
+class purchase_order(osv.Model):
     _inherit = "purchase.order"
 
     def action_invoice_create(self, cr, uid, ids, *args):
