@@ -3,7 +3,7 @@
 #
 #    Report intrastat product module for OpenERP
 #    Copyright (C) 2004-2009 Tiny SPRL (http://tiny.be). All Rights Reserved
-#    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com). All Rights Reserved
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,10 +21,10 @@
 #
 ##############################################################################
 
-from osv import osv, fields
-from tools.translate import _
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
 
-class report_intrastat_code(osv.osv):
+class report_intrastat_code(osv.Model):
     _name = "report.intrastat.code"
     _description = "Intrastat code"
     _order = "name"
@@ -57,7 +57,7 @@ class report_intrastat_code(osv.osv):
 report_intrastat_code()
 
 
-class product_uom(osv.osv):
+class product_uom(osv.Model):
     _inherit = "product.uom"
     _columns = {
         'intrastat_label': fields.char('Intrastat label', size=12, help="Label used in the XML file export of the Intrastat product report for this unit of measure."),
@@ -66,20 +66,19 @@ class product_uom(osv.osv):
 product_uom()
 
 
-class product_template(osv.osv):
+class product_template(osv.Model):
     _inherit = "product.template"
     _columns = {
         'intrastat_id': fields.many2one('report.intrastat.code', 'Intrastat code', help="Code from the Harmonised System. Nomenclature is available from the World Customs Organisation, see http://www.wcoomd.org/. Some countries have made their own extensions to this nomenclature."),
         'country_id' : fields.many2one('res.country', 'Country of origin',
             help="Country of origin of the product i.e. product 'made in ____'. If you have different countries of origin depending on the supplier from which you purchased the product, leave this field empty and use the equivalent field on the 'product supplier info' form."),
         # This field should be called origin_country_id, but it's named country_id to keep "compatibility with OpenERP users that used the "report_intrastat" module
-
-    }
+        }
 
 product_template()
 
 
-class product_category(osv.osv):
+class product_category(osv.Model):
     _inherit = "product.category"
     _columns = {
         'intrastat_id': fields.many2one('report.intrastat.code', 'Intrastat code', help="Code from the Harmonised System. If this code is not set on the product itself, it will be read here, on the related product category."),
@@ -88,7 +87,7 @@ class product_category(osv.osv):
 product_category()
 
 
-class product_supplierinfo(osv.osv):
+class product_supplierinfo(osv.Model):
     _inherit = "product.supplierinfo"
     _columns = {
         'origin_country_id' : fields.many2one('res.country', 'Country of origin',

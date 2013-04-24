@@ -16,22 +16,19 @@
     <field name="arch" type="xml">
         <notebook>
             <page position="inside" string="France intrastat settings">
-                <separator colspan="4" string="Settings for DEB" />
-                <field name="customs_accreditation" />
-                <field name="siret_complement" />
-                <field name="export_obligation_level" />
-                <newline />
-                <field name="default_intrastat_transport" />
-                <field name="default_intrastat_department" />
-                <newline />
-                <field name="default_intrastat_type_out_invoice" domain="[('object_type', '=', 'out_invoice')]" />
-                <field name="default_intrastat_type_out_refund" domain="[('object_type', '=', 'out_refund')]" />
-                <field name="default_intrastat_type_in_invoice" domain="[('object_type', '=', 'in_invoice')]" />
-                <newline />
-                <field name="default_intrastat_type_in_picking" domain="[('object_type', '=', 'in')]" />
-                <field name="default_intrastat_type_out_picking" domain="[('object_type', '=', 'out')]" />
-                <newline />
-                <field name="statistical_pricelist_id" />
+                <group string="Settings for DEB">
+                    <field name="customs_accreditation" />
+                    <field name="siret_complement" />
+                    <field name="export_obligation_level" />
+                    <field name="default_intrastat_transport" />
+                    <field name="default_intrastat_department" />
+                    <field name="default_intrastat_type_out_invoice" domain="[('object_type', '=', 'out_invoice')]" />
+                    <field name="default_intrastat_type_out_refund" domain="[('object_type', '=', 'out_refund')]" />
+                    <field name="default_intrastat_type_in_invoice" domain="[('object_type', '=', 'in_invoice')]" />
+                    <field name="default_intrastat_type_in_picking" domain="[('object_type', '=', 'in')]" />
+                    <field name="default_intrastat_type_out_picking" domain="[('object_type', '=', 'out')]" />
+                    <field name="statistical_pricelist_id" />
+                </group>
             </page>
         </notebook>
     </field>
