@@ -86,7 +86,6 @@ class stock_picking(osv.Model):
             'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
             'stock.move': (_get_picking_from_move_lines, ['location_dest_id', 'location_id', 'picking_id'], 20),
             }, help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
-        'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
             }
 
 
