@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/)
+    Copyright (C) 2010-2013 Akretion (http://www.akretion.com/)
     @author Alexis de Lattre <alexis.delattre@akretion.com>
     The licence is in the file __openerp__.py
 -->
@@ -13,9 +13,8 @@
 <record id="fr_intrastat_service_form" model="ir.ui.view">
     <field name="name">fr.intrastat.service.form</field>
     <field name="model">report.intrastat.service</field>
-    <field name="type">form</field>
     <field name="arch" type="xml">
-        <form>
+        <form string="Intrastat Service">
             <group colspan="4" col="9">
                 <field name="start_date" />
                 <field name="end_date" />
@@ -31,7 +30,7 @@
             </group>
             <button icon="gtk-execute" name="generate_service_lines" string="Re-generate lines" type="object" states="draft" colspan="2" />
             <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
-            <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" mode="tree,form" colspan="4" />
+            <field name="intrastat_line_ids" nolabel="1" colspan="4" widget="one2many_list" />
             <group col="6" colspan="4">
                 <field name="state" />
                 <field name="date_done" />
@@ -46,7 +45,6 @@
 <record id="fr_intrastat_service_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.service.tree</field>
     <field name="model">report.intrastat.service</field>
-    <field name="type">tree</field>
     <field name="arch" type="xml">
         <tree string="Intrastat Service" colors="blue:state=='draft'">
             <field name="start_date" />
@@ -64,18 +62,10 @@
 <record id="fr_intrastat_service_search" model="ir.ui.view">
     <field name="name">fr.intrastat.service.search</field>
     <field name="model">report.intrastat.service</field>
-    <field name="type">search</field>
     <field name="arch" type="xml">
-        <search>
-            <filter string="Draft" domain="[('state', '=', 'draft')]" icon="terp-folder-orange" />
-            <filter string="Done" domain="[('state', '=', 'done')]" icon="terp-folder-green" />
-            <separator orientation="vertical"/>
-            <field name="start_date" />
-            <newline />
-            <group expand="False" string="Extended Filters...">
-                <field name="total_amount" />
-                <field name="num_lines" />
-            </group>
+        <search string="Search Intrastat Service">
+            <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
+            <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
         </search>
     </field>
 </record>
@@ -84,7 +74,6 @@
 <record id="fr_intrastat_service_line_form" model="ir.ui.view">
     <field name="name">fr.intrastat.service.line.form</field>
     <field name="model">report.intrastat.service.line</field>
-    <field name="type">form</field>
     <field name="arch" type="xml">
         <form string="Intrastat service lines">
             <separator colspan="4" string="Information to declare" />
@@ -107,7 +96,6 @@
 <record id="fr_intrastat_service_line_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.service.line.tree</field>
     <field name="model">report.intrastat.service.line</field>
-    <field name="type">tree</field>
     <field name="arch" type="xml">
         <tree string="Intrastat service lines">
             <field name="partner_vat" />
