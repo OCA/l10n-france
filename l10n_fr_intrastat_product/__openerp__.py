@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2010-2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,11 @@
 
 
 {
-    'name': 'Module for Intrastat product reporting (DEB) for France',
+    'name': 'France Intrastat Product',
     'version': '1.1',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
+    'summary': 'Module for Intrastat product reporting (DEB) for France',
     'description': """This module adds support for the "Déclaration d'Echange de Biens" (DEB).
 
 More information about the DEB is available on this official web page : http://www.douane.gouv.fr/page.asp?id=322
@@ -49,4 +50,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'demo_xml': ['intrastat_demo.xml'],
     'installable': True,
     'active': False,
+    'application': True,
 }
