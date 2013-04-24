@@ -49,8 +49,6 @@ class res_company(osv.Model):
         'default_intrastat_type_out_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for customer invoice'),
         'default_intrastat_type_out_refund': fields.many2one('report.intrastat.type', 'Default intrastat type for customer refund'),
         'default_intrastat_type_in_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for supplier invoice'),
-        'default_intrastat_type_in_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for incoming products'),
-        'default_intrastat_type_out_picking': fields.many2one('report.intrastat.type', 'Default intrastat type for outgoing products'),
     }
 
     def _5digits(self, cr, uid, ids):
