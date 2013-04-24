@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/)
+    Copyright (C) 2010-2013 Akretion (http://www.akretion.com/)
     @author Alexis de Lattre <alexis.delattre@akretion.com>
     The licence is in the file __openerp__.py
 -->
@@ -13,7 +13,6 @@
 <record id="fr_intrastat_product_invoice_in" model="ir.ui.view">
     <field name="name">fr.intrastat.product.supplier.invoice.in</field>
     <field name="model">account.invoice</field>
-    <field name="type">form</field>
     <field name="inherit_id" ref="account.invoice_supplier_form"/>
     <field name="arch" type="xml">
         <field name="origin" position="after">
@@ -31,7 +30,6 @@
 <record id="fr_intrastat_product_invoice_out" model="ir.ui.view">
     <field name="name">fr.intrastat.product.invoice.out</field>
     <field name="model">account.invoice</field>
-    <field name="type">form</field>
     <field name="inherit_id" ref="account.invoice_form"/>
     <field name="arch" type="xml">
         <field name="origin" position="after">
