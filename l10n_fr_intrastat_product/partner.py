@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2011 Akretion (http://www.akretion.com). All Rights Reserved
+#    Copyright (C) 2011-2013 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,10 @@
 #
 ##############################################################################
 
-from osv import osv, fields
-from tools.translate import _
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
 
-class res_partner(osv.osv):
+class res_partner(osv.Model):
     _inherit = "res.partner"
     _columns = {
         'intrastat_fiscal_representative' : fields.many2one('res.partner', string="EU fiscal representative", help="If this partner is located outside the EU but you deliver the goods inside the UE, the partner needs to have a fiscal representative with a VAT number inside the EU. In this scenario, the VAT number of the fiscal representative will be used for the Intrastat Product report (DEB)."),
