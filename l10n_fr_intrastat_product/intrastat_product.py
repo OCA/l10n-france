@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2009-2012 Akretion (http://www.akretion.com). All Rights Reserved.
+#    Copyright (C) 2009-2013 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,14 +20,14 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from tools.translate import _
 import decimal_precision as dp
 
-class report_intrastat_product(osv.osv):
+class report_intrastat_product(osv.Model):
     _name = "report.intrastat.product"
     _description = "Intrastat report for products"
     _rec_name = "start_date"
@@ -100,7 +100,7 @@ class report_intrastat_product(osv.osv):
         'state' : fields.selection([
                 ('draft','Draft'),
                 ('done','Done'),
-            ], 'State', select=True, readonly=True,
+            ], 'State', readonly=True,
             help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
         'date_done' : fields.datetime('Date done', readonly=True,
             help="Last date when the intrastat declaration was converted to 'Done' state."),
@@ -394,11 +394,11 @@ class report_intrastat_product(osv.osv):
             if parent_values['is_vat_required']:
                 if src <> 'invoice':
                     raise osv.except_osv(_('Error :'), "We can't have such an intrastat type in a repair picking.")
-                # If I have invoice.intrastat_country_id and the invoice address
+                # If I have invoice.intrastat_country_id and the invoice partner
                 # is outside the EU, then I look for the fiscal rep of the partner
-                if parent_obj.intrastat_country_id and not parent_obj.address_invoice_id.country_id.intrastat:
+                if parent_obj.intrastat_country_id and not parent_obj.partner_id.country_id.intrastat:
                     if not parent_obj.partner_id.intrastat_fiscal_representative:
-                        raise osv.except_osv(_('Error :'), _("Missing fiscal representative for partner '%s'. It is required for invoice '%s' which has an invoice address outside the EU but the goods were delivered to or received from inside the EU.") % (parent_obj.partner_id.name, parent_obj.number))
+                        raise osv.except_osv(_('Error :'), _("Missing fiscal representative for partner '%s'. It is required for invoice '%s' which has an invoice partner outside the EU but the goods were delivered to or received from inside the EU.") % (parent_obj.partner_id.name, parent_obj.number))
                     else:
                         parent_values['partner_vat_to_write'] = parent_obj.partner_id.intrastat_fiscal_representative.vat
                 # Otherwise, I just read the vat number on the partner of the invoice
@@ -528,19 +528,19 @@ class report_intrastat_product(osv.osv):
             #print "INVOICE num =", invoice.number
             parent_values = {}
 
-            # We should always have a country on address_invoice_id
-            if not invoice.address_invoice_id.country_id:
-                raise osv.except_osv(_('Error :'), _("Missing country on partner address '%s' of partner '%s'.") %(invoice.address_invoice_id.name, invoice.address_invoice_id.partner_id.name))
+            # We should always have a country on partner_id
+            if not invoice.partner_id.country_id:
+                raise osv.except_osv(_('Error :'), _("Missing country on partner '%s'.") % invoice.partner_id.name)
 
             # If I have no invoice.intrastat_country_id, which is the case the first month
-            # of the deployment of the module, then I use the country on invoice address
+            # of the deployment of the module, then I use the country on invoice partner
             if not invoice.intrastat_country_id:
-                if not invoice.address_invoice_id.country_id.intrastat:
+                if not invoice.partner_id.country_id.intrastat:
                     continue
-                elif invoice.address_invoice_id.country_id.id == intrastat.company_id.country_id.id:
+                elif invoice.partner_id.country_id.id == intrastat.company_id.country_id.id:
                     continue
                 else:
-                    parent_values['partner_country_id_to_write'] = invoice.address_invoice_id.country_id.id
+                    parent_values['partner_country_id_to_write'] = invoice.partner_id.country_id.id
 
             # If I have invoice.intrastat_country_id, which should be the case after the
             # first month of use of the module, then I use invoice.intrastat_country_id
@@ -572,7 +572,7 @@ class report_intrastat_product(osv.osv):
             else:
                 parent_values['intrastat_type_id_to_write'] = invoice.intrastat_type_id.id
 
-            if invoice.intrastat_country_id and not invoice.address_invoice_id.country_id.intrastat and invoice.partner_id.intrastat_fiscal_representative:
+            if invoice.intrastat_country_id and not invoice.partner_id.country_id.intrastat and invoice.partner_id.intrastat_fiscal_representative:
                 # fiscal rep
                 parent_values['partner_id_to_write'] = invoice.partner_id.intrastat_fiscal_representative.id
             else:
@@ -628,21 +628,19 @@ class report_intrastat_product(osv.osv):
         for picking in pick_obj.browse(cr, uid, picking_ids, context=context):
             parent_values = {}
             #print "PICKING =", picking.name
-            if not picking.address_id:
-                continue
-
-            if not picking.address_id.country_id:
-                raise osv.except_osv(_('Error :'), _("Missing country on partner address '%s' used on picking '%s'.") %(picking.address_id.name, picking.name))
-            elif not picking.address_id.country_id.intrastat:
+            if not picking.partner_id:
                 continue
             else:
-                parent_values['partner_country_id_to_write'] = picking.address_id.country_id.id
+                parent_values['partner_id_to_write'] = picking.partner_id.id
 
-
-            if not picking.address_id.partner_id:
-                raise osv.except_osv(_('Error :'), _("Partner address '%s' used on picking '%s' is not linked to a partner !") %(move_line.address_id.name, picking.name))
+            if not picking.partner_id.country_id:
+                raise osv.except_osv(_('Error :'), _("Missing country on partner '%s' used on picking '%s'.") %(picking.partner_id.name, picking.name))
+            elif not picking.partner_id.country_id.intrastat:
+                continue
             else:
-                parent_values['partner_id_to_write'] = picking.address_id.partner_id.id
+                parent_values['partner_country_id_to_write'] = picking.partner_id.country_id.id
+
+
 
             # TODO : check = 29 /19 ???
             if not picking.intrastat_type_id:
@@ -833,30 +831,30 @@ class report_intrastat_product(osv.osv):
 report_intrastat_product()
 
 
-class report_intrastat_product_line(osv.osv):
+class report_intrastat_product_line(osv.Model):
     _name = "report.intrastat.product.line"
     _description = "Lines of intrastat product declaration (DEB)"
     _order = 'id'
     _columns = {
-        'parent_id': fields.many2one('report.intrastat.product', 'Intrastat product ref', ondelete='cascade', select=True, readonly=True),
-        'state' : fields.related('parent_id', 'state', type='string', relation='report.intrastat.product', string='State', readonly=True),
+        'parent_id': fields.many2one('report.intrastat.product', 'Intrastat product ref', ondelete='cascade', readonly=True),
         'company_id': fields.related('parent_id', 'company_id', type='many2one', relation='res.company', string="Company", readonly=True),
+        'type': fields.related('parent_id', 'type', type='char', string="Type", readonly=True),
         'company_currency_id': fields.related('company_id', 'currency_id', type='many2one', relation='res.currency', string="Company currency", readonly=True),
         'invoice_id': fields.many2one('account.invoice', 'Invoice ref', readonly=True),
         'picking_id': fields.many2one('stock.picking', 'Picking ref', readonly=True),
-        'quantity': fields.char('Quantity', size=10, states={'done':[('readonly',True)]}),
+        'quantity': fields.char('Quantity', size=10),
         'source_uom_id': fields.many2one('product.uom', 'Source UoM', readonly=True),
-        'intrastat_uom_id': fields.many2one('product.uom', 'Intrastat UoM', states={'done':[('readonly',True)]}),
-        'partner_country_id': fields.many2one('res.country', 'Partner country', states={'done':[('readonly',True)]}),
+        'intrastat_uom_id': fields.many2one('product.uom', 'Intrastat UoM'),
+        'partner_country_id': fields.many2one('res.country', 'Partner country'),
         'partner_country_code' : fields.related('partner_country_id', 'code', type='string', relation='res.country', string='Partner country', readonly=True),
-        'intrastat_code': fields.char('Intrastat code', size=9, states={'done':[('readonly',True)]}),
-        'intrastat_code_id': fields.many2one('report.intrastat.code', 'Intrastat code (not used in XML)', states={'done':[('readonly',True)]}),
+        'intrastat_code': fields.char('Intrastat code', size=9),
+        'intrastat_code_id': fields.many2one('report.intrastat.code', 'Intrastat code (not used in XML)'),
         # Weight should be an integer... but I want to be able to display nothing in
         # tree view when the value is False (if weight is an integer, a False value would
         # be displayed as 0), that's why weight is a char !
-        'weight': fields.char('Weight', size=10, states={'done':[('readonly',True)]}),
+        'weight': fields.char('Weight', size=10),
         'amount_company_currency': fields.integer('Fiscal value in company currency',
-            required=True, states={'done':[('readonly',True)]},
+            required=True,
             help="Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date (for pickings : with the rate of the 'date done') and rounded at 0 digits"),
         'amount_invoice_currency': fields.float('Fiscal value in invoice currency',
             digits_compute=dp.get_precision('Account'), readonly=True,
@@ -870,7 +868,7 @@ class report_intrastat_product_line(osv.osv):
             digits_compute=dp.get_precision('Account'), readonly=True,
             help="Amount of product value in invoice currency. For invoices, it is the amount of the invoice line or group of invoice lines. For pickings, it is the value of the product given by the pricelist for statistical value of the company."),
         'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
-        'product_country_origin_id' : fields.many2one('res.country', 'Product country of origin', states={'done':[('readonly',True)]}),
+        'product_country_origin_id' : fields.many2one('res.country', 'Product country of origin'),
         'product_country_origin_code' : fields.related('product_country_origin_id', 'code', type='string', relation='res.country', string='Product country of origin', readonly=True),
         'transport' : fields.selection([
             (1, '1. Transport maritime'),
@@ -881,16 +879,16 @@ class report_intrastat_product_line(osv.osv):
             (7, '7. Installations de transport fixes'),
             (8, '8. Transport par navigation intérieure'),
             (9, '9. Propulsion propre')
-            ], 'Type of transport', states={'done':[('readonly',True)]}),
-        'department' : fields.char('Department', size=2, states={'done':[('readonly',True)]}),
-        'intrastat_type_id' : fields.many2one('report.intrastat.type', 'Intrastat type', states={'done':[('readonly',True)]}),
+            ], 'Type of transport'),
+        'department' : fields.char('Department', size=2),
+        'intrastat_type_id' : fields.many2one('report.intrastat.type', 'Intrastat type'),
         'is_vat_required' : fields.related('intrastat_type_id', 'is_vat_required', type='boolean', relation='report.intrastat.type', string='Is Partner VAT required ?', readonly=True),
         # Is fiscal_only is not fields.related because, if obligation_level = simplified, is_fiscal_only is always true
         'is_fiscal_only' : fields.boolean('Is fiscal only?', readonly=True),
         'procedure_code': fields.char('Procedure code', size=2),
         'transaction_code': fields.char('Transaction code', size=2),
-        'partner_vat': fields.char('Partner VAT', size=32, states={'done':[('readonly',True)]}),
-        'partner_id': fields.many2one('res.partner', 'Partner name', states={'done':[('readonly',True)]}),
+        'partner_vat': fields.char('Partner VAT', size=32),
+        'partner_id': fields.many2one('res.partner', 'Partner name'),
     }
 
     def _integer_check(self, cr, uid, ids):
