@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/)
+    Copyright (C) 2010-2013 Akretion (http://www.akretion.com/)
     The licence is in the file __openerp__.py
 -->
 
 <openerp>
 <data>
 
+<!-- Intrastat Type - Search view -->
+<record id="fr_intrastat_product_report_intrastat_type_search" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.report.intrastat.type.search</field>
+    <field name="model">report.intrastat.type</field>
+    <field name="arch" type="xml">
+        <search string="Search Intrastat Types">
+            <field name="name" />
+        </search>
+    </field>
+</record>
+
 <!-- Intrastat Type - Tree view -->
 <record id="fr_intrastat_product_report_intrastat_type_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.product.report.intrastat.type.tree</field>
     <field name="model">report.intrastat.type</field>
-    <field name="type">tree</field>
     <field name="arch" type="xml">
         <tree string="Intrastat type">
             <field name="name" />
@@ -31,12 +41,11 @@
 <record id="fr_intrastat_product_report_intrastat_type_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.report.intrastat.type.form</field>
     <field name="model">report.intrastat.type</field>
-    <field name="type">form</field>
     <field name="arch" type="xml">
         <form string="Intrastat type">
-            <field name="name" select="1" />
+            <field name="name" />
             <field name="active" />
-            <field name="object_type" select="1" />
+            <field name="object_type" />
             <field name="procedure_code" on_change="procedure_code_on_change(procedure_code)" />
             <field name="transaction_code" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}"/>
             <field name="is_fiscal_only" />
