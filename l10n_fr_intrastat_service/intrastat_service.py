@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat service module for OpenERP (DES)
-#    Copyright (C) 2010-2011 Akretion (http://www.akretion.com/). All rights reserved.
+#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com/)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,14 @@
 ##############################################################################
 
 
-from osv import osv, fields
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from tools.translate import _
 import decimal_precision as dp
 
 
-class report_intrastat_service(osv.osv):
+class report_intrastat_service(osv.Model):
     _name = "report.intrastat.service"
     _order = "start_date desc"
     _rec_name = "start_date"
@@ -129,11 +129,11 @@ class report_intrastat_service(osv.osv):
         #print "invoice_ids=", invoice_ids
         for invoice in invoice_obj.browse(cr, uid, invoice_ids, context=context):
 
-            if not invoice.address_invoice_id.country_id:
-                raise osv.except_osv(_('Error :'), _("Missing country on partner address '%s' of partner '%s'.") %(invoice.address_invoice_id.name, invoice.address_invoice_id.partner_id.name))
-            elif not invoice.address_invoice_id.country_id.intrastat:
+            if not invoice.partner_id.country_id:
+                raise osv.except_osv(_('Error :'), _("Missing country on partner '%s'.") %invoice.partner_id.name)
+            elif not invoice.partner_id.country_id.intrastat:
                 continue
-            elif invoice.address_invoice_id.country_id.id == intrastat.company_id.country_id.id:
+            elif invoice.partner_id.country_id.id == intrastat.company_id.country_id.id:
                 continue
 
             amount_invoice_cur_to_write = 0.0
@@ -277,16 +277,14 @@ class report_intrastat_service(osv.osv):
 report_intrastat_service()
 
 
-class report_intrastat_service_line(osv.osv):
+class report_intrastat_service_line(osv.Model):
     _name = "report.intrastat.service.line"
     _description = "Lines of intrastat service declaration (DES)"
     _rec_name = "partner_vat"
     _order = 'id'
     _columns = {
         'parent_id': fields.many2one('report.intrastat.service',
-            'Intrastat service ref', ondelete='cascade', select=True),
-        'state' : fields.related('parent_id', 'state', type='string',
-            relation='report.intrastat.service', string='State', readonly=True),
+            'Intrastat service ref', ondelete='cascade'),
         'company_id': fields.related('parent_id', 'company_id',
             type='many2one', relation='res.company',
             string="Company", readonly=True),
@@ -298,12 +296,9 @@ class report_intrastat_service_line(osv.osv):
         'date_invoice' : fields.related('invoice_id', 'date_invoice',
             type='date', relation='account.invoice',
             string='Invoice date', readonly=True),
-        'partner_vat': fields.char('Customer VAT', size=32,
-            states={'done':[('readonly',True)]}),
-        'partner_id': fields.many2one('res.partner', 'Partner name',
-            states={'done':[('readonly',True)]}),
+        'partner_vat': fields.char('Customer VAT', size=32),
+        'partner_id': fields.many2one('res.partner', 'Partner name'),
         'amount_company_currency': fields.integer('Amount in company currency',
-            states={'done':[('readonly',True)]},
             help="Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date and rounded at 0 digits"),
         'amount_invoice_currency': fields.float('Amount in invoice currency',
             digits_compute=dp.get_precision('Account'), readonly=True,
