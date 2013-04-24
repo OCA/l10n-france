@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2011 Akretion (http://www.akretion.com/)
+    Copyright (C) 2011-2013 Akretion (http://www.akretion.com/)
     @author Alexis de Lattre <alexis.delattre@akretion.com>
     The licence is in the file __openerp__.py
 -->
@@ -42,63 +42,63 @@
     <field name="intrastat_label">PCE</field>
 </record>
 
-<record id="product.product_product_pc3" model="product.product">
+<record id="product.product_product_3" model="product.product">
     <field name="country_id" ref="base.tw" />
     <field name="intrastat_id" ref="84715000" />
     <field name="weight_net">5</field>
 </record>
 
-<record id="product.product_product_pc1" model="product.product">
+<record id="product.product_product_4" model="product.product">
     <field name="country_id" ref="base.cn" />
     <field name="intrastat_id" ref="84715000" />
     <field name="weight_net">6</field>
 </record>
 
-<record id="product.product_product_pc2" model="product.product">
+<record id="product.product_product_5" model="product.product">
     <field name="country_id" ref="base.cn" />
     <field name="intrastat_id" ref="84715000" />
     <field name="weight_net">6</field>
 </record>
 
-<record id="product.product_product_pc4" model="product.product">
+<record id="product.product_product_25" model="product.product">
     <field name="country_id" ref="base.be" />
     <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">7</field>
+    <field name="weight_net">2</field>
 </record>
 
-<record id="product.product_product_hdd1" model="product.product">
+<record id="product.product_product_17" model="product.product">
     <field name="country_id" ref="base.sg" />
     <field name="intrastat_id" ref="84717050" />
     <field name="weight_net">0.5</field>
 </record>
 
-<record id="product.product_product_hdd2" model="product.product">
+<record id="product.product_product_18" model="product.product">
     <field name="country_id" ref="base.sg" />
     <field name="intrastat_id" ref="84717050" />
     <field name="weight_net">0.5</field>
 </record>
 
-<record id="product.product_product_hdd3" model="product.product">
+<record id="product.product_product_19" model="product.product">
     <field name="country_id" ref="base.sg" />
     <field name="intrastat_id" ref="84717050" />
     <field name="weight_net">0.5</field>
 </record>
 
-<record id="product.product_product_mb1" model="product.product">
+<record id="product.product_product_20" model="product.product">
     <field name="country_id" ref="base.tw" />
     <field name="intrastat_id" ref="85340090" />
     <field name="weight_net">0.7</field>
 </record>
 
-<record id="product.product_product_mb2" model="product.product">
+<record id="product.product_product_21" model="product.product">
     <field name="country_id" ref="base.tw" />
     <field name="intrastat_id" ref="85340090" />
     <field name="weight_net">0.8</field>
 </record>
 
 <!-- Elec import is the fiscal rep of Asustek -->
-<record id="base.res_partner_asus" model="res.partner">
-    <field name="intrastat_fiscal_representative" ref="base.res_partner_6" />
+<record id="base.res_partner_1" model="res.partner">
+    <field name="intrastat_fiscal_representative" ref="base.res_partner_2" />
 </record>
 
 <record id="stock.stock_location_stock" model="stock.location">
