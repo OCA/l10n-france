@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP Report intrastat for NL
-#    Copyright (C) 2012 Therp BV <http://therp.nl>
+#    Copyright (C) 2012 - 2013 Therp BV <http://therp.nl>
 #
 #    Based on and containing code snippets from lp:new-report-intrastat
 #    by Alexis de Lattre <alexis.delattre@akretion.com>,
@@ -23,15 +23,14 @@
 #
 ##############################################################################
 
-from osv import osv, fields
-import time
+from openerp.osv import orm, fields
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from tools.translate import _
-import decimal_precision as dp
+from openerp.tools.translate import _
+from openerp.addons.decimal_precision import decimal_precision as dp
 
 
-class l10n_nl_report_intrastat(osv.osv):
+class l10n_nl_report_intrastat(orm.Model):
     _name = "l10n_nl.report.intrastat"
     _description = "Declaration of intracommunautary transactions (ICP)"
     _order = "period_id desc"
@@ -116,7 +115,7 @@ class l10n_nl_report_intrastat(osv.osv):
         report = self.browse(cr, uid, ids[0], context=context)
 
         if report.state != 'draft':
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'),
                 _('Cannot generate reports lines in a non-draft state'))
 
@@ -140,7 +139,7 @@ class l10n_nl_report_intrastat(osv.osv):
                 cr, uid,
                 invalid_invoice_ids, ['partner_id'],
                 context=context)
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'), 
                 _("Missing country on the invoice addresses of the following "
                   "partners:\n%s") % (
@@ -149,7 +148,8 @@ class l10n_nl_report_intrastat(osv.osv):
 
         invoice_ids = invoice_obj.search(
             cr, uid,
-            invoice_domain + [('address_invoice_id.country_id.intrastat', '=', True)],
+            invoice_domain + [
+                ('address_invoice_id.country_id.intrastat', '=', True)],
             context=context)
         invoice_line_ids = invoice_line_obj.search(
             cr, uid, [('invoice_id', 'in', invoice_ids)], context=context)
@@ -217,14 +217,14 @@ class l10n_nl_report_intrastat(osv.osv):
             cr, uid,
             [('id', 'in', ids), ('state', '!=', 'draft')],
             context=context):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error'),
                 _('Cannot remove IPC reports in a non-draft state'))
         return super(l10n_nl_report_intrastat, self).unlink(
             cr, uid, ids, context=context)
 
 
-class l10n_nl_report_intrastat_line(osv.osv):
+class l10n_nl_report_intrastat_line(orm.Model):
     _name = "l10n_nl.report.intrastat.line"
     _description = "ICP report line"
     _order = "report_id, country_code"
@@ -263,4 +263,3 @@ class l10n_nl_report_intrastat_line(osv.osv):
             digits_compute=dp.get_precision('Account'),
             readonly=True),
         }
-
