@@ -15,14 +15,16 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_supplier_form"/>
     <field name="arch" type="xml">
-        <field name="origin" position="after">
-            <field name="intrastat_transport" />
-            <field name="intrastat_department" />
-            <field name="intrastat_country_id" string="Origin country" />
-            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
-            <!-- widget="selection" is not compatible with domain= ??
-            If I put both, I get a crash : "NameError: name 'type' is not defined" -->
-        </field>
+        <notebook>
+            <page string="Intrastat" name="intrastat" position="inside">
+                <group>
+                    <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
+                    <field name="intrastat_country_id" string="Origin country" />
+                    <field name="intrastat_transport" />
+                    <field name="intrastat_department" />
+                </group>
+            </page>
+        </notebook>
     </field>
 </record>
 
@@ -32,12 +34,16 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_form"/>
     <field name="arch" type="xml">
-        <field name="origin" position="after">
-            <field name="intrastat_transport" />
-            <field name="intrastat_department" />
-            <field name="intrastat_country_id" string="Destination country" />
-            <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
-        </field>
+        <notebook>
+            <page string="Intrastat" name="intrastat" position="inside">
+                <group>
+                    <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
+                    <field name="intrastat_country_id" string="Destination country" />
+                    <field name="intrastat_transport" />
+                    <field name="intrastat_department" />
+                </group>
+            </page>
+        </notebook>
     </field>
 </record>
 
