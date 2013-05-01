@@ -9,12 +9,11 @@
 <openerp>
 <data>
 
-<!-- Add Type of transport on picking form view -->
-<!-- TODO : invisible when type=internal ?-->
-<record id="fr_intrastat_product_picking" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.picking</field>
-    <field name="model">stock.picking</field>
-    <field name="inherit_id" ref="stock.view_picking_form"/>
+<!-- Add Type of transport on picking OUT form view -->
+<record id="fr_intrastat_product_picking_out" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.picking.out</field>
+    <field name="model">stock.picking.out</field>
+    <field name="inherit_id" ref="stock.view_picking_out_form"/>
     <field name="arch" type="xml">
         <field name="backorder_id" position="after">
             <field name="intrastat_transport" />
@@ -24,6 +23,23 @@
         </field>
     </field>
 </record>
+
+
+<!-- Add Type of transport on picking IN form view -->
+<record id="fr_intrastat_product_picking_in" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.picking.in</field>
+    <field name="model">stock.picking.in</field>
+    <field name="inherit_id" ref="stock.view_picking_in_form"/>
+    <field name="arch" type="xml">
+        <field name="backorder_id" position="after">
+            <field name="intrastat_transport" />
+        </field>
+        <field name="company_id" position="after">
+            <field name="intrastat_department" />
+        </field>
+    </field>
+</record>
+
 
 <!-- Add department on stock location form view -->
 <record id="fr_intrastat_product_stock_location_department" model="ir.ui.view">

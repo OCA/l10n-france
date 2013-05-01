@@ -59,7 +59,7 @@ class report_intrastat_product(osv.Model):
         'start_date': fields.date('Start date', required=True,
             states={'done':[('readonly',True)]},
             help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_end_date, method=True, type='date',
+        'end_date': fields.function(_compute_end_date, type='date',
             string='End date', store={
                 'report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10),
                 },
@@ -78,19 +78,19 @@ class report_intrastat_product(osv.Model):
         'intrastat_line_ids': fields.one2many('report.intrastat.product.line',
             'parent_id', 'Report intrastat product lines',
             states={'done':[('readonly',True)]}),
-        'num_lines': fields.function(_compute_numbers, method=True, type='integer',
+        'num_lines': fields.function(_compute_numbers, type='integer',
             multi='numbers', string='Number of lines', store={
                 'report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
             },
             help="Number of lines in this declaration."),
-        'total_amount': fields.function(_compute_numbers, method=True,
+        'total_amount': fields.function(_compute_numbers,
             digits_compute=dp.get_precision('Account'), multi='numbers',
             string='Total amount', store={
                 'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
             },
             help="Total amount in company currency of the declaration."),
         'total_fiscal_amount': fields.function(_compute_total_fiscal_amount,
-            method=True, digits_compute=dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             string='Total fiscal amount', store={
                 'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
             },
