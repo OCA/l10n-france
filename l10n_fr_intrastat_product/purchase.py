@@ -26,13 +26,13 @@ class purchase_order(osv.Model):
     _inherit = "purchase.order"
 
     def action_invoice_create(self, cr, uid, ids, *args):
-        '''Copy country of partner_address_id =("origin country") and arrival department on invoice'''
+        '''Copy country of partner_id =("origin country") and arrival department on invoice'''
         res = super(purchase_order,self).action_invoice_create(cr, uid, ids, *args)
         for purchase in self.browse(cr, uid, ids):
             for rel_invoice in purchase.invoice_ids:
                 dico_write = {}
-                if purchase.partner_address_id and purchase.partner_address_id.country_id:
-                    dico_write['intrastat_country_id'] = purchase.partner_address_id.country_id.id
+                if purchase.partner_id and purchase.partner_id.country_id:
+                    dico_write['intrastat_country_id'] = purchase.partner_id.country_id.id
                 if purchase.picking_ids:
                     dico_write['intrastat_department'] = purchase.picking_ids[0].intrastat_department
                 self.pool.get('account.invoice').write(cr, uid, rel_invoice.id, dico_write)
