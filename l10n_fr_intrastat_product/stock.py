@@ -54,7 +54,7 @@ class stock_picking(osv.osv):
                 if picking.type == 'out' and picking.move_lines[0].location_dest_id.usage == 'customer':
                     start_point = picking.move_lines[0].location_id
                 elif picking.type == 'in' and picking.move_lines[0].location_dest_id.usage == 'internal':
-                    start_point = location_to_search = picking.move_lines[0].location_dest_id
+                    start_point = picking.move_lines[0].location_dest_id
                 while start_point:
                     if start_point.intrastat_department:
                         result[picking.id] = start_point.intrastat_department
