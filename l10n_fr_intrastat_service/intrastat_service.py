@@ -52,7 +52,7 @@ class report_intrastat_service(osv.Model):
         'start_date': fields.date('Start date', required=True,
             states={'done':[('readonly',True)]},
             help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_end_date, method=True,
+        'end_date': fields.function(_compute_end_date,
             type='date', string='End date', store={
                 'report.intrastat.service': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20)
                 },
@@ -60,13 +60,13 @@ class report_intrastat_service(osv.Model):
         'intrastat_line_ids': fields.one2many('report.intrastat.service.line',
             'parent_id', 'Report intrastat service lines',
             states={'done':[('readonly',True)]}),
-        'num_lines': fields.function(_compute_numbers, method=True,
+        'num_lines': fields.function(_compute_numbers,
             type='integer', multi='numbers', string='Number of lines',
             store={
                 'report.intrastat.service.line': (_get_intrastat_from_service_line, ['parent_id'], 20),
                 },
             help="Number of lines in this declaration."),
-        'total_amount': fields.function(_compute_numbers, method=True,
+        'total_amount': fields.function(_compute_numbers,
             digits_compute=dp.get_precision('Account'),
             multi='numbers', string='Total amount',
             store={
