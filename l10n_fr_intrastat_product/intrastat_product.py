@@ -31,6 +31,7 @@ class report_intrastat_product(osv.Model):
     _name = "report.intrastat.product"
     _description = "Intrastat report for products"
     _rec_name = "start_date"
+    _inherit = ['mail.thread']
     _order = "start_date desc, type"
 
 
@@ -104,8 +105,6 @@ class report_intrastat_product(osv.Model):
             help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
         'date_done' : fields.datetime('Date done', readonly=True,
             help="Last date when the intrastat declaration was converted to 'Done' state."),
-        'notes' : fields.text('Notes',
-            help="You can add some comments here if you want."),
     }
 
     _defaults = {
