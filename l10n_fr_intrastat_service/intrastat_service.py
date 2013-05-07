@@ -32,6 +32,7 @@ class report_intrastat_service(osv.Model):
     _name = "report.intrastat.service"
     _order = "start_date desc"
     _rec_name = "start_date"
+    _inherit = ['mail.thread']
     _description = "Intrastat report for services"
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
@@ -83,8 +84,6 @@ class report_intrastat_service(osv.Model):
             help="State of the declaration. When the state is set to 'Done', the fields become read-only."),
         'date_done' : fields.datetime('Date done', readonly=True,
             help="Last date when the intrastat declaration was converted to 'Done' state."),
-        'notes' : fields.text('Notes',
-            help="You can write some comments here if you want."),
     }
 
     _defaults = {
