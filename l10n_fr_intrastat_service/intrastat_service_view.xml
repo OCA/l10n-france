@@ -14,29 +14,34 @@
     <field name="name">fr.intrastat.service.form</field>
     <field name="model">report.intrastat.service</field>
     <field name="arch" type="xml">
-        <form string="Intrastat Service">
-            <group colspan="4" col="9">
-                <field name="start_date" />
-                <field name="end_date" />
-                <field name="num_lines" />
-                <field name="total_amount" />
-                <field name="currency_id" nolabel="1"/>
-                <newline />
-                <field name="company_id" groups="base.group_multi_company" widget="selection" />
-            </group>
-            <separator colspan="4" string="Notes"/>
-            <group colspan="4">
-                <field name="notes" colspan="4" nolabel="1" />
-            </group>
-            <button icon="gtk-execute" name="generate_service_lines" string="Re-generate lines" type="object" states="draft" colspan="2" />
-            <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
-            <field name="intrastat_line_ids" nolabel="1" colspan="4" widget="one2many_list" />
-            <group col="6" colspan="4">
-                <field name="state" />
-                <field name="date_done" />
-                <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
-                <button icon="gtk-convert" name="back2draft" string="Back to draft" type="object" colspan="1" states="done" />
-            </group>
+        <form string="Intrastat Service" version="7.0">
+            <header>
+                <button name="done" string="Done" type="object" states="draft" class="oe_highlight"/>
+                <button name="back2draft" string="Back to draft" type="object" states="done" />
+                <field name="state" widget="statusbar" />
+            </header>
+            <sheet string="Intrastat Service">
+                <group colspan="4" col="4" name="properties">
+                    <field name="start_date" />
+                    <field name="end_date" />
+                    <field name="num_lines" />
+                    <field name="total_amount" />
+                    <field name="currency_id" />
+                    <field name="date_done" />
+                    <field name="company_id" groups="base.group_multi_company" widget="selection" />
+                </group>
+                <group name="buttons" col="2">
+                    <button icon="gtk-execute" name="generate_service_lines" string="Re-generate lines" type="object" states="draft" />
+                    <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" />
+                </group>
+                <group name="lines">
+                    <field name="intrastat_line_ids" nolabel="1" />
+                </group>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
         </form>
     </field>
 </record>
@@ -75,19 +80,19 @@
     <field name="name">fr.intrastat.service.line.form</field>
     <field name="model">report.intrastat.service.line</field>
     <field name="arch" type="xml">
-        <form string="Intrastat service lines">
-            <separator colspan="4" string="Information to declare" />
-            <field name="partner_id" on_change="partner_on_change(partner_id)" />
-            <field name="partner_vat" />
-            <newline />
-            <field name="amount_company_currency" />
-            <field name="company_currency_id" nolabel="1" />
-            <separator colspan="4" string="Additionnal information" />
-            <field name="amount_invoice_currency" />
-            <field name="invoice_currency_id" nolabel="1"/>
-            <newline />
-            <field name="invoice_id" />
-            <field name="date_invoice" />
+        <form string="Intrastat service lines" version="7.0">
+            <group colspan="4" col="4" string="Information to declare">
+                <field name="partner_id" on_change="partner_on_change(partner_id)" />
+                <field name="partner_vat" />
+                <field name="amount_company_currency" />
+                <field name="company_currency_id" />
+            </group>
+            <group colspan="4" col="4" string="Additionnal information">
+                <field name="amount_invoice_currency" />
+                <field name="invoice_currency_id"/>
+                <field name="invoice_id" />
+                <field name="date_invoice" />
+            </group>
         </form>
     </field>
 </record>
