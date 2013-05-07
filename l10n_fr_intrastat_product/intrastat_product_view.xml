@@ -14,96 +14,100 @@
     <field name="name">fr.intrastat.product.form</field>
     <field name="model">report.intrastat.product</field>
     <field name="arch" type="xml">
-        <form string="Intrastat Product">
-            <group colspan="4" col="8">
-                <field name="start_date" />
-                <field name="end_date" />
-                <field name="type" on_change="type_on_change(company_id, type)" />
-                <field name="obligation_level" />
-            </group>
-            <group colspan="4" col="9">
-                <field name="num_lines" />
-                <field name="total_amount" />
-                <field name="total_fiscal_amount" />
-                <field name="currency_id" nolabel="1"/>
-                <newline />
-                <field name="company_id" groups="base.group_multi_company" widget="selection" />
-            </group>
-            <separator colspan="4" string="Notes"/>
-            <group colspan="4">
-                <field name="notes" colspan="4" nolabel="1" />
-            </group>
-            <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Generate lines from invoices" type="object" states="draft" colspan="2" />
-            <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" colspan="2" />
-            <field name="intrastat_line_ids" nolabel="1" widget="one2many_list" colspan="4" context="{'type': type}">
-        <!-- START of form view for DEB lines -->
-                <form string="Intrastat product lines">
-                    <separator colspan="4" string="Information to declare" />
-                    <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent.type, parent.obligation_level)" domain="[('intrastat_product_type', '=', parent.type)]" />
-                    <field name="procedure_code" />
-                    <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                    <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-                    <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
-                    <newline />
-                    <field name="amount_company_currency" />
-                    <field name="company_currency_id" nolabel="1"/>
-                    <newline />
-                    <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                    <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-                    <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                    <field name="transaction_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                    <field name="product_country_origin_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" /> <!-- TODO : put readonly for exports -->
-                    <field name="transport" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                    <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                    <field name="partner_id" on_change="partner_on_change(partner_id)" attrs="{'readonly': [('type', '=', 'import')]}" /> <!-- TODO : filter on UE partners ? -->
-                    <field name="partner_vat" attrs="{'readonly': [('is_vat_required', '=', False)], 'required': [('is_vat_required', '=', True)]}" />
-                    <separator colspan="4" string="Additionnal information" />
-                    <field name="invoice_id" />
-                    <field name="picking_id" />
-                    <newline />
-                    <field name="amount_invoice_currency" />
-                    <field name="invoice_currency_id" />
-                    <newline />
-                    <field name="amount_product_value_inv_cur"/>
-                    <!-- I can't display the same field several times
-                     cf https://bugs.launchpad.net/openobject-server/+bug/1008948
-                    <field name="invoice_currency_id" nolabel="1" />
-                    <newline /> -->
-                    <field name="amount_accessory_cost_inv_cur"/>
-                    <!-- <field name="invoice_currency_id" nolabel="1" /> -->
-                    <newline />
-                    <field name="source_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-                    <field name="is_fiscal_only" />
-                    <field name="parent_id" invisible="1"  />
-                    <field name="type" invisible="1"  />
-                    <field name="is_vat_required" invisible="1"  />
-                </form>
-                <tree string="Intrastat product lines">
-                    <field name="intrastat_code" string="H.S. code" />
-                    <field name="partner_country_code" string="Partner C."/>
-                    <field name="amount_company_currency" string="Value CC" />
-                    <field name="company_currency_id" string="Comp. Cur." />
-                    <field name="procedure_code" string="Procedure" />
-                    <field name="weight" />
-                    <field name="quantity" string="Qty" />
-                    <field name="intrastat_uom_id" string="Intra. UoM" />
-                    <field name="transaction_code" string="Transac." />
-                    <field name="transport" string="Transport" />
-                    <field name="department" string="Dpt" />
-                    <field name="product_country_origin_code" string="Product C/O" />
-                    <field name="partner_vat"/>
-                    <field name="partner_id" />
-                    <field name="invoice_id" />
-                    <field name="picking_id" />
-                </tree>
-            </field>
-
-            <group col="6" colspan="4">
-                <field name="state" />
-                <field name="date_done" />
-                <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
-                <button icon="gtk-convert" name="back2draft" string="Back to draft" type="object" colspan="1" states="done" />
-            </group>
+        <form string="Intrastat Product" version="7.0">
+            <header>
+                <button name="done" string="Done" type="object" class="oe_highlight" states="draft" />
+                <button name="back2draft" string="Back to draft" type="object" states="done" />
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet string="Intrastat Product">
+                <group colspan="4" col="4" name="properties">
+                    <field name="start_date" />
+                    <field name="end_date" />
+                    <field name="type" on_change="type_on_change(company_id, type)" />
+                    <field name="obligation_level" />
+                    <field name="num_lines" />
+                    <field name="total_amount" />
+                    <field name="total_fiscal_amount" />
+                    <field name="currency_id"/>
+                    <field name="date_done" />
+                    <field name="company_id" groups="base.group_multi_company" widget="selection" />
+                </group>
+                <group name="buttons" col="2">
+                    <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Generate lines from invoices" type="object" states="draft" />
+                    <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" />
+                </group>
+                <group name="lines">
+                    <field name="intrastat_line_ids" nolabel="1" context="{'type': type}">
+                <!-- START of form view for DEB lines -->
+                        <form string="Intrastat product lines">
+                            <group col="4" string="Information to declare" colspan="4">
+                                <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent.type, parent.obligation_level)" domain="[('intrastat_product_type', '=', parent.type)]" />
+                                <field name="procedure_code" />
+                                <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                                <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
+                                <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
+                                <newline />
+                                <field name="amount_company_currency" />
+                                <field name="company_currency_id" />
+                                <newline />
+                                <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                                <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
+                                <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                                <field name="transaction_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                                <field name="product_country_origin_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" /> <!-- TODO : put readonly for exports -->
+                                <field name="transport" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                                <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                                <field name="partner_id" on_change="partner_on_change(partner_id)" attrs="{'readonly': [('type', '=', 'import')]}" /> <!-- TODO : filter on UE partners ? -->
+                                <field name="partner_vat" attrs="{'readonly': [('is_vat_required', '=', False)], 'required': [('is_vat_required', '=', True)]}" />
+                            </group>
+                            <group col="4" colspan="4" string="Additionnal information">
+                                <field name="invoice_id" />
+                                <field name="picking_id" />
+                                <newline />
+                                <field name="amount_invoice_currency" />
+                                <field name="invoice_currency_id" />
+                                <newline />
+                                <field name="amount_product_value_inv_cur"/>
+                                <!-- I can't display the same field several times
+                                 cf https://bugs.launchpad.net/openobject-server/+bug/1008948
+                                <field name="invoice_currency_id" nolabel="1" />
+                                <newline /> -->
+                                <field name="amount_accessory_cost_inv_cur"/>
+                                <!-- <field name="invoice_currency_id" nolabel="1" /> -->
+                                <newline />
+                                <field name="source_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
+                                <field name="is_fiscal_only" />
+                                <field name="parent_id" invisible="1"  />
+                                <field name="type" invisible="1"  />
+                                <field name="is_vat_required" invisible="1"  />
+                            </group>
+                        </form>
+                        <tree string="Intrastat product lines">
+                            <field name="intrastat_code" string="H.S. code" />
+                            <field name="partner_country_code" string="Partner C."/>
+                            <field name="amount_company_currency" string="Value CC" />
+                            <field name="company_currency_id" string="Comp. Cur." />
+                            <field name="procedure_code" string="Procedure" />
+                            <field name="weight" />
+                            <field name="quantity" string="Qty" />
+                            <field name="intrastat_uom_id" string="Intra. UoM" />
+                            <field name="transaction_code" string="Transac." />
+                            <field name="transport" string="Transport" />
+                            <field name="department" string="Dpt" />
+                            <field name="product_country_origin_code" string="Product C/O" />
+                            <field name="partner_vat"/>
+                            <field name="partner_id" />
+                            <field name="invoice_id" />
+                            <field name="picking_id" />
+                        </tree>
+                    </field>
+                </group>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
         </form>
     </field>
 </record>
