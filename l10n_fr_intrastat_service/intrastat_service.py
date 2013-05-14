@@ -148,15 +148,21 @@ class report_intrastat_service(osv.Model):
                 if line.product_id.exclude_from_intrastat:
                     continue
 
-                if not line.quantity or not line.price_subtotal:
-                    continue
-
                 # If we have a regular product/consu in the invoice, we
                 # don't take the is_accessory_cost in DES (it will be in DEB)
                 # If we don't, we declare the is_accessory_cost in DES as other
                 # regular services
                 if line.product_id.type != 'service':
                     regular_product_in_invoice = True
+                    continue
+
+                # This check on line.price_subtotal must be AFTER the check
+                # on line.product_id.type != 'service' in order to handle
+                # the case where we have in an invoice :
+                # - some HW products with value = 0
+                # - some accessory costs
+                # => we want to have the accessory costs in DEB, not in DES
+                if not line.quantity or not line.price_subtotal:
                     continue
 
                 skip_this_line = False
