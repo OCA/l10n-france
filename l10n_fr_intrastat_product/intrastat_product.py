@@ -421,8 +421,12 @@ class report_intrastat_product(osv.Model):
                 if not total_invoice_cur_accessory_cost:
                     line_to_create['amount_accessory_cost_inv_cur'] = 0
                 else:
-                    # The accessory costs are added at the pro-rata of value
-                    line_to_create['amount_accessory_cost_inv_cur'] = total_invoice_cur_accessory_cost * line_to_create['amount_product_value_inv_cur'] / total_invoice_cur_product_value
+                    if total_invoice_cur_product_value:
+                        # The accessory costs are added at the pro-rata of value
+                        line_to_create['amount_accessory_cost_inv_cur'] = total_invoice_cur_accessory_cost * line_to_create['amount_product_value_inv_cur'] / total_invoice_cur_product_value
+                    else:
+                        # The accessory costs are added at the pro-rata of the number of lines
+                        line_to_create['amount_accessory_cost_inv_cur'] = total_invoice_cur_accessory_cost / len(lines_to_create)
 
             line_to_create['amount_invoice_currency'] = line_to_create['amount_product_value_inv_cur'] + line_to_create['amount_accessory_cost_inv_cur']
 
