@@ -97,8 +97,8 @@ class stock_picking(osv.Model):
             'intrastat_transport': picking.intrastat_transport,
             'intrastat_department': picking.intrastat_department,
         })
-        if picking.address_id and picking.address_id.country_id:
-            invoice_vals['intrastat_country_id'] = picking.address_id.country_id.id
+        if picking.partner_id and picking.partner_id.country_id:
+            invoice_vals['intrastat_country_id'] = picking.partner_id.country_id.id
         return invoice_vals
 
 
