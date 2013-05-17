@@ -25,8 +25,8 @@
                     <field name="start_date" />
                     <field name="end_date" />
                     <field name="num_lines" />
-                    <field name="total_amount" />
-                    <field name="currency_id" />
+                    <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="currency_id" invisible="1"/>
                     <field name="date_done" />
                     <field name="company_id" groups="base.group_multi_company" widget="selection" />
                 </group>
@@ -84,12 +84,12 @@
             <group colspan="4" col="4" string="Information to declare">
                 <field name="partner_id" on_change="partner_on_change(partner_id)" />
                 <field name="partner_vat" />
-                <field name="amount_company_currency" />
-                <field name="company_currency_id" />
+                <field name="amount_company_currency" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="company_currency_id" invisible="1"/>
             </group>
             <group colspan="4" col="4" string="Additionnal information">
-                <field name="amount_invoice_currency" />
-                <field name="invoice_currency_id"/>
+                <field name="amount_invoice_currency" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
+                <field name="invoice_currency_id" invisible="1"/>
                 <field name="invoice_id" />
                 <field name="date_invoice" />
             </group>
