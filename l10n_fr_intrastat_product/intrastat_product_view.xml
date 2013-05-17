@@ -27,11 +27,11 @@
                     <field name="type" on_change="type_on_change(company_id, type)" />
                     <field name="obligation_level" />
                     <field name="num_lines" />
-                    <field name="total_amount" />
-                    <field name="total_fiscal_amount" />
-                    <field name="currency_id"/>
+                    <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="total_fiscal_amount" widget="monetary" options="{'currency_field': 'currency_id'}" />
                     <field name="date_done" />
                     <field name="company_id" groups="base.group_multi_company" widget="selection" />
+                    <field name="currency_id" invisible="1"/>
                 </group>
                 <group name="buttons" col="2">
                     <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Generate lines from invoices" type="object" states="draft" />
@@ -47,10 +47,8 @@
                                 <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
                                 <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
                                 <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
-                                <newline />
-                                <field name="amount_company_currency" />
-                                <field name="company_currency_id" />
-                                <newline />
+                                <field name="amount_company_currency" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                <field name="company_currency_id" invisible="1"/>
                                 <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
                                 <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
                                 <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
@@ -64,18 +62,10 @@
                             <group col="4" colspan="4" string="Additionnal information">
                                 <field name="invoice_id" />
                                 <field name="picking_id" />
-                                <newline />
-                                <field name="amount_invoice_currency" />
-                                <field name="invoice_currency_id" />
-                                <newline />
-                                <field name="amount_product_value_inv_cur"/>
-                                <!-- I can't display the same field several times
-                                 cf https://bugs.launchpad.net/openobject-server/+bug/1008948
-                                <field name="invoice_currency_id" nolabel="1" />
-                                <newline /> -->
-                                <field name="amount_accessory_cost_inv_cur"/>
-                                <!-- <field name="invoice_currency_id" nolabel="1" /> -->
-                                <newline />
+                                <field name="amount_invoice_currency" widget="monetary" options="{'currency_field': 'invoice_currency_id'}" />
+                                <field name="invoice_currency_id" invisible="1"/>
+                                <field name="amount_product_value_inv_cur" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
+                                <field name="amount_accessory_cost_inv_cur" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
                                 <field name="source_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
                                 <field name="is_fiscal_only" />
                                 <field name="parent_id" invisible="1"  />
