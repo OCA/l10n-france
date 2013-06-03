@@ -67,7 +67,7 @@
     <field name="arch" type="xml">
         <data>
             <field name="category_id" position="after">
-                <field name="intrastat_label"/>
+                <field name="intrastat_label" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
             </field>
         </data>
     </field>
@@ -95,7 +95,7 @@
             <field name="name" />
             <field name="intrastat_code" />
             <field name="description" />
-            <field name="intrastat_uom_id" />
+            <field name="intrastat_uom_id" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
         </tree>
     </field>
 </record>
