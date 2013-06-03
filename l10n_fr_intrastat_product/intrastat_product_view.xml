@@ -38,24 +38,24 @@
                     <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" />
                 </group>
                 <group name="lines">
-                    <field name="intrastat_line_ids" nolabel="1" context="{'type': type}">
-                <!-- START of form view for DEB lines -->
+                    <field name="intrastat_line_ids" nolabel="1">
+                        <!-- START of form view for DEB lines -->
                         <form string="Intrastat product lines">
                             <group col="4" string="Information to declare" colspan="4">
                                 <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent.type, parent.obligation_level)" domain="[('intrastat_product_type', '=', parent.type)]" />
                                 <field name="procedure_code" />
-                                <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                                <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-                                <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
+                                <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                                <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                                <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" /> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
                                 <field name="amount_company_currency" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
                                 <field name="company_currency_id" invisible="1"/>
-                                <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                                <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-                                <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                                <field name="transaction_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                                <field name="product_country_origin_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" /> <!-- TODO : put readonly for exports -->
-                                <field name="transport" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
-                                <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" />
+                                <field name="weight" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
+                                <field name="quantity" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
+                                <field name="intrastat_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
+                                <field name="transaction_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
+                                <field name="product_country_origin_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/> <!-- TODO : put readonly for exports -->
+                                <field name="transport" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
+                                <field name="department" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
                                 <field name="partner_id" on_change="partner_on_change(partner_id)" attrs="{'readonly': [('type', '=', 'import')]}" /> <!-- TODO : filter on UE partners ? -->
                                 <field name="partner_vat" attrs="{'readonly': [('is_vat_required', '=', False)], 'required': [('is_vat_required', '=', True)]}" />
                             </group>
@@ -66,26 +66,26 @@
                                 <field name="invoice_currency_id" invisible="1"/>
                                 <field name="amount_product_value_inv_cur" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
                                 <field name="amount_accessory_cost_inv_cur" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
-                                <field name="source_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}"/>
-                                <field name="is_fiscal_only" />
+                                <field name="source_uom_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
+                                <field name="is_fiscal_only" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
                                 <field name="parent_id" invisible="1"  />
                                 <field name="type" invisible="1"  />
                                 <field name="is_vat_required" invisible="1"  />
                             </group>
                         </form>
                         <tree string="Intrastat product lines">
-                            <field name="intrastat_code" string="H.S. code" />
-                            <field name="partner_country_code" string="Partner C."/>
+                            <field name="intrastat_code" string="H.S. code" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                            <field name="partner_country_code" string="Partner C." groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
                             <field name="amount_company_currency" string="Value CC" />
                             <field name="company_currency_id" string="Comp. Cur." />
                             <field name="procedure_code" string="Procedure" />
-                            <field name="weight" />
-                            <field name="quantity" string="Qty" />
-                            <field name="intrastat_uom_id" string="Intra. UoM" />
-                            <field name="transaction_code" string="Transac." />
-                            <field name="transport" string="Transport" />
-                            <field name="department" string="Dpt" />
-                            <field name="product_country_origin_code" string="Product C/O" />
+                            <field name="weight" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                            <field name="quantity" string="Qty" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                            <field name="intrastat_uom_id" string="Intra. UoM" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                            <field name="transaction_code" string="Transac." groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                            <field name="transport" string="Transport" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                            <field name="department" string="Dpt" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                            <field name="product_country_origin_code" string="Product C/O" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
                             <field name="partner_vat"/>
                             <field name="partner_id" />
                             <field name="invoice_id" />
