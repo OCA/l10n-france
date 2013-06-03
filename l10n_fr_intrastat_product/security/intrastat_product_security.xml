@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Report intrastat product module for OpenERP
+  Copyright (C) 2013 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data noupdate="1">
+
+<!-- New group dedicated to the "Get " feature -->
+<record id="group_detailed_intrastat_product" model="res.groups">
+    <field name="name">Detailed Intrastat Product</field>
+</record>
+
+</data>
+</openerp>
