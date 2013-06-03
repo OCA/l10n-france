@@ -16,7 +16,7 @@
     <field name="inherit_id" ref="account.invoice_supplier_form"/>
     <field name="arch" type="xml">
         <notebook>
-            <page string="Intrastat" name="intrastat" position="inside">
+            <page string="Intrastat" name="intrastat" position="inside" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product">
                 <group>
                     <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
                     <field name="intrastat_country_id" string="Origin country" />
@@ -39,8 +39,8 @@
                 <group>
                     <field name="intrastat_type_id" domain="[('object_type', '=', type)]" />
                     <field name="intrastat_country_id" string="Destination country" />
-                    <field name="intrastat_transport" />
-                    <field name="intrastat_department" />
+                    <field name="intrastat_transport" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
+                    <field name="intrastat_department" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
                 </group>
             </page>
         </notebook>
