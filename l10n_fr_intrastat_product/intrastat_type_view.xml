@@ -27,9 +27,9 @@
         <tree string="Intrastat type">
             <field name="name" />
             <field name="procedure_code" />
-            <field name="transaction_code" />
+            <field name="transaction_code" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
             <field name="object_type" />
-            <field name="is_fiscal_only" />
+            <field name="is_fiscal_only" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
             <field name="fiscal_value_multiplier" />
             <field name="is_vat_required" />
             <field name="intrastat_product_type" />
@@ -47,8 +47,9 @@
             <field name="active" />
             <field name="object_type" />
             <field name="procedure_code" on_change="procedure_code_on_change(procedure_code)" />
-            <field name="transaction_code" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}"/>
-            <field name="is_fiscal_only" />
+            <!-- I can't set the field name="transaction_code" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}" because it breaks the on_change on field procedure_code -->
+            <field name="transaction_code" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+            <field name="is_fiscal_only" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
             <field name="fiscal_value_multiplier" />
             <field name="is_vat_required" />
             <field name="intrastat_product_type" />
