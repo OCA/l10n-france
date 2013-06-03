@@ -33,6 +33,7 @@ class res_company(osv.Model):
         'customs_accreditation': fields.char('Customs accreditation identifier', size=4, help="Company identifier for Intrastat file export. Size : 4 characters."),
         'siret_complement' : fields.char('SIRET complement', size=5, help="5 last digits of the SIRET number of the company."),
         'export_obligation_level': fields.selection([('detailed', 'Detailed'), ('simplified', 'Simplified')], 'Obligation level for export', help='For the DEB : if your volume of export of products to EU countries is over 460 000 € per year, your obligation level for export is "Detailed" ; if you are under this limit, your obligation level for export is "Simplified".'),
+        'import_obligation_level': fields.selection([('detailed', 'Detailed'), ('none', 'None')], 'Obligation level for import', help="For the DEB : if your volume of import of products from EU countries is over 460 000 € per year, your obligation level for import is 'Detailed' ; if you are under this limit, you don't have to make a DEB for import and you should select 'None'."),
         'default_intrastat_department': fields.char('Default departement code', size=2, help='If the Departement code is not set on the invoice, OpenERP will use this value.'),
         'default_intrastat_transport': fields.selection([
             (1, 'Transport maritime'),
@@ -82,6 +83,19 @@ class res_company(osv.Model):
             (_5digits, "The 'SIRET complement' should have exactly 5 digits.", ['siret_complement']),
             (_check_default_intrastat_department, "Error msg is in raise", ['default_intrastat_department']),
             ]
+
+    def obligation_level_on_change(self, cr, uid, ids, export_obligation_level, import_obligation_level):
+        result = {'warning': {}}
+        if export_obligation_level == 'detailed' or import_obligation_level == 'detailed':
+            result['warning']['title'] = _('Access Rights')
+            result['warning']['message'] = _("You should add users to the 'Detailed Intrastat Product' group.")
+            result['warning']['message'] += '\n'
+            if self.pool['res.users'].has_group(cr, uid, 'l10n_fr_intrastat_product.group_detailed_intrastat_product'):
+                result['warning']['message'] += ("You are already in that group, but you may have to add other users to that group.")
+            else:
+                result['warning']['message'] += _("You are not currently in that group.")
+        return result
+
 
 res_company()
 
