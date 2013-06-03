@@ -29,6 +29,13 @@ class res_partner(osv.Model):
         'intrastat_fiscal_representative' : fields.many2one('res.partner', string="EU fiscal representative", help="If this partner is located outside the EU but you deliver the goods inside the UE, the partner needs to have a fiscal representative with a VAT number inside the EU. In this scenario, the VAT number of the fiscal representative will be used for the Intrastat Product report (DEB)."),
     }
 
+
+    # Copy field 'intrastat_fiscal_representative' from company partners to their contacts
+    def _commercial_fields(self, cr, uid, context=None):
+        res = super(res_partner, self)._commercial_fields(cr, uid, context=context)
+        res.append('intrastat_fiscal_representative')
+        return res
+
     def _check_fiscal_representative(self, cr, uid, ids):
         '''The Fiscal rep. must be based in the same country as our company or in an intrastat country'''
         user = self.pool.get('res.users').browse(cr, uid, uid)

@@ -35,28 +35,33 @@ class report_intrastat_type(osv.Model):
     _order = "procedure_code, transaction_code"
 
 
+    def _compute_readonly_fields(self, cr, uid, procedure_code, context=None):
+        res = {}
+        if procedure_code in ('19', '29'):
+            res['fiscal_value_multiplier'] = 0
+        elif procedure_code == '25':
+            res['fiscal_value_multiplier'] = -1
+        else:
+            res['fiscal_value_multiplier'] = 1
+        if procedure_code in fiscal_only_tuple:
+            res['is_fiscal_only'] = True
+        else:
+            res['is_fiscal_only'] = False
+        if procedure_code in ('11', '19', '29'):
+            res['is_vat_required'] = False
+        else:
+            res['is_vat_required'] = True
+        if procedure_code in ('11', '19'):
+            res['intrastat_product_type'] = 'import'
+        else:
+            res['intrastat_product_type'] = 'export'
+        return res
+
+
     def _compute_all(self, cr, uid, ids, name, arg, context=None):
         result = {}
         for intr_type in self.read(cr, uid, ids, ['id', 'procedure_code'], context=context):
-            result[intr_type['id']] = {}
-            if intr_type['procedure_code'] in ('19', '29'):
-                result[intr_type['id']]['fiscal_value_multiplier'] = 0
-            elif intr_type['procedure_code'] == '25':
-                result[intr_type['id']]['fiscal_value_multiplier'] = -1
-            else:
-                result[intr_type['id']]['fiscal_value_multiplier'] = 1
-            if intr_type['procedure_code'] in fiscal_only_tuple:
-                result[intr_type['id']]['is_fiscal_only'] = True
-            else:
-                result[intr_type['id']]['is_fiscal_only'] = False
-            if intr_type['procedure_code'] in ('11', '19', '29'):
-                result[intr_type['id']]['is_vat_required'] = False
-            else:
-                result[intr_type['id']]['is_vat_required'] = True
-            if intr_type['procedure_code'] in ('11', '19'):
-                result[intr_type['id']]['intrastat_product_type'] = 'import'
-            else:
-                result[intr_type['id']]['intrastat_product_type'] = 'export'
+            result[intr_type['id']] = self._compute_readonly_fields(cr, uid, intr_type['procedure_code'], context=context)
         #print "result =", result
         return result
 
@@ -68,8 +73,6 @@ class report_intrastat_type(osv.Model):
             ('out_invoice', 'Customer Invoice'),
             ('in_invoice', 'Supplier Invoice'),
             ('out_refund', 'Customer Refund'),
-            ('out', 'Outgoing products'),
-            ('in', 'Incoming products'),
             ('none', 'None'),
         ], 'Possible on', select=True, required=True),
         'procedure_code': fields.selection([
@@ -88,7 +91,6 @@ class report_intrastat_type(osv.Model):
             ('30', '30'),
             ('41', '41'), ('42', '42'),
             ('51', '51'), ('52', '52'),
-            ('63', '63'), ('64', '64'),
             ('70', '70'),
             ('80', '80'),
             ('91', '91'), ('99', '99'),
@@ -152,6 +154,8 @@ class report_intrastat_type(osv.Model):
         result['value'] = {}
         if procedure_code in fiscal_only_tuple:
             result['value'].update({'transaction_code': False})
+        result['value'].update(self._compute_readonly_fields(cr, uid, procedure_code))
+        #print "procedure_code_on_change result=", result
         return result
 
 report_intrastat_type()

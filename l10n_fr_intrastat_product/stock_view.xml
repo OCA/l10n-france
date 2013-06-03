@@ -16,10 +16,10 @@
     <field name="inherit_id" ref="stock.view_picking_out_form"/>
     <field name="arch" type="xml">
         <field name="backorder_id" position="after">
-            <field name="intrastat_transport" />
+            <field name="intrastat_transport" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
         </field>
         <field name="company_id" position="after">
-            <field name="intrastat_department" />
+            <field name="intrastat_department" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
         </field>
     </field>
 </record>
@@ -32,10 +32,10 @@
     <field name="inherit_id" ref="stock.view_picking_in_form"/>
     <field name="arch" type="xml">
         <field name="backorder_id" position="after">
-            <field name="intrastat_transport" />
+            <field name="intrastat_transport" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
         </field>
         <field name="company_id" position="after">
-            <field name="intrastat_department" />
+            <field name="intrastat_department" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
         </field>
     </field>
 </record>
@@ -48,7 +48,7 @@
     <field name="inherit_id" ref="stock.view_location_form" />
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
-            <field name="intrastat_department" />
+            <field name="intrastat_department" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" />
         </field>
     </field>
 </record>
