@@ -121,10 +121,17 @@ class report_intrastat_product(osv.Model):
         result = {}
         result['value'] = {}
         if type and company_id:
-            if type == 'import': # The only level possible for DEB import is detailed
-                result['value'].update({'obligation_level': 'detailed'})
+            company = self.pool.get('res.company').read(cr, uid, company_id, ['export_obligation_level', 'import_obligation_level'])
+            if type == 'import':
+                if company['import_obligation_level']:
+                    if company['import_obligation_level'] == 'detailed':
+                        result['value'].update({'obligation_level': company['import_obligation_level']})
+                    elif company['import_obligation_level'] == 'none':
+                        result['warning'] = {
+                            'title': _("Warning on the Obligation Level"),
+                            'message': _("You are tying to make an Intrastat Product of type 'Import', but the Import Obligation Level set for your company is 'None'. If this parameter on your company is correct, you should NOT create an Import Intrastat Product."),
+                        }
             if type == 'export':
-                company = self.pool.get('res.company').read(cr, uid, company_id, ['export_obligation_level'])
                 if company['export_obligation_level']:
                     result['value'].update({'obligation_level': company['export_obligation_level']})
         return result
@@ -759,6 +766,8 @@ class report_intrastat_product_line(osv.Model):
     _name = "report.intrastat.product.line"
     _description = "Lines of intrastat product declaration (DEB)"
     _order = 'id'
+
+
     _columns = {
         'parent_id': fields.many2one('report.intrastat.product', 'Intrastat product ref', ondelete='cascade', readonly=True),
         'company_id': fields.related('parent_id', 'company_id', type='many2one', relation='res.company', string="Company", readonly=True),
