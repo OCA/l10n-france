@@ -322,7 +322,7 @@ class report_intrastat_product(osv.Model):
                         supplier_ids = supplieri_obj.search(cr, uid, [
                             ('name', '=', origin_partner_id),
                             ('product_id', '=', line.product_id.id),
-                            ('origin_country_id', '!=', 'null')
+                            ('origin_country_id', '!=', False)
                             ], context=context)
                         if not supplier_ids:
                             raise osv.except_osv(_('Error :'),
