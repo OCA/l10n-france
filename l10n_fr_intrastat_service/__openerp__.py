@@ -41,6 +41,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'data': [
         'security/ir.model.access.csv',
         'intrastat_service_view.xml',
+        'intrastat_service_reminder.xml',
     ],
     'demo': [],
     'installable': True,
