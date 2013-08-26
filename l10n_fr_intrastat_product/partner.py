@@ -55,5 +55,3 @@ class res_partner(osv.Model):
         (_check_fiscal_representative, "Error msg in raise", ['intrastat_fiscal_representative']),
     ]
 
-res_partner()
-

@@ -51,5 +51,3 @@ class account_invoice(osv.Model):
         (_check_intrastat_department, "Error msg is in raise", ['intrastat_department']),
     ]
 
-account_invoice()
-

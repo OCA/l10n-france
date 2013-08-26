@@ -39,8 +39,6 @@ class stock_location(osv.Model):
         (_check_intrastat_department, "Error msg is in raise", ['intrastat_department']),
     ]
 
-stock_location()
-
 
 class stock_picking(osv.Model):
     _inherit = "stock.picking"
