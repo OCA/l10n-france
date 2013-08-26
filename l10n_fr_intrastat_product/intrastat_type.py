@@ -158,5 +158,3 @@ class report_intrastat_type(osv.Model):
         #print "procedure_code_on_change result=", result
         return result
 
-report_intrastat_type()
-
