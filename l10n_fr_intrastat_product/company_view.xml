@@ -12,25 +12,23 @@
 <record id="fr_intrastat_product_company_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.company.form</field>
     <field name="model">res.company</field>
-    <field name="inherit_id" ref="base.view_company_form" />
+    <field name="inherit_id" ref="intrastat_base.intrastat_company_form" />
     <field name="arch" type="xml">
-        <notebook>
-            <page position="inside" string="France intrastat settings">
-                <group string="Settings for DEB">
-                    <field name="customs_accreditation" />
-                    <field name="siret_complement" />
-                    <field name="export_obligation_level" on_change="obligation_level_on_change(export_obligation_level, import_obligation_level)"/>
-                    <field name="import_obligation_level" on_change="obligation_level_on_change(export_obligation_level, import_obligation_level)"/>
-                    <label string="Don't forget to add users to the 'Detailed Intrastat Product' group." attrs="{'invisible': [('export_obligation_level', '=', 'simplified'), ('import_obligation_level', '=', 'none')]}" colspan="2" />
-                    <field name="default_intrastat_transport" />
-                    <field name="default_intrastat_department" />
-                    <field name="default_intrastat_type_out_invoice" domain="[('object_type', '=', 'out_invoice')]" />
-                    <field name="default_intrastat_type_out_refund" domain="[('object_type', '=', 'out_refund')]" />
-                    <field name="default_intrastat_type_in_invoice" domain="[('object_type', '=', 'in_invoice')]" />
-                    <field name="statistical_pricelist_id" />
-                </group>
-            </page>
-        </notebook>
+        <group name="intrastat-common" position="after">
+            <group string="Settings for DEB">
+                <field name="customs_accreditation" />
+                <field name="siret_complement" />
+                <field name="export_obligation_level" on_change="obligation_level_on_change(export_obligation_level, import_obligation_level)"/>
+                <field name="import_obligation_level" on_change="obligation_level_on_change(export_obligation_level, import_obligation_level)"/>
+                <label string="Don't forget to add users to the 'Detailed Intrastat Product' group." attrs="{'invisible': [('export_obligation_level', '=', 'simplified'), ('import_obligation_level', '=', 'none')]}" colspan="2" />
+                <field name="default_intrastat_transport" />
+                <field name="default_intrastat_department" />
+                <field name="default_intrastat_type_out_invoice" domain="[('object_type', '=', 'out_invoice')]" />
+                <field name="default_intrastat_type_out_refund" domain="[('object_type', '=', 'out_refund')]" />
+                <field name="default_intrastat_type_in_invoice" domain="[('object_type', '=', 'in_invoice')]" />
+                <field name="statistical_pricelist_id" />
+            </group>
+        </group>
     </field>
 </record>
 
