@@ -124,7 +124,7 @@ class l10n_nl_report_intrastat(orm.Model):
                 ('period_id', '=', report.period_id.id),
                 ('state', 'in', ('open', 'paid')),
                 ('company_id', '=', report.company_id.id),
-                ('address_invoice_id.country_id.id', '!=',
+                ('partner_id.country_id.id', '!=',
                  report.company_id.country_id.id),
                 ]
 
@@ -132,7 +132,7 @@ class l10n_nl_report_intrastat(orm.Model):
         invalid_invoice_ids = invoice_obj.search(
             cr, uid, 
             invoice_domain + [
-                ('address_invoice_id.country_id', '=', False)],
+                ('partner_id.country_id', '=', False)],
             context=context)
         if invalid_invoice_ids:
             invoices = invoice_obj.read(
@@ -149,7 +149,7 @@ class l10n_nl_report_intrastat(orm.Model):
         invoice_ids = invoice_obj.search(
             cr, uid,
             invoice_domain + [
-                ('address_invoice_id.country_id.intrastat', '=', True)],
+                ('partner_id.country_id.intrastat', '=', True)],
             context=context)
         invoice_line_ids = invoice_line_obj.search(
             cr, uid, [('invoice_id', 'in', invoice_ids)], context=context)
@@ -162,12 +162,13 @@ class l10n_nl_report_intrastat(orm.Model):
                 for tax in line.invoice_line_tax_id):
                 continue           
             localcontext['date'] = line.invoice_id.date_invoice
-            if line.invoice_id.partner_id.id not in partner_amounts_map:
-                partner_amounts_map[line.invoice_id.partner_id.id] = {
+            commercial_partner_id = line.invoice_id.partner_id.commercial_partner_id.id
+            if commercial_partner_id not in partner_amounts_map:
+                partner_amounts_map[commercial_partner_id] = {
                     'amount_product': 0.0,
                     'amount_service': 0.0,
                     }
-            amounts = partner_amounts_map[line.invoice_id.partner_id.id]
+            amounts = partner_amounts_map[commercial_partner_id]
             if line.product_id and (
                 line.product_id.type == 'service'
                 or line.product_id.is_accessory_cost):
