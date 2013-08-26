@@ -22,17 +22,37 @@
 
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
+import openerp.addons.decimal_precision as dp
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-import decimal_precision as dp
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class report_intrastat_product(osv.Model):
     _name = "report.intrastat.product"
-    _description = "Intrastat report for products"
+    _description = "Intrastat Product"
     _rec_name = "start_date"
     _inherit = ['mail.thread']
     _order = "start_date desc, type"
+    _track = {
+        'state': {
+            'l10n_fr_intrastat_product.declaration_done': lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
+            }
+        }
+
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
+        default.update({
+            'start_date': datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m-%d'),
+            'intrastat_line_ids': False,
+            'state': 'draft',
+        })
+        return super(report_intrastat_product, self).copy(cr, uid, id, default=default, context=context)
 
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
@@ -48,8 +68,8 @@ class report_intrastat_product(osv.Model):
         return result
 
 
-    def _compute_end_date(self, cr, uid, ids, name, arg, context=None):
-        return self.pool.get('report.intrastat.common')._compute_end_date(cr, uid, ids, self, context=context)
+    def _compute_dates(self, cr, uid, ids, name, arg, context=None):
+        return self.pool.get('report.intrastat.common')._compute_dates(cr, uid, ids, self, context=context)
 
     def _get_intrastat_from_product_line(self, cr, uid, ids, context=None):
         return self.pool.get('report.intrastat.product').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
@@ -60,20 +80,27 @@ class report_intrastat_product(osv.Model):
         'start_date': fields.date('Start date', required=True,
             states={'done':[('readonly',True)]},
             help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_end_date, type='date',
-            string='End date', store={
+        'end_date': fields.function(_compute_dates, type='date',
+            string='End date', multi='intrastat-product-dates', readonly=True,
+            store={
                 'report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10),
                 },
             help="End date for the declaration. Is the last day of the month of the start date."),
+        'year_month': fields.function(_compute_dates, type='char',
+             string='Month', multi='intrastat-product-dates', readonly=True,
+             track_visibility='always', store={
+                'report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10)
+                },
+            help="Year and month of the declaration."),
         'type': fields.selection([
                 ('import', 'Import'),
                 ('export', 'Export')
             ], 'Type', required=True, states={'done':[('readonly',True)]},
-            help="Select the type of DEB."),
+            track_visibility='always', help="Select the type of DEB."),
         'obligation_level' : fields.selection([
                 ('detailed', 'Detailed'),
                 ('simplified', 'Simplified')
-            ], 'Obligation level', required=True,
+            ], 'Obligation level', required=True, track_visibility='always',
             states={'done':[('readonly',True)]},
             help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for an Import DEB."),
         'intrastat_line_ids': fields.one2many('report.intrastat.product.line',
@@ -83,7 +110,7 @@ class report_intrastat_product(osv.Model):
             multi='numbers', string='Number of lines', store={
                 'report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
             },
-            help="Number of lines in this declaration."),
+            track_visibility='always', help="Number of lines in this declaration."),
         'total_amount': fields.function(_compute_numbers,
             digits_compute=dp.get_precision('Account'), multi='numbers',
             string='Total amount', store={
@@ -92,7 +119,7 @@ class report_intrastat_product(osv.Model):
             help="Total amount in company currency of the declaration."),
         'total_fiscal_amount': fields.function(_compute_total_fiscal_amount,
             digits_compute=dp.get_precision('Account'),
-            string='Total fiscal amount', store={
+            string='Total fiscal amount', track_visibility='always', store={
                 'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
             },
             help="Total fiscal amount in company currency of the declaration. This is the total amount that is displayed on the Prodouane website."),
@@ -101,10 +128,9 @@ class report_intrastat_product(osv.Model):
         'state' : fields.selection([
                 ('draft','Draft'),
                 ('done','Done'),
-            ], 'State', readonly=True,
+            ], 'State', readonly=True, track_visibility='onchange',
             help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
-        'date_done' : fields.datetime('Date done', readonly=True,
-            help="Last date when the intrastat declaration was converted to 'Done' state."),
+        # No more need for date_done, because chatter does the job
     }
 
     _defaults = {
@@ -601,7 +627,7 @@ class report_intrastat_product(osv.Model):
 
     def done(self, cr, uid, ids, context=None):
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in done')
-        self.write(cr, uid, ids[0], {'state': 'done', 'date_done': datetime.strftime(datetime.today(), '%Y-%m-%d %H:%M:%S')}, context=context)
+        self.write(cr, uid, ids[0], {'state': 'done'}, context=context)
         return True
 
     def back2draft(self, cr, uid, ids, context=None):
@@ -759,7 +785,45 @@ class report_intrastat_product(osv.Model):
         attach_id = self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'deb', context=context)
         return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, title="DEB XML file", context=context)
 
-report_intrastat_product()
+
+    def _scheduler_reminder(self, cr, uid, context=None):
+        if context is None:
+            context = {}
+        previous_month = datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m')
+        company_ids = self.pool.get('res.company').search(cr, uid, [], context=context)
+        logger.info('Starting the Intrastat Product reminder')
+        for company in self.pool['res.company'].browse(cr, uid, company_ids, context=None):
+            for type in ['import', 'export']:
+                if type == 'import' and company.import_obligation_level == 'none':
+                    continue
+                # Check if a declaration already exists for month N-1
+                intrastat_ids = self.search(cr, uid, [('year_month', '=', previous_month), ('type', '=', type), ('company_id', '=', company.id)], context=context)
+                if intrastat_ids:
+                    # if it already exists, we don't do anything
+                    logger.info('An %s Intrastat Product for month %s already exists for company %s' %(type, previous_month, company.name))
+                    continue
+                else:
+                    # If not, we create one for month N-1
+                    obligation_level = eval('company.%s_obligation_level' % type)
+                    if not obligation_level:
+                        logger.warning("Missing obligation level for %s on company '%s'." % (type, company.name))
+                        continue
+                    intrastat_id = self.create(cr, uid, {
+                        'company_id': company.id,
+                        'type': type,
+                        'obligation_level': obligation_level,
+                        }, context=context)
+                    logger.info('An %s Intrastat Product for month %s has been created by OpenERP for company %s' %(type, previous_month, company.name))
+                    try:
+                        self.generate_product_lines_from_invoice(cr, uid, [intrastat_id], context=context)
+                    except Exception as e: # TODO filter on exception from except_orm
+                        context['exception'] = True
+                        context['error_msg'] = e[1]
+
+                    # send the reminder e-mail
+                    # TODO : how could we translate ${object.type} in the mail tpl ?
+                    self.pool['report.intrastat.common'].send_reminder_email(cr, uid, company, 'l10n_fr_intrastat_product', 'intrastat_product_reminder_email_template', intrastat_id, context=context)
+        return True
 
 
 class report_intrastat_product_line(osv.Model):
@@ -885,4 +949,3 @@ class report_intrastat_product_line(osv.Model):
         return result
 
 
-report_intrastat_product_line()
