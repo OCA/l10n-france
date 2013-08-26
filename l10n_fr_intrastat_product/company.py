@@ -97,5 +97,3 @@ class res_company(osv.Model):
         return result
 
 
-res_company()
-

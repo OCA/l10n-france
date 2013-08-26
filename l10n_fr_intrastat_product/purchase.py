@@ -38,5 +38,4 @@ class purchase_order(osv.Model):
                 self.pool.get('account.invoice').write(cr, uid, rel_invoice.id, dico_write)
         return res
 
-purchase_order()
 
