@@ -21,11 +21,14 @@
 ##############################################################################
 
 
-from openerp.osv import osv, fields
+from openerp.osv import osv, orm, fields
 from openerp.tools.translate import _
+import openerp.addons.decimal_precision as dp
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-import decimal_precision as dp
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class report_intrastat_service(osv.Model):
@@ -33,14 +36,31 @@ class report_intrastat_service(osv.Model):
     _order = "start_date desc"
     _rec_name = "start_date"
     _inherit = ['mail.thread']
-    _description = "Intrastat report for services"
+    _description = "Intrastat Service"
+    _track = {
+        'state': {
+            'l10n_fr_intrastat_service.declaration_done': lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
+            }
+        }
+
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
+        default.update({
+            'start_date': datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m-%d'),
+            'intrastat_line_ids': False,
+            'state': 'draft',
+        })
+        return super(report_intrastat_service, self).copy(cr, uid, id, default=default, context=context)
+
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
         return self.pool.get('report.intrastat.common')._compute_numbers(cr, uid, ids, self, context=context)
 
 
-    def _compute_end_date(self, cr, uid, ids, name, arg, context=None):
-        return self.pool.get('report.intrastat.common')._compute_end_date(cr, uid, ids, self, context=context)
+    def _compute_dates(self, cr, uid, ids, name, arg, context=None):
+        return self.pool.get('report.intrastat.common')._compute_dates(cr, uid, ids, self, context=context)
 
 
     def _get_intrastat_from_service_line(self, cr, uid, ids, context=None):
@@ -53,11 +73,18 @@ class report_intrastat_service(osv.Model):
         'start_date': fields.date('Start date', required=True,
             states={'done':[('readonly',True)]},
             help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_end_date,
-            type='date', string='End date', store={
+        'end_date': fields.function(_compute_dates, type='date',
+            string='End date', multi='intrastat-service-dates', readonly=True,
+            store={
                 'report.intrastat.service': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20)
                 },
             help="End date for the declaration. Must be the last day of the month of the start date."),
+        'year_month': fields.function(_compute_dates, type='char',
+            string='Month', multi='intrastat-service-dates', readonly=True,
+            track_visibility='always', store={
+                'report.intrastat.service': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20)
+                },
+            help="Year and month of the declaration."),
         'intrastat_line_ids': fields.one2many('report.intrastat.service.line',
             'parent_id', 'Report intrastat service lines',
             states={'done':[('readonly',True)]}),
@@ -66,6 +93,7 @@ class report_intrastat_service(osv.Model):
             store={
                 'report.intrastat.service.line': (_get_intrastat_from_service_line, ['parent_id'], 20),
                 },
+            track_visibility='always',
             help="Number of lines in this declaration."),
         'total_amount': fields.function(_compute_numbers,
             digits_compute=dp.get_precision('Account'),
@@ -73,6 +101,7 @@ class report_intrastat_service(osv.Model):
             store={
                 'report.intrastat.service.line': (_get_intrastat_from_service_line, ['amount_company_currency', 'parent_id'], 20),
                 },
+            track_visibility='always',
             help="Total amount in company currency of the declaration."),
         'currency_id': fields.related('company_id', 'currency_id',
             readonly=True, type='many2one', relation='res.currency',
@@ -80,10 +109,9 @@ class report_intrastat_service(osv.Model):
         'state' : fields.selection([
                 ('draft','Draft'),
                 ('done','Done'),
-            ], 'State', select=True, readonly=True,
+            ], 'State', select=True, readonly=True, track_visibility='onchange',
             help="State of the declaration. When the state is set to 'Done', the fields become read-only."),
-        'date_done' : fields.datetime('Date done', readonly=True,
-            help="Last date when the intrastat declaration was converted to 'Done' state."),
+        # No more need for date_done, because chatter does the job
     }
 
     _defaults = {
@@ -221,7 +249,7 @@ class report_intrastat_service(osv.Model):
 
     def done(self, cr, uid, ids, context=None):
         if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in done')
-        self.write(cr, uid, ids[0], {'state': 'done', 'date_done': datetime.strftime(datetime.today(), '%Y-%m-%d %H:%M:%S')}, context=context)
+        self.write(cr, uid, ids[0], {'state': 'done'}, context=context)
         return True
 
     def back2draft(self, cr, uid, ids, context=None):
@@ -279,7 +307,38 @@ class report_intrastat_service(osv.Model):
         return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, 'DES XML file', context=context) # Works on v6 only - Makes the client crash on v5
 
 
-report_intrastat_service()
+    def _scheduler_reminder(self, cr, uid, context=None):
+        if context is None:
+            context = {}
+        previous_month = datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m')
+        company_ids = self.pool.get('res.company').search(cr, uid, [], context=context)
+        logger.info('Starting the Intrastat Service reminder')
+        for company in self.pool['res.company'].browse(cr, uid, company_ids, context=None):
+            # Check if an intrastat service already exists for month N-1
+            intrastat_ids = self.search(cr, uid, [('year_month', '=', previous_month), ('company_id', '=', company.id)], context=context)
+            # if it already exists, we don't do anything
+            # in the future, we may check the state and send a mail
+            # if the state is still in draft ?
+            if intrastat_ids:
+                logger.info('An Intrastat Service for month %s already exists for company %s' %(previous_month, company.name))
+                continue
+            else:
+                # If not, we create an intrastat.service for month N-1
+                intrastat_id = self.create(cr, uid, {
+                    'company_id': company.id,
+                    }, context=context)
+                logger.info('An Intrastat Service for month %s has been created by OpenERP for company %s' %(previous_month, company.name))
+                # we try to generate the lines
+                try:
+                    self.generate_service_lines(cr, uid, [intrastat_id], context=context)
+                except Exception as e: # TODO filter on exception from except_orm
+                    context['exception'] = True
+                    #print "e=", e
+                    context['error_msg'] = e[1]
+
+                # send the reminder email
+                self.pool['report.intrastat.common'].send_reminder_email(cr, uid, company, 'l10n_fr_intrastat_service', 'intrastat_service_reminder_email_template', intrastat_id, context=context)
+        return True
 
 
 class report_intrastat_service_line(osv.Model):
@@ -315,5 +374,4 @@ class report_intrastat_service_line(osv.Model):
     def partner_on_change(self, cr, uid, ids, partner_id=False):
         return self.pool.get('report.intrastat.common').partner_on_change(cr, uid, ids, partner_id)
 
-report_intrastat_service_line()
 
