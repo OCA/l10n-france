@@ -34,4 +34,3 @@ class sale_order(osv.Model):
             invoice_vals['intrastat_department'] = order.picking_ids[0].intrastat_department
         return invoice_vals
 
-sale_order()
