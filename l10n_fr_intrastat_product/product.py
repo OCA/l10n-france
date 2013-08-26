@@ -54,16 +54,12 @@ class report_intrastat_code(osv.Model):
         (_hs_code, "'Intrastat code' should only contain digits.", ['name']),
          ]
 
-report_intrastat_code()
-
 
 class product_uom(osv.Model):
     _inherit = "product.uom"
     _columns = {
         'intrastat_label': fields.char('Intrastat label', size=12, help="Label used in the XML file export of the Intrastat product report for this unit of measure."),
         }
-
-product_uom()
 
 
 class product_template(osv.Model):
@@ -75,16 +71,12 @@ class product_template(osv.Model):
         # This field should be called origin_country_id, but it's named country_id to keep "compatibility with OpenERP users that used the "report_intrastat" module
         }
 
-product_template()
-
 
 class product_category(osv.Model):
     _inherit = "product.category"
     _columns = {
         'intrastat_id': fields.many2one('report.intrastat.code', 'Intrastat code', help="Code from the Harmonised System. If this code is not set on the product itself, it will be read here, on the related product category."),
     }
-
-product_category()
 
 
 class product_supplierinfo(osv.Model):
@@ -110,4 +102,3 @@ class product_supplierinfo(osv.Model):
     _constraints = [
         (_same_supplier_same_origin, "error msg in raise", ['origin_country_id', 'name', 'product_id'])]
 
-product_supplierinfo()
