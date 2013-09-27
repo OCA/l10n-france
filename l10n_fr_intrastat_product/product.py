@@ -35,6 +35,15 @@ class report_intrastat_code(osv.Model):
         'intrastat_uom_id': fields.many2one('product.uom', 'UoM for intrastat product report', help="Select the unit of measure if one is required for this particular intrastat code (other than the weight in Kg). If no particular unit of measure is required, leave empty."),
     }
 
+    def name_get(self, cr, uid, ids, context=None):
+        res = []
+        for code in self.read(cr, uid, ids, ['name', 'description'], context=context):
+            display_name = code['name']
+            if code['description']:
+                display_name = '%s %s' %(display_name, code['description'])
+            res.append((code['id'], display_name))
+        return res
+
     def _intrastat_code(self, cr, uid, ids):
         for intrastat_code_to_check in self.read(cr, uid, ids, ['intrastat_code']):
             if intrastat_code_to_check['intrastat_code']:
