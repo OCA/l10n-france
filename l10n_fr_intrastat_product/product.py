@@ -21,10 +21,11 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
-class report_intrastat_code(osv.Model):
+
+class report_intrastat_code(orm.Model):
     _name = "report.intrastat.code"
     _description = "Intrastat code"
     _order = "name"
@@ -40,7 +41,7 @@ class report_intrastat_code(osv.Model):
         for code in self.read(cr, uid, ids, ['name', 'description'], context=context):
             display_name = code['name']
             if code['description']:
-                display_name = '%s %s' %(display_name, code['description'])
+                display_name = '%s %s' % (display_name, code['description'])
             res.append((code['id'], display_name))
         return res
 
@@ -61,37 +62,37 @@ class report_intrastat_code(osv.Model):
     _constraints = [
         (_intrastat_code, "The 'Intrastat code for DEB' should have exactly 8 or 9 digits.", ['intrastat_code']),
         (_hs_code, "'Intrastat code' should only contain digits.", ['name']),
-         ]
+    ]
 
 
-class product_uom(osv.Model):
+class product_uom(orm.Model):
     _inherit = "product.uom"
     _columns = {
         'intrastat_label': fields.char('Intrastat label', size=12, help="Label used in the XML file export of the Intrastat product report for this unit of measure."),
         }
 
 
-class product_template(osv.Model):
+class product_template(orm.Model):
     _inherit = "product.template"
     _columns = {
         'intrastat_id': fields.many2one('report.intrastat.code', 'Intrastat code', help="Code from the Harmonised System. Nomenclature is available from the World Customs Organisation, see http://www.wcoomd.org/. Some countries have made their own extensions to this nomenclature."),
-        'country_id' : fields.many2one('res.country', 'Country of origin',
+        'country_id': fields.many2one('res.country', 'Country of origin',
             help="Country of origin of the product i.e. product 'made in ____'. If you have different countries of origin depending on the supplier from which you purchased the product, leave this field empty and use the equivalent field on the 'product supplier info' form."),
         # This field should be called origin_country_id, but it's named country_id to keep "compatibility with OpenERP users that used the "report_intrastat" module
         }
 
 
-class product_category(osv.Model):
+class product_category(orm.Model):
     _inherit = "product.category"
     _columns = {
         'intrastat_id': fields.many2one('report.intrastat.code', 'Intrastat code', help="Code from the Harmonised System. If this code is not set on the product itself, it will be read here, on the related product category."),
     }
 
 
-class product_supplierinfo(osv.Model):
+class product_supplierinfo(orm.Model):
     _inherit = "product.supplierinfo"
     _columns = {
-        'origin_country_id' : fields.many2one('res.country', 'Country of origin',
+        'origin_country_id': fields.many2one('res.country', 'Country of origin',
             help="Country of origin of the product (i.e. product 'made in ____') when purchased from this supplier. This field is used only when the equivalent field on the product form is empty."),
         }
 
@@ -104,10 +105,8 @@ class product_supplierinfo(osv.Model):
             # 'name' on product_supplierinfo is a many2one to res.partner
             for supplieri in self.browse(cr, uid, same_product_same_supplier_ids):
                 if country_origin_id != supplieri.origin_country_id.id:
-                    raise osv.except_osv(_('Error !'), _("For a particular product, all supplier info entries with the same supplier should have the same country of origin. But, for product '%s' with supplier '%s', there is one entry with country of origin '%s' and another entry with country of origin '%s'.") % (supplieri.product_id.name, supplieri.name.name, supplierinfo.origin_country_id.name, supplieri.origin_country_id.name))
+                    raise orm.except_orm(_('Error !'), _("For a particular product, all supplier info entries with the same supplier should have the same country of origin. But, for product '%s' with supplier '%s', there is one entry with country of origin '%s' and another entry with country of origin '%s'.") % (supplieri.product_id.name, supplieri.name.name, supplierinfo.origin_country_id.name, supplieri.origin_country_id.name))
         return True
-
 
     _constraints = [
         (_same_supplier_same_origin, "error msg in raise", ['origin_country_id', 'name', 'product_id'])]
-

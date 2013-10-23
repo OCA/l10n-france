@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 # TODO : put transaction code as False when is_fiscal_only
@@ -29,7 +29,8 @@ from openerp.tools.translate import _
 # (form view of report.intrastat.type, field transaction_code
 fiscal_only_tuple = ('25', '26', '31')
 
-class report_intrastat_type(osv.Model):
+
+class report_intrastat_type(orm.Model):
     _name = "report.intrastat.type"
     _description = "Intrastat type"
     _order = "procedure_code, transaction_code"
@@ -68,8 +69,8 @@ class report_intrastat_type(osv.Model):
 
     _columns = {
         'name': fields.char('Name', size=64, help="Description of the Intrastat type."),
-        'active' : fields.boolean('Active', help="The active field allows you to hide the Intrastat type without deleting it."),
-        'object_type' : fields.selection([
+        'active': fields.boolean('Active', help="The active field allows you to hide the Intrastat type without deleting it."),
+        'object_type': fields.selection([
             ('out_invoice', 'Customer Invoice'),
             ('in_invoice', 'Supplier Invoice'),
             ('out_refund', 'Customer Refund'),
@@ -110,7 +111,7 @@ class report_intrastat_type(osv.Model):
     }
 
     _defaults = {
-        'active': 1,
+        'active': True,
     }
 
     _sql_constraints = [
@@ -119,30 +120,30 @@ class report_intrastat_type(osv.Model):
 
     def real_code_check(self, codes):
         if not codes['procedure_code']:
-            raise osv.except_osv(_('Error :'), _('You must enter a value for the procedure code.'))
+            raise orm.except_orm(_('Error :'), _('You must enter a value for the procedure code.'))
         if not codes['procedure_code'].isdigit():
-            raise osv.except_osv(_('Error :'), _('Procedure code must be a number.'))
+            raise orm.except_orm(_('Error :'), _('Procedure code must be a number.'))
         if len(codes['procedure_code']) != 2:
-            raise osv.except_osv(_('Error :'), _('Procedure code must have 2 digits.'))
+            raise orm.except_orm(_('Error :'), _('Procedure code must have 2 digits.'))
         if codes['transaction_code']:
             if not codes['transaction_code'].isdigit():
-                raise osv.except_osv(_('Error :'), _('Transaction code must be a number.'))
+                raise orm.except_orm(_('Error :'), _('Transaction code must be a number.'))
             if len(codes['transaction_code']) != 2:
-                raise osv.except_osv(_('Error :'), _('Transaction code must have 2 digits.'))
+                raise orm.except_orm(_('Error :'), _('Transaction code must have 2 digits.'))
         return True
 
 
     def _code_check(self, cr, uid, ids):
         for intrastat_type in self.read(cr, uid, ids, ['procedure_code', 'transaction_code', 'is_fiscal_only', 'object_type']):
             self.real_code_check(intrastat_type)
-            if intrastat_type['object_type'] == 'out' and intrastat_type['procedure_code'] <> '29':
-                raise osv.except_osv(_('Error :'), _("Procedure code must be '29' for an Outgoing products."))
-            elif intrastat_type['object_type'] == 'in' and intrastat_type['procedure_code'] <> '19':
-                raise osv.except_osv(_('Error :'), _("Procedure code must be '19' for an Incoming products."))
+            if intrastat_type['object_type'] == 'out' and intrastat_type['procedure_code'] != '29':
+                raise orm.except_orm(_('Error :'), _("Procedure code must be '29' for an Outgoing products."))
+            elif intrastat_type['object_type'] == 'in' and intrastat_type['procedure_code'] != '19':
+                raise orm.except_orm(_('Error :'), _("Procedure code must be '19' for an Incoming products."))
             if intrastat_type['procedure_code'] not in fiscal_only_tuple and not intrastat_type['transaction_code']:
-                raise osv.except_osv(_('Error :'), _('You must enter a value for the transaction code.'))
+                raise orm.except_orm(_('Error :'), _('You must enter a value for the transaction code.'))
             if intrastat_type['procedure_code'] in fiscal_only_tuple and intrastat_type['transaction_code']:
-                raise osv.except_osv(_('Error :'), _("You should not set a transaction code when the Procedure code is '25', '26' or '31'."))
+                raise orm.except_orm(_('Error :'), _("You should not set a transaction code when the Procedure code is '25', '26' or '31'."))
         return True
 
     _constraints = [
@@ -157,4 +158,3 @@ class report_intrastat_type(osv.Model):
         result['value'].update(self._compute_readonly_fields(cr, uid, procedure_code))
         #print "procedure_code_on_change result=", result
         return result
-
