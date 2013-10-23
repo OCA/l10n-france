@@ -20,12 +20,13 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class account_invoice(osv.Model):
+
+class account_invoice(orm.Model):
     _inherit = "account.invoice"
     _columns = {
-        'intrastat_transport' : fields.selection([
+        'intrastat_transport': fields.selection([
             (1, 'Transport maritime'),
             (2, 'Transport par chemin de fer'),
             (3, 'Transport par route'),
@@ -36,8 +37,8 @@ class account_invoice(osv.Model):
             (9, 'Propulsion propre')
             ], 'Type of transport',
             help="Type of transport of the goods. This information is required for the product intrastat report (DEB)."),
-        'intrastat_department' : fields.char('Department', size=2, help="For a customer invoice, contains France's department number from which the goods have be shipped. For a supplier invoice, contains France's department number of reception of the goods. This information is required for the product intrastat report (DEB)."),
-        'intrastat_country_id' : fields.many2one('res.country', 'Destination/Origin country of the goods', help="For a customer invoice, contains the country to which the goods have been shipped. For a supplier invoice, contains the country from which the goods have been shipped."),
+        'intrastat_department': fields.char('Department', size=2, help="For a customer invoice, contains France's department number from which the goods have be shipped. For a supplier invoice, contains France's department number of reception of the goods. This information is required for the product intrastat report (DEB)."),
+        'intrastat_country_id': fields.many2one('res.country', 'Destination/Origin country of the goods', help="For a customer invoice, contains the country to which the goods have been shipped. For a supplier invoice, contains the country from which the goods have been shipped."),
         'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
             }
 
@@ -50,4 +51,3 @@ class account_invoice(osv.Model):
     _constraints = [
         (_check_intrastat_department, "Error msg is in raise", ['intrastat_department']),
     ]
-
