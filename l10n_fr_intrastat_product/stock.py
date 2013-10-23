@@ -20,14 +20,14 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class stock_location(osv.Model):
+
+class stock_location(orm.Model):
     _inherit = "stock.location"
     _columns = {
-        'intrastat_department' : fields.char('Department', size=2, help="France's department where the stock location is located. This parameter is required for the DEB (Déclaration d'Echange de Biens)."),
+        'intrastat_department': fields.char('Department', size=2, help="France's department where the stock location is located. This parameter is required for the DEB (Déclaration d'Echange de Biens)."),
     }
-
 
     def _check_intrastat_department(self, cr, uid, ids):
         dpt_list = []
@@ -40,7 +40,7 @@ class stock_location(osv.Model):
     ]
 
 
-class stock_picking(osv.Model):
+class stock_picking(orm.Model):
     _inherit = "stock.picking"
 
     def _compute_department(self, cr, uid, ids, name, arg, context=None):
@@ -70,7 +70,7 @@ class stock_picking(osv.Model):
         return self.pool.get('stock.picking').search(cr, uid, [('move_lines', 'in', ids)], context=context)
 
     _columns = {
-        'intrastat_transport' : fields.selection([
+        'intrastat_transport': fields.selection([
             (1, 'Transport maritime'),
             (2, 'Transport par chemin de fer'),
             (3, 'Transport par route'),
@@ -105,7 +105,7 @@ class stock_picking(osv.Model):
 # and https://bugs.launchpad.net/openobject-addons/+bug/1169998
 # All the code below should be removed when these bugs are fixed
 
-class stock_picking_out(osv.Model):
+class stock_picking_out(orm.Model):
     _inherit = 'stock.picking.out'
 
     def _compute_department(self, cr, uid, ids, name, arg, context=None):
@@ -137,7 +137,7 @@ class stock_picking_out(osv.Model):
 
 
     _columns = {
-        'intrastat_transport' : fields.selection([
+        'intrastat_transport': fields.selection([
             (1, 'Transport maritime'),
             (2, 'Transport par chemin de fer'),
             (3, 'Transport par route'),
@@ -153,7 +153,8 @@ class stock_picking_out(osv.Model):
             }, help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
         }
 
-class stock_picking_in(osv.Model):
+
+class stock_picking_in(orm.Model):
     _inherit = 'stock.picking.in'
 
     def _compute_department(self, cr, uid, ids, name, arg, context=None):
@@ -184,7 +185,7 @@ class stock_picking_in(osv.Model):
 
 
     _columns = {
-        'intrastat_transport' : fields.selection([
+        'intrastat_transport': fields.selection([
             (1, 'Transport maritime'),
             (2, 'Transport par chemin de fer'),
             (3, 'Transport par route'),

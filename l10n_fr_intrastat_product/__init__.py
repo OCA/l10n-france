@@ -20,12 +20,12 @@
 #
 ##############################################################################
 
-import intrastat_type
-import partner
-import product
-import stock
-import company
-import invoice
-import sale
-import purchase
-import intrastat_product
+from . import intrastat_type
+from . import partner
+from . import product
+from . import stock
+from . import company
+from . import invoice
+from . import sale
+from . import purchase
+from . import intrastat_product
