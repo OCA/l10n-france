@@ -20,4 +20,4 @@
 #
 ##############################################################################
 
-import intrastat_service
+from . import intrastat_service

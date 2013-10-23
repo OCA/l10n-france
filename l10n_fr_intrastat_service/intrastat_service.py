@@ -21,7 +21,7 @@
 ##############################################################################
 
 
-from openerp.osv import osv, orm, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
 from datetime import datetime
@@ -31,7 +31,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class report_intrastat_service(osv.Model):
+class report_intrastat_service(orm.Model):
     _name = "report.intrastat.service"
     _order = "start_date desc"
     _rec_name = "start_date"
@@ -68,10 +68,10 @@ class report_intrastat_service(osv.Model):
 
     _columns = {
         'company_id': fields.many2one('res.company', 'Company',
-            required=True, states={'done':[('readonly',True)]},
+            required=True, states={'done': [('readonly', True)]},
             help="Related company."),
         'start_date': fields.date('Start date', required=True,
-            states={'done':[('readonly',True)]},
+            states={'done': [('readonly', True)]},
             help="Start date of the declaration. Must be the first day of a month."),
         'end_date': fields.function(_compute_dates, type='date',
             string='End date', multi='intrastat-service-dates', readonly=True,
@@ -87,7 +87,7 @@ class report_intrastat_service(osv.Model):
             help="Year and month of the declaration."),
         'intrastat_line_ids': fields.one2many('report.intrastat.service.line',
             'parent_id', 'Report intrastat service lines',
-            states={'done':[('readonly',True)]}),
+            states={'done': [('readonly', True)]}),
         'num_lines': fields.function(_compute_numbers,
             type='integer', multi='numbers', string='Number of lines',
             store={
@@ -106,9 +106,9 @@ class report_intrastat_service(osv.Model):
         'currency_id': fields.related('company_id', 'currency_id',
             readonly=True, type='many2one', relation='res.currency',
             string='Currency'),
-        'state' : fields.selection([
-                ('draft','Draft'),
-                ('done','Done'),
+        'state': fields.selection([
+                ('draft', 'Draft'),
+                ('done', 'Done'),
             ], 'State', select=True, readonly=True, track_visibility='onchange',
             help="State of the declaration. When the state is set to 'Done', the fields become read-only."),
         # No more need for date_done, because chatter does the job
@@ -119,8 +119,8 @@ class report_intrastat_service(osv.Model):
         # february the DES of January
         'start_date': lambda *a: datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m-%d'),
         'state': 'draft',
-        'company_id': lambda self, cr, uid, context: \
-         self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id,
+        'company_id': lambda self, cr, uid, context:
+            self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id,
         }
 
 
@@ -128,11 +128,13 @@ class report_intrastat_service(osv.Model):
         return self.pool.get('report.intrastat.common')._check_start_date(cr, uid, ids, self)
 
     _constraints = [
-        (_check_start_date, "Start date must be the first day of a month", ['start_date']),
+        (_check_start_date, "Start date must be the first day of a month",
+            ['start_date']),
     ]
 
     _sql_constraints = [
-        ('date_uniq', 'unique(start_date, company_id)', 'A DES for this month already exists !'),
+        ('date_uniq', 'unique(start_date, company_id)',
+            'A DES for this month already exists !'),
     ]
 
     def generate_service_lines(self, cr, uid, ids, context=None):
@@ -157,7 +159,7 @@ class report_intrastat_service(osv.Model):
         for invoice in invoice_obj.browse(cr, uid, invoice_ids, context=context):
 
             if not invoice.partner_id.country_id:
-                raise osv.except_osv(_('Error :'), _("Missing country on partner '%s'.") %invoice.partner_id.name)
+                raise orm.except_orm(_('Error :'), _("Missing country on partner '%s'.") % invoice.partner_id.name)
             elif not invoice.partner_id.country_id.intrastat:
                 continue
             elif invoice.partner_id.country_id.id == intrastat.company_id.country_id.id:
@@ -211,7 +213,7 @@ class report_intrastat_service(osv.Model):
             else:
                 amount_invoice_cur_to_write = amount_invoice_cur_regular_service + amount_invoice_cur_accessory_cost
 
-            if invoice.currency_id.name <> 'EUR':
+            if invoice.currency_id.name != 'EUR':
                 context['date'] = invoice.date_invoice
                 amount_company_cur_to_write = int(round(self.pool.get('res.currency').compute(cr, uid, invoice.currency_id.id, intrastat.company_id.currency_id.id, amount_invoice_cur_to_write, round=False, context=context), 0))
             else:
@@ -230,7 +232,7 @@ class report_intrastat_service(osv.Model):
                 # So we should not block with a raise before the end of the loop on the
                 # invoice lines and the "if amount_company_cur_to_write:"
                 if not invoice.partner_id.vat:
-                    raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %invoice.partner_id.name)
+                    raise orm.except_orm(_('Error :'), _("Missing VAT number on partner '%s'.") % invoice.partner_id.name)
                 else:
                     partner_vat_to_write = invoice.partner_id.vat
 
@@ -246,17 +248,15 @@ class report_intrastat_service(osv.Model):
 
         return True
 
-
     def done(self, cr, uid, ids, context=None):
-        if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in done')
+        assert len(ids) == 1, "Only one ID accepted"
         self.write(cr, uid, ids[0], {'state': 'done'}, context=context)
         return True
 
     def back2draft(self, cr, uid, ids, context=None):
-        if len(ids) != 1: raise osv.except_osv(_('Error :'), 'Hara kiri in back2draft')
+        assert len(ids) == 1, "Only one ID accepted"
         self.write(cr, uid, ids[0], {'state': 'draft'}, context=context)
         return True
-
 
     def generate_xml(self, cr, uid, ids, context=None):
         #print "generate xml ids=", ids
@@ -280,13 +280,13 @@ class report_intrastat_service(osv.Model):
         num_tva = etree.SubElement(decl, 'num_tvaFr')
         num_tva.text = my_company_vat
         mois_des = etree.SubElement(decl, 'mois_des')
-        mois_des.text = datetime.strftime(start_date_datetime, '%m') # month 2 digits
+        mois_des.text = datetime.strftime(start_date_datetime, '%m')  # month 2 digits
         an_des = etree.SubElement(decl, 'an_des')
         an_des.text = datetime.strftime(start_date_datetime, '%Y')
         line = 0
         # we now go through each service line
         for sline in intrastat.intrastat_line_ids:
-            line += 1 # increment line number
+            line += 1  # increment line number
             ligne_des = etree.SubElement(decl, 'ligne_des')
             numlin_des = etree.SubElement(ligne_des, 'numlin_des')
             numlin_des.text = str(line)
@@ -294,8 +294,10 @@ class report_intrastat_service(osv.Model):
             # We take amount_company_currency, to be sure we have amounts in EUR
             valeur.text = str(sline.amount_company_currency)
             partner_des = etree.SubElement(ligne_des, 'partner_des')
-            try: partner_des.text = sline.partner_vat.replace(' ', '')
-            except: raise osv.except_osv(_('Error :'), _("Missing VAT number on partner '%s'.") %sline.partner_id.name)
+            try:
+                partner_des.text = sline.partner_vat.replace(' ', '')
+            except:
+                raise orm.except_orm(_('Error :'), _("Missing VAT number on partner '%s'.") % sline.partner_id.name)
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         #print "xml_string", xml_string
 
@@ -304,7 +306,7 @@ class report_intrastat_service(osv.Model):
         # Attach the XML file
         attach_id = self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'des', context=context)
 
-        return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, 'DES XML file', context=context) # Works on v6 only - Makes the client crash on v5
+        return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, 'DES XML file', context=context)
 
 
     def _scheduler_reminder(self, cr, uid, context=None):
@@ -320,18 +322,18 @@ class report_intrastat_service(osv.Model):
             # in the future, we may check the state and send a mail
             # if the state is still in draft ?
             if intrastat_ids:
-                logger.info('An Intrastat Service for month %s already exists for company %s' %(previous_month, company.name))
+                logger.info('An Intrastat Service for month %s already exists for company %s' % (previous_month, company.name))
                 continue
             else:
                 # If not, we create an intrastat.service for month N-1
                 intrastat_id = self.create(cr, uid, {
                     'company_id': company.id,
                     }, context=context)
-                logger.info('An Intrastat Service for month %s has been created by OpenERP for company %s' %(previous_month, company.name))
+                logger.info('An Intrastat Service for month %s has been created by OpenERP for company %s' % (previous_month, company.name))
                 # we try to generate the lines
                 try:
                     self.generate_service_lines(cr, uid, [intrastat_id], context=context)
-                except Exception as e: # TODO filter on exception from except_orm
+                except Exception as e:  # TODO filter on exception from except_orm
                     context['exception'] = True
                     #print "e=", e
                     context['error_msg'] = e[1]
@@ -341,7 +343,7 @@ class report_intrastat_service(osv.Model):
         return True
 
 
-class report_intrastat_service_line(osv.Model):
+class report_intrastat_service_line(orm.Model):
     _name = "report.intrastat.service.line"
     _description = "Lines of intrastat service declaration (DES)"
     _rec_name = "partner_vat"
@@ -357,7 +359,7 @@ class report_intrastat_service_line(osv.Model):
             string="Company currency", readonly=True),
         'invoice_id': fields.many2one('account.invoice', 'Invoice ref',
             readonly=True),
-        'date_invoice' : fields.related('invoice_id', 'date_invoice',
+        'date_invoice': fields.related('invoice_id', 'date_invoice',
             type='date', relation='account.invoice',
             string='Invoice date', readonly=True),
         'partner_vat': fields.char('Customer VAT', size=32),
@@ -373,5 +375,3 @@ class report_intrastat_service_line(osv.Model):
 
     def partner_on_change(self, cr, uid, ids, partner_id=False):
         return self.pool.get('report.intrastat.common').partner_on_change(cr, uid, ids, partner_id)
-
-
