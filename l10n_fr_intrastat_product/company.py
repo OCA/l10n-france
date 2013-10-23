@@ -20,10 +20,11 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
-class res_company(osv.Model):
+
+class res_company(orm.Model):
     _inherit = "res.company"
     _columns = {
         # In France, the customs_accreditation ("numéro d'habilitation")
@@ -31,7 +32,7 @@ class res_company(osv.Model):
         # to 8... because other EU countries may have identifiers up to 8 chars
         # As this module only implement DEB for France, we use size=4
         'customs_accreditation': fields.char('Customs accreditation identifier', size=4, help="Company identifier for Intrastat file export. Size : 4 characters."),
-        'siret_complement' : fields.char('SIRET complement', size=5, help="5 last digits of the SIRET number of the company."),
+        'siret_complement': fields.char('SIRET complement', size=5, help="5 last digits of the SIRET number of the company."),
         'export_obligation_level': fields.selection([('detailed', 'Detailed'), ('simplified', 'Simplified')], 'Obligation level for export', help='For the DEB : if your volume of export of products to EU countries is over 460 000 € per year, your obligation level for export is "Detailed" ; if you are under this limit, your obligation level for export is "Simplified".'),
         'import_obligation_level': fields.selection([('detailed', 'Detailed'), ('none', 'None')], 'Obligation level for import', help="For the DEB : if your volume of import of products from EU countries is over 460 000 € per year, your obligation level for import is 'Detailed' ; if you are under this limit, you don't have to make a DEB for import and you should select 'None'."),
         'default_intrastat_department': fields.char('Default departement code', size=2, help='If the Departement code is not set on the invoice, OpenERP will use this value.'),
@@ -45,8 +46,7 @@ class res_company(osv.Model):
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre'),
             ], 'Default type of transport',
-            help="If the 'Type of Transport' is not set on the invoice or picking, OpenERP will use this value."),
-        'statistical_pricelist_id' : fields.many2one('product.pricelist', 'Pricelist for statistical value', help="Select the pricelist that will be used to compute the statistical value (used in DEB lines generated from repair picking)."),
+            help="If the 'Type of Transport' is not set on the invoice, OpenERP will use this value."),
         'default_intrastat_type_out_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for customer invoice'),
         'default_intrastat_type_out_refund': fields.many2one('report.intrastat.type', 'Default intrastat type for customer refund'),
         'default_intrastat_type_in_invoice': fields.many2one('report.intrastat.type', 'Default intrastat type for supplier invoice'),
@@ -63,14 +63,15 @@ class res_company(osv.Model):
         for dpt in dpt_list:
             if not dpt:
                 continue
-            if len(dpt) <> 2: # '1' is not accepted -> must be '01'
-                raise osv.except_osv(_('Error :'), _("The department code must be 2 caracters long."))
-            if dpt in ['2A', '2B', '99']: # 99 = Monaco, cf page 24 du BOD n°6883 du 06/01/2011
+            if len(dpt) != 2:  # '1' is not accepted -> must be '01'
+                raise orm.except_orm(_('Error :'), _("The department code must be 2 caracters long."))
+            # 99 = Monaco, cf page 24 du BOD n°6883 du 06/01/2011
+            if dpt in ['2A', '2B', '99']:
                 continue
             if not dpt.isdigit():
-                raise osv.except_osv(_('Error :'), _("The department code must be a number or have the value '2A' or '2B' for Corsica."))
+                raise orm.except_orm(_('Error :'), _("The department code must be a number or have the value '2A' or '2B' for Corsica."))
             if int(dpt) < 1 or int(dpt) > 95:
-                raise osv.except_osv(_('Error :'), _("The department code must be between 01 and 95 or have the value '2A' or '2B' for Corsica or '99' for Monaco."))
+                raise orm.except_orm(_('Error :'), _("The department code must be between 01 and 95 or have the value '2A' or '2B' for Corsica or '99' for Monaco."))
         return True
 
     def _check_default_intrastat_department(self, cr, uid, ids):
@@ -95,5 +96,3 @@ class res_company(osv.Model):
             else:
                 result['warning']['message'] += _("You are not currently in that group.")
         return result
-
-
