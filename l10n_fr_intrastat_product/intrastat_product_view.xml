@@ -66,7 +66,6 @@
                             </group>
                             <group col="4" colspan="4" string="Additionnal information">
                                 <field name="invoice_id" />
-                                <field name="picking_id" />
                                 <field name="amount_invoice_currency" widget="monetary" options="{'currency_field': 'invoice_currency_id'}" />
                                 <field name="invoice_currency_id" invisible="1"/>
                                 <field name="amount_product_value_inv_cur" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
@@ -94,7 +93,6 @@
                             <field name="partner_vat"/>
                             <field name="partner_id" />
                             <field name="invoice_id" />
-                            <field name="picking_id" />
                         </tree>
                     </field>
                 </group>
