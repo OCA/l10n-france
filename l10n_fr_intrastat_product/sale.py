@@ -20,9 +20,10 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm
 
-class sale_order(osv.Model):
+
+class sale_order(orm.Model):
     _inherit = "sale.order"
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
@@ -33,4 +34,3 @@ class sale_order(osv.Model):
         if order.picking_ids:
             invoice_vals['intrastat_department'] = order.picking_ids[0].intrastat_department
         return invoice_vals
-
