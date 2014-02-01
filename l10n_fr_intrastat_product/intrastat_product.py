@@ -772,7 +772,7 @@ class report_intrastat_product(orm.Model):
 
 class report_intrastat_product_line(orm.Model):
     _name = "report.intrastat.product.line"
-    _description = "Lines of intrastat product declaration (DEB)"
+    _description = "Intrastat Product Lines"
     _order = 'id'
 
     _columns = {
