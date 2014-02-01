@@ -345,7 +345,7 @@ class report_intrastat_service(orm.Model):
 
 class report_intrastat_service_line(orm.Model):
     _name = "report.intrastat.service.line"
-    _description = "Lines of intrastat service declaration (DES)"
+    _description = "Intrastat Service Lines"
     _rec_name = "partner_vat"
     _order = 'id'
     _columns = {
