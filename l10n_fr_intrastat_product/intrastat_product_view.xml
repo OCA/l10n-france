@@ -18,6 +18,8 @@
             <header>
                 <button name="done" string="Done" type="object" class="oe_highlight" states="draft" />
                 <button name="back2draft" string="Back to draft" type="object" states="done" />
+                <button name="generate_product_lines_from_invoice" string="Generate lines from invoices" type="object" states="draft" class="oe_highlight"/>
+                <button name="generate_xml" string="Attach XML file" type="object" />
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet string="Intrastat Product">
@@ -27,20 +29,20 @@
                         <field name="year_month" class="oe_inline" />
                     </h1>
                 </div>
-                <group colspan="4" col="4" name="properties">
-                    <field name="start_date" />
-                    <field name="end_date" />
-                    <field name="type" on_change="type_on_change(company_id, type)" />
-                    <field name="obligation_level" />
-                    <field name="num_lines" />
-                    <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                    <field name="total_fiscal_amount" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                    <field name="company_id" groups="base.group_multi_company" widget="selection" />
-                    <field name="currency_id" invisible="1"/>
-                </group>
-                <group name="buttons" col="2">
-                    <button icon="gtk-execute" name="generate_product_lines_from_invoice" string="Generate lines from invoices" type="object" states="draft" />
-                    <button icon="gtk-go-forward" name="generate_xml" string="Attach XML file" type="object" />
+                <group name="top-block">
+                    <group name="properties-1">
+                        <field name="start_date" />
+                        <field name="end_date" />
+                        <field name="type" on_change="type_on_change(company_id, type)" />
+                        <field name="obligation_level" />
+                    </group>
+                    <group name="properties-2">
+                        <field name="num_lines" />
+                        <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="total_fiscal_amount" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                        <field name="company_id" groups="base.group_multi_company" widget="selection" />
+                        <field name="currency_id" invisible="1"/>
+                    </group>
                 </group>
                 <group name="lines">
                     <field name="intrastat_line_ids" nolabel="1">
