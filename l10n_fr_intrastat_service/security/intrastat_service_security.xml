@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+<record id="fr_intrastat_service_rule" model="ir.rule">
+    <field name="name">Intrastat Service multi-company</field>
+    <field name="model_id" ref="model_report_intrastat_service"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+</record>
+
+
+<record id="fr_intrastat_service_line_rule" model="ir.rule">
+    <field name="name">Intrastat Service Line multi-company</field>
+    <field name="model_id" ref="model_report_intrastat_service_line"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+</record>
+
+</data>
+</openerp>
