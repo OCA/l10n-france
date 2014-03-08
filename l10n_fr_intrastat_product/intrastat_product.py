@@ -734,9 +734,14 @@ class report_intrastat_product(orm.Model):
         if context is None:
             context = {}
         previous_month = datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m')
-        company_ids = self.pool.get('res.company').search(cr, uid, [], context=context)
+        # I can't search on [('country_id', '=', ..)]
+        # because it is a fields.function not stored and without fnct_search
+        company_ids = self.pool['res.company'].search(
+            cr, uid, [], context=context)
         logger.info('Starting the Intrastat Product reminder')
         for company in self.pool['res.company'].browse(cr, uid, company_ids, context=None):
+            if company.country_id.code != 'FR':
+                continue
             for type in ['import', 'export']:
                 if type == 'import' and company.import_obligation_level == 'none':
                     continue
