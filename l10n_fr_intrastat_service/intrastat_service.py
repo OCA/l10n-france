@@ -313,9 +313,14 @@ class report_intrastat_service(orm.Model):
         if context is None:
             context = {}
         previous_month = datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m')
-        company_ids = self.pool.get('res.company').search(cr, uid, [], context=context)
+        # I can't search on [('country_id', '=', ...)]
+        # because it is a fields.function not stored and without fnct_search
+        company_ids = self.pool['res.company'].search(
+            cr, uid, [], context=context)
         logger.info('Starting the Intrastat Service reminder')
         for company in self.pool['res.company'].browse(cr, uid, company_ids, context=None):
+            if company.country_id.code != 'FR':
+                continue
             # Check if an intrastat service already exists for month N-1
             intrastat_ids = self.search(cr, uid, [('year_month', '=', previous_month), ('company_id', '=', company.id)], context=context)
             # if it already exists, we don't do anything
