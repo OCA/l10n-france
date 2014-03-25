@@ -19,9 +19,9 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 
-class Partner(osv.osv):
+class Partner(osv.Model):
     """Add the French APE (official main activity of the company)"""
     _inherit = 'res.partner'
     _columns = {
@@ -30,5 +30,3 @@ class Partner(osv.osv):
                  "main activity in this field. The APE is chosen among the "
                  "NAF nomenclature."),
     }
-Partner()
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
