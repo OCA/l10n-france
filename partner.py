@@ -21,11 +21,13 @@
 
 from openerp.osv import osv, fields
 
+
 class Partner(osv.Model):
     """Add the French APE (official main activity of the company)"""
     _inherit = 'res.partner'
     _columns = {
-        'ape_id': fields.many2one('res.partner.category', 'APE',
+        'ape_id': fields.many2one(
+            'res.partner.category', 'APE',
             help="If the partner is a French company, enter it's official "
                  "main activity in this field. The APE is chosen among the "
                  "NAF nomenclature."),
