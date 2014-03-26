@@ -7,9 +7,10 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
-                <field name="title" position="after">
+                <field name="website" position="after">
                     <field name="ape_id" context="{'partner_category_display': 'short'}"
-                           domain="[('parent_id', 'child_of', %(l10n_eu_nace.nace_root)d)]"/>
+                        attrs="{'invisible': [('is_company', '=', False)]}"
+                        domain="[('parent_id', 'child_of', %(l10n_eu_nace.nace_root)d)]" />
                 </field>
             </field>
         </record>
