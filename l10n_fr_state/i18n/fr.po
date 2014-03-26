@@ -16,13 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: l10n_fr_state
-#: code:_description:0
-#: model:ir.model,name:l10n_fr_state.model_res_country_state
-#, python-format
-msgid "Country state"
-msgstr "Région"
-
 #. module: base
 #: field:res.country.state,name:0
 msgid "State Name"
