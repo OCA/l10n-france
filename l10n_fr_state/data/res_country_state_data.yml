@@ -1,0 +1,178 @@
+################################################################################
+#    See __openerp__.py file for Copyright and Licence Informations.
+################################################################################
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_alsace0}:
+    code: FR-A
+    country_id: base.fr
+    name: Alsace
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_aquitaine0}:
+    code: FR-B
+    country_id: base.fr
+    name: Aquitaine
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_auvergne0}:
+    code: FR-C
+    country_id: base.fr
+    name: Auvergne
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_bourgogne0}:
+    code: FR-D
+    country_id: base.fr
+    name: Bourgogne
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_bretagne0}:
+    code: FR-E
+    country_id: base.fr
+    name: Bretagne
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_centre0}:
+    code: FR-F
+    country_id: base.fr
+    name: Centre
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_champagneardenne0}:
+    code: FR-G
+    country_id: base.fr
+    name: Champagne-Ardenne
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_corse0}:
+    code: FR-H
+    country_id: base.fr
+    name: Corse
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_franchecomte0}:
+    code: FR-I
+    country_id: base.fr
+    name: Franche-Comté
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_iledefrance0}:
+    code: FR-J
+    country_id: base.fr
+    name: Île-de-France
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_languedocroussillon0}:
+    code: FR-K
+    country_id: base.fr
+    name: Languedoc-Roussillon
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_limousin0}:
+    code: FR-L
+    country_id: base.fr
+    name: Limousin
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_lorraine0}:
+    code: FR-M
+    country_id: base.fr
+    name: Lorraine
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_midipyrenees0}:
+    code: FR-N
+    country_id: base.fr
+    name: Midi-Pyrénées
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_nordpasdecalais0}:
+    code: FR-O
+    country_id: base.fr
+    name: Nord-Pas-de-Calais
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_bassenormandie0}:
+    code: FR-P
+    country_id: base.fr
+    name: Basse-Normandie
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_hautenormandie0}:
+    code: FR-Q
+    country_id: base.fr
+    name: Haute-Normandie
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_paysdelaloire0}:
+    code: FR-R
+    country_id: base.fr
+    name: Pays de la Loire
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_picardie0}:
+    code: FR-S
+    country_id: base.fr
+    name: Picardie
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_poitoucharentes0}:
+    code: FR-T
+    country_id: base.fr
+    name: Poitou-Charentes
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_provencealpescotedazur0}:
+    code: FR-U
+    country_id: base.fr
+    name: Provence-Alpes-Côte d'Azur
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_rhonealpes0}:
+    code: FR-V
+    country_id: base.fr
+    name: Rhône-Alpes
