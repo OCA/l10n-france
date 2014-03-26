@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- *********************************************************************** -->
+<!-- See __openerp__.py file for Copyright and Licence Informations.         -->
+<!-- *********************************************************************** -->
+<openerp>
+    <data>
+
+        <record id="view_country_department_tree" model="ir.ui.view">
+            <field name="name">res.country.department.tree</field>
+            <field name="model">res.country.department</field>
+            <field name="arch" type="xml">
+                <tree string="State">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_state_id"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_country_department_form" model="ir.ui.view">
+            <field name="name">res.country.department.form</field>
+            <field name="model">res.country.department</field>
+            <field name="arch" type="xml">
+                <form string="State" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="country_state_id"/>
+                        <field name="country_id" readonly="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>
