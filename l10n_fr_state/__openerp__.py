@@ -22,7 +22,7 @@
 
 {
     'name': 'French States (Région)',
-    'summary': "Populate Database with French States (Région)",
+    'summary': 'Populate Database with French States (Région)',
     'version': '0.1',
     'category': 'base',
     'description': """
@@ -31,12 +31,15 @@ Populate Database with French States (Région)
 
 Feature:
 --------
-    * Populate the table res_country_state with the french states. (named 'Région')
+    * Populate the table res_country_state with the french states. """
+    """(named 'Région')
 
 Technical information:
 ----------------------
-    * Use 3166-2:FR codifications (more detail http://fr.wikipedia.org/wiki/ISO_3166-2:FR);
-    * Only populate inner states; (no Guyane, Mayotte, etc...) because there are in the res_country table;
+    * Use 3166-2:FR codifications (more detail """
+    """http://fr.wikipedia.org/wiki/ISO_3166-2:FR);
+    * Only populate inner states; (no Guyane, Mayotte, etc...) because """
+    """there are in the res_country table;
     * Change res_country_state.code size. (3 to 4);
 
 Copyright, Authors and Licence:
