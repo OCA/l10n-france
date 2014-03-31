@@ -18,12 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
 #	* l10n_fr_state
 #	* base
 #
+
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
@@ -36,6 +36,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_fr_state
+#: code:_description:0
+#: model:ir.model,name:l10n_fr_state.model_res_country_state
+#, python-format
+msgid "Country state"
+msgstr "Région"
 
 #. module: base
 #: field:res.country.state,name:0
@@ -53,10 +60,15 @@ msgid "French States (Région)"
 msgstr "Régions Françaises"
 
 #. module: base
+#: model:ir.module.module,summary:base.module_l10n_fr_state
+msgid "Populate Database with French States (Région)"
+msgstr "Remplit la base de données avec les régions françaises"
+
+#. module: base
 #: model:ir.module.module,description:base.module_l10n_fr_state
 msgid "\n"
-"Add French states data\n"
-"======================\n"
+"Populate Database with French States (Région)\n"
+"=============================================\n"
 "\n"
 "Feature:\n"
 "--------\n"
@@ -70,17 +82,16 @@ msgid "\n"
 "\n"
 "Copyright, Authors and Licence:\n"
 "-------------------------------\n"
-"    * Copyright: 2013, Groupement Régional Alimentaire de Proximité;\n"
+"    * Copyright: 2013-2014, GRAP, Groupement Régional Alimentaire de Proximité;\n"
 "    * Author: Sylvain LE GAL (https://twitter.com/legalsylvain);\n"
-"    * Licence: AGPL-3 (http://www.gnu.org/licenses/);\n"
-"    "
+"    * Licence: AGPL-3 (http://www.gnu.org/licenses/);"
 msgstr "\n"
-"Ajoute les régions françaises en base de données\n"
-"================================================\n"
+"Remplit la base de données avec les régions françaises\n"
+"======================================================\n"
 "\n"
 "Caractéristique :\n"
-"----------------\n"
-"    * Remplit la table 'res_country_state' avec les régions françaises ;\n"
+"-----------------\n"
+"    * Remplit la table 'res_country_state' avec les régions françaises\n"
 "\n"
 "Informations techniques :\n"
 "-------------------------\n"
@@ -92,5 +103,4 @@ msgstr "\n"
 "------------------------------\n"
 "    * Copyright : 2013, Groupement Régional Alimentaire de Proximité ;\n"
 "    * Auteur : Sylvain LE GAL (https://twitter.com/legalsylvain) ;\n"
-"    * Licence : AGPL-3 (http://www.gnu.org/licenses/) ;\n"
-"    "
+"    * Licence : AGPL-3 (http://www.gnu.org/licenses/) ;"
