@@ -91,6 +91,13 @@ msgstr "Région associée au département courrant"
 msgid "The department code in max. five chars. (ISO 3166-2 Codification)"
 msgstr "Le code du département sur cinq caractères. (Norme ISO 3166-2)"
 
+#. module: l10n_fr_department
+#: code:addons/l10n_fr_department/model/res_country_department.py:48
+#: sql_constraint:res.country.department:0
+#, python-format
+msgid "You cannot have two departments with the same code!"
+msgstr "Vous ne pouvez pas avoir deux départements avec le même code !"
+
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_fr_department
 msgid "French Departments (Département)"

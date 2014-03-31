@@ -21,11 +21,24 @@
 <openerp>
     <data>
 
+        <record id="view_country_department_search" model="ir.ui.view">
+            <field name="name">res.country.department.search</field>
+            <field name="model">res.country.department</field>
+            <field name="arch" type="xml">
+                <search string="Departments">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_state_id"/>
+                    <field name="country_id"/>
+                </search>
+            </field>
+        </record>
+
         <record id="view_country_department_tree" model="ir.ui.view">
             <field name="name">res.country.department.tree</field>
             <field name="model">res.country.department</field>
             <field name="arch" type="xml">
-                <tree string="State">
+                <tree string="Departments">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="country_state_id"/>
@@ -38,7 +51,7 @@
             <field name="name">res.country.department.form</field>
             <field name="model">res.country.department</field>
             <field name="arch" type="xml">
-                <form string="State" version="7.0">
+                <form string="Departments" version="7.0">
                     <group>
                         <field name="name"/>
                         <field name="code"/>
