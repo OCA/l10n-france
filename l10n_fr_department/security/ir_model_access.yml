@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    l10n FR Departments module for OpenERP
@@ -19,5 +18,25 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+- 
+  Creating a ir.model.access record
+- 
+  !record {model: ir.model.access, id: access_res_country_department_all}:
+    name: res.country.department all
+    model_id: model_res_country_department
+    perm_read: 1
+    perm_write: 0
+    perm_create: 0
+    perm_unlink: 0
 
-from . import res_country_department
+- 
+  Creating a ir.model.access record
+- 
+  !record {model: ir.model.access, id: access_res_country_department_manager}:
+    name: res.country.department manager
+    model_id: model_res_country_department
+    group_id: base.group_system
+    perm_read: 1
+    perm_write: 1
+    perm_create: 1
+    perm_unlink: 1
