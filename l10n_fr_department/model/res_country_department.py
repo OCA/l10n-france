@@ -44,6 +44,6 @@ class res_country_department(Model):
     }
 
     _sql_constraints = [
-        ('code_country_id_uniq', 'unique (code)',
+        ('code_uniq', 'unique (code)',
             _("""You cannot have two departments with the same code!""")),
     ]
