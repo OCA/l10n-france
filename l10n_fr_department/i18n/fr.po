@@ -1,8 +1,29 @@
+##############################################################################
+#
+#    l10n FR Departments module for OpenERP
+#    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
+#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
 #	* l10n_fr_department
 #	* base
 #
+
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
@@ -76,10 +97,15 @@ msgid "French Departments (Département)"
 msgstr "Départements Français"
 
 #. module: base
+#: model:ir.module.module,summary:base.module_l10n_fr_department
+msgid "Populate Database with French Departments (Départements)"
+msgstr "Remplit la base de données avec les départments françaises"
+
+#. module: base
 #: model:ir.module.module,description:base.module_l10n_fr_department
 msgid "\n"
-"Add French departments data\n"
-"===========================\n"
+"Populate Database with French Departments (Départements)\n"
+"========================================================\n"
 "\n"
 "Feature:\n"
 "--------\n"
@@ -88,14 +114,13 @@ msgid "\n"
 "\n"
 "Technical informations:\n"
 "-----------------------\n"
-"    * Use 3166-2:FR codifications (more detail http://fr.wikipedia.org/wiki/ISO_3166-2:FR);\n"
+"    * Use 3166-2:FR codifications (more detailhttp://fr.wikipedia.org/wiki/ISO_3166-2:FR);\n"
 "\n"
 "Copyright, Authors and Licence:\n"
 "-------------------------------\n"
 "    * Copyright: 2013, Groupement Régional Alimentaire de Proximité;\n"
 "    * Author: Sylvain LE GAL (https://twitter.com/legalsylvain);\n"
-"    * Licence: AGPL-3 (http://www.gnu.org/licenses/);\n"
-"    "
+"    * Licence: AGPL-3 (http://www.gnu.org/licenses/);"
 msgstr "\n"
 "Ajoute les départements français en base de données\n"
 "===================================================\n"
@@ -113,5 +138,4 @@ msgstr "\n"
 "------------------------------\n"
 "    * Copyright : 2013, Groupement Régional Alimentaire de Proximité ;\n"
 "    * Auteur : Sylvain LE GAL (https://twitter.com/legalsylvain) ;\n"
-"    * Licence : AGPL-3 (http://www.gnu.org/licenses/) ;\n"
-
+"    * Licence : AGPL-3 (http://www.gnu.org/licenses/) ;"
