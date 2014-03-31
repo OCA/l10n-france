@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_res_country_department_all,res.country.department,model_res_country_department,,1,0,0,0
-access_res_country_department_manager,res.country.department,model_res_country_department,base.group_no_one,1,1,1,1
