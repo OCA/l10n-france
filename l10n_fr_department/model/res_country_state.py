@@ -20,5 +20,15 @@
 #
 ##############################################################################
 
-from . import res_country_state
-from . import res_country_department
+from openerp.osv import fields
+from openerp.osv.orm import Model
+
+
+class res_country_state(Model):
+    _inherit = 'res.country.state'
+
+    _columns = {
+        'department_ids': fields.one2many(
+            'res.country.department','country_state_id', 'Departments',
+            help='Departments related to this state',),
+    }
