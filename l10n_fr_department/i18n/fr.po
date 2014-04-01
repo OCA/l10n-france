@@ -77,12 +77,12 @@ msgstr "Afficher et gérer la liste de tous les départements."
 
 #. module: l10n_fr_department
 #: view:res.country.department:0
-#: field:res.country.department,country_state_id:0
+#: field:res.country.department,state_id:0
 msgid "State"
 msgstr "Région"
 
 #. module: l10n_fr_department
-#: help:res.country.department,country_state_id:0
+#: help:res.country.department,state_id:0
 msgid "State related of the current department"
 msgstr "Région associée au département courrant"
 
