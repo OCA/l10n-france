@@ -25,7 +25,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_ain}:
     code: FR-01
-    country_state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Ain
 
 - 
@@ -33,7 +33,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_aisne}:
     code: FR-02
-    country_state_id: l10n_fr_state.res_country_state_picardie
+    state_id: l10n_fr_state.res_country_state_picardie
     name: Aisne
 
 - 
@@ -41,7 +41,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_allier}:
     code: FR-03
-    country_state_id: l10n_fr_state.res_country_state_auvergne
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Allier
 
 - 
@@ -49,7 +49,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_alpesdehauteprovence}:
     code: FR-04
-    country_state_id: l10n_fr_state.res_country_state_provencealpescotedazur
+    state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Alpes-de-Haute-Provence
 
 - 
@@ -57,7 +57,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautesalpes}:
     code: FR-05
-    country_state_id: l10n_fr_state.res_country_state_provencealpescotedazur
+    state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Hautes-Alpes
 
 - 
@@ -65,7 +65,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_alpesmaritimes}:
     code: FR-06
-    country_state_id: l10n_fr_state.res_country_state_provencealpescotedazur
+    state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Alpes-Maritimes
 
 - 
@@ -73,7 +73,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_ardeche}:
     code: FR-07
-    country_state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Ardèche
 
 - 
@@ -81,7 +81,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_ardennes}:
     code: FR-08
-    country_state_id: l10n_fr_state.res_country_state_champagneardenne
+    state_id: l10n_fr_state.res_country_state_champagneardenne
     name: Ardennes
 
 - 
@@ -89,7 +89,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_ariege}:
     code: FR-09
-    country_state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Ariège
 
 - 
@@ -97,7 +97,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_aube}:
     code: FR-10
-    country_state_id: l10n_fr_state.res_country_state_champagneardenne
+    state_id: l10n_fr_state.res_country_state_champagneardenne
     name: Aube
 
 - 
@@ -105,7 +105,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_aude}:
     code: FR-11
-    country_state_id: l10n_fr_state.res_country_state_languedocroussillon
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Aude
 
 - 
@@ -113,7 +113,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_aveyron}:
     code: FR-12
-    country_state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Aveyron
 
 - 
@@ -121,7 +121,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_bouchesdurhone}:
     code: FR-13
-    country_state_id: l10n_fr_state.res_country_state_provencealpescotedazur
+    state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Bouches-du-Rhône
 
 - 
@@ -129,7 +129,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_calvados}:
     code: FR-14
-    country_state_id: l10n_fr_state.res_country_state_bassenormandie
+    state_id: l10n_fr_state.res_country_state_bassenormandie
     name: Calvados
 
 - 
@@ -137,7 +137,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_cantal}:
     code: FR-15
-    country_state_id: l10n_fr_state.res_country_state_auvergne
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Cantal
 
 - 
@@ -145,7 +145,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_charente}:
     code: FR-16
-    country_state_id: l10n_fr_state.res_country_state_poitoucharentes
+    state_id: l10n_fr_state.res_country_state_poitoucharentes
     name: Charente
 
 - 
@@ -153,7 +153,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_charentemaritime}:
     code: FR-17
-    country_state_id: l10n_fr_state.res_country_state_poitoucharentes
+    state_id: l10n_fr_state.res_country_state_poitoucharentes
     name: Charente-Maritime
 
 - 
@@ -161,7 +161,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_cher}:
     code: FR-18
-    country_state_id: l10n_fr_state.res_country_state_centre
+    state_id: l10n_fr_state.res_country_state_centre
     name: Cher
 
 - 
@@ -169,7 +169,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_corrze}:
     code: FR-19
-    country_state_id: l10n_fr_state.res_country_state_limousin
+    state_id: l10n_fr_state.res_country_state_limousin
     name: u'Corr\xe8ze'
     
     
@@ -178,7 +178,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_corsedusud}:
     code: FR-2A
-    country_state_id: l10n_fr_state.res_country_state_corse
+    state_id: l10n_fr_state.res_country_state_corse
     name: Corse-du-Sud
 
 - 
@@ -186,7 +186,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautecorse}:
     code: FR-2B
-    country_state_id: l10n_fr_state.res_country_state_corse
+    state_id: l10n_fr_state.res_country_state_corse
     name: Haute-Corse
 
 - 
@@ -194,7 +194,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_cotedor}:
     code: FR-21
-    country_state_id: l10n_fr_state.res_country_state_bourgogne
+    state_id: l10n_fr_state.res_country_state_bourgogne
     name: Côte-d'Or
 
 - 
@@ -202,7 +202,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_cotesdarmor}:
     code: FR-22
-    country_state_id: l10n_fr_state.res_country_state_bretagne
+    state_id: l10n_fr_state.res_country_state_bretagne
     name: Côtes-d'Armor
 
 - 
@@ -210,7 +210,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_creuse}:
     code: FR-23
-    country_state_id: l10n_fr_state.res_country_state_limousin
+    state_id: l10n_fr_state.res_country_state_limousin
     name: Creuse
 
 - 
@@ -218,7 +218,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_dordogne}:
     code: FR-24
-    country_state_id: l10n_fr_state.res_country_state_aquitaine
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Dordogne
 
 - 
@@ -226,7 +226,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_doubs}:
     code: FR-25
-    country_state_id: l10n_fr_state.res_country_state_franchecomte
+    state_id: l10n_fr_state.res_country_state_franchecomte
     name: Doubs
 
 - 
@@ -234,7 +234,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_drome}:
     code: FR-26
-    country_state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Drôme
 
 - 
@@ -242,7 +242,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_eure}:
     code: FR-27
-    country_state_id: l10n_fr_state.res_country_state_hautenormandie
+    state_id: l10n_fr_state.res_country_state_hautenormandie
     name: Eure
 
 - 
@@ -250,7 +250,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_eureetloir}:
     code: FR-28
-    country_state_id: l10n_fr_state.res_country_state_centre
+    state_id: l10n_fr_state.res_country_state_centre
     name: Eure-et-Loir
 
 - 
@@ -258,7 +258,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_finistere}:
     code: FR-29
-    country_state_id: l10n_fr_state.res_country_state_bretagne
+    state_id: l10n_fr_state.res_country_state_bretagne
     name: Finistère
 
 - 
@@ -266,7 +266,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_gard}:
     code: FR-30
-    country_state_id: l10n_fr_state.res_country_state_languedocroussillon
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Gard
 
 - 
@@ -274,7 +274,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautegaronne}:
     code: FR-31
-    country_state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Haute-Garonne
 
 - 
@@ -282,7 +282,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_gers}:
     code: FR-32
-    country_state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Gers
 
 - 
@@ -290,7 +290,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_gironde}:
     code: FR-33
-    country_state_id: l10n_fr_state.res_country_state_aquitaine
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Gironde
 
 - 
@@ -298,7 +298,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_herault}:
     code: FR-34
-    country_state_id: l10n_fr_state.res_country_state_languedocroussillon
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Hérault
 
 - 
@@ -306,7 +306,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_illeetvilaine}:
     code: FR-35
-    country_state_id: l10n_fr_state.res_country_state_bretagne
+    state_id: l10n_fr_state.res_country_state_bretagne
     name: Ille-et-Vilaine
 
 - 
@@ -314,7 +314,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_indre}:
     code: FR-36
-    country_state_id: l10n_fr_state.res_country_state_centre
+    state_id: l10n_fr_state.res_country_state_centre
     name: Indre
 
 - 
@@ -322,7 +322,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_indreetloire}:
     code: FR-37
-    country_state_id: l10n_fr_state.res_country_state_centre
+    state_id: l10n_fr_state.res_country_state_centre
     name: Indre-et-Loire
 
 - 
@@ -330,7 +330,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_isere}:
     code: FR-38
-    country_state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Isère
 
 - 
@@ -338,7 +338,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_jura}:
     code: FR-39
-    country_state_id: l10n_fr_state.res_country_state_franchecomte
+    state_id: l10n_fr_state.res_country_state_franchecomte
     name: Jura
 
 - 
@@ -346,7 +346,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_landes}:
     code: FR-40
-    country_state_id: l10n_fr_state.res_country_state_aquitaine
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Landes
 
 - 
@@ -354,7 +354,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_loiretcher}:
     code: FR-41
-    country_state_id: l10n_fr_state.res_country_state_centre
+    state_id: l10n_fr_state.res_country_state_centre
     name: Loir-et-Cher
 
 - 
@@ -362,7 +362,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_loire}:
     code: FR-42
-    country_state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Loire
 
 - 
@@ -370,7 +370,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hauteloire}:
     code: FR-43
-    country_state_id: l10n_fr_state.res_country_state_auvergne
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Haute-Loire
 
 - 
@@ -378,7 +378,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_loireatlantique}:
     code: FR-44
-    country_state_id: l10n_fr_state.res_country_state_paysdelaloire
+    state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Loire-Atlantique
 
 - 
@@ -386,7 +386,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_loiret}:
     code: FR-45
-    country_state_id: l10n_fr_state.res_country_state_centre
+    state_id: l10n_fr_state.res_country_state_centre
     name: Loiret
 
 - 
@@ -394,7 +394,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_lot}:
     code: FR-46
-    country_state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Lot
 
 - 
@@ -402,7 +402,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_lotetgaronne}:
     code: FR-47
-    country_state_id: l10n_fr_state.res_country_state_aquitaine
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Lot-et-Garonne
 
 - 
@@ -410,7 +410,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_lozere}:
     code: FR-48
-    country_state_id: l10n_fr_state.res_country_state_languedocroussillon
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Lozère
 
 - 
@@ -418,7 +418,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_maineetloire}:
     code: FR-49
-    country_state_id: l10n_fr_state.res_country_state_paysdelaloire
+    state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Maine-et-Loire
 
 - 
@@ -426,7 +426,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_manche}:
     code: FR-50
-    country_state_id: l10n_fr_state.res_country_state_bassenormandie
+    state_id: l10n_fr_state.res_country_state_bassenormandie
     name: Manche
 
 - 
@@ -434,7 +434,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_marne}:
     code: FR-51
-    country_state_id: l10n_fr_state.res_country_state_champagneardenne
+    state_id: l10n_fr_state.res_country_state_champagneardenne
     name: Marne
 
 - 
@@ -442,7 +442,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautemarne}:
     code: FR-52
-    country_state_id: l10n_fr_state.res_country_state_champagneardenne
+    state_id: l10n_fr_state.res_country_state_champagneardenne
     name: Haute-Marne
 
 - 
@@ -450,7 +450,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_mayenne}:
     code: FR-53
-    country_state_id: l10n_fr_state.res_country_state_paysdelaloire
+    state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Mayenne
 
 - 
@@ -458,7 +458,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_meurtheetmoselle}:
     code: FR-54
-    country_state_id: l10n_fr_state.res_country_state_lorraine
+    state_id: l10n_fr_state.res_country_state_lorraine
     name: Meurthe-et-Moselle
 
 - 
@@ -466,7 +466,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_meuse}:
     code: FR-55
-    country_state_id: l10n_fr_state.res_country_state_lorraine
+    state_id: l10n_fr_state.res_country_state_lorraine
     name: Meuse
 
 - 
@@ -474,7 +474,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_morbihan}:
     code: FR-56
-    country_state_id: l10n_fr_state.res_country_state_bretagne
+    state_id: l10n_fr_state.res_country_state_bretagne
     name: Morbihan
 
 - 
@@ -482,7 +482,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_moselle}:
     code: FR-57
-    country_state_id: l10n_fr_state.res_country_state_lorraine
+    state_id: l10n_fr_state.res_country_state_lorraine
     name: Moselle
 
 - 
@@ -490,7 +490,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_nievre}:
     code: FR-58
-    country_state_id: l10n_fr_state.res_country_state_bourgogne
+    state_id: l10n_fr_state.res_country_state_bourgogne
     name: Nièvre
 
 - 
@@ -498,7 +498,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_nord}:
     code: FR-59
-    country_state_id: l10n_fr_state.res_country_state_nordpasdecalais
+    state_id: l10n_fr_state.res_country_state_nordpasdecalais
     name: Nord
 
 - 
@@ -506,7 +506,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_oise}:
     code: FR-60
-    country_state_id: l10n_fr_state.res_country_state_picardie
+    state_id: l10n_fr_state.res_country_state_picardie
     name: Oise
 
 - 
@@ -514,7 +514,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_orne}:
     code: FR-61
-    country_state_id: l10n_fr_state.res_country_state_bassenormandie
+    state_id: l10n_fr_state.res_country_state_bassenormandie
     name: Orne
 
 - 
@@ -522,7 +522,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_pasdecalais}:
     code: FR-62
-    country_state_id: l10n_fr_state.res_country_state_nordpasdecalais
+    state_id: l10n_fr_state.res_country_state_nordpasdecalais
     name: Pas-de-Calais
 
 - 
@@ -530,7 +530,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_puydedome}:
     code: FR-63
-    country_state_id: l10n_fr_state.res_country_state_auvergne
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Puy-de-Dôme
 
 - 
@@ -538,7 +538,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_pyreneesatlantiques}:
     code: FR-64
-    country_state_id: l10n_fr_state.res_country_state_aquitaine
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Pyrénées-Atlantiques
 
 - 
@@ -546,7 +546,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautespyrenees}:
     code: FR-65
-    country_state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Hautes-Pyrénées
 
 - 
@@ -554,7 +554,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_pyreneesorientales}:
     code: FR-66
-    country_state_id: l10n_fr_state.res_country_state_languedocroussillon
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Pyrénées-Orientales
 
 - 
@@ -562,7 +562,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_basrhin}:
     code: FR-67
-    country_state_id: l10n_fr_state.res_country_state_alsace
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Bas-Rhin
 
 - 
@@ -570,7 +570,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautrhin}:
     code: FR-68
-    country_state_id: l10n_fr_state.res_country_state_alsace
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Haut-Rhin
 
 - 
@@ -578,7 +578,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_rhone}:
     code: FR-69
-    country_state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Rhône
 
 - 
@@ -586,7 +586,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautesaone}:
     code: FR-70
-    country_state_id: l10n_fr_state.res_country_state_franchecomte
+    state_id: l10n_fr_state.res_country_state_franchecomte
     name: Haute-Saône
 
 - 
@@ -594,7 +594,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_saoneetloire}:
     code: FR-71
-    country_state_id: l10n_fr_state.res_country_state_bourgogne
+    state_id: l10n_fr_state.res_country_state_bourgogne
     name: Saône-et-Loire
 
 - 
@@ -602,7 +602,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_sarthe}:
     code: FR-72
-    country_state_id: l10n_fr_state.res_country_state_paysdelaloire
+    state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Sarthe
 
 - 
@@ -610,7 +610,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_savoie}:
     code: FR-73
-    country_state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Savoie
 
 - 
@@ -618,7 +618,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautesavoie}:
     code: FR-74
-    country_state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Haute-Savoie
 
 - 
@@ -626,7 +626,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_paris}:
     code: FR-75
-    country_state_id: l10n_fr_state.res_country_state_iledefrance
+    state_id: l10n_fr_state.res_country_state_iledefrance
     name: Paris
 
 - 
@@ -634,7 +634,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_seinemaritime}:
     code: FR-76
-    country_state_id: l10n_fr_state.res_country_state_hautenormandie
+    state_id: l10n_fr_state.res_country_state_hautenormandie
     name: Seine-Maritime
 
 - 
@@ -642,7 +642,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_seineetmarne}:
     code: FR-77
-    country_state_id: l10n_fr_state.res_country_state_iledefrance
+    state_id: l10n_fr_state.res_country_state_iledefrance
     name: Seine-et-Marne
 
 - 
@@ -650,7 +650,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_yvelines}:
     code: FR-78
-    country_state_id: l10n_fr_state.res_country_state_iledefrance
+    state_id: l10n_fr_state.res_country_state_iledefrance
     name: Yvelines
 
 - 
@@ -658,7 +658,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_deuxsevres}:
     code: FR-79
-    country_state_id: l10n_fr_state.res_country_state_poitoucharentes
+    state_id: l10n_fr_state.res_country_state_poitoucharentes
     name: Deux-Sèvres
 
 - 
@@ -666,7 +666,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_somme}:
     code: FR-80
-    country_state_id: l10n_fr_state.res_country_state_picardie
+    state_id: l10n_fr_state.res_country_state_picardie
     name: Somme
 
 - 
@@ -674,7 +674,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_tarn}:
     code: FR-81
-    country_state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Tarn
 
 - 
@@ -682,7 +682,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_tarnetgaronne}:
     code: FR-82
-    country_state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Tarn-et-Garonne
 
 - 
@@ -690,7 +690,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_var}:
     code: FR-83
-    country_state_id: l10n_fr_state.res_country_state_provencealpescotedazur
+    state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Var
 
 - 
@@ -698,7 +698,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_vaucluse}:
     code: FR-84
-    country_state_id: l10n_fr_state.res_country_state_provencealpescotedazur
+    state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Vaucluse
 
 - 
@@ -706,7 +706,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_vendee}:
     code: FR-85
-    country_state_id: l10n_fr_state.res_country_state_paysdelaloire
+    state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Vendée
 
 - 
@@ -714,7 +714,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_vienne}:
     code: FR-86
-    country_state_id: l10n_fr_state.res_country_state_poitoucharentes
+    state_id: l10n_fr_state.res_country_state_poitoucharentes
     name: Vienne
 
 - 
@@ -722,7 +722,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautevienne}:
     code: FR-87
-    country_state_id: l10n_fr_state.res_country_state_limousin
+    state_id: l10n_fr_state.res_country_state_limousin
     name: Haute-Vienne
 
 - 
@@ -730,7 +730,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_vosges}:
     code: FR-88
-    country_state_id: l10n_fr_state.res_country_state_lorraine
+    state_id: l10n_fr_state.res_country_state_lorraine
     name: Vosges
 
 - 
@@ -738,7 +738,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_yonne}:
     code: FR-89
-    country_state_id: l10n_fr_state.res_country_state_bourgogne
+    state_id: l10n_fr_state.res_country_state_bourgogne
     name: Yonne
 
 - 
@@ -746,7 +746,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_territoiredebelfort}:
     code: FR-90
-    country_state_id: l10n_fr_state.res_country_state_franchecomte
+    state_id: l10n_fr_state.res_country_state_franchecomte
     name: Territoire de Belfort
 
 - 
@@ -754,7 +754,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_essonne}:
     code: FR-91
-    country_state_id: l10n_fr_state.res_country_state_iledefrance
+    state_id: l10n_fr_state.res_country_state_iledefrance
     name: Essonne
 
 - 
@@ -762,7 +762,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_hautsdeseine}:
     code: FR-92
-    country_state_id: l10n_fr_state.res_country_state_iledefrance
+    state_id: l10n_fr_state.res_country_state_iledefrance
     name: Hauts-de-Seine
 
 - 
@@ -770,7 +770,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_seinesaintdenis}:
     code: FR-93
-    country_state_id: l10n_fr_state.res_country_state_iledefrance
+    state_id: l10n_fr_state.res_country_state_iledefrance
     name: Seine-Saint-Denis
 
 - 
@@ -778,7 +778,7 @@
 - 
   !record {model: res.country.department, id: res_country_department_valdemarne}:
     code: FR-94
-    country_state_id: l10n_fr_state.res_country_state_iledefrance
+    state_id: l10n_fr_state.res_country_state_iledefrance
     name: Val-de-Marne
 
 - 
@@ -786,5 +786,5 @@
 - 
   !record {model: res.country.department, id: res_country_department_valdoise}:
     code: FR-95
-    country_state_id: l10n_fr_state.res_country_state_iledefrance
+    state_id: l10n_fr_state.res_country_state_iledefrance
     name: Val-d'Oise
