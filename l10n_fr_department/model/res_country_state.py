@@ -29,6 +29,6 @@ class res_country_state(Model):
 
     _columns = {
         'department_ids': fields.one2many(
-            'res.country.department','country_state_id', 'Departments',
+            'res.country.department','state_id', 'Departments',
             help='Departments related to this state',),
     }
