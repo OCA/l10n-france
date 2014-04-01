@@ -29,11 +29,11 @@ class res_country_department(Model):
     _name = 'res.country.department'
 
     _columns = {
-        'country_state_id': fields.many2one(
+        'state_id': fields.many2one(
             'res.country.state', 'State', required=True,
             help='State related of the current department',),
         'country_id': fields.related(
-            'country_state_id', 'country_id', type='many2one',
+            'state_id', 'country_id', type='many2one',
             relation='res.country', string='Country',
             help='Country of the related state',),
         'name': fields.char('Department Name', size=128, required=True,),
