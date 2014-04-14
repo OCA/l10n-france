@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat base module for OpenERP
-#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com/)
+#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com/)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -68,7 +68,9 @@ class report_intrastat_type(orm.Model):
 
 
     _columns = {
-        'name': fields.char('Name', size=64, help="Description of the Intrastat type."),
+        'name': fields.char(
+            'Name', size=64, required=True,
+            help="Description of the Intrastat type."),
         'active': fields.boolean('Active', help="The active field allows you to hide the Intrastat type without deleting it."),
         'object_type': fields.selection([
             ('out_invoice', 'Customer Invoice'),
@@ -150,11 +152,12 @@ class report_intrastat_type(orm.Model):
         (_code_check, "Error msg in raise", ['procedure_code', 'transaction_code']),
     ]
 
-    def procedure_code_on_change(self, cr, uid, ids, procedure_code=False):
+    def procedure_code_on_change(
+            self, cr, uid, ids, procedure_code=False, context=None):
         result = {}
         result['value'] = {}
         if procedure_code in fiscal_only_tuple:
             result['value'].update({'transaction_code': False})
-        result['value'].update(self._compute_readonly_fields(cr, uid, procedure_code))
-        #print "procedure_code_on_change result=", result
+        result['value'].update(
+            self._compute_readonly_fields(cr, uid, procedure_code))
         return result
