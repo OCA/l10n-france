@@ -38,8 +38,8 @@ class res_country_department(Model):
             help='Country of the related state',),
         'name': fields.char('Department Name', size=128, required=True,),
         'code': fields.char(
-            'Departement Code', size=5, required=True,
-            help="""The department code in max. five chars. """
+            'Departement Code', size=2, required=True,
+            help="""The department code in two chars."""
             """(ISO 3166-2 Codification)""",),
     }
 
