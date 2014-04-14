@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
+#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,11 @@ from openerp.osv import orm, fields
 class stock_location(orm.Model):
     _inherit = "stock.location"
     _columns = {
-        'intrastat_department': fields.char('Department', size=2, help="France's department where the stock location is located. This parameter is required for the DEB (Déclaration d'Echange de Biens)."),
+        'intrastat_department': fields.char(
+            'Department', size=2,
+            help="France's department where the stock location is located. "
+            "This parameter is required for the DEB "
+            "(Déclaration d'Echange de Biens)."),
     }
 
     def _check_intrastat_department(self, cr, uid, ids):
@@ -35,9 +39,11 @@ class stock_location(orm.Model):
             dpt_list.append(dpt_to_check['intrastat_department'])
         return self.pool.get('res.company').real_department_check(dpt_list)
 
-    _constraints = [
-        (_check_intrastat_department, "Error msg is in raise", ['intrastat_department']),
-    ]
+    _constraints = [(
+        _check_intrastat_department,
+        "error msg in raise",
+        ['intrastat_department']
+        )]
 
 
 class stock_picking(orm.Model):
@@ -49,9 +55,13 @@ class stock_picking(orm.Model):
             result[picking.id] = False
             start_point = False
             if picking.move_lines:
-                if picking.type == 'out' and picking.move_lines[0].location_dest_id.usage == 'customer':
+                if (picking.type == 'out'
+                        and picking.move_lines[0].location_dest_id.usage ==
+                        'customer'):
                     start_point = picking.move_lines[0].location_id
-                elif picking.type == 'in' and picking.move_lines[0].location_dest_id.usage == 'internal':
+                elif (picking.type == 'in'
+                        and picking.move_lines[0].location_dest_id.usage ==
+                        'internal'):
                     start_point = picking.move_lines[0].location_dest_id
                 while start_point:
                     if start_point.intrastat_department:
@@ -62,12 +72,11 @@ class stock_picking(orm.Model):
                         continue
                     else:
                         break
-        #print "_compute_department PICKING result=", result
         return result
 
     def _get_picking_from_move_lines(self, cr, uid, ids, context=None):
-        #print "invalid function dpt ids=", ids
-        return self.pool.get('stock.picking').search(cr, uid, [('move_lines', 'in', ids)], context=context)
+        return self.pool['stock.picking'].search(
+            cr, uid, [('move_lines', 'in', ids)], context=context)
 
     _columns = {
         'intrastat_transport': fields.selection([
@@ -79,24 +88,35 @@ class stock_picking(orm.Model):
             (7, 'Installations de transport fixes'),
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre')], 'Type of transport',
-            help="Select the type of transport of the goods. This information is required for the product intrastat report (DEB)."),
-        'intrastat_department': fields.function(_compute_department, type='char', size=2, string='Intrastat department', store={
-            'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
-            'stock.move': (_get_picking_from_move_lines, ['location_dest_id', 'location_id', 'picking_id'], 20),
-            }, help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
-            }
+            help="Select the type of transport of the goods. This information "
+            "is required for the product intrastat report (DEB)."),
+        'intrastat_department': fields.function(
+            _compute_department, type='char', size=2,
+            string='Intrastat department', store={
+                'stock.picking': (
+                    lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
+                'stock.move': (
+                    _get_picking_from_move_lines,
+                    ['location_dest_id', 'location_id', 'picking_id'], 20),
+                },
+            help='Compute the source departement for a Delivery Order, '
+            'or the destination department for an Incoming Shipment.'),
+        }
 
-
-    def _prepare_invoice(self, cr, uid, picking, partner, inv_type, journal_id, context=None):
+    def _prepare_invoice(
+            self, cr, uid, picking, partner, inv_type, journal_id,
+            context=None):
         '''Copy transport from picking to invoice'''
 
-        invoice_vals = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context=context)
+        invoice_vals = super(stock_picking, self)._prepare_invoice(
+            cr, uid, picking, partner, inv_type, journal_id, context=context)
         invoice_vals.update({
             'intrastat_transport': picking.intrastat_transport,
             'intrastat_department': picking.intrastat_department,
         })
         if picking.partner_id and picking.partner_id.country_id:
-            invoice_vals['intrastat_country_id'] = picking.partner_id.country_id.id
+            invoice_vals['intrastat_country_id'] = \
+                picking.partner_id.country_id.id
         return invoice_vals
 
 
@@ -114,9 +134,13 @@ class stock_picking_out(orm.Model):
             result[picking.id] = False
             start_point = False
             if picking.move_lines:
-                if picking.type == 'out' and picking.move_lines[0].location_dest_id.usage == 'customer':
+                if (picking.type == 'out'
+                        and picking.move_lines[0].location_dest_id.usage ==
+                        'customer'):
                     start_point = picking.move_lines[0].location_id
-                elif picking.type == 'in' and picking.move_lines[0].location_dest_id.usage == 'internal':
+                elif (picking.type == 'in'
+                        and picking.move_lines[0].location_dest_id.usage ==
+                        'internal'):
                     start_point = picking.move_lines[0].location_dest_id
                 while start_point:
                     if start_point.intrastat_department:
@@ -127,14 +151,11 @@ class stock_picking_out(orm.Model):
                         continue
                     else:
                         break
-        #print "_compute_department OUT result=", result
         return result
 
     def _get_picking_from_move_lines(self, cr, uid, ids, context=None):
-        #print "invalid function dpt ids=", ids
-        return self.pool.get('stock.picking').search(cr, uid, [('move_lines', 'in', ids)], context=context)
-
-
+        return self.pool['stock.picking'].search(
+            cr, uid, [('move_lines', 'in', ids)], context=context)
 
     _columns = {
         'intrastat_transport': fields.selection([
@@ -146,11 +167,19 @@ class stock_picking_out(orm.Model):
             (7, 'Installations de transport fixes'),
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre')], 'Type of transport',
-            help="Select the type of transport of the goods. This information is required for the product intrastat report (DEB)."),
-        'intrastat_department': fields.function(_compute_department, type='char', size=2, string='Intrastat department', store={
-            'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
-            'stock.move': (_get_picking_from_move_lines, ['location_dest_id', 'location_id', 'picking_id'], 20),
-            }, help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
+            help="Select the type of transport of the goods. This information "
+            "is required for the product intrastat report (DEB)."),
+        'intrastat_department': fields.function(
+            _compute_department, type='char', size=2,
+            string='Intrastat department', store={
+                'stock.picking': (
+                    lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
+                'stock.move': (
+                    _get_picking_from_move_lines,
+                    ['location_dest_id', 'location_id', 'picking_id'], 20),
+                },
+            help='Compute the source departement for a Delivery Order, '
+            'or the destination department for an Incoming Shipment.'),
         }
 
 
@@ -163,9 +192,13 @@ class stock_picking_in(orm.Model):
             result[picking.id] = False
             start_point = False
             if picking.move_lines:
-                if picking.type == 'out' and picking.move_lines[0].location_dest_id.usage == 'customer':
+                if (picking.type == 'out'
+                        and picking.move_lines[0].location_dest_id.usage ==
+                        'customer'):
                     start_point = picking.move_lines[0].location_id
-                elif picking.type == 'in' and picking.move_lines[0].location_dest_id.usage == 'internal':
+                elif (picking.type == 'in'
+                        and picking.move_lines[0].location_dest_id.usage ==
+                        'internal'):
                     start_point = picking.move_lines[0].location_dest_id
                 while start_point:
                     if start_point.intrastat_department:
@@ -176,13 +209,11 @@ class stock_picking_in(orm.Model):
                         continue
                     else:
                         break
-        #print "_compute_department IN result=", result
         return result
 
     def _get_picking_from_move_lines(self, cr, uid, ids, context=None):
-        #print "invalid function dpt ids=", ids
-        return self.pool.get('stock.picking').search(cr, uid, [('move_lines', 'in', ids)], context=context)
-
+        return self.pool['stock.picking'].search(
+            cr, uid, [('move_lines', 'in', ids)], context=context)
 
     _columns = {
         'intrastat_transport': fields.selection([
@@ -194,9 +225,17 @@ class stock_picking_in(orm.Model):
             (7, 'Installations de transport fixes'),
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre')], 'Type of transport',
-            help="Select the type of transport of the goods. This information is required for the product intrastat report (DEB)."),
-        'intrastat_department': fields.function(_compute_department, type='char', size=2, string='Intrastat department', store={
-            'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
-            'stock.move': (_get_picking_from_move_lines, ['location_dest_id', 'location_id', 'picking_id'], 20),
-            }, help='Compute the source departement for an Outgoing product, or the destination department for an Incoming product.'),
+            help="Select the type of transport of the goods. This information "
+            "is required for the product intrastat report (DEB)."),
+        'intrastat_department': fields.function(
+            _compute_department, type='char', size=2,
+            string='Intrastat department', store={
+                'stock.picking': (
+                    lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
+                'stock.move': (
+                    _get_picking_from_move_lines,
+                    ['location_dest_id', 'location_id', 'picking_id'], 20),
+                },
+            help='Compute the source departement for a Delivery Order, '
+            'or the destination department for an Incoming Shipment.'),
         }

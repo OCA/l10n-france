@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2009-2013 Akretion (http://www.akretion.com)
+#    Copyright (C) 2009-2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import openerp.addons.decimal_precision as dp
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import logging
+from lxml import etree
 
 logger = logging.getLogger(__name__)
 
@@ -142,11 +143,15 @@ class report_intrastat_product(orm.Model):
     }
 
 
-    def type_on_change(self, cr, uid, ids, company_id=False, type=False):
+    def type_on_change(
+            self, cr, uid, ids, company_id=False, type=False, context=None):
         result = {}
         result['value'] = {}
         if type and company_id:
-            company = self.pool.get('res.company').read(cr, uid, company_id, ['export_obligation_level', 'import_obligation_level'])
+            company = self.pool['res.company'].read(
+                cr, uid, company_id,
+                ['export_obligation_level', 'import_obligation_level'],
+                context=context)
             if type == 'import':
                 if company['import_obligation_level']:
                     if company['import_obligation_level'] == 'detailed':
@@ -179,31 +184,31 @@ class report_intrastat_product(orm.Model):
         ('date_uniq', 'unique(start_date, company_id, type)', 'A DEB of the same type already exists for this month !'),
     ]
 
-    def _get_id_from_xmlid(self, cr, uid, module, xml_id, model_name, context=None):
-        irdata_obj = self.pool.get('ir.model.data')
-        res = irdata_obj.get_object_reference(cr, uid, module, xml_id)
-        if res[0] == model_name:
-            res_id = res[1]
-        else:
-            raise orm.except_orm(_('Error :'), 'Hara kiri %s in _get_id_from_xmlid' % xml_id)
-        return res_id
-
-    def create_intrastat_product_lines(self, cr, uid, ids, intrastat, invoice, parent_values, context=None):
+    def create_intrastat_product_lines(
+            self, cr, uid, ids, intrastat, invoice, parent_values,
+            context=None):
         """This function is called for each invoice"""
-        #print "create_intrastat_product_line ids=", ids
-
         assert len(ids) == 1, "Only one ID accepted"
         if context is None:
             context = {}
-        line_obj = self.pool.get('report.intrastat.product.line')
+        line_obj = self.pool['report.intrastat.product.line']
 
-        weight_uom_categ_id = self._get_id_from_xmlid(cr, uid, 'product', 'product_uom_categ_kgm', 'product.uom.categ', context=context)
+        data_obj = self.pool['ir.model.data']
+        uom_categ_model, weight_uom_categ_id = data_obj.get_object_reference(
+            cr, uid, 'product', 'product_uom_categ_kgm')
+        assert uom_categ_model == 'product.uom.categ', 'Wrong model uom categ'
 
-        kg_uom_id = self._get_id_from_xmlid(cr, uid, 'product', 'product_uom_kgm', 'product.uom', context=context)
+        uom_model, kg_uom_id = data_obj.get_object_reference(
+            cr, uid, 'product', 'product_uom_kgm')
+        assert uom_model == 'product.uom', 'Wrong model uom'
 
-        pce_uom_categ_id = self._get_id_from_xmlid(cr, uid, 'product', 'product_uom_categ_unit', 'product.uom.categ', context=context)
+        uom_categ_model, pce_uom_categ_id = data_obj.get_object_reference(
+            cr, uid, 'product', 'product_uom_categ_unit')
+        assert uom_categ_model == 'product.uom.categ', 'Wrong model uom categ'
 
-        pce_uom_id = self._get_id_from_xmlid(cr, uid, 'product', 'product_uom_unit', 'product.uom', context=context)
+        uom_model, pce_uom_id = data_obj.get_object_reference(
+            cr, uid, 'product', 'product_uom_unit')
+        assert uom_model == 'product.uom', 'Wrong model uom'
 
         lines_to_create = []
         total_invoice_cur_accessory_cost = 0.0
@@ -582,9 +587,6 @@ class report_intrastat_product(orm.Model):
 
     def generate_xml(self, cr, uid, ids, context=None):
         '''Generate the INSTAT XML file export.'''
-        #print "generate_xml ids=", ids
-        from lxml import etree
-        import deb_xsd
         intrastat = self.browse(cr, uid, ids[0], context=context)
         start_date_str = intrastat.start_date
         end_date_str = intrastat.end_date
@@ -724,7 +726,7 @@ class report_intrastat_product(orm.Model):
         xml_string = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         # We now validate the XML file against the official XML Schema Definition
         # Because we may catch some problems with the content of the XML file this way
-        self.pool.get('report.intrastat.common')._check_xml_schema(cr, uid, root, xml_string, deb_xsd.deb_xsd, context=context)
+        self.pool.get('report.intrastat.common')._check_xml_schema(cr, uid, root, xml_string, 'l10n_fr_intrastat_product/data/deb.xsd', context=context)
         # Attach the XML file to the current object
         attach_id = self.pool.get('report.intrastat.common')._attach_xml_file(cr, uid, ids, self, xml_string, start_date_datetime, 'deb', context=context)
         return self.pool.get('report.intrastat.common')._open_attach_view(cr, uid, attach_id, title="DEB XML file", context=context)
@@ -765,7 +767,7 @@ class report_intrastat_product(orm.Model):
                     logger.info('An %s Intrastat Product for month %s has been created by OpenERP for company %s' % (type, previous_month, company.name))
                     try:
                         self.generate_product_lines_from_invoice(cr, uid, [intrastat_id], context=context)
-                    except Exception as e:  # TODO filter on exception from except_orm
+                    except orm.except_orm as e:
                         context['exception'] = True
                         context['error_msg'] = e[1]
 
@@ -854,27 +856,42 @@ class report_intrastat_product_line(orm.Model):
     ]
 
 
-    def partner_on_change(self, cr, uid, ids, partner_id=False):
-        return self.pool.get('report.intrastat.common').partner_on_change(cr, uid, ids, partner_id)
+    def partner_on_change(self, cr, uid, ids, partner_id=False, context=None):
+        return self.pool['report.intrastat.common'].partner_on_change(
+            cr, uid, ids, partner_id, context=context)
 
-    def intrastat_code_on_change(self, cr, uid, ids, intrastat_code_id=False):
+    def intrastat_code_on_change(
+            self, cr, uid, ids, intrastat_code_id=False, context=None):
         result = {}
         result['value'] = {}
         if intrastat_code_id:
-            intrastat_code = self.pool.get('report.intrastat.code').browse(cr, uid, intrastat_code_id)
+            intrastat_code = self.pool['report.intrastat.code'].browse(
+                cr, uid, intrastat_code_id, context=context)
             if intrastat_code.intrastat_uom_id:
-                result['value'].update({'intrastat_code': intrastat_code.intrastat_code, 'intrastat_uom_id': intrastat_code.intrastat_uom_id.id})
+                result['value'].update({
+                    'intrastat_code': intrastat_code.intrastat_code,
+                    'intrastat_uom_id': intrastat_code.intrastat_uom_id.id,
+                    })
             else:
-                result['value'].update({'intrastat_code': intrastat_code.intrastat_code, 'intrastat_uom_id': False})
+                result['value'].update({
+                    'intrastat_code': intrastat_code.intrastat_code,
+                    'intrastat_uom_id': False,
+                    })
         return result
 
-    def intrastat_type_on_change(self, cr, uid, ids, intrastat_type_id=False, type=False, obligation_level=False):
+    def intrastat_type_on_change(
+            self, cr, uid, ids, intrastat_type_id=False, type=False,
+            obligation_level=False, context=None):
         result = {}
         result['value'] = {}
         if obligation_level == 'simplified':
             result['value'].update({'is_fiscal_only': True})
         if intrastat_type_id:
-            intrastat_type = self.pool.get('report.intrastat.type').read(cr, uid, intrastat_type_id, ['procedure_code', 'transaction_code', 'is_fiscal_only', 'is_vat_required'])
+            intrastat_type = self.pool['report.intrastat.type'].read(
+                cr, uid, intrastat_type_id, [
+                    'procedure_code', 'transaction_code',
+                    'is_fiscal_only', 'is_vat_required',
+                    ], context=context)
             result['value'].update({'procedure_code': intrastat_type['procedure_code'], 'transaction_code': intrastat_type['transaction_code'], 'is_vat_required': intrastat_type['is_vat_required']})
             if obligation_level == 'detailed':
                 result['value'].update({'is_fiscal_only': intrastat_type['is_fiscal_only']})
