@@ -36,11 +36,10 @@ Feature:
 
 Technical information:
 ----------------------
-    * Use 3166-2:FR codifications (more detail """
+    * Use 3166-2:FR codifications without country prefix (more detail """
     """http://fr.wikipedia.org/wiki/ISO_3166-2:FR);
     * Only populate inner states; (no Guyane, Mayotte, etc...) because """
     """there are in the res_country table;
-    * Change res_country_state.code size. (3 to 4);
 
 Copyright, Authors and Licence:
 -------------------------------
