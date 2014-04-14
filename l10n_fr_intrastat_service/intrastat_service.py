@@ -120,7 +120,7 @@ class report_intrastat_service(orm.Model):
         'start_date': lambda *a: datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m-%d'),
         'state': 'draft',
         'company_id': lambda self, cr, uid, context:
-            self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id,
+            self.pool['res.company']._company_default_get(cr, uid, 'report.intrastat.service', context=context),
         }
 
 
