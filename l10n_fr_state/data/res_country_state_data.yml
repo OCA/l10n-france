@@ -23,7 +23,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_alsace}:
-    code: FR-A
+    code: A
     country_id: base.fr
     name: Alsace
 
@@ -31,7 +31,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_aquitaine}:
-    code: FR-B
+    code: B
     country_id: base.fr
     name: Aquitaine
 
@@ -39,7 +39,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_auvergne}:
-    code: FR-C
+    code: C
     country_id: base.fr
     name: Auvergne
 
@@ -47,7 +47,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_bourgogne}:
-    code: FR-D
+    code: D
     country_id: base.fr
     name: Bourgogne
 
@@ -55,7 +55,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_bretagne}:
-    code: FR-E
+    code: E
     country_id: base.fr
     name: Bretagne
 
@@ -63,7 +63,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_centre}:
-    code: FR-F
+    code: F
     country_id: base.fr
     name: Centre
 
@@ -71,7 +71,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_champagneardenne}:
-    code: FR-G
+    code: G
     country_id: base.fr
     name: Champagne-Ardenne
 
@@ -79,7 +79,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_corse}:
-    code: FR-H
+    code: H
     country_id: base.fr
     name: Corse
 
@@ -87,7 +87,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_franchecomte}:
-    code: FR-I
+    code: I
     country_id: base.fr
     name: Franche-Comté
 
@@ -95,7 +95,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_iledefrance}:
-    code: FR-J
+    code: J
     country_id: base.fr
     name: Île-de-France
 
@@ -103,7 +103,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_languedocroussillon}:
-    code: FR-K
+    code: K
     country_id: base.fr
     name: Languedoc-Roussillon
 
@@ -111,7 +111,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_limousin}:
-    code: FR-L
+    code: L
     country_id: base.fr
     name: Limousin
 
@@ -119,7 +119,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_lorraine}:
-    code: FR-M
+    code: M
     country_id: base.fr
     name: Lorraine
 
@@ -127,7 +127,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_midipyrenees}:
-    code: FR-N
+    code: N
     country_id: base.fr
     name: Midi-Pyrénées
 
@@ -135,7 +135,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_nordpasdecalais}:
-    code: FR-O
+    code: O
     country_id: base.fr
     name: Nord-Pas-de-Calais
 
@@ -143,7 +143,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_bassenormandie}:
-    code: FR-P
+    code: P
     country_id: base.fr
     name: Basse-Normandie
 
@@ -151,7 +151,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_hautenormandie}:
-    code: FR-Q
+    code: Q
     country_id: base.fr
     name: Haute-Normandie
 
@@ -159,14 +159,14 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_paysdelaloire}:
-    code: FR-R
+    code: R
     country_id: base.fr
     name: Pays de la Loire
 - 
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_picardie}:
-    code: FR-S
+    code: S
     country_id: base.fr
     name: Picardie
 
@@ -174,7 +174,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_poitoucharentes}:
-    code: FR-T
+    code: T
     country_id: base.fr
     name: Poitou-Charentes
 
@@ -182,7 +182,7 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_provencealpescotedazur}:
-    code: FR-U
+    code: U
     country_id: base.fr
     name: Provence-Alpes-Côte d'Azur
 
@@ -190,6 +190,6 @@
   Creating a res.country.state record
 - 
   !record {model: res.country.state, id: res_country_state_rhonealpes}:
-    code: FR-V
+    code: V
     country_id: base.fr
     name: Rhône-Alpes
