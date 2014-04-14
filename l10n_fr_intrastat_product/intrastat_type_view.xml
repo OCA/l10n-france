@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2010-2013 Akretion (http://www.akretion.com/)
+    Copyright (C) 2010-2014 Akretion (http://www.akretion.com/)
     The licence is in the file __openerp__.py
 -->
 
@@ -46,7 +46,7 @@
             <field name="name" />
             <field name="active" />
             <field name="object_type" />
-            <field name="procedure_code" on_change="procedure_code_on_change(procedure_code)" />
+            <field name="procedure_code" on_change="procedure_code_on_change(procedure_code, context)" />
             <!-- I can't set the field name="transaction_code" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}" because it breaks the on_change on field procedure_code -->
             <field name="transaction_code" />
             <field name="is_fiscal_only" />
