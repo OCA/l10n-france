@@ -16,8 +16,8 @@
     <field name="inherit_id" ref="intrastat_base.intrastat_base_product_normal_form" />
     <field name="arch" type="xml">
         <field name="exclude_from_intrastat" position="before">
-            <field name="intrastat_id" />
-            <field name="country_id"/>
+            <field name="intrastat_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
+            <field name="country_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
         </field>
     </field>
 </record>
@@ -29,8 +29,8 @@
     <field name="inherit_id" ref="intrastat_base.intrastat_base_product_template_form"/>
     <field name="arch" type="xml">
         <field name="exclude_from_intrastat" position="before">
-            <field name="intrastat_id" />
-            <field name="country_id"/>
+            <field name="intrastat_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
+            <field name="country_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
         </field>
     </field>
 </record>
