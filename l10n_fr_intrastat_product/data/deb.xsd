@@ -1,6 +1,3 @@
-# -*- encoding: utf-8 -*-
-
-deb_xsd = '''\
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <xsd:element name="INSTAT">
@@ -140,4 +137,3 @@ deb_xsd = '''\
 <xsd:element name="date" type="xsd:date"/>
 <xsd:element name="time" type="xsd:time"/>
 </xsd:schema>
-'''

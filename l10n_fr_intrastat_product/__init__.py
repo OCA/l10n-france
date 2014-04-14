@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com)
+#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
