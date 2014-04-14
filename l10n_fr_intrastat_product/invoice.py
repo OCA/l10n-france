@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Report intrastat product module for OpenERP
-#    Copyright (C) 2010-2013 Akretion (http://www.akretion.com). All Rights Reserved
+#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -36,11 +36,23 @@ class account_invoice(orm.Model):
             (8, 'Transport par navigation intérieure'),
             (9, 'Propulsion propre')
             ], 'Type of transport',
-            help="Type of transport of the goods. This information is required for the product intrastat report (DEB)."),
-        'intrastat_department': fields.char('Department', size=2, help="For a customer invoice, contains France's department number from which the goods have be shipped. For a supplier invoice, contains France's department number of reception of the goods. This information is required for the product intrastat report (DEB)."),
-        'intrastat_country_id': fields.many2one('res.country', 'Destination/Origin country of the goods', help="For a customer invoice, contains the country to which the goods have been shipped. For a supplier invoice, contains the country from which the goods have been shipped."),
-        'intrastat_type_id': fields.many2one('report.intrastat.type', 'Intrastat type'),
-            }
+            help="Type of transport of the goods. This information is "
+            "required for the product intrastat report (DEB)."),
+        'intrastat_department': fields.char(
+            'Department', size=2,
+            help="For a customer invoice, contains France's department "
+            "number from which the goods have be shipped. For a supplier "
+            "invoice, contains France's department number of reception "
+            "of the goods. This information is required for the product "
+            "intrastat report (DEB)."),
+        'intrastat_country_id': fields.many2one(
+            'res.country', 'Destination/Origin country of the goods',
+            help="For a customer invoice, contains the country to which "
+            "the goods have been shipped. For a supplier invoice, contains "
+            "the country from which the goods have been shipped."),
+        'intrastat_type_id': fields.many2one(
+            'report.intrastat.type', 'Intrastat type'),
+        }
 
     def _check_intrastat_department(self, cr, uid, ids):
         dpt_list = []
@@ -48,6 +60,8 @@ class account_invoice(orm.Model):
             dpt_list.append(dpt_to_check['intrastat_department'])
         return self.pool.get('res.company').real_department_check(dpt_list)
 
-    _constraints = [
-        (_check_intrastat_department, "Error msg is in raise", ['intrastat_department']),
-    ]
+    _constraints = [(
+        _check_intrastat_department,
+        "error msg is in raise",
+        ['intrastat_department']
+        )]
