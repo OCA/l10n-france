@@ -24,7 +24,7 @@
 {
     'name': 'France - FEC',
     'version': '0.1',
-    'category': 'Accounting & Finance',
+    'category': 'French Localization',
     'license': 'AGPL-3',
     'summary': "Fichier d'Échange Informatisé (FEC) for France",
     'description': """
