@@ -2,7 +2,7 @@
 ###############################################################################
 #
 #   l10n_fr_account_fiscal_position_rule for OpenERP
-#   Copyright (C) 2012-TODAY Akretion <http://www.akretion.com>. All Rights Reserved
+#   Copyright (C) 2012-TODAY Akretion <http://www.akretion.com>.
 #     @author Sébastien BEAU <sebastien.beau@akretion.com>
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU Affero General Public License as
@@ -20,23 +20,21 @@
 ###############################################################################
 
 
-
-
-{
-    'name': 'l10n_fr_account_fiscal_position_rule',
-    'version': '0.1',
-    'category': 'Generic Modules/Others',
-    'license': 'AGPL-3',
-    'description': """empty""",
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com/',
-    'depends': ['account_fiscal_position_rule'], 
-    'init_xml': [],
-    'update_xml': [ 
-           'settings/account.fiscal.position.rule.template.csv',
-           ],
-    'demo_xml': [],
-    'installable': True,
-    'active': False,
+{'name': 'l10n_fr_account_fiscal_position_rule',
+ 'version': '0.0.1',
+ 'author': 'Akretion',
+ 'website': 'www.akretion.com',
+ 'license': 'AGPL-3',
+ 'category': 'French Localization',
+ 'description': """French Fiscal rule for the setting automatically the
+ fiscal position depending of the address.
+ """,
+ 'depends': [
+     'account_fiscal_position_rule',
+ ],
+ 'data': [
+     'settings/account.fiscal.position.rule.template.csv',
+ ],
+ 'installable': True,
+ 'application': True,
 }
-
