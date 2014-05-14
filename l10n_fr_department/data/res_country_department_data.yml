@@ -20,771 +20,867 @@
 #
 ##############################################################################
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_ain}:
     code: '01'
     state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Ain
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_aisne}:
     code: '02'
     state_id: l10n_fr_state.res_country_state_picardie
     name: Aisne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_allier}:
     code: '03'
     state_id: l10n_fr_state.res_country_state_auvergne
     name: Allier
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_alpesdehauteprovence}:
     code: '04'
     state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Alpes-de-Haute-Provence
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautesalpes}:
     code: '05'
     state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Hautes-Alpes
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_alpesmaritimes}:
     code: '06'
     state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Alpes-Maritimes
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_ardeche}:
     code: '07'
     state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Ardèche
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_ardennes}:
     code: '08'
     state_id: l10n_fr_state.res_country_state_champagneardenne
     name: Ardennes
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_ariege}:
     code: '09'
     state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Ariège
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_aube}:
     code: 10
     state_id: l10n_fr_state.res_country_state_champagneardenne
     name: Aube
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_aude}:
     code: 11
     state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Aude
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_aveyron}:
     code: 12
     state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Aveyron
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_bouchesdurhone}:
     code: 13
     state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Bouches-du-Rhône
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_calvados}:
     code: 14
     state_id: l10n_fr_state.res_country_state_bassenormandie
     name: Calvados
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_cantal}:
     code: 15
     state_id: l10n_fr_state.res_country_state_auvergne
     name: Cantal
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_charente}:
     code: 16
     state_id: l10n_fr_state.res_country_state_poitoucharentes
     name: Charente
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_charentemaritime}:
     code: 17
     state_id: l10n_fr_state.res_country_state_poitoucharentes
     name: Charente-Maritime
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_cher}:
     code: 18
     state_id: l10n_fr_state.res_country_state_centre
     name: Cher
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_corrze}:
     code: 19
     state_id: l10n_fr_state.res_country_state_limousin
-    name: u'Corr\xe8ze'
-    
-    
-- 
+    name: Corrèze
+    country_id: base.fr
+
+
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_corsedusud}:
     code: 2A
     state_id: l10n_fr_state.res_country_state_corse
     name: Corse-du-Sud
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautecorse}:
     code: 2B
     state_id: l10n_fr_state.res_country_state_corse
     name: Haute-Corse
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_cotedor}:
     code: 21
     state_id: l10n_fr_state.res_country_state_bourgogne
     name: Côte-d'Or
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_cotesdarmor}:
     code: 22
     state_id: l10n_fr_state.res_country_state_bretagne
     name: Côtes-d'Armor
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_creuse}:
     code: 23
     state_id: l10n_fr_state.res_country_state_limousin
     name: Creuse
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_dordogne}:
     code: 24
     state_id: l10n_fr_state.res_country_state_aquitaine
     name: Dordogne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_doubs}:
     code: 25
     state_id: l10n_fr_state.res_country_state_franchecomte
     name: Doubs
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_drome}:
     code: 26
     state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Drôme
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_eure}:
     code: 27
     state_id: l10n_fr_state.res_country_state_hautenormandie
     name: Eure
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_eureetloir}:
     code: 28
     state_id: l10n_fr_state.res_country_state_centre
     name: Eure-et-Loir
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_finistere}:
     code: 29
     state_id: l10n_fr_state.res_country_state_bretagne
     name: Finistère
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_gard}:
     code: 30
     state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Gard
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautegaronne}:
     code: 31
     state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Haute-Garonne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_gers}:
     code: 32
     state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Gers
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_gironde}:
     code: 33
     state_id: l10n_fr_state.res_country_state_aquitaine
     name: Gironde
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_herault}:
     code: 34
     state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Hérault
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_illeetvilaine}:
     code: 35
     state_id: l10n_fr_state.res_country_state_bretagne
     name: Ille-et-Vilaine
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_indre}:
     code: 36
     state_id: l10n_fr_state.res_country_state_centre
     name: Indre
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_indreetloire}:
     code: 37
     state_id: l10n_fr_state.res_country_state_centre
     name: Indre-et-Loire
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_isere}:
     code: 38
     state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Isère
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_jura}:
     code: 39
     state_id: l10n_fr_state.res_country_state_franchecomte
     name: Jura
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_landes}:
     code: 40
     state_id: l10n_fr_state.res_country_state_aquitaine
     name: Landes
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_loiretcher}:
     code: 41
     state_id: l10n_fr_state.res_country_state_centre
     name: Loir-et-Cher
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_loire}:
     code: 42
     state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Loire
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hauteloire}:
     code: 43
     state_id: l10n_fr_state.res_country_state_auvergne
     name: Haute-Loire
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_loireatlantique}:
     code: 44
     state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Loire-Atlantique
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_loiret}:
     code: 45
     state_id: l10n_fr_state.res_country_state_centre
     name: Loiret
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_lot}:
     code: 46
     state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Lot
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_lotetgaronne}:
     code: 47
     state_id: l10n_fr_state.res_country_state_aquitaine
     name: Lot-et-Garonne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_lozere}:
     code: 48
     state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Lozère
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_maineetloire}:
     code: 49
     state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Maine-et-Loire
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_manche}:
     code: 50
     state_id: l10n_fr_state.res_country_state_bassenormandie
     name: Manche
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_marne}:
     code: 51
     state_id: l10n_fr_state.res_country_state_champagneardenne
     name: Marne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautemarne}:
     code: 52
     state_id: l10n_fr_state.res_country_state_champagneardenne
     name: Haute-Marne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_mayenne}:
     code: 53
     state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Mayenne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_meurtheetmoselle}:
     code: 54
     state_id: l10n_fr_state.res_country_state_lorraine
     name: Meurthe-et-Moselle
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_meuse}:
     code: 55
     state_id: l10n_fr_state.res_country_state_lorraine
     name: Meuse
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_morbihan}:
     code: 56
     state_id: l10n_fr_state.res_country_state_bretagne
     name: Morbihan
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_moselle}:
     code: 57
     state_id: l10n_fr_state.res_country_state_lorraine
     name: Moselle
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_nievre}:
     code: 58
     state_id: l10n_fr_state.res_country_state_bourgogne
     name: Nièvre
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_nord}:
     code: 59
     state_id: l10n_fr_state.res_country_state_nordpasdecalais
     name: Nord
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_oise}:
     code: 60
     state_id: l10n_fr_state.res_country_state_picardie
     name: Oise
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_orne}:
     code: 61
     state_id: l10n_fr_state.res_country_state_bassenormandie
     name: Orne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_pasdecalais}:
     code: 62
     state_id: l10n_fr_state.res_country_state_nordpasdecalais
     name: Pas-de-Calais
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_puydedome}:
     code: 63
     state_id: l10n_fr_state.res_country_state_auvergne
     name: Puy-de-Dôme
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_pyreneesatlantiques}:
     code: 64
     state_id: l10n_fr_state.res_country_state_aquitaine
     name: Pyrénées-Atlantiques
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautespyrenees}:
     code: 65
     state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Hautes-Pyrénées
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_pyreneesorientales}:
     code: 66
     state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Pyrénées-Orientales
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_basrhin}:
     code: 67
     state_id: l10n_fr_state.res_country_state_alsace
     name: Bas-Rhin
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautrhin}:
     code: 68
     state_id: l10n_fr_state.res_country_state_alsace
     name: Haut-Rhin
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_rhone}:
     code: 69
     state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Rhône
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautesaone}:
     code: 70
     state_id: l10n_fr_state.res_country_state_franchecomte
     name: Haute-Saône
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_saoneetloire}:
     code: 71
     state_id: l10n_fr_state.res_country_state_bourgogne
     name: Saône-et-Loire
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_sarthe}:
     code: 72
     state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Sarthe
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_savoie}:
     code: 73
     state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Savoie
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautesavoie}:
     code: 74
     state_id: l10n_fr_state.res_country_state_rhonealpes
     name: Haute-Savoie
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_paris}:
     code: 75
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Paris
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_seinemaritime}:
     code: 76
     state_id: l10n_fr_state.res_country_state_hautenormandie
     name: Seine-Maritime
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_seineetmarne}:
     code: 77
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Seine-et-Marne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_yvelines}:
     code: 78
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Yvelines
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_deuxsevres}:
     code: 79
     state_id: l10n_fr_state.res_country_state_poitoucharentes
     name: Deux-Sèvres
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_somme}:
     code: 80
     state_id: l10n_fr_state.res_country_state_picardie
     name: Somme
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_tarn}:
     code: 81
     state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Tarn
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_tarnetgaronne}:
     code: 82
     state_id: l10n_fr_state.res_country_state_midipyrenees
     name: Tarn-et-Garonne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_var}:
     code: 83
     state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Var
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_vaucluse}:
     code: 84
     state_id: l10n_fr_state.res_country_state_provencealpescotedazur
     name: Vaucluse
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_vendee}:
     code: 85
     state_id: l10n_fr_state.res_country_state_paysdelaloire
     name: Vendée
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_vienne}:
     code: 86
     state_id: l10n_fr_state.res_country_state_poitoucharentes
     name: Vienne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautevienne}:
     code: 87
     state_id: l10n_fr_state.res_country_state_limousin
     name: Haute-Vienne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_vosges}:
     code: 88
     state_id: l10n_fr_state.res_country_state_lorraine
     name: Vosges
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_yonne}:
     code: 89
     state_id: l10n_fr_state.res_country_state_bourgogne
     name: Yonne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_territoiredebelfort}:
     code: 90
     state_id: l10n_fr_state.res_country_state_franchecomte
     name: Territoire de Belfort
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_essonne}:
     code: 91
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Essonne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_hautsdeseine}:
     code: 92
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Hauts-de-Seine
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_seinesaintdenis}:
     code: 93
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Seine-Saint-Denis
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_valdemarne}:
     code: 94
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Val-de-Marne
+    country_id: base.fr
 
-- 
+-
   Creating a res.country.department record
-- 
+-
   !record {model: res.country.department, id: res_country_department_valdoise}:
     code: 95
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Val-d'Oise
+    country_id: base.fr
