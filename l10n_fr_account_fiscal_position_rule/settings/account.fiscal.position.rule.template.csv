@@ -18,7 +18,7 @@ rule_partner_euro_b2c_it,,base.fr,base.it,,,Particulier Italie,20,True,True,True
 rule_partner_euro_b2c_lt,,base.fr,base.lt,,,Particulier Lituanie,20,True,True,True,False,without
 rule_partner_euro_b2c_lu,,base.fr,base.lu,,,Particulier Luxembourg,20,True,True,True,False,without
 rule_partner_euro_b2c_lv,,base.fr,base.lv,,,Particulier Lettonie,20,True,True,True,False,without
-rule_partner_euro_b2c_mt,,base.fr,base.mt,,,Particulier Malte  MT,20,True,True,True,False,without
+rule_partner_euro_b2c_mt,,base.fr,base.mt,,,Particulier Malte,20,True,True,True,False,without
 rule_partner_euro_b2c_nl,,base.fr,base.nl,,,Particulier Pays-Bas,20,True,True,True,False,without
 rule_partner_euro_b2c_pl,,base.fr,base.pl,,,Particulier Pologne,20,True,True,True,False,without
 rule_partner_euro_b2c_pt,,base.fr,base.pt,,,Particulier Portugal,20,True,True,True,False,without
@@ -27,6 +27,7 @@ rule_partner_euro_b2c_se,,base.fr,base.se,,,Particulier Suède,20,True,True,True
 rule_partner_euro_b2c_si,,base.fr,base.si,,,Particulier Slovénie,20,True,True,True,False,without
 rule_partner_euro_b2c_sk,,base.fr,base.sk,,,Particulier République Slovaque,20,True,True,True,False,without
 rule_partner_euro_b2c_uk,,base.fr,base.uk,,,Particulier Royaume-Uni,20,True,True,True,False,without
+rule_partner_euro_b2c_hr,,base.fr,base.hr,,,Particulier Croatie,20,True,True,True,False,without
 rule_partner_euro_b2b_at,,base.fr,base.at,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Autriche,30,True,True,True,False,with
 rule_partner_euro_b2b_be,,base.fr,base.be,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Belgique,30,True,True,True,False,with
 rule_partner_euro_b2b_bg,,base.fr,base.bg,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Bulgarie,30,True,True,True,False,with
@@ -44,7 +45,7 @@ rule_partner_euro_b2b_it,,base.fr,base.it,,l10n_fr.fiscal_position_template_intr
 rule_partner_euro_b2b_lt,,base.fr,base.lt,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Lituanie,30,True,True,True,False,with
 rule_partner_euro_b2b_lu,,base.fr,base.lu,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Luxembourg,30,True,True,True,False,with
 rule_partner_euro_b2b_lv,,base.fr,base.lv,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Lettonie,30,True,True,True,False,with
-rule_partner_euro_b2b_mt,,base.fr,base.mt,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Malte  MT,30,True,True,True,False,with
+rule_partner_euro_b2b_mt,,base.fr,base.mt,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Malte,30,True,True,True,False,with
 rule_partner_euro_b2b_nl,,base.fr,base.nl,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Pays-Bas,30,True,True,True,False,with
 rule_partner_euro_b2b_pl,,base.fr,base.pl,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Pologne,30,True,True,True,False,with
 rule_partner_euro_b2b_pt,,base.fr,base.pt,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Portugal,30,True,True,True,False,with
@@ -53,4 +54,5 @@ rule_partner_euro_b2b_se,,base.fr,base.se,,l10n_fr.fiscal_position_template_intr
 rule_partner_euro_b2b_si,,base.fr,base.si,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Slovénie,30,True,True,True,False,with
 rule_partner_euro_b2b_sk,,base.fr,base.sk,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel République Slovaque,30,True,True,True,False,with
 rule_partner_euro_b2b_uk,,base.fr,base.uk,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Royaume-Uni,30,True,True,True,False,with
+rule_partner_euro_b2b_hr,,base.fr,base.hr,,l10n_fr.fiscal_position_template_intraeub2b,Professionnel Croatie,30,True,True,True,False,with
 rule_catch_all,,base.fr,,,l10n_fr.fiscal_position_template_import_export,Monde,40,True,True,True,False,both

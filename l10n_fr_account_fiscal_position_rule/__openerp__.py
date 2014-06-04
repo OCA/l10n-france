@@ -26,8 +26,8 @@
  'website': 'www.akretion.com',
  'license': 'AGPL-3',
  'category': 'French Localization',
- 'description': """French Fiscal rule for the setting automatically the
- fiscal position depending of the address.
+ 'description': """French Fiscal rule to set automatically the
+ fiscal position depending on the partner address
  """,
  'depends': [
      'account_fiscal_position_rule',
