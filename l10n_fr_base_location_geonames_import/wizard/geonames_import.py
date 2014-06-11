@@ -31,7 +31,9 @@ class better_zip_geonames_import(orm.TransientModel):
             self, cr, uid, row, country_id, states, context=None):
         res = super(better_zip_geonames_import, self)._prepare_better_zip(
             cr, uid, row, country_id, states, context=context)
-        if row[0] == 'FR':
+        if row[0] in [
+                'FR', 'RE', 'GP', 'MQ', 'GF', 'YT', 'BL', 'MF', 'PM',
+                'PF', 'NC', 'WF', 'MC', 'AD']:
             # Modify city and zip to comply with French postal standards
             res['city'] = unidecode(res['city']).upper().replace('-', ' ')
             # Try to comply with the standard that says res['city'] name is
