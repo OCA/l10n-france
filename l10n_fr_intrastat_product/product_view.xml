@@ -9,24 +9,11 @@
 <openerp>
 <data>
 
-<!-- Add fields on product.product view -->
-<record id="fr_intrastat_product_normal_form" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.normal.form</field>
-    <field name="model">product.product</field>
-    <field name="inherit_id" ref="intrastat_base.intrastat_base_product_normal_form" />
-    <field name="arch" type="xml">
-        <field name="exclude_from_intrastat" position="before">
-            <field name="intrastat_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
-            <field name="country_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
-        </field>
-    </field>
-</record>
-
-<!-- Same on product.template view -->
-<record id="fr_intrastat_product_template_form" model="ir.ui.view">
+<!-- Add fields on product.template view -->
+<record id="product_template_form_view" model="ir.ui.view">
     <field name="name">fr.intrastat.product.template.form</field>
     <field name="model">product.template</field>
-    <field name="inherit_id" ref="intrastat_base.intrastat_base_product_template_form"/>
+    <field name="inherit_id" ref="intrastat_base.product_template_form_view" />
     <field name="arch" type="xml">
         <field name="exclude_from_intrastat" position="before">
             <field name="intrastat_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
@@ -36,7 +23,7 @@
 </record>
 
 <!-- Add field on product.supplierinfo -->
-<record id="fr_intrastat_product_supplierinfo_form" model="ir.ui.view">
+<record id="product_supplierinfo_form_view" model="ir.ui.view">
     <field name="name">fr.intrastat.product.product.supplierinfo.form</field>
     <field name="model">product.supplierinfo</field>
     <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
@@ -48,7 +35,7 @@
 </record>
 
 <!-- Add intrastat_id on Product category -->
-<record id="fr_intrastat_product_category_form" model="ir.ui.view">
+<record id="product_category_form_view" model="ir.ui.view">
     <field name="name">fr.intrastat.product.category.form</field>
     <field name="model">product.category</field>
     <field name="inherit_id" ref="product.product_category_form_view"/>
@@ -62,7 +49,7 @@
 </record>
 
 <!-- Add the field intrastat_label on product UoM -->
-<record id="fr_intrastat_product_uom_form" model="ir.ui.view">
+<record id="product_uom_form_view" model="ir.ui.view">
     <field name="name">fr.intrastat.product.uom.form</field>
     <field name="model">product.uom</field>
     <field name="inherit_id" ref="product.product_uom_form_view" />
@@ -76,7 +63,7 @@
 </record>
 
 <!-- Add search view for H.S. code -->
-<record id="fr_intrastat_product_intrastat_code_search" model="ir.ui.view">
+<record id="product_intrastat_code_search" model="ir.ui.view">
     <field name="name">fr.intrastat.product.intrastat.code.search</field>
     <field name="model">report.intrastat.code</field>
     <field name="arch" type="xml">
@@ -89,7 +76,7 @@
 
 
 <!-- Add tree view for H.S. code -->
-<record id="fr_intrastat_product_intrastat_code_tree" model="ir.ui.view">
+<record id="product_intrastat_code_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.product.intrastat.code.tree</field>
     <field name="model">report.intrastat.code</field>
     <field name="arch" type="xml">
@@ -104,7 +91,7 @@
 
 
 <!-- Add form view for H.S. code -->
-<record id="fr_intrastat_product_intrastat_code_form" model="ir.ui.view">
+<record id="product_intrastat_code_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.intrastat.code.form</field>
     <field name="model">report.intrastat.code</field>
     <field name="arch" type="xml">
@@ -118,19 +105,18 @@
 </record>
 
 <!-- Action for H.S. code -->
-<record id="fr_intrastat_product_intrastat_code_act" model="ir.actions.act_window">
-    <field name="name">Intrastat code</field>
+<record id="product_intrastat_code_act" model="ir.actions.act_window">
+    <field name="name">Intrastat Code</field>
     <field name="res_model">report.intrastat.code</field>
-    <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
 </record>
 
 <!-- Menu entry for H.S. code -->
-<menuitem id="fr_intrastat_product_intrastat_code_menu" action="fr_intrastat_product_intrastat_code_act" parent="product.prod_config_main" />
+<menuitem id="product_intrastat_code_menu" action="product_intrastat_code_act" parent="product.prod_config_main" />
 
-<menuitem id="fr_intrastat_product_intrastat_code_menu_purchase" action="fr_intrastat_product_intrastat_code_act" parent="purchase.menu_product_in_config_purchase" />
+<menuitem id="product_intrastat_code_menu_purchase" action="product_intrastat_code_act" parent="purchase.menu_product_in_config_purchase" />
 
-<menuitem id="fr_intrastat_product_intrastat_code_menu_stock" action="fr_intrastat_product_intrastat_code_act" parent="stock.menu_product_in_config_stock" />
+<menuitem id="product_intrastat_code_menu_stock" action="product_intrastat_code_act" parent="stock.menu_product_in_config_stock" />
 
 </data>
 </openerp>
