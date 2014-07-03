@@ -51,7 +51,7 @@ class account_invoice(orm.Model):
             "the goods have been shipped. For a supplier invoice, contains "
             "the country from which the goods have been shipped."),
         'intrastat_type_id': fields.many2one(
-            'report.intrastat.type', 'Intrastat type'),
+            'report.intrastat.type', 'Intrastat type', ondelete='restrict'),
         }
 
     def _check_intrastat_department(self, cr, uid, ids):
