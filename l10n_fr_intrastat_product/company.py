@@ -36,9 +36,6 @@ class res_company(orm.Model):
             'Customs accreditation identifier', size=4,
             help="Company identifier for Intrastat file export. "
             "Size : 4 characters."),
-        'siret_complement': fields.char(
-            'SIRET complement', size=5,
-            help="5 last digits of the SIRET number of the company."),
         'export_obligation_level': fields.selection(
             [('detailed', 'Detailed'), ('simplified', 'Simplified')],
             'Obligation level for export',
@@ -72,23 +69,17 @@ class res_company(orm.Model):
             "OpenERP will use this value."),
         'default_intrastat_type_out_invoice': fields.many2one(
             'report.intrastat.type',
-            'Default intrastat type for customer invoice', ondelete='restrict'),
+            'Default intrastat type for customer invoice',
+            ondelete='restrict'),
         'default_intrastat_type_out_refund': fields.many2one(
             'report.intrastat.type',
-            'Default intrastat type for customer refund', ondelete='restrict'),
+            'Default intrastat type for customer refund',
+            ondelete='restrict'),
         'default_intrastat_type_in_invoice': fields.many2one(
             'report.intrastat.type',
-            'Default intrastat type for supplier invoice', ondelete='restrict'),
+            'Default intrastat type for supplier invoice',
+            ondelete='restrict'),
     }
-
-    def _5digits(self, cr, uid, ids):
-        for siret_compl_to_check in self.read(
-                cr, uid, ids, ['siret_complement']):
-            if siret_compl_to_check['siret_complement']:
-                if (not siret_compl_to_check['siret_complement'].isdigit()
-                        or len(siret_compl_to_check['siret_complement']) != 5):
-                    return False
-        return True
 
     def real_department_check(self, dpt_list):
         for dpt in dpt_list:
@@ -122,11 +113,6 @@ class res_company(orm.Model):
         return self.real_department_check(dpt_list)
 
     _constraints = [
-        (
-            _5digits,
-            "The 'SIRET complement' should have exactly 5 digits.",
-            ['siret_complement']
-        ),
         (
             _check_default_intrastat_department,
             "error msg in raise",
