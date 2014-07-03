@@ -11,7 +11,6 @@
 
 <record id="base.main_company" model="res.company">
     <field name="customs_accreditation">A12B</field>
-    <field name="siret_complement">00042</field>
     <field name="export_obligation_level">detailed</field>
     <field name="import_obligation_level">detailed</field>
     <field name="default_intrastat_department">94</field>
@@ -20,6 +19,7 @@
     <field name="default_intrastat_type_out_invoice" ref="customer_sale"/>
     <field name="default_intrastat_type_in_invoice" ref="supplier_purchase"/>
     <field name="default_intrastat_type_out_refund" ref="customer_refund"/>
+    <field name="country_id" ref="base.fr"/>
 </record>
 
 <record id="84715000" model="report.intrastat.code">
