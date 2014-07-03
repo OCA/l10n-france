@@ -139,6 +139,7 @@
             <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
             <group string="Group By" name="group_by">
                <filter name="date_group_by" string="Date" context="{'group_by': 'start_date'}" />
+               <filter name="type_group_by" string="Type" context="{'group_by': 'type'}" />
             </group>
         </search>
     </field>
@@ -151,6 +152,7 @@
     <field name="arch" type="xml">
         <graph string="Intrastat Product" type="bar">
             <field name="start_date" type="row"/>
+            <field name="type" type="row"/>
             <field name="total_amount" type="measure"/>
         </graph>
     </field>
