@@ -14,7 +14,7 @@
     <field name="name">fr.intrastat.service.form</field>
     <field name="model">report.intrastat.service</field>
     <field name="arch" type="xml">
-        <form string="Intrastat Service" version="7.0">
+        <form string="Intrastat Service">
             <header>
                 <button name="done" string="Done" type="object" states="draft" class="oe_highlight"/>
                 <button name="back2draft" string="Back to draft" type="object" states="done" />
@@ -77,7 +77,22 @@
         <search string="Search Intrastat Service">
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
             <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
+            <group string="Group By" name="group_by">
+               <filter name="date_group_by" string="Date" context="{'group_by': 'start_date'}" />
+            </group>
         </search>
+    </field>
+</record>
+
+<!-- Graph view for DES -->
+<record id="intrastat_service_graph" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.graph</field>
+    <field name="model">report.intrastat.service</field>
+    <field name="arch" type="xml">
+        <graph string="Intrastat Service" type="bar">
+            <field name="start_date" type="row"/>
+            <field name="total_amount" type="measure"/>
+        </graph>
     </field>
 </record>
 
@@ -86,7 +101,7 @@
     <field name="name">fr.intrastat.service.line.form</field>
     <field name="model">report.intrastat.service.line</field>
     <field name="arch" type="xml">
-        <form string="Intrastat service lines" version="7.0">
+        <form string="Intrastat service lines">
             <group colspan="4" col="4" string="Information to declare">
                 <field name="partner_id" on_change="partner_on_change(partner_id, context)" />
                 <field name="partner_vat" />
@@ -123,7 +138,7 @@
 <record id="intrastat_service_tree_action" model="ir.actions.act_window">
     <field name="name">Intrastat Service</field>
     <field name="res_model">report.intrastat.service</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree,form,graph</field>
 </record>
 
 
