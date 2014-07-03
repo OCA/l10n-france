@@ -14,7 +14,7 @@
     <field name="name">fr.intrastat.product.form</field>
     <field name="model">report.intrastat.product</field>
     <field name="arch" type="xml">
-        <form string="Intrastat Product" version="7.0">
+        <form string="Intrastat Product">
             <header>
                 <button name="done" string="Done" type="object" class="oe_highlight" states="draft" />
                 <button name="back2draft" string="Back to draft" type="object" states="done" />
@@ -137,7 +137,22 @@
             <filter name="export" string="Export" domain="[('type', '=', 'export')]" />
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
             <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
+            <group string="Group By" name="group_by">
+               <filter name="date_group_by" string="Date" context="{'group_by': 'start_date'}" />
+            </group>
         </search>
+    </field>
+</record>
+
+<!-- Graph view for DEB -->
+<record id="intrastat_product_graph" model="ir.ui.view">
+    <field name="name">fr.intrastat.product.graph</field>
+    <field name="model">report.intrastat.product</field>
+    <field name="arch" type="xml">
+        <graph string="Intrastat Product" type="bar">
+            <field name="start_date" type="row"/>
+            <field name="total_amount" type="measure"/>
+        </graph>
     </field>
 </record>
 
@@ -145,7 +160,7 @@
 <record id="intrastat_product_tree_action" model="ir.actions.act_window">
     <field name="name">Intrastat Product</field>
     <field name="res_model">report.intrastat.product</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree,form,graph</field>
 </record>
 
 
