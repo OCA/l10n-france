@@ -103,7 +103,8 @@ class stock_picking(orm.Model):
             'or the destination department for an Incoming Shipment.'),
         }
 
-    def _create_invoice_from_picking(self, cr, uid, picking, vals, context=None):
+    def _create_invoice_from_picking(
+            self, cr, uid, picking, vals, context=None):
         '''Copy transport and department from picking to invoice'''
         vals['intrastat_transport'] = picking.intrastat_transport
         vals['intrastat_department'] = picking.intrastat_department
