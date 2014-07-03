@@ -596,9 +596,12 @@ class report_intrastat_product(orm.Model):
 
         my_company_vat = intrastat.company_id.partner_id.vat.replace(' ', '')
 
-        if not intrastat.company_id.siret_complement:
-            raise orm.except_orm(_('Error :'), _("The SIRET complement is not set on company '%s'.") % intrastat.company_id.name)
-        my_company_id = my_company_vat + intrastat.company_id.siret_complement
+        if not intrastat.company_id.siret:
+            raise orm.except_orm(
+                _('Error :'),
+                _("The SIRET is not set on company '%s'.")
+                    % intrastat.company_id.name)
+        my_company_id = my_company_vat + intrastat.company_id.siret[9:]
 
         my_company_currency = intrastat.company_id.currency_id.name
 
@@ -855,7 +858,6 @@ class report_intrastat_product_line(orm.Model):
         (_integer_check, "Error msg in raise", ['weight', 'quantity']),
     ]
 
-
     def partner_on_change(self, cr, uid, ids, partner_id=False, context=None):
         return self.pool['report.intrastat.common'].partner_on_change(
             cr, uid, ids, partner_id, context=context)
@@ -909,5 +911,4 @@ class report_intrastat_product_line(orm.Model):
                 'transport': False,
                 'department': False
             })
-        #print "intrastat_type_on_change res=", result
         return result
