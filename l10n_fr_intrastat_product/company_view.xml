@@ -17,7 +17,6 @@
         <group name="intrastat-common" position="after">
             <group string="Settings for DEB">
                 <field name="customs_accreditation" />
-                <field name="siret_complement" />
                 <field name="export_obligation_level" on_change="obligation_level_on_change(export_obligation_level, import_obligation_level, context)"/>
                 <field name="import_obligation_level" on_change="obligation_level_on_change(export_obligation_level, import_obligation_level, context)"/>
                 <label string="Don't forget to add users to the 'Detailed Intrastat Product' group." attrs="{'invisible': [('export_obligation_level', '=', 'simplified'), ('import_obligation_level', '=', 'none')]}" colspan="2" />
