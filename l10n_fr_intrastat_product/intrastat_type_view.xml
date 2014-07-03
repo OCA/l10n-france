@@ -9,7 +9,7 @@
 <data>
 
 <!-- Intrastat Type - Search view -->
-<record id="fr_intrastat_product_report_intrastat_type_search" model="ir.ui.view">
+<record id="intrastat_type_search" model="ir.ui.view">
     <field name="name">fr.intrastat.product.report.intrastat.type.search</field>
     <field name="model">report.intrastat.type</field>
     <field name="arch" type="xml">
@@ -20,7 +20,7 @@
 </record>
 
 <!-- Intrastat Type - Tree view -->
-<record id="fr_intrastat_product_report_intrastat_type_tree" model="ir.ui.view">
+<record id="intrastat_type_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.product.report.intrastat.type.tree</field>
     <field name="model">report.intrastat.type</field>
     <field name="arch" type="xml">
@@ -38,35 +38,36 @@
 </record>
 
 <!-- Intrastat Type - Form view -->
-<record id="fr_intrastat_product_report_intrastat_type_form" model="ir.ui.view">
+<record id="intrastat_type_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.report.intrastat.type.form</field>
     <field name="model">report.intrastat.type</field>
     <field name="arch" type="xml">
         <form string="Intrastat type">
-            <field name="name" />
-            <field name="active" />
-            <field name="object_type" />
-            <field name="procedure_code" on_change="procedure_code_on_change(procedure_code, context)" />
-            <!-- I can't set the field name="transaction_code" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}" because it breaks the on_change on field procedure_code -->
-            <field name="transaction_code" />
-            <field name="is_fiscal_only" />
-            <field name="fiscal_value_multiplier" />
-            <field name="is_vat_required" />
-            <field name="intrastat_product_type" />
+            <group name="main">
+                <field name="name" />
+                <field name="active" />
+                <field name="object_type" />
+                <field name="procedure_code" on_change="procedure_code_on_change(procedure_code, context)" />
+                <!-- I can't set the field name="transaction_code" attrs="{'readonly':[('procedure_code','in',('25', '26', '31'))]}" because it breaks the on_change on field procedure_code -->
+                <field name="transaction_code" />
+                <field name="is_fiscal_only" />
+                <field name="fiscal_value_multiplier" />
+                <field name="is_vat_required" />
+                <field name="intrastat_product_type" />
+            </group>
         </form>
     </field>
 </record>
 
 <!-- Intrastat type - Action for Configuration -->
-<record id="fr_intrastat_product_report_intrastat_type_action" model="ir.actions.act_window">
-    <field name="name">Intrastat types</field>
+<record id="intrastat_type_action" model="ir.actions.act_window">
+    <field name="name">Intrastat Types</field>
     <field name="res_model">report.intrastat.type</field>
-    <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
 </record>
 
 <!-- Menu entry for Intrastat type -->
-<menuitem id="menu_fr_intrastat_product_report_intrastat_type" action="fr_intrastat_product_report_intrastat_type_action" parent="account.menu_configuration_misc" />
+<menuitem id="menu_intrastat_type" action="intrastat_type_action" parent="account.menu_configuration_misc" />
 
 
 </data>
