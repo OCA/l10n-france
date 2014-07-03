@@ -39,6 +39,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'data': [
         'security/intrastat_product_security.xml',
         'security/ir.model.access.csv',
+        'intrastat_type_data.xml',
         'intrastat_product_view.xml',
         'intrastat_type_view.xml',
         'intrastat_product_reminder.xml',

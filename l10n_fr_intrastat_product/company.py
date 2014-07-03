@@ -72,13 +72,13 @@ class res_company(orm.Model):
             "OpenERP will use this value."),
         'default_intrastat_type_out_invoice': fields.many2one(
             'report.intrastat.type',
-            'Default intrastat type for customer invoice'),
+            'Default intrastat type for customer invoice', ondelete='restrict'),
         'default_intrastat_type_out_refund': fields.many2one(
             'report.intrastat.type',
-            'Default intrastat type for customer refund'),
+            'Default intrastat type for customer refund', ondelete='restrict'),
         'default_intrastat_type_in_invoice': fields.many2one(
             'report.intrastat.type',
-            'Default intrastat type for supplier invoice'),
+            'Default intrastat type for supplier invoice', ondelete='restrict'),
     }
 
     def _5digits(self, cr, uid, ids):
