@@ -10,7 +10,7 @@
 <data>
 
 <!-- Form view for DES -->
-<record id="fr_intrastat_service_form" model="ir.ui.view">
+<record id="intrastat_service_form" model="ir.ui.view">
     <field name="name">fr.intrastat.service.form</field>
     <field name="model">report.intrastat.service</field>
     <field name="arch" type="xml">
@@ -54,7 +54,7 @@
 </record>
 
 <!-- Tree view for DES -->
-<record id="fr_intrastat_service_tree" model="ir.ui.view">
+<record id="intrastat_service_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.service.tree</field>
     <field name="model">report.intrastat.service</field>
     <field name="arch" type="xml">
@@ -70,7 +70,7 @@
 </record>
 
 <!-- Search view for DES -->
-<record id="fr_intrastat_service_search" model="ir.ui.view">
+<record id="intrastat_service_search" model="ir.ui.view">
     <field name="name">fr.intrastat.service.search</field>
     <field name="model">report.intrastat.service</field>
     <field name="arch" type="xml">
@@ -82,7 +82,7 @@
 </record>
 
 <!-- Form view for service lines -->
-<record id="fr_intrastat_service_line_form" model="ir.ui.view">
+<record id="intrastat_service_line_form" model="ir.ui.view">
     <field name="name">fr.intrastat.service.line.form</field>
     <field name="model">report.intrastat.service.line</field>
     <field name="arch" type="xml">
@@ -104,7 +104,7 @@
 </record>
 
 <!-- Tree view for service lines -->
-<record id="fr_intrastat_service_line_tree" model="ir.ui.view">
+<record id="intrastat_service_line_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.service.line.tree</field>
     <field name="model">report.intrastat.service.line</field>
     <field name="arch" type="xml">
@@ -120,16 +120,15 @@
 
 
 <!-- Action related -->
-<record id="fr_intrastat_service_tree_action" model="ir.actions.act_window">
+<record id="intrastat_service_tree_action" model="ir.actions.act_window">
     <field name="name">Intrastat Service</field>
     <field name="res_model">report.intrastat.service</field>
-    <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
 </record>
 
 
 <!-- Intrastat service menu -->
-<menuitem id="fr_intrastat_service_menu" parent="intrastat_base.menu_intrastat_base_root" action="fr_intrastat_service_tree_action" />
+<menuitem id="intrastat_service_menu" parent="intrastat_base.menu_intrastat_base_root" action="intrastat_service_tree_action" />
 
 
 <!-- Notification in the chatter -->
