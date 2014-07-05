@@ -26,20 +26,15 @@ from openerp.osv import orm
 class purchase_order(orm.Model):
     _inherit = "purchase.order"
 
-    def action_invoice_create(self, cr, uid, ids, context=None):
+    def _prepare_invoice(self, cr, uid, order, line_ids, context=None):
         '''Copy country of partner_id =("origin country") and '''
         '''arrival department on invoice'''
-        res = super(purchase_order, self).action_invoice_create(
-            cr, uid, ids, context=context)
-        for purchase in self.browse(cr, uid, ids, context=context):
-            for rel_invoice in purchase.invoice_ids:
-                dico_write = {}
-                if purchase.partner_id and purchase.partner_id.country_id:
-                    dico_write['intrastat_country_id'] = \
-                        purchase.partner_id.country_id.id
-                if purchase.picking_ids:
-                    dico_write['intrastat_department'] = \
-                        purchase.picking_ids[0].intrastat_department
-                self.pool['account.invoice'].write(
-                    cr, uid, rel_invoice.id, dico_write, context=context)
-        return res
+        invoice_vals = super(purchase_order, self)._prepare_invoice(
+            cr, uid, order, line_ids, context=context)
+        if order.partner_id.country_id:
+            invoice_vals['intrastat_country_id'] = \
+                order.partner_id.country_id.id
+        if order.picking_ids:
+            invoice_vals['intrastat_department'] = \
+                order.picking_ids[0].intrastat_department
+        return invoice_vals
