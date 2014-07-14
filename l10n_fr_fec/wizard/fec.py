@@ -122,7 +122,7 @@ class account_fr_fec(orm.TransientModel):
             am.period_id IN %s
             AND am.state = 'posted'
             AND am.company_id = %s
-        ORDER BY am.date
+        ORDER BY am.date, CASE aj.type WHEN 'situation' THEN 1 ELSE 2 END
         '''
         cr.execute(sql_query, (tuple(period_ids), company_id))
 
@@ -180,7 +180,6 @@ class account_fr_fec(orm.TransientModel):
         action = {
             'name': 'FEC',
             'type': 'ir.actions.act_window',
-            'view_type': 'form',
             'view_mode': 'form',
             'res_model': self._name,
             'res_id': ids[0],
