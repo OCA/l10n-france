@@ -22,7 +22,6 @@
 
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-#from tempfile import TemporaryFile
 import base64
 import unicodecsv
 import StringIO
@@ -122,12 +121,13 @@ class account_fr_fec(orm.TransientModel):
             am.period_id IN %s
             AND am.state = 'posted'
             AND am.company_id = %s
-        ORDER BY am.date, CASE aj.type WHEN 'situation' THEN 1 ELSE 2 END
+        ORDER BY
+            am.date,
+            CASE aj.type WHEN 'situation' THEN 1 ELSE 2 END,
+            aml.id
         '''
         cr.execute(sql_query, (tuple(period_ids), company_id))
 
-#        f = TemporaryFile(prefix='openerp')
-#        f = open('/tmp/test2.csv', 'w')
         fecfile = StringIO.StringIO()
         w = unicodecsv.writer(fecfile, encoding='utf-8', delimiter='|')
         w.writerow(header)
