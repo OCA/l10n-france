@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2014 Akretion (http://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data noupdate="1">
+
+<record id="generic_private_car_expense" model="product.product">
+    <field name="name">My Private Car Expense (in km)</field>
+    <field name="default_code">PrivateCarExp</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="hr_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="1-3cv_0-5000km_private_car_expense" model="product.product">
+    <field name="name">1-3CV 0-5000km Private Car Expenses</field>
+    <field name="default_code">1-3CV/0-5000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.408</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="4cv_0-5000km_private_car_expense" model="product.product">
+    <field name="name">4CV 0-5000km Private Car Expenses</field>
+    <field name="default_code">4CV/0-5000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.491</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="5cv_0-5000km_private_car_expense" model="product.product">
+    <field name="name">5CV 0-5000km Private Car Expenses</field>
+    <field name="default_code">5CV/0-5000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.540</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="6cv_0-5000km_private_car_expense" model="product.product">
+    <field name="name">6CV 0-5000km Private Car Expenses</field>
+    <field name="default_code">6CV/0-5000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.565</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="7cv+_0-5000km_private_car_expense" model="product.product">
+    <field name="name">7CV+ 0-5000km Private Car Expenses</field>
+    <field name="default_code">7CV+/0-5000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.592</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="1-3cv_5-20000km_private_car_expense" model="product.product">
+    <field name="name">1-3CV 5-20000km Private Car Expenses</field>
+    <field name="default_code">1-3CV/5-20000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.244</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="4cv_5-20000km_private_car_expense" model="product.product">
+    <field name="name">4CV 5-20000km Private Car Expenses</field>
+    <field name="default_code">4CV/5-20000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.276</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="5cv_5-20000km_private_car_expense" model="product.product">
+    <field name="name">5CV 5-20000km Private Car Expenses</field>
+    <field name="default_code">5CV/5-20000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.303</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="6cv_5-20000km_private_car_expense" model="product.product">
+    <field name="name">6CV 5-20000km Private Car Expenses</field>
+    <field name="default_code">6CV/5-20000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.318</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="7cv+_5-20000km_private_car_expense" model="product.product">
+    <field name="name">7CV+ 5-20000km Private Car Expenses</field>
+    <field name="default_code">7CV+/5-20000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.335</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="1-3cv_20000km+_private_car_expense" model="product.product">
+    <field name="name">1-3CV 20000km+ Private Car Expenses</field>
+    <field name="default_code">1-3CV/20000km+</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.285</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="4cv_20000km+_private_car_expense" model="product.product">
+    <field name="name">4CV 20000km+ Private Car Expenses</field>
+    <field name="default_code">4CV/20000km+</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.330</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="5cv_20000km+_private_car_expense" model="product.product">
+    <field name="name">5CV 20000km+ Private Car Expenses</field>
+    <field name="default_code">5CV/20000km+</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.362</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="6cv_20000km+_private_car_expense" model="product.product">
+    <field name="name">6CV 20000km+ Private Car Expenses</field>
+    <field name="default_code">6CV/20000km+</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.380</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+<record id="7cv+_20000km+_private_car_expense" model="product.product">
+    <field name="name">7CV+ 20000km+ Private Car Expenses</field>
+    <field name="default_code">7CV+/20000km+</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.399</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
+
+</data>
+</openerp>
