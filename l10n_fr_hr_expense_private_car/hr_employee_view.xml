@@ -17,6 +17,7 @@
                 <field name="private_car_plate"/>
                 <field name="private_car_product_id"
                     context="{'default_private_car_expense_ok': True}"/>
+                <field name="private_car_total_km_this_year"/>
             </group>
         </page>
     </field>
