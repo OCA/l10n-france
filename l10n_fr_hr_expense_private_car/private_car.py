@@ -22,6 +22,9 @@
 
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from datetime import datetime
+
 
 # I had to choose between several ideas when I developped this module :
 # 1) constraint on product_id in expense line
@@ -31,9 +34,9 @@ from openerp.tools.translate import _
 # Drawback : not convenient for the employee because he has to select the
 # right private car expense product by himself
 
-# 2) single product, table for prices
+# 2) single product, dedicated object for prices
 # Idea : we create only one "private car expense" product, and we
-# create a new object to store the price depending on the nCV, etc...
+# create a new object to store the price depending on the CV, etc...
 # Drawback : need to create a new object
 
 # 3) single generic "My private car" product selectable by the user ;
@@ -117,6 +120,28 @@ class product_product(orm.Model):
 class hr_employee(orm.Model):
     _inherit = 'hr.employee'
 
+    def _compute_private_car(self, cr, uid, ids, name, arg, context=None):
+        res = {}
+        for employee_id in ids:
+            res[employee_id] = 0.0
+        private_car_pp_ids = self.pool['product.product'].search(
+            cr, uid, [('private_car_expense_ok', '=', True)], context=context)
+        today = fields.date.context_today(self, cr, uid, context=context)
+        today_dt = datetime.strptime(today, DEFAULT_SERVER_DATE_FORMAT)
+        cr.execute("""
+            SELECT ee.employee_id, sum(el.unit_quantity)
+            FROM hr_expense_line el
+            LEFT JOIN hr_expense_expense ee ON ee.id=el.expense_id
+            WHERE state IN ('done', 'paid', 'accepted')
+            AND ee.employee_id IN %s
+            AND el.product_id IN %s
+            AND EXTRACT(year FROM ee.date) = %s
+            GROUP BY ee.employee_id
+            """, (tuple(ids), tuple(private_car_pp_ids), today_dt.year))
+        for line in cr.dictfetchall():
+            res[line['employee_id']] = line['sum']
+        return res
+
     _columns = {
         'private_car_plate': fields.char(
             'Private Car Plate', size=32,
@@ -127,6 +152,15 @@ class hr_employee(orm.Model):
             domain=[('private_car_expense_ok', '=', True)],
             help="This field will be copied on the expenses of this employee."
             ),
+        'private_car_total_km_this_year': fields.function(
+            _compute_private_car, type='float',
+            string="Total KM with Private Car This Year", readonly=True,
+            help="Number of kilometers (KM) with private car for this "
+            "employee in expenses in Approved, Waiting Payment or Paid "
+            "state in the current civil year. This is usefull to check or "
+            "estimate if the Private Card Product selected for this "
+            "employee is compatible with the number of kilometers "
+            "reimbursed to this employee during the civil year."),
         }
 
     def copy(self, cr, uid, id, default=None, context=None):
@@ -181,24 +215,27 @@ class hr_expense_expense(orm.Model):
                         cr, uid, 'account.group_account_manager'):
                     res['warning'] = {
                         'title': _('Warning - Private Car Product'),
-                        'message': _("You should not change the Private "
-                        "Car Product on expenses. You should change the "
-                        "Private Car Product on the Employee form and then "
-                        "select again the Employee on the expense.\n\n"
-                        "But, as you are in the group 'Account Manager', "
-                        "we suppose that you know what you are doing, so the "
-                        "original product was not restored.")}
+                        'message': _(
+                            "You should not change the Private "
+                            "Car Product on expenses. You should change the "
+                            "Private Car Product on the Employee form and "
+                            "then select again the Employee on the "
+                            "expense.\n\nBut, as you are in the group "
+                            "'Account Manager', we suppose that you know "
+                            "what you are doing, so the original product "
+                            "was not restored.")}
                 else:
                     res['warning'] = {
                         'title': _('Warning - Private Car Product'),
-                        'message': _("You should not change the Private "
-                        "Car Product on expenses. You should change the "
-                        "Private Car Product on the Employee form and then "
-                        "select again the Employee on the expense. The "
-                        "original Private Car Product has been restored."
-                        "\n\nOnly users in the 'Account Manager' group "
-                        "are allowed to change the Private Car Product on "
-                        "expenses manually.")}
+                        'message': _(
+                            "You should not change the Private "
+                            "Car Product on expenses. You should change the "
+                            "Private Car Product on the Employee form and "
+                            "then select again the Employee on the expense. "
+                            "The original Private Car Product has been "
+                            "restored.\n\nOnly users in the 'Account Manager' "
+                            "group are allowed to change the Private Car "
+                            "Product on expenses manually.")}
                     res['value']['private_car_product_id'] = \
                         ori_private_car_product_id
         return res
@@ -246,22 +283,25 @@ class hr_expense_line(orm.Model):
                             cr, uid, 'account.group_account_manager'):
                         res['warning'] = {
                             'title': _('Warning - Private Car Expense'),
-                            'message': _("You should not change the unit amount "
-                            "for private car expenses. You should change the "
-                            "Private Car Product or update the Cost Price of "
-                            "the selected Private Car Product and re-create "
-                            "the Expense Line.\n\nBut, as you are in the "
-                            "group 'Account Manager', we suppose that you "
-                            "know what you are doing, so the original unit "
-                            "amount was not restored.")}
+                            'message': _(
+                                "You should not change the unit amount "
+                                "for private car expenses. You should change "
+                                "the Private Car Product or update the Cost "
+                                "Price of the selected Private Car Product "
+                                "and re-create the Expense Line.\n\nBut, as "
+                                "you are in the group 'Account Manager', we "
+                                "suppose that you know what you are doing, "
+                                "so the original unit amount was not "
+                                "restored.")}
                     else:
                         res['warning'] = {
                             'title': _('Warning - Private Car Expense'),
-                            'message': _("You should not change the unit amount "
-                            "for private car expenses. The original unit "
-                            "amount has been restored.\n\nOnly users in the "
-                            "'Account Manager' group are allowed to change "
-                            "the unit amount for private car expenses "
-                            "manually.")}
+                            'message': _(
+                                "You should not change the unit amount "
+                                "for private car expenses. The original unit "
+                                "amount has been restored.\n\nOnly users in "
+                                "the 'Account Manager' group are allowed to "
+                                "change the unit amount for private car "
+                                "expenses manually.")}
                         res['value']['unit_amount'] = original_unit_amount
         return res
