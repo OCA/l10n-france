@@ -67,10 +67,8 @@ class product_product(orm.Model):
                         _("The product '%s' cannot have both the properties "
                             "'Can be Expensed' and 'Private Car Expense'.")
                         % product.name)
-                uom_model, km_uom_id = \
-                    self.pool['ir.model.data'].get_object_reference(
-                        cr, uid, 'product', 'product_uom_km')
-                assert uom_model == 'product.uom', 'Wrong model'
+                km_uom_id = self.pool['ir.model.data'].xmlid_to_res_id(
+                    cr, uid, 'product.product_uom_km', raise_if_not_found=True)
                 if product.uom_id.id != km_uom_id:
                     raise orm.except_orm(
                         _('Error:'),
@@ -99,10 +97,8 @@ class product_product(orm.Model):
             self, cr, uid, ids, private_car_expense_ok, context=None):
         res = {'value': {}}
         if private_car_expense_ok:
-            uom_model, km_uom_id = \
-                self.pool['ir.model.data'].get_object_reference(
-                    cr, uid, 'product', 'product_uom_km')
-            assert uom_model == 'product.uom', 'Wrong model'
+            km_uom_id = self.pool['ir.model.data'].xmlid_to_res_id(
+                cr, uid, 'product.product_uom_km', raise_if_not_found=True)
             res['value'] = {
                 'type': 'service',
                 'list_price': 0.0,
@@ -144,11 +140,11 @@ class hr_employee(orm.Model):
 
     _columns = {
         'private_car_plate': fields.char(
-            'Private Car Plate', size=32,
+            'Private Car Plate', size=32, copy=False,
             help="This field will be copied on the expenses of this employee."
             ),
         'private_car_product_id': fields.many2one(
-            'product.product', 'Private Car Product',
+            'product.product', 'Private Car Product', copy=False,
             domain=[('private_car_expense_ok', '=', True)],
             help="This field will be copied on the expenses of this employee."
             ),
@@ -162,16 +158,6 @@ class hr_employee(orm.Model):
             "employee is compatible with the number of kilometers "
             "reimbursed to this employee during the civil year."),
         }
-
-    def copy(self, cr, uid, id, default=None, context=None):
-        if default is None:
-            default = {}
-        default.update({
-            'private_car_plate': False,
-            'private_car_product_id': False,
-            })
-        return super(hr_employee, self).copy(
-            cr, uid, id, default=default, context=context)
 
 
 class hr_expense_expense(orm.Model):
@@ -248,11 +234,10 @@ class hr_expense_line(orm.Model):
         if context is None:
             context = {}
         if product_id:
-            product_model, generic_private_car_product_id =\
-                self.pool['ir.model.data'].get_object_reference(
-                    cr, uid, 'l10n_fr_hr_expense_private_car',
-                    'generic_private_car_expense')
-            assert product_model == 'product.product', 'Wrong model'
+            generic_private_car_product_id =\
+                self.pool['ir.model.data'].xmlid_to_res_id(
+                    cr, uid, 'l10n_fr_hr_expense_private_car.'
+                    'generic_private_car_expense', raise_if_not_found=True)
             if product_id == generic_private_car_product_id:
                 private_car_product_id = context.get('private_car_product_id')
                 if not private_car_product_id:
@@ -291,8 +276,9 @@ class hr_expense_line(orm.Model):
                                 "and re-create the Expense Line.\n\nBut, as "
                                 "you are in the group 'Account Manager', we "
                                 "suppose that you know what you are doing, "
-                                "so the original unit amount was not "
-                                "restored.")}
+                                "so the original unit amount (%.3f) was not "
+                                "restored.") % original_unit_amount
+                            }
                     else:
                         res['warning'] = {
                             'title': _('Warning - Private Car Expense'),
