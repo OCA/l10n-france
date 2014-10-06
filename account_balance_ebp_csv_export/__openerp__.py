@@ -30,7 +30,7 @@
 Account Balance EBP CSV export
 ==============================
 
-This module adds a button *EBP csv File* next to the *Print* button on the Trial Balance wizard. It has been developped to be able to export the trial balance to software dedicated to the *Liasse fiscale* (French fiscal declaration) that accept csv files from the popular EBP accounting software. This file has been tested with Teledec (https://www.teledec.fr/), which is a SaaS solution for the *Liasse fiscale* with support for EDI transmission.
+This module adds a button *EBP csv File* next to the *Print* button on the Trial Balance wizard. The aim is to export the trial balance to software dedicated to the *Liasse fiscale* (French fiscal declaration) that accept CSV files from the popular EBP accounting software. This file has been tested with Teledec (https://www.teledec.fr/), which is a SaaS solution for the *Liasse fiscale* with support for EDI transmission.
 
 This module has been developped by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
@@ -42,5 +42,4 @@ This module has been developped by Alexis de Lattre from Akretion <alexis.delatt
         'wizard/trial_balance_wizard_view.xml'
     ],
     'installable': True,
-    'active': False,
 }
