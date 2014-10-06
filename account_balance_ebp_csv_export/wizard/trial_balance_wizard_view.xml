@@ -9,7 +9,7 @@
 <openerp>
 <data>
 
-<record id="account_common_report_view" model="ir.ui.view">
+<record id="account_trial_balance_view_webkit" model="ir.ui.view">
     <field name="name">trial.balance.ebp.csv.export</field>
     <field name="model">trial.balance.webkit</field>
     <field name="inherit_id" ref="account_financial_report_webkit.account_trial_balance_view_webkit" />
