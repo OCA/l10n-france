@@ -63,7 +63,7 @@ class account_bank_statement_import(orm.TransientModel):
         """ Import a file in French CFONB format"""
         cfonb_file = base64.decodestring(data_file)
         line_ids = []
-        if not cfonb_file.split('\n'):
+        if not cfonb_file.splitlines():
             raise orm.except_orm(
                 _('Import Error!'),
                 _('The file is empty.'))
@@ -72,7 +72,7 @@ class account_bank_statement_import(orm.TransientModel):
         decimals = start_balance = False
         start_balance = end_balance = start_date_str = end_date_str = False
         vals_line = False
-        for line in cfonb_file.split('\n'):
+        for line in cfonb_file.splitlines():
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
             if not line:
