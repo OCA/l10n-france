@@ -212,7 +212,8 @@ class report_intrastat_type(orm.Model):
         return True
 
     _constraints = [(
-        _code_check, "error msg in raise",
+        _code_check,
+        "Wrong configuraion of the intrastat type",
         ['procedure_code', 'transaction_code']),
     ]
 
