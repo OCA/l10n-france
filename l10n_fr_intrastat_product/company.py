@@ -115,7 +115,7 @@ class res_company(orm.Model):
     _constraints = [
         (
             _check_default_intrastat_department,
-            "error msg in raise",
+            "Wrong department",
             ['default_intrastat_department']
         ),
         ]

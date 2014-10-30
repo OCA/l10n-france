@@ -24,6 +24,7 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
 from datetime import datetime
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from dateutil.relativedelta import relativedelta
 import logging
 from lxml import etree
@@ -133,15 +134,27 @@ class report_intrastat_product(orm.Model):
         # No more need for date_done, because chatter does the job
     }
 
-    _defaults = {
-        # By default, we propose 'current month -1', because you prepare in
-        # February the DEB of January
-        'start_date': lambda *a: datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m-%d'),
-        'state': 'draft',
-        'company_id': lambda self, cr, uid, context:
-            self.pool['res.company']._company_default_get(cr, uid, 'report.intrastat.product', context=context),
-    }
-
+    def default_get(self, cr, uid, fields_list, context=None):
+        res = super(report_intrastat_product, self).default_get(
+            cr, uid, fields_list, context=context)
+        if not res:
+            res = {}
+        company_id = self.pool['res.company']._company_default_get(
+            cr, uid, 'report.intrastat.product', context=context)
+        company = self.pool['res.company'].browse(
+            cr, uid, company_id, context=context)
+        if company.import_obligation_level == 'none':
+            res['type'] = 'export'
+        res.update({
+            'company_id': company_id,
+            'state': 'draft',
+            # By default, we propose 'current month -1', because you prepare in
+            # February the DEB of January
+            'start_date': datetime.strftime(
+                datetime.today() + relativedelta(day=1, months=-1),
+                DEFAULT_SERVER_DATE_FORMAT),
+            })
+        return res
 
     def type_on_change(
             self, cr, uid, ids, company_id=False, type=False, context=None):
@@ -795,7 +808,7 @@ class report_intrastat_product_line(orm.Model):
         'source_uom_id': fields.many2one('product.uom', 'Source UoM', readonly=True),
         'intrastat_uom_id': fields.many2one('product.uom', 'Intrastat UoM'),
         'partner_country_id': fields.many2one('res.country', 'Partner country'),
-        'partner_country_code': fields.related('partner_country_id', 'code', type='string', relation='res.country', string='Partner country', readonly=True),
+        'partner_country_code': fields.related('partner_country_id', 'code', type='char', relation='res.country', string='Partner country', readonly=True),
         'intrastat_code': fields.char('Intrastat code', size=9),
         'intrastat_code_id': fields.many2one('report.intrastat.code', 'Intrastat code (not used in XML)'),
         # Weight should be an integer... but I want to be able to display nothing in
@@ -818,7 +831,7 @@ class report_intrastat_product_line(orm.Model):
             help="Amount of product value in invoice currency ; it is the amount of the invoice line or group of invoice lines."),
         'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
         'product_country_origin_id': fields.many2one('res.country', 'Product country of origin'),
-        'product_country_origin_code': fields.related('product_country_origin_id', 'code', type='string', relation='res.country', string='Product country of origin', readonly=True),
+        'product_country_origin_code': fields.related('product_country_origin_id', 'code', type='char', relation='res.country', string='Product country of origin', readonly=True),
         'transport': fields.selection([
             (1, '1. Transport maritime'),
             (2, '2. Transport par chemin de fer'),
@@ -840,23 +853,24 @@ class report_intrastat_product_line(orm.Model):
         'partner_id': fields.many2one('res.partner', 'Partner name'),
     }
 
-    def _integer_check(self, cr, uid, ids):
-        for values in self.read(cr, uid, ids, ['weight', 'quantity']):
-            if values['weight'] and not values['weight'].isdigit():
-                raise orm.except_orm(_('Error :'), _('Weight must be an integer.'))
-            if values['quantity'] and not values['quantity'].isdigit():
-                raise orm.except_orm(_('Error :'), _('Quantity must be an integer.'))
+    def _check_intrastat_line(self, cr, uid, ids):
+        for lines in self.read(cr, uid, ids, ['procedure_code', 'transaction_code', 'weight', 'quantity']):
+            self.pool['report.intrastat.type'].real_code_check(lines)
+            if lines['weight'] and not lines['weight'].isdigit():
+                raise orm.except_orm(
+                    _('Error :'),
+                    _('Weight must be an integer.'))
+            if lines['quantity'] and not lines['quantity'].isdigit():
+                raise orm.except_orm(
+                    _('Error :'),
+                    _('Quantity must be an integer.'))
         return True
 
-    def _code_check(self, cr, uid, ids):
-        for lines in self.read(cr, uid, ids, ['procedure_code', 'transaction_code']):
-            self.pool.get('report.intrastat.type').real_code_check(lines)
-        return True
-
-    _constraints = [
-        (_code_check, "Error msg in raise", ['procedure_code', 'transaction_code']),
-        (_integer_check, "Error msg in raise", ['weight', 'quantity']),
-    ]
+    _constraints = [(
+        _check_intrastat_line,
+        "Wrong intrastat line",
+        ['weight', 'quantity', 'procedure_code', 'transaction_code']
+        )]
 
     def partner_on_change(self, cr, uid, ids, partner_id=False, context=None):
         return self.pool['report.intrastat.common'].partner_on_change(
