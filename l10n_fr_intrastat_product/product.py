@@ -173,6 +173,6 @@ class product_supplierinfo(orm.Model):
 
     _constraints = [(
         _same_supplier_same_origin,
-        "error msg in raise",
+        "Wrong configuration of the supplier information",
         ['origin_country_id', 'name', 'product_id']
         )]
