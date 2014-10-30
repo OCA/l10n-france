@@ -48,22 +48,19 @@ class res_partner(orm.Model):
         '''The Fiscal rep. must be based in the same country as our '''
         '''company or in an intrastat country'''
         user = self.pool.get('res.users').browse(cr, uid, uid)
-        my_company_country_id = (
-            user.company_id.partner_id.country
-            and user.company_id.partner_id.country.id
-            or False)
+        my_company_country_id = user.company_id.partner_id.country_id.id or False
         for partner in self.browse(cr, uid, ids):
             if partner.intrastat_fiscal_representative:
-                if not partner.intrastat_fiscal_representative.country:
+                if not partner.intrastat_fiscal_representative.country_id:
                     raise orm.except_orm(
                         _('Error :'),
                         _("The fiscal representative '%s' of partner '%s' "
                             "must have a country.")
                         % (partner.intrastat_fiscal_representative.name,
                             partner.name))
-                if (not partner.intrastat_fiscal_representative.country.
+                if (not partner.intrastat_fiscal_representative.country_id.
                         intrastat
-                        and partner.intrastat_fiscal_representative.country.id
+                        and partner.intrastat_fiscal_representative.country_id.id
                         != my_company_country_id):
                     raise orm.except_orm(
                         _('Error :'),
@@ -82,6 +79,6 @@ class res_partner(orm.Model):
 
     _constraints = [(
         _check_fiscal_representative,
-        "error msg in raise",
+        "Wrong configuration of the EU fiscal representative",
         ['intrastat_fiscal_representative']
         )]

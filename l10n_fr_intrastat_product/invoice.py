@@ -62,6 +62,6 @@ class account_invoice(orm.Model):
 
     _constraints = [(
         _check_intrastat_department,
-        "error msg is in raise",
+        "Wrong Department",
         ['intrastat_department']
         )]

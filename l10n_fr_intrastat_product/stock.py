@@ -41,7 +41,7 @@ class stock_location(orm.Model):
 
     _constraints = [(
         _check_intrastat_department,
-        "error msg in raise",
+        "Wrong department",
         ['intrastat_department']
         )]
 
