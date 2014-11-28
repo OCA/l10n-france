@@ -21,158 +21,93 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 
-class report_intrastat_code(orm.Model):
-    _name = "report.intrastat.code"
-    _description = "Intrastat code"
-    _order = "name"
-    _columns = {
-        'name': fields.char(
-            'H.S. code', size=16, required=True,
-            help="Full lenght H.S. code"),
-        'description': fields.char(
-            'Description', size=255,
-            help='Short text description of the H.S. category'),
-        'intrastat_code': fields.char(
-            'Intrastat code for DEB', size=9, required=True,
-            help="H.S. code used for the DEB in France. Must be part "
-            "of the 'Nomenclature combinée' (NC) with 8 digits with "
-            "sometimes a 9th digit for the "
-            "'Nomenclature Générale des Produits' (NGP)."),
-        'intrastat_uom_id': fields.many2one(
-            'product.uom', 'UoM for intrastat product report',
-            help="Select the unit of measure if one is required for "
-            "this particular intrastat code (other than the weight in Kg). "
-            "If no particular unit of measure is required, leave empty."),
-    }
+class ReportIntrastatCode(models.Model):
+    _inherit = "report.intrastat.code"
 
-    def name_get(self, cr, uid, ids, context=None):
-        res = []
-        for code in self.read(
-                cr, uid, ids, ['name', 'description'], context=context):
-            display_name = code['name']
-            if code['description']:
-                display_name = '%s %s' % (display_name, code['description'])
-            res.append((code['id'], display_name))
-        return res
+    intrastat_code = fields.Char(
+        string='Intrastat Code for DEB', size=9, required=True,
+        help="H.S. code used for the DEB in France. Must be part "
+        "of the 'Nomenclature combinée' (NC) with 8 digits with "
+        "sometimes a 9th digit for the "
+        "'Nomenclature Générale des Produits' (NGP).")
+    intrastat_uom_id = fields.Many2one(
+        'product.uom', string='UoM for intrastat product report',
+        help="Select the unit of measure if one is required for "
+        "this particular intrastat code (other than the weight in Kg). "
+        "If no particular unit of measure is required, leave empty.")
 
-    def _intrastat_code(self, cr, uid, ids):
-        for intrastat_code_to_check in self.read(
-                cr, uid, ids, ['intrastat_code']):
-            if intrastat_code_to_check['intrastat_code']:
-                if (not intrastat_code_to_check['intrastat_code'].isdigit()
-                        or len(intrastat_code_to_check['intrastat_code'])
-                        not in (8, 9)):
-                    return False
-        return True
-
-    def _hs_code(self, cr, uid, ids):
-        for code_to_check in self.read(cr, uid, ids, ['name']):
-            if code_to_check['name']:
-                if not code_to_check['name'].isdigit():
-                    return False
-        return True
-
-    _constraints = [
-        (
-            _intrastat_code,
-            "The 'Intrastat code for DEB' should have exactly 8 or 9 digits.",
-            ['intrastat_code']
-        ),
-        (
-            _hs_code,
-            "'Intrastat code' should only contain digits.",
-            ['name']
-        ),
-    ]
+    @api.constrains('intrastat_code')
+    def _intrastat_code(self):
+        if self.intrastat_code and not self.intrastat_code.isdigit():
+            raise Warning(
+                _("The field Intrastat Code for DEB should "
+                    "only contain digits. It is not the case of Intrastat "
+                    "Code '%s'.")
+                % self.intrastat_code)
+        if self.intrastat_code and len(self.intrastat_code) not in (8, 9):
+            raise Warning(
+                _("The field Intrastat Code for DEB should "
+                    "contain 8 or 9 caracters. It is not the case of "
+                    "Intrastat Code '%s'.")
+                % self.intrastat_code)
 
 
-class product_uom(orm.Model):
+class ProductUom(models.Model):
     _inherit = "product.uom"
-    _columns = {
-        'intrastat_label': fields.char(
-            'Intrastat label', size=12,
-            help="Label used in the XML file export of the Intrastat "
-            "product report for this unit of measure."),
-        }
+
+    intrastat_label = fields.Char(
+        string='Intrastat Label', size=12,
+        help="Label used in the XML file export of the Intrastat "
+        "Product Report for this unit of measure.")
 
 
-class product_template(orm.Model):
+class ProductTemplate(models.Model):
     _inherit = "product.template"
-    _columns = {
-        'intrastat_id': fields.many2one(
-            'report.intrastat.code', 'Intrastat code',
-            help="Code from the Harmonised System. Nomenclature is "
-            "available from the World Customs Organisation, see "
-            "http://www.wcoomd.org/. Some countries have made their own "
-            "extensions to this nomenclature."),
-        'country_id': fields.many2one(
-            'res.country', 'Country of origin',
-            help="Country of origin of the product i.e. product "
-            "'made in ____'. If you have different countries of origin "
-            "depending on the supplier from which you purchased the product, "
-            "leave this field empty and use the equivalent field on the "
-            "'product supplier info' form."),
+
+    country_id = fields.Many2one(
+        'res.country', string='Country of Origin',
+        help="Country of origin of the product i.e. product "
+        "'made in ____'. If you have different countries of origin "
+        "depending on the supplier from which you purchased the product, "
+        "leave this field empty and use the equivalent field on the "
+        "'product supplier info' form.")
         # This field should be called origin_country_id, but it's named
         # country_id to keep "compatibility with OpenERP users that used
         # the "report_intrastat" module
-        }
 
 
-class product_category(orm.Model):
-    _inherit = "product.category"
-    _columns = {
-        'intrastat_id': fields.many2one(
-            'report.intrastat.code', 'Intrastat code',
-            help="Code from the Harmonised System. If this code is not "
-            "set on the product itself, it will be read here, on the "
-            "related product category."),
-    }
-
-
-class product_supplierinfo(orm.Model):
+class ProductSupplierinfo(models.Model):
     _inherit = "product.supplierinfo"
-    _columns = {
-        'origin_country_id': fields.many2one(
-            'res.country', 'Country of origin',
-            help="Country of origin of the product "
-            "(i.e. product 'made in ____') when purchased from this supplier. "
-            "This field is used only when the equivalent field on the product "
-            "form is empty."),
-        }
 
-    def _same_supplier_same_origin(self, cr, uid, ids):
+    origin_country_id = fields.Many2one(
+        'res.country', string='Country of Origin',
+        help="Country of origin of the product "
+        "(i.e. product 'made in ____') when purchased from this supplier. "
+        "This field is used only when the equivalent field on the product "
+        "form is empty.")
+
+    @api.constrains('origin_country_id', 'name', 'product_tmpl_id')
+    def _same_supplier_same_origin(self):
         """Products from the same supplier should have the same origin"""
-        for supplierinfo in self.browse(cr, uid, ids):
-            country_origin_id = supplierinfo.origin_country_id.id
-            # Search for same supplier and same product
-            same_product_same_supplier_ids = self.search(
-                cr, uid, [
-                    ('product_id', '=', supplierinfo.product_id.id),
-                    ('name', '=', supplierinfo.name.id)])
+        # Search for same supplier and same product tmpl
+        same_product_same_suppliers = self.search([
+            ('product_tmpl_id', '=', self.product_tmpl_id.id),
+            ('name', '=', self.name.id)])
             # 'name' on product_supplierinfo is a many2one to res.partner
-            for supplieri in self.browse(
-                    cr, uid, same_product_same_supplier_ids):
-                if country_origin_id != supplieri.origin_country_id.id:
-                    raise orm.except_orm(
-                        _('Error !'),
-                        _("For a particular product, all supplier info "
-                            "entries with the same supplier should have the "
-                            "same country of origin. But, for product '%s' "
-                            "with supplier '%s', there is one entry with "
-                            "country of origin '%s' and another entry with "
-                            "country of origin '%s'.")
-                        % (supplieri.product_id.name,
-                            supplieri.name.name,
-                            supplierinfo.origin_country_id.name,
-                            supplieri.origin_country_id.name))
-        return True
-
-    _constraints = [(
-        _same_supplier_same_origin,
-        "Wrong configuration of the supplier information",
-        ['origin_country_id', 'name', 'product_id']
-        )]
+        for supplieri in same_product_same_suppliers:
+            if self.origin_country_id != supplieri.origin_country_id:
+                raise Warning(
+                    _("For a particular product, all supplier info "
+                        "entries with the same supplier should have the "
+                        "same country of origin. But, for product '%s' "
+                        "with supplier '%s', there is one entry with "
+                        "country of origin '%s' and another entry with "
+                        "country of origin '%s'.")
+                    % (self.product_tmpl_id.name,
+                        self.name.name,
+                        self.origin_country_id.name,
+                        supplieri.origin_country_id.name))
