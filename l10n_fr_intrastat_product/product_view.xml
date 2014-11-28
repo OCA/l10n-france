@@ -13,10 +13,9 @@
 <record id="product_template_form_view" model="ir.ui.view">
     <field name="name">fr.intrastat.product.template.form</field>
     <field name="model">product.template</field>
-    <field name="inherit_id" ref="intrastat_base.product_template_form_view" />
+    <field name="inherit_id" ref="intrastat_product.product_template_form_view" />
     <field name="arch" type="xml">
-        <field name="exclude_from_intrastat" position="before">
-            <field name="intrastat_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
+        <field name="intrastat_id" position="after">
             <field name="country_id" attrs="{'invisible': [('type', '=', 'service')]}"/>
         </field>
     </field>
@@ -34,89 +33,48 @@
     </field>
 </record>
 
-<!-- Add intrastat_id on Product category -->
-<record id="product_category_form_view" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.category.form</field>
-    <field name="model">product.category</field>
-    <field name="inherit_id" ref="product.product_category_form_view"/>
-    <field name="arch" type="xml">
-        <xpath expr="//group[@name='parent']" position="inside">
-            <group name="intrastat" string="Intrastat Properties" colspan="2">
-                <field name="intrastat_id" />
-            </group>
-        </xpath>
-    </field>
-</record>
-
 <!-- Add the field intrastat_label on product UoM -->
 <record id="product_uom_form_view" model="ir.ui.view">
     <field name="name">fr.intrastat.product.uom.form</field>
     <field name="model">product.uom</field>
     <field name="inherit_id" ref="product.product_uom_form_view" />
     <field name="arch" type="xml">
-        <data>
-            <field name="category_id" position="after">
-                <field name="intrastat_label" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
-            </field>
-        </data>
-    </field>
-</record>
-
-<!-- Add search view for H.S. code -->
-<record id="product_intrastat_code_search" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.intrastat.code.search</field>
-    <field name="model">report.intrastat.code</field>
-    <field name="arch" type="xml">
-        <search string="Search Intrastat Code">
-            <field name="name" />
-            <field name="description" />
-        </search>
+        <field name="category_id" position="after">
+            <field name="intrastat_label"
+                groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+        </field>
     </field>
 </record>
 
 
-<!-- Add tree view for H.S. code -->
+<!-- tree view for H.S. code -->
 <record id="product_intrastat_code_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.product.intrastat.code.tree</field>
     <field name="model">report.intrastat.code</field>
+    <field name="inherit_id" ref="intrastat_product.product_intrastat_code_tree"/>
     <field name="arch" type="xml">
-        <tree string="Intrastat code">
-            <field name="name" />
+        <field name="name" position="after">
             <field name="intrastat_code" />
-            <field name="description" />
-            <field name="intrastat_uom_id" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
-        </tree>
+            <field name="intrastat_uom_id"
+                groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+        </field>
     </field>
 </record>
 
-
-<!-- Add form view for H.S. code -->
+<!-- form view for H.S. code -->
 <record id="product_intrastat_code_form" model="ir.ui.view">
     <field name="name">fr.intrastat.product.intrastat.code.form</field>
     <field name="model">report.intrastat.code</field>
+    <field name="inherit_id" ref="intrastat_product.product_intrastat_code_form"/>
     <field name="arch" type="xml">
-        <form string="Intrastat code">
-            <field name="name" />
-            <field name="intrastat_code" />
-            <field name="description" />
-            <field name="intrastat_uom_id" />
-        </form>
+        <group name="main" position="after">
+            <group name="deb" string="for DEB">
+                <field name="intrastat_code" />
+                <field name="intrastat_uom_id" />
+            </group>
+        </group>
     </field>
 </record>
-
-<!-- Action for H.S. code -->
-<record id="product_intrastat_code_act" model="ir.actions.act_window">
-    <field name="name">Intrastat Code</field>
-    <field name="res_model">report.intrastat.code</field>
-    <field name="view_mode">tree,form</field>
-</record>
-
-<!-- Menu entry for H.S. code -->
-<menuitem id="product_intrastat_code_menu" action="product_intrastat_code_act" parent="product.prod_config_main" />
-
-<menuitem id="product_intrastat_code_menu_purchase" action="product_intrastat_code_act" parent="purchase.menu_product_in_config_purchase" />
-
-<menuitem id="product_intrastat_code_menu_stock" action="product_intrastat_code_act" parent="stock.menu_product_in_config_stock" />
 
 </data>
 </openerp>
