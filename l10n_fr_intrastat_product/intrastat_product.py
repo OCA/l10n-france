@@ -32,15 +32,15 @@ from lxml import etree
 logger = logging.getLogger(__name__)
 
 
-class report_intrastat_product(orm.Model):
-    _name = "report.intrastat.product"
-    _description = "Intrastat Product"
+class l10n_fr_report_intrastat_product(orm.Model):
+    _name = "l10n.fr.report.intrastat.product"
+    _description = "Intrastat Product for France (DEB)"
     _rec_name = "start_date"
     _inherit = ['mail.thread']
     _order = "start_date desc, type"
     _track = {
         'state': {
-            'l10n_fr_intrastat_product.declaration_done': lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
+            'l10n_fr_intrastat_product.l10n_fr_declaration_done': lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
             }
         }
 
@@ -53,7 +53,7 @@ class report_intrastat_product(orm.Model):
             'intrastat_line_ids': False,
             'state': 'draft',
         })
-        return super(report_intrastat_product, self).copy(cr, uid, id, default=default, context=context)
+        return super(l10n_fr_report_intrastat_product, self).copy(cr, uid, id, default=default, context=context)
 
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
@@ -73,7 +73,7 @@ class report_intrastat_product(orm.Model):
         return self.pool.get('report.intrastat.common')._compute_dates(cr, uid, ids, self, context=context)
 
     def _get_intrastat_from_product_line(self, cr, uid, ids, context=None):
-        return self.pool.get('report.intrastat.product').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
+        return self.pool.get('l10n.fr.report.intrastat.product').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
         'company_id': fields.many2one('res.company', 'Company', required=True,
@@ -84,13 +84,13 @@ class report_intrastat_product(orm.Model):
         'end_date': fields.function(_compute_dates, type='date',
             string='End date', multi='intrastat-product-dates', readonly=True,
             store={
-                'report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10),
+                'l10n.fr.report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10),
                 },
             help="End date for the declaration. Is the last day of the month of the start date."),
         'year_month': fields.function(_compute_dates, type='char',
              string='Month', multi='intrastat-product-dates', readonly=True,
              track_visibility='always', store={
-                'report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10)
+                'l10n.fr.report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10)
                 },
             help="Year and month of the declaration."),
         'type': fields.selection([
@@ -104,24 +104,24 @@ class report_intrastat_product(orm.Model):
             ], 'Obligation level', required=True, track_visibility='always',
             states={'done': [('readonly', True)]},
             help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for an Import DEB."),
-        'intrastat_line_ids': fields.one2many('report.intrastat.product.line',
+        'intrastat_line_ids': fields.one2many('l10n.fr.report.intrastat.product.line',
             'parent_id', 'Report intrastat product lines',
             states={'done': [('readonly', True)]}),
         'num_lines': fields.function(_compute_numbers, type='integer',
             multi='numbers', string='Number of lines', store={
-                'report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
+                'l10n.fr.report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
             },
             track_visibility='always', help="Number of lines in this declaration."),
         'total_amount': fields.function(_compute_numbers,
             digits_compute=dp.get_precision('Account'), multi='numbers',
             string='Total amount', store={
-                'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
+                'l10n.fr.report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
             },
             help="Total amount in company currency of the declaration."),
         'total_fiscal_amount': fields.function(_compute_total_fiscal_amount,
             digits_compute=dp.get_precision('Account'),
             string='Total fiscal amount', track_visibility='always', store={
-                'report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
+                'l10n.fr.report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
             },
             help="Total fiscal amount in company currency of the declaration. This is the total amount that is displayed on the Prodouane website."),
         'currency_id': fields.related('company_id', 'currency_id', readonly=True,
@@ -135,12 +135,12 @@ class report_intrastat_product(orm.Model):
     }
 
     def default_get(self, cr, uid, fields_list, context=None):
-        res = super(report_intrastat_product, self).default_get(
+        res = super(l10n_fr_report_intrastat_product, self).default_get(
             cr, uid, fields_list, context=context)
         if not res:
             res = {}
         company_id = self.pool['res.company']._company_default_get(
-            cr, uid, 'report.intrastat.product', context=context)
+            cr, uid, 'l10n.fr.report.intrastat.product', context=context)
         company = self.pool['res.company'].browse(
             cr, uid, company_id, context=context)
         if company.import_obligation_level == 'none':
@@ -204,7 +204,7 @@ class report_intrastat_product(orm.Model):
         assert len(ids) == 1, "Only one ID accepted"
         if context is None:
             context = {}
-        line_obj = self.pool['report.intrastat.product.line']
+        line_obj = self.pool['l10n.fr.report.intrastat.product.line']
 
         data_obj = self.pool['ir.model.data']
         uom_categ_model, weight_uom_categ_id = data_obj.get_object_reference(
@@ -500,7 +500,7 @@ class report_intrastat_product(orm.Model):
         assert len(ids) == 1, "Only one ID accepted"
         intrastat = self.browse(cr, uid, ids[0], context=context)
         self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, intrastat, context=context)
-        line_obj = self.pool.get('report.intrastat.product.line')
+        line_obj = self.pool.get('l10n.fr.report.intrastat.product.line')
         line_remove_ids = line_obj.search(cr, uid, [('parent_id', '=', ids[0]), ('invoice_id', '!=', False)], context=context)
         if line_remove_ids:
             line_obj.unlink(cr, uid, line_remove_ids, context=context)
@@ -793,13 +793,13 @@ class report_intrastat_product(orm.Model):
         return True
 
 
-class report_intrastat_product_line(orm.Model):
-    _name = "report.intrastat.product.line"
-    _description = "Intrastat Product Lines"
+class l10n_fr_report_intrastat_product_line(orm.Model):
+    _name = "l10n.fr.report.intrastat.product.line"
+    _description = "Intrastat Product Lines for France"
     _order = 'id'
 
     _columns = {
-        'parent_id': fields.many2one('report.intrastat.product', 'Intrastat product ref', ondelete='cascade', readonly=True),
+        'parent_id': fields.many2one('l10n.fr.report.intrastat.product', 'Intrastat product ref', ondelete='cascade', readonly=True),
         'company_id': fields.related('parent_id', 'company_id', type='many2one', relation='res.company', string="Company", readonly=True),
         'type': fields.related('parent_id', 'type', type='char', string="Type", readonly=True),
         'company_currency_id': fields.related('company_id', 'currency_id', type='many2one', relation='res.currency', string="Company currency", readonly=True),
