@@ -26,14 +26,23 @@
     'version': '0.1',
     'category': 'Extra Tools',
     'license': 'AGPL-3',
-    'summary': 'France-specific tuning for import of better zip entries from Geonames',
+    'summary': 'France-specific tuning for import of better zip entries '
+    'from Geonames',
     'description': """
 French Localization Base Location Geonames Import
 =================================================
 
-This module adds some France-specific tuning for the wizard that imports better zip entries from Geonames (http://download.geonames.org/export/zip/). This wizard is provided by the module base_location_geonames_import from the projet *partner-contact-management*. This tuning aims at complying with France's postal standards published by *La Poste*. This tuning will be applied for France and France-related territories where *La Poste* postal standards apply.
+This module adds some France-specific tuning for the
+wizard that imports better zip entries from Geonames
+(http://download.geonames.org/export/zip/). This wizard is provided
+by the module base_location_geonames_import from the projet
+*partner-contact-management*. This tuning aims at complying with
+France's postal standards published by *La Poste*. This tuning will
+be applied for France and France-related territories where *La Poste*
+postal standards apply.
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+This module has been written by Alexis de Lattre from Akretion
+<alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',

@@ -20,17 +20,17 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models, api
 from unidecode import unidecode
 
 
-class better_zip_geonames_import(orm.TransientModel):
+class better_zip_geonames_import(models.TransientModel):
     _inherit = 'better.zip.geonames.import'
 
-    def _prepare_better_zip(
-            self, cr, uid, row, country_id, states, context=None):
+    @api.model
+    def _prepare_better_zip(self, row, country_id):
         res = super(better_zip_geonames_import, self)._prepare_better_zip(
-            cr, uid, row, country_id, states, context=context)
+            row, country_id)
         if row[0] in [
                 'FR', 'RE', 'GP', 'MQ', 'GF', 'YT', 'BL', 'MF', 'PM',
                 'PF', 'NC', 'WF', 'MC', 'AD']:
