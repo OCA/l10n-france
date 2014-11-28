@@ -33,15 +33,15 @@ from lxml import etree
 logger = logging.getLogger(__name__)
 
 
-class report_intrastat_service(orm.Model):
-    _name = "report.intrastat.service"
+class l10n_fr_report_intrastat_service(orm.Model):
+    _name = "l10n.fr.report.intrastat.service"
     _order = "start_date desc"
     _rec_name = "start_date"
     _inherit = ['mail.thread']
     _description = "Intrastat Service"
     _track = {
         'state': {
-            'l10n_fr_intrastat_service.declaration_done':
+            'l10n_fr_intrastat_service.l10n_fr_declaration_done':
             lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
             }
         }
@@ -56,7 +56,7 @@ class report_intrastat_service(orm.Model):
             'intrastat_line_ids': False,
             'state': 'draft',
         })
-        return super(report_intrastat_service, self).copy(
+        return super(l10n_fr_report_intrastat_service, self).copy(
             cr, uid, id, default=default, context=context)
 
     def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
@@ -68,7 +68,7 @@ class report_intrastat_service(orm.Model):
             cr, uid, ids, self, context=context)
 
     def _get_intrastat_from_service_line(self, cr, uid, ids, context=None):
-        return self.pool['report.intrastat.service'].search(
+        return self.pool['l10n.fr.report.intrastat.service'].search(
             cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
 
     _columns = {
@@ -85,7 +85,7 @@ class report_intrastat_service(orm.Model):
             _compute_dates, type='date',
             string='End date', multi='intrastat-service-dates', readonly=True,
             store={
-                'report.intrastat.service': (
+                'l10n.fr.report.intrastat.service': (
                     lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20),
                 },
             help="End date for the declaration. Must be the last day of the "
@@ -94,19 +94,19 @@ class report_intrastat_service(orm.Model):
             _compute_dates, type='char',
             string='Month', multi='intrastat-service-dates', readonly=True,
             track_visibility='always', store={
-                'report.intrastat.service': (
+                'l10n.fr.report.intrastat.service': (
                     lambda self, cr, uid, ids, c={}: ids, ['start_date'], 20),
                 },
             help="Year and month of the declaration."),
         'intrastat_line_ids': fields.one2many(
-            'report.intrastat.service.line',
+            'l10n.fr.report.intrastat.service.line',
             'parent_id', 'Report intrastat service lines',
             states={'done': [('readonly', True)]}),
         'num_lines': fields.function(
             _compute_numbers,
             type='integer', multi='numbers', string='Number of lines',
             store={
-                'report.intrastat.service.line': (
+                'l10n.fr.report.intrastat.service.line': (
                     _get_intrastat_from_service_line, ['parent_id'], 20),
                 },
             track_visibility='always',
@@ -116,7 +116,7 @@ class report_intrastat_service(orm.Model):
             digits_compute=dp.get_precision('Account'),
             multi='numbers', string='Total amount',
             store={
-                'report.intrastat.service.line': (
+                'l10n.fr.report.intrastat.service.line': (
                     _get_intrastat_from_service_line,
                     ['amount_company_currency', 'parent_id'], 20),
                 },
@@ -145,7 +145,7 @@ class report_intrastat_service(orm.Model):
         'state': 'draft',
         'company_id': lambda self, cr, uid, context:
         self.pool['res.company']._company_default_get(
-            cr, uid, 'report.intrastat.service', context=context),
+            cr, uid, 'l10n.fr.report.intrastat.service', context=context),
         }
 
     def _check_start_date(self, cr, uid, ids):
@@ -165,7 +165,7 @@ class report_intrastat_service(orm.Model):
 
     def generate_service_lines(self, cr, uid, ids, context=None):
         intrastat = self.browse(cr, uid, ids[0], context=context)
-        line_obj = self.pool['report.intrastat.service.line']
+        line_obj = self.pool['l10n.fr.report.intrastat.service.line']
         invoice_obj = self.pool['account.invoice']
         self.pool['report.intrastat.common']._check_generate_lines(
             cr, uid, intrastat, context=context)
@@ -421,14 +421,14 @@ class report_intrastat_service(orm.Model):
         return True
 
 
-class report_intrastat_service_line(orm.Model):
-    _name = "report.intrastat.service.line"
+class l10n_fr_report_intrastat_service_line(orm.Model):
+    _name = "l10n.fr.report.intrastat.service.line"
     _description = "Intrastat Service Lines"
     _rec_name = "partner_vat"
     _order = 'id'
     _columns = {
         'parent_id': fields.many2one(
-            'report.intrastat.service',
+            'l10n.fr.report.intrastat.service',
             'Intrastat service ref', ondelete='cascade'),
         'company_id': fields.related(
             'parent_id', 'company_id',
