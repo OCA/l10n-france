@@ -10,9 +10,9 @@
 <data>
 
 <!-- Form view of DEB, with integrated form+tree view of lines -->
-<record id="intrastat_product_form" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.form</field>
-    <field name="model">report.intrastat.product</field>
+<record id="l10n_fr_intrastat_product_form" model="ir.ui.view">
+    <field name="name">l10n.fr.intrastat.product.form</field>
+    <field name="model">l10n.fr.report.intrastat.product</field>
     <field name="arch" type="xml">
         <form string="Intrastat Product">
             <header>
@@ -108,9 +108,9 @@
 </record>
 
 <!-- Tree view for DEB -->
-<record id="intrastat_product_tree" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.tree</field>
-    <field name="model">report.intrastat.product</field>
+<record id="l10n_fr_intrastat_product_tree" model="ir.ui.view">
+    <field name="name">l10n.fr.intrastat.product.tree</field>
+    <field name="model">l10n.fr.report.intrastat.product</field>
     <field name="arch" type="xml">
         <tree string="Intrastat Product" colors="blue:state=='draft'">
             <field name="year_month" />
@@ -128,9 +128,9 @@
 
 
 <!-- Search view for DEB -->
-<record id="intrastat_product_search" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.search</field>
-    <field name="model">report.intrastat.product</field>
+<record id="l10n_fr_intrastat_product_search" model="ir.ui.view">
+    <field name="name">l10n.fr.intrastat.product.search</field>
+    <field name="model">l10n.fr.report.intrastat.product</field>
     <field name="arch" type="xml">
         <search string="Search Intrastat Products">
             <filter name="import" string="Import" domain="[('type', '=', 'import')]" />
@@ -146,9 +146,9 @@
 </record>
 
 <!-- Graph view for DEB -->
-<record id="intrastat_product_graph" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.graph</field>
-    <field name="model">report.intrastat.product</field>
+<record id="l10n_fr_intrastat_product_graph" model="ir.ui.view">
+    <field name="name">l10n.fr.intrastat.product.graph</field>
+    <field name="model">l10n.fr.report.intrastat.product</field>
     <field name="arch" type="xml">
         <graph string="Intrastat Product" type="bar">
             <field name="start_date" type="row"/>
@@ -159,21 +159,23 @@
 </record>
 
 <!-- Action related -->
-<record id="intrastat_product_tree_action" model="ir.actions.act_window">
+<record id="l10n_fr_intrastat_product_tree_action" model="ir.actions.act_window">
     <field name="name">Intrastat Product</field>
-    <field name="res_model">report.intrastat.product</field>
+    <field name="res_model">l10n.fr.report.intrastat.product</field>
     <field name="view_mode">tree,form,graph</field>
 </record>
 
 
 <!-- Intrastat product menu -->
-<menuitem id="intrastat_product_menu" parent="intrastat_base.menu_intrastat_base_root" action="intrastat_product_tree_action" />
+<menuitem id="l10n_fr_intrastat_product_menu"
+    parent="intrastat_base.menu_intrastat_base_root"
+    action="l10n_fr_intrastat_product_tree_action" />
 
 
 <!-- Notification in the chatter -->
-<record id="declaration_done" model="mail.message.subtype">
+<record id="l10n_fr_declaration_done" model="mail.message.subtype">
     <field name="name">Intrastat Product Validated</field>
-    <field name="res_model">report.intrastat.product</field>
+    <field name="res_model">l10n.fr.report.intrastat.product</field>
     <field name="default" eval="False"/>
     <field name="description">Intrastat Product Validated</field>
 </record>
