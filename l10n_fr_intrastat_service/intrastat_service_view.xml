@@ -10,9 +10,9 @@
 <data>
 
 <!-- Form view for DES -->
-<record id="intrastat_service_form" model="ir.ui.view">
+<record id="l10n_fr_intrastat_service_form" model="ir.ui.view">
     <field name="name">fr.intrastat.service.form</field>
-    <field name="model">report.intrastat.service</field>
+    <field name="model">l10n.fr.report.intrastat.service</field>
     <field name="arch" type="xml">
         <form string="Intrastat Service">
             <header>
@@ -54,9 +54,9 @@
 </record>
 
 <!-- Tree view for DES -->
-<record id="intrastat_service_tree" model="ir.ui.view">
+<record id="l10n_fr_intrastat_service_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.service.tree</field>
-    <field name="model">report.intrastat.service</field>
+    <field name="model">l10n.fr.report.intrastat.service</field>
     <field name="arch" type="xml">
         <tree string="Intrastat Service" colors="blue:state=='draft'">
             <field name="year_month" />
@@ -70,9 +70,9 @@
 </record>
 
 <!-- Search view for DES -->
-<record id="intrastat_service_search" model="ir.ui.view">
+<record id="l10n_fr_intrastat_service_search" model="ir.ui.view">
     <field name="name">fr.intrastat.service.search</field>
-    <field name="model">report.intrastat.service</field>
+    <field name="model">l10n.fr.report.intrastat.service</field>
     <field name="arch" type="xml">
         <search string="Search Intrastat Service">
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
@@ -85,9 +85,9 @@
 </record>
 
 <!-- Graph view for DES -->
-<record id="intrastat_service_graph" model="ir.ui.view">
+<record id="l10n_fr_intrastat_service_graph" model="ir.ui.view">
     <field name="name">fr.intrastat.service.graph</field>
-    <field name="model">report.intrastat.service</field>
+    <field name="model">l10n.fr.report.intrastat.service</field>
     <field name="arch" type="xml">
         <graph string="Intrastat Service" type="bar">
             <field name="start_date" type="row"/>
@@ -97,9 +97,9 @@
 </record>
 
 <!-- Form view for service lines -->
-<record id="intrastat_service_line_form" model="ir.ui.view">
+<record id="l10n_fr_intrastat_service_line_form" model="ir.ui.view">
     <field name="name">fr.intrastat.service.line.form</field>
-    <field name="model">report.intrastat.service.line</field>
+    <field name="model">l10n.fr.report.intrastat.service.line</field>
     <field name="arch" type="xml">
         <form string="Intrastat service lines">
             <group colspan="4" col="4" string="Information to declare">
@@ -119,9 +119,9 @@
 </record>
 
 <!-- Tree view for service lines -->
-<record id="intrastat_service_line_tree" model="ir.ui.view">
+<record id="l10n_fr_intrastat_service_line_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.service.line.tree</field>
-    <field name="model">report.intrastat.service.line</field>
+    <field name="model">l10n.fr.report.intrastat.service.line</field>
     <field name="arch" type="xml">
         <tree string="Intrastat service lines">
             <field name="partner_vat" />
@@ -135,21 +135,23 @@
 
 
 <!-- Action related -->
-<record id="intrastat_service_tree_action" model="ir.actions.act_window">
+<record id="l10n_fr_intrastat_service_tree_action" model="ir.actions.act_window">
     <field name="name">Intrastat Service</field>
-    <field name="res_model">report.intrastat.service</field>
+    <field name="res_model">l10n.fr.report.intrastat.service</field>
     <field name="view_mode">tree,form,graph</field>
 </record>
 
 
 <!-- Intrastat service menu -->
-<menuitem id="intrastat_service_menu" parent="intrastat_base.menu_intrastat_base_root" action="intrastat_service_tree_action" />
+<menuitem id="l10n_fr_intrastat_service_menu"
+    parent="intrastat_base.menu_intrastat_base_root"
+    action="l10n_fr_intrastat_service_tree_action" />
 
 
 <!-- Notification in the chatter -->
-<record id="declaration_done" model="mail.message.subtype">
+<record id="l10n_fr_declaration_done" model="mail.message.subtype">
     <field name="name">Intrastat Service Validated</field>
-    <field name="res_model">report.intrastat.service</field>
+    <field name="res_model">l10n.fr.report.intrastat.service</field>
     <field name="default" eval="False"/>
     <field name="description">Intrastat Service Validated</field>
 </record>
