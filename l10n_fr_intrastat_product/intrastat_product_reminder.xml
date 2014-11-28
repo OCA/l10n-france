@@ -9,7 +9,7 @@
 <openerp>
 
 <data noupdate="1"> <!-- noupdate = 1 for the 'active' field -->
-<record id="intrastat_product_cron" model="ir.cron">
+<record id="l10n_fr_intrastat_product_cron" model="ir.cron">
     <field name="name">Intrastat Product Reminder</field>
     <field name="active" eval="False"/>
     <field name="user_id" ref="base.user_root"/>
@@ -17,7 +17,7 @@
     <field name="interval_type">months</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
     <field name="doall" eval="False"/>
-    <field name="model" eval="'report.intrastat.product'"/>
+    <field name="model" eval="'l10n.fr.report.intrastat.product'"/>
     <field name="function" eval="'_scheduler_reminder'" />
     <field name="args" eval="'()'"/>
 </record>
@@ -25,9 +25,9 @@
 </data>
 <data>
 
-<record id="intrastat_product_reminder_email_template" model="email.template">
+<record id="l10n_fr_intrastat_product_reminder_email_template" model="email.template">
     <field name="name">Intrastat Product Reminder</field>
-    <field name="model_id" ref="l10n_fr_intrastat_product.model_report_intrastat_product"/>
+    <field name="model_id" ref="l10n_fr_intrastat_product.model_l10n_fr_report_intrastat_product"/>
     <field name="email_from">${object.company_id.email or 'openerp@example.com'}</field>
     <field name="email_to">${object.company_id.intrastat_email_list}</field>
     <field name="subject">${object.type} Intrastat Product ${object.year_month} for ${object.company_id.name}</field>
