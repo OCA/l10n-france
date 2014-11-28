@@ -23,7 +23,7 @@
 
 {
     'name': 'France Intrastat Service',
-    'version': '1.1',
+    'version': '1.2',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
     'summary': 'Module for Intrastat service reporting (DES) for France',
@@ -46,6 +46,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     ],
     'demo': [],
     'installable': True,
-    'active': False,
     'application': True,
 }
