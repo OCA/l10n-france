@@ -65,21 +65,6 @@ class ProductUom(models.Model):
         "Product Report for this unit of measure.")
 
 
-class ProductTemplate(models.Model):
-    _inherit = "product.template"
-
-    country_id = fields.Many2one(
-        'res.country', string='Country of Origin',
-        help="Country of origin of the product i.e. product "
-        "'made in ____'. If you have different countries of origin "
-        "depending on the supplier from which you purchased the product, "
-        "leave this field empty and use the equivalent field on the "
-        "'product supplier info' form.")
-        # This field should be called origin_country_id, but it's named
-        # country_id to keep "compatibility with OpenERP users that used
-        # the "report_intrastat" module
-
-
 class ProductSupplierinfo(models.Model):
     _inherit = "product.supplierinfo"
 

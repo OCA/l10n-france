@@ -320,9 +320,9 @@ class l10n_fr_report_intrastat_product(orm.Model):
                 # The origin country should only be declated on Import
                 if intrastat.type == 'export':
                     product_country_origin_id_to_write = False
-                elif line.product_id.country_id:
+                elif line.product_id.origin_country_id:
                 # If we have the country of origin on the product -> take it
-                    product_country_origin_id_to_write = line.product_id.country_id.id
+                    product_country_origin_id_to_write = line.product_id.origin_country_id.id
                 else:
                     # If we don't, look on the product supplier info
                     origin_partner_id = parent_values.get('origin_partner_id', False)
@@ -830,7 +830,7 @@ class l10n_fr_report_intrastat_product_line(orm.Model):
             digits_compute=dp.get_precision('Account'), readonly=True,
             help="Amount of product value in invoice currency ; it is the amount of the invoice line or group of invoice lines."),
         'invoice_currency_id': fields.many2one('res.currency', "Invoice currency", readonly=True),
-        'product_country_origin_id': fields.many2one('res.country', 'Product country of origin'),
+        'product_country_origin_id': fields.many2one('res.country', 'Product country of origin'),  # TODO rename product_origin_country_id
         'product_country_origin_code': fields.related('product_country_origin_id', 'code', type='char', relation='res.country', string='Product country of origin', readonly=True),
         'transport': fields.selection([
             (1, '1. Transport maritime'),
