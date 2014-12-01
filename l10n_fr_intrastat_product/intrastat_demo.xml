@@ -39,60 +39,6 @@
     <field name="intrastat_label">PCE</field>
 </record>
 
-<record id="product.product_product_3" model="product.product">
-    <field name="country_id" ref="base.tw" />
-    <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">5</field>
-</record>
-
-<record id="product.product_product_4" model="product.product">
-    <field name="country_id" ref="base.cn" />
-    <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">6</field>
-</record>
-
-<record id="product.product_product_5" model="product.product">
-    <field name="country_id" ref="base.cn" />
-    <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">6</field>
-</record>
-
-<record id="product.product_product_25" model="product.product">
-    <field name="country_id" ref="base.be" />
-    <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">2</field>
-</record>
-
-<record id="product.product_product_17" model="product.product">
-    <field name="country_id" ref="base.sg" />
-    <field name="intrastat_id" ref="84717050" />
-    <field name="weight_net">0.5</field>
-</record>
-
-<record id="product.product_product_18" model="product.product">
-    <field name="country_id" ref="base.sg" />
-    <field name="intrastat_id" ref="84717050" />
-    <field name="weight_net">0.5</field>
-</record>
-
-<record id="product.product_product_19" model="product.product">
-    <field name="country_id" ref="base.sg" />
-    <field name="intrastat_id" ref="84717050" />
-    <field name="weight_net">0.5</field>
-</record>
-
-<record id="product.product_product_20" model="product.product">
-    <field name="country_id" ref="base.tw" />
-    <field name="intrastat_id" ref="85340090" />
-    <field name="weight_net">0.7</field>
-</record>
-
-<record id="product.product_product_21" model="product.product">
-    <field name="country_id" ref="base.tw" />
-    <field name="intrastat_id" ref="85340090" />
-    <field name="weight_net">0.8</field>
-</record>
-
 <!-- Elec import is the fiscal rep of Asustek -->
 <record id="base.res_partner_1" model="res.partner">
     <field name="intrastat_fiscal_representative" ref="base.res_partner_2" />
