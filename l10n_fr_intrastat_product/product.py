@@ -22,7 +22,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning, ValidationError
 
 
 class ReportIntrastatCode(models.Model):
@@ -43,13 +43,13 @@ class ReportIntrastatCode(models.Model):
     @api.constrains('intrastat_code')
     def _intrastat_code(self):
         if self.intrastat_code and not self.intrastat_code.isdigit():
-            raise Warning(
+            raise ValidationError(
                 _("The field Intrastat Code for DEB should "
                     "only contain digits. It is not the case of Intrastat "
                     "Code '%s'.")
                 % self.intrastat_code)
         if self.intrastat_code and len(self.intrastat_code) not in (8, 9):
-            raise Warning(
+            raise ValidationError(
                 _("The field Intrastat Code for DEB should "
                     "contain 8 or 9 caracters. It is not the case of "
                     "Intrastat Code '%s'.")
@@ -85,7 +85,7 @@ class ProductSupplierinfo(models.Model):
             # 'name' on product_supplierinfo is a many2one to res.partner
         for supplieri in same_product_same_suppliers:
             if self.origin_country_id != supplieri.origin_country_id:
-                raise Warning(
+                raise ValidationError(
                     _("For a particular product, all supplier info "
                         "entries with the same supplier should have the "
                         "same country of origin. But, for product '%s' "
