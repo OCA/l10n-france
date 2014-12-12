@@ -1,0 +1,105 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_siret
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-12 23:33+0000\n"
+"PO-Revision-Date: 2014-12-12 23:33+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_siret
+#: view:res.partner:l10n_fr_siret.view_partner_add
+msgid "Accounting"
+msgstr "Comptabilité"
+
+#. module: l10n_fr_siret
+#: model:ir.model,name:l10n_fr_siret.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: l10n_fr_siret
+#: field:res.partner,company_registry:0
+msgid "Company Registry"
+msgstr "RCS"
+
+#. module: l10n_fr_siret
+#: field:res.company,nic:0
+#: field:res.partner,nic:0
+msgid "NIC"
+msgstr "NIC"
+
+#. module: l10n_fr_siret
+#: model:ir.model,name:l10n_fr_siret.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: l10n_fr_siret
+#: field:res.company,siren:0
+#: field:res.partner,siren:0
+msgid "SIREN"
+msgstr "SIREN"
+
+#. module: l10n_fr_siret
+#: view:res.partner:l10n_fr_siret.view_partner_add
+msgid "SIREN/NIC"
+msgstr "SIREN/NIC"
+
+#. module: l10n_fr_siret
+#: field:res.partner,siret:0
+msgid "SIRET"
+msgstr "SIRET"
+
+#. module: l10n_fr_siret
+#: code:addons/l10n_fr_siret/partner.py:66
+#, python-format
+msgid "The NIC '%s' is incorrect: it must be have exactly 5 digits."
+msgstr "Le NIC '%s' est incorrect : il doit avoir exactement 5 chiffres."
+
+#. module: l10n_fr_siret
+#: help:res.company,nic:0
+#: help:res.partner,nic:0
+msgid "The NIC number is the official rank number of this office in the company in France. It makes the last 5 digits of the SIRET number."
+msgstr "Le numéro NIC est le numéro de rang officiel de cet établissement dans sa société en France. Il compose les 5 derniers chiffres du numéro SIRET."
+
+#. module: l10n_fr_siret
+#: code:addons/l10n_fr_siret/partner.py:73
+#, python-format
+msgid "The SIREN '%s' is incorrect: it must have exactly 9 digits."
+msgstr "Le SIREN '%s' est incorrect : il doit avoir exactement 9 chiffres."
+
+#. module: l10n_fr_siret
+#: code:addons/l10n_fr_siret/partner.py:77
+#, python-format
+msgid "The SIREN '%s' is invalid: the checksum is wrong."
+msgstr "Le SIREN '%s' est invalide : la clé de contrôle est fausse."
+
+#. module: l10n_fr_siret
+#: help:res.company,siren:0
+#: help:res.partner,siren:0
+msgid "The SIREN number is the official identity number of the company in France. It makes the first 9 digits of the SIRET number."
+msgstr "Le numéro SIREN est l'identifiant officiel de la société en France. Il compose les 9 premiers chiffres du numéro SIRET."
+
+#. module: l10n_fr_siret
+#: code:addons/l10n_fr_siret/partner.py:82
+#, python-format
+msgid "The SIRET '%s%s' is invalid: the checksum is wrong."
+msgstr "Le SIRET '%s%s' est invalide : la clé de contrôle est fausse."
+
+#. module: l10n_fr_siret
+#: help:res.partner,siret:0
+msgid "The SIRET number is the official identity number of this company's office in France. It is composed of the 9 digits of the SIREN number and the 5 digits of the NIC number, ie. 14 digits."
+msgstr "Le numéro SIRET est l'identifiant officiel de l'établissement en France. Il est composé des 9 chiffres du numéro SIREN et des 5 chiffres du numéro NIC, soit 14 chiffres."
+
+#. module: l10n_fr_siret
+#: help:res.partner,company_registry:0
+msgid "The name of official registry where this company was declared."
+msgstr "Nom de la ville du tribunal de commerce dans laquelle la société est enregistrée."
+
