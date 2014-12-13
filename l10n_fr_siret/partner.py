@@ -46,7 +46,6 @@ class Partner(models.Model):
     @api.depends('siren', 'nic')
     def _get_siret(self):
         """Concatenate the SIREN and NIC to form the SIRET"""
-        print "self.siren=", self.siren
         if self.siren:
             if self.nic:
                 self.siret = self.siren + self.nic
