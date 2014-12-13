@@ -22,38 +22,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning, ValidationError
-
-
-class ReportIntrastatCode(models.Model):
-    _inherit = "report.intrastat.code"
-
-    intrastat_code = fields.Char(
-        string='Intrastat Code for DEB', size=9, required=True,
-        help="H.S. code used for the DEB in France. Must be part "
-        "of the 'Nomenclature combinée' (NC) with 8 digits with "
-        "sometimes a 9th digit for the "
-        "'Nomenclature Générale des Produits' (NGP).")
-    intrastat_uom_id = fields.Many2one(
-        'product.uom', string='UoM for intrastat product report',
-        help="Select the unit of measure if one is required for "
-        "this particular intrastat code (other than the weight in Kg). "
-        "If no particular unit of measure is required, leave empty.")
-
-    @api.constrains('intrastat_code')
-    def _intrastat_code(self):
-        if self.intrastat_code and not self.intrastat_code.isdigit():
-            raise ValidationError(
-                _("The field Intrastat Code for DEB should "
-                    "only contain digits. It is not the case of Intrastat "
-                    "Code '%s'.")
-                % self.intrastat_code)
-        if self.intrastat_code and len(self.intrastat_code) not in (8, 9):
-            raise ValidationError(
-                _("The field Intrastat Code for DEB should "
-                    "contain 8 or 9 caracters. It is not the case of "
-                    "Intrastat Code '%s'.")
-                % self.intrastat_code)
+from openerp.exceptions import ValidationError
 
 
 class ProductUom(models.Model):

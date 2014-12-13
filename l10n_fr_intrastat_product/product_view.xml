@@ -35,34 +35,5 @@
 </record>
 
 
-<!-- tree view for H.S. code -->
-<record id="product_intrastat_code_tree" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.intrastat.code.tree</field>
-    <field name="model">report.intrastat.code</field>
-    <field name="inherit_id" ref="intrastat_product.product_intrastat_code_tree"/>
-    <field name="arch" type="xml">
-        <field name="name" position="after">
-            <field name="intrastat_code" />
-            <field name="intrastat_uom_id"
-                groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
-        </field>
-    </field>
-</record>
-
-<!-- form view for H.S. code -->
-<record id="product_intrastat_code_form" model="ir.ui.view">
-    <field name="name">fr.intrastat.product.intrastat.code.form</field>
-    <field name="model">report.intrastat.code</field>
-    <field name="inherit_id" ref="intrastat_product.product_intrastat_code_form"/>
-    <field name="arch" type="xml">
-        <group name="main" position="after">
-            <group name="deb" string="for DEB">
-                <field name="intrastat_code" />
-                <field name="intrastat_uom_id" />
-            </group>
-        </group>
-    </field>
-</record>
-
 </data>
 </openerp>
