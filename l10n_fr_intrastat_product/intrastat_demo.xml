@@ -21,20 +21,6 @@
     <field name="country_id" ref="base.fr"/>
 </record>
 
-<record id="intrastat_product.84715000" model="report.intrastat.code">
-    <field name="intrastat_code">84715000</field>
-    <field name="intrastat_uom_id" ref="product.product_uom_unit"/>
-</record>
-
-<record id="intrastat_product.84717050" model="report.intrastat.code">
-    <field name="intrastat_code">84717050</field>
-    <field name="intrastat_uom_id" ref="product.product_uom_unit"/>
-</record>
-
-<record id="intrastat_product.85340090" model="report.intrastat.code">
-    <field name="intrastat_code">85340090</field>
-</record>
-
 <record id="product.product_uom_unit" model="product.uom">
     <field name="intrastat_label">PCE</field>
 </record>
