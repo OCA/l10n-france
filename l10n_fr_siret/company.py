@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    Odoo, Open Source Management Solution
 #    Copyright (C) 2011 Numérigraphe SARL.
+#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,27 +21,21 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, orm
+from openerp import models, fields
 
 
-class res_company(orm.Model):
+class ResCompany(models.Model):
     """Replace the company's fields for SIRET/RC with the partner's"""
     _inherit = 'res.company'
 
-    def _get_partner_change(self, cr, uid, ids, context=None):
-        return self.pool['res.company'].search(
-            cr, uid, [('partner_id', 'in', ids)], context=context)
-
-    _columns = {
-        'siret': fields.related(
-            'partner_id', 'siret', type='char', string='SIRET', store={
-                'res.partner': (_get_partner_change, ['siren', 'nic'], 20),
-                'res.company': (lambda self, cr, uid, ids, c={}:
-                                ids, ['partner_id'], 20), }),
-        'company_registry': fields.related(
-            'partner_id', 'company_registry', type='char',
-            string='Company Registry', store={
-                'res.partner': (_get_partner_change, ['company_registry'], 20),
-                'res.company': (lambda self, cr, uid, ids, c={}:
-                                ids, ['partner_id'], 20), })
-    }
+    # siret field is defined in l10n_fr module
+    siret = fields.Char(
+        string='SIRET', related='partner_id.siret', store=True)
+    siren = fields.Char(
+        string='SIREN', related='partner_id.siren', store=True)
+    nic = fields.Char(
+        string='NIC', related='partner_id.nic', store=True)
+    # company_registry field is definied in base module
+    company_registry = fields.Char(
+        string='Company Registry', related='partner_id.company_registry',
+        store=True)
