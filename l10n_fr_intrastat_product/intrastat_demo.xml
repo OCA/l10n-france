@@ -21,82 +21,8 @@
     <field name="country_id" ref="base.fr"/>
 </record>
 
-<record id="84715000" model="report.intrastat.code">
-    <field name="name">84715000</field>
-    <field name="description">Automatic data-processing machines (computers)</field>
-    <field name="intrastat_code">84715000</field>
-    <field name="intrastat_uom_id" ref="product.product_uom_unit"/>
-</record>
-
-<record id="84717050" model="report.intrastat.code">
-    <field name="name">84717050</field>
-    <field name="description">Storage units</field>
-    <field name="intrastat_code">84717050</field>
-    <field name="intrastat_uom_id" ref="product.product_uom_unit"/>
-</record>
-
-<record id="85340090" model="report.intrastat.code">
-    <field name="name">85340090</field>
-    <field name="description">Printed circuits</field>
-    <field name="intrastat_code">85340090</field>
-</record>
-
 <record id="product.product_uom_unit" model="product.uom">
     <field name="intrastat_label">PCE</field>
-</record>
-
-<record id="product.product_product_3" model="product.product">
-    <field name="country_id" ref="base.tw" />
-    <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">5</field>
-</record>
-
-<record id="product.product_product_4" model="product.product">
-    <field name="country_id" ref="base.cn" />
-    <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">6</field>
-</record>
-
-<record id="product.product_product_5" model="product.product">
-    <field name="country_id" ref="base.cn" />
-    <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">6</field>
-</record>
-
-<record id="product.product_product_25" model="product.product">
-    <field name="country_id" ref="base.be" />
-    <field name="intrastat_id" ref="84715000" />
-    <field name="weight_net">2</field>
-</record>
-
-<record id="product.product_product_17" model="product.product">
-    <field name="country_id" ref="base.sg" />
-    <field name="intrastat_id" ref="84717050" />
-    <field name="weight_net">0.5</field>
-</record>
-
-<record id="product.product_product_18" model="product.product">
-    <field name="country_id" ref="base.sg" />
-    <field name="intrastat_id" ref="84717050" />
-    <field name="weight_net">0.5</field>
-</record>
-
-<record id="product.product_product_19" model="product.product">
-    <field name="country_id" ref="base.sg" />
-    <field name="intrastat_id" ref="84717050" />
-    <field name="weight_net">0.5</field>
-</record>
-
-<record id="product.product_product_20" model="product.product">
-    <field name="country_id" ref="base.tw" />
-    <field name="intrastat_id" ref="85340090" />
-    <field name="weight_net">0.7</field>
-</record>
-
-<record id="product.product_product_21" model="product.product">
-    <field name="country_id" ref="base.tw" />
-    <field name="intrastat_id" ref="85340090" />
-    <field name="weight_net">0.8</field>
 </record>
 
 <!-- Elec import is the fiscal rep of Asustek -->
