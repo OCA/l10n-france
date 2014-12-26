@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2010-2013 Akretion (http://www.akretion.com/)
+    Copyright (C) 2010-2014 Akretion (http://www.akretion.com/)
     @author Alexis de Lattre <alexis.delattre@akretion.com>
     The licence is in the file __openerp__.py
 -->
@@ -103,7 +103,7 @@
     <field name="arch" type="xml">
         <form string="Intrastat service lines">
             <group colspan="4" col="4" string="Information to declare">
-                <field name="partner_id" on_change="partner_on_change(partner_id, context)" />
+                <field name="partner_id" />
                 <field name="partner_vat" />
                 <field name="amount_company_currency" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
                 <field name="company_currency_id" invisible="1"/>
