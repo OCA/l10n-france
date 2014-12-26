@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+
 def migrate(cr, version):
     if not version:
         return
@@ -37,7 +38,8 @@ def migrate(cr, version):
         "WHERE model='report.intrastat.service.line'")
 
     cr.execute(
-        "UPDATE ir_model_fields SET relation='l10n.fr.report.intrastat.service.line' "
+        "UPDATE ir_model_fields SET "
+        "relation='l10n.fr.report.intrastat.service.line' "
         "WHERE relation='report.intrastat.service.line'")
 
     cr.execute(
@@ -53,5 +55,6 @@ def migrate(cr, version):
         "WHERE model='report.intrastat.service'")
 
     cr.execute(
-        "UPDATE ir_model_fields SET relation='l10n.fr.report.intrastat.service' "
+        "UPDATE ir_model_fields "
+        "SET relation='l10n.fr.report.intrastat.service' "
         "WHERE relation='report.intrastat.service'")
