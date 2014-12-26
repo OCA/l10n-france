@@ -17,7 +17,7 @@
     <field name="interval_type">months</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
     <field name="doall" eval="False"/>
-    <field name="model" eval="'report.intrastat.service'"/>
+    <field name="model" eval="'l10n.fr.report.intrastat.service'"/>
     <field name="function" eval="'_scheduler_reminder'" />
     <field name="args" eval="'()'"/>
 </record>
@@ -27,7 +27,7 @@
 
 <record id="intrastat_service_reminder_email_template" model="email.template">
     <field name="name">Intrastat Service Reminder</field>
-    <field name="model_id" ref="l10n_fr_intrastat_service.model_report_intrastat_service"/>
+    <field name="model_id" ref="l10n_fr_intrastat_service.model_l10n_fr_report_intrastat_service"/>
     <field name="email_from">${object.company_id.email or 'openerp@example.com'}</field>
     <field name="email_to">${object.company_id.intrastat_email_list}</field>
     <field name="subject">Intrastat Service ${object.year_month} for ${object.company_id.name}</field>
