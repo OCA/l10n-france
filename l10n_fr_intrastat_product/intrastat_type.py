@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat base module for OpenERP
+#    L10n FR Report intrastat product module for Odoo
 #    Copyright (C) 2010-2014 Akretion (http://www.akretion.com/)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -20,136 +20,102 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import ValidationError
 
 # If you modify the line below, please also update intrastat_type_view.xml
 # (form view of report.intrastat.type, field transaction_code
 fiscal_only_tuple = ('25', '26', '31')
 
 
-class report_intrastat_type(orm.Model):
+class ReportIntrastatType(models.Model):
     _name = "report.intrastat.type"
     _description = "Intrastat type"
     _order = "procedure_code, transaction_code"
 
-    def _compute_readonly_fields(self, cr, uid, procedure_code, context=None):
-        res = {}
-        if procedure_code in ('19', '29'):
-            res['fiscal_value_multiplier'] = 0
-        elif procedure_code == '25':
-            res['fiscal_value_multiplier'] = -1
+    @api.one
+    @api.depends('procedure_code')
+    def _compute_all(self):
+        if self.procedure_code in ('19', '29'):
+            self.fiscal_value_multiplier = 0
+        elif self.procedure_code == '25':
+            self.fiscal_value_multiplier = -1
         else:
-            res['fiscal_value_multiplier'] = 1
-        if procedure_code in fiscal_only_tuple:
-            res['is_fiscal_only'] = True
+            self.fiscal_value_multiplier = 1
+        if self.procedure_code in fiscal_only_tuple:
+            self.is_fiscal_only = True
         else:
-            res['is_fiscal_only'] = False
-        if procedure_code in ('11', '19', '29'):
-            res['is_vat_required'] = False
+            self.is_fiscal_only = False
+        if self.procedure_code in ('11', '19', '29'):
+            self.is_vat_required = False
         else:
-            res['is_vat_required'] = True
-        if procedure_code in ('11', '19'):
-            res['intrastat_product_type'] = 'import'
+            self.is_vat_required = True
+        if self.procedure_code in ('11', '19'):
+            self.intrastat_product_type = 'import'
         else:
-            res['intrastat_product_type'] = 'export'
-        return res
+            self.intrastat_product_type = 'export'
 
-    def _compute_all(self, cr, uid, ids, name, arg, context=None):
-        result = {}
-        for intr_type in self.read(
-                cr, uid, ids, ['id', 'procedure_code'], context=context):
-            result[intr_type['id']] = self._compute_readonly_fields(
-                cr, uid, intr_type['procedure_code'], context=context)
-        return result
-
-    _columns = {
-        'name': fields.char(
-            'Name', size=64, required=True,
-            help="Description of the Intrastat type."),
-        'active': fields.boolean(
-            'Active',
-            help="The active field allows you to hide the Intrastat "
-            "type without deleting it."),
-        'object_type': fields.selection([
-            ('out_invoice', 'Customer Invoice'),
-            ('in_invoice', 'Supplier Invoice'),
-            ('out_refund', 'Customer Refund'),
-            ('none', 'None'),
-        ], 'Possible on', select=True, required=True),
-        'procedure_code': fields.selection([
-            ('11', "11. Acquisitions intracomm. taxables en France"),
-            ('19', "19. Autres introductions"),
-            ('21', "21. Livraisons intracomm. exo. en France et taxables "
-                "dans l'Etat d'arrivée"),
-            ('25', "25. Régularisation commerciale - minoration de valeur"),
-            ('26', "26. Régularisation commerciale - majoration de valeur"),
-            ('29', "29. Autres expéditions intracomm. : travail à façon, "
-                "réparation..."),
-            ('31', "31. Refacturation dans le cadre d'une opération "
-                "triangulaire")
-            ], 'Procedure code', required=True,
-            help="For the 'DEB' declaration to France's customs "
-            "administration, you should enter the 'code régime' here."),
-        'transaction_code': fields.selection([
-            ('', '-'),
-            ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'),
-            ('19', '19'),
-            ('21', '21'), ('22', '22'), ('23', '23'), ('29', '29'),
-            ('30', '30'),
-            ('41', '41'), ('42', '42'),
-            ('51', '51'), ('52', '52'),
-            ('70', '70'),
-            ('80', '80'),
-            ('91', '91'), ('99', '99'),
-            ], 'Transaction code',
-            help="For the 'DEB' declaration to France's customs "
-            "administration, you should enter the number 'nature de la "
-            "transaction' here."),
-        'is_fiscal_only': fields.function(
-            _compute_all, multi="akretionrules", type='boolean',
-            string='Is fiscal only ?', store={
-                'report.intrastat.type': (
-                    lambda self, cr, uid, ids, c={}:
-                    ids, ['procedure_code'], 10),
-                },
-            help="Only fiscal data should be provided for this procedure "
-            "code."),
-        'fiscal_value_multiplier': fields.function(
-            _compute_all, multi="akretionrules", type='integer',
-            string='Fiscal value multiplier', store={
-                'report.intrastat.type': (
-                    lambda self, cr, uid, ids, c={}:
-                    ids, ['procedure_code'], 10),
-                },
-            help="'0' for procedure codes 19 and 29, "
-            "'-1' for procedure code 25, '1' for all the others. "
-            "This multiplier is used to compute the total fiscal value of "
-            "the declaration."),
-        'is_vat_required': fields.function(
-            _compute_all, multi="akretionrules", type='boolean',
-            string='Is partner VAT required?', store={
-                'report.intrastat.type': (
-                    lambda self, cr, uid, ids, c={}:
-                    ids, ['procedure_code'], 10),
-                },
-            help="True for all procedure codes except 11, 19 and 29. "
-            "When False, the VAT number should not be filled in the "
-            "Intrastat product line."),
-        'intrastat_product_type': fields.function(
-            _compute_all, type='char', size=10, multi="akretionrules",
-            string='Intrastat product type', store={
-                'report.intrastat.type': (
-                    lambda self, cr, uid, ids, c={}:
-                    ids, ['procedure_code'], 10),
-                },
-            help="Decides on which kind of Intrastat product report "
-            "('Import' or 'Export') this Intrastat type can be selected."),
-        }
-
-    _defaults = {
-        'active': True,
-    }
+    name = fields.Char(
+        string='Name', required=True,
+        help="Description of the Intrastat type.")
+    active = fields.Boolean(string='Active', default=True)
+    object_type = fields.Selection([
+        ('out_invoice', 'Customer Invoice'),
+        ('in_invoice', 'Supplier Invoice'),
+        ('out_refund', 'Customer Refund'),
+        ('none', 'None'),
+        ], string='Possible on', select=True, required=True)
+    procedure_code = fields.Selection([
+        ('11', "11. Acquisitions intracomm. taxables en France"),
+        ('19', "19. Autres introductions"),
+        ('21', "21. Livraisons intracomm. exo. en France et taxables "
+            "dans l'Etat d'arrivée"),
+        ('25', "25. Régularisation commerciale - minoration de valeur"),
+        ('26', "26. Régularisation commerciale - majoration de valeur"),
+        ('29', "29. Autres expéditions intracomm. : travail à façon, "
+            "réparation..."),
+        ('31', "31. Refacturation dans le cadre d'une opération "
+            "triangulaire")
+        ], string='Procedure code', required=True,
+        help="For the 'DEB' declaration to France's customs "
+        "administration, you should enter the 'code régime' here.")
+    transaction_code = fields.Selection([
+        ('', '-'),
+        ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'),
+        ('19', '19'),
+        ('21', '21'), ('22', '22'), ('23', '23'), ('29', '29'),
+        ('30', '30'),
+        ('41', '41'), ('42', '42'),
+        ('51', '51'), ('52', '52'),
+        ('70', '70'),
+        ('80', '80'),
+        ('91', '91'), ('99', '99'),
+        ], string='Transaction code',
+        help="For the 'DEB' declaration to France's customs "
+        "administration, you should enter the number 'nature de la "
+        "transaction' here.")
+    is_fiscal_only = fields.Boolean(
+        compute='_compute_all', string='Is fiscal only ?', store=True,
+        readonly=True,
+        help="Only fiscal data should be provided for this procedure code.")
+    fiscal_value_multiplier = fields.Integer(
+        compute='_compute_all', string='Fiscal value multiplier', store=True,
+        readonly=True,
+        help="'0' for procedure codes 19 and 29, "
+        "'-1' for procedure code 25, '1' for all the others. "
+        "This multiplier is used to compute the total fiscal value of "
+        "the declaration.")
+    is_vat_required = fields.Boolean(
+        compute='_compute_all', string='Is partner VAT required?', store=True,
+        readonly=True,
+        help="True for all procedure codes except 11, 19 and 29. "
+        "When False, the VAT number should not be filled in the "
+        "Intrastat product line.")
+    intrastat_product_type = fields.Char(
+        compute='_compute_all', string='Intrastat product type', store=True,
+        readonly=True,
+        help="Decides on which kind of Intrastat product report "
+        "('Import' or 'Export') this Intrastat type can be selected.")
 
     _sql_constraints = [(
         'code_invoice_type_uniq',
@@ -157,73 +123,28 @@ class report_intrastat_type(orm.Model):
         'The pair (procedure code, transaction code) must be unique.'
         )]
 
-    def real_code_check(self, codes):
-        if not codes['procedure_code']:
-            raise orm.except_orm(
-                _('Error :'),
-                _('You must enter a value for the procedure code.'))
-        if not codes['procedure_code'].isdigit():
-            raise orm.except_orm(
-                _('Error :'),
-                _('Procedure code must be a number.'))
-        if len(codes['procedure_code']) != 2:
-            raise orm.except_orm(
-                _('Error :'),
-                _('Procedure code must have 2 digits.'))
-        if codes['transaction_code']:
-            if not codes['transaction_code'].isdigit():
-                raise orm.except_orm(
-                    _('Error :'),
-                    _('Transaction code must be a number.'))
-            if len(codes['transaction_code']) != 2:
-                raise orm.except_orm(
-                    _('Error :'),
-                    _('Transaction code must have 2 digits.'))
-        return True
+    @api.one
+    @api.constrains('procedure_code', 'transaction_code')
+    def _code_check(self):
+        if self.object_type == 'out' and self.procedure_code != '29':
+            raise ValidationError(
+                _("Procedure code must be '29' for an Outgoing products."))
+        elif self.object_type == 'in' and self.procedure_code != '19':
+            raise ValidationError(
+                _("Procedure code must be '19' for an Incoming products."))
+        if (
+                self.procedure_code not in fiscal_only_tuple
+                and not self.transaction_code):
+            raise ValidationError(
+                _('You must enter a value for the transaction code.'))
+        if (
+                self.procedure_code in fiscal_only_tuple
+                and self.transaction_code):
+            raise ValidationError(
+                _("You should not set a transaction code when the "
+                    "Procedure code is '25', '26' or '31'."))
 
-    def _code_check(self, cr, uid, ids):
-        for intrastat_type in self.read(
-                cr, uid, ids, [
-                    'procedure_code', 'transaction_code',
-                    'is_fiscal_only', 'object_type',
-                    ]):
-            self.real_code_check(intrastat_type)
-            if (intrastat_type['object_type'] == 'out'
-                    and intrastat_type['procedure_code'] != '29'):
-                raise orm.except_orm(
-                    _('Error :'),
-                    _("Procedure code must be '29' for an Outgoing products."))
-            elif (intrastat_type['object_type'] == 'in'
-                    and intrastat_type['procedure_code'] != '19'):
-                raise orm.except_orm(
-                    _('Error :'),
-                    _("Procedure code must be '19' for an Incoming products."))
-            if (intrastat_type['procedure_code'] not in fiscal_only_tuple
-                    and not intrastat_type['transaction_code']):
-                raise orm.except_orm(
-                    _('Error :'),
-                    _('You must enter a value for the transaction code.'))
-            if (intrastat_type['procedure_code'] in fiscal_only_tuple
-                    and intrastat_type['transaction_code']):
-                raise orm.except_orm(
-                    _('Error :'),
-                    _("You should not set a transaction code when the "
-                        "Procedure code is '25', '26' or '31'."))
-        return True
-
-    _constraints = [(
-        _code_check,
-        "Wrong configuraion of the intrastat type",
-        ['procedure_code', 'transaction_code']),
-    ]
-
-    def procedure_code_on_change(
-            self, cr, uid, ids, procedure_code=False, context=None):
-        result = {}
-        result['value'] = {}
-        if procedure_code in fiscal_only_tuple:
-            result['value']['transaction_code'] = False
-        result['value'].update(
-            self._compute_readonly_fields(
-                cr, uid, procedure_code, context=context))
-        return result
+    @api.onchange('procedure_code')
+    def procedure_code_on_change(self):
+        if self.procedure_code in fiscal_only_tuple:
+            self.transaction_code = False
