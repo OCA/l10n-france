@@ -855,7 +855,7 @@ class l10n_fr_report_intrastat_product_line(orm.Model):
 
     def _check_intrastat_line(self, cr, uid, ids):
         for lines in self.read(cr, uid, ids, ['procedure_code', 'transaction_code', 'weight', 'quantity']):
-            self.pool['report.intrastat.type'].real_code_check(lines)
+            #self.pool['report.intrastat.type'].real_code_check(lines)
             if lines['weight'] and not lines['weight'].isdigit():
                 raise orm.except_orm(
                     _('Error :'),
