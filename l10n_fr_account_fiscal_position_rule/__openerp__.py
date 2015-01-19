@@ -20,21 +20,22 @@
 ###############################################################################
 
 
-{'name': 'l10n_fr_account_fiscal_position_rule',
- 'version': '0.0.1',
- 'author': 'Akretion',
- 'website': 'www.akretion.com',
- 'license': 'AGPL-3',
- 'category': 'French Localization',
- 'description': """French Fiscal rule to set automatically the
- fiscal position depending on the partner address
- """,
- 'depends': [
-     'account_fiscal_position_rule',
- ],
- 'data': [
-     'settings/account.fiscal.position.rule.template.csv',
- ],
- 'installable': True,
- 'application': True,
+{
+    'name': 'l10n_fr_account_fiscal_position_rule',
+    'version': '0.0.1',
+    'author': 'Akretion',
+    'website': 'www.akretion.com',
+    'license': 'AGPL-3',
+    'category': 'French Localization',
+    'description': """French Fiscal rule to set automatically the
+fiscal position depending on the partner address
+""",
+    'depends': [
+        'account_fiscal_position_rule',
+    ],
+    'data': [
+        'settings/account.fiscal.position.rule.template.csv',
+    ],
+    'installable': True,
+    'application': True,
 }
