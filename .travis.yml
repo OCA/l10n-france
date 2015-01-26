@@ -18,7 +18,7 @@ install:
   - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
-  - sudo pip install unicodecsv
+  - sudo pip install unicodecsv unidecode
 
 script:
   - travis_run_tests
