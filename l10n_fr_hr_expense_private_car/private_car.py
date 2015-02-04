@@ -291,3 +291,29 @@ class hr_expense_line(orm.Model):
                                 "expenses manually.")}
                         res['value']['unit_amount'] = original_unit_amount
         return res
+
+    def _check_private_car(self, cr, uid, ids):
+        generic_private_car_product_id = \
+            self.pool['ir.model.data'].xmlid_to_res_id(
+                cr, uid, 'l10n_fr_hr_expense_private_car.'
+                'generic_private_car_expense', raise_if_not_found=True)
+        for line in self.browse(cr, uid, ids):
+            if (
+                    line.product_id
+                    and line.product_id.id == generic_private_car_product_id):
+                generic_pcar_product = self.pool['product.product'].browse(
+                    cr, uid, generic_private_car_product_id)
+                raise orm.except_orm(
+                    _('Error:'),
+                    _("You are trying to save the expense line '%s' "
+                        "with the generic product '%s' : it is not possible, "
+                        "this product should have been automatically replaced "
+                        "by the specific private car product configured for "
+                        "the employee %s")
+                    % (line.name, generic_pcar_product.name,
+                        line.expense_id.employee_id.name))
+        return True
+
+    _constraints = [
+        (_check_private_car, "Error msg in raise", ['product_id']),
+    ]
