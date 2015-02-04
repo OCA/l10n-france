@@ -499,7 +499,7 @@ class l10n_fr_report_intrastat_product(orm.Model):
         #print "generate lines, ids=", ids
         assert len(ids) == 1, "Only one ID accepted"
         intrastat = self.browse(cr, uid, ids[0], context=context)
-        self.pool.get('report.intrastat.common')._check_generate_lines(cr, uid, intrastat, context=context)
+        self.pool.get('report.intrastat.common').check_generate_lines(cr, uid, intrastat, context=context)
         line_obj = self.pool.get('l10n.fr.report.intrastat.product.line')
         line_remove_ids = line_obj.search(cr, uid, [('parent_id', '=', ids[0]), ('invoice_id', '!=', False)], context=context)
         if line_remove_ids:
