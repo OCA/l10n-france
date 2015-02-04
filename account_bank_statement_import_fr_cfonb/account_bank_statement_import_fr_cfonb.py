@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    account_bank_statement_import_fr_cfonb module for Odoo
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,17 @@
 ##############################################################################
 
 import logging
-import base64
 from datetime import datetime
 
 from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from openerp.exceptions import Warning
 
 _logger = logging.getLogger(__name__)
 
-from openerp.addons.account_bank_statement_import \
-    import account_bank_statement_import as ibs
-ibs.add_file_type(('cfonb', 'CFONB'))
 
-
-class account_bank_statement_import(orm.TransientModel):
+class AccountBankStatementImport(orm.TransientModel):
     _inherit = 'account.bank.statement.import'
 
     def _parse_cfonb_amount(self, amount_str, nb_of_dec):
@@ -58,28 +54,32 @@ class account_bank_statement_import(orm.TransientModel):
             amount_num = float(amount_str[:-1] + credit_trans[amount_str[-1]])
         return amount_num
 
-    def process_cfonb(
-            self, cr, uid, data_file, journal_id=False, context=None):
+    def _check_cfonb(self, cr, uid, data_file, context=None):
+        return data_file.strip().startswith('01')
+
+    def _parse_file(self, cr, uid, data_file, context=None):
         """ Import a file in French CFONB format"""
-        cfonb_file = base64.decodestring(data_file)
-        line_ids = []
-        if not cfonb_file.splitlines():
-            raise orm.except_orm(
-                _('Import Error!'),
+        cfonb = self._check_cfonb(
+            cr, uid, data_file, context=context)
+        if not cfonb:
+            return super(AccountBankStatementImport, self)._parse_file(
+                cr, uid, data_file, context=context)
+        transactions = []
+        if not data_file.splitlines():
+            raise Warning(
                 _('The file is empty.'))
         i = 0
         bank_code = guichet_code = account_number = currency_code = False
         decimals = start_balance = False
         start_balance = end_balance = start_date_str = end_date_str = False
         vals_line = False
-        for line in cfonb_file.splitlines():
+        for line in data_file.splitlines():
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
             if not line:
                 continue
             if len(line) != 120:
-                raise orm.except_orm(
-                    _('Import Error!'),
+                raise Warning(
                     _('Line %d is %d caracters long. All lines of a '
                         'CFONB bank statement file must be 120 caracters '
                         'long.')
@@ -104,8 +104,7 @@ class account_bank_statement_import(orm.TransientModel):
                 currency_code = line_currency_code
                 account_number = line_account_number
                 if rec_type != '01':
-                    raise orm.except_orm(
-                        _('Import Error!'),
+                    raise Warning(
                         _("The 2 first letters of the first line are '%s'. "
                             "A CFONB file should start with '01'")
                         % rec_type)
@@ -118,8 +117,7 @@ class account_bank_statement_import(orm.TransientModel):
                     or guichet_code != line_guichet_code
                     or currency_code != line_currency_code
                     or account_number != line_account_number):
-                raise orm.except_orm(
-                    _('Import Error!'),
+                raise Warning(
                     _('Only single-account files and single-currency '
                         'files are supported for the moment. It is not '
                         'the case starting from line %d.') % i)
@@ -127,20 +125,21 @@ class account_bank_statement_import(orm.TransientModel):
             if rec_type in ('04', '01', '07') and vals_line:
                 # I save the previous line
                 # This trick is needed for the 05 lines
-                line_ids.append((0, 0, vals_line))
+                transactions.append(vals_line)
                 vals_line = False
             if rec_type == '07':
                 end_date_str = date_str
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
             elif rec_type == '04':
-                bank_account_id, partner_id = self._detect_partner(
-                    cr, uid, line[48:79].strip(),
-                    identifying_field='owner_name', context=context)
+                bank_account_id = partner_id = False
+                amount = self._parse_cfonb_amount(line[90:104], decimals)
+                ref = line[81:88].strip()  # This is not unique
                 vals_line = {
                     'date': date_str,
                     'name': line[48:79].strip(),
-                    'ref': line[81:88].strip(),
-                    'amount': self._parse_cfonb_amount(line[90:104], decimals),
+                    'ref': ref,
+                    'unique_import_id': '%s-%.2f' % (ref, amount),
+                    'amount': amount,
                     'partner_id': partner_id,
                     'bank_account_id': bank_account_id,
                 }
@@ -148,14 +147,10 @@ class account_bank_statement_import(orm.TransientModel):
                 assert vals_line, 'vals_line should have a value !'
                 vals_line['name'] += ' %s' % line[48:79].strip()
 
-        period_ids = self.pool['account.period'].find(
-            cr, uid, end_date_str, context=context)
         vals_bank_statement = {
             'name': _('CFONB Import %s > %s') % (start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
-            'period_id': period_ids and period_ids[0] or False,
-            'journal_id': journal_id,
-            'line_ids': line_ids,
-        }
-        return [vals_bank_statement]
+            'transactions': transactions,
+            }
+        return currency_code, account_number, [vals_bank_statement]
