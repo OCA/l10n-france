@@ -167,7 +167,7 @@ class l10n_fr_report_intrastat_service(orm.Model):
         intrastat = self.browse(cr, uid, ids[0], context=context)
         line_obj = self.pool['l10n.fr.report.intrastat.service.line']
         invoice_obj = self.pool['account.invoice']
-        self.pool['report.intrastat.common']._check_generate_lines(
+        self.pool['report.intrastat.common'].check_generate_lines(
             cr, uid, intrastat, context=context)
         # Get current service lines and delete them
         line_remove = self.read(
