@@ -41,6 +41,7 @@ automatically.  The last digits of the SIREN and NIC are control keys:
 Odoo will check their validity when partners are recorded.
 ''',
     'author': u'Numérigraphe SARL',
+    'license': 'AGPL-3',
     'depends': ['l10n_fr', 'account'],
     # account is required only for the inherit of the partner form view
     # l10n_fr is required because we re-define the siret field on res.company
