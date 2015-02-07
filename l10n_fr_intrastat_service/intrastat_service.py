@@ -26,7 +26,6 @@ import openerp.addons.decimal_precision as dp
 from openerp.exceptions import Warning
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 import logging
 from lxml import etree
 
@@ -54,9 +53,8 @@ class L10nFrReportIntrastatService(models.Model):
     start_date = fields.Date(
         string='Start date', required=True,
         states={'done': [('readonly', True)]}, copy=False,
-        default=lambda self: datetime.strftime(
-            datetime.today() + relativedelta(day=1, months=-1),
-            DEFAULT_SERVER_DATE_FORMAT),
+        default=
+        lambda self: datetime.today() + relativedelta(day=1, months=-1),
         help="Start date of the declaration. Must be the first day of "
         "a month.")
     end_date = fields.Date(
@@ -76,7 +74,7 @@ class L10nFrReportIntrastatService(models.Model):
         track_visibility='always',
         help="Number of lines in this declaration.")
     total_amount = fields.Float(
-        compute='_compute_numbers', digits_compute=dp.get_precision('Account'),
+        compute='_compute_numbers', digits=dp.get_precision('Account'),
         string='Total amount', store=True, track_visibility='always',
         help="Total amount in company currency of the declaration.")
     currency_id = fields.Many2one(
@@ -94,6 +92,10 @@ class L10nFrReportIntrastatService(models.Model):
         'date_uniq', 'unique(start_date, company_id)',
         'A DES for this month already exists !'
         )]
+
+    @api.constrains('start_date')
+    def _service_check_start_date(self):
+        self._check_start_date()
 
     @api.multi
     def generate_service_lines(self):
@@ -236,8 +238,7 @@ class L10nFrReportIntrastatService(models.Model):
     def generate_xml(self):
         self.ensure_one()
         start_date_str = self.start_date
-        start_date_datetime = datetime.strptime(
-            start_date_str, DEFAULT_SERVER_DATE_FORMAT)
+        start_date_datetime = fields.Date.from_string(start_date_str)
 
         self._check_generate_xml()
 
@@ -360,7 +361,7 @@ class L10nFrReportIntrastatServiceLine(models.Model):
         "date and rounded at 0 digits")
     amount_invoice_currency = fields.Float(
         string='Amount in invoice currency',
-        digits_compute=dp.get_precision('Account'), readonly=True,
+        digits=dp.get_precision('Account'), readonly=True,
         help="Amount in invoice currency (not rounded)")
     invoice_currency_id = fields.Many2one(
         'res.currency', "Invoice currency", readonly=True)
