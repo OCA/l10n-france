@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat product module for OpenERP
-#    Copyright (C) 2009-2014 Akretion (http://www.akretion.com)
+#    l10n FR Report intrastat product module for Odoo
+#    Copyright (C) 2009-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,11 +20,10 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning, ValidationError
 import openerp.addons.decimal_precision as dp
 from datetime import datetime
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from dateutil.relativedelta import relativedelta
 import logging
 from lxml import etree
@@ -32,11 +31,11 @@ from lxml import etree
 logger = logging.getLogger(__name__)
 
 
-class l10n_fr_report_intrastat_product(orm.Model):
+class L10nFrReportIntrastatProduct(models.Model):
     _name = "l10n.fr.report.intrastat.product"
     _description = "Intrastat Product for France (DEB)"
     _rec_name = "start_date"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'report.intrastat.common']
     _order = "start_date desc, type"
     _track = {
         'state': {
@@ -44,117 +43,85 @@ class l10n_fr_report_intrastat_product(orm.Model):
             }
         }
 
+    @api.one
+    @api.depends(
+        'intrastat_line_ids', 'intrastat_line_ids.amount_company_currency',
+        'intrastat_line_ids.intrastat_type_id')
+    def _compute_total_fiscal_amount(self):
+        total_fiscal_amount = 0.0
+        for line in self.intrastat_line_ids:
+            total_fiscal_amount += line.amount_company_currency * line.intrastat_type_id.fiscal_value_multiplier
+        self.total_fiscal_amount = total_fiscal_amount
 
-    def copy(self, cr, uid, id, default=None, context=None):
-        if default is None:
-            default = {}
-        default.update({
-            'start_date': datetime.strftime(datetime.today() + relativedelta(day=1, months=-1), '%Y-%m-%d'),
-            'intrastat_line_ids': False,
-            'state': 'draft',
-        })
-        return super(l10n_fr_report_intrastat_product, self).copy(cr, uid, id, default=default, context=context)
-
-
-    def _compute_numbers(self, cr, uid, ids, name, arg, context=None):
-        return self.pool.get('report.intrastat.common')._compute_numbers(cr, uid, ids, self, context=context)
-
-    def _compute_total_fiscal_amount(self, cr, uid, ids, name, arg, context=None):
-        result = {}
-        for intrastat in self.browse(cr, uid, ids, context=context):
-            total_fiscal_amount = 0.0
-            for line in intrastat.intrastat_line_ids:
-                total_fiscal_amount += line.amount_company_currency * line.intrastat_type_id.fiscal_value_multiplier
-            result[intrastat.id] = total_fiscal_amount
-        return result
-
-
-    def _compute_dates(self, cr, uid, ids, name, arg, context=None):
-        return self.pool.get('report.intrastat.common')._compute_dates(cr, uid, ids, self, context=context)
-
-    def _get_intrastat_from_product_line(self, cr, uid, ids, context=None):
-        return self.pool.get('l10n.fr.report.intrastat.product').search(cr, uid, [('intrastat_line_ids', 'in', ids)], context=context)
-
-    _columns = {
-        'company_id': fields.many2one('res.company', 'Company', required=True,
-            states={'done': [('readonly', True)]}, help="Related company."),
-        'start_date': fields.date('Start date', required=True,
-            states={'done': [('readonly', True)]},
-            help="Start date of the declaration. Must be the first day of a month."),
-        'end_date': fields.function(_compute_dates, type='date',
-            string='End date', multi='intrastat-product-dates', readonly=True,
-            store={
-                'l10n.fr.report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10),
-                },
-            help="End date for the declaration. Is the last day of the month of the start date."),
-        'year_month': fields.function(_compute_dates, type='char',
-             string='Month', multi='intrastat-product-dates', readonly=True,
-             track_visibility='always', store={
-                'l10n.fr.report.intrastat.product': (lambda self, cr, uid, ids, c={}: ids, ['start_date'], 10)
-                },
-            help="Year and month of the declaration."),
-        'type': fields.selection([
-                ('import', 'Import'),
-                ('export', 'Export')
-            ], 'Type', required=True, states={'done': [('readonly', True)]},
-            track_visibility='always', help="Select the type of DEB."),
-        'obligation_level': fields.selection([
-                ('detailed', 'Detailed'),
-                ('simplified', 'Simplified')
-            ], 'Obligation level', required=True, track_visibility='always',
-            states={'done': [('readonly', True)]},
-            help="Your obligation level for a certain type of DEB (Import or Export) depends on the total value that you export or import per year. Note that the obligation level 'Simplified' doesn't exist for an Import DEB."),
-        'intrastat_line_ids': fields.one2many('l10n.fr.report.intrastat.product.line',
-            'parent_id', 'Report intrastat product lines',
-            states={'done': [('readonly', True)]}),
-        'num_lines': fields.function(_compute_numbers, type='integer',
-            multi='numbers', string='Number of lines', store={
-                'l10n.fr.report.intrastat.product.line': (_get_intrastat_from_product_line, ['parent_id'], 20),
-            },
-            track_visibility='always', help="Number of lines in this declaration."),
-        'total_amount': fields.function(_compute_numbers,
-            digits_compute=dp.get_precision('Account'), multi='numbers',
-            string='Total amount', store={
-                'l10n.fr.report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
-            },
-            help="Total amount in company currency of the declaration."),
-        'total_fiscal_amount': fields.function(_compute_total_fiscal_amount,
-            digits_compute=dp.get_precision('Account'),
-            string='Total fiscal amount', track_visibility='always', store={
-                'l10n.fr.report.intrastat.product.line': (_get_intrastat_from_product_line, ['amount_company_currency', 'parent_id'], 20),
-            },
-            help="Total fiscal amount in company currency of the declaration. This is the total amount that is displayed on the Prodouane website."),
-        'currency_id': fields.related('company_id', 'currency_id', readonly=True,
-            type='many2one', relation='res.currency', string='Currency'),
-        'state': fields.selection([
-                ('draft', 'Draft'),
-                ('done', 'Done'),
-            ], 'State', readonly=True, track_visibility='onchange',
-            help="State of the declaration. When the state is set to 'Done', the parameters become read-only."),
-        # No more need for date_done, because chatter does the job
-    }
-
-    def default_get(self, cr, uid, fields_list, context=None):
-        res = super(l10n_fr_report_intrastat_product, self).default_get(
-            cr, uid, fields_list, context=context)
-        if not res:
-            res = {}
-        company_id = self.pool['res.company']._company_default_get(
-            cr, uid, 'l10n.fr.report.intrastat.product', context=context)
-        company = self.pool['res.company'].browse(
-            cr, uid, company_id, context=context)
-        if company.import_obligation_level == 'none':
-            res['type'] = 'export'
-        res.update({
-            'company_id': company_id,
-            'state': 'draft',
-            # By default, we propose 'current month -1', because you prepare in
-            # February the DEB of January
-            'start_date': datetime.strftime(
-                datetime.today() + relativedelta(day=1, months=-1),
-                DEFAULT_SERVER_DATE_FORMAT),
-            })
-        return res
+    @api.model
+    def _default_type(self):
+        if self.company_id.import_obligation_level == 'none':
+            return 'export'
+        else:
+            return False
+ 
+    company_id = fields.Many2one('res.company', string='Company', required=True,
+        states={'done': [('readonly', True)]},
+        default=lambda self: self.env['res.company']._company_default_get(
+            'l10n.fr.report.intrastat.product'))
+    start_date = fields.Date(
+        string='Start Date', required=True,
+        states={'done': [('readonly', True)]}, copy=False,
+        default=
+        lambda self: datetime.today() + relativedelta(day=1, months=-1),
+        help="Start date of the declaration. Must be the first day of "
+        "a month.")
+    end_date = fields.Date(
+        compute='_compute_dates', string='End Date', readonly=True, store=True,
+        help="End date for the declaration. Is the last day of the month of the "
+        "start date.")
+    year_month = fields.Char(
+        compute='_compute_dates', string='Month', readonly=True,
+        track_visibility='always', store=True,
+        help="Year and month of the declaration.")
+    type = fields.Selection([
+        ('import', 'Import'),
+        ('export', 'Export')
+        ], 'Type', required=True, states={'done': [('readonly', True)]},
+        default=_default_type,
+        track_visibility='always', help="Select the type of DEB.")
+    obligation_level = fields.Selection([
+        ('detailed', 'Detailed'),
+        ('simplified', 'Simplified')
+        ], string='Obligation Level', required=True, track_visibility='always',
+        states={'done': [('readonly', True)]},
+        help="Your obligation level for a certain type of DEB "
+        "(Import or Export) depends on the total value that you export "
+        "or import per year. Note that the obligation level 'Simplified' "
+        "doesn't exist for an Import DEB.")
+    intrastat_line_ids = fields.One2many(
+        'l10n.fr.report.intrastat.product.line',
+        'parent_id', string='Report Intrastat Product Lines',
+        states={'done': [('readonly', True)]})
+    num_lines = fields.Integer(
+        compute='_compute_numbers', string='Number of Lines', store=True,
+        track_visibility='always', help="Number of lines in this declaration.")
+    total_amount = fields.Float(
+        compute='_compute_numbers', digits=dp.get_precision('Account'),
+        string='Total Amount', store=True,
+        help="Total amount in company currency of the declaration.")
+    total_fiscal_amount = fields.Float(
+        compute='_compute_total_fiscal_amount',
+        digits=dp.get_precision('Account'),
+        string='Total Fiscal Amount', track_visibility='always', store=True,
+        help="Total fiscal amount in company currency of the declaration. "
+        "This is the total amount that is displayed on the Prodouane website.")
+    currency_id = fields.Many2one(
+        'res.currency', related='company_id.currency_id', readonly=True,
+        string='Currency')
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('done', 'Done'),
+        ], string='State', readonly=True, track_visibility='onchange',
+        copy=False, default='draft',
+        help="State of the declaration. When the state is set to 'Done', "
+        "the parameters become read-only.")
+    # No more need for date_done, because chatter does the job
 
     def type_on_change(
             self, cr, uid, ids, company_id=False, type=False, context=None):
@@ -179,23 +146,21 @@ class l10n_fr_report_intrastat_product(orm.Model):
                     result['value'].update({'obligation_level': company['export_obligation_level']})
         return result
 
-    def _check_start_date(self, cr, uid, ids):
-        return self.pool.get('report.intrastat.common')._check_start_date(cr, uid, ids, self)
+    @api.constrains('start_date')
+    def _product_check_start_date(self):
+        self._check_start_date()
 
-    def _check_obligation_level(self, cr, uid, ids):
-        for intrastat_to_check in self.read(cr, uid, ids, ['type', 'obligation_level']):
-            if intrastat_to_check['type'] == 'import' and intrastat_to_check['obligation_level'] == 'simplified':
-                return False
-        return True
+    @api.one
+    @api.constrains('type', 'obligation_level')
+    def _check_obligation_level(self):
+        if self.type == 'import' and self.obligation_level == 'simplified':
+            raise ValidationError(
+                _("Obligation level can't be 'Simplified' for Import"))
 
-    _constraints = [
-        (_check_start_date, "Start date must be the first day of a month", ['start_date']),
-        (_check_obligation_level, "Obligation level can't be 'Simplified' for Import", ['obligation_level']),
-    ]
-
-    _sql_constraints = [
-        ('date_uniq', 'unique(start_date, company_id, type)', 'A DEB of the same type already exists for this month !'),
-    ]
+    _sql_constraints = [(
+        'date_company_type_uniq',
+        'unique(start_date, company_id, type)',
+        'A DEB of the same type already exists for this month !')]
 
     def create_intrastat_product_lines(
             self, cr, uid, ids, intrastat, invoice, parent_values,
