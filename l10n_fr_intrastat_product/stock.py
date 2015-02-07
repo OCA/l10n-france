@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat product module for OpenERP
-#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com)
+#    l10n FR Report intrastat product module for Odoo
+#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,88 +20,70 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class stock_location(orm.Model):
+class StockLocation(models.Model):
     _inherit = "stock.location"
-    _columns = {
-        'intrastat_department': fields.char(
-            'Department', size=2,
-            help="France's department where the stock location is located. "
-            "This parameter is required for the DEB "
-            "(Déclaration d'Echange de Biens)."),
-    }
 
-    def _check_intrastat_department(self, cr, uid, ids):
-        dpt_list = []
-        for dpt_to_check in self.read(cr, uid, ids, ['intrastat_department']):
-            dpt_list.append(dpt_to_check['intrastat_department'])
-        return self.pool.get('res.company').real_department_check(dpt_list)
+    intrastat_department = fields.Char(
+        string='Department', size=2,
+        help="France's department where the stock location is located. "
+        "This parameter is required for the DEB "
+        "(Déclaration d'Echange de Biens).")
 
-    _constraints = [(
-        _check_intrastat_department,
-        "Wrong department",
-        ['intrastat_department']
-        )]
+    @api.one
+    @api.constrains('intrastat_department')
+    def _check_intrastat_department(self):
+        self.env['res.company'].real_department_check(
+            self.intrastat_department)
 
 
-class stock_picking(orm.Model):
+class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    def _compute_department(self, cr, uid, ids, name, arg, context=None):
-        result = {}
-        for picking in self.browse(cr, uid, ids, context=context):
-            result[picking.id] = False
-            start_point = False
-            if picking.move_lines:
-                if (picking.picking_type_id.code == 'outgoing'
-                        and picking.move_lines[0].location_dest_id.usage ==
-                        'customer'):
-                    start_point = picking.move_lines[0].location_id
-                elif (picking.picking_type_id.code == 'incoming'
-                        and picking.move_lines[0].location_dest_id.usage ==
-                        'internal'):
-                    start_point = picking.move_lines[0].location_dest_id
-                while start_point:
-                    if start_point.intrastat_department:
-                        result[picking.id] = start_point.intrastat_department
-                        break
-                    elif start_point.location_id:
-                        start_point = start_point.location_id
-                        continue
-                    else:
-                        break
-        return result
+    @api.one
+    @api.depends(
+        'picking_type_id', 'move_lines', 'move_lines.location_dest_id',
+        'move_lines.location_id')
+    def _compute_department(self):
+        intrastat_department = False
+        start_point = False
+        if self.move_lines:
+            if (self.picking_type_id.code == 'outgoing'
+                    and self.move_lines[0].location_dest_id.usage ==
+                    'customer'):
+                start_point = self.move_lines[0].location_id
+            elif (self.picking_type_id.code == 'incoming'
+                    and self.move_lines[0].location_dest_id.usage ==
+                    'internal'):
+                start_point = self.move_lines[0].location_dest_id
+            while start_point:
+                if start_point.intrastat_department:
+                    intrastat_department = start_point.intrastat_department
+                    break
+                elif start_point.location_id:
+                    start_point = start_point.location_id
+                    continue
+                else:
+                    break
+        self.intrastat_department = intrastat_department
 
-    def _get_picking_from_move_lines(self, cr, uid, ids, context=None):
-        return self.pool['stock.picking'].search(
-            cr, uid, [('move_lines', 'in', ids)], context=context)
-
-    _columns = {
-        'intrastat_transport': fields.selection([
-            (1, 'Transport maritime'),
-            (2, 'Transport par chemin de fer'),
-            (3, 'Transport par route'),
-            (4, 'Transport par air'),
-            (5, 'Envois postaux'),
-            (7, 'Installations de transport fixes'),
-            (8, 'Transport par navigation intérieure'),
-            (9, 'Propulsion propre')], 'Type of transport',
-            help="Select the type of transport of the goods. This information "
-            "is required for the product intrastat report (DEB)."),
-        'intrastat_department': fields.function(
-            _compute_department, type='char', size=2,
-            string='Intrastat department', store={
-                'stock.picking': (
-                    lambda self, cr, uid, ids, c={}: ids, ['type'], 10),
-                'stock.move': (
-                    _get_picking_from_move_lines,
-                    ['location_dest_id', 'location_id', 'picking_id'], 20),
-                },
-            help='Compute the source departement for a Delivery Order, '
-            'or the destination department for an Incoming Shipment.'),
-        }
+    intrastat_transport = fields.Selection([
+        (1, 'Transport maritime'),
+        (2, 'Transport par chemin de fer'),
+        (3, 'Transport par route'),
+        (4, 'Transport par air'),
+        (5, 'Envois postaux'),
+        (7, 'Installations de transport fixes'),
+        (8, 'Transport par navigation intérieure'),
+        (9, 'Propulsion propre')], 'Type of transport',
+        help="Select the type of transport of the goods. This information "
+        "is required for the product intrastat report (DEB)."),
+    intrastat_department = fields.Char(
+        compute='_compute_department', size=2, string='Intrastat Department',
+        help='Compute the source departement for a Delivery Order, '
+        'or the destination department for an Incoming Shipment.')
 
     def _create_invoice_from_picking(
             self, cr, uid, picking, vals, context=None):
@@ -110,5 +92,5 @@ class stock_picking(orm.Model):
         vals['intrastat_department'] = picking.intrastat_department
         if picking.partner_id and picking.partner_id.country_id:
             vals['intrastat_country_id'] = picking.partner_id.country_id.id
-        return super(stock_picking, self)._create_invoice_from_picking(
+        return super(StockPicking, self)._create_invoice_from_picking(
             cr, uid, picking, vals, context=context)
