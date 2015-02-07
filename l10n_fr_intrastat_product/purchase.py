@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat product module for OpenERP
+#    L10n FR Report intrastat product module for Odoo
 #    Copyright (C) 2010-2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -20,16 +20,16 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models
 
 
-class purchase_order(orm.Model):
+class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     def _prepare_invoice(self, cr, uid, order, line_ids, context=None):
         '''Copy country of partner_id =("origin country") and '''
         '''arrival department on invoice'''
-        invoice_vals = super(purchase_order, self)._prepare_invoice(
+        invoice_vals = super(PurchaseOrder, self)._prepare_invoice(
             cr, uid, order, line_ids, context=context)
         if order.partner_id.country_id:
             invoice_vals['intrastat_country_id'] = \
