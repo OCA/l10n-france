@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat product module for Odoo
-#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com)
+#    L10n FR Report intrastat product module for Odoo
+#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 
 
 class ResCompany(models.Model):
@@ -83,17 +83,17 @@ class ResCompany(models.Model):
     @api.model
     def real_department_check(self, dpt):
         if len(dpt) != 2:  # '1' is not accepted -> must be '01'
-            raise Warning(
+            raise ValidationError(
                 _("The department code must be 2 caracters long."))
         # 99 = Monaco, cf page 24 du BOD n°6883 du 06/01/2011
         if dpt in ['2A', '2B', '99']:
             return True
         if not dpt.isdigit():
-            raise Warning(
+            raise ValidationError(
                 _("The department code must be a number or have the "
                     "value '2A' or '2B' for Corsica."))
         if int(dpt) < 1 or int(dpt) > 95:
-            raise Warning(
+            raise ValidationError(
                 _("The department code must be between 01 and 95 or "
                     "have the value '2A' or '2B' for Corsica or '99' "
                     "for Monaco."))
@@ -101,7 +101,7 @@ class ResCompany(models.Model):
 
     @api.one
     @api.constrains('default_intrastat_department')
-    def _check_default_intrastat_department(self, cr, uid, ids):
+    def _check_default_intrastat_department(self):
         self.real_department_check(self.default_intrastat_department)
 
     @api.onchange('import_obligation_level', 'export_obligation_level')
