@@ -21,6 +21,11 @@
     <field name="country_id" ref="base.fr"/>
 </record>
 
+<record id="base.main_partner" model="res.partner">
+    <field name="siren">441019213</field>
+    <field name="nic">00013</field>
+</record>
+
 <record id="product.product_uom_unit" model="product.uom">
     <field name="intrastat_label">PCE</field>
 </record>
