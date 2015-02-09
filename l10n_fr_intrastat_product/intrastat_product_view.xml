@@ -49,9 +49,9 @@
                         <!-- START of form view for DEB lines -->
                         <form string="Intrastat product lines">
                             <group col="4" string="Information to declare" colspan="4">
-                                <field name="intrastat_type_id" required="1" on_change="intrastat_type_on_change(intrastat_type_id, parent.type, parent.obligation_level, context)" domain="[('intrastat_product_type', '=', parent.type)]" />
+                                <field name="intrastat_type_id" required="1" domain="[('intrastat_product_type', '=', parent.type)]" />
                                 <field name="procedure_code" />
-                                <field name="intrastat_code_id" on_change="intrastat_code_on_change(intrastat_code_id, context)" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
+                                <field name="intrastat_code_id" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
                                 <field name="intrastat_code" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product"/>
                                 <field name="partner_country_id" domain="[('intrastat', '=', True)]" attrs="{'readonly': [('is_fiscal_only', '=', True)]}" groups="l10n_fr_intrastat_product.group_detailed_intrastat_product" /> <!-- I don't know why, but OpenERP doesn't want to display "partner_country_code" in Form view -->
                                 <field name="amount_company_currency" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
