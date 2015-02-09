@@ -315,7 +315,7 @@ class L10nFrReportIntrastatService(models.Model):
                 intrastat = self.create({'company_id': company.id})
                 logger.info(
                     'An Intrastat Service for month %s has been created '
-                    'by OpenERP for company %s'
+                    'by Odoo for company %s'
                     % (previous_month, company.name))
                 # we try to generate the lines
                 try:
