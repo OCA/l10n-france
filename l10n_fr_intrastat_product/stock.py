@@ -79,7 +79,7 @@ class StockPicking(models.Model):
         (8, 'Transport par navigation intérieure'),
         (9, 'Propulsion propre')], 'Type of transport',
         help="Select the type of transport of the goods. This information "
-        "is required for the product intrastat report (DEB)."),
+        "is required for the product intrastat report (DEB).")
     intrastat_department = fields.Char(
         compute='_compute_department', size=2, string='Intrastat Department',
         help='Compute the source departement for a Delivery Order, '
