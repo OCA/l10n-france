@@ -82,21 +82,22 @@ class ResCompany(models.Model):
 
     @api.model
     def real_department_check(self, dpt):
-        if len(dpt) != 2:  # '1' is not accepted -> must be '01'
-            raise ValidationError(
-                _("The department code must be 2 caracters long."))
-        # 99 = Monaco, cf page 24 du BOD n°6883 du 06/01/2011
-        if dpt in ['2A', '2B', '99']:
-            return True
-        if not dpt.isdigit():
-            raise ValidationError(
-                _("The department code must be a number or have the "
-                    "value '2A' or '2B' for Corsica."))
-        if int(dpt) < 1 or int(dpt) > 95:
-            raise ValidationError(
-                _("The department code must be between 01 and 95 or "
-                    "have the value '2A' or '2B' for Corsica or '99' "
-                    "for Monaco."))
+        if dpt:
+            if len(dpt) != 2:  # '1' is not accepted -> must be '01'
+                raise ValidationError(
+                    _("The department code must be 2 caracters long."))
+            # 99 = Monaco, cf page 24 du BOD n°6883 du 06/01/2011
+            if dpt in ['2A', '2B', '99']:
+                return True
+            if not dpt.isdigit():
+                raise ValidationError(
+                    _("The department code must be a number or have the "
+                        "value '2A' or '2B' for Corsica."))
+            if int(dpt) < 1 or int(dpt) > 95:
+                raise ValidationError(
+                    _("The department code must be between 01 and 95 or "
+                        "have the value '2A' or '2B' for Corsica or '99' "
+                        "for Monaco."))
         return True
 
     @api.one
