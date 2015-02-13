@@ -131,7 +131,7 @@ class ReportIntrastat(models.Model):
         total_amount = 0.0
         partner_amounts_map = {}
         # Check wether all configuration done to generate report
-        self.env['report.intrastat.common'].check_generate_lines(self)
+        self.env['report.intrastat.common']._check_generate_lines(self)
 
         # Remove existing lines
         for line_obj in self.line_ids:
