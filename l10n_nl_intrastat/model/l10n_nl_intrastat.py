@@ -24,11 +24,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import api, models, fields
-from openerp.exceptions import except_orm
+from openerp import api, models, fields, _
+from openerp.exceptions import Warning
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
 
 
@@ -72,7 +71,7 @@ class ReportIntrastat(models.Model):
         string='Total amount',
         readonly=True,
         help="Total amount in company currency of the declaration.",
-        digits_compute=dp.get_precision('Account'),
+        digits=dp.get_precision('Account'),
     )
     state = fields.Selection(
         string='State',
@@ -121,9 +120,8 @@ class ReportIntrastat(models.Model):
         """
         # Generating lines is only allowed for report in draft state:
         if self.state != 'draft':
-            raise except_orm(
-                _('Error'),
-                _('Cannot generate reports lines in a non-draft state'))
+            raise Warning(_(
+                'Cannot generate reports lines in a non-draft state'))
         # Other models:
         report_line_model = self.env['l10n_nl.report.intrastat.line']
         currency_model = self.env['res.currency']
@@ -153,8 +151,7 @@ class ReportIntrastat(models.Model):
             fields=['partner_id']
         )
         if invalid_invoices:
-            raise except_orm(
-                _('Error'),
+            raise Warning(
                 _(
                     "Missing country on the invoice addresses of the"
                     " following partners:\n%s"
@@ -241,10 +238,7 @@ class ReportIntrastat(models.Model):
             context=context
         )
         if non_draft_ids:
-            raise except_orm(
-                _('Error'),
-                _('Cannot remove IPC reports in a non-draft state')
-            )
+            raise Warning(_('Cannot remove IPC reports in a non-draft state'))
         return super(ReportIntrastat, self).unlink(
             cr, uid, ids, context=context)
 
@@ -284,12 +278,12 @@ class ReportIntrastatLine(models.Model):
     amount_product = fields.Float(
         string='Amount products',
         readonly=True,
-        digits_compute=dp.get_precision('Account'),
+        digits=dp.get_precision('Account'),
     )
     amount_service = fields.Float(
         string='Amount services',
         readonly=True,
-        digits_compute=dp.get_precision('Account'),
+        digits=dp.get_precision('Account'),
     )
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
