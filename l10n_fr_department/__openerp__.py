@@ -42,10 +42,12 @@ Technical informations:
 
 Copyright, Authors and Licence:
 -------------------------------
-    * Copyright: 2013, Groupement Régional Alimentaire de Proximité;
-    * Author: Sylvain LE GAL (https://twitter.com/legalsylvain);
-    * Licence: AGPL-3 (http://www.gnu.org/licenses/);""",
-    'author': 'GRAP',
+    * Copyright: 2013-2014, Groupement Régional Alimentaire de Proximité
+    * Copyright: 2014, Akretion (http://www.akretion.com/)
+    * Author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+    * Author: Alexis de Lattre <alexis.delattre@akretion.com>
+    * Licence: AGPL-3 (http://www.gnu.org/licenses/)""",
+    'author': "GRAP,Odoo Community Association (OCA)",
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
