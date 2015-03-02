@@ -44,7 +44,7 @@ lisible et vérifiable par le comptable en utilisant un tableur.
 
 Ce module a été écrit par Alexis de Lattre <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
+    'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
     'depends': ['account_accountant'],
     'external_dependencies': {
