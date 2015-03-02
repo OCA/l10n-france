@@ -24,7 +24,7 @@
     'name': 'Import French CFONB Bank Statements',
     'version': '0.1',
     'license': 'AGPL-3',
-    'author': 'Akretion',
+    'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
     'summary': 'Import French CFONB files as Bank Statements in Odoo',
     'depends': ['account_bank_statement_import'],
