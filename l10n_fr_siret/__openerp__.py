@@ -40,7 +40,7 @@ and NIC numbers, and the SIRET number will be calculated
 automatically.  The last digits of the SIREN and NIC are control keys:
 Odoo will check their validity when partners are recorded.
 ''',
-    'author': u'Numérigraphe SARL',
+    'author': u'Numérigraphe SARL,Odoo Community Association (OCA)',
     'license': 'AGPL-3',
     'depends': ['l10n_fr', 'account'],
     # account is required only for the inherit of the partner form view
