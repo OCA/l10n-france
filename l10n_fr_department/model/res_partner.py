@@ -31,10 +31,10 @@ class res_partner(orm.Model):
         dpt_id = False
         zip = partner.zip
         if (
-                partner.country_id
-                and partner.country_id.code == 'FR'
-                and zip
-                and len(zip) == 5):
+                partner.country_id and
+                partner.country_id.code == 'FR' and
+                zip and
+                len(zip) == 5):
             code = zip[0:2]
             dpt_ids = self.pool['res.country.department'].search(
                 cr, uid, [
