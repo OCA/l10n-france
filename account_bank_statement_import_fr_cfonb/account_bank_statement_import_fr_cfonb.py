@@ -113,10 +113,10 @@ class AccountBankStatementImport(orm.TransientModel):
                 start_date_str = date_str
 
             if (
-                    bank_code != line_bank_code
-                    or guichet_code != line_guichet_code
-                    or currency_code != line_currency_code
-                    or account_number != line_account_number):
+                    bank_code != line_bank_code or
+                    guichet_code != line_guichet_code or
+                    currency_code != line_currency_code or
+                    account_number != line_account_number):
                 raise Warning(
                     _('Only single-account files and single-currency '
                         'files are supported for the moment. It is not '
