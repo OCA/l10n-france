@@ -24,7 +24,7 @@
     'name': 'Sale Tax TTC for France',
     'version': '0.1',
     'license': 'AGPL-3',
-    'author': 'Akretion',
+    'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'summary': 'Adds Sale Tax TTC (all rates)',
     'description': "",
