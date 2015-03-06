@@ -16,6 +16,7 @@ install:
   - git clone https://github.com/OCA/bank-statement-import.git ${HOME}/bank-statement-import -b ${VERSION}
   - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact
   - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule
+  - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - sudo pip install unicodecsv unidecode
