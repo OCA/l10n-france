@@ -22,20 +22,14 @@
 {
     'name': 'French NAF partner categories and APE code',
     'version': '1.0',
-    'author': u'Numérigraphe SARL',
-    'category': 'Accounting & Finance',
-    'description': '''This module imports the French official NAF \
-nomenclature of partner activities as partner categories, as an extension to \
-the NACE categories of the European Union.
-
-It will also add a field to the partner form, to enter the partner's APE \
-(official main activity of the company), picked among the NAF nomenclature.
-''',
+    'author': u'Numérigraphe SARL,Odoo Community Association (OCA)',
+    'category': 'French Localization',
     'depends': [
         'l10n_eu_nace'
     ],
-    'update_xml': [
+    'data': [
         'data/res.partner.category.csv',
         'partner_view.xml',
     ],
+    'license': 'AGPL-3',
 }
