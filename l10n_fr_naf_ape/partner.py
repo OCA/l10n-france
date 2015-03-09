@@ -28,7 +28,7 @@ class Partner(osv.Model):
     _columns = {
         'ape_id': fields.many2one(
             'res.partner.category', 'APE',
-            help="If the partner is a French company, enter it's official "
+            help="If the partner is a French company, enter its official "
                  "main activity in this field. The APE is chosen among the "
                  "NAF nomenclature."),
     }
