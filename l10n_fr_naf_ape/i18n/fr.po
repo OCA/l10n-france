@@ -1,0 +1,32 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_naf_ape
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-09 10:25+0000\n"
+"PO-Revision-Date: 2015-03-09 10:25+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#: field:res.partner,ape_id:0
+#. module: l10n_fr_naf_ape
+msgid "APE"
+msgstr "APE"
+
+#: help:res.partner,ape_id:0
+#. module: l10n_fr_naf_ape
+msgid "If the partner is a French company, enter its official main activity in this field. The APE is chosen among the NAF nomenclature."
+msgstr "Si le partenaire est une société française, saisissez son activité principale dans ce champ. L'APE est choisi dans la nomenclature NAF."
+
+#: model:ir.model,name:l10n_fr_naf_ape.model_res_partner
+#. module: l10n_fr_naf_ape
+msgid "Partner"
+msgstr "Partenaire"
+
