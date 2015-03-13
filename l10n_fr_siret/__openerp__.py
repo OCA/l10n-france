@@ -25,22 +25,7 @@
     'name': 'French company identity numbers SIRET/SIREN/NIC',
     'version': '1.2',
     "category": 'French Localization',
-    'description': '''
-This module add the French company identity numbers.
-====================================================
-
-This can help any company doing business with French companies
-by letting users track the partners' unique identification
-numbers from the official SIRENE registry in France: SIRET, SIREN and NIC.
-These numbers identify each company and their subsidiaries, and are
-often required for administrative tasks.
-
-On the Partner form, users will be able to enter the SIREN
-and NIC numbers, and the SIRET number will be calculated
-automatically.  The last digits of the SIREN and NIC are control keys:
-Odoo will check their validity when partners are recorded.
-''',
-    'author': u'Numérigraphe SARL,Odoo Community Association (OCA)',
+    'author': u'Numérigraphe,Odoo Community Association (OCA)',
     'license': 'AGPL-3',
     'depends': ['l10n_fr', 'account'],
     # account is required only for the inherit of the partner form view
