@@ -110,3 +110,18 @@ msgstr ""
 msgid "FEC is for French companies only !"
 msgstr ""
 
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,export_type:0
+msgid "Official FEC report (posted entries only)"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,export_type:0
+msgid "Non-official FEC report (posted and unposted entries)"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,export_type:0
+msgid "Export Type"
+msgstr ""
+
