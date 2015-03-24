@@ -16,6 +16,7 @@
             <group states="draft">
                 <field name="fiscalyear_id" />
                 <field name="type"/>
+                <field name="export_type"/>
             </group>
             <group states="done">
                 <field name="fec_data" filename="filename" />
