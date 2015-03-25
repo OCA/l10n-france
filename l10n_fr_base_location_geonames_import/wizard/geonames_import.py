@@ -21,7 +21,6 @@
 ##############################################################################
 
 from openerp import models, api
-from unidecode import unidecode
 
 
 class better_zip_geonames_import(models.TransientModel):
@@ -29,6 +28,7 @@ class better_zip_geonames_import(models.TransientModel):
 
     @api.model
     def _prepare_better_zip(self, row, country_id):
+        from unidecode import unidecode
         res = super(better_zip_geonames_import, self)._prepare_better_zip(
             row, country_id)
         if row[0] in [
