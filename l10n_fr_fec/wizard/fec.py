@@ -23,7 +23,6 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 import base64
-import unicodecsv
 import StringIO
 
 
@@ -51,6 +50,7 @@ class account_fr_fec(orm.TransientModel):
     }
 
     def generate_fec(self, cr, uid, ids, context=None):
+        import unicodecsv
         assert len(ids) == 1, 'Only one ID'
         cur_wiz = self.browse(cr, uid, ids[0], context=context)
         period_ids = self.pool['account.period'].search(
