@@ -14,7 +14,6 @@ virtualenv:
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
-  - git clone https://github.com/OCA/bank-statement-import.git ${HOME}/bank-statement-import -b ${VERSION}
   - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact
   - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule
   - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
