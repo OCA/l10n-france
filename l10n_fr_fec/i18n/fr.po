@@ -110,3 +110,18 @@ msgstr "Générer"
 msgid "FEC is for French companies only !"
 msgstr "Le FEC est uniquement pour les sociétés françaises !"
 
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,export_type:0
+msgid "Official FEC report (posted entries only)"
+msgstr "Rapport FEC officiel (entrées postées uniquement)"
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,export_type:0
+msgid "Non-official FEC report (posted and unposted entries)"
+msgstr "Rapport FEC non-officiel (entrées postées et non-postées)"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,export_type:0
+msgid "Export Type"
+msgstr "Type d'export"
+
