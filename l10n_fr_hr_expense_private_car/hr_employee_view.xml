@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2014 Akretion (http://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __openerp__.py
+-->
+<openerp>
+<data>
+
+<record id="view_employee_form" model="ir.ui.view">
+    <field name="name">l10n.fr.private.car.employee.form</field>
+    <field name="model">hr.employee</field>
+    <field name="inherit_id" ref="hr.view_employee_form"/>
+    <field name="arch" type="xml">
+        <page string="HR Settings" position="inside">
+            <group name="private-car-expenses" string="Private Car Expenses">
+                <field name="private_car_plate"/>
+                <field name="private_car_product_id"
+                    context="{'default_private_car_expense_ok': True}"/>
+                <field name="private_car_total_km_this_year"/>
+            </group>
+        </page>
+    </field>
+</record>
+
+
+</data>
+</openerp>
