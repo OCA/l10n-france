@@ -37,4 +37,4 @@
  ],
  'installable': True,
  'application': True,
-}
+ }

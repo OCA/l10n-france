@@ -45,7 +45,8 @@ class account_fr_fec(orm.TransientModel):
             ], 'State'),
         'export_type': fields.selection([
             ('official', 'Official FEC report (posted entries only)'),
-            ('nonofficial', 'Non-official FEC report (posted and unposted entries)'),
+            ('nonofficial',
+             'Non-official FEC report (posted and unposted entries)'),
             ], 'Export Type', required=True),
     }
 
