@@ -35,7 +35,6 @@
     'data': [
         'wizard/export_lcr_view.xml',
         'data/payment_type_lcr.xml',
-        'security/ir.model.access.csv',
         ],
     'demo': ['lcr_demo.xml'],
     'installable': True,
