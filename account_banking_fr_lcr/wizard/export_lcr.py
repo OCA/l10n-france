@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    French Letter of Change module for Odoo
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -40,19 +40,12 @@ class banking_export_lcr_wizard(orm.TransientModel):
             ('create', 'Create'),
             ('finish', 'Finish'),
             ], 'State', readonly=True),
-        'nb_transactions': fields.related(
-            'file_id', 'nb_transactions', type='integer',
-            string='Number of Transactions', readonly=True),
-        'total_amount': fields.related(
-            'file_id', 'total_amount', type='float', string='Total Amount',
-            readonly=True),
-        'file_id': fields.many2one(
-            'banking.export.lcr', 'LCR CFONB File', readonly=True),
-        'file': fields.related(
-            'file_id', 'file', string="File", type='binary', readonly=True),
-        'filename': fields.related(
-            'file_id', 'filename', string="Filename", type='char', size=256,
-            readonly=True),
+        'total_amount': fields.float(
+            string='Total Amount', readonly=True),
+        'file': fields.binary(
+            'LCR CFONB File', readonly=True),
+        'filename': fields.char(
+            string="Filename", readonly=True),
         'payment_order_ids': fields.many2many(
             'payment.order', 'wiz_lcr_payorders_rel', 'wizard_id',
             'payment_order_id', 'Payment Orders', readonly=True),
@@ -69,18 +62,6 @@ class banking_export_lcr_wizard(orm.TransientModel):
         })
         return super(banking_export_lcr_wizard, self).create(
             cr, uid, vals, context=context)
-
-    def _prepare_export_lcr(
-            self, cr, uid, lcr_export, total_amount, transactions_count,
-            cfonb_string, context=None):
-        return {
-            'total_amount': total_amount,
-            'nb_transactions': transactions_count,
-            'file': base64.encodestring(cfonb_string),
-            'payment_order_ids': [(
-                6, 0, [x.id for x in lcr_export.payment_order_ids]
-            )],
-        }
 
     def _prepare_field(
             self, cr, uid, field_name, field_value, size, context=None):
@@ -284,12 +265,16 @@ class banking_export_lcr_wizard(orm.TransientModel):
 
         cfonb_string = self._prepare_first_cfonb_line(
             cr, uid, lcr_export, context=context)
-        transactions_count = 0
         total_amount = 0.0
-        for payment_order in lcr_export.payment_order_ids:
-            total_amount = total_amount + payment_order.total
+        order_ref = []
+        transactions_count = 0
+        for order in lcr_export.payment_order_ids:
+            total_amount += order.total
+            print "order.total=", order.total
+            if order.reference:
+                order_ref.append(order.reference.replace('/', '-'))
             # Iterate each payment lines
-            for line in payment_order.line_ids:
+            for line in order.line_ids:
                 if line.currency.name != 'EUR':
                     raise orm.except_orm(
                         _('Error:'),
@@ -298,10 +283,10 @@ class banking_export_lcr_wizard(orm.TransientModel):
                             "must be EUR.")
                         % (line.name, line.currency.name))
                 transactions_count += 1
-                if payment_order.date_prefered == 'due':
+                if order.date_prefered == 'due':
                     requested_date = line.ml_maturity_date or today
-                elif payment_order.date_prefered == 'fixed':
-                    requested_date = payment_order.date_scheduled or today
+                elif order.date_prefered == 'fixed':
+                    requested_date = order.date_scheduled or today
                 else:
                     requested_date = today
                 cfonb_string += self._prepare_cfonb_line(
@@ -312,15 +297,12 @@ class banking_export_lcr_wizard(orm.TransientModel):
             cr, uid, total_amount, transactions_count,
             context=context)
 
-        file_id = self.pool['banking.export.lcr'].create(
-            cr, uid, self._prepare_export_lcr(
-                cr, uid, lcr_export, total_amount, transactions_count,
-                cfonb_string, context=context),
-            context=context)
-
+        filename = '%s%s.txt' % ('LCR_', '-'.join(order_ref))
         self.write(
             cr, uid, ids, {
-                'file_id': file_id,
+                'file': base64.encodestring(cfonb_string),
+                'total_amount': total_amount,
+                'filename': filename,
                 'state': 'finish',
             }, context=context)
 
@@ -336,20 +318,17 @@ class banking_export_lcr_wizard(orm.TransientModel):
 
         return action
 
-    def cancel_lcr(self, cr, uid, ids, context=None):
-        '''Cancel the CFONB file: just drop the file'''
-        lcr_export = self.browse(cr, uid, ids[0], context=context)
-        self.pool['banking.export.lcr'].unlink(
-            cr, uid, lcr_export.file_id.id, context=context)
-        return {'type': 'ir.actions.act_window_close'}
-
     def save_lcr(self, cr, uid, ids, context=None):
         '''Mark the LCR file as 'sent' and the payment order as 'done'.'''
         lcr_export = self.browse(cr, uid, ids[0], context=context)
-        self.pool['banking.export.lcr'].write(
-            cr, uid, lcr_export.file_id.id, {'state': 'sent'},
-            context=context)
         wf_service = netsvc.LocalService('workflow')
         for order in lcr_export.payment_order_ids:
             wf_service.trg_validate(uid, 'payment.order', order.id, 'done', cr)
-        return {'type': 'ir.actions.act_window_close'}
+            self.pool['ir.attachment'].create(
+                cr, uid, {
+                    'res_model': 'payment.order',
+                    'res_id': order.id,
+                    'name': lcr_export.filename,
+                    'datas': lcr_export.file,
+                    }, context=context)
+        return True
