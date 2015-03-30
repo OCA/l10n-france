@@ -6,6 +6,7 @@ addons:
     packages:
       - expect-dev  # provides unbuffer utility
       - python-lxml # because pip installation is slow
+      - python-cups
 
 language: python
 
@@ -24,10 +25,13 @@ install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact
   - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule
+  - git clone https://github.com/aeroo/aeroo_reports.git ${HOME}/aeroo_reports
   - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - pip install unicodecsv unidecode
+  - git clone https://github.com/aeroo/aeroolib.git ${HOME}/aeroolib
+  - pushd ${HOME}/aeroolib; python ./setup.py install; popd
 
 script:
   - travis_run_tests
