@@ -26,7 +26,8 @@
     'version': '0.1',
     'category': 'Extra Tools',
     'license': 'AGPL-3',
-    'summary': 'France-specific tuning for import of better zip entries from Geonames',
+    'summary': 'France-specific tuning for import of better zip entries '
+    'from Geonames',
     'description': """
 French Localization Base Location Geonames Import
 =================================================
