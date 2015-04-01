@@ -31,6 +31,7 @@
  """,
  'depends': [
      'account_fiscal_position_rule',
+     'l10n_fr',
  ],
  'data': [
      'settings/account.fiscal.position.rule.template.csv',
