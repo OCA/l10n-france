@@ -3,7 +3,9 @@
 #
 #    l10n FR Departments module for OpenERP
 #    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#    @author Alexis de Lattre (alexis.delattre@akretion.com)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,15 +22,12 @@
 #
 ##############################################################################
 
-from openerp.osv import fields
-from openerp.osv.orm import Model
+from openerp import models, fields
 
 
-class res_country_state(Model):
+class ResCountryState(models.Model):
     _inherit = 'res.country.state'
 
-    _columns = {
-        'department_ids': fields.one2many(
-            'res.country.department','state_id', 'Departments',
-            help='Departments related to this state',),
-    }
+    department_ids = fields.One2many(
+        'res.country.department', 'state_id', string='Departments',
+        help='Departments related to this state')
