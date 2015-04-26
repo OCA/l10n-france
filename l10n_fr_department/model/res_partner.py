@@ -20,56 +20,38 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class res_partner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    def _get_departement_of_partner(self, cr, uid, partner, context=None):
+    @api.one
+    @api.depends('zip', 'country_id')
+    # If a department code changes, it will have to be manually recomputed
+    def _compute_department(self):
         '''This method is designed to be inherited'''
         dpt_id = False
-        zip = partner.zip
+        zip = self.zip
+        print "self=", self
+        print "zip=", zip
+        print "code=", self.country_id.code
         if (
-                partner.country_id and
-                partner.country_id.code == 'FR' and
+                self.country_id and
+                self.country_id.code == 'FR' and
                 zip and
                 len(zip) == 5):
             code = zip[0:2]
-            dpt_ids = self.pool['res.country.department'].search(
-                cr, uid, [
-                    ('code', '=', code),
-                    ('country_id', '=', partner.country_id.id),
-                    ], context=context)
-            if len(dpt_ids) == 1:
-                dpt_id = dpt_ids[0]
-        return dpt_id
+            dpts = self.env['res.country.department'].search([
+                ('code', '=', code),
+                ('country_id', '=', self.country_id.id),
+                ])
+            print "dpts=", dpts
+            if len(dpts) == 1:
+                dpt_id = dpts[0].id
+        print "dpt_id=", dpt_id
+        self.department_id = dpt_id
 
-    def _compute_department(self, cr, uid, ids, name, arg, context=None):
-        res = {}
-        for partner in self.browse(cr, uid, ids, context=context):
-            res[partner.id] = self._get_departement_of_partner(
-                cr, uid, partner, context=context)
-        return res
-
-    def _get_partner_from_department(self, cr, uid, ids, context=None):
-        # Recompute all partners with zip and country
-        partner_ids = self.pool['res.partner'].search(
-            cr, uid, [
-                '|', ('active', '=', True), ('active', '=', False),
-                ('zip', '!=', False), ('country_id', '!=', False)],
-            context=context)
-        return partner_ids
-
-    _columns = {
-        'department_id': fields.function(
-            _compute_department, type='many2one',
-            relation='res.country.department', string='Department',
-            readonly=True, store={
-                'res.partner': (
-                    lambda self, cr, uid, ids, c={}:
-                    ids, ['zip', 'country_id', 'state_id'], 10),
-                'res.country.department': (
-                    _get_partner_from_department, ['code', 'state_id'], 20),
-                }),
-        }
+    department_id = fields.Many2one(
+        'res.country.department', compute='_compute_department',
+        string='Department', readonly=True, store=True)

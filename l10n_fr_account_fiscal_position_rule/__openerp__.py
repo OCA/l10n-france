@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #
-#   l10n_fr_account_fiscal_position_rule for OpenERP
+#   l10n_fr_account_fiscal_position_rule for Odoo
 #   Copyright (C) 2012-TODAY Akretion <http://www.akretion.com>.
-#     @author Sébastien BEAU <sebastien.beau@akretion.com>
+#   @author Sébastien BEAU <sebastien.beau@akretion.com>
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU Affero General Public License as
 #   published by the Free Software Foundation, either version 3 of the

@@ -54,11 +54,12 @@ Copyright, Authors and Licence:
     'license': 'AGPL-3',
     'depends': ['l10n_fr_state'],
     'data': [
-        'security/ir_model_access.yml',
+        'security/ir.model.access.csv',
         'data/res_country_department_data.yml',
         'view/res_country_department.xml',
     ],
     'images': [
         'static/src/img/screenshots/department_list.jpg'
     ],
+    'test': ['test/department.yml'],
 }

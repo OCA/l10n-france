@@ -20,50 +20,41 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 import base64
 import unicodecsv
 import StringIO
 
 
-class account_fr_fec(orm.TransientModel):
+class AccountFrFec(models.TransientModel):
     _name = 'account.fr.fec'
     _description = 'Ficher Echange Informatise'
 
-    _columns = {
-        'fiscalyear_id': fields.many2one(
-            'account.fiscalyear', 'Fiscal Year', required=True),
-        'type': fields.selection([
-            ('is_ir_bic', 'I.S. or BIC @ I.R.'),
-            ], 'Company Type'),
-        'fec_data': fields.binary('FEC File', readonly=True),
-        'filename': fields.char('Filename', size=256, readonly=True),
-        'state': fields.selection([
-            ('draft', 'Draft'),
-            ('done', 'Done'),
-            ], 'State'),
-        'export_type': fields.selection([
-            ('official', 'Official FEC report (posted entries only)'),
-            (
-                'nonofficial',
-                'Non-official FEC report (posted and unposted entries)'),
-            ], 'Export Type', required=True),
-    }
+    fiscalyear_id = fields.Many2one(
+        'account.fiscalyear', string='Fiscal Year', required=True)
+    type = fields.Selection([
+        ('is_ir_bic', 'I.S. or BIC @ I.R.'),
+        ], string='Company Type', default='is_ir_bic')
+    fec_data = fields.Binary('FEC File', readonly=True)
+    filename = fields.Char(string='Filename', size=256, readonly=True)
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('done', 'Done'),
+        ], string='State', default='draft')
+    export_type = fields.Selection([
+        ('official', 'Official FEC report (posted entries only)'),
+        (
+            'nonofficial',
+            'Non-official FEC report (posted and unposted entries)'),
+        ], string='Export Type', required=True, default='official')
 
-    _defaults = {
-        'state': 'draft',
-        'type': 'is_ir_bic',
-        'export_type': 'official',
-    }
-
-    def generate_fec(self, cr, uid, ids, context=None):
-        assert len(ids) == 1, 'Only one ID'
-        cur_wiz = self.browse(cr, uid, ids[0], context=context)
-        period_ids = self.pool['account.period'].search(
-            cr, uid, [('fiscalyear_id', '=', cur_wiz.fiscalyear_id.id)],
-            context=context)
-        assert period_ids, 'The Fiscal Year must have periods'
+    @api.multi
+    def generate_fec(self):
+        self.ensure_one()
+        periods = self.env['account.period'].search(
+            [('fiscalyear_id', '=', self.fiscalyear_id.id)])
+        assert periods, 'The Fiscal Year must have periods'
         # We choose to implement the flat file instead of the XML
         # file for 2 reasons :
         # 1) the XSD file impose to have the label on the account.move
@@ -93,8 +84,8 @@ class account_fr_fec(orm.TransientModel):
             'Idevise',        # 17
             ]
 
-        company_id = self.pool['res.company']._company_default_get(
-            cr, uid, 'account.move', context=context)
+        company_id = self.env['res.company']._company_default_get(
+            'account.move')
 
         sql_query = '''
         SELECT
@@ -139,7 +130,7 @@ class account_fr_fec(orm.TransientModel):
         '''
 
         # For official report: only use posted entries
-        if cur_wiz.export_type == "official":
+        if self.export_type == "official":
             sql_query += '''
             AND am.state = 'posted'
             '''
@@ -150,15 +141,15 @@ class account_fr_fec(orm.TransientModel):
             CASE aj.type WHEN 'situation' THEN 1 ELSE 2 END,
             aml.id
         '''
-        cr.execute(sql_query, (tuple(period_ids), company_id))
+        self._cr.execute(sql_query, (tuple(periods.ids), company_id))
 
         fecfile = StringIO.StringIO()
         w = unicodecsv.writer(fecfile, encoding='utf-8', delimiter='|')
         w.writerow(header)
 
         while 1:
-            cr.arraysize = 100
-            rows = cr.fetchmany()
+            self._cr.arraysize = 100
+            rows = self._cr.fetchmany()
             if not rows:
                 break
             for row in rows:
@@ -180,28 +171,25 @@ class account_fr_fec(orm.TransientModel):
                     listrow[16] = ('%.2f' % listrow[16]).replace('.', ',')
                 w.writerow(listrow)
 
-        company = self.pool['res.company'].browse(
-            cr, uid, company_id, context=context)
+        company = self.env['res.company'].browse(company_id)
         if not company.vat:
-            raise orm.except_orm(
-                _('Error:'),
+            raise Warning(
                 _("Missing VAT number for company %s") % company.name)
         if company.vat[0:2] != 'FR':
-            raise orm.except_orm(
-                _('Error:'),
+            raise Warning(
                 _("FEC is for French companies only !"))
         siren = company.vat[4:13]
-        fy_end_date = cur_wiz.fiscalyear_id.date_stop.replace('-', '')
-        # Append "-NONOFFICIAL" to the file name
-        if cur_wiz.export_type == "nonofficial":
-            fy_end_date += "-NONOFFICIAL"
+        fy_end_date = self.fiscalyear_id.date_stop.replace('-', '')
+        suffix = ''
+        if self.export_type == "nonofficial":
+            suffix = '-NONOFFICIAL'
         fecvalue = fecfile.getvalue()
-        self.write(cr, uid, ids, {
+        self.write({
             'state': 'done',
             'fec_data': base64.encodestring(fecvalue),
-            'filename': '%sFEC%s.csv' % (siren, fy_end_date),
+            'filename': '%sFEC%s%s.csv' % (siren, fy_end_date, suffix),
             # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
-        }, context=context)
+            })
         fecfile.close()
 
         action = {
@@ -209,8 +197,7 @@ class account_fr_fec(orm.TransientModel):
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': self._name,
-            'res_id': ids[0],
+            'res_id': self.id,
             'target': 'new',
             }
-
         return action
