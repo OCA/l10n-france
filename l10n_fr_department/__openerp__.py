@@ -54,7 +54,7 @@ Copyright, Authors and Licence:
         'l10n_fr_state',
     ],
     'data': [
-        'security/ir_model_access.yml',
+        'security/ir.model.access.csv',
         'data/res_country_department_data.yml',
         'view/view.xml',
         'view/action.xml',
@@ -63,4 +63,5 @@ Copyright, Authors and Licence:
     'images': [
         'static/src/img/screenshots/1.png'
     ],
+    'test': ['test/department.yml'],
 }
