@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution
@@ -19,18 +19,15 @@
 #
 ##############################################################################
 
-{
-    'name': 'French NAF partner categories and APE code',
-    'version': '1.0',
-    'author': u'Numérigraphe SARL,Odoo Community Association (OCA)',
-    'category': 'French Localization',
-    'depends': [
-        'l10n_eu_nace'
-    ],
-    'data': [
-        'data/res.partner.category.csv',
-        'partner_view.xml',
-    ],
-    'license': 'AGPL-3',
-    'installable': True,
-}
+from openerp import models, fields
+
+
+class Partner(models.Model):
+    """Add the French APE (official main activity of the company)"""
+    _inherit = 'res.partner'
+
+    ape_id = fields.Many2one(
+        'res.partner.category', string='APE',
+        help="If the partner is a French company, enter its official "
+        "main activity in this field. The APE is chosen among the "
+        "NAF nomenclature.")
