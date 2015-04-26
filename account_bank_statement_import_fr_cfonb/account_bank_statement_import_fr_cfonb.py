@@ -22,16 +22,13 @@
 
 import logging
 from datetime import datetime
-
-from openerp.osv import orm
-from openerp.tools.translate import _
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from openerp import models, fields, _
 from openerp.exceptions import Warning
 
 _logger = logging.getLogger(__name__)
 
 
-class AccountBankStatementImport(orm.TransientModel):
+class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
     def _parse_cfonb_amount(self, amount_str, nb_of_dec):
@@ -95,7 +92,7 @@ class AccountBankStatementImport(orm.TransientModel):
             date_str = False
             if date_cfonb_str != '      ':
                 date_dt = datetime.strptime(date_cfonb_str, '%d%m%y')
-                date_str = date_dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
+                date_str = fields.Date.to_string(date_dt)
             assert decimals == 2, 'We use 2 decimals in France!'
 
             if i == 1:
