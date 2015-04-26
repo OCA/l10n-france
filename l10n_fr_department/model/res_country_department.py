@@ -3,7 +3,9 @@
 #
 #    l10n FR Departments module for OpenERP
 #    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#    @author Alexis de Lattre (alexis.delattre@akretion.com)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,28 +22,27 @@
 #
 ##############################################################################
 
-from openerp.osv import fields
-from openerp.osv.orm import Model
-from openerp.tools.translate import _
+from openerp import models, fields, _
 
-class res_country_department(Model):
+
+class ResCountryDepartment(models.Model):
     _description = "Department"
     _name = 'res.country.department'
+    _order = 'country_id, code'
 
-    _columns = {
-        'state_id': fields.many2one(
-            'res.country.state', 'State', required=True,
-            help='State related of the current department',),
-        'country_id': fields.related(
-            'state_id', 'country_id', type='many2one',
-            relation='res.country', string='Country',
-            help='Country of the related state',),
-        'name': fields.char('Department Name', size=128, required=True,),
-        'code': fields.char(
-            'Departement Code', size=2, required=True,
-            help="""The department code in two chars."""
-            """(ISO 3166-2 Codification)""",),
-    }
+    state_id = fields.Many2one(
+        'res.country.state', string='State', required=True,
+        help='State related to the current department')
+    country_id = fields.Many2one(
+        'res.country', related='state_id.country_id',
+        string='Country', readonly=True,
+        store=True, help='Country of the related state')
+    name = fields.Char(
+        string='Department Name', size=128, required=True)
+    code = fields.Char(
+        string='Departement Code', size=2, required=True,
+        help="""The department code in two chars."""
+        """(ISO 3166-2 Codification)""")
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)',

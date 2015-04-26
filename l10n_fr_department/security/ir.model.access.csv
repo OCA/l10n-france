@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_country_department_all,Read access to res.country.department to everybody,model_res_country_department,,1,0,0,0
+access_res_country_department_manager,Full access to res.country.department to System user,model_res_country_department,base.group_system,1,1,1,1
