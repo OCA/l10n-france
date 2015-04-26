@@ -8,18 +8,15 @@
             <field name="inherit_id" ref="account.view_partner_property_form" />
             <field name="arch" type="xml">
                 <page string="Accounting" position="inside">
-                    <group>
-                        <group col="4">
-                            <!-- oe_read_only hides the field in read mode
-                                in v8+. v7.0 shows the field - no big deal.
-                                Those who care can patch the web client:
-                                lp:~numerigraphe-team/ocb-web/7.0-hide-oe_read_only
-                            -->
+                    <group name="l10n_fr_siret">
+                        <group col="4" name="siret">
+                            <!-- oe_read_only hides the field in read mode in v8+ -->
                             <field name="siret" colspan="4" class="oe_read_only" />
-                            <field name="siren" class="oe_edit_only" string="SIREN/NIC" colspan="3"/>
+                            <field name="siren" class="oe_edit_only"
+                                string="SIREN/NIC" colspan="3"/>
                             <field name="nic" class="oe_edit_only" nolabel="1"/>
                         </group>
-                        <group>
+                        <group name="rcs">
                             <field name="company_registry" />
                         </group>
                     </group>
