@@ -1,0 +1,26 @@
+  rtment 
+  Createnew partner
+-
+  !record {model: res.partner, id: partner1}:
+    name: Akretion France
+    street: 35B rue Montgolfier
+    zip: 69100
+    city: Villeurbanne
+    country_id: base.fr
+-
+  Create a second new partner
+-
+  !record {model: res.partner, id: partner2}:
+    name: Abbaye du Barroux
+    street: 1201 chemin des Rabassières
+    zip: 84330
+    city: Le Barroux
+    country_id: base.fr
+-
+  Check that the department is right
+-
+  !python {model: res.partner}: |
+    partner1 = self.browse(cr, uid, ref('partner1'), context=context)
+    assert partner1.department_id.id == self.pool['ir.model.data'].xmlid_to_res_id(cr, uid, 'l10n_fr_department.res_country_department_rhone')
+    partner2 = self.browse(cr, uid, ref('partner2'), context=context)
+    assert partner2.department_id.id == self.pool['ir.model.data'].xmlid_to_res_id(cr, uid, 'l10n_fr_department.res_country_department_vaucluse')
