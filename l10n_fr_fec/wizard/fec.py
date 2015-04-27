@@ -52,9 +52,8 @@ class AccountFrFec(models.TransientModel):
     @api.multi
     def generate_fec(self):
         self.ensure_one()
-        periods = self.env['account.period'].search(
-            [('fiscalyear_id', '=', self.fiscalyear_id.id)])
-        assert periods, 'The Fiscal Year must have periods'
+        assert self.fiscalyear_id.period_ids,\
+            'The Fiscal Year must have periods'
         # We choose to implement the flat file instead of the XML
         # file for 2 reasons :
         # 1) the XSD file impose to have the label on the account.move
@@ -141,7 +140,8 @@ class AccountFrFec(models.TransientModel):
             CASE aj.type WHEN 'situation' THEN 1 ELSE 2 END,
             aml.id
         '''
-        self._cr.execute(sql_query, (tuple(periods.ids), company_id))
+        self._cr.execute(
+            sql_query, (tuple(self.fiscalyear_id.period_ids.ids), company_id))
 
         fecfile = StringIO.StringIO()
         w = unicodecsv.writer(fecfile, encoding='utf-8', delimiter='|')
