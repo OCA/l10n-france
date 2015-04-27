@@ -33,9 +33,6 @@ class ResPartner(models.Model):
         '''This method is designed to be inherited'''
         dpt_id = False
         zip = self.zip
-        print "self=", self
-        print "zip=", zip
-        print "code=", self.country_id.code
         if (
                 self.country_id and
                 self.country_id.code == 'FR' and
@@ -46,10 +43,8 @@ class ResPartner(models.Model):
                 ('code', '=', code),
                 ('country_id', '=', self.country_id.id),
                 ])
-            print "dpts=", dpts
             if len(dpts) == 1:
                 dpt_id = dpts[0].id
-        print "dpt_id=", dpt_id
         self.department_id = dpt_id
 
     department_id = fields.Many2one(
