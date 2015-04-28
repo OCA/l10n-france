@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!-- Note : I set a sequence of 10 on all VAT taxes, because it is then
+     easier to create an eco-tax with a lower sequence (VAT applies on the
+     amount of the eco-tax)
+-->
+
+<record model="account.tax.template" id="tva_normale_ttc">
+    <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
+    <field name="name">TVA collectée (vente) 20,0% TTC</field>
+    <field name="description">20.0-TTC</field>
+    <field name="price_include" eval="1"/>
+    <field name="amount" eval="0.200"/>
+    <field name="type">percent</field>
+    <field name="base_code_id" ref="l10n_fr.tax_col_200_ht"/>
+    <field name="base_sign" eval="1"/>
+    <field name="tax_code_id" ref="l10n_fr.tax_col_200"/>
+    <field name="tax_sign" eval="1"/>
+
+    <field name="account_collected_id" ref="l10n_fr.pcg_445711"/>
+    <field name="account_paid_id" ref="l10n_fr.pcg_445711"/>
+
+    <field name="ref_base_code_id" ref="l10n_fr.tax_col_200_ht"/>
+    <field name="ref_base_sign" eval="-1"/>
+    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_200"/>
+    <field name="ref_tax_sign" eval="-1"/>
+    <field name="sequence" eval="10"/>
+    <field name="type_tax_use">sale</field>
+</record>
+
+<record model="account.tax.template" id="tva_specifique_ttc">
+    <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
+    <field name="name">TVA collectée (vente) 8,5% TTC</field>
+    <field name="description">8.5-TTC</field>
+    <field name="price_include" eval="1"/>
+    <field name="amount" eval="0.085"/>
+    <field name="type">percent</field>
+    <field name="base_code_id" ref="l10n_fr.tax_col_85_ht"/>
+    <field name="base_sign" eval="1"/>
+    <field name="tax_code_id" ref="l10n_fr.tax_col_85"/>
+    <field name="tax_sign" eval="1"/>
+
+    <field name="account_collected_id" ref="l10n_fr.pcg_445713"/>
+    <field name="account_paid_id" ref="l10n_fr.pcg_445713"/>
+
+    <field name="ref_base_code_id" ref="l10n_fr.tax_col_85_ht"/>
+    <field name="ref_base_sign" eval="-1"/>
+    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_85"/>
+    <field name="ref_tax_sign" eval="-1"/>
+    <field name="sequence" eval="10"/>
+    <field name="type_tax_use">sale</field>
+</record>
+
+<record model="account.tax.template" id="tva_intermediaire_ttc">
+    <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
+    <field name="name">TVA collectée (vente) 10,0% TTC</field>
+    <field name="description">10.0-TTC</field>
+    <field name="price_include" eval="1"/>
+    <field name="amount" eval="0.10"/>
+    <field name="type">percent</field>
+    <field name="base_code_id" ref="l10n_fr.tax_col_100_ht"/>
+    <field name="base_sign" eval="1"/>
+    <field name="tax_code_id" ref="l10n_fr.tax_col_100"/>
+    <field name="tax_sign" eval="1"/>
+
+    <field name="account_collected_id" ref="l10n_fr.pcg_445712"/>
+    <field name="account_paid_id" ref="l10n_fr.pcg_445712"/>
+
+    <field name="ref_base_code_id" ref="l10n_fr.tax_col_100_ht"/>
+    <field name="ref_base_sign" eval="-1"/>
+    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_100"/>
+    <field name="ref_tax_sign" eval="-1"/>
+    <field name="sequence" eval="10"/>
+    <field name="type_tax_use">sale</field>
+</record>
+
+<record model="account.tax.template" id="tva_reduite_ttc">
+    <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
+    <field name="name">TVA collectée (vente) 5,5% TTC</field>
+    <field name="description">5.5-TTC</field>
+    <field name="price_include" eval="1"/>
+    <field name="amount" eval="0.055"/>
+    <field name="type">percent</field>
+    <field name="base_code_id" ref="l10n_fr.tax_col_55_ht"/>
+    <field name="base_sign" eval="1"/>
+    <field name="tax_code_id" ref="l10n_fr.tax_col_55"/>
+    <field name="tax_sign" eval="1"/>
+
+    <field name="account_collected_id" ref="l10n_fr.pcg_445713"/>
+    <field name="account_paid_id" ref="l10n_fr.pcg_445713"/>
+
+    <field name="ref_base_code_id" ref="l10n_fr.tax_col_55_ht"/>
+    <field name="ref_base_sign" eval="-1"/>
+    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_55"/>
+    <field name="ref_tax_sign" eval="-1"/>
+    <field name="sequence" eval="10"/>
+    <field name="type_tax_use">sale</field>
+</record>
+
+<record model="account.tax.template" id="tva_super_reduite_ttc">
+    <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
+    <field name="name">TVA collectée (vente) 2,1% TTC</field>
+    <field name="description">2.1-TTC</field>
+    <field name="price_include" eval="1"/>
+    <field name="amount" eval="0.021"/>
+    <field name="type">percent</field>
+    <field name="base_code_id" ref="l10n_fr.tax_col_21_ht"/>
+    <field name="base_sign" eval="1"/>
+    <field name="tax_code_id" ref="l10n_fr.tax_col_21"/>
+    <field name="tax_sign" eval="1"/>
+
+    <field name="account_collected_id" ref="l10n_fr.pcg_445713"/>
+    <field name="account_paid_id" ref="l10n_fr.pcg_445713"/>
+
+    <field name="ref_base_code_id" ref="l10n_fr.tax_col_21_ht"/>
+    <field name="ref_base_sign" eval="-1"/>
+    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_21"/>
+    <field name="ref_tax_sign" eval="-1"/>
+    <field name="sequence" eval="10"/>
+    <field name="type_tax_use">sale</field>
+</record>
+
+<!-- Update fiscal positions -->
+<!-- Intra-EU B2B -->
+<record id="fp_tax_template_intraeub2b_vt_normale_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_intraeub2b" />
+    <field name="tax_src_id" ref="tva_normale_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_intra_0" />
+</record>
+
+<record id="fp_tax_template_intraeub2b_vt_specifique_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_intraeub2b" />
+    <field name="tax_src_id" ref="tva_specifique_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_intra_0" />
+</record>
+
+<record id="fp_tax_template_intraeub2b_vt_intermediaire_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_intraeub2b" />
+    <field name="tax_src_id" ref="tva_intermediaire_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_intra_0" />
+</record>
+
+<record id="fp_tax_template_intraeub2b_vt_reduite_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_intraeub2b" />
+    <field name="tax_src_id" ref="tva_reduite_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_intra_0" />
+</record>
+
+<record id="fp_tax_template_intraeub2b_vt_super_reduite_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_intraeub2b" />
+    <field name="tax_src_id" ref="tva_super_reduite_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_intra_0" />
+</record>
+
+<!-- Import/Export + DOM-TOM -->
+<record id="fp_tax_template_impexp_vt_normale_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_import_export" />
+    <field name="tax_src_id" ref="tva_normale_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_export_0" />
+</record>
+
+<record id="fp_tax_template_impexp_vt_specifique_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_import_export" />
+    <field name="tax_src_id" ref="tva_specifique_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_export_0" />
+</record>
+
+<record id="fp_tax_template_impexp_vt_intermediaire_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_import_export" />
+    <field name="tax_src_id" ref="tva_intermediaire_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_export_0" />
+</record>
+
+<record id="fp_tax_template_impexp_vt_reduite_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_import_export" />
+    <field name="tax_src_id" ref="tva_reduite_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_export_0" />
+</record>
+
+<record id="fp_tax_template_impexp_vt_super_reduite_ttc" model="account.fiscal.position.tax.template">
+    <field name="position_id" ref="l10n_fr.fiscal_position_template_import_export" />
+    <field name="tax_src_id" ref="tva_super_reduite_ttc" />
+    <field name="tax_dest_id" ref="l10n_fr.tva_export_0" />
+</record>
+
+
+</data>
+</openerp>
