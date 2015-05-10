@@ -117,8 +117,8 @@
             <field name="type" />
             <field name="obligation_level" />
             <field name="num_lines" />
-            <field name="total_amount" sum="Total amount" />
-            <field name="total_fiscal_amount" sum="Total fiscal amount" />
+            <field name="total_amount" sum="Total Amount" />
+            <field name="total_fiscal_amount" sum="Total Fiscal Amount" />
             <field name="currency_id" />
             <field name="state" />
             <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
