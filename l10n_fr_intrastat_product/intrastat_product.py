@@ -326,7 +326,10 @@ class L10nFrReportIntrastatProduct(models.Model):
                         supplieri_obj = self.env['product.supplierinfo']
                         suppliers = supplieri_obj.search([
                             ('name', '=', origin_partner_id),
-                            ('product_id', '=', line.product_id.id),
+                            (
+                                'product_tmpl_id',
+                                '=',
+                                line.product_id.product_tmpl_id.id),
                             ('origin_country_id', '!=', False)
                             ])
                         if not suppliers:
@@ -833,7 +836,7 @@ class L10nFrReportIntrastatProduct(models.Model):
                 partner_id = etree.SubElement(item, 'partnerId')
                 if not pline.partner_vat:
                     raise Warning(
-                        _("Missing VAT number for partner '%s'.")
+                        _("Missing VAT number on partner '%s'.")
                         % pline.partner_id.name)
                 partner_id.text = pline.partner_vat.replace(' ', '')
             # Code régime is on all DEBs
