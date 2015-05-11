@@ -760,7 +760,6 @@ class L10nFrReportIntrastatProduct(models.Model):
         assert my_company_currency == 'EUR', "Company currency must be 'EUR'"
         currency_code.text = my_company_currency
 
-        # TODO : to CONTINUE
         # THEN, the fields which vary from a line to the next
         line = 0
         for pline in self.intrastat_line_ids:
