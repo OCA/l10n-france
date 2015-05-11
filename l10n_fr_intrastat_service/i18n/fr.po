@@ -1,14 +1,14 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 #	* l10n_fr_intrastat_service
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-14 21:45+0000\n"
-"PO-Revision-Date: 2014-04-14 21:45+0000\n"
-"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
+"POT-Creation-Date: 2015-05-11 00:19+0000\n"
+"PO-Revision-Date: 2015-05-11 00:19+0000\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,291 +83,309 @@ msgstr "\n"
 ""
 
 #. module: l10n_fr_intrastat_service
-#: sql_constraint:report.intrastat.service:0
+#: sql_constraint:l10n.fr.report.intrastat.service:0
 msgid "A DES for this month already exists !"
-msgstr "Une DES est déjà crée pour ce mois !"
+msgstr "Une DES est déjà créée pour ce mois !"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
+#: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_form
 msgid "Additionnal information"
-msgstr "Informations complémentaires"
+msgstr "Additionnal information"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
+#: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_tree
 msgid "Amount in comp. cur."
 msgstr "Montant en monn. soc."
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,amount_company_currency:0
+#: field:l10n.fr.report.intrastat.service.line,amount_company_currency:0
 msgid "Amount in company currency"
 msgstr "Montant dans la monnaie de la société"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service.line,amount_company_currency:0
+#: help:l10n.fr.report.intrastat.service.line,amount_company_currency:0
 msgid "Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date and rounded at 0 digits"
 msgstr "Montant dans la monnaie de la société à reporter dans la déclaration. Montant dans la monnaie de la société = montant dans la monnaie de la facture converti au taux de la date de la facture et arrondi à l'entier le plus proche"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,amount_invoice_currency:0
+#: field:l10n.fr.report.intrastat.service.line,amount_invoice_currency:0
 msgid "Amount in invoice currency"
 msgstr "Montant dans la monnaie de la facture"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service.line,amount_invoice_currency:0
+#: help:l10n.fr.report.intrastat.service.line,amount_invoice_currency:0
 msgid "Amount in invoice currency (not rounded)"
 msgstr "Montant dans la monnaie de la facture (non arrondi)"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_form
 msgid "Attach XML file"
 msgstr "Attacher le fichier XML"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_form
 msgid "Back to draft"
 msgstr "Retour au brouillon"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
+#: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_tree
 msgid "Comp. cur."
 msgstr "Monn. soc."
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,company_id:0
-#: field:report.intrastat.service.line,company_id:0
+#: field:l10n.fr.report.intrastat.service,company_id:0
+#: field:l10n.fr.report.intrastat.service.line,company_id:0
 msgid "Company"
 msgstr "Société"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,company_currency_id:0
-msgid "Company currency"
-msgstr "Monnaie société"
+#: field:l10n.fr.report.intrastat.service,create_uid:0
+#: field:l10n.fr.report.intrastat.service.line,create_uid:0
+msgid "Created by"
+msgstr "Créé par"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,currency_id:0
-msgid "Currency"
-msgstr "Monnaie"
+#: field:l10n.fr.report.intrastat.service,create_date:0
+#: field:l10n.fr.report.intrastat.service.line,create_date:0
+msgid "Created on"
+msgstr "Créé le"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,partner_vat:0
+#: field:l10n.fr.report.intrastat.service.line,partner_vat:0
 msgid "Customer VAT"
 msgstr "N° TVA du client"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
-#: selection:report.intrastat.service,state:0
+#: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_report_intrastat_service
+msgid "DES"
+msgstr "DES"
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_search
+msgid "Date"
+msgstr "Date"
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.report.intrastat.service,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Date of the last message posted on the record."
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_form
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_search
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_tree
+#: selection:l10n.fr.report.intrastat.service,state:0
 msgid "Done"
 msgstr "Déclaré"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
-#: selection:report.intrastat.service,state:0
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_search
+#: selection:l10n.fr.report.intrastat.service,state:0
 msgid "Draft"
 msgstr "Brouillon"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,end_date:0
+#: field:l10n.fr.report.intrastat.service,end_date:0
 msgid "End date"
 msgstr "Date de fin"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,end_date:0
+#: help:l10n.fr.report.intrastat.service,end_date:0
 msgid "End date for the declaration. Must be the last day of the month of the start date."
 msgstr "Date de fin de la déclaration. Doit être le dernier jour du mois de la date de début."
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:191
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:282
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:351
-#, python-format
-msgid "Error :"
-msgstr "Erreur :"
-
-#. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,message_follower_ids:0
+#: field:l10n.fr.report.intrastat.service,message_follower_ids:0
 msgid "Followers"
 msgstr "Followers"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,message_summary:0
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_form
+msgid "Generate lines from invoices"
+msgstr "Générer les lignes à partir des factures"
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_search
+msgid "Group By"
+msgstr "Grouper par"
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.report.intrastat.service,message_summary:0
 msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
 msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,message_unread:0
+#: field:l10n.fr.report.intrastat.service,id:0
+#: field:l10n.fr.report.intrastat.service.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.report.intrastat.service,message_unread:0
 msgid "If checked new messages require your attention."
 msgstr "If checked new messages require your attention."
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
+#: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_form
 msgid "Information to declare"
 msgstr "Informations à déclarer"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.fr_intrastat_service_tree_action
-#: model:ir.model,name:l10n_fr_intrastat_service.model_report_intrastat_service
-#: model:ir.ui.menu,name:l10n_fr_intrastat_service.fr_intrastat_service_menu
-#: view:report.intrastat.service:0
+#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_tree_action
+#: model:ir.ui.menu,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_menu
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_form
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_graph
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_tree
 msgid "Intrastat Service"
 msgstr "DES"
 
 #. module: l10n_fr_intrastat_service
 #: model:email.template,subject:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid "Intrastat Service ${object.year_month} for ${object.company_id.name}"
-msgstr "Intrastat Service ${object.year_month} for ${object.company_id.name}"
+msgstr "DES ${object.year_month} pour ${object.company_id.name}"
 
 #. module: l10n_fr_intrastat_service
-#: model:mail.message.subtype,description:l10n_fr_intrastat_service.declaration_done
-#: model:mail.message.subtype,name:l10n_fr_intrastat_service.declaration_done
+#: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_report_intrastat_service_line
+#: field:l10n.fr.report.intrastat.service,intrastat_line_ids:0
+#: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_form
+#: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_tree
+msgid "Intrastat Service Lines"
+msgstr "Lignes de DES"
+
+#. module: l10n_fr_intrastat_service
+#: model:mail.message.subtype,description:l10n_fr_intrastat_service.l10n_fr_declaration_done
+#: model:mail.message.subtype,name:l10n_fr_intrastat_service.l10n_fr_declaration_done
 msgid "Intrastat Service Validated"
 msgstr "DES validée"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service.line:0
-msgid "Intrastat service lines"
-msgstr "Lignes de DES"
-
-#. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,parent_id:0
+#: field:l10n.fr.report.intrastat.service.line,parent_id:0
 msgid "Intrastat service ref"
-msgstr "Lien DES"
+msgstr "Réf DES"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,invoice_currency_id:0
+#: field:l10n.fr.report.intrastat.service.line,invoice_currency_id:0
 msgid "Invoice currency"
 msgstr "Monnaie de la facture"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,date_invoice:0
-msgid "Invoice date"
-msgstr "Date de facture"
-
-#. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,invoice_id:0
+#: field:l10n.fr.report.intrastat.service.line,invoice_id:0
 msgid "Invoice ref"
 msgstr "Réf facture"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,message_is_follower:0
+#: field:l10n.fr.report.intrastat.service,message_is_follower:0
 msgid "Is a Follower"
 msgstr "Is a Follower"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model,name:l10n_fr_intrastat_service.model_report_intrastat_service_line
-msgid "Lines of intrastat service declaration (DES)"
-msgstr "Lignes de DES"
+#: field:l10n.fr.report.intrastat.service,message_last_post:0
+msgid "Last Message Date"
+msgstr "Last Message Date"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,message_ids:0
+#: field:l10n.fr.report.intrastat.service,write_uid:0
+#: field:l10n.fr.report.intrastat.service.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.report.intrastat.service,write_date:0
+#: field:l10n.fr.report.intrastat.service.line,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.report.intrastat.service,message_ids:0
 msgid "Messages"
 msgstr "Messages"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,message_ids:0
+#: help:l10n.fr.report.intrastat.service,message_ids:0
 msgid "Messages and communication history"
 msgstr "Messages and communication history"
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:283
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:352
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:211
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:275
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr "Numéro de TVA non renseigné pour le partenaire '%s'."
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:192
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:124
 #, python-format
 msgid "Missing country on partner '%s'."
 msgstr "Pays manquant sur le partenaire '%s'."
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,year_month:0
+#: field:l10n.fr.report.intrastat.service,year_month:0
 msgid "Month"
 msgstr "Mois"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,num_lines:0
+#: field:l10n.fr.report.intrastat.service,num_lines:0
 msgid "Number of lines"
 msgstr "Nombre de lignes"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,num_lines:0
+#: help:l10n.fr.report.intrastat.service,num_lines:0
 msgid "Number of lines in this declaration."
 msgstr "Nombre de lignes de la déclaration."
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service.line,partner_id:0
+#: field:l10n.fr.report.intrastat.service.line,partner_id:0
 msgid "Partner name"
 msgstr "Nom du partenaire"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
-msgid "Re-generate lines"
-msgstr "Re-générer les lignes"
-
-#. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,company_id:0
-msgid "Related company."
-msgstr "Société associée."
-
-#. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,intrastat_line_ids:0
-msgid "Report intrastat service lines"
-msgstr "Lignes de DES"
-
-#. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_search
 msgid "Search Intrastat Service"
 msgstr "Recherche DES"
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,start_date:0
+#: field:l10n.fr.report.intrastat.service,start_date:0
 msgid "Start date"
 msgstr "Date de début"
 
 #. module: l10n_fr_intrastat_service
-#: constraint:report.intrastat.service:0
-msgid "Start date must be the first day of a month"
-msgstr "La date de début doit être le premier jour d'un mois"
-
-#. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,start_date:0
+#: help:l10n.fr.report.intrastat.service,start_date:0
 msgid "Start date of the declaration. Must be the first day of a month."
 msgstr "Date de début de la déclaration. Doit être le premier jour d'un mois."
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,state:0
+#: field:l10n.fr.report.intrastat.service,state:0
 msgid "State"
 msgstr "État"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,state:0
+#: help:l10n.fr.report.intrastat.service,state:0
 msgid "State of the declaration. When the state is set to 'Done', the fields become read-only."
 msgstr "État de la déclaration. Quand l'état est à 'Déclaré', les champs passent en lecture seule."
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,message_summary:0
+#: field:l10n.fr.report.intrastat.service,message_summary:0
 msgid "Summary"
 msgstr "Summary"
 
 #. module: l10n_fr_intrastat_service
-#: view:report.intrastat.service:0
-#: field:report.intrastat.service,total_amount:0
+#: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_tree
+#: field:l10n.fr.report.intrastat.service,total_amount:0
 msgid "Total amount"
 msgstr "Montant total"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,total_amount:0
+#: help:l10n.fr.report.intrastat.service,total_amount:0
 msgid "Total amount in company currency of the declaration."
 msgstr "Montant total en monnaie société de la déclaration."
 
 #. module: l10n_fr_intrastat_service
-#: field:report.intrastat.service,message_unread:0
+#: field:l10n.fr.report.intrastat.service,message_unread:0
 msgid "Unread Messages"
 msgstr "Unread Messages"
 
 #. module: l10n_fr_intrastat_service
-#: help:report.intrastat.service,year_month:0
+#: help:l10n.fr.report.intrastat.service,year_month:0
 msgid "Year and month of the declaration."
 msgstr "Année et mois de la déclaration."
 
