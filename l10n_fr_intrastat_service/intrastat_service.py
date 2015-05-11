@@ -67,7 +67,7 @@ class L10nFrReportIntrastatService(models.Model):
         help="Year and month of the declaration.")
     intrastat_line_ids = fields.One2many(
         'l10n.fr.report.intrastat.service.line',
-        'parent_id', string='Report intrastat service lines',
+        'parent_id', string='Intrastat Service Lines',
         states={'done': [('readonly', True)]}, copy=False)
     num_lines = fields.Integer(
         compute='_compute_numbers', string='Number of lines', store=True,
