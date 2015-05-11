@@ -48,10 +48,10 @@ class ProductSupplierinfo(models.Model):
     def _same_supplier_same_origin(self):
         """Products from the same supplier should have the same origin"""
         # Search for same supplier and same product tmpl
+        # 'name' on product_supplierinfo is a many2one to res.partner
         same_product_same_suppliers = self.search([
             ('product_tmpl_id', '=', self.product_tmpl_id.id),
             ('name', '=', self.name.id)])
-            # 'name' on product_supplierinfo is a many2one to res.partner
         for supplieri in same_product_same_suppliers:
             if self.origin_country_id != supplieri.origin_country_id:
                 raise ValidationError(
