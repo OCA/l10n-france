@@ -53,8 +53,8 @@ class L10nFrReportIntrastatService(models.Model):
     start_date = fields.Date(
         string='Start date', required=True,
         states={'done': [('readonly', True)]}, copy=False,
-        default=
-        lambda self: datetime.today() + relativedelta(day=1, months=-1),
+        default=lambda self:
+        datetime.today() + relativedelta(day=1, months=-1),
         help="Start date of the declaration. Must be the first day of "
         "a month.")
     end_date = fields.Date(
@@ -117,7 +117,6 @@ class L10nFrReportIntrastatService(models.Model):
             ('state', 'in', ('open', 'paid')),
             ('company_id', '=', self.company_id.id)
             ], order='date_invoice')
-        #print "invoice_ids=", invoice_ids
         for invoice in invoices:
             if not invoice.partner_id.country_id:
                 raise Warning(
@@ -276,7 +275,6 @@ class L10nFrReportIntrastatService(models.Model):
                     % sline.partner_id.name)
         xml_string = etree.tostring(
             root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
-        #print "xml_string", xml_string
 
         # We now validate the XML file against the official XSD
         self._check_xml_schema(
