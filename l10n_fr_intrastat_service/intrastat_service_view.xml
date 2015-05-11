@@ -101,7 +101,7 @@
     <field name="name">fr.intrastat.service.line.form</field>
     <field name="model">l10n.fr.report.intrastat.service.line</field>
     <field name="arch" type="xml">
-        <form string="Intrastat service lines">
+        <form string="Intrastat Service Lines">
             <group colspan="4" col="4" string="Information to declare">
                 <field name="partner_id" />
                 <field name="partner_vat" />
@@ -123,7 +123,7 @@
     <field name="name">fr.intrastat.service.line.tree</field>
     <field name="model">l10n.fr.report.intrastat.service.line</field>
     <field name="arch" type="xml">
-        <tree string="Intrastat service lines">
+        <tree string="Intrastat Service Lines">
             <field name="partner_vat" />
             <field name="amount_company_currency" string="Amount in comp. cur." />
             <field name="company_currency_id" string="Comp. cur." />
