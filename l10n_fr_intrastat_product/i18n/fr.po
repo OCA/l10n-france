@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-10 15:35+0000\n"
-"PO-Revision-Date: 2015-05-10 15:35+0000\n"
+"POT-Creation-Date: 2015-05-10 15:59+0000\n"
+"PO-Revision-Date: 2015-05-10 15:59+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -260,7 +260,7 @@ msgstr "99"
 #. module: l10n_fr_intrastat_product
 #: sql_constraint:l10n.fr.report.intrastat.product:0
 msgid "A DEB of the same type already exists for this month !"
-msgstr "A DEB of the same type already exists for this month !"
+msgstr "Une DEB du même type existe déjà pour ce mois !"
 
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/company.py:113
@@ -829,13 +829,8 @@ msgid "Missing Intrastat code on line %d."
 msgstr "Code S.H. manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:839
-#, python-format
-msgid "Missing VAT number for partner '%s'."
-msgstr "Numéro de TVA manquant pour le partenaire '%s'."
-
-#. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:448
+#: code:addons/l10n_fr_intrastat_product/intrastat_product.py:839
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr "Numéro de TVA manquant pour le partenaire '%s'."
@@ -953,7 +948,8 @@ msgstr "Niveau d'obligation"
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:169
 #, python-format
 msgid "Obligation level can't be 'Simplified' for Import"
-msgstr "Obligation level can't be 'SimplifiNivNivNivNivNivNivNivNiveau d'obligation
+msgstr "Obligation level can't be 'SimplifiNivNivNivNivNivNivNivNiveau d'obligatio. module: l10n_fr_intrastat_produc: field:res.company,export_obligation_level:sgid \"Obligation level for exportsgstr \"Niveau d'obligation pour les expéditions"
+
 #. module: l10n_fr_intrastat_product
 #: field:res.company,export_obligation_level:0
 msgid "Obligation level for export"
@@ -1245,29 +1241,21 @@ msgid "The pair (procedure code, transaction code) must be unique."
 msgstr "Le couple (code régime, nature de la transaction) doit être unique."
 
 #. module: l10n_fr_intrastat_product
+#: view:l10n.fr.report.intrastat.product:l10n_fr_intrastat_product.l10n_fr_intrastat_product_tree
 #: field:l10n.fr.report.intrastat.product,total_amount:0
 msgid "Total Amount"
 msgstr "Montant total"
 
 #. module: l10n_fr_intrastat_product
+#: view:l10n.fr.report.intrastat.product:l10n_fr_intrastat_product.l10n_fr_intrastat_product_tree
 #: field:l10n.fr.report.intrastat.product,total_fiscal_amount:0
 msgid "Total Fiscal Amount"
 msgstr "Total fiscal"
 
 #. module: l10n_fr_intrastat_product
-#: view:l10n.fr.report.intrastat.product:l10n_fr_intrastat_product.l10n_fr_intrastat_product_tree
-msgid "Total amount"
-msgstr "Total amount"
-
-#. module: l10n_fr_intrastat_product
 #: help:l10n.fr.report.intrastat.product,total_amount:0
 msgid "Total amount in company currency of the declaration."
 msgstr "Total amount in company currency of the declaration."
-
-#. module: l10n_fr_intrastat_product
-#: view:l10n.fr.report.intrastat.product:l10n_fr_intrastat_product.l10n_fr_intrastat_product_tree
-msgid "Total fiscal amount"
-msgstr "Total fiscal amount"
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.report.intrastat.product,total_fiscal_amount:0
