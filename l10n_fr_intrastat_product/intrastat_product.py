@@ -71,8 +71,8 @@ class L10nFrReportIntrastatProduct(models.Model):
     start_date = fields.Date(
         string='Start Date', required=True,
         states={'done': [('readonly', True)]}, copy=False,
-        default=
-        lambda self: datetime.today() + relativedelta(day=1, months=-1),
+        default=lambda self:
+        datetime.today() + relativedelta(day=1, months=-1),
         help="Start date of the declaration. Must be the first day of "
         "a month.")
     end_date = fields.Date(
@@ -220,8 +220,8 @@ class L10nFrReportIntrastatProduct(models.Model):
                 total_invoice_cur_accessory_cost += line.price_subtotal
                 continue
             # END OF "continue" instructions
-            ## AFTER THIS POINT, we are sure to have real products that
-            ## have to be declared to DEB
+            # AFTER THIS POINT, we are sure to have real products that
+            # have to be declared to DEB
             amount_product_value_inv_cur_to_write = line.price_subtotal
             total_invoice_cur_product_value += line.price_subtotal
             invoice_currency_id_to_write = invoice.currency_id.id
@@ -315,7 +315,7 @@ class L10nFrReportIntrastatProduct(models.Model):
                 if self.type == 'export':
                     product_country_origin_id_to_write = False
                 elif line.product_id.origin_country_id:
-                # If we have the country of origin on the product -> take it
+                    # If we have the country of origin on the product: take it
                     product_country_origin_id_to_write =\
                         line.product_id.origin_country_id.id
                 else:
@@ -363,9 +363,9 @@ class L10nFrReportIntrastatProduct(models.Model):
                 product_country_origin_id_to_write = False
 
             create_new_line = True
-            #print "lines_to_create =", lines_to_create
+            # print "lines_to_create =", lines_to_create
             for line_to_create in lines_to_create:
-                #print "line_to_create =", line_to_create
+                # print "line_to_create =", line_to_create
                 if (
                         line_to_create.get('intrastat_code_id', False) ==
                         intrastat_code_id_to_write
@@ -551,7 +551,7 @@ class L10nFrReportIntrastatProduct(models.Model):
             parent_values['transport_to_write'] = False
             parent_values['transaction_code_to_write'] = False
             parent_values['partner_country_id_to_write'] = False
-        #print "parent_values =", parent_values
+        # print "parent_values =", parent_values
         return parent_values
 
     @api.multi
@@ -581,9 +581,8 @@ class L10nFrReportIntrastatProduct(models.Model):
             ('state', 'in', ('open', 'paid')),
             ('company_id', '=', self.company_id.id)
             ], order='date_invoice')
-        #print "invoice_ids=", invoice_ids
         for invoice in invoices:
-            #print "INVOICE num =", invoice.number
+            # print "INVOICE num =", invoice.number
             parent_values = {}
 
             # We should always have a country on partner_id
@@ -698,7 +697,7 @@ class L10nFrReportIntrastatProduct(models.Model):
         start_date_str = self.start_date
         start_date_datetime = fields.Date.from_string(start_date_str)
 
-# TODO        self.pool.get('report.intrastat.common')._check_generate_xml(cr, uid, intrastat, context=context)
+        self._check_generate_xml()
 
         my_company_vat = self.company_id.partner_id.vat.replace(' ', '')
 
@@ -766,7 +765,7 @@ class L10nFrReportIntrastatProduct(models.Model):
         line = 0
         for pline in self.intrastat_line_ids:
             line += 1  # increment line number
-            #print "line =", line
+            # print "line =", line
             assert pline.intrastat_type_id, "Missing Intrastat Type"
             intrastat_type = pline.intrastat_type_id
             item = etree.SubElement(declaration, 'Item')
@@ -1030,8 +1029,8 @@ class L10nFrReportIntrastatProductLine(models.Model):
     is_vat_required = fields.Boolean(
         related='intrastat_type_id.is_vat_required',
         string='Is Partner VAT required ?', readonly=True)
-        # Is fiscal_only is not fields.related because,
-        # if obligation_level = simplified, is_fiscal_only is always true
+    # Is fiscal_only is not a related fields because,
+    # if obligation_level = simplified, is_fiscal_only is always true
     is_fiscal_only = fields.Boolean(
         string='Is fiscal only?', readonly=True)
     procedure_code = fields.Char(
@@ -1049,7 +1048,7 @@ class L10nFrReportIntrastatProductLine(models.Model):
             raise ValidationError(_('Quantity must be an integer.'))
 
     # TODO
-# constrains on 'procedure_code', 'transaction_code'
+    # constrains on 'procedure_code', 'transaction_code'
 
     @api.onchange('partner_id')
     def partner_on_change(self):
