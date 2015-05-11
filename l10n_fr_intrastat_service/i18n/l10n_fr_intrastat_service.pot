@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-11 00:19+0000\n"
-"PO-Revision-Date: 2015-05-11 00:19+0000\n"
+"POT-Creation-Date: 2015-05-11 14:23+0000\n"
+"PO-Revision-Date: 2015-05-11 14:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -62,11 +62,6 @@ msgid "Additionnal information"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_tree
-msgid "Amount in comp. cur."
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
 #: field:l10n.fr.report.intrastat.service.line,amount_company_currency:0
 msgid "Amount in company currency"
 msgstr ""
@@ -97,11 +92,6 @@ msgid "Back to draft"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_tree
-msgid "Comp. cur."
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
 #: field:l10n.fr.report.intrastat.service,company_id:0
 #: field:l10n.fr.report.intrastat.service.line,company_id:0
 msgid "Company"
@@ -122,11 +112,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.report.intrastat.service.line,partner_vat:0
 msgid "Customer VAT"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_report_intrastat_service
-msgid "DES"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -201,6 +186,8 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.act_window,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_tree_action
+#: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_report_intrastat_service
+#: model:ir.model,name:l10n_fr_intrastat_service.model_report_intrastat_service
 #: model:ir.ui.menu,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_menu
 #: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_form
 #: view:l10n.fr.report.intrastat.service:l10n_fr_intrastat_service.l10n_fr_intrastat_service_graph
@@ -215,6 +202,7 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_report_intrastat_service_line
+#: model:ir.model,name:l10n_fr_intrastat_service.model_report_intrastat_service_line
 #: field:l10n.fr.report.intrastat.service,intrastat_line_ids:0
 #: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_form
 #: view:l10n.fr.report.intrastat.service.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_line_tree
@@ -275,14 +263,14 @@ msgid "Messages and communication history"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:211
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:275
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:210
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:274
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:124
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:123
 #, python-format
 msgid "Missing country on partner '%s'."
 msgstr ""
