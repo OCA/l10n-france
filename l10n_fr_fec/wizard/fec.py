@@ -43,11 +43,16 @@ class account_fr_fec(orm.TransientModel):
             ('draft', 'Draft'),
             ('done', 'Done'),
             ], 'State'),
+        'export_type': fields.selection([
+            ('official', 'Official FEC report (posted entries only)'),
+            ('nonofficial', 'Non-official FEC report (posted and unposted entries)'),
+            ], 'Export Type', required=True),
     }
 
     _defaults = {
         'state': 'draft',
         'type': 'is_ir_bic',
+        'export_type': 'official',
     }
 
     def generate_fec(self, cr, uid, ids, context=None):
@@ -119,8 +124,16 @@ class account_fr_fec(orm.TransientModel):
             LEFT JOIN res_currency rc ON rc.id = aml.currency_id
         WHERE
             am.period_id IN %s
-            AND am.state = 'posted'
             AND am.company_id = %s
+        '''
+
+        # For official report: only use posted entries
+        if cur_wiz.export_type == "official":
+            sql_query += '''
+            AND am.state = 'posted'
+            '''
+
+        sql_query += '''
         ORDER BY
             am.date,
             CASE aj.type WHEN 'situation' THEN 1 ELSE 2 END,
@@ -168,6 +181,9 @@ class account_fr_fec(orm.TransientModel):
                 _("FEC is for French companies only !"))
         siren = company.vat[4:13]
         fy_end_date = cur_wiz.fiscalyear_id.date_stop.replace('-', '')
+        # Append "-NONOFFICIAL" to the file name
+        if cur_wiz.export_type == "nonofficial":
+            fy_end_date += "-NONOFFICIAL"
         fecvalue = fecfile.getvalue()
         self.write(cr, uid, ids, {
             'state': 'done',
