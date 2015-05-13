@@ -102,9 +102,17 @@ class account_fr_fec(orm.TransientModel):
             am.date AS EcritureDate,
             aa.code AS CompteNum,
             replace(aa.name, '|', '/') AS CompteLib,
-            rp.id AS CompAuxNum,
+            CASE WHEN rp.ref IS null OR rp.ref = ''
+            THEN 'ID ' || rp.id
+            ELSE rp.ref
+            END
+            AS CompAuxNum,
             replace(rp.name, '|', '/') AS CompAuxLib,
-            replace(am.ref, '|', '/') AS PieceRef,
+            CASE WHEN am.ref IS null OR am.ref = ''
+            THEN '-'
+            ELSE replace(am.ref, '|', '/')
+            END
+            AS PieceRef,
             am.date AS PieceDate,
             replace(aml.name, '|', '/') AS EcritureLib,
             aml.debit AS Debit,
@@ -125,6 +133,7 @@ class account_fr_fec(orm.TransientModel):
         WHERE
             am.period_id IN %s
             AND am.company_id = %s
+            AND (aml.debit != 0 OR aml.credit != 0)
         '''
 
         # For official report: only use posted entries

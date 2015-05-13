@@ -42,6 +42,11 @@ fichier, appelé FEC, est définit dans l'arrêté. Ce module implémente le fic
 FEC au format texte et non au format XML, car le format texte sera facilement
 lisible et vérifiable par le comptable en utilisant un tableur.
 
+La structure du fichier FEC généré par ce module a été vérifiée avec le logiciel
+*Test Compta Demat* version 1_00_05 disponible sur
+http://www.economie.gouv.fr/dgfip/outil-test-des-fichiers-des-ecritures-comptables-fec
+en utilisant une base de donnée Odoo réelle.
+
 Ce module a été écrit par Alexis de Lattre <alexis.delattre@akretion.com>.
     """,
     'author': "Akretion,Odoo Community Association (OCA)",
