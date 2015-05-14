@@ -26,7 +26,7 @@ install:
   - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
-  - sudo pip install unicodecsv unidecode ofxparse
+  - pip install unicodecsv unidecode ofxparse
 
 script:
   - travis_run_tests
