@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    l10n FR FEC module for OpenERP
-#    Copyright (C) 2013-2014 Akretion (http://www.akretion.com)
+#    l10n FR FEC module for Odoo
+#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,9 @@ class account_fr_fec(orm.TransientModel):
             ], 'State'),
         'export_type': fields.selection([
             ('official', 'Official FEC report (posted entries only)'),
-            ('nonofficial', 'Non-official FEC report (posted and unposted entries)'),
+            (
+                'nonofficial',
+                'Non-official FEC report (posted and unposted entries)'),
             ], 'Export Type', required=True),
     }
 
@@ -65,7 +67,7 @@ class account_fr_fec(orm.TransientModel):
         # We choose to implement the flat file instead of the XML
         # file for 2 reasons :
         # 1) the XSD file impose to have the label on the account.move
-        # but OpenERP has the label on the account.move.line, so that's a
+        # but Odoo has the label on the account.move.line, so that's a
         # problem !
         # 2) CSV files are easier to read/use for a regular accountant.
         # So it will be easier for the accountant to check the file before
@@ -96,20 +98,28 @@ class account_fr_fec(orm.TransientModel):
 
         sql_query = '''
         SELECT
-            aj.code AS JournalCode,
-            aj.name AS JournalLib,
-            am.name AS EcritureNum,
+            replace(aj.code, '|', '/') AS JournalCode,
+            replace(aj.name, '|', '/') AS JournalLib,
+            replace(am.name, '|', '/') AS EcritureNum,
             am.date AS EcritureDate,
             aa.code AS CompteNum,
-            aa.name AS CompteLib,
-            rp.id AS CompAuxNum,
-            rp.name AS CompAuxLib,
-            am.ref AS PieceRef,
+            replace(aa.name, '|', '/') AS CompteLib,
+            CASE WHEN rp.ref IS null OR rp.ref = ''
+            THEN 'ID ' || rp.id
+            ELSE rp.ref
+            END
+            AS CompAuxNum,
+            replace(rp.name, '|', '/') AS CompAuxLib,
+            CASE WHEN am.ref IS null OR am.ref = ''
+            THEN '-'
+            ELSE replace(am.ref, '|', '/')
+            END
+            AS PieceRef,
             am.date AS PieceDate,
-            aml.name AS EcritureLib,
+            replace(aml.name, '|', '/') AS EcritureLib,
             aml.debit AS Debit,
             aml.credit AS Credit,
-            amr.name AS EcritureLet,
+            replace(amr.name, '|', '/') AS EcritureLet,
             amr.create_date::timestamp::date AS DateLet,
             am.date AS ValidDate,
             aml.amount_currency AS Montantdevise,
@@ -125,6 +135,7 @@ class account_fr_fec(orm.TransientModel):
         WHERE
             am.period_id IN %s
             AND am.company_id = %s
+            AND (aml.debit != 0 OR aml.credit != 0)
         '''
 
         # For official report: only use posted entries
