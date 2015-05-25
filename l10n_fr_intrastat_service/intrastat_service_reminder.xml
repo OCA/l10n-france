@@ -37,7 +37,7 @@
 
 <p>I would like to remind you that we are approaching the deadline for the Intrastat Service declaration for month ${object.year_month}.</p>
 
-<p>As there were no Intrastat Service declaration for that month in OpenERP, a draft declaration has been generated automatically by OpenERP.</p>
+<p>As there were no Intrastat Service declaration for that month in Odoo, a draft declaration has been generated automatically by Odoo.</p>
 
 % if ctx.get('exception'):
 <p>When trying to generate the lines of the Intrastat Service declaration, the following error was encountered:</p>
@@ -53,14 +53,15 @@
 <p>This draft Intrastat Service declaration generated automatically by OpenERP doesn't contain any line.</p>
 % endif
 
-<p>Go and check this declaration in OpenERP in the menu "Accounting > Reporting > Legal Reports > Intrastat reporting > Intrastat Service".</p>
+<p>Go and check this declaration in Odoo in the menu "Accounting > Reporting > Legal Reports > Intrastat reporting > Intrastat Service".</p>
 
 % endif
 
 <p>
 -- 
-Automatic e-mail sent by OpenERP.
-<!-- TODO : print database name (we used object._cr.dbname in openerp 6.1, but it's not possible in OpenERP 7 because the executing of jinja2 is sandboxed and private attributes can't be accessed). -->
+Automatic e-mail sent by Odoo.
+<!-- TODO : print database na
+me (we used object._cr.dbname in openerp 6.1, but it's not possible in OpenERP 7 because the executing of jinja2 is sandboxed and private attributes can't be accessed). -->
 </p>
 </div>
 ]]></field>

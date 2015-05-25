@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat product module for OpenERP
-#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com)
+#    France Intrastat Product module for Odoo
+#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,14 +26,14 @@
     'version': '1.2',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
-    'summary': 'Module for Intrastat product reporting (DEB) for France',
-    'description': """This module adds support for the "Déclaration d'Echange de Biens" (DEB).
+    'summary': "Add support for the Déclaration d'Échange de Biens (DEB) for France",
+    'description': """This module adds support for the "Déclaration d'Echange de Biens" (DEB) for France.
 
 More information about the DEB is available on this official web page : http://www.douane.gouv.fr/page.asp?id=322
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
+    'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'depends': ['intrastat_product', 'sale_stock', 'purchase', 'l10n_fr_siret'],
     'data': [
