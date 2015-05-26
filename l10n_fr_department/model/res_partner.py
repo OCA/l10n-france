@@ -27,7 +27,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     @api.one
-    @api.depends('zip', 'country_id')
+    @api.depends('zip', 'country_id', 'country_id.code')
     # If a department code changes, it will have to be manually recomputed
     def _compute_department(self):
         '''This method is designed to be inherited'''
