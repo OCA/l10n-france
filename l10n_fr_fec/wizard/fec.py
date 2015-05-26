@@ -83,8 +83,7 @@ class AccountFrFec(models.TransientModel):
             'Idevise',        # 17
             ]
 
-        company_id = self.env['res.company']._company_default_get(
-            'account.move')
+        company = self.fiscalyear_id.company_id
 
         sql_query = '''
         SELECT
@@ -141,7 +140,7 @@ class AccountFrFec(models.TransientModel):
             aml.id
         '''
         self._cr.execute(
-            sql_query, (tuple(self.fiscalyear_id.period_ids.ids), company_id))
+            sql_query, (tuple(self.fiscalyear_id.period_ids.ids), company.id))
 
         fecfile = StringIO.StringIO()
         w = unicodecsv.writer(fecfile, encoding='utf-8', delimiter='|')
@@ -171,7 +170,6 @@ class AccountFrFec(models.TransientModel):
                     listrow[16] = ('%.2f' % listrow[16]).replace('.', ',')
                 w.writerow(listrow)
 
-        company = self.env['res.company'].browse(company_id)
         if not company.vat:
             raise Warning(
                 _("Missing VAT number for company %s") % company.name)
