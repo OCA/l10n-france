@@ -26,16 +26,17 @@
     'version': '1.2',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
-    'summary': "Add support for the Déclaration d'Échange de Biens (DEB) for France",
-    'description': """This module adds support for the "Déclaration d'Echange de Biens" (DEB) for France.
-
-More information about the DEB is available on this official web page : http://www.douane.gouv.fr/page.asp?id=322
-
-This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
-    """,
+    'summary': "Add support for the Déclaration d'Échange de Biens (DEB) "
+               "for France",
+    'description': "",
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
-    'depends': ['intrastat_product', 'sale_stock', 'purchase', 'l10n_fr_siret'],
+    'depends': [
+        'intrastat_product',
+        'sale_stock',
+        'purchase',
+        'l10n_fr_siret',
+        ],
     'data': [
         'security/intrastat_product_security.xml',
         'security/ir.model.access.csv',

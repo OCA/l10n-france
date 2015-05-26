@@ -26,15 +26,9 @@
     'version': '1.2',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
-    'summary': 'Add support for the Déclaration Européenne des Services (DES) for France',
-    'description': """This module adds support for the "Déclaration Européenne des Services" (DES) for France.
-
-The DES declaration has been introduced on January 1st 2010 in France. All French companies must send this declaration each month to France's Customs administration if they sell services to other EU companies.
-
-More information about the DES is available on this official web page : http://www.douane.gouv.fr/page.asp?id=3846
-
-This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
-    """,
+    'summary': 'Add support for the Déclaration Européenne des Services '
+               '(DES) for France',
+    'description': "",
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'depends': ['intrastat_base'],
