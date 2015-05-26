@@ -1,5 +1,5 @@
-  rtment 
-  Createnew partner
+-
+  Create a first new partner
 -
   !record {model: res.partner, id: partner1}:
     name: Akretion France
