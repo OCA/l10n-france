@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2013 Akretion (http://www.akretion.com)
+  Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   The licence is in the file __openerp__.py
 -->
@@ -11,7 +11,7 @@
     <field name="name">account.fr.fec.form.view</field>
     <field name="model">account.fr.fec</field>
     <field name="arch" type="xml">
-        <form string="FEC File Generation" version="7.0">
+        <form string="FEC File Generation">
             <field name="state" invisible="True"/>
             <group states="draft">
                 <field name="fiscalyear_id" />
@@ -24,8 +24,10 @@
                 <label string="The encoding of this text file is UTF-8." colspan="2"/>
             </group>
             <footer>
-                <button string="Generate" name="generate_fec" type="object" class="oe_highlight" states="draft"/>
-                <button string="Cancel" special="cancel" class="oe_link" states="draft"/>
+                <button string="Generate" name="generate_fec" type="object"
+                    class="oe_highlight" states="draft"/>
+                <button string="Cancel" special="cancel"
+                    class="oe_link" states="draft"/>
                 <button string="Close" special="cancel" states="done" />
             </footer>
         </form>
@@ -35,7 +37,6 @@
 <record id="account_fr_fec_action" model="ir.actions.act_window">
     <field name="name">FEC</field>
     <field name="res_model">account.fr.fec</field>
-    <field name="view_type">form</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
 </record>
