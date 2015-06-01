@@ -28,7 +28,6 @@
     'license': 'AGPL-3',
     'summary': 'Add support for the Déclaration Européenne des Services '
                '(DES) for France',
-    'description': "",
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'depends': ['intrastat_base'],
