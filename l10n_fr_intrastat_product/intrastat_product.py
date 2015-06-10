@@ -40,7 +40,7 @@ class L10nFrReportIntrastatProduct(models.Model):
     _track = {
         'state': {
             'l10n_fr_intrastat_product.l10n_fr_declaration_done':
-            lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
+            lambda self, cr, uid, obj, ctx=None: obj.state == 'done',
             }
         }
 

@@ -41,7 +41,7 @@ class L10nFrReportIntrastatService(models.Model):
     _track = {
         'state': {
             'l10n_fr_intrastat_service.l10n_fr_declaration_done':
-            lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
+            lambda self, cr, uid, obj, ctx=None: obj.state == 'done',
             }
         }
 
@@ -293,6 +293,9 @@ class L10nFrReportIntrastatService(models.Model):
         logger.info('Starting the Intrastat Service reminder')
         for company in companies:
             if company.country_id.code != 'FR':
+                logger.info(
+                    'Skipping company %s because it is not based in France',
+                    company.name)
                 continue
             # Check if an intrastat service already exists for month N-1
             intrastats = self.search([
