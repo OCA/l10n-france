@@ -60,6 +60,7 @@ class DeliveryCarrier(models.Model):
                     continue
                 if grid.zip_to and (contact.zip or '') > grid.zip_to:
                     continue
+                # Only the 2 lines below have been added
                 if dpt_ids and contact.department_id.id not in dpt_ids:
                     continue
                 return grid.id

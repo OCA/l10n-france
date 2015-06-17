@@ -8,6 +8,11 @@ Configuration
 
 To configure this module, go to *Warehouse > Configuration > Delivery > Delivery Pricelist* and, in the *Destination* tab, you will find the field *French Departments*.
 
+Known issues
+============
+
+ * This module is not compatible with other modules that inherit the method *grid_get()* of the object *delivery.carrier*, which is the method that selects the delivery grid.
+
 Credits
 =======
 
