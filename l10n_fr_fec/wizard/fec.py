@@ -23,7 +23,6 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 import base64
-import unicodecsv
 import StringIO
 
 
@@ -51,6 +50,7 @@ class AccountFrFec(models.TransientModel):
 
     @api.multi
     def generate_fec(self):
+        import unicodecsv
         self.ensure_one()
         assert self.fiscalyear_id.period_ids,\
             'The Fiscal Year must have periods'
