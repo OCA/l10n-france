@@ -58,6 +58,7 @@ Copyright, Authors and Licence:
         'data/res_country_department_data.yml',
         'view/res_country_department.xml',
     ],
+    'post_init_hook': 'set_department_on_partner',
     'images': [
         'static/src/img/screenshots/department_list.jpg'
     ],
