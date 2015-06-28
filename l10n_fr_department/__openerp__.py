@@ -60,6 +60,7 @@ Copyright, Authors and Licence:
         'view/action.xml',
         'view/menu.xml',
     ],
+    'post_init_hook': 'set_department_on_partner',
     'images': [
         'static/src/img/screenshots/1.png'
     ],
