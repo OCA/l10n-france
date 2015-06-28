@@ -49,7 +49,7 @@ Copyright, Authors and Licence:
     * Author: Sylvain LE GAL (https://twitter.com/legalsylvain)
     * Author: Alexis de Lattre <alexis.delattre@akretion.com>
     * Licence: AGPL-3 (http://www.gnu.org/licenses/)""",
-    'author': "GRAP,Odoo Community Association (OCA)",
+    'author': "GRAP,Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': ['l10n_fr_state'],
