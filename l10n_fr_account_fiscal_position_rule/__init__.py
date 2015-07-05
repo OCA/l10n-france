@@ -2,7 +2,7 @@
 ###############################################################################
 #
 #   l10n_fr_account_fiscal_position_rule for OpenERP
-#   Copyright (C) 2012-TODAY Akretion <http://www.akretion.com>. All Rights Reserved
+#   Copyright (C) 2012-TODAY Akretion <http://www.akretion.com>.
 #     @author Sébastien BEAU <sebastien.beau@akretion.com>
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU Affero General Public License as
@@ -18,4 +18,3 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-
