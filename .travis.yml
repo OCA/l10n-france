@@ -28,7 +28,7 @@ install:
   - pip install unicodecsv unidecode
   - travis_install_nightly
   - git clone https://github.com/aeroo/aeroolib.git ${HOME}/aeroolib
-  - pushd ${HOME}/aeroolib; python ./setup.py install; popd
+  - pushd ${HOME}/aeroolib; sudo python ./setup.py install; popd
   - travis_install_nightly
 
 script:
