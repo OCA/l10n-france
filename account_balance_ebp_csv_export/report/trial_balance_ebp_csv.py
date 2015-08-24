@@ -55,8 +55,9 @@ class Parser(report_sxw.rml_parse, CommonBalanceReportHeaderWebkit):
         })
 
     def set_context(self, objects, data, ids, report_type=None):
-        """Populate a ledger_lines attribute on each browse record that """
-        """will be used by mako template"""
+        """Populate a ledger_lines attribute on each browse record that
+        will be used by mako template
+        """
         objects, new_ids, context_report_values = self.compute_balance_data(
             data)
         self.localcontext.update(context_report_values)
