@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    l10n FR Base Location Geonames Import module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Account Balance EBP CSV export module for Odoo
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,4 +20,5 @@
 #
 ##############################################################################
 
-from . import geonames_import
+from . import report
+from . import wizard

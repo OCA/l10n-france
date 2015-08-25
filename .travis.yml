@@ -1,11 +1,9 @@
-sudo: false
-cache: pip
-
 addons:
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
       - python-lxml # because pip installation is slow
+      - python-cups
 
 language: python
 
@@ -22,15 +20,20 @@ virtualenv:
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
-  - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact
-  - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule
+  - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact -b ${VERSION}
+  - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule -b ${VERSION}
+  - git clone https://github.com/OCA/account-financial-reporting.git ${HOME}/account-financial-reporting -b ${VERSION}
+  - bzr branch lp:aeroo ${HOME}/aeroo_reports
   - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
-  - travis_install_nightly
   - pip install unicodecsv unidecode
+  - travis_install_nightly
+  - git clone https://github.com/aeroo/aeroolib.git ${HOME}/aeroolib
+  - pushd ${HOME}/aeroolib; sudo python ./setup.py install; popd
+  - travis_install_nightly
 
 script:
   - travis_run_tests
 
 after_success:
-  coveralls
+  - travis_after_tests_success
