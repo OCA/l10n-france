@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2014 Akretion (http://www.akretion.com/)
+    @author: Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<record id="account_trial_balance_view_webkit" model="ir.ui.view">
+    <field name="name">trial.balance.ebp.csv.export</field>
+    <field name="model">trial.balance.webkit</field>
+    <field name="inherit_id" ref="account_financial_report_webkit.account_trial_balance_view_webkit" />
+    <field name="arch" type="xml">
+        <button name="check_report" position="after">
+            or 
+            <button name="check_report"
+                string="EBP csv File" type="object"
+                context="{'export_type': 'ebp-csv'}"/>
+        </button>
+    </field>
+</record>
+
+</data>
+</openerp>
