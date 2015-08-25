@@ -20,9 +20,9 @@ virtualenv:
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
-  - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact
-  - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule
-  - git clone https://github.com/aeroo/aeroo_reports.git ${HOME}/aeroo_reports
+  - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact -b ${VERSION}
+  - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule -b ${VERSION}
+  - bzr branch lp:aeroo ${HOME}/aeroo_reports
   - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - pip install unicodecsv unidecode
