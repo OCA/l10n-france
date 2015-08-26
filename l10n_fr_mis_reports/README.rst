@@ -10,7 +10,7 @@ P&L and Balance Sheet taking the liasse fiscale as reference.
 Installation
 ============
 
-This module depends on the *mis_builder* module, which is available in the OCA project *account-financial-reporting*.
+This module depends on the *mis_builder* module, which is available in the OCA project `account-financial-reporting <https://github.com/OCA/account-financial-reporting>`.
 
 Configuration
 =============
