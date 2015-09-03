@@ -9,7 +9,7 @@
   <data>
 
     <record model="mis.report" id="mis_report_pl">
-      <field name="name">Compte de résultat français</field>
+      <field name="name">Compte de résultat (FR - liasse fiscale)</field>
     </record>
 
     <!-- EXPLOITATION -->
