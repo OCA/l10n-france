@@ -32,6 +32,7 @@
     'depends': ['mis_builder', 'l10n_fr'],
     'data': [
         'data/mis_report_pl.xml',
+        'data/mis_report_pl_simplified.xml',
         'data/mis_report_bs.xml',
         ],
     'installable': True,
