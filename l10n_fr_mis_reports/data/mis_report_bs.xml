@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 Akretion (http://www.akretion.com/)
+    @author: Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+  <data>
+
+    <record model="mis.report" id="mis_report_bs">
+      <field name="name">Bilan (FR - liasse fiscale)</field>
+    </record>
+
+    <!-- ACTIF -->
+   <record model="mis.report.kpi" id="mis_report_bs_aa">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AA</field>
+      <field name="description">Capital souscrit non appelé (I)</field>
+      <field name="expression">bals[109%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style"></field>
+      <field name="sequence">10</field>
+    </record>
+
+    <!-- ACTIF IMMOBILISE -->
+    <!-- TODO : il faut ajouter la prise en compte des amortissements et provisions -->
+    <!-- IMMO INCORPORELLES -->
+    <record model="mis.report.kpi" id="mis_report_bs_ab">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AB</field>
+      <field name="description">Frais d'établissement</field>
+      <field name="expression">bals[201%]-bals[2801%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">20</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_cx">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CX</field>
+      <field name="description">Frais de développement</field>
+      <field name="expression">bals[203%]-bals[2803%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">30</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_af">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AF</field>
+      <field name="description">Concessions, brevets et droits similaires</field>
+      <field name="expression">bals[205%]-bals[2805%]-bals[2905%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">40</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ah">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AH</field>
+      <field name="description">Fonds commercial</field>
+      <field name="expression">bals[206%,207%]-bals[2807%]-bals[2906%,2907%]</field>  <!-- do we put 206 here ? -->
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">50</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_aj">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AJ</field>
+      <field name="description">Autres immobilisations incorporelles</field>
+      <field name="expression">bals[208%]-bals[2808%]-bals[2908%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">60</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_al">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AL</field>
+      <field name="description">Avances et acomptes sur immobilisations incorporelles</field>
+      <field name="expression">bals[232%,237%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">70</field>
+    </record>
+    <!-- IMMO CORPORELLES -->
+    <record model="mis.report.kpi" id="mis_report_bs_an">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AN</field>
+      <field name="description">Terrains</field>
+      <field name="expression">bals[211%,212%]-bals[2811%,2812%]-bals[2911%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">80</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ap">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AP</field>
+      <field name="description">Constructions</field>
+      <field name="expression">bals[213%,214%]-bals[2813%,2814%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">90</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ar">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AR</field>
+      <field name="description">Installations techniques, matériel et outillage industriels</field>
+      <field name="expression">bals[215%]-bals[2815%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">100</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_at">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AT</field>
+      <field name="description">Autres immobilisations corporelles</field>
+      <field name="expression">bals[218%]-bals[2818%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">110</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_av">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AV</field>
+      <field name="description">Immobilisations corporelles en cours</field>
+      <field name="expression">bals[231%]-bals[2931%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">120</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ax">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">AX</field>
+      <field name="description">Avances et acomptes</field>
+      <field name="expression">bals[238%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">130</field>
+    </record>
+    <!-- IMMO FINANCIERES -->
+    <record model="mis.report.kpi" id="mis_report_bs_cs">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CS</field>
+      <field name="description">Participations évaluées selon la méthode de mise en équivalence</field>
+      <field name="expression">bals[262%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">140</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_cu">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CU</field>
+      <field name="description">Autres participations</field>
+      <field name="expression">bals[261%,266%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">150</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bb">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BB</field>
+      <field name="description">Créances rattachées à des participations</field>
+      <field name="expression">bals[267%,268%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">160</field>
+    </record>
+    <!-- quid du 269 ? -->
+    <record model="mis.report.kpi" id="mis_report_bs_bd">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BD</field>
+      <field name="description">Autres titres immobilisés</field>
+      <field name="expression">bals[271%,272%,273%]-bals[2971%,2972%,2973%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">170</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bf">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BF</field>
+      <field name="description">Prêts</field>
+      <field name="expression">bals[274%]-bals[2974%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">180</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bh">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BH</field>
+      <field name="description">Autres immobilisations financières</field>
+      <field name="expression">bals[275%,276%,277%]-bals[2975%,2976%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">190</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bj">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BJ</field>
+      <field name="description">Total (II)</field>
+      <field name="expression">+AB +CX +AF +AH +AJ +AL +AN +AP +AR +AT +AV +AX +CS +CU +BB +BD +BF +BH</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">font-weight: bold</field>
+      <field name="sequence">200</field>
+    </record>
+
+    <record model="mis.report.kpi" id="mis_report_bs_bl">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BL</field>
+      <field name="description">Matières premières, approvisionnements</field>
+      <field name="expression">bals[31%,32%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">210</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bn">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BN</field>
+      <field name="description">En cours de production de biens</field>
+      <field name="expression">bals[33%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">220</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bp">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BP</field>
+      <field name="description">En cours de production de services</field>
+      <field name="expression">bals[34%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">230</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_br">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BR</field>
+      <field name="description">Produits intermédiaires et finis</field>
+      <field name="expression">bals[35%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">240</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bt">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BT</field>
+      <field name="description">Marchandises</field>
+      <field name="expression">bals[36%,37%,38%]</field>  <!-- 39 ? -->
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">250</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bv">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BV</field>
+      <field name="description">Avances et acomptes versés sur commandes</field>
+      <field name="expression">bals[4091%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">260</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bx">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BX</field>
+      <field name="description">Clients et comptes rattachés</field>
+      <field name="expression">bals[410%,411%,413%,416%,418%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">270</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_bz">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">BZ</field>
+      <field name="description">Autres créances</field>
+      <field name="expression">bals[4096%,4097%,4098%,425%,441%,462%,465%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">280</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_cb">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CB</field>
+      <field name="description">Capital souscrit et appelé, non versé</field>
+      <field name="expression">bals[1012%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">290</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_cd">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CD</field>
+      <field name="description">Valeurs mobilières de placement</field>
+      <field name="expression">bals[501%,502%,503%,504%,505%,506%,507%,508%]-bals[590%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">300</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_cf">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CF</field>
+      <field name="description">Disponibilités</field>
+      <field name="expression">bals[511%,512%,514%,515%,516%,517%,518%,52%,53%,54%,58%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">310</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ch">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CH</field>
+      <field name="description">Charges constatées d'avance</field>
+      <field name="expression">bals[486%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">320</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_cj">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CJ</field>
+      <field name="description">Total (III)</field>
+      <field name="expression">+BL +BN +BP +BR +BT +BV +BX +BZ +CB +CD +CF +CH</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">font-weight: bold</field>
+      <field name="sequence">330</field>
+    </record>
+
+    <record model="mis.report.kpi" id="mis_report_bs_cw">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CW</field>
+      <field name="description">Frais d'émission d'emprunts à étaler (IV)</field>
+      <field name="expression">bals[481%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style"></field>
+      <field name="sequence">340</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_cm">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CM</field>
+      <field name="description">Primes de remboursement des obligations (V)</field>
+      <field name="expression">bals[169%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style"></field>
+      <field name="sequence">350</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_cn">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CN</field>
+      <field name="description">Ecarts de conversion actif (VI)</field>
+      <field name="expression">bals[476%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style"></field>
+      <field name="sequence">360</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_co">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">CO</field>
+      <field name="description">Total général (I à VI)</field>
+      <field name="expression">+AA +BJ +CJ +CW +CM +CN</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="sequence">370</field>
+    </record>
+
+    <!-- PASSIF -->
+    <!-- CAPITAUX PROPRES -->
+    <record model="mis.report.kpi" id="mis_report_bs_da">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DA</field>
+      <field name="description">Capital social ou individuel</field>
+      <field name="expression">-bals[101%,108%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">380</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_db">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DB</field>
+      <field name="description">Primes d'émission, de fusion, d'apport</field>
+      <field name="expression">-bals[104%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">390</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dc">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DC</field>
+      <field name="description">Ecarts de réévaluation</field>
+      <field name="expression">-bals[105%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">400</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dd">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DD</field>
+      <field name="description">Réserve légale</field>
+      <field name="expression">-bals[1061%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">410</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_de">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DE</field>
+      <field name="description">Réserves statutaires ou contractuelles</field>
+      <field name="expression">-bals[1063%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">420</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_df">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DF</field>
+      <field name="description">Réserves réglementées</field>
+      <field name="expression">-bals[1064%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">430</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dg">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DG</field>
+      <field name="description">Autres réserves</field>
+      <field name="expression">-bals[1068%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">440</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dh">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DH</field>
+      <field name="description">Report à nouveau</field>
+      <field name="expression">-bals[11%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">450</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_di">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DI</field>
+      <field name="description">Résultat de l'exercice (bénéfice ou perte)</field>
+      <field name="expression">-bals[12%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em; font-style: italic</field>
+      <field name="sequence">460</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dj">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DJ</field>
+      <field name="description">Subventions d'investissement</field>
+      <field name="expression">-bals[131%,138%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">470</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dk">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DK</field>
+      <field name="description">Provisions réglementées</field>
+      <field name="expression">-bals[14%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">480</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dl">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DL</field>
+      <field name="description">Total capitaux propres (I)</field>
+      <field name="expression">+DA +DB +DC +DD +DE +DF +DG +DH +DI +DJ +DK</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">font-weight: bold</field>
+      <field name="sequence">490</field>
+    </record>
+
+    <!-- Autres fonds propres -->
+    <record model="mis.report.kpi" id="mis_report_bs_dm">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DM</field>
+      <field name="description">Produit des émissions de titres participatifs</field>
+      <field name="expression">-bals[1671%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">500</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dn">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DN</field>
+      <field name="description">Avances conditionnées</field>
+      <field name="expression">-bals[1674%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">510</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_do">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DO</field>
+      <field name="description">Total autres fonds propres (II)</field>
+      <field name="expression">+DM +DN</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">font-weight: bold</field>
+      <field name="sequence">520</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dp">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DP</field>
+      <field name="description">Provisions pour risques</field>
+      <field name="expression">-bals[151%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">530</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dq">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DQ</field>
+      <field name="description">Provisions pour charges</field>
+      <field name="expression">-bals[153%,154%,155%,156%,157%,158%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">540</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dr">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DR</field>
+      <field name="description">Total provisions pour risques et charges (III)</field>
+      <field name="expression">+DP +DQ</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">font-weight: bold</field>
+      <field name="sequence">550</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ds">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DS</field>
+      <field name="description">Emprunts obligataires convertibles</field>
+      <field name="expression">-bals[161%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">560</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dt">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DT</field>
+      <field name="description">Autres emprunts obligataires</field>
+      <field name="expression">-bals[163%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">570</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_du">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DU</field>
+      <field name="description">Emprunts et dettes auprès des établissements de crédit</field>
+      <field name="expression">-bals[164%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">580</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dv">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DV</field>
+      <field name="description">Emprunts et dettes financières divers</field>
+      <field name="expression">-bals[165%,166%,1675%,168%,17%,426%,451%,455%,456%,519%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">590</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dw">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DW</field>
+      <field name="description">Avances et acomptes reçus sur commandes en cours</field>
+      <field name="expression">-bals[4191%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">600</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dx">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DX</field>
+      <field name="description">Dettes fournisseurs et comptes rattachés</field>
+      <field name="expression">-bals[401%,403%,408%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">610</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dy">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DY</field>
+      <field name="description">Dettes fiscales et sociales</field>
+      <field name="expression">-bals[43%,442%,443%,444%,445%,446%,447%,448%,449%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">620</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_dz">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">DZ</field>
+      <field name="description">Dettes sur immobilisations et comptes rattachés</field>
+      <field name="expression">-bals[269%,279%,404%,405%]</field> <!-- TODO : confirm -->
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">630</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ea">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">EA</field>
+      <field name="description">Autres dettes</field>
+      <field name="expression">-bals[421%,422%,424%,427%,428%,457%,4196%,4198%,464%,467%,468%,478%,509%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">640</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_eb">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">EB</field>
+      <field name="description">Produits constatés d'avance</field>
+      <field name="expression">-bals[487%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 1em</field>
+      <field name="sequence">650</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ec">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">EC</field>
+      <field name="description">Total dettes (IV)</field>
+      <field name="expression">+DS +DT +DU +DV +DW +DX +DY +DZ +EA +EB</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">font-weight: bold</field>
+      <field name="sequence">660</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ed">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">ED</field>
+      <field name="description">Ecarts de conversion de passif (V)</field>
+      <field name="expression">-bals[477%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style"></field>
+      <field name="sequence">670</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_ee">
+      <field name="report_id" ref="mis_report_bs"/>
+      <field name="name">EE</field>
+      <field name="description">Total passif (I à V)</field>
+      <field name="expression">+DL +DO +DR +EC +ED</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="sequence">680</field>
+    </record>
+
+  </data>
+</openerp>
