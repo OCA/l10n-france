@@ -13,11 +13,44 @@
     </record>
 
     <!-- EXPLOITATION -->
+   <record model="mis.report.kpi" id="mis_report_pl_fc">
+      <field name="report_id" ref="mis_report_pl"/>
+      <field name="name">FC</field>
+      <field name="description">Ventes de marchandises</field>
+      <field name="expression">-balp[707%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 2em</field>
+      <field name="sequence">2</field>
+    </record>
+   <record model="mis.report.kpi" id="mis_report_pl_ff">
+      <field name="report_id" ref="mis_report_pl"/>
+      <field name="name">FF</field>
+      <field name="description">Production vendue de biens</field>
+      <field name="expression">-balp[701%,702%,703%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 2em</field>
+      <field name="sequence">4</field>
+    </record>
+   <record model="mis.report.kpi" id="mis_report_pl_fi">
+      <field name="report_id" ref="mis_report_pl"/>
+      <field name="name">FI</field>
+      <field name="description">Production vendue de services</field>
+      <field name="expression">-balp[704%,705%,706%,708%]</field>
+      <field name="suffix">€</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="default_css_style">text-indent: 2em</field>
+      <field name="sequence">6</field>
+    </record>
    <record model="mis.report.kpi" id="mis_report_pl_fl">
       <field name="report_id" ref="mis_report_pl"/>
       <field name="name">FL</field>
       <field name="description">Chiffres d'affaires nets</field>
-      <field name="expression">-balp[70%]</field>
+      <field name="expression">+FC +FF +FI</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
