@@ -16,7 +16,7 @@
       <field name="report_id" ref="mis_report_pl_simplified"/>
       <field name="name">210</field>
       <field name="description">Ventes de marchandises</field>
-      <field name="expression">-balp[707%]</field>
+      <field name="expression">-balp[707%,7097%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -27,7 +27,7 @@
       <field name="report_id" ref="mis_report_pl_simplified"/>
       <field name="name">214</field>
       <field name="description">Production vendue de biens</field>
-      <field name="expression">-balp[701%,702%,703%]</field>
+      <field name="expression">-balp[701%,702%,703%,7091%,7092%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -38,7 +38,7 @@
       <field name="report_id" ref="mis_report_pl_simplified"/>
       <field name="name">218</field>
       <field name="description">Production vendue de services</field>
-      <field name="expression">-balp[704%,705%,706%,708%]</field>
+      <field name="expression">-balp[704%,705%,706%,708%,7094%,7095%,7096%,7098%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -105,7 +105,7 @@
       <field name="report_id" ref="mis_report_pl_simplified"/>
       <field name="name">234</field>
       <field name="description">Achats de marchandises (y compris droits de douane)</field>
-      <field name="expression">balp[607%,608%,609%]</field>
+      <field name="expression">balp[607%,608%,6097%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -127,7 +127,7 @@
       <field name="report_id" ref="mis_report_pl_simplified"/>
       <field name="name">238</field>
       <field name="description">Achats de matières premières et autres approvisionnements (y compris droits de douane)</field>
-      <field name="expression">balp[601%,602%]</field>
+      <field name="expression">balp[601%,602%,6091%,6092%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -149,7 +149,7 @@
       <field name="report_id" ref="mis_report_pl_simplified"/>
       <field name="name">242</field>
       <field name="description">Autres charges externes</field>
-      <field name="expression">balp[604%,605%,606%,61%,62%]</field>
+      <field name="expression">balp[604%,605%,606%,6094%,6095%,6096%,61%,62%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -261,7 +261,7 @@
       <field name="report_id" ref="mis_report_pl_simplified"/>
       <field name="name">290</field>
       <field name="description">Produits exceptionnels (IV)</field>
-      <field name="expression">balp[77%,787%,797%]</field>
+      <field name="expression">-balp[77%,787%,797%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -283,7 +283,7 @@
       <field name="report_id" ref="mis_report_pl_simplified"/>
       <field name="name">300</field>
       <field name="description">Charges exceptionnelles (VI)</field>
-      <field name="expression">balp[67%,687%]</field>
+      <field name="expression">balp[67%,687%,691%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -312,8 +312,6 @@
       <field name="default_css_style">font-weight: bold; font-style: italic;</field>
       <field name="sequence">520</field>
     </record>
-
-    <!-- TODO : où est-ce qu'on met le 691 (Participation des salariés aux résultats de l'entreprise) ? dans les charges exceptionnelles ? -->
 
   </data>
 </openerp>
