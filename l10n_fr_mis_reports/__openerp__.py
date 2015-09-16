@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    l10n_fr_mis_reports module for Odoo
@@ -28,7 +28,6 @@
     'summary': 'MIS Report templates for the French P&L and Balance Sheets',
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
-    'license': 'AGPL-3',
     'depends': ['mis_builder', 'l10n_fr'],
     'data': [
         'data/mis_report_pl.xml',
