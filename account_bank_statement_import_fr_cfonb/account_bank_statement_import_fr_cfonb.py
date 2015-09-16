@@ -22,7 +22,7 @@
 
 import logging
 from datetime import datetime
-from openerp import models, fields, _
+from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 
 _logger = logging.getLogger(__name__)
@@ -51,16 +51,17 @@ class AccountBankStatementImport(models.TransientModel):
             amount_num = float(amount_str[:-1] + credit_trans[amount_str[-1]])
         return amount_num
 
-    def _check_cfonb(self, cr, uid, data_file, context=None):
+    @api.model
+    def _check_cfonb(self, data_file):
         return data_file.strip().startswith('01')
 
-    def _parse_file(self, cr, uid, data_file, context=None):
+    @api.model
+    def _parse_file(self, data_file):
         """ Import a file in French CFONB format"""
-        cfonb = self._check_cfonb(
-            cr, uid, data_file, context=context)
+        cfonb = self._check_cfonb(data_file)
         if not cfonb:
             return super(AccountBankStatementImport, self)._parse_file(
-                cr, uid, data_file, context=context)
+                data_file)
         transactions = []
         if not data_file.splitlines():
             raise Warning(
