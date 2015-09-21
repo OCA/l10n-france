@@ -243,7 +243,6 @@ class BankingExportLcrWizard(models.TransientModel):
         '''Creates the LCR CFONB file.'''
         self.ensure_one()
         lcr_export = self[0]
-        today = fields.Date.context_today(self)
 
         cfonb_string = self._prepare_first_cfonb_line(lcr_export)
         total_amount = 0.0
@@ -253,7 +252,7 @@ class BankingExportLcrWizard(models.TransientModel):
             if order.reference:
                 order_ref.append(order.reference.replace('/', '-'))
             # Iterate each payment lines
-            for line in order.line_ids:
+            for line in order.bank_line_ids:
                 if line.currency.name != 'EUR':
                     raise Warning(
                         _("The currency of payment line '%s' is '%s'. "
@@ -261,14 +260,8 @@ class BankingExportLcrWizard(models.TransientModel):
                             "must be EUR.")
                         % (line.name, line.currency.name))
                 transactions_count += 1
-                if order.date_prefered == 'due':
-                    requested_date = line.ml_maturity_date or today
-                elif order.date_prefered == 'fixed':
-                    requested_date = order.date_scheduled or today
-                else:
-                    requested_date = today
                 cfonb_string += self._prepare_cfonb_line(
-                    line, requested_date, transactions_count)
+                    line, line.date, transactions_count)
                 total_amount += line.amount_currency
 
         cfonb_string += self._prepare_final_cfonb_line(
