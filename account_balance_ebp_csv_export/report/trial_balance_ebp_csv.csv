@@ -6,6 +6,6 @@
 "${current_account.name}",\
 ${'%.2f' % current_account.debit},\
 ${'%.2f' % current_account.credit},\
-${(current_account.credit - current_account.debit) >= 0 and ('0.00,%.2f' % (current_account.credit - current_account.debit)) or ('%.2f,0.00' % (current_account.debit - current_account.credit))}
+${current_account.balance >= 0 and ('%.2f,0.00' % (current_account.balance)) or ('0.00,%.2f' % (current_account.balance * -1))}
 {% end %}\
 {% end %}
