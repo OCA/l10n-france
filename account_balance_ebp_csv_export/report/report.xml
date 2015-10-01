@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
-    Copyright (C) 2014 Akretion (http://www.akretion.com/)
+    Copyright (C) 2014-2015 Akretion (http://www.akretion.com/)
     @author: Alexis de Lattre <alexis.delattre@akretion.com>
     The licence is in the file __openerp__.py
 -->
@@ -11,24 +10,15 @@
 
 <record id="account_report_trial_balance_ebp_csv" model="ir.actions.report.xml">
     <field name="name">Trial Balance EBP CSV</field>
+    <field name="model">account.account</field>
     <field name="report_name">account.report.trial.balance.ebp.csv</field>
     <field name="report_type">aeroo</field>
     <field name="in_format">genshi-raw</field>
     <field name="out_format" ref="report_aeroo.report_mimetypes_raw"/>
-    <field name="charset">utf_8</field>
-    <field name="fallback_false" eval="0"/>
-    <field name="process_sep" eval="0"/>
-    <field name="attachment_use" eval="0"/>
-    <field name="styles_mode">default</field>
-    <field name="rml" eval="0"/>
-    <field name="parser_state">loc</field>
-    <field name="parser_loc">account_balance_ebp_csv_export/report/trial_balance_ebp_csv.py</field>
-    <field name="groups_id" eval="[(6,0,[])]"/>
-    <field name="multi" eval="0"/>
-    <field name="auto" eval="0"/>
-    <field name="header" eval="0"/>
-    <field name="model">account.account</field>
     <field name="report_rml">account_balance_ebp_csv_export/report/trial_balance_ebp_csv.csv</field>
+    <field name="charset">utf_8</field>
+    <field name="parser_state">default</field>
+    <field name="content_fname">csv</field>
 </record>
 
 </data>
