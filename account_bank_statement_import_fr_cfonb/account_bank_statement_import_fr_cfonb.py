@@ -146,7 +146,7 @@ class AccountBankStatementImport(models.TransientModel):
 
         vals_bank_statement = {
             'name': _('Account %s  %s > %s') % (
-                line_account_number, start_date_str, end_date_str),
+                account_number, start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
