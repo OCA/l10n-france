@@ -20,10 +20,10 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models
 
 
-class AccountTrialBalanceWizard(orm.TransientModel):
+class AccountTrialBalanceWizard(models.TransientModel):
     _inherit = "trial.balance.webkit"
 
     def _print_report(self, cursor, uid, ids, data, context=None):
