@@ -23,7 +23,7 @@
 
 {
     'name': 'French company identity numbers SIRET/SIREN/NIC',
-    'version': '1.2',
+    'version': '8.0.1.2.0',
     "category": 'French Localization',
     'author': u'Numérigraphe,Odoo Community Association (OCA)',
     'license': 'AGPL-3',
