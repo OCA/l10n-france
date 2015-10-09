@@ -23,7 +23,7 @@
 
 {
     'name': 'French Localization for Base Location Geonames Import',
-    'version': '0.1',
+    'version': '8.0.0.1.0',
     'category': 'Extra Tools',
     'license': 'AGPL-3',
     'summary': 'France-specific tuning for import of better zip entries '
