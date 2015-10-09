@@ -27,6 +27,9 @@ install:
   - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact
   - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule
   - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
+  - git clone https://github.com/aeroo/aeroo_reports.git ${HOME}/aeroo-reports
+  - git clone https://github.com/aeroo/aeroolib.git ${HOME}/aeroolib
+  - pushd ${HOME}/aeroolib; sudo python ./setup.py install; popd
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - pip install unicodecsv unidecode ofxparse
