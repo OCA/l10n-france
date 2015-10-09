@@ -23,7 +23,7 @@
 {
     'name': 'French States (Région)',
     'summary': 'Populate Database with French States (Région)',
-    'version': '0.1',
+    'version': '8.0.0.1.0',
     'category': 'French Localization',
     'description': """
 Populate Database with French States (Région)

@@ -23,7 +23,7 @@
 
 {
     'name': 'France - FEC',
-    'version': '0.1',
+    'version': '8.0.0.1.0',
     'category': 'French Localization',
     'license': 'AGPL-3',
     'summary': "Fichier d'Échange Informatisé (FEC) for France",

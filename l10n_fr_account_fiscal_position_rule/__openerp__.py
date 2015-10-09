@@ -22,7 +22,7 @@
 
 {
     'name': 'l10n_fr_account_fiscal_position_rule',
-    'version': '0.0.1',
+    'version': '8.0.0.0.1',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'www.akretion.com',
     'license': 'AGPL-3',

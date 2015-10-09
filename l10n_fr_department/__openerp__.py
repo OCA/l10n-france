@@ -23,7 +23,7 @@
 {
     'name': 'French Departments (Départements)',
     'summary': 'Populate Database with French Departments (Départements)',
-    'version': '0.1',
+    'version': '8.0.0.1.0',
     'category': 'French Localization',
     'description': """
 Populate Database with French Departments (Départements)
