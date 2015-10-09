@@ -23,7 +23,7 @@
 {
     'name': 'French Departments - Delivery',
     'summary': 'Use French Departments in delivery costs',
-    'version': '0.1',
+    'version': '8.0.0.1.0',
     'category': 'French Localization',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
