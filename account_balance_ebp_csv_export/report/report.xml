@@ -17,7 +17,8 @@
     <field name="out_format" ref="report_aeroo.report_mimetypes_raw"/>
     <field name="report_rml">account_balance_ebp_csv_export/report/trial_balance_ebp_csv.csv</field>
     <field name="charset">utf_8</field>
-    <field name="parser_state">default</field>
+    <field name="parser_state">loc</field>
+    <field name="parser_loc">account_balance_ebp_csv_export/report/trial_balance_ebp_csv.py</field>
     <field name="content_fname">csv</field>
 </record>
 
