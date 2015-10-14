@@ -37,5 +37,5 @@
         'data/payment_type_lcr.xml',
         ],
     'demo': ['lcr_demo.xml'],
-    'installable': True,
+    'installable': False,
 }
