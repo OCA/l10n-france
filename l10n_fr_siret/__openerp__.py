@@ -35,5 +35,5 @@
         'company_view.xml',
     ],
     'demo': ['partner_demo.xml'],
-    'installable': True,
+    'installable': False,
 }
