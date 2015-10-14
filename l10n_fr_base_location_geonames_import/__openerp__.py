@@ -49,5 +49,5 @@ This module has been written by Alexis de Lattre from Akretion
     'depends': ['base_location_geonames_import'],
     'external_dependencies': {'python': ['unidecode']},
     'data': [],
-    'installable': True,
+    'installable': False,
 }

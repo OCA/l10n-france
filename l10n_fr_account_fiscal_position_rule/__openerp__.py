@@ -37,6 +37,6 @@ fiscal position depending on the partner address
     'data': [
         'settings/account.fiscal.position.rule.template.csv',
     ],
-    'installable': True,
+    'installable': False,
     'application': True,
 }

@@ -30,4 +30,5 @@
     'license': 'AGPL-3',
     'depends': ['l10n_fr_department', 'delivery'],
     'data': ['view/delivery.xml'],
+    'installable': False,
 }

@@ -30,5 +30,5 @@
     'description': "",
     'depends': ['l10n_fr'],
     'data': ['fr_tax.xml'],
-    'installable': True,
+    'installable': False,
 }

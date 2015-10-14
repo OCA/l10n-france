@@ -63,4 +63,5 @@ Copyright, Authors and Licence:
         'static/src/img/screenshots/department_list.jpg'
     ],
     'test': ['test/department.yml'],
+    'installable': False,
 }
