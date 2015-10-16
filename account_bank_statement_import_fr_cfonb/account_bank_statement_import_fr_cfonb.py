@@ -146,7 +146,8 @@ class AccountBankStatementImport(models.TransientModel):
                 vals_line['name'] += ' %s' % line[48:79].strip()
 
         vals_bank_statement = {
-            'name': _('CFONB Import %s > %s') % (start_date_str, end_date_str),
+            'name': _('Account %s  %s > %s') % (
+                account_number, start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
