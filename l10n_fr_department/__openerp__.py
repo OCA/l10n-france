@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    l10n FR Departments module for OpenERP
@@ -23,7 +23,7 @@
 {
     'name': 'French Departments (Départements)',
     'summary': 'Populate Database with French Departments (Départements)',
-    'version': '8.0.0.1.0',
+    'version': '9.0.0.1.0',
     'category': 'French Localization',
     'description': """
 Populate Database with French Departments (Départements)
@@ -65,5 +65,5 @@ Copyright, Authors and Licence:
         'static/src/img/screenshots/1.png'
     ],
     'test': ['test/department.yml'],
-    'installable': False,
+    'installable': True,
 }

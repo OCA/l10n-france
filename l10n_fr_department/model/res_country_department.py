@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    l10n FR Departments module for OpenERP
+#    l10n FR Departments module for Odoo
 #    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
 #    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
