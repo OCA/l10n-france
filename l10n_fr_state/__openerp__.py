@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    l10n FR States module for OpenERP
+#    l10n FR States module for Odoo
 #    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -23,7 +23,7 @@
 {
     'name': 'French States (Région)',
     'summary': 'Populate Database with French States (Région)',
-    'version': '8.0.0.1.0',
+    'version': '9.0.0.1.0',
     'category': 'French Localization',
     'description': """
 Populate Database with French States (Région)
@@ -55,9 +55,8 @@ Copyright, Authors and Licence:
     'data': [
         'data/res_country_state_data.yml',
     ],
-    'installable': True,
-    'auto_install': False,
     'images': [
         'static/src/img/screenshots/1.png'
     ],
+    'installable': True,
 }
