@@ -8,14 +8,6 @@ French localization for Odoo
 Write Me. 
 
 [//]: # (addons)
-Addons
-------
-addon | version | summary
---- | --- | ---
-[l10n_fr_department](l10n_fr_department/) | 9.0.0.1.0 | Populate Database with French Departments (Départements)
-[l10n_fr_state](l10n_fr_state/) | 9.0.0.1.0 | Populate Database with French States (Région)
-[l10n_fr_tax_sale_ttc](l10n_fr_tax_sale_ttc/) 9.0.0.1.0 | Adds Sale Tax TTC (all rates)
-
 Unported addons
 ---------------
 addon | version | summary
