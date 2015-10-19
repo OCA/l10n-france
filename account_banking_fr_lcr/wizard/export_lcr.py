@@ -177,7 +177,7 @@ class BankingExportLcrWizard(models.TransientModel):
         # I use French variable names because the specs are in French
         code_enregistrement = '06'
         code_operation = '60'
-        numero_enregistrement = '%08d' % (transactions_count + 1)
+        numero_enregistrement = str(transactions_count + 1).zfill(8)
         reference_tire = self._prepare_field(
             u'Référence tiré', line.communication, 10)
         rib = self._get_rib_from_iban(line.bank_id)
@@ -187,8 +187,8 @@ class BankingExportLcrWizard(models.TransientModel):
         nom_banque = self._prepare_field(
             u'Nom banque', line.bank_id.bank.name, 24)
         code_acceptation = '0'
-        montant_centimes = int(line.amount_currency * 100)
-        zero_montant_centimes = ('%012d' % montant_centimes)
+        montant_centimes = str(line.amount_currency * 100).split('.')[0]
+        zero_montant_centimes = montant_centimes.zfill(12)
         today_str = fields.Date.context_today(self)
         today_dt = fields.Date.from_string(today_str)
         date_creation = today_dt.strftime(LCR_DATE_FORMAT)
@@ -224,9 +224,9 @@ class BankingExportLcrWizard(models.TransientModel):
         '''Generate the last line of the CFONB file'''
         code_enregistrement = '08'
         code_operation = '60'
-        numero_enregistrement = '%08d' % (transactions_count + 2)
-        montant_total_centimes = int(total_amount * 100)
-        zero_montant_total_centimes = ('%012d' % montant_total_centimes)
+        numero_enregistrement = str(transactions_count + 2).zfill(8)
+        montant_total_centimes = str(total_amount * 100).split('.')[0]
+        zero_montant_total_centimes = montant_total_centimes.zfill(12)
         cfonb_line = ''.join([
             code_enregistrement,
             code_operation,
@@ -250,7 +250,6 @@ class BankingExportLcrWizard(models.TransientModel):
         order_ref = []
         transactions_count = 0
         for order in lcr_export.payment_order_ids:
-            total_amount += order.total
             if order.reference:
                 order_ref.append(order.reference.replace('/', '-'))
             # Iterate each payment lines
@@ -270,6 +269,7 @@ class BankingExportLcrWizard(models.TransientModel):
                     requested_date = today
                 cfonb_string += self._prepare_cfonb_line(
                     line, requested_date, transactions_count)
+                total_amount += line.amount_currency
 
         cfonb_string += self._prepare_final_cfonb_line(
             total_amount, transactions_count)
