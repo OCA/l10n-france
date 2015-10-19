@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    account_bank_statement_import_fr_cfonb module for Odoo
@@ -23,7 +23,7 @@
 import logging
 from datetime import datetime
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ class AccountBankStatementImport(models.TransientModel):
                 data_file)
         transactions = []
         if not data_file.splitlines():
-            raise Warning(
+            raise UserError(
                 _('The file is empty.'))
         i = 0
         bank_code = guichet_code = account_number = currency_code = False
@@ -77,7 +77,7 @@ class AccountBankStatementImport(models.TransientModel):
             if not line:
                 continue
             if len(line) != 120:
-                raise Warning(
+                raise UserError(
                     _('Line %d is %d caracters long. All lines of a '
                         'CFONB bank statement file must be 120 caracters '
                         'long.')
@@ -102,7 +102,7 @@ class AccountBankStatementImport(models.TransientModel):
                 currency_code = line_currency_code
                 account_number = line_account_number
                 if rec_type != '01':
-                    raise Warning(
+                    raise UserError(
                         _("The 2 first letters of the first line are '%s'. "
                             "A CFONB file should start with '01'")
                         % rec_type)
@@ -115,7 +115,7 @@ class AccountBankStatementImport(models.TransientModel):
                     guichet_code != line_guichet_code or
                     currency_code != line_currency_code or
                     account_number != line_account_number):
-                raise Warning(
+                raise UserError(
                     _('Only single-account files and single-currency '
                         'files are supported for the moment. It is not '
                         'the case starting from line %d.') % i)
@@ -132,11 +132,13 @@ class AccountBankStatementImport(models.TransientModel):
                 bank_account_id = partner_id = False
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
+                name = line[48:79].strip()
                 vals_line = {
                     'date': date_str,
-                    'name': line[48:79].strip(),
+                    'name': name,
                     'ref': ref,
-                    'unique_import_id': '%s-%.2f' % (ref, amount),
+                    'unique_import_id':
+                    '%s-%s-%.2f-%s' % (date_str, ref, amount, name),
                     'amount': amount,
                     'partner_id': partner_id,
                     'bank_account_id': bank_account_id,
@@ -146,7 +148,8 @@ class AccountBankStatementImport(models.TransientModel):
                 vals_line['name'] += ' %s' % line[48:79].strip()
 
         vals_bank_statement = {
-            'name': _('CFONB Import %s > %s') % (start_date_str, end_date_str),
+            'name': _('Account %s %s > %s') % (
+                account_number, start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
