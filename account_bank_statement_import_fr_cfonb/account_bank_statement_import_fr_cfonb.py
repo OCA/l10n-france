@@ -132,11 +132,13 @@ class AccountBankStatementImport(models.TransientModel):
                 bank_account_id = partner_id = False
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
+                name = line[48:79].strip()
                 vals_line = {
                     'date': date_str,
-                    'name': line[48:79].strip(),
+                    'name': name,
                     'ref': ref,
-                    'unique_import_id': '%s-%.2f' % (ref, amount),
+                    'unique_import_id':
+                    '%s-%s-%.2f-%s' % (date_str, ref, amount, name),
                     'amount': amount,
                     'partner_id': partner_id,
                     'bank_account_id': bank_account_id,
