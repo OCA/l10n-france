@@ -7,7 +7,7 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="account.view_partner_property_form" />
             <field name="arch" type="xml">
-                <page string="Accounting" position="inside">
+                <page name="accounting" position="inside">
                     <group name="l10n_fr_siret">
                         <group col="4" name="siret">
                             <!-- oe_read_only hides the field in read mode in v8+ -->
