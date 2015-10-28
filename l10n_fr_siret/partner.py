@@ -22,7 +22,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError
 
 
 # XXX: this is used for checking various codes such as credit card
@@ -61,23 +61,23 @@ class Partner(models.Model):
         if self.nic:
             # Check the NIC type and length
             if not self.nic.isdecimal() or len(self.nic) != 5:
-                raise Warning(
+                raise UserError(
                     _("The NIC '%s' is incorrect: it must be have "
                         "exactly 5 digits.")
                     % self.nic)
         if self.siren:
             # Check the SIREN type, length and key
             if not self.siren.isdecimal() or len(self.siren) != 9:
-                raise Warning(
+                raise UserError(
                     _("The SIREN '%s' is incorrect: it must have "
                         "exactly 9 digits.") % self.siren)
             if not _check_luhn(self.siren):
-                raise Warning(
+                raise UserError(
                     _("The SIREN '%s' is invalid: the checksum is wrong.")
                     % self.siren)
             # Check the NIC key (you need both SIREN and NIC to check it)
             if self.nic and not _check_luhn(self.siren + self.nic):
-                return Warning(
+                return UserError(
                     _("The SIRET '%s%s' is invalid: the checksum is wrong.")
                     % (self.siren, self.nic))
 
