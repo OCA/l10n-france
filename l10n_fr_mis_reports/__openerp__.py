@@ -22,7 +22,7 @@
 
 {
     'name': 'l10n_fr_mis_reports',
-    'version': '0.1',
+    'version': '8.0.0.0.1',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'MIS Report templates for the French P&L and Balance Sheets',
@@ -33,6 +33,7 @@
         'data/mis_report_pl.xml',
         'data/mis_report_pl_simplified.xml',
         'data/mis_report_bs.xml',
+        'data/mis_report_bs_simplified.xml',
         ],
     'installable': True,
 }

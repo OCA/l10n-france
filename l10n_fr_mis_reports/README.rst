@@ -7,7 +7,8 @@ French MIS reports
 ==================
 
 This modules provides MIS Builder Report templates for the French
-P&L and Balance Sheet taking the liasse fiscale as reference.
+P&L and Balance Sheet taking the liasse fiscale and liasse fiscale simplifiée
+as reference.
 
 Installation
 ============
@@ -22,8 +23,10 @@ To configure this module, you need to go to
 according to the desired time periods and using one of the following
 templates provided by this module:
 
-* Compte de résultat français
-* Bilan comptable français
+* Compte de résultat (FR - liasse fiscale)
+* Compte de résultat (FR - liasse fiscale simplifiée)
+* Bilan (FR - liasse fiscale)
+* Bilan (FR - liasse fiscale simplifiée)
 
 To obtain correct results, the account codes prefixes must match the official
 French chart of accounts.
@@ -46,7 +49,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/l10n-france/issues/new?body=module:%20{module_name}%0Aversion:%20{version}%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`here <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_mis_reports%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Credits
 =======
