@@ -23,7 +23,7 @@
 
 {
     'name': 'Account Balance EBP CSV export',
-    'version': '0.1',
+    'version': '8.0.0.0.1',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'author': 'Akretion,Odoo Community Association (OCA)',
