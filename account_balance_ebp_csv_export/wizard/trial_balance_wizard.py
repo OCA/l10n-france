@@ -20,17 +20,16 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models, api
 
 
-class AccountTrialBalanceWizard(orm.TransientModel):
+class AccountTrialBalanceWizard(models.TransientModel):
     _inherit = "trial.balance.webkit"
 
-    def _print_report(self, cursor, uid, ids, data, context=None):
-        if context is None:
-            context = {}
+    @api.multi
+    def _print_report(self, data):
         res = super(AccountTrialBalanceWizard, self)._print_report(
-            cursor, uid, ids, data, context=context)
-        if context.get('export_type') == 'ebp-csv':
+            data)
+        if self.env.context.get('export_type') == 'ebp-csv':
             res['report_name'] = 'account.report.trial.balance.ebp.csv'
         return res
