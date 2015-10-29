@@ -21,9 +21,9 @@
 
 
 from openerp.report import report_sxw
-import pooler
-from account_financial_report_webkit.report.common_balance_reports\
-    import CommonBalanceReportHeaderWebkit
+from openerp import pooler
+from openerp.addons.account_financial_report_webkit.report.\
+    common_balance_reports import CommonBalanceReportHeaderWebkit
 
 
 class Parser(report_sxw.rml_parse, CommonBalanceReportHeaderWebkit):

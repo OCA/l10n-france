@@ -1,6 +1,6 @@
 "Compte.Numero","Compte.Intitule","Balance.SldCptNDebit","Balance.SldCptNCredit","Balance.SldCptNSoldeD","Balance.SldCptNSoldeC"
 {% for current_account in objects %}\
-{% if current_account.to_display and current_account.type != 'view' %}\
+{% if to_display_accounts[current_account.id] and current_account.type != 'view' %}\
 \
 "${current_account.code}",\
 "${current_account.name}",\
