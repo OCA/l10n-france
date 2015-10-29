@@ -6,19 +6,12 @@
 -->
 
 <openerp>
-<data noupdate="1">
+    <data noupdate="1">
 
-<record id="base.res_partner_12" model="res.partner">  <!-- C2C -->
-    <field name="siren">433698578</field>
-    <field name="nic">00039</field>
-    <field name="company_registry">Chambery</field>
-</record>
-
-<record id="base.res_partner_13" model="res.partner"> <!-- Axelor -->
-    <field name="siren">480879733</field>
-    <field name="nic">00032</field>
-    <field name="company_registry">Meaux</field>
-</record>
-
-</data>
+        <record id="base.res_partner_12" model="res.partner">  <!-- C2C -->
+            <field name="siren">433698578</field>
+            <field name="nic">00039</field>
+            <field name="company_registry">Chambery</field>
+        </record>
+    </data>
 </openerp>
