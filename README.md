@@ -8,6 +8,12 @@ French localization for Odoo
 Write Me. 
 
 [//]: # (addons)
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[l10n_fr_siret](l10n_fr_siret/) | 9.0.1.2.0 | French company identity numbers SIRET/SIREN/NIC
+
 Unported addons
 ---------------
 addon | version | summary
