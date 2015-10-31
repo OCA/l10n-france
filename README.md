@@ -8,6 +8,12 @@ French localization for Odoo
 Write Me. 
 
 [//]: # (addons)
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[l10n_fr_naf_ape](l10n_fr_naf_ape/) | 9.0.1.0.0 (unported) | French NAF partner categories and APE code
+
 Unported addons
 ---------------
 addon | version | summary
