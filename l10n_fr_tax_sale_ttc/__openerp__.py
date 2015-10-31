@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    l10n_fr_tax_sale_ttc module for Odoo
@@ -30,5 +30,5 @@
     'description': "",
     'depends': ['l10n_fr'],
     'data': ['fr_tax.xml'],
-    'installable': False,
+    'installable': True,
 }
