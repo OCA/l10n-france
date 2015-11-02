@@ -136,7 +136,7 @@ class BankingExportLcrWizard(models.TransientModel):
             lcr_export.payment_order_ids[0].company_id.name, 24)
         domiciliation_bancaire_cedant = self._prepare_field(
             u'Domiciliation bancaire du cédant',
-            lcr_export.payment_order_ids[0].mode.bank_id.bank.name, 24)
+            lcr_export.payment_order_ids[0].mode.bank_id.bank_name, 24)
         code_entree = '3'
         code_dailly = ' '
         code_monnaie = 'E'
@@ -185,7 +185,7 @@ class BankingExportLcrWizard(models.TransientModel):
         nom_tire = self._prepare_field(
             u'Nom tiré', line.partner_id.name, 24)
         nom_banque = self._prepare_field(
-            u'Nom banque', line.bank_id.bank.name, 24)
+            u'Nom banque', line.bank_id.bank_name, 24)
         code_acceptation = '0'
         montant_centimes = str(line.amount_currency * 100).split('.')[0]
         zero_montant_centimes = montant_centimes.zfill(12)
