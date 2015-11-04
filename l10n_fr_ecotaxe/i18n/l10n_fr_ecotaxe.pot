@@ -1,0 +1,150 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_ecotaxe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-16 10:09+0000\n"
+"PO-Revision-Date: 2015-11-16 10:09+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_ecotaxe
+#: help:product.category,default_fixed_ecotaxe:0
+msgid "Default value of fixed ecotaxe.\n"
+"This value is set when you choise the category \n"
+"on creating a new product (triged by on change product category)\n"
+"Set this field to 0 if you want not default value"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice.line,amount_ecotaxe:0
+#: field:account.tax,is_ecotaxe:0
+#: field:purchase.order.line,amount_ecotaxe:0
+#: field:sale.order.line,amount_ecotaxe:0
+msgid "Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:product.category,ecotaxe_coef:0
+#: field:product.product,ecotaxe_coef:0
+msgid "Ecotaxe Coef"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:product.category,ecotaxe_type:0
+#: field:product.product,ecotaxe_type:0
+msgid "Ecotaxe Type"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: selection:product.category,ecotaxe_type:0
+#: selection:product.product,ecotaxe_type:0
+msgid "Fixed"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:product.category,default_fixed_ecotaxe:0
+#: field:product.product,fixed_ecotaxe:0
+msgid "Fixed Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: help:product.category,ecotaxe_type:0
+#: help:product.product,ecotaxe_type:0
+msgid "If ecotaxe is weight based,the ecotaxe coef must take into account\n"
+"the weight unit of measure (kg by default)"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice,amount_ecotaxe:0
+#: field:purchase.order,amount_ecotaxe:0
+#: field:sale.order,amount_ecotaxe:0
+msgid "Included Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice,amount_tax_without_ecotaxe:0
+#: field:purchase.order,amount_tax_without_ecotaxe:0
+#: field:sale.order,amount_tax_without_ecotaxe:0
+msgid "Other Taxes"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_product_product
+msgid "Product"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: view:account.invoice:l10n_fr_ecotaxe.invoice_form
+#: view:account.invoice:l10n_fr_ecotaxe.invoice_supplier_form
+#: view:purchase.order:l10n_fr_ecotaxe.view_purchase_order_form
+#: view:sale.order:l10n_fr_ecotaxe.view_order_form
+msgid "True"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice,amount_untaxed_with_ecotaxe:0
+#: field:purchase.order,amount_untaxed_with_ecotaxe:0
+#: field:sale.order,amount_untaxed_with_ecotaxe:0
+msgid "Untaxed Amount with Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: help:account.tax,is_ecotaxe:0
+msgid "Warning : To inculde Ecotaxe in the VAT tax check this :\n"
+"1: cochez  \"ncluded in base amount \"\n"
+"2: The Ecotaxe sequence must be less then VAT tax (in sale and purchase)"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: selection:product.category,ecotaxe_type:0
+#: selection:product.product,ecotaxe_type:0
+msgid "Weight based"
+msgstr ""
