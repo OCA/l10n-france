@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2015 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+    <data>
+
+        <record id="product_product_form_code_add" model="ir.ui.view">
+            <field name="name">product.product.form.websitecodes</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+                <field name="categ_id" position="after"  >
+                    <field name="ecotaxe_type"/>
+                    <field name="ecotaxe_coef"
+                           attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
+                    <field name="computed_ecotaxe"
+                           attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
+                    <field name="fixed_ecotaxe"
+                           attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
+                </field>
+            </field>
+        </record>
+        <record id="ecotaxe_category_property_form" model="ir.ui.view">
+            <field name="name">ecotaxe.product.categ.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="account.view_category_property_form" />
+            <field name="arch" type="xml">
+                <group name="account_property" position="inside">
+                    <field name="ecotaxe_type"/>
+                    <field name="ecotaxe_coef"
+                           attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
+                    <field name="default_fixed_ecotaxe"
+                           attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</openerp>
