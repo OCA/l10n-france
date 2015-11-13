@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2010-2014 Akretion (http://www.akretion.com/)
+    Copyright (C) 2010-2015 Akretion (http://www.akretion.com/)
     @author Alexis de Lattre <alexis.delattre@akretion.com>
     The licence is in the file __openerp__.py
 -->
@@ -10,9 +10,9 @@
 <data>
 
 <!-- Form view for DES -->
-<record id="l10n_fr_intrastat_service_form" model="ir.ui.view">
-    <field name="name">fr.intrastat.service.form</field>
-    <field name="model">l10n.fr.report.intrastat.service</field>
+<record id="l10n_fr_intrastat_service_declaration_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.declaration.form</field>
+    <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
         <form string="Intrastat Service">
             <header>
@@ -31,18 +31,18 @@
                 </div>
                 <group name="top-block">
                     <group name="properties-1">
-                        <field name="start_date" />
-                        <field name="end_date" />
+                        <field name="year" />
+                        <field name="month" />
                     </group>
                     <group name="properties-2">
-                        <field name="num_lines" />
+                        <field name="num_decl_lines" />
                         <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         <field name="currency_id" invisible="1"/>
                         <field name="company_id" groups="base.group_multi_company" widget="selection" />
                     </group>
                 </group>
                 <group name="lines">
-                    <field name="intrastat_line_ids" nolabel="1" />
+                    <field name="declaration_line_ids" nolabel="1" />
                 </group>
             </sheet>
             <div class="oe_chatter">
@@ -54,13 +54,13 @@
 </record>
 
 <!-- Tree view for DES -->
-<record id="l10n_fr_intrastat_service_tree" model="ir.ui.view">
-    <field name="name">fr.intrastat.service.tree</field>
-    <field name="model">l10n.fr.report.intrastat.service</field>
+<record id="l10n_fr_intrastat_service_declaration_tree" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.declaration.tree</field>
+    <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
         <tree string="Intrastat Service" colors="blue:state=='draft'">
             <field name="year_month" />
-            <field name="num_lines" />
+            <field name="num_decl_lines" />
             <field name="total_amount" sum="Total amount" />
             <field name="currency_id" />
             <field name="state" />
@@ -70,45 +70,30 @@
 </record>
 
 <!-- Search view for DES -->
-<record id="l10n_fr_intrastat_service_search" model="ir.ui.view">
-    <field name="name">fr.intrastat.service.search</field>
-    <field name="model">l10n.fr.report.intrastat.service</field>
+<record id="l10n_fr_intrastat_service_declaration_search" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.declaration.search</field>
+    <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
         <search string="Search Intrastat Service">
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
             <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
-            <group string="Group By" name="group_by">
-               <filter name="date_group_by" string="Date" context="{'group_by': 'start_date'}" />
-            </group>
         </search>
     </field>
 </record>
 
-<!-- Graph view for DES -->
-<record id="l10n_fr_intrastat_service_graph" model="ir.ui.view">
-    <field name="name">fr.intrastat.service.graph</field>
-    <field name="model">l10n.fr.report.intrastat.service</field>
-    <field name="arch" type="xml">
-        <graph string="Intrastat Service" type="bar">
-            <field name="start_date" type="row"/>
-            <field name="total_amount" type="measure"/>
-        </graph>
-    </field>
-</record>
-
 <!-- Form view for service lines -->
-<record id="l10n_fr_intrastat_service_line_form" model="ir.ui.view">
-    <field name="name">fr.intrastat.service.line.form</field>
-    <field name="model">l10n.fr.report.intrastat.service.line</field>
+<record id="l10n_fr_intrastat_service_declaration_line_form" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.declaration.line.form</field>
+    <field name="model">l10n.fr.intrastat.service.declaration.line</field>
     <field name="arch" type="xml">
         <form string="Intrastat Service Lines">
-            <group colspan="4" col="4" string="Information to declare">
+            <group string="Information to declare" name="to-declare">
                 <field name="partner_id" />
                 <field name="partner_vat" />
                 <field name="amount_company_currency" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
                 <field name="company_currency_id" invisible="1"/>
             </group>
-            <group colspan="4" col="4" string="Additionnal information">
+            <group string="Additionnal information" name="additionnal">
                 <field name="amount_invoice_currency" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
                 <field name="invoice_currency_id" invisible="1"/>
                 <field name="invoice_id" />
@@ -119,9 +104,9 @@
 </record>
 
 <!-- Tree view for service lines -->
-<record id="l10n_fr_intrastat_service_line_tree" model="ir.ui.view">
-    <field name="name">fr.intrastat.service.line.tree</field>
-    <field name="model">l10n.fr.report.intrastat.service.line</field>
+<record id="l10n_fr_intrastat_service_declaration_line_tree" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.declaration.line.tree</field>
+    <field name="model">l10n.fr.intrastat.service.declaration.line</field>
     <field name="arch" type="xml">
         <tree string="Intrastat Service Lines">
             <field name="partner_vat" />
@@ -135,23 +120,23 @@
 
 
 <!-- Action related -->
-<record id="l10n_fr_intrastat_service_tree_action" model="ir.actions.act_window">
+<record id="l10n_fr_intrastat_service_declaration_action" model="ir.actions.act_window">
     <field name="name">Intrastat Service</field>
-    <field name="res_model">l10n.fr.report.intrastat.service</field>
-    <field name="view_mode">tree,form,graph</field>
+    <field name="res_model">l10n.fr.intrastat.service.declaration</field>
+    <field name="view_mode">tree,form</field>
 </record>
 
 
 <!-- Intrastat service menu -->
-<menuitem id="l10n_fr_intrastat_service_menu"
+<menuitem id="l10n_fr_intrastat_service_declaration_menu"
     parent="intrastat_base.menu_intrastat_base_root"
-    action="l10n_fr_intrastat_service_tree_action" />
+    action="l10n_fr_intrastat_service_declaration_action" />
 
 
 <!-- Notification in the chatter -->
 <record id="l10n_fr_declaration_done" model="mail.message.subtype">
     <field name="name">Intrastat Service Validated</field>
-    <field name="res_model">l10n.fr.report.intrastat.service</field>
+    <field name="res_model">l10n.fr.intrastat.service.declaration</field>
     <field name="default" eval="False"/>
     <field name="description">Intrastat Service Validated</field>
 </record>

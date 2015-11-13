@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat service module for OpenERP (DES)
-#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com)
+#    l10n FR intrastat service module for Odoo (DES)
+#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -23,19 +23,11 @@
 
 {
     'name': 'France Intrastat Service',
-    'version': '1.2',
+    'version': '2.0',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
     'summary': 'Module for Intrastat service reporting (DES) for France',
-    'description': """This module adds support for the "Déclaration Européenne des Services" (DES).
-
-The DES declaration has been introduced on January 1st 2010 in France. All French companies must send this declaration each month to France's Customs administration if they sell services to other EU companies.
-
-More information about the DES is available on this official web page : http://www.douane.gouv.fr/page.asp?id=3846
-
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
-    """,
-    'author': 'Akretion',
+    'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'depends': ['intrastat_base'],
     'data': [
@@ -44,7 +36,6 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
         'intrastat_service_reminder.xml',
         'security/intrastat_service_security.xml',
     ],
-    'demo': [],
     'installable': True,
     'application': True,
 }
