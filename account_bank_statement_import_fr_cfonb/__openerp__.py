@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    account_bank_statement_import_fr_cfonb module for Odoo
@@ -22,12 +22,12 @@
 
 {
     'name': 'Import French CFONB Bank Statements',
-    'version': '8.0.0.1.0',
+    'version': '9.0.0.1.1',
     'license': 'AGPL-3',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
     'summary': 'Import French CFONB files as Bank Statements in Odoo',
     'depends': ['account_bank_statement_import'],
     'data': [],
-    'installable': False,
+    'installable': True,
 }

@@ -12,20 +12,10 @@
     <field name="name">TVA collectée (vente) 20,0% TTC</field>
     <field name="description">20.0-TTC</field>
     <field name="price_include" eval="1"/>
-    <field name="amount" eval="0.200"/>
-    <field name="type">percent</field>
-    <field name="base_code_id" ref="l10n_fr.tax_col_200_ht"/>
-    <field name="base_sign" eval="1"/>
-    <field name="tax_code_id" ref="l10n_fr.tax_col_200"/>
-    <field name="tax_sign" eval="1"/>
-
-    <field name="account_collected_id" ref="l10n_fr.pcg_445711"/>
-    <field name="account_paid_id" ref="l10n_fr.pcg_445711"/>
-
-    <field name="ref_base_code_id" ref="l10n_fr.tax_col_200_ht"/>
-    <field name="ref_base_sign" eval="-1"/>
-    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_200"/>
-    <field name="ref_tax_sign" eval="-1"/>
+    <field name="amount" eval="20.0"/>
+    <field name="amount_type">percent</field>
+    <field name="refund_account_id" ref="l10n_fr.pcg_445711"/>
+    <field name="account_id" ref="l10n_fr.pcg_445711"/>
     <field name="sequence" eval="10"/>
     <field name="type_tax_use">sale</field>
 </record>
@@ -35,20 +25,10 @@
     <field name="name">TVA collectée (vente) 8,5% TTC</field>
     <field name="description">8.5-TTC</field>
     <field name="price_include" eval="1"/>
-    <field name="amount" eval="0.085"/>
-    <field name="type">percent</field>
-    <field name="base_code_id" ref="l10n_fr.tax_col_85_ht"/>
-    <field name="base_sign" eval="1"/>
-    <field name="tax_code_id" ref="l10n_fr.tax_col_85"/>
-    <field name="tax_sign" eval="1"/>
-
-    <field name="account_collected_id" ref="l10n_fr.pcg_445713"/>
-    <field name="account_paid_id" ref="l10n_fr.pcg_445713"/>
-
-    <field name="ref_base_code_id" ref="l10n_fr.tax_col_85_ht"/>
-    <field name="ref_base_sign" eval="-1"/>
-    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_85"/>
-    <field name="ref_tax_sign" eval="-1"/>
+    <field name="amount" eval="8.5"/>
+    <field name="amount_type">percent</field>
+    <field name="refund_account_id" ref="l10n_fr.pcg_445713"/>
+    <field name="account_id" ref="l10n_fr.pcg_445713"/>
     <field name="sequence" eval="10"/>
     <field name="type_tax_use">sale</field>
 </record>
@@ -58,20 +38,10 @@
     <field name="name">TVA collectée (vente) 10,0% TTC</field>
     <field name="description">10.0-TTC</field>
     <field name="price_include" eval="1"/>
-    <field name="amount" eval="0.10"/>
-    <field name="type">percent</field>
-    <field name="base_code_id" ref="l10n_fr.tax_col_100_ht"/>
-    <field name="base_sign" eval="1"/>
-    <field name="tax_code_id" ref="l10n_fr.tax_col_100"/>
-    <field name="tax_sign" eval="1"/>
-
-    <field name="account_collected_id" ref="l10n_fr.pcg_445712"/>
-    <field name="account_paid_id" ref="l10n_fr.pcg_445712"/>
-
-    <field name="ref_base_code_id" ref="l10n_fr.tax_col_100_ht"/>
-    <field name="ref_base_sign" eval="-1"/>
-    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_100"/>
-    <field name="ref_tax_sign" eval="-1"/>
+    <field name="amount" eval="10.0"/>
+    <field name="amount_type">percent</field>
+    <field name="refund_account_id" ref="l10n_fr.pcg_445712"/>
+    <field name="account_id" ref="l10n_fr.pcg_445712"/>
     <field name="sequence" eval="10"/>
     <field name="type_tax_use">sale</field>
 </record>
@@ -81,20 +51,10 @@
     <field name="name">TVA collectée (vente) 5,5% TTC</field>
     <field name="description">5.5-TTC</field>
     <field name="price_include" eval="1"/>
-    <field name="amount" eval="0.055"/>
-    <field name="type">percent</field>
-    <field name="base_code_id" ref="l10n_fr.tax_col_55_ht"/>
-    <field name="base_sign" eval="1"/>
-    <field name="tax_code_id" ref="l10n_fr.tax_col_55"/>
-    <field name="tax_sign" eval="1"/>
-
-    <field name="account_collected_id" ref="l10n_fr.pcg_445713"/>
-    <field name="account_paid_id" ref="l10n_fr.pcg_445713"/>
-
-    <field name="ref_base_code_id" ref="l10n_fr.tax_col_55_ht"/>
-    <field name="ref_base_sign" eval="-1"/>
-    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_55"/>
-    <field name="ref_tax_sign" eval="-1"/>
+    <field name="amount" eval="5.5"/>
+    <field name="amount_type">percent</field>
+    <field name="refund_account_id" ref="l10n_fr.pcg_445713"/>
+    <field name="account_id" ref="l10n_fr.pcg_445713"/>
     <field name="sequence" eval="10"/>
     <field name="type_tax_use">sale</field>
 </record>
@@ -104,20 +64,10 @@
     <field name="name">TVA collectée (vente) 2,1% TTC</field>
     <field name="description">2.1-TTC</field>
     <field name="price_include" eval="1"/>
-    <field name="amount" eval="0.021"/>
-    <field name="type">percent</field>
-    <field name="base_code_id" ref="l10n_fr.tax_col_21_ht"/>
-    <field name="base_sign" eval="1"/>
-    <field name="tax_code_id" ref="l10n_fr.tax_col_21"/>
-    <field name="tax_sign" eval="1"/>
-
-    <field name="account_collected_id" ref="l10n_fr.pcg_445713"/>
-    <field name="account_paid_id" ref="l10n_fr.pcg_445713"/>
-
-    <field name="ref_base_code_id" ref="l10n_fr.tax_col_21_ht"/>
-    <field name="ref_base_sign" eval="-1"/>
-    <field name="ref_tax_code_id" ref="l10n_fr.tax_col_21"/>
-    <field name="ref_tax_sign" eval="-1"/>
+    <field name="amount" eval="2.1"/>
+    <field name="amount_type">percent</field>
+    <field name="refund_account_id" ref="l10n_fr.pcg_445713"/>
+    <field name="account_id" ref="l10n_fr.pcg_445713"/>
     <field name="sequence" eval="10"/>
     <field name="type_tax_use">sale</field>
 </record>
