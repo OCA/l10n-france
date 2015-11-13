@@ -48,21 +48,23 @@ class ResPartner(models.Model):
     def _check_fiscal_representative(self):
         '''The Fiscal rep. must be based in the same country as our '''
         '''company or in an intrastat country'''
-        if self.intrastat_fiscal_representative:
-            if not self.intrastat_fiscal_representative.country_id:
+        rep = self.intrastat_fiscal_representative
+        if rep:
+            if not rep.country_id:
                 raise ValidationError(
                     _("The fiscal representative '%s' of partner '%s' "
                         "must have a country.")
-                    % (self.intrastat_fiscal_representative.name, self.name))
-            if (not self.intrastat_fiscal_representative.country_id.intrastat
-                    and self.intrastat_fiscal_representative.country_id
-                    != self.env.user.company_id.partner_id.country_id):
+                    % (rep.name, self.name))
+            if (
+                    not rep.country_id.intrastat and
+                    rep.country_id !=
+                    self._user.company_id.partner_id.country_id):
                 raise ValidationError(
                     _("The fiscal representative '%s' of partner '%s' "
                         "must be based in an EU country.")
-                    % (self.intrastat_fiscal_representative.name, self.name))
-            if not self.intrastat_fiscal_representative.vat:
+                    % (rep.name, self.name))
+            if not rep.vat:
                 raise ValidationError(
                     _("The fiscal representative '%s' of partner '%s' "
                         "must have a VAT number.")
-                    % (self.intrastat_fiscal_representative.name, self.name))
+                    % (rep.name, self.name))
