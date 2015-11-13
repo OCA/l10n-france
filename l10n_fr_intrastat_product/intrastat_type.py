@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    L10n FR Report intrastat product module for Odoo
-#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com/)
+#    L10n FR intrastat product module for Odoo
+#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com/)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -28,58 +28,17 @@ from openerp.exceptions import ValidationError
 fiscal_only_tuple = ('25', '26', '31')
 
 
-class ReportIntrastatType(models.Model):
-    _name = "report.intrastat.type"
-    _description = "Intrastat type"
-    _order = "procedure_code, transaction_code"
+class IntrastatTransaction(models.Model):
+    _inherit = "intrastat.transaction"
 
-    @api.one
-    @api.depends('procedure_code')
-    def _compute_all(self):
-        if self.procedure_code in ('19', '29'):
-            self.fiscal_value_multiplier = 0
-        elif self.procedure_code == '25':
-            self.fiscal_value_multiplier = -1
-        else:
-            self.fiscal_value_multiplier = 1
-        if self.procedure_code in fiscal_only_tuple:
-            self.is_fiscal_only = True
-        else:
-            self.is_fiscal_only = False
-        if self.procedure_code in ('11', '19', '29'):
-            self.is_vat_required = False
-        else:
-            self.is_vat_required = True
-        if self.procedure_code in ('11', '19'):
-            self.intrastat_product_type = 'import'
-        else:
-            self.intrastat_product_type = 'export'
-
-    name = fields.Char(
-        string='Name', required=True,
-        help="Description of the Intrastat type.")
-    active = fields.Boolean(string='Active', default=True)
-    object_type = fields.Selection([
+    fr_object_type = fields.Selection([
         ('out_invoice', 'Customer Invoice'),
         ('in_invoice', 'Supplier Invoice'),
         ('out_refund', 'Customer Refund'),
         ('none', 'None'),
         ], string='Possible on', select=True, required=True)
-    procedure_code = fields.Selection([
-        ('11', "11. Acquisitions intracomm. taxables en France"),
-        ('19', "19. Autres introductions"),
-        ('21', "21. Livraisons intracomm. exo. en France et taxables "
-            "dans l'Etat d'arrivée"),
-        ('25', "25. Régularisation commerciale - minoration de valeur"),
-        ('26', "26. Régularisation commerciale - majoration de valeur"),
-        ('29', "29. Autres expéditions intracomm. : travail à façon, "
-            "réparation..."),
-        ('31', "31. Refacturation dans le cadre d'une opération "
-            "triangulaire")
-        ], string='Procedure code', required=True,
-        help="For the 'DEB' declaration to France's customs "
-        "administration, you should enter the 'code régime' here.")
-    transaction_code = fields.Selection([
+    # procedure_code = fields.Selection([ => code
+    fr_transaction_code = fields.Selection([
         ('', '-'),
         ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'),
         ('19', '19'),
@@ -94,57 +53,70 @@ class ReportIntrastatType(models.Model):
         help="For the 'DEB' declaration to France's customs "
         "administration, you should enter the number 'nature de la "
         "transaction' here.")
-    is_fiscal_only = fields.Boolean(
-        compute='_compute_all', string='Is fiscal only ?', store=True,
-        readonly=True,
+    fr_is_fiscal_only = fields.Boolean(
+        string='Is fiscal only ?',
         help="Only fiscal data should be provided for this procedure code.")
-    fiscal_value_multiplier = fields.Integer(
-        compute='_compute_all', string='Fiscal value multiplier', store=True,
-        readonly=True,
+    fr_fiscal_value_multiplier = fields.Integer(
+        string='Fiscal value multiplier',
         help="'0' for procedure codes 19 and 29, "
         "'-1' for procedure code 25, '1' for all the others. "
         "This multiplier is used to compute the total fiscal value of "
         "the declaration.")
-    is_vat_required = fields.Boolean(
-        compute='_compute_all', string='Is partner VAT required?', store=True,
-        readonly=True,
+    fr_is_vat_required = fields.Boolean(
+        string='Is partner VAT required?',
         help="True for all procedure codes except 11, 19 and 29. "
         "When False, the VAT number should not be filled in the "
         "Intrastat product line.")
-    intrastat_product_type = fields.Char(
-        compute='_compute_all', string='Intrastat product type', store=True,
-        readonly=True,
+    fr_intrastat_product_type = fields.Char(
+        # TODO : see with Luc if we can move it to intrastat_product
+        string='Intrastat product type',
         help="Decides on which kind of Intrastat product report "
         "('Import' or 'Export') this Intrastat type can be selected.")
 
     _sql_constraints = [(
         'code_invoice_type_uniq',
-        'unique(procedure_code, transaction_code)',
-        'The pair (procedure code, transaction code) must be unique.'
+        'unique(code, fr_transaction_code, company_id)',
+        'An Intrastat Transaction already exists for this company with the '
+        'same code and the same procedure code.'
         )]
 
     @api.one
-    @api.constrains('procedure_code', 'transaction_code')
+    @api.constrains('code', 'fr_transaction_code')
     def _code_check(self):
-        if self.object_type == 'out' and self.procedure_code != '29':
-            raise ValidationError(
-                _("Procedure code must be '29' for an Outgoing products."))
-        elif self.object_type == 'in' and self.procedure_code != '19':
-            raise ValidationError(
-                _("Procedure code must be '19' for an Incoming products."))
-        if (
-                self.procedure_code not in fiscal_only_tuple
-                and not self.transaction_code):
-            raise ValidationError(
-                _('You must enter a value for the transaction code.'))
-        if (
-                self.procedure_code in fiscal_only_tuple
-                and self.transaction_code):
-            raise ValidationError(
-                _("You should not set a transaction code when the "
-                    "Procedure code is '25', '26' or '31'."))
+        if self.company_id.country_id and self.company_id.country_id == 'FR':
+            if self.fr_object_type == 'out' and self.fr_procedure_code != '29':
+                raise ValidationError(
+                    _("Procedure code must be '29' for an Outgoing products."))
+            elif (
+                    self.fr_object_type == 'in' and
+                    self.fr_procedure_code != '19'):
+                raise ValidationError(
+                    _("Procedure code must be '19' for an Incoming products."))
+            if (
+                    self.fr_procedure_code not in fiscal_only_tuple and
+                    not self.fr_transaction_code):
+                raise ValidationError(
+                    _('You must enter a value for the transaction code.'))
+            if (
+                    self.fr_procedure_code in fiscal_only_tuple and
+                    self.fr_transaction_code):
+                raise ValidationError(_(
+                    "You should not set a transaction code when the "
+                    "Code (i.e. Procedure Code) is '25', '26' or '31'."))
 
-    @api.onchange('procedure_code')
+    @api.onchange('code')
     def procedure_code_on_change(self):
-        if self.procedure_code in fiscal_only_tuple:
-            self.transaction_code = False
+        if self.code in fiscal_only_tuple:
+            self.fr_transaction_code = False
+
+    @api.one
+    @api.depends('code', 'description', 'fr_transaction_code')
+    def _compute_display_name(self):
+        display_name = self.code
+        if self.fr_transaction_code:
+            display_name += '/%s' % self.fr_transaction_code
+        if self.description:
+            display_name += ' ' + self.description
+        self.display_name = len(display_name) > 55 \
+            and display_name[:55] + '...' \
+            or display_name
