@@ -4,16 +4,14 @@
 
 <record id="l10n_fr_intrastat_service_rule" model="ir.rule">
     <field name="name">Intrastat Service multi-company</field>
-    <field name="model_id" ref="model_l10n_fr_report_intrastat_service"/>
-    <field name="global" eval="True"/>
+    <field name="model_id" ref="model_l10n_fr_intrastat_service_declaration"/>
     <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
 </record>
 
 
 <record id="l10n_fr_intrastat_service_line_rule" model="ir.rule">
     <field name="name">Intrastat Service Line multi-company</field>
-    <field name="model_id" ref="model_l10n_fr_report_intrastat_service_line"/>
-    <field name="global" eval="True"/>
+    <field name="model_id" ref="model_l10n_fr_intrastat_service_declaration_line"/>
     <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
 </record>
 

@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat service module for Odoo (DES)
-#    Copyright (C) 2010-2014 Akretion (http://www.akretion.com/)
+#    l10n FR intrastat service module for Odoo (DES)
+#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com/)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,8 @@
 
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
-from openerp.exceptions import Warning
-from datetime import datetime
+from openerp.exceptions import Warning as UserError
+from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 import logging
 from lxml import etree
@@ -32,47 +32,74 @@ from lxml import etree
 logger = logging.getLogger(__name__)
 
 
-class L10nFrReportIntrastatService(models.Model):
-    _name = "l10n.fr.report.intrastat.service"
-    _order = "start_date desc"
-    _rec_name = "start_date"
-    _inherit = ['mail.thread', 'report.intrastat.common']
+class L10nFrIntrastatServiceDeclaration(models.Model):
+    _name = "l10n.fr.intrastat.service.declaration"
+    _order = "year_month desc"
+    _rec_name = "year_month"
+    _inherit = ['mail.thread', 'intrastat.common']
     _description = "DES"
     _track = {
         'state': {
             'l10n_fr_intrastat_service.l10n_fr_declaration_done':
-            lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
+            lambda self, cr, uid, obj, ctx=None: obj.state == 'done',
             }
         }
+
+    @api.model
+    def _get_year(self):
+        if datetime.now().month == 1:
+            return datetime.now().year - 1
+        else:
+            return datetime.now().year
+
+    @api.model
+    def _get_month(self):
+        if datetime.now().month == 1:
+            return 12
+        else:
+            return datetime.now().month - 1
+
+    @api.one
+    @api.depends('year', 'month')
+    def _compute_year_month(self):
+        if self.year and self.month:
+            self.year_month = '-'.join(
+                [str(self.year), format(self.month, '02')])
 
     company_id = fields.Many2one(
         'res.company', string='Company',
         required=True, states={'done': [('readonly', True)]},
         default=lambda self: self.env['res.company']._company_default_get(
-            'l10n.fr.report.intrastat.service'))
-    start_date = fields.Date(
-        string='Start date', required=True,
-        states={'done': [('readonly', True)]}, copy=False,
-        default=lambda self:
-        datetime.today() + relativedelta(day=1, months=-1),
-        help="Start date of the declaration. Must be the first day of "
-        "a month.")
-    end_date = fields.Date(
-        compute='_compute_dates', string='End date', readonly=True, store=True,
-        help="End date for the declaration. Must be the last day of the "
-        "month of the start date.")
+            'l10n.fr.intrastat.service.declaration'))
+    year = fields.Integer(
+        string='Year', required=True,
+        default=_get_year)
+    month = fields.Selection([
+        (1, '01'),
+        (2, '02'),
+        (3, '03'),
+        (4, '04'),
+        (5, '05'),
+        (6, '06'),
+        (7, '07'),
+        (8, '08'),
+        (9, '09'),
+        (10, '10'),
+        (11, '11'),
+        (12, '12')
+        ], string='Month', required=True,
+        default=_get_month)
     year_month = fields.Char(
-        compute='_compute_dates', string='Month', readonly=True,
+        compute='_compute_year_month', string='Period', readonly=True,
         track_visibility='always', store=True,
         help="Year and month of the declaration.")
-    intrastat_line_ids = fields.One2many(
-        'l10n.fr.report.intrastat.service.line',
+    declaration_line_ids = fields.One2many(
+        'l10n.fr.intrastat.service.declaration.line',
         'parent_id', string='Intrastat Service Lines',
         states={'done': [('readonly', True)]}, copy=False)
-    num_lines = fields.Integer(
+    num_decl_lines = fields.Integer(
         compute='_compute_numbers', string='Number of lines', store=True,
-        track_visibility='always',
-        help="Number of lines in this declaration.")
+        track_visibility='always')
     total_amount = fields.Float(
         compute='_compute_numbers', digits=dp.get_precision('Account'),
         string='Total amount', store=True, track_visibility='always',
@@ -84,23 +111,17 @@ class L10nFrReportIntrastatService(models.Model):
         ('draft', 'Draft'),
         ('done', 'Done'),
         ], string='State', readonly=True, track_visibility='onchange',
-        default='draft', copy=False,
-        help="State of the declaration. When the state is set to 'Done', "
-        "the fields become read-only.")
+        default='draft', copy=False)
 
     _sql_constraints = [(
-        'date_uniq', 'unique(start_date, company_id)',
-        'A DES for this month already exists !'
+        'date_uniq', 'unique(year_month, company_id)',
+        'A DES already exists for this month!'
         )]
-
-    @api.constrains('start_date')
-    def _service_check_start_date(self):
-        self._check_start_date()
 
     @api.multi
     def generate_service_lines(self):
         self.ensure_one()
-        line_obj = self.env['l10n.fr.report.intrastat.service.line']
+        line_obj = self.env['l10n.fr.intrastat.service.declaration.line']
         invoice_obj = self.env['account.invoice']
         self._check_generate_lines()
         # delete all service lines generated from invoices
@@ -110,16 +131,18 @@ class L10nFrReportIntrastatService(models.Model):
         if lines_to_remove:
             lines_to_remove.unlink()
 
+        start_date = date(self.year, self.month, 1)
+        end_date = start_date + relativedelta(day=1, months=1, days=-1)
         invoices = invoice_obj.search([
             ('type', 'in', ('out_invoice', 'out_refund')),
-            ('date_invoice', '<=', self.end_date),
-            ('date_invoice', '>=', self.start_date),
+            ('date_invoice', '<=', end_date),
+            ('date_invoice', '>=', start_date),
             ('state', 'in', ('open', 'paid')),
             ('company_id', '=', self.company_id.id)
             ], order='date_invoice')
         for invoice in invoices:
             if not invoice.partner_id.country_id:
-                raise Warning(
+                raise UserError(
                     _("Missing country on partner '%s'.")
                     % invoice.partner_id.name)
             elif not invoice.partner_id.country_id.intrastat:
@@ -176,8 +199,8 @@ class L10nFrReportIntrastatService(models.Model):
                     amount_invoice_cur_regular_service
             else:
                 amount_invoice_cur_to_write = (
-                    amount_invoice_cur_regular_service
-                    + amount_invoice_cur_accessory_cost)
+                    amount_invoice_cur_regular_service +
+                    amount_invoice_cur_accessory_cost)
 
             if invoice.currency_id.name != 'EUR':
                 amount_company_cur_to_write = int(round(
@@ -206,7 +229,7 @@ class L10nFrReportIntrastatService(models.Model):
                 # end of the loop on the invoice lines and the "if
                 # amount_company_cur_to_write:"
                 if not invoice.partner_id.vat:
-                    raise Warning(
+                    raise UserError(
                         _("Missing VAT number on partner '%s'.")
                         % invoice.partner_id.name)
                 else:
@@ -236,8 +259,6 @@ class L10nFrReportIntrastatService(models.Model):
     @api.multi
     def generate_xml(self):
         self.ensure_one()
-        start_date_str = self.start_date
-        start_date_datetime = fields.Date.from_string(start_date_str)
 
         self._check_generate_xml()
 
@@ -248,17 +269,17 @@ class L10nFrReportIntrastatService(models.Model):
         root = etree.Element('fichier_des')
         decl = etree.SubElement(root, 'declaration_des')
         num_des = etree.SubElement(decl, 'num_des')
-        num_des.text = datetime.strftime(start_date_datetime, '%Y%m')
+        num_des.text = self.year_month.replace('-', '')
         num_tva = etree.SubElement(decl, 'num_tvaFr')
         num_tva.text = my_company_vat
         mois_des = etree.SubElement(decl, 'mois_des')
-        mois_des.text = datetime.strftime(start_date_datetime, '%m')
+        mois_des.text = unicode(self.month)
         # month 2 digits
         an_des = etree.SubElement(decl, 'an_des')
-        an_des.text = datetime.strftime(start_date_datetime, '%Y')
+        an_des.text = unicode(self.year)
         line = 0
         # we now go through each service line
-        for sline in self.intrastat_line_ids:
+        for sline in self.declaration_line_ids:
             line += 1  # increment line number
             ligne_des = etree.SubElement(decl, 'ligne_des')
             numlin_des = etree.SubElement(ligne_des, 'numlin_des')
@@ -270,7 +291,7 @@ class L10nFrReportIntrastatService(models.Model):
             try:
                 partner_des.text = sline.partner_vat.replace(' ', '')
             except:
-                raise Warning(
+                raise UserError(
                     _("Missing VAT number on partner '%s'.")
                     % sline.partner_id.name)
         xml_string = etree.tostring(
@@ -278,7 +299,7 @@ class L10nFrReportIntrastatService(models.Model):
 
         # We now validate the XML file against the official XSD
         self._check_xml_schema(
-            root, xml_string, 'l10n_fr_intrastat_service/data/des.xsd')
+            xml_string, 'l10n_fr_intrastat_service/data/des.xsd')
         # Attach the XML file
         attach_id = self._attach_xml_file(xml_string, 'des')
         return self._open_attach_view(attach_id, title='DES XML file')
@@ -293,6 +314,9 @@ class L10nFrReportIntrastatService(models.Model):
         logger.info('Starting the Intrastat Service reminder')
         for company in companies:
             if company.country_id.code != 'FR':
+                logger.info(
+                    'Skipping company %s because it is not based in France',
+                    company.name)
                 continue
             # Check if an intrastat service already exists for month N-1
             intrastats = self.search([
@@ -318,7 +342,7 @@ class L10nFrReportIntrastatService(models.Model):
                 # we try to generate the lines
                 try:
                     intrastat.generate_service_lines()
-                except Warning as e:
+                except UserError as e:
                     intrastat = intrastat.with_context(
                         exception=True, error_msg=e)
                 # send the reminder email
@@ -328,14 +352,14 @@ class L10nFrReportIntrastatService(models.Model):
         return True
 
 
-class L10nFrReportIntrastatServiceLine(models.Model):
-    _name = "l10n.fr.report.intrastat.service.line"
+class L10nFrIntrastatServiceDeclarationLine(models.Model):
+    _name = "l10n.fr.intrastat.service.declaration.line"
     _description = "Intrastat Service Lines"
     _rec_name = "partner_vat"
     _order = 'id'
 
     parent_id = fields.Many2one(
-        'l10n.fr.report.intrastat.service',
+        'l10n.fr.intrastat.service.declaration',
         string='Intrastat service ref', ondelete='cascade')
     company_id = fields.Many2one(
         'res.company', related='parent_id.company_id',
@@ -359,8 +383,7 @@ class L10nFrReportIntrastatServiceLine(models.Model):
         "date and rounded at 0 digits")
     amount_invoice_currency = fields.Float(
         string='Amount in invoice currency',
-        digits=dp.get_precision('Account'), readonly=True,
-        help="Amount in invoice currency (not rounded)")
+        digits=dp.get_precision('Account'), readonly=True)
     invoice_currency_id = fields.Many2one(
         'res.currency', "Invoice currency", readonly=True)
 
