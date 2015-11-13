@@ -22,13 +22,14 @@
 #
 ##############################################################################
 
-from openerp import models, fields, _
+from openerp import models, fields, api
 
 
 class ResCountryDepartment(models.Model):
     _description = "Department"
     _name = 'res.country.department'
     _order = 'country_id, code'
+    _rec_name = 'display_name'
 
     state_id = fields.Many2one(
         'res.country.state', string='State', required=True,
@@ -43,8 +44,14 @@ class ResCountryDepartment(models.Model):
         string='Departement Code', size=2, required=True,
         help="""The department code in two chars."""
         """(ISO 3166-2 Codification)""")
+    display_name = fields.Char(
+        compute='_compute_display_name', string='Department',
+        store=True, readonly=True)
 
-    _sql_constraints = [
-        ('code_uniq', 'unique (code)',
-            _("""You cannot have two departments with the same code!""")),
-    ]
+    @api.depends('code', 'name')
+    def _compute_display_name(self):
+        self.display_name = u'%s (%s)' % (self.name, self.code)
+
+    _sql_constraints = [(
+        'code_uniq', 'unique (code)',
+        "You cannot have two departments with the same code!")]
