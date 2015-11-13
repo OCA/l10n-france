@@ -30,6 +30,7 @@ class ResCountryDepartment(models.Model):
     _name = 'res.country.department'
     _rec_name = 'display_name'
     _order = 'country_id, code'
+    _rec_name = 'display_name'
 
     state_id = fields.Many2one(
         'res.country.state', string='State', required=True,
