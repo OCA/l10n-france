@@ -16,6 +16,7 @@ addon | version | summary
 [l10n_fr_department](l10n_fr_department/) | 9.0.0.1.0 | Populate Database with French Departments (Départements)
 [l10n_fr_state](l10n_fr_state/) | 9.0.0.1.0 | Populate Database with French States (Région)
 [l10n_fr_tax_sale_ttc](l10n_fr_tax_sale_ttc/) | 8.0.0.1.0 | Adds Sale Tax TTC (all rates)
+[l10n_fr_siret](l10n_fr_siret/) | 9.0.1.2.0 | French company identity numbers SIRET/SIREN/NIC
 
 Unported addons
 ---------------
@@ -27,6 +28,5 @@ addon | version | summary
 [l10n_fr_department_delivery](l10n_fr_department_delivery/) | 8.0.0.1.0 (unported) | Use French Departments in delivery costs
 [l10n_fr_fec](l10n_fr_fec/) | 8.0.0.1.0 (unported) | Fichier d'Échange Informatisé (FEC) for France
 [l10n_fr_naf_ape](l10n_fr_naf_ape/) | 8.0.1.0.0 (unported) | French NAF partner categories and APE code
-[l10n_fr_siret](l10n_fr_siret/) | 8.0.1.2.0 (unported) | French company identity numbers SIRET/SIREN/NIC
 
 [//]: # (end addons)
