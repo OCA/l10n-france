@@ -121,6 +121,10 @@ class L10nFrIntrastatProductDeclaration(models.Model):
             raise UserError(
                 _("The SIRET is not set on company '%s'.")
                 % self.company_id.name)
+        if self.action != 'replace' or self.revision != 1:
+            raise UserError(_(
+                "Pro.dou@ne only accepts XML file upload for "
+                "the original declaration."))
         my_company_identifier = my_company_vat + self.company_id.siret[9:]
 
         my_company_currency = self.company_id.currency_id.name

@@ -17,27 +17,6 @@
         <form position="attributes">
             <attribute name="string">DEB</attribute>
         </form>
-        <xpath expr="//field[@name='computation_line_ids']/tree/field[@name='transaction_id']" position="after">
-            <field name="fr_partner_id"/>
-        </xpath>
-        <xpath expr="//field[@name='computation_line_ids']/tree/field[@name='product_origin_country_id']" position="attributes">
-            <attribute name="invisible">0</attribute>
-        </xpath>
-        <xpath expr="//field[@name='computation_line_ids']/tree/field[@name='region_id']" position="after">
-            <field name="fr_department_id"/>
-        </xpath>
-        <xpath expr="//field[@name='computation_line_ids']/form//field[@name='region_id']" position="after">
-            <field name="fr_department_id"/>
-        </xpath>
-        <xpath expr="//field[@name='declaration_line_ids']/tree/field[@name='transaction_id']" position="after">
-            <field name="fr_partner_id"/>
-        </xpath>
-        <xpath expr="//field[@name='declaration_line_ids']/tree/field[@name='product_origin_country_id']" position="attributes">
-            <attribute name="invisible">0</attribute>
-        </xpath>
-        <xpath expr="//field[@name='declaration_line_ids']/tree/field[@name='region_id']" position="after">
-            <field name="fr_department_id"/>
-        </xpath>
      </field>
 </record>
 
@@ -50,6 +29,78 @@
         <tree position="attributes">
             <attribute name="string">DEB</attribute>
         </tree>
+    </field>
+</record>
+
+<record id="l10n_fr_intrastat_product_computation_line_form" model="ir.ui.view">
+    <field name="name">l10n.fr.intrastat.product.computation.line.form</field>
+    <field name="model">l10n.fr.intrastat.product.computation.line</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="intrastat_product.intrastat_product_computation_line_view_form"/>
+    <field name="arch" type="xml">
+        <field name="invoice_id" position="before">
+            <field name="fr_partner_id"/>
+        </field>
+        <field name="product_origin_country_id" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
+        <field name="region_id" position="after">
+            <field name="fr_department_id"/>
+        </field>
+    </field>
+</record>
+
+<record id="l10n_fr_intrastat_product_computation_line_tree" model="ir.ui.view">
+    <field name="name">l10n.fr.intrastat.product.computation.line.tree</field>
+    <field name="model">l10n.fr.intrastat.product.computation.line</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="intrastat_product.intrastat_product_computation_line_view_tree"/>
+    <field name="arch" type="xml">
+        <field name="invoice_id" position="before">
+            <field name="fr_partner_id"/>
+        </field>
+        <field name="product_origin_country_id" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
+        <field name="region_id" position="after">
+            <field name="fr_department_id"/>
+        </field>
+    </field>
+</record>
+
+<record id="l10n_fr_intrastat_product_declaration_line_form" model="ir.ui.view">
+    <field name="name">l10n.fr.intrastat.product.declaration.line.form</field>
+    <field name="model">l10n.fr.intrastat.product.declaration.line</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="intrastat_product.intrastat_product_declaration_line_view_form"/>
+    <field name="arch" type="xml">
+        <field name="product_origin_country_id" position="after">
+            <field name="fr_partner_id"/>
+        </field>
+        <field name="product_origin_country_id" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
+        <field name="region_id" position="after">
+            <field name="fr_department_id"/>
+        </field>
+    </field>
+</record>
+
+<record id="l10n_fr_intrastat_product_declaration_line_tree" model="ir.ui.view">
+    <field name="name">l10n.fr.intrastat.product.declaration.line.tree</field>
+    <field name="model">l10n.fr.intrastat.product.declaration.line</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="intrastat_product.intrastat_product_declaration_line_view_tree"/>
+    <field name="arch" type="xml">
+        <field name="product_origin_country_id" position="after">
+            <field name="fr_partner_id"/>
+        </field>
+        <field name="product_origin_country_id" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
+        <field name="region_id" position="after">
+            <field name="fr_department_id"/>
+        </field>
     </field>
 </record>
 
