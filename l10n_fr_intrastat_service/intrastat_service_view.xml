@@ -14,7 +14,7 @@
     <field name="name">fr.intrastat.service.declaration.form</field>
     <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
-        <form string="Intrastat Service">
+        <form string="DES">
             <header>
                 <button name="done" string="Done" type="object" states="draft" class="oe_highlight"/>
                 <button name="back2draft" string="Back to draft" type="object" states="done" />
@@ -58,13 +58,12 @@
     <field name="name">fr.intrastat.service.declaration.tree</field>
     <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
-        <tree string="Intrastat Service" colors="blue:state=='draft'">
+        <tree string="DES" colors="blue:state=='draft'">
             <field name="year_month" />
             <field name="num_decl_lines" />
             <field name="total_amount" sum="Total amount" />
             <field name="currency_id" />
             <field name="state" />
-            <button icon="gtk-ok" name="done" string="Done" type="object" colspan="1" states="draft" />
         </tree>
     </field>
 </record>
@@ -74,7 +73,7 @@
     <field name="name">fr.intrastat.service.declaration.search</field>
     <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
-        <search string="Search Intrastat Service">
+        <search string="Search DES">
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
             <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
         </search>
@@ -121,7 +120,7 @@
 
 <!-- Action related -->
 <record id="l10n_fr_intrastat_service_declaration_action" model="ir.actions.act_window">
-    <field name="name">Intrastat Service</field>
+    <field name="name">DES</field>
     <field name="res_model">l10n.fr.intrastat.service.declaration</field>
     <field name="view_mode">tree,form</field>
 </record>
@@ -135,10 +134,10 @@
 
 <!-- Notification in the chatter -->
 <record id="l10n_fr_declaration_done" model="mail.message.subtype">
-    <field name="name">Intrastat Service Validated</field>
+    <field name="name">DES Validated</field>
     <field name="res_model">l10n.fr.intrastat.service.declaration</field>
     <field name="default" eval="False"/>
-    <field name="description">Intrastat Service Validated</field>
+    <field name="description">DES Validated</field>
 </record>
 
 </data>
