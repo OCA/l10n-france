@@ -48,7 +48,7 @@ class ProductProduct(models.Model):
         for prod in self:
             if prod.ecotaxe_type == 'weight_based':
                 weight = prod.weight or 0
-                prod.computed_ecotaxe = record.ecotaxe_coef * weight
+                prod.computed_ecotaxe = prod.ecotaxe_coef * weight
 
     @api.onchange('ecotaxe_type')
     def onchange_ecotaxe_type(self):
