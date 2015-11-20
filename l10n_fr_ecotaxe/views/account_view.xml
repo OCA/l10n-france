@@ -6,68 +6,138 @@
 -->
 
 <openerp>
-<data>
+    <data>
 
-<!-- Tax -->
-<record id="account.tax_form" model="ir.ui.view">
-    <field name="name">l10n_fr_ecotaxe.account.tax.form</field>
-    <field name="model">account.tax</field>
-    <field name="inherit_id" ref="account.view_tax_form"/>
-    <field name="priority">300</field>
-    <field name="arch" type="xml">
-        <field name="description" position="after">
-            <field name="is_ecotaxe"/>
-        </field>
-    </field>
-</record>
-<!-- INVOICE -->
-<record id="invoice_form" model="ir.ui.view">
-    <field name="name">l10n_fr_ecotaxe.customer.invoice.form</field>
-    <field name="model">account.invoice</field>
-    <field name="inherit_id" ref="account.invoice_form"/>
-    <field name="arch" type="xml">
-        <xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="after">
-            <field name="amount_ecotaxe"/>
-        </xpath>
-        <field name="amount_untaxed" position="attributes">
-            <attribute name="invisible">True</attribute>
-        </field>
-        <field name="amount_tax" position="attributes">
-            <attribute name="invisible">True</attribute>
-        </field>        
-        <field name="amount_untaxed" position="after">
-            <field name="amount_untaxed_with_ecotaxe"/>
-            <field name="amount_ecotaxe"/>
-            <field name="amount_tax_without_ecotaxe"/>
-        </field>          
+        <!-- Tax -->
+        <record id="account.tax_form" model="ir.ui.view">
+            <field name="name">l10n_fr_ecotaxe.account.tax.form</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="priority">300</field>
+            <field name="arch" type="xml">
+                <field name="description" position="after">
+                    <field name="is_ecotaxe"/>
+                </field>
+            </field>
+        </record>
         
-    </field>
-</record>
+        
+        <!-- Define: account.ecotaxe.classification -->
+        
+        <record id="action_ecotaxe_classification" model="ir.actions.act_window">
+            <field name="name">Ecotaxe Classification</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.ecotaxe.classification</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="menu_ecotaxe_classification"
+            name="Ecotaxe Classification"
+            parent="account.next_id_27"
+            action="action_ecotaxe_classification"
+            sequence="15"/>        
+        
+        <record id="ecotaxe_classification_tree" model="ir.ui.view">
+            <field name="model">account.ecotaxe.classification</field>
+            <field name="arch" type="xml">
+                <tree colors="gray:active == False;">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="sale_ecotaxe_id"/>
+                    <field name="purchase_ecotaxe_id"/>
+                    <field name="ecotaxe_type"/>
+                    <field name="ecotaxe_coef"
+                        attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
+                    <field name="fixed_ecotaxe"
+                           attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
+                </tree>
+            </field>
+        </record>
 
-<record id="invoice_supplier_form" model="ir.ui.view">
-    <field name="name">l10n_fr_ecotaxe.supplier.invoice.form</field>
-    <field name="model">account.invoice</field>
-    <field name="inherit_id" ref="account.invoice_supplier_form"/>
-    <field name="arch" type="xml">
-        <xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="after">
-            <field name="amount_ecotaxe"/>
-        </xpath>
-        <field name="amount_untaxed" position="attributes">
-            <attribute name="invisible">True</attribute>
-        </field>
-        <field name="amount_tax" position="attributes">
-            <attribute name="invisible">True</attribute>
-        </field>
-        <field name="amount_untaxed" position="after">
-            <field name="amount_untaxed_with_ecotaxe"/>
-            <field name="amount_ecotaxe"/>
-            <field name="amount_tax_without_ecotaxe"/>
-        </field>          
-    </field>
-</record>
+        <record id="ecotaxe_classification_form" model="ir.ui.view">
+            <field name="model">account.ecotaxe.classification</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title oe_left">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="code"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <separator string="Ecotaxes settings"/>
+                        <group col="4">
+                            <field name="ecotaxe_type"/>
+                            <field name="ecotaxe_coef"
+                                attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
+                            <field name="fixed_ecotaxe"
+                                attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
+                         </group>
+                        <separator string="Ecotaxes"/>
+                        <group col="4">
+                            <field name="sale_ecotaxe_id" quick_create="false"/>
+                            <field name="purchase_ecotaxe_id" quick_create="false"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        
+        <!-- INVOICE -->
+        <record id="invoice_form" model="ir.ui.view">
+            <field name="name">l10n_fr_ecotaxe.customer.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="after">
+                    <field name="amount_ecotaxe"/>
+                </xpath>
+                <field name="amount_untaxed" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <field name="amount_tax" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>        
+                <field name="amount_untaxed" position="after">
+                    <field name="amount_untaxed_with_ecotaxe"/>
+                    <field name="amount_ecotaxe"/>
+                    <field name="amount_tax_without_ecotaxe"/>
+                </field>          
+                
+            </field>
+        </record>
+        
+        <record id="invoice_supplier_form" model="ir.ui.view">
+            <field name="name">l10n_fr_ecotaxe.supplier.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="after">
+                    <field name="amount_ecotaxe"/>
+                </xpath>
+                <field name="amount_untaxed" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <field name="amount_tax" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <field name="amount_untaxed" position="after">
+                    <field name="amount_untaxed_with_ecotaxe"/>
+                    <field name="amount_ecotaxe"/>
+                    <field name="amount_tax_without_ecotaxe"/>
+                </field>          
+            </field>
+        </record>
 
-
-
-
-</data>
+    </data>
 </openerp>

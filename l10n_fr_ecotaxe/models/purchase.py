@@ -20,7 +20,7 @@
 ##############################################################################
 __author__ = 'mourad.elhadj.mimoune'
 
-from openerp import models, fields, api, _
+from openerp import api, fields, models, _
 
 
 class PurchaseOrderLine(models.Model):

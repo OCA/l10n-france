@@ -15,16 +15,15 @@
             <field name="inherit_id" ref="product.product_normal_form_view" />
             <field name="arch" type="xml">
                 <field name="categ_id" position="after"  >
-                    <field name="ecotaxe_type"/>
-                    <field name="ecotaxe_coef"
-                           attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
-                    <field name="computed_ecotaxe"
-                           attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
-                    <field name="fixed_ecotaxe"
-                           attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
+                    <field name="ecotaxe_classification_id"/>
+                    <field name="computed_ecotaxe"/>
                 </field>
             </field>
         </record>
+	
+		
+		
+<!--		
         <record id="ecotaxe_category_property_form" model="ir.ui.view">
             <field name="name">ecotaxe.product.categ.form</field>
             <field name="model">product.category</field>
@@ -38,7 +37,7 @@
                            attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
                 </group>
             </field>
-        </record>
+        </record>-->
 
     </data>
 </openerp>
