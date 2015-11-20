@@ -22,16 +22,16 @@
 
 __author__ = 'mourad.elhadj.mimoune'
 
-from openerp import api, models, fields
+from openerp import api, fields, models
 
 
 class AccountTax(models.Model):
     _inherit = 'account.tax'
 
     is_ecotaxe = fields.Boolean('Ecotaxe',
-                                help="Warning : To inculde Ecotaxe "
+                                help="Warning : To include Ecotaxe "
                                 "in the VAT tax check this :\n"
-                                "1: cochez  \"ncluded in base amount \"\n"
+                                "1: check  \"included in base amount \"\n"
                                 "2: The Ecotaxe sequence must be less then "
                                 "VAT tax (in sale and purchase)")
 
@@ -45,6 +45,60 @@ class AccountTax(models.Model):
 # price_unit
 # product: product.product object or None
 # partner: res.partner object or None
-result = product.fixed_ecotaxe or product.computed_ecotaxe or 0.0
+result = product.computed_ecotaxe or 0.0
             """
             self.python_compute_inv = self.python_compute
+
+
+class AccountEcotaxeClassification(models.Model):
+    _name = 'account.ecotaxe.classification'
+
+    # Default Section
+    def _default_company_id(self):
+        return self.env['res.users']._get_company()
+
+    name = fields.Char('Name')
+    code = fields.Char('Code')
+    ecotaxe_type = fields.Selection(
+        [
+            ('fixed', u'Fixed'),
+            ('weight_based', 'Weight based'),
+        ],
+        string='Ecotaxe Type',
+        help="If ecotaxe is weight based,"
+        "the ecotaxe coef must take into account\n"
+        "the weight unit of measure (kg by default)"
+        )
+    ecotaxe_coef = fields.Float('Ecotaxe Coef')
+    fixed_ecotaxe = fields.Float(
+        'Fixed Ecotaxe',
+        help="fixed ecotaxe amount.\n"
+        )
+    sale_ecotaxe_id = fields.Many2one(
+        'account.tax',
+        string="Sale EcoTaxe",
+        domain=[
+            ('is_ecotaxe', '=', True),
+            ('parent_id', '=', False),
+            ('type_tax_use', 'in', ['sale', 'all'])])
+    purchase_ecotaxe_id = fields.Many2many(
+        'account.tax',
+        string="Purchase EcoTaxe",
+        domain=[
+            ('is_ecotaxe', '=', True),
+            ('parent_id', '=', False),
+            ('type_tax_use', 'in', ['purchase', 'all'])])
+    active = fields.Boolean()
+    company_id = fields.Many2one(
+        comodel_name='res.company', default=_default_company_id,
+        string='Company', help="Specify a company"
+        " if you want to define this Ecotaxe Classification only for specific"
+        " company. Otherwise, this Fiscal Classification will be available"
+        " for all companies.")
+
+    @api.onchange('ecotaxe_type')
+    def onchange_ecotaxe_type(self):
+        if self.ecotaxe_type == 'weight_based':
+            self.fixed_ecotaxe = 0
+        if self.ecotaxe_type == 'fixed':
+            self.ecotaxe_coef = 0
