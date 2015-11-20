@@ -13,6 +13,7 @@
     <field name="name">l10n_fr_ecotaxe.account.tax.form</field>
     <field name="model">account.tax</field>
     <field name="inherit_id" ref="account.view_tax_form"/>
+    <field name="priority">300</field>
     <field name="arch" type="xml">
         <field name="description" position="after">
             <field name="is_ecotaxe"/>
