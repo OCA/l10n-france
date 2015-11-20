@@ -1,0 +1,25 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Account Product - France Ecotaxe localisation module for Odoo
+#   Copyright (C) 2015 Akretion (http://www.akretion.com).
+#   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
+#   You should have received a copy of the GNU Affero General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+###############################################################################
+
+-  !record {model: ir.model.access, id: ir_model_access_account_ecotaxe_classification_reader}:
+    group_id: base.group_user
+    model_id: model_account_ecotaxe_classification
+    name: Fiscal Classification Reader
+    perm_read: true
+
+- !record {model: ir.model.access, id: ir_model_access_account_ecotaxe_classification_manager}:
+    group_id: account.group_account_manager
+    model_id: model_account_ecotaxe_classification
+    name: Fiscal Classification Manager
+    perm_create: true
+    perm_write: true
+    perm_read: true
+    perm_unlink: true
