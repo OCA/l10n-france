@@ -20,7 +20,7 @@
 ##############################################################################
 __author__ = 'mourad.elhadj.mimoune'
 
-from openerp import api, models, fields
+from openerp import api, fields, models
 
 
 class AcountInvoiceLine(models.Model):

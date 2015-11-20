@@ -20,7 +20,7 @@
 ##############################################################################
 __author__ = 'mourad.elhadj.mimoune'
 
-from openerp import models, fields, api
+from openerp import api, fields, models
 from collections import defaultdict
 from openerp.osv import expression
 
@@ -28,42 +28,56 @@ from openerp.osv import expression
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    ecotaxe_type = fields.Selection(
-        [
-            ('fixed', u'Fixed'),
-            ('weight_based', 'Weight based'),
-        ],
-        string='Ecotaxe Type',
-        help="If ecotaxe is weight based,"
-        "the ecotaxe coef must take into account\n"
-        "the weight unit of measure (kg by default)"
-        )
-    ecotaxe_coef = fields.Float('Ecotaxe Coef')
-    fixed_ecotaxe = fields.Float('Fixed Ecotaxe',)
-    computed_ecotaxe = fields.Float('Computed Ecotaxe',
-                                    compute='_compute_ecotaxe')
+    # ecotaxe_type = fields.Selection(
+    #     [
+    #         ('fixed', u'Fixed'),
+    #         ('weight_based', 'Weight based'),
+    #     ],
+    #     string='Ecotaxe Type',
+    #     help="If ecotaxe is weight based,"
+    #     "the ecotaxe coef must take into account\n"
+    #     "the weight unit of measure (kg by default)"
+    #     )
+    # ecotaxe_coef = fields.Float('Ecotaxe Coef')
+    # fixed_ecotaxe = fields.Float('Fixed Ecotaxe',)
+    ecotaxe_classification_id = fields.Many2one(
+        'account.ecotaxe.classification',
+        string="Ecotaxe Classification",)
+    computed_ecotaxe = fields.Float('Ecotaxe value',
+                                    compute='_compute_ecotaxe',
+                                    help="Ecotaxe value :\h"
+                                    "1 Fixed ecotaxe of the "
+                                    "Ecotaxe Classification\n"
+                                    "2 product weight * ecotaxe coef * "
+                                    "Ecotaxe Classification\n")
 
-    @api.depends('ecotaxe_type', 'ecotaxe_coef', 'weight')
+    @api.depends('ecotaxe_classification_id',
+                 'ecotaxe_classification_id.ecotaxe_type',
+                 'ecotaxe_classification_id.ecotaxe_coef',
+                 'ecotaxe_classification_id.fixed_ecotaxe', 'weight')
     def _compute_ecotaxe(self):
         for prod in self:
-            if prod.ecotaxe_type == 'weight_based':
-                weight = prod.weight or 0
-                prod.computed_ecotaxe = prod.ecotaxe_coef * weight
+            ecotaxe_classif_id = prod.ecotaxe_classification_id
+            if ecotaxe_classif_id:
+                if ecotaxe_classif_id.ecotaxe_type ==\
+                        'weight_based':
+                    weight = prod.weight or 0.0
+                    prod.computed_ecotaxe =\
+                        ecotaxe_classif_id.ecotaxe_coef * weight
+                else:
+                    prod.computed_ecotaxe = ecotaxe_classif_id.fixed_ecotaxe
+            else:
+                prod.computed_ecotaxe = 0.0
 
-    @api.onchange('ecotaxe_type')
-    def onchange_ecotaxe_type(self):
-        if self.ecotaxe_type == 'weight_based':
-            self.fixed_ecotaxe = 0
-        if self.ecotaxe_type == 'fixed':
-            self.ecotaxe_coef = 0
-
-    @api.onchange('categ_id')
-    def onchange_categ_id(self):
-        if self.categ_id:
-            self.ecotaxe_type = self.categ_id.ecotaxe_type
-            self.ecotaxe_coef = self.categ_id.ecotaxe_coef
-            if self.categ_id.default_fixed_ecotaxe != 0:
-                self.fixed_ecotaxe = self.categ_id.default_fixed_ecotaxe
+    @api.onchange('ecotaxe_classification_id')
+    def onchange_ecotaxe_classification_id(self):
+        if self.ecotaxe_classification_id:
+            sale_taxes = self.taxes_id.ids |\
+                self.ecotaxe_classification_id.sale_ecotaxe_id.ids
+            purchase_taxes = self.supplier_taxes_id.ids |\
+                self.ecotaxe_classification_id.purchase_ecotaxe_id.ids
+            self.taxes_id = [(6, 0, sale_taxes)]
+            self.supplier_taxes_id = [(6, 0, purchase_taxes)]
 
 
 class ProductCategory(models.Model):
