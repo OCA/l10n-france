@@ -61,12 +61,12 @@ Adding ecotaxe on product category aims to facilitate ecotaxe setting.
         'purchase'
         ],
     'data': [
-        # 'security/ir_rule.xml',
-        # 'security/ir_model_access.yml',
-        # 'views/product_view.xml',
-        # 'views/sale_view.xml',
-        # 'views/purchase_view.xml',
-        # 'views/account_view.xml',
+        'security/ir_rule.xml',
+        'security/ir_model_access.yml',
+        'views/product_view.xml',
+        'views/sale_view.xml',
+        'views/purchase_view.xml',
+        'views/account_view.xml',
 
     ],
     'test': [],

@@ -81,14 +81,15 @@ class AccountEcotaxeClassification(models.Model):
             ('is_ecotaxe', '=', True),
             ('parent_id', '=', False),
             ('type_tax_use', 'in', ['sale', 'all'])])
-    purchase_ecotaxe_id = fields.Many2many(
+    purchase_ecotaxe_id = fields.Many2one(
         'account.tax',
         string="Purchase EcoTaxe",
         domain=[
             ('is_ecotaxe', '=', True),
             ('parent_id', '=', False),
             ('type_tax_use', 'in', ['purchase', 'all'])])
-    active = fields.Boolean()
+    active = fields.Boolean(default=True,)
+
     company_id = fields.Many2one(
         comodel_name='res.company', default=_default_company_id,
         string='Company', help="Specify a company"

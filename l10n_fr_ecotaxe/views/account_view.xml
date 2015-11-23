@@ -9,7 +9,7 @@
     <data>
 
         <!-- Tax -->
-        <record id="account.tax_form" model="ir.ui.view">
+        <record id="tax_form" model="ir.ui.view">
             <field name="name">l10n_fr_ecotaxe.account.tax.form</field>
             <field name="model">account.tax</field>
             <field name="inherit_id" ref="account.view_tax_form"/>
@@ -24,19 +24,7 @@
         
         <!-- Define: account.ecotaxe.classification -->
         
-        <record id="action_ecotaxe_classification" model="ir.actions.act_window">
-            <field name="name">Ecotaxe Classification</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.ecotaxe.classification</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        
-        <menuitem id="menu_ecotaxe_classification"
-            name="Ecotaxe Classification"
-            parent="account.next_id_27"
-            action="action_ecotaxe_classification"
-            sequence="15"/>        
+         
         
         <record id="ecotaxe_classification_tree" model="ir.ui.view">
             <field name="model">account.ecotaxe.classification</field>
@@ -44,13 +32,14 @@
                 <tree colors="gray:active == False;">
                     <field name="code"/>
                     <field name="name"/>
-                    <field name="sale_ecotaxe_id"/>
-                    <field name="purchase_ecotaxe_id"/>
                     <field name="ecotaxe_type"/>
                     <field name="ecotaxe_coef"
                         attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
                     <field name="fixed_ecotaxe"
                            attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
+                    <field name="sale_ecotaxe_id"/>
+                    <field name="purchase_ecotaxe_id"/>
+                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -91,7 +80,36 @@
             </field>
         </record>
         
-        
+        <record id="view_account_fiscalyear_search" model="ir.ui.view">   
+            <field name="model">account.ecotaxe.classification</field>
+            <field name="arch" type="xml">
+                <search string="Search Ecotaxe Classification">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Classification"/>
+                    <filter string="Fixed" domain="[('ecotaxe_type','=','fixed')]" icon="terp-camera_test"/>
+                    <filter string="Weight based" domain="[('ecotaxe_type','=','weight_based')]" icon="terp-dialog-close"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Type" context="{'group_by': 'ecotaxe_type'}" icon="terp-stock_effects-object-colorize"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_ecotaxe_classification" model="ir.actions.act_window">
+            <field name="name">Ecotaxe Classification</field>
+            <field name="res_model">account.ecotaxe.classification</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new Ecotaxe Classification.
+              </p>
+            </field>
+        </record>
+                
+        <menuitem id="menu_ecotaxe_classification"
+            parent="account.next_id_27"
+            action="action_ecotaxe_classification"
+            sequence="15"/> 
+
         
         <!-- INVOICE -->
         <record id="invoice_form" model="ir.ui.view">
