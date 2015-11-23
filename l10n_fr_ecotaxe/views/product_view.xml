@@ -9,7 +9,7 @@
 <openerp>
     <data>
 
-        <record id="product_product_form_code_add" model="ir.ui.view">
+        <record id="product_product_form_ecotaxe_classification_add" model="ir.ui.view">
             <field name="name">product.product.form.websitecodes</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view" />
