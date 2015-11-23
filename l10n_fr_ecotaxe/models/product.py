@@ -28,18 +28,6 @@ from openerp.osv import expression
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    # ecotaxe_type = fields.Selection(
-    #     [
-    #         ('fixed', u'Fixed'),
-    #         ('weight_based', 'Weight based'),
-    #     ],
-    #     string='Ecotaxe Type',
-    #     help="If ecotaxe is weight based,"
-    #     "the ecotaxe coef must take into account\n"
-    #     "the weight unit of measure (kg by default)"
-    #     )
-    # ecotaxe_coef = fields.Float('Ecotaxe Coef')
-    # fixed_ecotaxe = fields.Float('Fixed Ecotaxe',)
     ecotaxe_classification_id = fields.Many2one(
         'account.ecotaxe.classification',
         string="Ecotaxe Classification",)
