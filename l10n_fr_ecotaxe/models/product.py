@@ -72,9 +72,11 @@ class ProductProduct(models.Model):
     @api.onchange('ecotaxe_classification_id')
     def onchange_ecotaxe_classification_id(self):
         if self.ecotaxe_classification_id:
-            sale_taxes = self.taxes_id.ids |\
+            sale_taxes = self.taxes_id.ids or []
+            sale_taxes +=\
                 self.ecotaxe_classification_id.sale_ecotaxe_id.ids
-            purchase_taxes = self.supplier_taxes_id.ids |\
+            purchase_taxes = self.supplier_taxes_id.ids or []
+            purchase_taxes +=\
                 self.ecotaxe_classification_id.purchase_ecotaxe_id.ids
             self.taxes_id = [(6, 0, sale_taxes)]
             self.supplier_taxes_id = [(6, 0, purchase_taxes)]
