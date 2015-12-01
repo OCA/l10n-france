@@ -33,7 +33,7 @@ class AcountInvoiceLine(models.Model):
     @api.multi
     @api.depends('invoice_line_tax_id', 'product_id', 'quantity')
     def _compute_ecotaxe(self):
-        for line in line:
+        for line in self:
             ecotaxe_id = [tax.id for tax in line.invoice_line_tax_id
                           if tax.is_ecotaxe]
             ecotaxe_id = self.env['account.tax'].browse(ecotaxe_id)
