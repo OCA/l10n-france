@@ -28,44 +28,55 @@ from openerp.osv import expression
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    ecotaxe_classification_id = fields.Many2one(
-        'account.ecotaxe.classification',
-        string="Ecotaxe Classification",)
-    computed_ecotaxe = fields.Float('Ecotaxe value',
+    ecotaxe_classification_ids = fields.Many2many(
+        'account.ecotaxe.classification', 'product_product_rel_ecotaxe_classif',
+        string='Ecotaxe Classification',)
+    fixed_ecotaxe = fields.Float('Fixed Ecotaxe',
                                     compute='_compute_ecotaxe',
                                     help="Ecotaxe value :\h"
                                     "1 Fixed ecotaxe of the "
                                     "Ecotaxe Classification\n"
                                     "2 product weight * ecotaxe coef * "
                                     "Ecotaxe Classification\n")
+    computed_ecotaxe = fields.Float('Coputed Ecotaxe',
+                                    compute='_compute_ecotaxe',
+                                    help="Ecotaxe value :\h"
+                                    "1 Fixed ecotaxe of the "
+                                    "Ecotaxe Classification\n"
+                                    "2 product weight * ecotaxe coef * "
+                                    "Ecotaxe Classification\n")    
 
-    @api.depends('ecotaxe_classification_id',
-                 'ecotaxe_classification_id.ecotaxe_type',
-                 'ecotaxe_classification_id.ecotaxe_coef',
-                 'ecotaxe_classification_id.fixed_ecotaxe', 'weight')
+    @api.depends('ecotaxe_classification_ids',
+                 'ecotaxe_classification_ids.ecotaxe_type',
+                 'ecotaxe_classification_ids.ecotaxe_coef',
+                 'ecotaxe_classification_ids.fixed_ecotaxe', 'weight')
     def _compute_ecotaxe(self):
         for prod in self:
-            ecotaxe_classif_id = prod.ecotaxe_classification_id
-            if ecotaxe_classif_id:
+            prod.computed_ecotaxe = 0.0
+            prod.fixed_ecotaxe = 0.0
+            for ecotaxe_classif_id in prod.ecotaxe_classification_ids :    
                 if ecotaxe_classif_id.ecotaxe_type ==\
                         'weight_based':
-                    weight = prod.weight or 0.0
-                    prod.computed_ecotaxe =\
+                    weight = prod.weight_net or 0.0
+                    prod.computed_ecotaxe +=\
                         ecotaxe_classif_id.ecotaxe_coef * weight
                 else:
-                    prod.computed_ecotaxe = ecotaxe_classif_id.fixed_ecotaxe
-            else:
-                prod.computed_ecotaxe = 0.0
+                    prod.fixed_ecotaxe += ecotaxe_classif_id.fixed_ecotaxe
 
-    @api.onchange('ecotaxe_classification_id')
-    def onchange_ecotaxe_classification_id(self):
-        if self.ecotaxe_classification_id:
+
+                
+    @api.onchange('ecotaxe_classification_ids')
+    def onchange_ecotaxe_classification_ids(self):
+        if self.ecotaxe_classification_ids:
             sale_taxes = self.taxes_id.ids or []
-            sale_taxes +=\
-                self.ecotaxe_classification_id.sale_ecotaxe_id.ids
             purchase_taxes = self.supplier_taxes_id.ids or []
-            purchase_taxes +=\
-                self.ecotaxe_classification_id.purchase_ecotaxe_id.ids
+            for ecotaxe_classif_id in self.ecotaxe_classification_ids:
+                
+                sale_taxes +=\
+                    ecotaxe_classif_id.sale_ecotaxe_id.ids
+                
+                purchase_taxes +=\
+                    ecotaxe_classif_id.purchase_ecotaxe_id.ids
             self.taxes_id = [(6, 0, sale_taxes)]
             self.supplier_taxes_id = [(6, 0, purchase_taxes)]
 
