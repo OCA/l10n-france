@@ -131,7 +131,9 @@
                     <field name="amount_ecotaxe"/>
                     <field name="amount_tax_without_ecotaxe"/>
                 </field>          
-                
+                <xpath expr="//field[@name='tax_line']/tree/field[@name='base']" position="after">
+                    <field name="generic_base"/>
+                </xpath>
             </field>
         </record>
         
