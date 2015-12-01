@@ -15,8 +15,9 @@
             <field name="inherit_id" ref="product.product_normal_form_view" />
             <field name="arch" type="xml">
                 <field name="categ_id" position="after"  >
-                    <field name="ecotaxe_classification_id"/>
-                    <field name="computed_ecotaxe"/>
+                    <field name="ecotaxe_classification_ids" widget="many2many_tags"/>
+                    <field name="fixed_ecotaxe"/>
+					<field name="computed_ecotaxe"/>
                 </field>
             </field>
         </record>
