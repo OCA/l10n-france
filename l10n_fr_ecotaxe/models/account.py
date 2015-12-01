@@ -103,3 +103,43 @@ class AccountEcotaxeClassification(models.Model):
             self.fixed_ecotaxe = 0
         if self.ecotaxe_type == 'fixed':
             self.ecotaxe_coef = 0
+
+
+class account_invoice_tax(models.Model):
+    _inherit = "account.invoice.tax"
+
+    @api.depends('tax_code_id', 'base_code_id', 'account_id', 'invoice_id')
+    def _compute_generic_base(self):
+        for tax_line in self:
+            generic_base = 0.0
+            for line in tax_line.invoice_id.invoice_line:
+                ecotaxe_ids = [tax.id for tax in line.invoice_line_tax_id
+                          if tax.is_ecotaxe]
+                for ecotaxe_id in self.env['account.tax'].browse(ecotaxe_ids):
+                    tax_acc_id = ecotaxe_id.account_paid_id
+                    if tax_line.invoice_id.type in ('out_invoice','in_invoice'):
+                        tax_acc_id = ecotaxe_id.account_collected_id
+                    if ecotaxe_id.tax_code_id == tax_line.tax_code_id and \
+                            ecotaxe_id.base_code_id == tax_line.base_code_id  and \
+                            (not tax_acc_id or tax_acc_id == tax_line.account_id):
+
+                        if line.product_id and \
+                                line.product_id.ecotaxe_classification_ids and \
+                                line.product_id.ecotaxe_classification_ids.ecotaxe_type == \
+                                'fixed':
+                            generic_base += line.quantity
+                        elif line.product_id and \
+                                line.product_id.ecotaxe_classification_ids and \
+                                line.product_id.ecotaxe_classification_ids.ecotaxe_type == \
+                                'weight_based':
+                             generic_base += line.product_id.weight_net * line.quantity
+
+            tax_line.generic_base = generic_base
+            
+    generic_base = fields.Float(string='Generic base',
+        compute='_compute_generic_base',
+        help="Generic base is used to get different base "
+        "depending on ecotaxe type. For fixed taxe generic base "
+        "is the qty sum of all product liable to this taxe. "
+        "For wight base ecotaxe the geneic base is the weight sum of "
+        "all product liable to this taxe", store=True)
