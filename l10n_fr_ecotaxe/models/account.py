@@ -122,19 +122,20 @@ class account_invoice_tax(models.Model):
                     if ecotaxe_id.tax_code_id == tax_line.tax_code_id and \
                             ecotaxe_id.base_code_id == tax_line.base_code_id  and \
                             (not tax_acc_id or tax_acc_id == tax_line.account_id):
+                        if line.product_id:
+                            for ecotaxe_classif_id in line.product_id.ecotaxe_classification_ids : 
+                                related_tax_id = ecotaxe_classif_id.purchase_ecotaxe_id
+                                if tax_line.invoice_id.type in ('out_invoice','in_invoice'):
+                                    related_tax_id = ecotaxe_classif_id.sale_ecotaxe_id                                
 
-                        if line.product_id and \
-                                line.product_id.ecotaxe_classification_ids and \
-                                line.product_id.ecotaxe_classification_ids.ecotaxe_type == \
-                                'fixed':
-                            generic_base += line.quantity
-                        elif line.product_id and \
-                                line.product_id.ecotaxe_classification_ids and \
-                                line.product_id.ecotaxe_classification_ids.ecotaxe_type == \
-                                'weight_based':
-                             generic_base += line.product_id.weight_net * line.quantity
+                                if ecotaxe_classif_id.ecotaxe_type == 'fixed' and \
+                                        ecotaxe_id == related_tax_id:
+                                    generic_base += line.quantity
+                                elif ecotaxe_classif_id.ecotaxe_type == 'weight_based' and \
+                                        ecotaxe_id == related_tax_id:
+                                     generic_base += line.product_id.weight_net * line.quantity
 
-            tax_line.generic_base = generic_base
+            tax_line.generic_base = generic_base or tax_line.base
             
     generic_base = fields.Float(string='Generic base',
         compute='_compute_generic_base',
