@@ -17,6 +17,9 @@
         <group name="intrastat-common" position="inside">
             <field name="fr_intrastat_accreditation" />
         </group>
+        <field name="intrastat_accessory_costs" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
     </field>
 </record>
 
