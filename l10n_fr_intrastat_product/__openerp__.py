@@ -44,6 +44,7 @@
         'company_view.xml',
         'partner_view.xml',
         'product_view.xml',
+        'tax_view.xml',
         # 'stock_view.xml',
         # 'invoice_view.xml',
     ],
