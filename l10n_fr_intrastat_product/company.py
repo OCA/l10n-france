@@ -20,7 +20,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import ValidationError
 
 
 class ResCompany(models.Model):
@@ -35,23 +36,9 @@ class ResCompany(models.Model):
         help="Company identifier for Intrastat file export. "
         "Size : 4 characters.")
 
-#    @api.onchange('import_obligation_level', 'export_obligation_level')
-#    def obligation_level_on_change(self):
-#        result = {'warning': {}}
-#        if (self.export_obligation_level == 'detailed'
-#                or self.import_obligation_level == 'detailed'):
-#            result['warning']['title'] = _('Access Rights')
-#            result['warning']['message'] = _(
-#                "You should add users to the 'Detailed Intrastat Product' "
-#                "group.")
-#            result['warning']['message'] += '\n'
-#            detailed_xmlid = 'l10n_fr_intrastat_product.'\
-#                'group_detailed_intrastat_product'
-#            if self.env['res.users'].has_group(detailed_xmlid):
-#                result['warning']['message'] += _(
-#                    "You are already in that group, but you may have to "
-#                    "add other users to that group.")
-#            else:
-#                result['warning']['message'] += _(
-#                    "You are not currently in that group.")
-#        return result
+    @api.constrains('intrastat_arrivals', 'country_id')
+    def check_fr_intrastat(self):
+        if self.country_id and self.country_id.code == 'FR':
+            if self.intrastat_arrivals == 'standard':
+                raise ValidationError(_(
+                    'In France, Arrival DEB can only be Exempt or Extended.'))
