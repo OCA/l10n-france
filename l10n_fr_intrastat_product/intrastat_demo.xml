@@ -11,14 +11,11 @@
 
 <record id="base.main_company" model="res.company">
     <field name="fr_intrastat_accreditation">A12B</field>
-<!--    <field name="export_obligation_level">detailed</field>
-    <field name="import_obligation_level">detailed</field>
-    <field name="default_intrastat_department">94</field>
-    <field name="default_intrastat_transport" eval="int(3)" />
-    <field name="default_intrastat_type_out_invoice" ref="customer_sale"/>
-    <field name="default_intrastat_type_in_invoice" ref="supplier_purchase"/>
-    <field name="default_intrastat_type_out_refund" ref="customer_refund"/> -->
+    <field name="intrastat_transaction_out_invoice" ref="intrastat_transaction_21_11"/>
+    <field name="intrastat_transaction_out_refund" ref="intrastat_transaction_25"/>
+    <field name="intrastat_transaction_in_invoice" ref="intrastat_transaction_11_11"/>
     <field name="country_id" ref="base.fr"/>
+    <field name="intrastat_accessory_costs">1</field>
 </record>
 
 <record id="base.main_partner" model="res.partner">
@@ -26,8 +23,8 @@
     <field name="nic">00013</field>
 </record>
 
-<record id="product.product_uom_unit" model="product.uom">
-    <field name="fr_intrastat_label">PCE</field>
+<record id="intrastat_product.intrastat_unit_pce" model="intrastat.unit">
+    <field name="fr_xml_label">PCE</field>
 </record>
 
 <!-- Elec import is the fiscal rep of Asustek -->
