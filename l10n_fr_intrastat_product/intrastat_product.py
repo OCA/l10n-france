@@ -207,16 +207,17 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 # local_code is required=True, so no need to check it
                 cn8_code.text = pline.hs_code_id.local_code
                 # We fill SUCode only if the H.S. code requires it
-                # TODO
                 if pline.intrastat_unit_id:
                     su_code = etree.SubElement(cn8, 'SUCode')
                     if not pline.intrastat_unit_id.fr_xml_label:
-                        raise UserError(
-                            _('Missing Intrastat UoM on line %d.') % line)
+                        raise UserError(_(
+                            "Missing Label for DEB on Intrastat Unit "
+                            "of Measure '%s'.")
+                            % pline.intrastat_unit_id.name)
                     su_code.text = pline.intrastat_unit_id.fr_xml_label
                     destination_country = etree.SubElement(
                         item, 'MSConsDestCode')
-                    if self.type == 'import':
+                    if self.type == 'arrivals':
                         country_origin = etree.SubElement(
                             item, 'countryOfOriginCode')
                     weight = etree.SubElement(item, 'netMass')
@@ -225,9 +226,8 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     if not pline.suppl_unit_qty:
                         raise UserError(
                             _('Missing quantity on line %d.') % line)
-                    print "pline.suppl_unit_qty=", pline.suppl_unit_qty
                     quantity_in_SU.text = unicode(pline.suppl_unit_qty)
-                else:  # ???? TODO
+                else:
                     destination_country = etree.SubElement(
                         item, 'MSConsDestCode')
                     if self.type == 'arrivals':
@@ -240,11 +240,11 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                         % line)
                 destination_country.text = pline.src_dest_country_id.code
                 if self.type == 'arrivals':
-                    if not pline.origin_country_id:  # TODO
+                    if not pline.product_origin_country_id:
                         raise UserError(_(
                             'Missing product country of origin on line %d.')
                             % line)
-                    country_origin.text = pline.product_country_origin_code
+                    country_origin.text = pline.product_origin_country_id.code
                 if not pline.weight:
                     raise UserError(
                         _('Missing weight on line %d.') % line)
