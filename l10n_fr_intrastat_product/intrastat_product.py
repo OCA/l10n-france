@@ -30,6 +30,28 @@ from lxml import etree
 logger = logging.getLogger(__name__)
 
 
+class IntrastatProductDeclaration(models.Model):
+    _inherit = 'intrastat.product.declaration'
+
+    # I wanted to inherit this field in l10n.fr.intrastat.product.declaration
+    # but it doesn't work
+    total_amount = fields.Float(compute='_fr_compute_numbers')
+    # Inherit also num_decl_lines to avoid double loop
+    num_decl_lines = fields.Integer(compute='_fr_compute_numbers')
+
+    @api.one
+    @api.depends('declaration_line_ids.amount_company_currency')
+    def _fr_compute_numbers(self):
+        total_amount = 0.0
+        num_lines = 0
+        for line in self.declaration_line_ids:
+            total_amount += line.amount_company_currency *\
+                line.transaction_id.fr_fiscal_value_multiplier
+            num_lines += 1
+        self.num_decl_lines = num_lines
+        self.total_amount = total_amount
+
+
 class L10nFrIntrastatProductDeclaration(models.Model):
     _name = "l10n.fr.intrastat.product.declaration"
     _description = "Intrastat Product for France (DEB)"
@@ -43,6 +65,19 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         'l10n.fr.intrastat.product.declaration.line',
         'parent_id', string='Intrastat Product Declaration Lines',
         states={'done': [('readonly', True)]})
+
+    def _prepare_invoice_domain(self):
+        domain = super(L10nFrIntrastatProductDeclaration, self).\
+            _prepare_invoice_domain()
+        if self.type == 'arrivals':
+            newdomain = []
+            for entry in domain:
+                if entry[0] == 'type' and 'in_invoice' in entry[2]:
+                    newdomain.append(('type', '=', 'in_invoice'))
+                else:
+                    newdomain.append(entry)
+            return newdomain
+        return domain
 
     @api.model
     def _get_fr_department(self, inv_line):
@@ -81,10 +116,20 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         super(L10nFrIntrastatProductDeclaration, self).\
             _update_computation_line_vals(
                 inv_line, line_vals)
-        if inv_line.invoice_id.company_id.country_id.code == 'FR':
+        if not inv_line.invoice_id.partner_id.country_id.intrastat:
+            if not inv_line.invoice_id.partner_id.intrastat_fiscal_representative:
+                note = "\n" + _(
+                    "Missing fiscal representative on partner '%s'"
+                    % inv_line.invoice_id.partner_id.name_get()[0][1])
+                self._note += note
+            else:
+                line_vals['fr_partner_id'] =\
+                    inv_line.invoice_id.partner_id.\
+                        intrastat_fiscal_representative.id
+        else:
             line_vals['fr_partner_id'] = inv_line.invoice_id.partner_id.id
-            dpt = self._get_fr_department(inv_line)
-            line_vals['fr_department_id'] = dpt and dpt.id or False
+        dpt = self._get_fr_department(inv_line)
+        line_vals['fr_department_id'] = dpt and dpt.id or False
 
     @api.model
     def group_line_hashcode(self, computation_line):
