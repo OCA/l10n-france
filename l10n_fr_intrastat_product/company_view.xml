@@ -20,6 +20,9 @@
         <field name="intrastat_accessory_costs" position="attributes">
             <attribute name="invisible">0</attribute>
         </field>
+        <field name="intrastat_transaction_in_refund" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
     </field>
 </record>
 
