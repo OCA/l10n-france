@@ -22,7 +22,7 @@
 
 {
     'name': 'Sale Tax TTC for France',
-    'version': '8.0.0.1.0',
+    'version': '9.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
