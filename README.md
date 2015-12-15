@@ -16,7 +16,7 @@ addon | version | summary
 [l10n_fr_department](l10n_fr_department/) | 9.0.0.1.0 | Populate Database with French Departments (Départements)
 [l10n_fr_siret](l10n_fr_siret/) | 9.0.1.2.0 | French company identity numbers SIRET/SIREN/NIC
 [l10n_fr_state](l10n_fr_state/) | 9.0.0.1.0 | Populate Database with French States (Région)
-[l10n_fr_tax_sale_ttc](l10n_fr_tax_sale_ttc/) | 8.0.0.1.0 | Adds Sale Tax TTC (all rates)
+[l10n_fr_tax_sale_ttc](l10n_fr_tax_sale_ttc/) | 9.0.1.0.0 | Adds Sale Tax TTC (all rates)
 
 Unported addons
 ---------------
