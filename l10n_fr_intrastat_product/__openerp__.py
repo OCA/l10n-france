@@ -23,7 +23,7 @@
 
 {
     'name': 'France Intrastat Product',
-    'version': '2.0',
+    'version': '8.0.2.0.0',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
     'summary': 'Module for Intrastat product reporting (DEB) for France',
