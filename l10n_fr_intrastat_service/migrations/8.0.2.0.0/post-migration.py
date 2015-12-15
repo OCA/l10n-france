@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    l10n FR intrastat service module for Odoo (DES)
-#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com)
+#    L10n_FR intrastat service module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,14 @@
 ##############################################################################
 
 
-{
-    'name': 'France Intrastat Service',
-    'version': '8.0.2.0.0',
-    'category': 'Localisation/Report Intrastat',
-    'license': 'AGPL-3',
-    'summary': 'Module for Intrastat service reporting (DES) for France',
-    'author': 'Akretion,Odoo Community Association (OCA)',
-    'website': 'http://www.akretion.com',
-    'depends': ['intrastat_base'],
-    'data': [
-        'security/ir.model.access.csv',
-        'intrastat_service_view.xml',
-        'intrastat_service_reminder.xml',
-        'security/intrastat_service_security.xml',
-    ],
-    'installable': True,
-    'application': True,
-}
+def migrate(cr, version):
+    if not version:
+        return
+
+    cr.execute(
+        "UPDATE l10n_fr_intrastat_service_declaration "
+        "SET year=to_number(substring(year_month from 1 for 4), '9999') ")
+
+    cr.execute(
+        "UPDATE l10n_fr_intrastat_service_declaration "
+        "SET month=to_number(substring(year_month from 6 for 2), '99') ")
