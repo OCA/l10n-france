@@ -1,35 +1,44 @@
-addons:
-  apt:
-    packages:
-      - expect-dev  # provides unbuffer utility
-      - python-lxml # because pip installation is slow
-      - python-cups
-
 language: python
-
 python:
   - "2.7"
 
+sudo: false
+cache:
+  apt: true
+  directories:
+    - $HOME/.cache/pip
+
+addons:
+  apt:
+    packages:
+      - expect-dev
+      - python-lxml
+      - python-simplejson
+      - python-serial
+      - python-yaml
+
+
 env:
-  - VERSION="7.0" LINT_CHECK="1"
-  - VERSION="7.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - VERSION="7.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  global:
+  - VERSION="7.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  - TRANSIFEX_USER='transbot@odoo-community.org'
+
+  - secure: axBDnKRsoWFK+yYseiC2VZ76aiKjRnT25p4R7wtMs0UXhydbJvac1lWEUWVm8XwiMKNK+sor3csVlm6mfuAqEAtBtC6mprS4oFgFdUSPoA0pPus99GLkOXJw6AD00R1p3O5S6ukQ1JNhMJZvIRhKFm+icd8+VJkn8GGclnuqrp4=
+  matrix:
+  - LINT_CHECK="1"
+  - TRANSIFEX="1"
+  - ODOO_REPO="odoo/odoo" LINT_CHECK="0"
+  - ODOO_REPO="OCA/OCB" LINT_CHECK="0"
 
 virtualenv:
   system_site_packages: true
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
-  - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact -b ${VERSION}
-  - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule -b ${VERSION}
-  - git clone https://github.com/OCA/account-financial-reporting.git ${HOME}/account-financial-reporting -b ${VERSION}
   - bzr branch lp:aeroo ${HOME}/aeroo_reports
-  - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - pip install unicodecsv unidecode
-  - travis_install_nightly
-  - git clone https://github.com/aeroo/aeroolib.git ${HOME}/aeroolib
-  - pushd ${HOME}/aeroolib; sudo python ./setup.py install; popd
+  - pip install git+https://github.com/aeroo/aeroolib.git#egg=aeroolib
   - travis_install_nightly
 
 script:
