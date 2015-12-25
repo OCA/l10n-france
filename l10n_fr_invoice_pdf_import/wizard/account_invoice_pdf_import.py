@@ -28,8 +28,8 @@ class AccountInvoicePdfImport(models.TransientModel):
 
     @api.model
     def _select_partner(self, parsed_inv):
-        if parsed_inv.get('supplier_siren'):
-            siren = parsed_inv['supplier_siren'].replace(' ', '')
+        if parsed_inv.get('siren'):
+            siren = parsed_inv['siren'].replace(' ', '')
             if len(siren) == 9:
                 partners = self.env['res.partner'].search([
                     ('supplier', '=', True),
