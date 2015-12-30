@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    L10n FR Invoice PDF import module for Odoo
+#    L10n FR Invoice Import module for Odoo
 #    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -22,14 +22,14 @@
 
 
 {
-    'name': 'L10n FR Invoice PDF Import',
+    'name': 'L10n FR Invoice Import',
     'version': '8.0.0.1.0',
     'category': 'French Localization',
     'license': 'AGPL-3',
-    'summary': 'Adaptation of the PDF invoice import module for France',
+    'summary': 'Adaptation of the invoice import module for France',
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
-    'depends': ['l10n_fr_siret', 'account_invoice_pdf_import'],
+    'depends': ['l10n_fr_siret', 'account_invoice_import'],
     'installable': True,
     'auto_install': True,
 }

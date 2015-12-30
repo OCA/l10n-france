@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    L10n FR Invoice PDF import module for Odoo
+#    L10n FR Invoice Import module for Odoo
 #    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -23,8 +23,8 @@
 from openerp import models, api
 
 
-class AccountInvoicePdfImport(models.TransientModel):
-    _inherit = 'account.invoice.pdf.import'
+class AccountInvoiceImport(models.TransientModel):
+    _inherit = 'account.invoice.import'
 
     @api.model
     def _select_partner(self, parsed_inv):
@@ -38,4 +38,4 @@ class AccountInvoicePdfImport(models.TransientModel):
                     ])
                 if partners:
                     return partners[0]
-        return super(AccountInvoicePdfImport, self)._select_partner(parsed_inv)
+        return super(AccountInvoiceImport, self)._select_partner(parsed_inv)
