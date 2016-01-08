@@ -80,6 +80,22 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         return domain
 
     @api.model
+    def _get_product_origin_country(self, inv_line):
+        """Inherit to add warning when origin_country_id is missing
+        for arrivals"""
+        if (
+                self.type == 'arrivals' and
+                self.reporting_level == 'extended' and
+                not inv_line.product_id.origin_country_id):
+            note = "\n" + _(
+                "Missing country of origin on product %s. "
+                "This product is present in invoice %s.") % (
+                    inv_line.product_id.name_get()[0][1],
+                    inv_line.invoice_id.number)
+            self._note += note
+        return inv_line.product_id.origin_country_id
+
+    @api.model
     def _get_fr_department(self, inv_line):
         dpt = False
         if inv_line.invoice_id.type in ('in_invoice', 'in_refund'):
