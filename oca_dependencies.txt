@@ -1,0 +1,7 @@
+bank-statement-import
+bank-payment
+partner-contact
+account-fiscal-rule
+community-data-files
+account-financial-reporting
+aeroo_reports https://github.com/aeroo/aeroo_reports master
