@@ -91,7 +91,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 locations = location.search([
                     ('parent_left', '<=', location.parent_left),
                     ('parent_right', '>=', location.parent_right)])
-                warehouses = self.search([
+                warehouses = self.env['stock.warehouse'].search([
                     ('lot_stock_id', 'in', [x.id for x in locations])])
                 if warehouses:
                     if not warehouses[0].partner_id:
