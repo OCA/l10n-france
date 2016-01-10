@@ -132,28 +132,27 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         super(L10nFrIntrastatProductDeclaration, self).\
             _update_computation_line_vals(
                 inv_line, line_vals)
-        if not inv_line.invoice_id.partner_id.country_id.intrastat:
-            if not inv_line.invoice_id.partner_id.intrastat_fiscal_representative:
+        inv = inv_line.invoice_id
+        if not inv.partner_id.country_id.intrastat:
+            if not inv.partner_id.intrastat_fiscal_representative:
                 note = "\n" + _(
                     "Missing fiscal representative on partner '%s'"
-                    % inv_line.invoice_id.partner_id.name_get()[0][1])
+                    % inv.partner_id.name_get()[0][1])
                 self._note += note
             else:
                 line_vals['fr_partner_id'] =\
-                    inv_line.invoice_id.partner_id.\
-                        intrastat_fiscal_representative.id
+                    inv.partner_id.intrastat_fiscal_representative.id
         else:
-            line_vals['fr_partner_id'] = inv_line.invoice_id.partner_id.id
+            line_vals['fr_partner_id'] = inv.partner_id.id
         dpt = self._get_fr_department(inv_line)
         line_vals['fr_department_id'] = dpt and dpt.id or False
 
     @api.model
-    def group_line_hashcode(self, computation_line):
-        hashcode = super(L10nFrIntrastatProductDeclaration, self)\
-            .group_line_hashcode(
-                computation_line)
-        hashcode += '-%s' % computation_line.fr_partner_id.id
-        return hashcode
+    def _group_line_hashcode_fields(self, computation_line):
+        res = super(L10nFrIntrastatProductDeclaration, self)\
+            ._group_line_hashcode_fields(computation_line)
+        res['partner_id'] = computation_line.fr_partner_id.id or False
+        return res
 
     def _get_region(self, inv_line):
         """
