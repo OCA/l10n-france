@@ -4,6 +4,9 @@
 #    account_bank_statement_import_fr_cfonb module for Odoo
 #    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
+
+#    Copyright (C) 2016 Iguana-Yachts
+#    @author Florent de Labarre <florent.mirieu@gmail.com> - add multi-account - use IBAN account (only france)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,6 +24,7 @@
 ##############################################################################
 
 import logging
+import string
 from datetime import datetime
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
@@ -50,6 +54,28 @@ class AccountBankStatementImport(models.TransientModel):
         elif amount_str[-1] in credit_trans:
             amount_num = float(amount_str[:-1] + credit_trans[amount_str[-1]])
         return amount_num
+        
+        
+    def _RIBwithoutkey2IBAN(self,banque, guichet, compte):
+        # http://fr.wikipedia.org/wiki/Clé_RIB#V.C3.A9rifier_un_RIB_avec_une_formule_Excel
+        # calcul clé rib :
+        lettres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        chiffres = "12345678912345678923456789"
+        # subst letters if needed
+        for char in compte:
+            if char in lettres:
+                achar = char.upper()
+                achiffre = chiffres[lettres.find(achar)]
+                compte = compte.replace(char, achiffre)
+        reste = ( 89*int(banque) + 15*int(guichet) + 3*int(compte) ) % 97
+        cle = 97 - reste
+        
+        #conversion rib to IBAN, france seulement:
+        rib = str(banque)+str(guichet)+str(compte)+str(cle)
+        tmp_iban = int("".join(str(int(c,36)) for c in rib+"FR00"))
+        key = 98 - (tmp_iban % 97)
+        return "FR%.2d%s" % (key, rib)
+
 
     @api.model
     def _check_cfonb(self, data_file):
@@ -66,73 +92,68 @@ class AccountBankStatementImport(models.TransientModel):
         if not data_file.splitlines():
             raise Warning(
                 _('The file is empty.'))
-        i = 0
+                
         bank_code = guichet_code = account_number = currency_code = False
         decimals = start_balance = False
         start_balance = end_balance = start_date_str = end_date_str = False
         vals_line = False
+        bank = []
+        data_line = []
+        #Line in list, use to '05' type line 
         for line in data_file.splitlines():
-            i += 1
+            data_line.append(line)
+
+        for i in range(0,len(data_line)):
+            line = data_line[i]
             _logger.debug("Line %d: %s" % (i, line))
             if not line:
                 continue
             if len(line) != 120:
-                raise Warning(
-                    _('Line %d is %d caracters long. All lines of a '
-                        'CFONB bank statement file must be 120 caracters '
-                        'long.')
-                    % (i, len(line)))
+                line = line[0:120]
+                #raise Warning(
+                #    _('Line %d is %d caracters long. All lines of a '
+                #        'CFONB bank statement file must be 120 caracters '
+                #        'long.')
+                #    % (i, len(line)))
             line_bank_code = line[2:7]
             line_guichet_code = line[11:16]
             line_account_number = line[21:32]
             line_currency_code = line[16:19]
             rec_type = line[0:2]
             decimals = int(line[19:20])
+            assert decimals == 2, 'We use 2 decimals in France!'
             date_cfonb_str = line[34:40]
             date_dt = False
             date_str = False
+            line_iban = self._RIBwithoutkey2IBAN(line_bank_code, line_guichet_code, line_account_number)
+            
             if date_cfonb_str != '      ':
                 date_dt = datetime.strptime(date_cfonb_str, '%d%m%y')
                 date_str = fields.Date.to_string(date_dt)
-            assert decimals == 2, 'We use 2 decimals in France!'
 
-            if i == 1:
-                bank_code = line_bank_code
-                guichet_code = line_guichet_code
-                currency_code = line_currency_code
-                account_number = line_account_number
-                if rec_type != '01':
-                    raise Warning(
-                        _("The 2 first letters of the first line are '%s'. "
-                            "A CFONB file should start with '01'")
-                        % rec_type)
+
+            if rec_type == '01':
+                iban = line_iban
                 start_balance = self._parse_cfonb_amount(
                     line[90:104], decimals)
                 start_date_str = date_str
 
-            if (
-                    bank_code != line_bank_code or
-                    guichet_code != line_guichet_code or
-                    currency_code != line_currency_code or
-                    account_number != line_account_number):
-                raise Warning(
-                    _('Only single-account files and single-currency '
-                        'files are supported for the moment. It is not '
-                        'the case starting from line %d.') % i)
-
-            if rec_type in ('04', '01', '07') and vals_line:
-                # I save the previous line
-                # This trick is needed for the 05 lines
-                transactions.append(vals_line)
-                vals_line = False
-            if rec_type == '07':
-                end_date_str = date_str
-                end_balance = self._parse_cfonb_amount(line[90:104], decimals)
-            elif rec_type == '04':
+            if rec_type == '04':
+                if iban != line_iban:
+                    raise Warning(
+                        _('Error CFONB File, account line is differente from the last account line %d.') % i)
+            
                 bank_account_id = partner_id = False
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
                 name = line[48:79].strip()
+                j=1
+                try:
+                    while data_line[i+j][0:2] == '05':
+                        name += ' %s' % data_line[i+j][48:79].strip()
+                        j+=1
+                except:
+                    pass
                 vals_line = {
                     'date': date_str,
                     'name': name,
@@ -143,15 +164,29 @@ class AccountBankStatementImport(models.TransientModel):
                     'partner_id': partner_id,
                     'bank_account_id': bank_account_id,
                 }
-            elif rec_type == '05':
-                assert vals_line, 'vals_line should have a value !'
-                vals_line['name'] += ' %s' % line[48:79].strip()
+                transactions.append(vals_line)
 
-        vals_bank_statement = {
-            'name': _('Account %s  %s > %s') % (
-                account_number, start_date_str, end_date_str),
-            'balance_start': start_balance,
-            'balance_end_real': end_balance,
-            'transactions': transactions,
-            }
-        return currency_code, account_number, [vals_bank_statement]
+            if rec_type == '07':
+                if iban != line_iban:
+                    raise Warning(
+                        _('Error CFONB File, account line is differente from the last account line %d.') % i)
+            
+                end_date_str = date_str
+                end_balance = self._parse_cfonb_amount(line[90:104], decimals)
+                vals_bank_statement = {'currency_code':currency_code,
+                                       'account_number':iban,
+                                       'name': str(line_account_number),
+                                        'date': start_date_str,
+                                        'balance_start': start_balance,
+                                        'balance_end_real': end_balance,
+                                        'transactions': transactions,
+                    }
+                bank.append(vals_bank_statement)
+                #empty
+                transactions = []
+                bank_code = guichet_code = account_number = currency_code = False
+                decimals = start_balance = False
+                start_balance = end_balance = start_date_str = end_date_str = False
+                vals_line = False
+                
+        return bank
