@@ -1,32 +1,40 @@
+language: python
+python:
+  - "2.7"
+
 sudo: false
-cache: pip
+cache:
+  apt: true
+  directories:
+    - $HOME/.cache/pip
 
 addons:
   apt:
     packages:
-      - expect-dev  # provides unbuffer utility
-      - python-lxml # because pip installation is slow
+      - expect-dev
+      - python-lxml
+      - python-simplejson
+      - python-serial
+      - python-yaml
 
-language: python
-
-python:
-  - "2.7"
 
 env:
-  - VERSION="9.0" LINT_CHECK="1"
-  - VERSION="9.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - VERSION="9.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  global:
+  - VERSION="9.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  - TRANSIFEX_USER='transbot@odoo-community.org'
+
+  - secure: axBDnKRsoWFK+yYseiC2VZ76aiKjRnT25p4R7wtMs0UXhydbJvac1lWEUWVm8XwiMKNK+sor3csVlm6mfuAqEAtBtC6mprS4oFgFdUSPoA0pPus99GLkOXJw6AD00R1p3O5S6ukQ1JNhMJZvIRhKFm+icd8+VJkn8GGclnuqrp4=
+  matrix:
+  - LINT_CHECK="1"
+  - TRANSIFEX="1"
+  - ODOO_REPO="odoo/odoo" LINT_CHECK="0"
+  - ODOO_REPO="OCA/OCB" LINT_CHECK="0"
 
 virtualenv:
   system_site_packages: true
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
-  - git clone https://github.com/OCA/bank-statement-import.git ${HOME}/bank-statement-import -b ${VERSION}
-  - git clone https://github.com/OCA/bank-payment.git ${HOME}/bank-payment -b ${VERSION}
-  - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact
-  - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule
-  - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - pip install unicodecsv unidecode ofxparse
@@ -35,4 +43,5 @@ script:
   - travis_run_tests
 
 after_success:
-  coveralls
+  - travis_after_tests_success
+
