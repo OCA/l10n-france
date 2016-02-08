@@ -1,32 +1,40 @@
-sudo: false
-cache: pip
-
-addons:
-  apt:
-    packages:
-      - expect-dev  # provides unbuffer utility
-      - python-lxml # because pip installation is slow
-
 language: python
+sudo: false
+cache:
+  apt: true
+  directories:
+    - $HOME/.cache/pip
 
 python:
   - "2.7"
 
+addons:
+  apt:
+    packages:
+      - expect-dev
+      - python-lxml
+      - python-simplejson
+      - python-serial
+      - python-yaml
+
+
 env:
-  - VERSION="8.0" LINT_CHECK="1"
-  - VERSION="8.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - VERSION="8.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  global:
+  - VERSION="8.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  - TRANSIFEX_USER='transbot@odoo-community.org'
+
+  - secure: axBDnKRsoWFK+yYseiC2VZ76aiKjRnT25p4R7wtMs0UXhydbJvac1lWEUWVm8XwiMKNK+sor3csVlm6mfuAqEAtBtC6mprS4oFgFdUSPoA0pPus99GLkOXJw6AD00R1p3O5S6ukQ1JNhMJZvIRhKFm+icd8+VJkn8GGclnuqrp4=
+  matrix:
+  - LINT_CHECK="1"
+  - TRANSIFEX="1"
+  - ODOO_REPO="odoo/odoo" LINT_CHECK="0"
+  - ODOO_REPO="OCA/OCB" LINT_CHECK="0"
 
 virtualenv:
   system_site_packages: true
 
 install:
-  - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
-  - git clone https://github.com/OCA/bank-statement-import.git ${HOME}/bank-statement-import -b ${VERSION}
-  - git clone https://github.com/OCA/bank-payment.git ${HOME}/bank-payment -b ${VERSION}
-  - git clone https://github.com/OCA/partner-contact.git ${HOME}/partner-contact -b ${VERSION}
-  - git clone https://github.com/OCA/account-fiscal-rule.git ${HOME}/account-fiscal-rule -b ${VERSION}
-  - git clone https://github.com/OCA/community-data-files.git ${HOME}/community-data-files -b ${VERSION}
+  - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - pip install unicodecsv unidecode ofxparse
@@ -35,4 +43,4 @@ script:
   - travis_run_tests
 
 after_success:
-  coveralls
+  - travis_after_tests_success
