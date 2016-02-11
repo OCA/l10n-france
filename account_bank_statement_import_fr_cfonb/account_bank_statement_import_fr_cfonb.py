@@ -4,8 +4,6 @@
 #    account_bank_statement_import_fr_cfonb module for Odoo
 #    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
-
-#    Copyright (C) 2016 Iguana-Yachts
 #    @author Florent de Labarre <florent.mirieu@gmail.com> - add multi-account - use IBAN account (only france)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -58,7 +56,7 @@ class AccountBankStatementImport(models.TransientModel):
         
     def _RIBwithoutkey2IBAN(self,banque, guichet, compte):
         # http://fr.wikipedia.org/wiki/Clé_RIB#V.C3.A9rifier_un_RIB_avec_une_formule_Excel
-        # calcul clé rib :
+        # calcul key rib :
         lettres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         chiffres = "12345678912345678923456789"
         # subst letters if needed
@@ -70,7 +68,7 @@ class AccountBankStatementImport(models.TransientModel):
         reste = ( 89*int(banque) + 15*int(guichet) + 3*int(compte) ) % 97
         cle = 97 - reste
         
-        #conversion rib to IBAN, france seulement:
+        #conversion rib to IBAN, france only:
         rib = str(banque)+str(guichet)+str(compte)+str(cle)
         tmp_iban = int("".join(str(int(c,36)) for c in rib+"FR00"))
         key = 98 - (tmp_iban % 97)
@@ -99,7 +97,7 @@ class AccountBankStatementImport(models.TransientModel):
         vals_line = False
         bank = []
         data_line = []
-        #Line in list, use to '05' type line 
+
         for line in data_file.splitlines():
             data_line.append(line)
 
@@ -110,11 +108,11 @@ class AccountBankStatementImport(models.TransientModel):
                 continue
             if len(line) != 120:
                 line = line[0:120]
-                #raise Warning(
-                #    _('Line %d is %d caracters long. All lines of a '
-                #        'CFONB bank statement file must be 120 caracters '
-                #        'long.')
-                #    % (i, len(line)))
+                raise Warning(
+                    _('Line %d is %d caracters long. All lines of a '
+                        'CFONB bank statement file must be 120 caracters '
+                        'long.')
+                    % (i, len(line)))
             line_bank_code = line[2:7]
             line_guichet_code = line[11:16]
             line_account_number = line[21:32]
@@ -137,6 +135,8 @@ class AccountBankStatementImport(models.TransientModel):
                 start_balance = self._parse_cfonb_amount(
                     line[90:104], decimals)
                 start_date_str = date_str
+                anti_double = []
+                ind_anti_double = 0
 
             if rec_type == '04':
                 if iban != line_iban:
@@ -154,16 +154,44 @@ class AccountBankStatementImport(models.TransientModel):
                         j+=1
                 except:
                     pass
+                
+                id_line_unique = '%s-%s-%.2f-%s' % (date_str, ref, amount, name)
+                
+                #if case id_line_unique is not unique on same count (it is possible : double credit card paiement on same day), 
+                #add a number to make a difference
+                if id_line_unique in anti_double:
+                    ind_anti_double += 1
+                    id_line_unique += str(" " + str(ind_anti_double))
+                    name += str(" " + str(ind_anti_double))
+                
+                anti_double.append(id_line_unique)
+                
+                #find a partner in field bank with a balise "-U-5667-U-", 5667 is the id of partner, 
+                #add this balise when you do a bank transfert in bank website
+                try:
+                    partner_id = int(name.split("-U-")[1])
+                    #on vérifi que l'ID existe
+                    if partner_id:
+                        partner_model = self.env['res.partner']
+                        partners = partner_model.search(
+                        [('id', '=', partner_id)], limit=1)
+                        if not partners:
+                            partner_id = False
+                except:
+                    partner_id = False
+
+                
                 vals_line = {
                     'date': date_str,
                     'name': name,
                     'ref': ref,
-                    'unique_import_id':
-                    '%s-%s-%.2f-%s' % (date_str, ref, amount, name),
+                    'unique_import_id':id_line_unique,
                     'amount': amount,
                     'partner_id': partner_id,
+                    'note' : 'test',
                     'bank_account_id': bank_account_id,
                 }
+                
                 transactions.append(vals_line)
 
             if rec_type == '07':
