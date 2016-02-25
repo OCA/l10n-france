@@ -136,7 +136,7 @@ class BankingExportLcrWizard(models.TransientModel):
             lcr_export.payment_order_ids[0].company_id.name, 24)
         domiciliation_bancaire_cedant = self._prepare_field(
             u'Domiciliation bancaire du cédant',
-            lcr_export.payment_order_ids[0].mode.bank_id.bank.name, 24)
+            lcr_export.payment_order_ids[0].mode.bank_id.bank_name, 24)
         code_entree = '3'
         code_dailly = ' '
         code_monnaie = 'E'
@@ -185,7 +185,7 @@ class BankingExportLcrWizard(models.TransientModel):
         nom_tire = self._prepare_field(
             u'Nom tiré', line.partner_id.name, 24)
         nom_banque = self._prepare_field(
-            u'Nom banque', line.bank_id.bank.name, 24)
+            u'Nom banque', line.bank_id.bank_name, 24)
         code_acceptation = '0'
         montant_centimes = str(line.amount_currency * 100).split('.')[0]
         zero_montant_centimes = montant_centimes.zfill(12)
@@ -243,7 +243,6 @@ class BankingExportLcrWizard(models.TransientModel):
         '''Creates the LCR CFONB file.'''
         self.ensure_one()
         lcr_export = self[0]
-        today = fields.Date.context_today(self)
 
         cfonb_string = self._prepare_first_cfonb_line(lcr_export)
         total_amount = 0.0
@@ -253,7 +252,7 @@ class BankingExportLcrWizard(models.TransientModel):
             if order.reference:
                 order_ref.append(order.reference.replace('/', '-'))
             # Iterate each payment lines
-            for line in order.line_ids:
+            for line in order.bank_line_ids:
                 if line.currency.name != 'EUR':
                     raise Warning(
                         _("The currency of payment line '%s' is '%s'. "
@@ -261,14 +260,8 @@ class BankingExportLcrWizard(models.TransientModel):
                             "must be EUR.")
                         % (line.name, line.currency.name))
                 transactions_count += 1
-                if order.date_prefered == 'due':
-                    requested_date = line.ml_maturity_date or today
-                elif order.date_prefered == 'fixed':
-                    requested_date = order.date_scheduled or today
-                else:
-                    requested_date = today
                 cfonb_string += self._prepare_cfonb_line(
-                    line, requested_date, transactions_count)
+                    line, line.date, transactions_count)
                 total_amount += line.amount_currency
 
         cfonb_string += self._prepare_final_cfonb_line(
