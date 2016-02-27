@@ -8,55 +8,55 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-26 09:01+0000\n"
-"PO-Revision-Date: 2016-02-26 01:52+0000\n"
+"PO-Revision-Date: 2016-02-25 23:18+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: French (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/fr/)\n"
+"Language-Team: English (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/en/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:account_banking_fr_lcr.banking_export_lcr_wizard_form
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Cancel"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:77
 #, python-format
 msgid "Cannot convert the field '%s' to ASCII"
-msgstr "Impossible de convertir le champ '%s' en ASCII"
+msgstr "Cannot convert the field '%s' to ASCII"
 
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr.wizard,state:0
 msgid "Create"
-msgstr "Créer"
+msgstr "Create"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Created by"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Created on"
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_banking_export_lcr_wizard
 msgid "Export French LCR File"
-msgstr "Export du fichier LCR"
+msgstr "Export French LCR File"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,filename:0
 msgid "Filename"
-msgstr "Nom du fichier"
+msgstr "Filename"
 
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr.wizard,state:0
 msgid "Finish"
-msgstr "Finir"
+msgstr "Finish"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:105
@@ -64,7 +64,7 @@ msgstr "Finir"
 msgid ""
 "For the bank account '%s' of partner '%s', the Bank Account Type should be "
 "'IBAN'."
-msgstr "Pour le compte bancaire '%s' du partenaire '%s', le type de compte bancaire devrait être 'IBAN'."
+msgstr "For the bank account '%s' of partner '%s', the Bank Account Type should be 'IBAN'."
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:96
@@ -74,27 +74,27 @@ msgid ""
 " optional IBAN' and the IBAN field is empty, but, starting from 2014, we "
 "consider that the IBAN is required. Please write the IBAN on this bank "
 "account."
-msgstr ""
+msgstr "For the bank account '%s' of partner '%s', the bank account type is 'RIB and optional IBAN' and the IBAN field is empty, but, starting from 2014, we consider that the IBAN is required. Please write the IBAN on this bank account."
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:account_banking_fr_lcr.banking_export_lcr_wizard_form
 msgid "Generate"
-msgstr "Générer"
+msgstr "Generate"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,file:0
 msgid "LCR CFONB File"
-msgstr "Fichier CFONB LCR"
+msgstr "LCR CFONB File"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:account_banking_fr_lcr.banking_export_lcr_wizard_form
 msgid "LCR File Generation"
-msgstr "Génération du fichier LCR"
+msgstr "LCR File Generation"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:112
@@ -102,27 +102,27 @@ msgstr "Génération du fichier LCR"
 msgid ""
 "LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not "
 "a French IBAN."
-msgstr "Les LCR ne fonctionnent qu'avec des comptes bancaires français. L'IBAN '%s' du partenaire '%s' n'est pas un IBAN français."
+msgstr "LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not a French IBAN."
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Last Updated by"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Last Updated on"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr "Ordre de paiement"
+msgstr "Payment Orders"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,state:0
 msgid "State"
-msgstr "État"
+msgstr "State"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:258
@@ -130,20 +130,20 @@ msgstr "État"
 msgid ""
 "The currency of payment line '%s' is '%s'. To be included in a French LCR, "
 "the currency must be EUR."
-msgstr "La monnaie de la ligne de paiement '%s' est '%s'. Pour être intégrée dans une LCR, la monnaie doit être EUR."
+msgstr "The currency of payment line '%s' is '%s'. To be included in a French LCR, the currency must be EUR."
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:64
 #, python-format
 msgid "The field '%s' is empty or 0. It should have a non-null value."
-msgstr "Le champ '%s' est vide ou égal à 0. Il devrait avoir une valeur non nulle."
+msgstr "The field '%s' is empty or 0. It should have a non-null value."
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,total_amount:0
 msgid "Total Amount"
-msgstr "Montant total"
+msgstr "Total Amount"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:account_banking_fr_lcr.banking_export_lcr_wizard_form
 msgid "Validate"
-msgstr "Valider"
+msgstr "Validate"
