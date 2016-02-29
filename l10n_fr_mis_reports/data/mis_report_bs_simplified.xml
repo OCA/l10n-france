@@ -16,7 +16,7 @@
     <!-- ACTIF IMMOBILISE -->
    <record model="mis.report.kpi" id="mis_report_bs_simplified_010">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">010</field>
+      <field name="name">lf010</field>
       <field name="description">Immobilisations incorporelles - Fonds commercial</field>
       <field name="expression">bals[206%,207%]</field>
       <field name="suffix">€</field>
@@ -27,7 +27,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_014">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">014</field>
+      <field name="name">lf014</field>
       <field name="description">Immobilisations incorporelles - Autres</field>
       <field name="expression">bals[201%,208%]-bals[280%,290%]</field>
       <field name="suffix">€</field>
@@ -38,7 +38,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_028">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">028</field>
+      <field name="name">lf028</field>
       <field name="description">Immobilisations corporelles</field>
       <field name="expression">bals[21%,23%]-bals[281%,291%]</field>
       <field name="suffix">€</field>
@@ -49,7 +49,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_040">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">040</field>
+      <field name="name">lf040</field>
       <field name="description">Immobilisations financières</field>
       <field name="expression">bals[27%]-bals[297%]</field>
       <field name="suffix">€</field>
@@ -60,9 +60,9 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_044">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">044</field>
+      <field name="name">lf044</field>
       <field name="description">Total actif immobilisé (I)</field>
-      <field name="expression">+010 +014 +028 +040</field>
+      <field name="expression">+lf010 +lf014 +lf028 +lf040</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -73,7 +73,7 @@
     <!-- ACTIF CIRCULANT -->
     <record model="mis.report.kpi" id="mis_report_bs_simplified_050">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">050</field>
+      <field name="name">lf050</field>
       <field name="description">Matières premières, approvisionnements, en cours de production</field>
       <field name="expression">bals[31%,33%,34%,35%]-bals[391%,393%,394%,395%]</field>
       <field name="suffix">€</field>
@@ -84,7 +84,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_060">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">060</field>
+      <field name="name">lf060</field>
       <field name="description">Marchandises</field>
       <field name="expression">bals[37%]-bals[397%]</field>
       <field name="suffix">€</field>
@@ -95,7 +95,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_064">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">064</field>
+      <field name="name">lf064</field>
       <field name="description">Avances et acomptes versés sur commandes</field>
       <field name="expression">bals[4091%]</field> <!-- ??? -->
       <field name="suffix">€</field>
@@ -106,7 +106,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_068">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">068</field>
+      <field name="name">lf068</field>
       <field name="description">Créances - Clients et comptes rattachés</field>
       <field name="expression">bals[410%,411%]-bals[491%]</field>
       <field name="suffix">€</field>
@@ -117,7 +117,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_072">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">072</field>
+      <field name="name">lf072</field>
       <field name="description">Créances - Autres</field>
       <field name="expression">bals[476%]</field>
       <field name="suffix">€</field>
@@ -128,7 +128,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_080">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">080</field>
+      <field name="name">lf080</field>
       <field name="description">Valeurs mobilières de placement</field>
       <field name="expression">bals[50%]-bals[590%]</field>
       <field name="suffix">€</field>
@@ -139,7 +139,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_084">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">084</field>
+      <field name="name">lf084</field>
       <field name="description">Disponibilités</field>
       <field name="expression">bals[]</field>
       <field name="suffix">€</field>
@@ -150,7 +150,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_092">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">092</field>
+      <field name="name">lf092</field>
       <field name="description">Charges constatées d'avance</field>
       <field name="expression">bals[486%]</field>
       <field name="suffix">€</field>
@@ -161,9 +161,9 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_096">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">096</field>
+      <field name="name">lf096</field>
       <field name="description">Total actif circulant II</field>
-      <field name="expression">+050 +060 +064 +068 +072 +080 +084 +092</field>
+      <field name="expression">+lf050 +lf060 +lf064 +lf068 +lf072 +lf080 +lf084 +lf092</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -172,9 +172,9 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_110">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">110</field>
+      <field name="name">lf110</field>
       <field name="description">Total actif (I + II)</field>
-      <field name="expression">+044 +096</field>
+      <field name="expression">+lf044 +lf096</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -186,7 +186,7 @@
     <!-- CAPITAUX PROPRES -->
     <record model="mis.report.kpi" id="mis_report_bs_simplified_120">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">120</field>
+      <field name="name">lf120</field>
       <field name="description">Capital social ou individuel</field>
       <field name="expression">-bals[101%,108%]</field>
       <field name="suffix">€</field>
@@ -197,7 +197,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_124">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">124</field>
+      <field name="name">lf124</field>
       <field name="description">Ecarts de réévaluation</field>
       <field name="expression">-bals[105%,107%]</field>
       <field name="suffix">€</field>
@@ -208,7 +208,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_126">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">126</field>
+      <field name="name">lf126</field>
       <field name="description">Réserve légale</field>
       <field name="expression">-bals[1061%]</field>
       <field name="suffix">€</field>
@@ -219,7 +219,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_130">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">130</field>
+      <field name="name">lf130</field>
       <field name="description">Réserves réglementées</field>
       <field name="expression">-bals[1062%,1064%]</field>
       <field name="suffix">€</field>
@@ -230,7 +230,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_132">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">132</field>
+      <field name="name">lf132</field>
       <field name="description">Autres réserves</field>
       <field name="expression">-bals[1068%]</field>
       <field name="suffix">€</field>
@@ -241,7 +241,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_134">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">134</field>
+      <field name="name">lf134</field>
       <field name="description">Report à nouveau</field>
       <field name="expression">-bals[11%]</field>
       <field name="suffix">€</field>
@@ -252,7 +252,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_136">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">136</field>
+      <field name="name">lf136</field>
       <field name="description">Résultat de l'exercice</field>
       <field name="expression">-bals[12%]</field>
       <field name="suffix">€</field>
@@ -263,7 +263,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_140">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">140</field>
+      <field name="name">lf140</field>
       <field name="description">Provisions réglementées</field>
       <field name="expression">-bals[14%]</field>
       <field name="suffix">€</field>
@@ -274,9 +274,9 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_142">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">142</field>
+      <field name="name">lf142</field>
       <field name="description">Total capitaux propres (I)</field>
-      <field name="expression">+120 +124 +126 +130 +132 +134 +136 +140</field>
+      <field name="expression">+lf120 +lf124 +lf126 +lf130 +lf132 +lf134 +lf136 +lf140</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -287,7 +287,7 @@
     <!-- Autres fonds propres -->
     <record model="mis.report.kpi" id="mis_report_bs_simplified_154">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">154</field>
+      <field name="name">lf154</field>
       <field name="description">Provisions pour risques et charges - Total II</field>
       <field name="expression">-bals[151%]</field>
       <field name="suffix">€</field>
@@ -298,7 +298,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_156">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">156</field>
+      <field name="name">lf156</field>
       <field name="description">Emprunts et dettes assimilées</field>
       <field name="expression">-bals[161%,16881%]</field>
       <field name="suffix">€</field>
@@ -309,7 +309,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_164">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">164</field>
+      <field name="name">lf164</field>
       <field name="description">Avances et acomptes reçus sur commandes en cours</field>
       <field name="expression">-bals[4191%]</field>
       <field name="suffix">€</field>
@@ -320,7 +320,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_166">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">166</field>
+      <field name="name">lf166</field>
       <field name="description">Fournisseurs et comptes rattachés</field>
       <field name="expression">-bals[401%,403%,4081%,4088%]</field>
       <field name="suffix">€</field>
@@ -331,7 +331,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_172">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">172</field>
+      <field name="name">lf172</field>
       <field name="description">Autres dettes</field>
       <field name="expression">-bals[421%,422%,424%,427%,4282%,4284%,4286%,43%,442%,443%,444%,4455%,4457%,44584%,44587%,446%,447%,4482%,4486%,449%,457%]</field>
       <field name="suffix">€</field>
@@ -342,7 +342,7 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_174">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">174</field>
+      <field name="name">lf174</field>
       <field name="description">Produits constatés d'avance</field>
       <field name="expression">-bals[487%]</field>
       <field name="suffix">€</field>
@@ -353,9 +353,9 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_176">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">176</field>
-      <field name="description">Total dettes (III)</field>
-      <field name="expression">+DS +DT +DU +DV +DW +DX +DY +DZ +EA +EB</field>
+      <field name="name">lf176</field>
+      <field name="description">Total dettes et PCA (III)</field>
+      <field name="expression">+lf156 +lf164 +lf166 +lf172 +lf174</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -364,9 +364,9 @@
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_180">
       <field name="report_id" ref="mis_report_bs_simplified"/>
-      <field name="name">180</field>
+      <field name="name">lf180</field>
       <field name="description">Total passif (I + II + III)</field>
-      <field name="expression">+142 +154 +176</field>
+      <field name="expression">+lf142 +lf154 +lf176</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
