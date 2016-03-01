@@ -33,4 +33,5 @@
         'wizard/trial_balance_wizard_view.xml'
     ],
     'installable': True,
+    'external_dependencies': {'python': ['unicodecsv']},
 }
