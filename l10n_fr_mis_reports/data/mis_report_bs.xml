@@ -176,7 +176,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">CU</field>
       <field name="description">Autres participations</field>
-      <field name="expression">bals[261%,266%] -bals[2961%,2962%]</field>
+      <field name="expression">bals[261%,266%] -bals[2961%,2966%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -231,7 +231,7 @@
     <record model="mis.report.kpi" id="mis_report_bs_bj">
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BJ</field>
-      <field name="description">Total (II)</field>
+      <field name="description">Total actif immobilisé (II)</field>
       <field name="expression">+AB +CX +AF +AH +AJ +AL +AN +AP +AR +AT +AV +AX +CS +CU +BB +BD +BF +BH</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
@@ -321,7 +321,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BZ</field>
       <field name="description">Autres créances</field>
-      <field name="expression">bals[4096%,4097%,4098%,425%,4287%,4387%,441%,4452%,4456%,44581%,44582%,44583%,44586%,4487%,462%,465%,4687%] +max([-bal[467%], 0]) -bals[495%,496%]</field>
+      <field name="expression">bals[4096%,4097%,4098%,425%,4287%,4387%,441%,4452%,4456%,44581%,44582%,44583%,44586%,4487%,462%,465%,4687%] +max([bals[443%], 0]) +max([bals[444%], 0]) +max([bals[451%], 0]) +max([bals[455%], 0]) +max([bals[4561%], 0]) +max([bals[4563%], 0]) +max([bals[4564%], 0]) +max([bals[4566%], 0]) +max([bals[4567%], 0]) +max([bals[458%], 0]) +max([bals[467%], 0]) +max([bals[478%], 0]) -bals[495%,496%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -354,7 +354,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">CF</field>
       <field name="description">Disponibilités</field>
-      <field name="expression">bals[511%,512%,514%,515%,516%,517%,5188%,52%,53%,54%,58%]</field>
+      <field name="expression">bals[53%,54%,58%] +max([bals[511%], 0]) +max([bals[512%], 0]) +max([bals[514%], 0]) +max([bals[515%], 0]) +max([bals[516%], 0]) +max([bals[517%], 0]) +max([bals[5188%], 0]) +max([bals[52%], 0])</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -375,7 +375,7 @@
     <record model="mis.report.kpi" id="mis_report_bs_cj">
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">CJ</field>
-      <field name="description">Total (III)</field>
+      <field name="description">Total actif circulant et charges constatées d'avance (III)</field>
       <field name="expression">+BL +BN +BP +BR +BT +BV +BX +BZ +CB +CD +CF +CH</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
@@ -387,7 +387,7 @@
     <record model="mis.report.kpi" id="mis_report_bs_cw">
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">CW</field>
-      <field name="description">Frais d'émission d'emprunts à étaler (IV)</field>
+      <field name="description">Frais d'émission d'emprunt à étaler (IV)</field>
       <field name="expression">bals[481%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
@@ -657,7 +657,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">DU</field>
       <field name="description">Emprunts et dettes auprès des établissements de crédit</field>
-      <field name="expression">-bals[164%,16884%,5181%,519%]</field>
+      <field name="expression">-bals[164%,16884%,5181%,519%] +max([-bals[512%], 0]) +max([-bals[514%], 0]) +max([-bals[517%], 0]) +max([-bals[52%], 0])</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -668,7 +668,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">DV</field>
       <field name="description">Emprunts et dettes financières divers</field>
-      <field name="expression">-bals[165%,166%,1675%,1681%,1685%,1687%,16885%,16886%,16887%,16888%,17%,426%,451%,455%,456%]</field>
+      <field name="expression">-bals[165%,166%,1675%,1681%,1685%,1687%,16885%,16886%,16887%,16888%,17%,426%,451%,455%,456%] +max([-bals[451%], 0]) +max([-bals[455%], 0]) +max([-bals[4561%], 0])</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -690,7 +690,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">DX</field>
       <field name="description">Dettes fournisseurs et comptes rattachés</field>
-      <field name="expression">-bals[401%,403%,4081%,4088%]</field>
+      <field name="expression">-bals[400%,401%,403%,4081%,4088%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -701,7 +701,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">DY</field>
       <field name="description">Dettes fiscales et sociales</field>
-      <field name="expression">-bals[421%,422%,424%,427%,4282%,4284%,4286%,43%,442%,443%,444%,4455%,4457%,44584%,44587%,446%,447%,4482%,4486%,449%,457%]</field>
+      <field name="expression">-bals[421%,422%,424%,427%,4282%,4284%,4286%,43%,442%,4455%,4457%,44584%,44587%,446%,447%,4482%,4486%,449%,457%] +max([-bals[443%], 0]) +max([-bals[444%], 0])</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -723,7 +723,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">EA</field>
       <field name="description">Autres dettes</field>
-      <field name="expression">-bals[4196%,4197%,4198%,464%,467%,4686%,478%,509%] -max([bals[467%], 0])</field>
+      <field name="expression">-bals[4196%,4197%,4198%,464%,4686%,509%,489%] +max([-bals[467%], 0]) +max([-bals[478%], 0])</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -744,7 +744,7 @@
     <record model="mis.report.kpi" id="mis_report_bs_ec">
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">EC</field>
-      <field name="description">Total dettes (IV)</field>
+      <field name="description">Total dettes et produits constatés d'avance (IV)</field>
       <field name="expression">+DS +DT +DU +DV +DW +DX +DY +DZ +EA +EB</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
