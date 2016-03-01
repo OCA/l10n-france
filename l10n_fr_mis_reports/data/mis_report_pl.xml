@@ -21,7 +21,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
+      <field name="default_css_style">text-indent: 3em</field>
       <field name="sequence">2</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_ff">
@@ -32,7 +32,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
+      <field name="default_css_style">text-indent: 3em</field>
       <field name="sequence">4</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_fi">
@@ -43,7 +43,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
+      <field name="default_css_style">text-indent: 3em</field>
       <field name="sequence">6</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_fl">
@@ -54,7 +54,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em; font-weight: bold;</field>
       <field name="sequence">10</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fm">
@@ -65,7 +65,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">20</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fn">
@@ -76,7 +76,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">30</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fo">
@@ -87,7 +87,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">40</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fp">
@@ -98,7 +98,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">50</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fq">
@@ -109,7 +109,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">60</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fr">
@@ -120,7 +120,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold</field>
+      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
       <field name="sequence">70</field>
     </record>
 
@@ -132,7 +132,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">80</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_ft">
@@ -143,7 +143,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">90</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fu">
@@ -154,7 +154,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">100</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fv">
@@ -165,7 +165,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">110</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fw">
@@ -176,7 +176,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">120</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fx">
@@ -187,7 +187,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">130</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fy">
@@ -198,7 +198,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">140</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fz">
@@ -209,7 +209,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">150</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_ga">
@@ -220,7 +220,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">160</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gb">
@@ -231,7 +231,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">170</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gc">
@@ -242,7 +242,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">180</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gd">
@@ -253,7 +253,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">190</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_ge">
@@ -264,7 +264,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">200</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gf">
@@ -275,7 +275,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold</field>
+      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
       <field name="sequence">210</field>
     </record>
 
@@ -323,7 +323,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">250</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gk">
@@ -334,7 +334,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">260</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gl">
@@ -345,7 +345,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">270</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gm">
@@ -356,7 +356,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">280</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gn">
@@ -367,7 +367,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">290</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_go">
@@ -378,7 +378,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">300</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gp">
@@ -389,7 +389,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold</field>
+      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
       <field name="sequence">310</field>
     </record>
 
@@ -401,7 +401,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">320</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gr">
@@ -412,7 +412,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">330</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gs">
@@ -423,7 +423,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">340</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gt">
@@ -434,7 +434,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">350</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gu">
@@ -445,7 +445,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold</field>
+      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
       <field name="sequence">360</field>
     </record>
 
@@ -482,7 +482,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">390</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hb">
@@ -493,7 +493,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">400</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hc">
@@ -504,7 +504,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">410</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hd">
@@ -515,7 +515,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold</field>
+      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
       <field name="sequence">420</field>
     </record>
 
@@ -527,7 +527,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">430</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hf">
@@ -538,7 +538,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">440</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hg">
@@ -549,7 +549,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">450</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hh">
@@ -560,7 +560,7 @@
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold</field>
+      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
       <field name="sequence">460</field>
     </record>
 
