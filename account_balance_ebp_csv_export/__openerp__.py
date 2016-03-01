@@ -28,9 +28,8 @@
     'license': 'AGPL-3',
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
-    'depends': ['report_aeroo', 'account_financial_report_webkit'],
+    'depends': ['account_financial_report_webkit'],
     'data': [
-        'report/report.xml',
         'wizard/trial_balance_wizard_view.xml'
     ],
     'installable': True,
