@@ -49,7 +49,10 @@ class ReportEBP(interface.report_int):
 
         # Init file and write header
         f = StringIO()
-        w = unicodecsv.writer(f, delimiter=',', encoding='utf-8')
+        w = unicodecsv.writer(
+            f, delimiter=',', encoding='utf-8',
+            quoting=unicodecsv.QUOTE_MINIMAL)
+
         header = [
             "Compte.Numero",
             "Compte.Intitule",
@@ -68,7 +71,7 @@ class ReportEBP(interface.report_int):
                     bal_debit = current_account.balance
                     bal_credit = 0
                 else:
-                    bal_credit = current_account.balance
+                    bal_credit = -current_account.balance
                     bal_debit = 0
 
                 w.writerow([
