@@ -22,14 +22,17 @@ __author__ = 'mourad.elhadj.mimoune'
 
 from openerp import api, fields, models
 
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    ecotaxe_classification_ids = fields.Many2many(
+        'account.ecotaxe.classification',
+        'product_template_rel_ecotaxe_classif',
+        string='Ecotaxe Classification',)
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    ecotaxe_classification_ids = fields.Many2many(
-        'account.ecotaxe.classification',
-        'product_product_rel_ecotaxe_classif',
-        string='Ecotaxe Classification',)
     fixed_ecotaxe = fields.Float('Fixed Ecotaxe', compute='_compute_ecotaxe',
                                  help="Fixed ecotaxe of the "
                                  "Ecotaxe Classification\n")
