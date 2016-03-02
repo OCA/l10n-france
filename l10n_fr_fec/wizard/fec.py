@@ -24,6 +24,7 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 import base64
 import unicodecsv
+import unicodedata
 import StringIO
 
 
@@ -153,6 +154,16 @@ class account_fr_fec(orm.TransientModel):
             for row in rows:
                 # We can't write in a tuple, so I convert to a list
                 listrow = list(row)
+                # 2 preliminary cleanups:
+                # 1) remove pipes from the output
+                # 2) replace all non-ASCII characters
+                for index in range(18):
+                    if isinstance(listrow[index], unicode):
+                        unpiped_item = listrow[index].replace('|', ' ')
+                        normalized_item = unicodedata.normalize('NFKD',
+                                                                unpiped_item)
+                        listrow[index] = normalized_item.encode('ascii',
+                                                                'ignore')
                 # Empty amount_currency i.e. remplace 0.0 by empty field
                 if not listrow[16]:
                     listrow[16] = ''
