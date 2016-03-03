@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==================
-French MIS reports
-==================
+======================
+MIS reports for France
+======================
 
 This modules provides MIS Builder Report templates for the French
 P&L and Balance Sheet taking the liasse fiscale and liasse fiscale simplifiée
