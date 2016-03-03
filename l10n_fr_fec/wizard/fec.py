@@ -153,6 +153,12 @@ class account_fr_fec(orm.TransientModel):
             for row in rows:
                 # We can't write in a tuple, so I convert to a list
                 listrow = list(row)
+                # Fill out EcritureNum if empty (mandatory)
+                if not listrow[2].replace(' ', ''):
+                    listrow[2] = '/'
+                # Fill out EcritureLib if empty (mandatory)
+                if not listrow[10].replace(' ', ''):
+                    listrow[10] = '/'
                 # Empty amount_currency i.e. remplace 0.0 by empty field
                 if not listrow[16]:
                     listrow[16] = ''
