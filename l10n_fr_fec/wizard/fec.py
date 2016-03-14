@@ -170,13 +170,17 @@ class AccountFrFec(models.TransientModel):
                     listrow[16] = ('%.2f' % listrow[16]).replace('.', ',')
                 w.writerow(listrow)
 
-        if not company.vat:
-            raise Warning(
-                _("Missing VAT number for company %s") % company.name)
-        if company.vat[0:2] != 'FR':
-            raise Warning(
-                _("FEC is for French companies only !"))
-        siren = company.vat[4:13]
+        if company.vat:
+            vat = company.vat.replace(' ', '')
+            if vat[0:2] != 'FR':
+                raise Warning(
+                    _("FEC is for French companies only !"))
+            siren = vat[4:13]
+        elif company.siret:
+            siren = company.siret[0:9]
+        else:
+            raise Warning(_(
+                "Missing VAT number and SIRET for company %s") % company.name)
         fy_end_date = self.fiscalyear_id.date_stop.replace('-', '')
         suffix = ''
         if self.export_type == "nonofficial":
