@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-26 09:01+0000\n"
-"PO-Revision-Date: 2016-02-26 01:52+0000\n"
+"POT-Creation-Date: 2016-03-14 09:46+0000\n"
+"PO-Revision-Date: 2016-03-14 09:47+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,7 @@ msgid "FEC File Generation"
 msgstr "Génération Fichier FEC"
 
 #. module: l10n_fr_fec
-#: code:addons/l10n_fr_fec/wizard/fec.py:178
+#: code:addons/l10n_fr_fec/wizard/fec.py:177
 #, python-format
 msgid "FEC is for French companies only !"
 msgstr "Le FEC est uniquement pour les sociétés françaises !"
@@ -120,10 +120,10 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_fr_fec
-#: code:addons/l10n_fr_fec/wizard/fec.py:175
+#: code:addons/l10n_fr_fec/wizard/fec.py:182
 #, python-format
-msgid "Missing VAT number for company %s"
-msgstr "Numéro de TVA manquant sur la société %s"
+msgid "Missing VAT number and SIRET for company %s"
+msgstr ""
 
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,export_type:0
