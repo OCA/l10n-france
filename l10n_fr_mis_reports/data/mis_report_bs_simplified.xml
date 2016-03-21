@@ -22,7 +22,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf010</field>
       <field name="description">Immobilisations incorporelles - Fonds commercial</field>
-      <field name="expression">bals[206%,207%]</field>
+      <field name="expression">bale[206%,207%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -33,7 +33,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf014</field>
       <field name="description">Immobilisations incorporelles - Autres</field>
-      <field name="expression">bals[201%,208%]-bals[280%,290%]</field>
+      <field name="expression">bale[201%,208%]-bale[280%,290%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -44,7 +44,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf028</field>
       <field name="description">Immobilisations corporelles</field>
-      <field name="expression">bals[21%,23%]-bals[281%,291%]</field>
+      <field name="expression">bale[21%,23%]-bale[281%,291%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -55,7 +55,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf040</field>
       <field name="description">Immobilisations financières</field>
-      <field name="expression">bals[27%]-bals[297%]</field>
+      <field name="expression">bale[27%]-bale[297%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -79,7 +79,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf050</field>
       <field name="description">Matières premières, approvisionnements, en cours de production</field>
-      <field name="expression">bals[31%,33%,34%,35%]-bals[391%,393%,394%,395%]</field>
+      <field name="expression">bale[31%,33%,34%,35%]-bale[391%,393%,394%,395%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -90,7 +90,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf060</field>
       <field name="description">Marchandises</field>
-      <field name="expression">bals[37%]-bals[397%]</field>
+      <field name="expression">bale[37%]-bale[397%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -101,7 +101,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf064</field>
       <field name="description">Avances et acomptes versés sur commandes</field>
-      <field name="expression">bals[4091%]</field>
+      <field name="expression">bale[4091%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -112,7 +112,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf068</field>
       <field name="description">Créances - Clients et comptes rattachés</field>
-      <field name="expression">bals[410%,411%]-bals[491%]</field>
+      <field name="expression">bale[410%,411%]-bale[491%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -123,7 +123,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf072</field>
       <field name="description">Créances - Autres</field>
-      <field name="expression">bals[4096%,4097%,4098%,428%,46%] +max([bals[43%], 0]) +max([bals[444%], 0]) +max([bals[445%], 0]) +max([bals[455%], 0])</field>
+      <field name="expression">bale[4096%,4097%,4098%,428%,46%] +max([bale[43%], 0]) +max([bale[444%], 0]) +max([bale[445%], 0]) +max([bale[455%], 0])</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -134,7 +134,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf080</field>
       <field name="description">Valeurs mobilières de placement</field>
-      <field name="expression">bals[50%]-bals[590%]</field>
+      <field name="expression">bale[50%]-bale[590%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -145,7 +145,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf084</field>
       <field name="description">Disponibilités</field>
-      <field name="expression">bals[53%,54%,58%] +max([bals[51%], 0])</field>
+      <field name="expression">bale[53%,54%,58%] +max([bale[51%], 0])</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -156,7 +156,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf092</field>
       <field name="description">Charges constatées d'avance</field>
-      <field name="expression">bals[486%]</field>
+      <field name="expression">bale[486%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -192,7 +192,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf120</field>
       <field name="description">Capital social ou individuel</field>
-      <field name="expression">-bals[101%,108%]</field>
+      <field name="expression">-bale[101%,108%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -203,7 +203,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf124</field>
       <field name="description">Ecarts de réévaluation</field>
-      <field name="expression">-bals[105%,107%]</field>
+      <field name="expression">-bale[105%,107%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -214,7 +214,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf126</field>
       <field name="description">Réserve légale</field>
-      <field name="expression">-bals[1061%]</field>
+      <field name="expression">-bale[1061%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -225,7 +225,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf130</field>
       <field name="description">Réserves réglementées</field>
-      <field name="expression">-bals[1062%,1064%]</field>
+      <field name="expression">-bale[1062%,1064%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -236,7 +236,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf132</field>
       <field name="description">Autres réserves</field>
-      <field name="expression">-bals[1063%,1068%]</field>
+      <field name="expression">-bale[1063%,1068%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -247,7 +247,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf134</field>
       <field name="description">Report à nouveau</field>
-      <field name="expression">-bals[11%]</field>
+      <field name="expression">-bale[11%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -258,7 +258,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf136</field>
       <field name="description">Résultat de l'exercice</field>
-      <field name="expression">-bals[12%]</field>
+      <field name="expression">-bale[12%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -269,7 +269,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf140</field>
       <field name="description">Provisions réglementées</field>
-      <field name="expression">-bals[14%]</field>
+      <field name="expression">-bale[14%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -292,7 +292,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf154</field>
       <field name="description">Provisions pour risques et charges (II)</field>
-      <field name="expression">-bals[15%]</field>
+      <field name="expression">-bale[15%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -305,7 +305,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf156</field>
       <field name="description">Emprunts et dettes assimilées</field>
-      <field name="expression">-bals[16%]</field>
+      <field name="expression">-bale[16%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -316,7 +316,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf164</field>
       <field name="description">Avances et acomptes reçus sur commandes en cours</field>
-      <field name="expression">-bals[4191%]</field>
+      <field name="expression">-bale[4191%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -327,7 +327,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf166</field>
       <field name="description">Fournisseurs et comptes rattachés</field>
-      <field name="expression">-bals[400%,401%,403%,4081%,4088%]</field>
+      <field name="expression">-bale[400%,401%,403%,4081%,4088%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -338,7 +338,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf172</field>
       <field name="description">Autres dettes</field>
-      <field name="expression">-bals[4196%,4197%,4198%,421%,422%,424%,427%,4282%,4284%,4286%,442%,446%,447%,448%,449%,457%,46%] +max([-bals[43%], 0]) +max([-bals[444%], 0]) +max([-bals[445%], 0]) +max([-bals[455%], 0])</field>
+      <field name="expression">-bale[4196%,4197%,4198%,421%,422%,424%,427%,4282%,4284%,4286%,442%,446%,447%,448%,449%,457%,46%] +max([-bale[43%], 0]) +max([-bale[444%], 0]) +max([-bale[445%], 0]) +max([-bale[455%], 0])</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -349,7 +349,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf174</field>
       <field name="description">Produits constatés d'avance</field>
-      <field name="expression">-bals[487%]</field>
+      <field name="expression">-bale[487%]</field>
       <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
