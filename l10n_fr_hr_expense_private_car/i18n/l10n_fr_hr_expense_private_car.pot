@@ -1,0 +1,247 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_hr_expense_private_car
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-13 00:51+0000\n"
+"PO-Revision-Date: 2014-08-13 00:51+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.1-3cv_0-5000km_private_car_expense_product_template
+msgid "1-3CV 0-5000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.1-3cv_20000km+_private_car_expense_product_template
+msgid "1-3CV 20000km+ Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.1-3cv_5-20000km_private_car_expense_product_template
+msgid "1-3CV 5-20000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.4cv_0-5000km_private_car_expense_product_template
+msgid "4CV 0-5000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.4cv_20000km+_private_car_expense_product_template
+msgid "4CV 20000km+ Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.4cv_5-20000km_private_car_expense_product_template
+msgid "4CV 5-20000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.5cv_0-5000km_private_car_expense_product_template
+msgid "5CV 0-5000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.5cv_20000km+_private_car_expense_product_template
+msgid "5CV 20000km+ Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.5cv_5-20000km_private_car_expense_product_template
+msgid "5CV 5-20000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.6cv_0-5000km_private_car_expense_product_template
+msgid "6CV 0-5000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.6cv_20000km+_private_car_expense_product_template
+msgid "6CV 20000km+ Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.6cv_5-20000km_private_car_expense_product_template
+msgid "6CV 5-20000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.7cv+_0-5000km_private_car_expense_product_template
+msgid "7CV+ 0-5000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.7cv+_20000km+_private_car_expense_product_template
+msgid "7CV+ 20000km+ Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.7cv+_5-20000km_private_car_expense_product_template
+msgid "7CV+ 5-20000km Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:ir.model,name:l10n_fr_hr_expense_private_car.model_hr_employee
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: constraint:product.product:0
+msgid "Error msg in raise"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:63
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:73
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:79
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:223
+#, python-format
+msgid "Error:"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:ir.model,name:l10n_fr_hr_expense_private_car.model_hr_expense_expense
+msgid "Expense"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:ir.model,name:l10n_fr_hr_expense_private_car.model_hr_expense_line
+msgid "Expense Line"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: view:hr.employee:0
+msgid "HR Settings"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:224
+#, python-format
+msgid "Missing 'Private Car Product' on the current expense."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:product.template,name:l10n_fr_hr_expense_private_car.generic_private_car_expense_product_template
+msgid "My Private Car Expense (in km)"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: view:product.product:0
+#: field:product.template,private_car_expense_ok:0
+msgid "Private Car Expense"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: view:hr.employee:0
+#: model:ir.actions.act_window,name:l10n_fr_hr_expense_private_car.private_car_product_action
+#: model:ir.ui.menu,name:l10n_fr_hr_expense_private_car.private_car_product_menu
+msgid "Private Car Expenses"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: field:hr.employee,private_car_plate:0
+#: field:hr.expense.expense,private_car_plate:0
+msgid "Private Car Plate"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: field:hr.employee,private_car_product_id:0
+#: field:hr.expense.expense,private_car_product_id:0
+msgid "Private Car Product"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:ir.model,name:l10n_fr_hr_expense_private_car.model_product_product
+msgid "Product"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: model:ir.model,name:l10n_fr_hr_expense_private_car.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:64
+#, python-format
+msgid "The product '%s' cannot have both the properties 'Can be Expensed' and 'Private Car Expense'."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:80
+#, python-format
+msgid "The product '%s' is a Private Car Expense, so it must have a Cost Price."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:74
+#, python-format
+msgid "The product '%s' is a Private Car Expense, so it's unit of measure must be kilometers (KM)."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: help:hr.employee,private_car_plate:0
+#: help:hr.employee,private_car_product_id:0
+msgid "This field will be copied on the expenses of this employee."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:248
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:259
+#, python-format
+msgid "Warning - Private Car Expense"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:183
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:193
+#, python-format
+msgid "Warning - Private Car Product"
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:184
+#, python-format
+msgid "You should not change the Private Car Product on expenses. You should change the Private Car Product on the Employee form and then select again the Employee on the expense.\n"
+"\n"
+"But, as you are in the group 'Account Manager', we suppose that you know what you are doing, so the original product was not restored."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:194
+#, python-format
+msgid "You should not change the Private Car Product on expenses. You should change the Private Car Product on the Employee form and then select again the Employee on the expense. The original Private Car Product has been restored.\n"
+"\n"
+"Only users in the 'Account Manager' group are allowed to change the Private Car Product on expenses manually."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:260
+#, python-format
+msgid "You should not change the unit amount for private car expenses. The original unit amount has been restored.\n"
+"\n"
+"Only users in the 'Account Manager' group are allowed to change the unit amount for private car expenses manually."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: code:addons/l10n_fr_hr_expense_private_car/private_car.py:249
+#, python-format
+msgid "You should not change the unit amount for private car expenses. You should change the Private Car Product or update the Cost Price of the selected Private Car Product and re-create the Expense Line.\n"
+"\n"
+"But, as you are in the group 'Account Manager', we suppose that you know what you are doing, so the original unit amount was not restored."
+msgstr ""
+
+#. module: l10n_fr_hr_expense_private_car
+#: view:hr.expense.expense:0
+msgid "{'private_car_product_id': parent.private_car_product_id}"
+msgstr ""
+
