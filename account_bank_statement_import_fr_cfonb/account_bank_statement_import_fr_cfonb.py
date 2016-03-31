@@ -71,7 +71,13 @@ class AccountBankStatementImport(models.TransientModel):
         decimals = start_balance = False
         start_balance = end_balance = start_date_str = end_date_str = False
         vals_line = False
-        for line in data_file.splitlines():
+        # The CFONB spec says you should only have digits, capital letters
+        # and * - . /
+        # But many banks don't respect that and use regular letters for exemple
+        # And I found one (LCL) that even uses caracters with accents
+        # So the best method is probably to decode with latin1
+        data_file_decoded = data_file.decode('latin1')
+        for line in data_file_decoded.splitlines():
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
             if not line:
@@ -82,12 +88,15 @@ class AccountBankStatementImport(models.TransientModel):
                         'CFONB bank statement file must be 120 caracters '
                         'long.')
                     % (i, len(line)))
+            rec_type = line[0:2]
             line_bank_code = line[2:7]
             line_guichet_code = line[11:16]
             line_account_number = line[21:32]
-            line_currency_code = line[16:19]
-            rec_type = line[0:2]
-            decimals = int(line[19:20])
+            # Some LCL files are invalid: they leave decimals and
+            # currency fields empty on lines that start with '01' and '07',
+            # so I give default values in the code for those fields
+            line_currency_code = line[16:19] != '   ' and line[16:19] or 'EUR'
+            decimals = line[19:20] != ' ' and int(line[19:20]) or 2
             date_cfonb_str = line[34:40]
             date_dt = False
             date_str = False
