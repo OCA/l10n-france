@@ -161,9 +161,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 if not line.product_id:
                     continue
 
-                if line.product_id.exclude_from_intrastat:
-                    continue
-
                 # If we have a regular product/consu in the invoice, we
                 # don't take the is_accessory_cost in DES (it will be in DEB)
                 # If we don't, we declare the is_accessory_cost in DES as other
