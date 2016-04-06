@@ -1,4 +1,5 @@
 account-fiscal-rule
+account-financial-reporting
 bank-payment
 bank-statement-import
 community-data-files
