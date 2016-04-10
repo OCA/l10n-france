@@ -20,14 +20,36 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, api, _
+from openerp.exceptions import Warning as UserError
 
 
 class StockWarehouse(models.Model):
     _inherit = 'stock.warehouse'
 
     @api.multi
-    def get_intrastat_region(self):
+    def get_fr_department(self):
         # TODO : keep compat with other countries
         self.ensure_one()
+        if not self.partner_id:
+            raise UserError(_('Missing partner on warehouse %s') % self.name)
         return self.partner_id.department_id
+
+
+class StockLocation(models.Model):
+    _inherit = 'stock.location'
+
+    @api.multi
+    def get_fr_department(self):
+        '''I don't think it's a good idea to use the get_intrastat_region()
+        of intrastat_product because it doesn't return the same object.
+        That's why there is a small code duplication in this method'''
+        self.ensure_one()
+        locations = self.search(
+            [('parent_left', '<=', self.parent_left),
+             ('parent_right', '>=', self.parent_right)])
+        warehouses = self.env['stock.warehouse'].search(
+            [('lot_stock_id', 'in', [x.id for x in locations])])
+        if warehouses:
+            return warehouses[0].get_fr_department()
+        return None
