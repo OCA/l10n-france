@@ -99,30 +99,25 @@ class L10nFrIntrastatProductDeclaration(models.Model):
     def _get_fr_department(self, inv_line):
         dpt = False
         if inv_line.invoice_id.type in ('in_invoice', 'in_refund'):
-            po_lines = self.env['purchase.order.line'].search(
-                [('invoice_lines', 'in', inv_line.id)])
-            if po_lines:
-                po = po_lines.order_id
-                location = po.location_id
-                locations = location.search([
-                    ('parent_left', '<=', location.parent_left),
-                    ('parent_right', '>=', location.parent_right)])
-                warehouses = self.env['stock.warehouse'].search([
-                    ('lot_stock_id', 'in', [x.id for x in locations])])
-                if warehouses:
-                    if not warehouses[0].partner_id:
-                        raise UserError(_(
-                            'You should configure the address of the '
-                            'warehouse %s') % warehouses[0].name)
-                    dpt = warehouses[0].partner_id.department_id
+            if inv_line.move_line_ids:
+                dpt = inv_line.move_line_ids[0].location_dest_id.\
+                    get_fr_department()
+            else:
+                po_lines = self.env['purchase.order.line'].search(
+                    [('invoice_lines', 'in', inv_line.id)])
+                if po_lines:
+                    po = po_lines.order_id
+                    dpt = po.location_id.get_fr_department()
         elif inv_line.invoice_id.type in ('out_invoice', 'out_refund'):
-            so_lines = self.env['sale.order.line'].search(
-                [('invoice_lines', 'in', inv_line.id)])
-            if so_lines:
-                so = so_lines.order_id
-                dpt = (
-                    so.warehouse_id.partner_id and
-                    so.warehouse_id.partner_id.department_id)
+            if inv_line.move_line_ids:
+                dpt = inv_line.move_line_ids[0].location_id.\
+                    get_fr_department()
+            else:
+                so_lines = self.env['sale.order.line'].search(
+                    [('invoice_lines', 'in', inv_line.id)])
+                if so_lines:
+                    so = so_lines.order_id
+                    dpt = so.warehouse_id.get_fr_department()
         if not dpt:
             dpt = self.company_id.partner_id.department_id
         return dpt
@@ -155,18 +150,6 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         return res
 
     def _get_region(self, inv_line):
-        """
-        Logic copied from standard addons
-
-        If purchase, comes from purchase order, linked to a location,
-        which is linked to the warehouse.
-
-        If sales, the sale order is linked to the warehouse.
-        If sales, from a delivery order, linked to a location,
-        which is linked to the warehouse.
-
-        If none found, get the company one.
-        """
         # TODO : modify only for country == FR
         return False
 
