@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data noupdate="1">
+
+<record id="invoice_intrastat1" model="account.invoice">
+    <field name="currency_id" ref="base.EUR"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="journal_id" ref="account.sales_journal"/>
+    <field name="state">draft</field>
+    <field name="type">out_invoice</field>
+    <field name="account_id" ref="account.a_recv"/>
+    <field name="partner_id" ref="base.res_partner_2"/>
+    <field name="date_invoice" eval="(datetime.now() + relativedelta(day=5, months=-1)).strftime('%Y-%m-%d')"/>
+</record>
+
+<record id="invoice1_line1" model="account.invoice.line">
+    <field name="product_id" ref="product.product_product_consultant"/>
+    <field name="name">Consulting on Odoo</field>
+    <field name="invoice_id" ref="invoice_intrastat1"/>
+    <field name="price_unit">90</field>
+    <field name="quantity">5</field>
+    <field name="account_id" ref="account.a_sale"/>
+</record>
+
+<record id="invoice1_line2" model="account.invoice.line">
+    <field name="product_id" ref="product.product_product_35"/>
+    <field name="name">Blank CD</field>
+    <field name="invoice_id" ref="invoice_intrastat1"/>
+    <field name="price_unit">20</field>
+    <field name="quantity">2</field>
+    <field name="account_id" ref="account.a_sale"/>
+</record>
+
+<workflow action="invoice_open" model="account.invoice" ref="invoice_intrastat1"/>
+
+</data>
+</openerp>
