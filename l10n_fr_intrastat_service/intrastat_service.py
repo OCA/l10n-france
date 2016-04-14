@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    l10n FR intrastat service module for Odoo (DES)
-#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com/)
+#    Copyright (C) 2010-2016 Akretion (http://www.akretion.com/)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -118,11 +118,32 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         'A DES already exists for this month!'
         )]
 
+    @api.model
+    def _prepare_domain(self):
+        start_date = date(self.year, self.month, 1)
+        end_date = start_date + relativedelta(day=1, months=1, days=-1)
+        domain = [
+            ('type', 'in', ('out_invoice', 'out_refund')),
+            ('date_invoice', '<=', end_date),
+            ('date_invoice', '>=', start_date),
+            ('state', 'in', ('open', 'paid')),
+            ('company_id', '=', self.company_id.id),
+            ]
+        return domain
+
+    @api.model
+    def _is_service(self, invoice_line):
+        if invoice_line.product_id.type == 'service':
+            return True
+        else:
+            return False
+
     @api.multi
     def generate_service_lines(self):
         self.ensure_one()
         line_obj = self.env['l10n.fr.intrastat.service.declaration.line']
         invoice_obj = self.env['account.invoice']
+        eur_cur = self.env.ref('base.EUR')
         self._check_generate_lines()
         # delete all service lines generated from invoices
         lines_to_remove = line_obj.search([
@@ -131,15 +152,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         if lines_to_remove:
             lines_to_remove.unlink()
 
-        start_date = date(self.year, self.month, 1)
-        end_date = start_date + relativedelta(day=1, months=1, days=-1)
-        invoices = invoice_obj.search([
-            ('type', 'in', ('out_invoice', 'out_refund')),
-            ('date_invoice', '<=', end_date),
-            ('date_invoice', '>=', start_date),
-            ('state', 'in', ('open', 'paid')),
-            ('company_id', '=', self.company_id.id)
-            ], order='date_invoice')
+        invoices = invoice_obj.search(
+            self._prepare_domain(), order='date_invoice')
         for invoice in invoices:
             if not invoice.partner_id.country_id:
                 raise UserError(
@@ -165,7 +179,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 # don't take the is_accessory_cost in DES (it will be in DEB)
                 # If we don't, we declare the is_accessory_cost in DES as other
                 # regular services
-                if line.product_id.type != 'service':
+                if not self._is_service(line):
                     regular_product_in_invoice = True
                     continue
 
@@ -199,7 +213,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     amount_invoice_cur_regular_service +
                     amount_invoice_cur_accessory_cost)
 
-            if invoice.currency_id.name != 'EUR':
+            if invoice.currency_id != eur_cur:
                 amount_company_cur_to_write = int(round(
                     invoice.currency_id.with_context(
                         date=invoice.date_invoice).compute(
@@ -270,7 +284,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         num_tva = etree.SubElement(decl, 'num_tvaFr')
         num_tva.text = my_company_vat
         mois_des = etree.SubElement(decl, 'mois_des')
-        mois_des.text = unicode(self.month)
+        mois_des.text = unicode(self.month).zfill(2)
         # month 2 digits
         an_des = etree.SubElement(decl, 'an_des')
         an_des.text = unicode(self.year)
