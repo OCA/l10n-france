@@ -36,6 +36,7 @@
         'intrastat_service_reminder.xml',
         'security/intrastat_service_security.xml',
     ],
+    'demo': ['intrastat_demo.xml'],
     'installable': True,
     'application': True,
 }
