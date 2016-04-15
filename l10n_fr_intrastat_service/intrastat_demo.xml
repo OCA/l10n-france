@@ -34,5 +34,59 @@
 
 <workflow action="invoice_open" model="account.invoice" ref="invoice_intrastat1"/>
 
+<record id="invoice_intrastat2" model="account.invoice">
+    <field name="currency_id" ref="base.EUR"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="journal_id" ref="account.sales_journal"/>
+    <field name="state">draft</field>
+    <field name="type">out_invoice</field>
+    <field name="account_id" ref="account.a_recv"/>
+    <field name="partner_id" ref="base.res_partner_24"/>
+    <field name="date_invoice" eval="(datetime.now() + relativedelta(day=8, months=-1)).strftime('%Y-%m-%d')"/>
+</record>
+
+<record id="invoice2_line1" model="account.invoice.line">
+    <field name="product_id" ref="product.product_product_consultant"/>
+    <field name="name">Support services on Ubuntu</field>
+    <field name="invoice_id" ref="invoice_intrastat2"/>
+    <field name="price_unit">90.2</field> <!-- with cents, to check rounding in DES -->
+    <field name="quantity">2</field>
+    <field name="account_id" ref="account.a_sale"/>
+</record>
+
+<record id="invoice2_line2" model="account.invoice.line">
+    <field name="product_id" ref="product.product_product_34"/>
+    <field name="name">Webcam</field>
+    <field name="invoice_id" ref="invoice_intrastat2"/>
+    <field name="price_unit">45</field>
+    <field name="quantity">1</field>
+    <field name="account_id" ref="account.a_sale"/>
+</record>
+
+<workflow action="invoice_open" model="account.invoice" ref="invoice_intrastat2"/>
+
+<record id="invoice_intrastat3" model="account.invoice">
+    <field name="currency_id" ref="base.EUR"/>
+    <field name="company_id" ref="base.main_company"/>
+    <field name="journal_id" ref="account.sales_journal"/>
+    <field name="state">draft</field>
+    <field name="type">out_refund</field>
+    <field name="account_id" ref="account.a_recv"/>
+    <field name="partner_id" ref="base.res_partner_8"/>
+    <field name="date_invoice" eval="(datetime.now() + relativedelta(day=12, months=-1)).strftime('%Y-%m-%d')"/>
+</record>
+
+<record id="invoice3_line1" model="account.invoice.line">
+    <field name="product_id" ref="product.product_product_consultant"/>
+    <field name="name">Bug still not fixed on Odoo accounting module</field>
+    <field name="invoice_id" ref="invoice_intrastat3"/>
+    <field name="price_unit">90</field>
+    <field name="quantity">1</field>
+    <field name="account_id" ref="account.a_sale"/>
+</record>
+
+<workflow action="invoice_open" model="account.invoice" ref="invoice_intrastat3"/>
+
+
 </data>
 </openerp>
