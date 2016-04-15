@@ -118,7 +118,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         'A DES already exists for this month!'
         )]
 
-    @api.model
     def _prepare_domain(self):
         start_date = date(self.year, self.month, 1)
         end_date = start_date + relativedelta(day=1, months=1, days=-1)
@@ -131,7 +130,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ]
         return domain
 
-    @api.model
     def _is_service(self, invoice_line):
         if invoice_line.product_id.type == 'service':
             return True
