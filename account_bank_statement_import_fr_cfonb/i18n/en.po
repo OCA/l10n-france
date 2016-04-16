@@ -1,0 +1,59 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_bank_statement_import_fr_cfonb
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: l10n-france (9.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-14 10:26+0000\n"
+"PO-Revision-Date: 2016-04-14 10:26+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: English (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/en/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_bank_statement_import_fr_cfonb
+#: code:addons/account_bank_statement_import_fr_cfonb/account_bank_statement_import_fr_cfonb.py:151
+#, python-format
+msgid "Account %s %s > %s"
+msgstr "Account %s %s > %s"
+
+#. module: account_bank_statement_import_fr_cfonb
+#: model:ir.model,name:account_bank_statement_import_fr_cfonb.model_account_bank_statement_import
+msgid "Import Bank Statement"
+msgstr "Import Bank Statement"
+
+#. module: account_bank_statement_import_fr_cfonb
+#: code:addons/account_bank_statement_import_fr_cfonb/account_bank_statement_import_fr_cfonb.py:81
+#, python-format
+msgid ""
+"Line %d is %d caracters long. All lines of a CFONB bank statement file must "
+"be 120 caracters long."
+msgstr "Line %d is %d caracters long. All lines of a CFONB bank statement file must be 120 caracters long."
+
+#. module: account_bank_statement_import_fr_cfonb
+#: code:addons/account_bank_statement_import_fr_cfonb/account_bank_statement_import_fr_cfonb.py:119
+#, python-format
+msgid ""
+"Only single-account files and single-currency files are supported for the "
+"moment. It is not the case starting from line %d."
+msgstr "Only single-account files and single-currency files are supported for the moment. It is not the case starting from line %d."
+
+#. module: account_bank_statement_import_fr_cfonb
+#: code:addons/account_bank_statement_import_fr_cfonb/account_bank_statement_import_fr_cfonb.py:106
+#, python-format
+msgid ""
+"The 2 first letters of the first line are '%s'. A CFONB file should start "
+"with '01'"
+msgstr "The 2 first letters of the first line are '%s'. A CFONB file should start with '01'"
+
+#. module: account_bank_statement_import_fr_cfonb
+#: code:addons/account_bank_statement_import_fr_cfonb/account_bank_statement_import_fr_cfonb.py:68
+#, python-format
+msgid "The file is empty."
+msgstr "The file is empty."
