@@ -1,74 +1,82 @@
-##############################################################################
-#
-#    l10n FR Departments module for OpenERP
-#    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_fr_department
-#	* base
+# * l10n_fr_department
 #
-
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 17:43+0000\n"
-"PO-Revision-Date: 2014-03-26 17:43+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-04-14 10:26+0000\n"
+"PO-Revision-Date: 2016-04-14 10:26+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: French (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_fr_department
-#: field:res.country.department,country_id:0
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_country_id
 msgid "Country"
 msgstr "Pays"
 
 #. module: l10n_fr_department
-#: help:res.country.department,country_id:0
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_country_id
 msgid "Country of the related state"
 msgstr "Pays associé à la région"
 
 #. module: l10n_fr_department
-#: field:res.country.department,code:0
+#: model:ir.model,name:l10n_fr_department.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
 msgid "Departement Code"
 msgstr "Code du département"
 
 #. module: l10n_fr_department
-#: code:_description:0
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
-#, python-format
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner_department_id
 msgid "Department"
 msgstr "Département"
 
 #. module: l10n_fr_department
-#: field:res.country.department,name:0
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_name
 msgid "Department Name"
 msgstr "Nom du département"
 
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,name:l10n_fr_department.action_view_country_department_tree
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state_department_ids
 #: model:ir.ui.menu,name:l10n_fr_department.menu_res_country_department
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_form
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_tree
 msgid "Departments"
 msgstr "Départements"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_state_department_ids
+msgid "Departments related to this state"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_display_name
+msgid "Display Name"
+msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
@@ -76,73 +84,59 @@ msgid "Display and manage the list of all departments."
 msgstr "Afficher et gérer la liste de tous les départements."
 
 #. module: l10n_fr_department
-#: view:res.country.department:0
-#: field:res.country.department,state_id:0
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "Name or Code"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "State"
 msgstr "Région"
 
 #. module: l10n_fr_department
-#: help:res.country.department,state_id:0
-msgid "State related of the current department"
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_state_id
+msgid "State related to the current department"
 msgstr "Région associée au département courrant"
 
 #. module: l10n_fr_department
-#: help:res.country.department,code:0
-msgid "The department code in max. five chars. (ISO 3166-2 Codification)"
-msgstr "Le code du département sur cinq caractères. (Norme ISO 3166-2)"
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_code
+msgid "The department code in two chars.(ISO 3166-2 Codification)"
+msgstr ""
 
 #. module: l10n_fr_department
-#: code:addons/l10n_fr_department/model/res_country_department.py:48
+#: code:addons/l10n_fr_department/model/res_country_department.py:49
 #: sql_constraint:res.country.department:0
 #, python-format
 msgid "You cannot have two departments with the same code!"
 msgstr "Vous ne pouvez pas avoir deux départements avec le même code !"
-
-#. module: base
-#: model:ir.module.module,shortdesc:base.module_l10n_fr_department
-msgid "French Departments (Département)"
-msgstr "Départements Français"
-
-#. module: base
-#: model:ir.module.module,summary:base.module_l10n_fr_department
-msgid "Populate Database with French Departments (Départements)"
-msgstr "Remplit la base de données avec les départments françaises"
-
-#. module: base
-#: model:ir.module.module,description:base.module_l10n_fr_department
-msgid "\n"
-"Populate Database with French Departments (Départements)\n"
-"========================================================\n"
-"\n"
-"Feature:\n"
-"--------\n"
-"    * Create a new model res_country_department, sub division of the res_country_state;\n"
-"    * Populate the table res_country_department with the french departments;\n"
-"\n"
-"Technical informations:\n"
-"-----------------------\n"
-"    * Use 3166-2:FR codifications (more detailhttp://fr.wikipedia.org/wiki/ISO_3166-2:FR);\n"
-"\n"
-"Copyright, Authors and Licence:\n"
-"-------------------------------\n"
-"    * Copyright: 2013, Groupement Régional Alimentaire de Proximité;\n"
-"    * Author: Sylvain LE GAL (https://twitter.com/legalsylvain);\n"
-"    * Licence: AGPL-3 (http://www.gnu.org/licenses/);"
-msgstr "\n"
-"Ajoute les départements français en base de données\n"
-"===================================================\n"
-"\n"
-"Caractéristiques:\n"
-"-----------------\n"
-"    * Crée un nouveau modèle 'res_country_department', sous-division du modèle des régions 'res_country_state' ;\n"
-"    * Remplit la table 'res_country_department' avec les départements français ;\n"
-"\n"
-"Informations techniques :\n"
-"-------------------------\n"
-"    * Utilise la codification 3166-2:FR (plus de détail sur http://fr.wikipedia.org/wiki/ISO_3166-2:FR) ;\n"
-"\n"
-"Copyright, Auteurs et Licence:\n"
-"------------------------------\n"
-"    * Copyright : 2013, Groupement Régional Alimentaire de Proximité ;\n"
-"    * Auteur : Sylvain LE GAL (https://twitter.com/legalsylvain) ;\n"
-"    * Licence : AGPL-3 (http://www.gnu.org/licenses/) ;"
