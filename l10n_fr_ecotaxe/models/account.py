@@ -20,8 +20,6 @@
 #
 ###############################################################################
 
-__author__ = 'mourad.elhadj.mimoune'
-
 from openerp import api, fields, models
 
 
@@ -37,7 +35,6 @@ class AccountTax(models.Model):
 
     @api.onchange('is_ecotaxe')
     def onchange_is_ecotaxe(self):
-        import pdb; pdb.set_trace()
         if self.is_ecotaxe:
             self.type = 'code'
             self.include_base_amount = True
@@ -68,12 +65,12 @@ class AccountEcotaxeClassification(models.Model):
         help="If ecotaxe is weight based,"
         "the ecotaxe coef must take into account\n"
         "the weight unit of measure (kg by default)"
-        )
+    )
     ecotaxe_coef = fields.Float('Ecotaxe Coef')
     fixed_ecotaxe = fields.Float(
         'Fixed Ecotaxe',
         help="fixed ecotaxe amount.\n"
-        )
+    )
     sale_ecotaxe_id = fields.Many2one(
         'account.tax',
         string="Sale EcoTaxe",
@@ -114,30 +111,39 @@ class account_invoice_tax(models.Model):
             generic_base = 0.0
             for line in tax_line.invoice_id.invoice_line:
                 ecotaxe_ids = [tax.id for tax in line.invoice_line_tax_id
-                          if tax.is_ecotaxe]
+                               if tax.is_ecotaxe]
                 for ecotaxe_id in self.env['account.tax'].browse(ecotaxe_ids):
                     tax_acc_id = ecotaxe_id.account_paid_id
-                    if tax_line.invoice_id.type in ('out_invoice','in_invoice'):
+                    if tax_line.invoice_id.type in \
+                       ('out_invoice', 'in_invoice'):
                         tax_acc_id = ecotaxe_id.account_collected_id
                     if ecotaxe_id.tax_code_id == tax_line.tax_code_id and \
-                            ecotaxe_id.base_code_id == tax_line.base_code_id  and \
-                            (not tax_acc_id or tax_acc_id == tax_line.account_id):
+                        ecotaxe_id.base_code_id == tax_line.base_code_id and \
+                            (not tax_acc_id or tax_acc_id ==
+                                tax_line.account_id):
                         if line.product_id:
-                            for ecotaxe_classif_id in line.product_id.ecotaxe_classification_ids : 
-                                related_tax_id = ecotaxe_classif_id.purchase_ecotaxe_id
-                                if tax_line.invoice_id.type in ('out_invoice','in_invoice'):
-                                    related_tax_id = ecotaxe_classif_id.sale_ecotaxe_id                                
-
-                                if ecotaxe_classif_id.ecotaxe_type == 'fixed' and \
-                                        ecotaxe_id == related_tax_id:
+                            for ecotaxe_classif_id in \
+                                    line.product_id.ecotaxe_classification_ids:
+                                related_tax_id = \
+                                    ecotaxe_classif_id.purchase_ecotaxe_id
+                                if tax_line.invoice_id.type in (
+                                   'out_invoice', 'in_invoice'):
+                                    related_tax_id = \
+                                        ecotaxe_classif_id.sale_ecotaxe_id
+                                if ecotaxe_classif_id.ecotaxe_type == 'fixed'\
+                                   and ecotaxe_id == related_tax_id:
                                     generic_base += line.quantity
-                                elif ecotaxe_classif_id.ecotaxe_type == 'weight_based' and \
-                                        ecotaxe_id == related_tax_id:
-                                     generic_base += line.product_id.weight_net * line.quantity
+                                elif ecotaxe_classif_id.ecotaxe_type == \
+                                        'weight_based' and ecotaxe_id == \
+                                        related_tax_id:
+                                    generic_base += (
+                                        line.product_id.weight_net *
+                                        line.quantity)
 
             tax_line.generic_base = generic_base or tax_line.base
-            
-    generic_base = fields.Float(string='Generic base',
+
+    generic_base = fields.Float(
+        string='Generic base',
         compute='_compute_generic_base',
         help="Generic base is used to get different base "
         "depending on ecotaxe type. For fixed taxe generic base "

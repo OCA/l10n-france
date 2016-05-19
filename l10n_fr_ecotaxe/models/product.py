@@ -18,9 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-__author__ = 'mourad.elhadj.mimoune'
 
 from openerp import api, fields, models
+
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -29,6 +29,7 @@ class ProductTemplate(models.Model):
         'account.ecotaxe.classification',
         'product_template_rel_ecotaxe_classif',
         string='Ecotaxe Classification',)
+
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -84,7 +85,7 @@ class ProductCategory(models.Model):
         help="If ecotaxe is weight based,"
         "the ecotaxe coef must take into account\n"
         "the weight unit of measure (kg by default)"
-        )
+    )
     ecotaxe_coef = fields.Float('Ecotaxe Coef')
     default_fixed_ecotaxe = fields.Float(
         'Fixed Ecotaxe',
