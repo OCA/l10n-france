@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-__author__ = 'mourad.elhadj.mimoune'
 
 from openerp import api, fields, models
 
@@ -72,8 +71,7 @@ class AccountInvoice(models.Model):
                  'invoice_line.product_id', 'invoice_line.quantity')
     def _compute_ecotaxe(self):
         for invoice in self:
-            val_ecotaxe = val1 = 0.0
-            cur = invoice.currency_id
+            val_ecotaxe = 0.0
             for line in invoice.invoice_line:
                 val_ecotaxe += line.amount_ecotaxe
             invoice.amount_ecotaxe = val_ecotaxe
