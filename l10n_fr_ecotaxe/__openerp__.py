@@ -22,7 +22,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA  02110-1301  USA
 #
 ##############################################################################
 {
@@ -36,7 +37,8 @@ This is the module to manage the Ecotaxe for France in Odoo.
 ========================================================================
 
 This module applies to companies based in France mainland. It doesn't apply to
-companies based in the DOM-TOMs (Guadeloupe, Martinique, Guyane, Réunion, Mayotte).
+companies based in the DOM-TOMs (Guadeloupe, Martinique, Guyane, Réunion,
+Mayotte).
 
 This localisation module add a field "is Ecotaxe" on Tax object.
 It add Ecotaxe amount on sale line, purchase line and invoice line.
@@ -45,7 +47,8 @@ In fact Ecotaxe amount are included in base of VAT.
 
 To make easy ecotaxe management, ecotaxe are set on products.
 So product contain ecotaxe values (fixed or weight based).
-On the taxe "Ecotaxe" we use python code to get a right ecotaxe value from product.
+On the taxe "Ecotaxe" we use python code to get a right ecotaxe
+value from product.
 One ecotaxe can be used for all products.
 We recommend to use at least two ecotaxes :
 1 for sale
@@ -59,7 +62,7 @@ Adding ecotaxe on product category aims to facilitate ecotaxe setting.
         'product',
         'sale',
         'purchase'
-        ],
+    ],
     'data': [
         'security/ir_rule.xml',
         'security/ir_model_access.yml',

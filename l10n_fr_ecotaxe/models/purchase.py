@@ -41,7 +41,7 @@ class PurchaseOrderLine(models.Model):
                     price, qty, line.product_id,
                     line.order_id.partner_id)['taxes']
                 for t in taxes:
-                        val += t.get('amount', 0.0)
+                    val += t.get('amount', 0.0)
 
             line.amount_ecotaxe = val
             if line.order_id:
