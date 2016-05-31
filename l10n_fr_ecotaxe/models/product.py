@@ -30,6 +30,19 @@ class ProductTemplate(models.Model):
         'product_template_rel_ecotaxe_classif',
         string='Ecotaxe Classification',)
 
+    @api.onchange('ecotaxe_classification_ids')
+    def onchange_ecotaxe_classification_ids(self):
+        if self.ecotaxe_classification_ids:
+            sale_taxes = self.taxes_id.ids or []
+            purchase_taxes = self.supplier_taxes_id.ids or []
+            for ecotaxe_classif_id in self.ecotaxe_classification_ids:
+                sale_taxes +=\
+                    ecotaxe_classif_id.sale_ecotaxe_id.ids
+                purchase_taxes +=\
+                    ecotaxe_classif_id.purchase_ecotaxe_id.ids
+            self.taxes_id = [(6, 0, sale_taxes)]
+            self.supplier_taxes_id = [(6, 0, purchase_taxes)]
+
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -60,6 +73,7 @@ class ProductProduct(models.Model):
                 else:
                     prod.fixed_ecotaxe += ecotaxe_classif_id.fixed_ecotaxe
 
+    # Somme product has a taxe different of template
     @api.onchange('ecotaxe_classification_ids')
     def onchange_ecotaxe_classification_ids(self):
         if self.ecotaxe_classification_ids:
