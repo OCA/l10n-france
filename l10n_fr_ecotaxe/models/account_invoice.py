@@ -45,7 +45,7 @@ class AcountInvoiceLine(models.Model):
                     partner=line.invoice_id.partner_id)['taxes']
 
                 for t in taxes:
-                        val += t.get('amount', 0.0)
+                    val += t.get('amount', 0.0)
             line.amount_ecotaxe = val
 
         if line.invoice_id:
