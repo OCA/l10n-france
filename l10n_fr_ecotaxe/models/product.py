@@ -73,7 +73,7 @@ class ProductProduct(models.Model):
                 else:
                     prod.fixed_ecotaxe += ecotaxe_classif_id.fixed_ecotaxe
 
-    # Somme product has a taxe different from template
+    # Some product has a taxe different from template
     @api.onchange('ecotaxe_classification_ids')
     def onchange_ecotaxe_classification_ids(self):
         if self.ecotaxe_classification_ids:
