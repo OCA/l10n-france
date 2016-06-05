@@ -266,7 +266,7 @@ class AccountBankStatementImport(models.TransientModel):
         # requires information about the wizard state (see QIF)
         super_data = \
             self.with_context(active_id=self.ids[0]).\
-                _parse_file(base64.b64decode(self.data_file))
+                              _parse_file(base64.b64decode(self.data_file))
         # print ("super", super_data)
         total_imported = 0
         all_statement_ids = []
@@ -317,19 +317,18 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model
     def _find_additional_data(self, currency_code, account_number):
-        """ Look for a res.currency and account.journal using values 
+        """ Look for a res.currency and account.journal using values
             extracted from the
             statement and make sure it's consistent.
         """
         company_currency = self.env.user.company_id.currency_id
         journal_obj = self.env['account.journal']
         currency = None
-        sanitized_account_number = sanitize_account_number(account_number)
         if currency_code:
             currency = self.env['res.currency'].search([('name',
                                                          '=ilike',
                                                          currency_code), ]
-                                                         , limit=1, )
+                                                         ,limit=1, )
             if not currency:
                 raise UserError(_("No currency \
                                     found matching '%s'.") % currency_code)
@@ -341,7 +340,8 @@ class AccountBankStatementImport(models.TransientModel):
                                            '=',
                                            account_number)], limit=1)
         return currency, journal
-    @api.model    
+
+    @api.model
     def _complete_stmts_vals(self, stmts_vals, journal, account_number):
         for st_vals in stmts_vals:
             st_vals['journal_id'] = journal.id
@@ -353,14 +353,14 @@ class AccountBankStatementImport(models.TransientModel):
                         sanitize_account_number(account_number)
                     line_vals['unique_import_id'] = \
                         (sanitized_account_number and \
-                        sanitized_account_number + '-' or '')\
-                        + unique_import_id
-                    # suppression de  + str(journal.id) + '-' +  
+                            sanitized_account_number + '-' or '')\
+                                + unique_import_id
+                    # suppression de  + str(journal.id) + '-' + 
                     # afin de garder la compatibilité avec la V8
         # print ("================", stmts_vals)
         return stmts_vals
 
-    @api.model   
+    @api.model
     def _create_bank_statements(self, stmts_vals):
         """ Create new bank statements from imported values,
         filtering out already imported transactions, and
