@@ -266,7 +266,7 @@ class AccountBankStatementImport(models.TransientModel):
         # requires information about the wizard state (see QIF)
         super_data = \
             self.with_context(active_id=self.ids[0]).\
-                              _parse_file(base64.b64decode(self.data_file))
+            _parse_file(base64.b64decode(self.data_file))
         # print ("super", super_data)
         total_imported = 0
         all_statement_ids = []
@@ -327,8 +327,8 @@ class AccountBankStatementImport(models.TransientModel):
         if currency_code:
             currency = self.env['res.currency'].search([('name',
                                                          '=ilike',
-                                                         currency_code), ]
-                                                         ,limit=1, )
+                                                         currency_code)],
+                                                         limit=1)
             if not currency:
                 raise UserError(_("No currency \
                                     found matching '%s'.") % currency_code)
@@ -353,9 +353,9 @@ class AccountBankStatementImport(models.TransientModel):
                         sanitize_account_number(account_number)
                     line_vals['unique_import_id'] = \
                         (sanitized_account_number and \
-                            sanitized_account_number + '-' or '')\
-                                + unique_import_id
-                    # suppression de  + str(journal.id) + '-' + 
+                        sanitized_account_number + '-' or '')\
+                        + unique_import_id
+                    # suppression de  + str(journal.id) + '-' +
                     # afin de garder la compatibilité avec la V8
         # print ("================", stmts_vals)
         return stmts_vals
@@ -376,7 +376,7 @@ class AccountBankStatementImport(models.TransientModel):
             for line_vals in st_vals['transactions']:
                 if 'unique_import_id' not in line_vals \
                     or not line_vals['unique_import_id'] \
-                    or not bool(BankStatementLine.sudo().\
+                    or not bool(BankStatementLine.sudo().
                             search([('unique_import_id',
                                      '=',
                                      line_vals['unique_import_id'])],
@@ -393,8 +393,8 @@ class AccountBankStatementImport(models.TransientModel):
                 for line_vals in filtered_st_lines:
                     line_vals.pop('account_number', None)
                 # Create the satement
-                st_vals['line_ids'] = [[0, False, line] \
-                                        for line in filtered_st_lines]
+                st_vals['line_ids'] = [[0, False, line]
+                                       for line in filtered_st_lines]
                 statement_ids.append(BankStatement.create(st_vals).id)
         # if len(statement_ids) == 0:
         #    raise UserError(_('You have already imported that file.'))
@@ -406,15 +406,16 @@ class AccountBankStatementImport(models.TransientModel):
             notifications += [{
                 'type': 'warning',
                 'message': _("%d transactions had already been imported \
-                            and were ignored.") \
-                            % num_ignored if num_ignored > 1 \
-                            else _("1 transaction had already been \
-                            imported and was ignored."),
+                             and were ignored.")
+                             % num_ignored if num_ignored > 1 \
+                             else _("1 transaction had already been \
+                             imported and was ignored."),
                 'details': {
                     'name': _('Already imported items'),
                     'model': 'account.bank.statement.line',
-                    'ids': BankStatementLine.search([('unique_import_id', 
-                            'in', ignored_statement_lines_import_ids)]).ids
+                    'ids': BankStatementLine.
+                        search([('unique_import_id',
+                               'in', ignored_statement_lines_import_ids)]).ids
                 }
             }]
         return statement_ids, notifications
