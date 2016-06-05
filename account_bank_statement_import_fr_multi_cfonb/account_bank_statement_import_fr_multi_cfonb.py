@@ -142,7 +142,7 @@ class AccountBankStatementImport(models.TransientModel):
             date_dt = False
             date_str = False
 
-            line_iban = self._RIBwithoutkey2IBAN(line_bank_code, 
+            line_iban = self._RIBwithoutkey2IBAN(line_bank_code,
                                                  line_guichet_code,
                                                  line_account_number)
             if date_cfonb_str != '      ':
@@ -171,11 +171,14 @@ class AccountBankStatementImport(models.TransientModel):
                 try:
                     while data_line[i+j][0:2] == '05':
                         name += ' %s' % data_line[i+j][48:79].strip()
-                        j+=1
+                        j += 1
                 except:
                     pass
 
-                id_line_unique = '%s-%s-%.2f-%s' % (date_str, ref, amount, name)
+                id_line_unique = '%s-%s-%.2f-%s' % (date_str,
+                                                    ref,
+                                                    amount,
+                                                    name)
 
                 # if case id_line_unique is not unique on same count 
                 # (it is possible : double credit card paiement on same day), 
@@ -198,7 +201,7 @@ class AccountBankStatementImport(models.TransientModel):
                         for balise_part in partner['balise_ids']:
                             # print (balise_part)
                             balise_name = \
-                                balise_model.search([('id', 
+                                balise_model.search([('id',
                                                       '=',
                                                       balise_part)]).balise_id
                             # print ("cool", balise_name)
@@ -304,13 +307,13 @@ class AccountBankStatementImport(models.TransientModel):
             raise UserError(_('You have already imported that file.'))
         action = self.env.ref('account.action_bank_reconcile_bank_statements')
         return {
-            'name': action.name,
-            'tag': action.tag,
-            'context': {
-                        'statement_ids': all_statement_ids,
-                        'notifications': all_notifications,
-            },
-            'type': 'ir.actions.client',
+                'name': action.name,
+                'tag': action.tag,
+                'context': {
+                            'statement_ids': all_statement_ids,
+                            'notifications': all_notifications,
+                },
+                'type': 'ir.actions.client',
         }
 
     @api.model    
