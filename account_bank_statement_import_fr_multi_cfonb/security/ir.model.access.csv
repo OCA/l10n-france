@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+bank_balise1,bank_balise1,account_bank_statement_import_fr_multi_cfonb.model_res_partner_bankbalise,purchase.group_purchase_manager,1,0,0,0
+bank_balise2,bank_balise2,account_bank_statement_import_fr_multi_cfonb.model_res_partner_bankbalise,purchase.group_purchase_user,1,0,0,0
+bank_balise3,bank_balise3,account_bank_statement_import_fr_multi_cfonb.model_res_partner_bankbalise,account.group_account_manager,1,1,1,1
+bank_balise4,bank_balise4,account_bank_statement_import_fr_multi_cfonb.model_res_partner_bankbalise,account.group_account_invoice,1,1,1,1

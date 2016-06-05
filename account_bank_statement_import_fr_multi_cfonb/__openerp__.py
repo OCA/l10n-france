@@ -30,6 +30,7 @@
     'summary': 'Import French CFONB multi bank files as Bank \
                                             Statements in Odoo',
     'depends': ['account_bank_statement_import', 'base'],
-    'data': ['account_bank_statement_import_fr_multi_cfonb.xml'],
+    'data': ['account_bank_statement_import_fr_multi_cfonb.xml',
+             'security/ir.model.access.csv'],
     'installable': True,
 }
