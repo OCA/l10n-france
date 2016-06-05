@@ -375,11 +375,11 @@ class AccountBankStatementImport(models.TransientModel):
             for line_vals in st_vals['transactions']:
                 if 'unique_import_id' not in line_vals \
                     or not line_vals['unique_import_id'] \
-                    or not bool(BankStatementLine.sudo().\
-                            search([('unique_import_id',
-                                     '=',
-                                     line_vals['unique_import_id'])],
-                                   limit=1)):
+                    or not bool(BankStatementLine.sudo().
+                                search([('unique_import_id',
+                                         '=',
+                                         line_vals['unique_import_id'])],
+                                       limit=1)):
 
                     filtered_st_lines.append(line_vals)
                 else:
@@ -405,10 +405,10 @@ class AccountBankStatementImport(models.TransientModel):
             notifications += [{
                 'type': 'warning',
                 'message': _("%d transactions had already been imported \
-                             and were ignored.")\
-                             % num_ignored if num_ignored > 1\
-                             else _("1 transaction had already been \
-                             imported and was ignored."),
+                           and were ignored.")
+                           % num_ignored if num_ignored > 1
+                           else _("1 transaction had already been \
+                           imported and was ignored."),
                 'details': {
                     'name': _('Already imported items'),
                     'model': 'account.bank.statement.line',
