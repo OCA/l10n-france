@@ -180,8 +180,8 @@ class AccountBankStatementImport(models.TransientModel):
                                                     amount,
                                                     name)
 
-                # if case id_line_unique is not unique on same count 
-                # (it is possible : double credit card paiement on same day), 
+                # if case id_line_unique is not unique on same count
+                # (it is possible : double credit card paiement on same day),
                 # add a number to make a difference
                 if id_line_unique in anti_double:
                     ind_anti_double += 1
@@ -190,12 +190,12 @@ class AccountBankStatementImport(models.TransientModel):
 
                 anti_double.append(id_line_unique)
 
-                # find a partner in field bank with a balise "-U-5667-U-", 
-                # 5667 is the id of partner, 
+                # find a partner in field bank with a balise "-U-5667-U-",
+                # 5667 is the id of partner,
                 # add this balise when you do a bank transfert in bank website
-                
+
                 for partner in partners:
-                    find = False 
+                    find = False
                     # print ("#################", partner['id'])
                     if partner['balise_ids']:
                         for balise_part in partner['balise_ids']:
@@ -207,9 +207,9 @@ class AccountBankStatementImport(models.TransientModel):
                             # print ("cool", balise_name)
                             if str(balise_name) in name:
                                 partner_id = partner['id']
-                                # print 
+                                # print
                                 # ("Find", name, balise_name, partner['id'])
-                                find = True 
+                                find = True
                                 break
                             else:
                                 partner_id = False
@@ -221,7 +221,7 @@ class AccountBankStatementImport(models.TransientModel):
                     'date': date_str,
                     'name': name,
                     'ref': ref,
-                    'unique_import_id':id_line_unique,
+                    'unique_import_id': id_line_unique,
                     'amount': amount,
                     'partner_id': partner_id,
                     'bank_account_id': bank_account_id,
@@ -239,22 +239,21 @@ class AccountBankStatementImport(models.TransientModel):
                 vals_bank_statement = {'currency_code':currency_code,
                                        'account_number':iban,
                                        # utilise la numérotation odoo
-                                       'name': False, 
+                                       'name': False,
                                        'date': start_date_str,
                                        'balance_start': start_balance,
                                        'balance_end_real': end_balance,
                                        'transactions': transactions,
-                    }
+                                        }
                 # print( "CCCCC", currency_code, iban)
                 bank.append([currency_code, iban, [vals_bank_statement]])
                 transactions = []
-                bank_code = guichet_code = \
-                    account_number = currency_code = False
+                currency_code = False
                 decimals = start_balance = False
                 start_balance = end_balance = \
-                    start_date_str = end_date_str = False
+                    start_date_str = False
                 vals_line = False
-        #print (bank)
+        # print (bank)
         return bank
 
     @api.multi
