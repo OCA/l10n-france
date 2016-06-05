@@ -45,9 +45,9 @@ class BankBalise(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     balise_ids = fields.One2many('res.partner.bankbalise', 'partner_id',
-                                    string='Balises', copy=True)
+                                 string='Balises', copy=True)
 
-        
+
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
@@ -116,7 +116,7 @@ class AccountBankStatementImport(models.TransientModel):
         partner_model = self.env['res.partner']
         partners = partner_model.search_read([], ['balise_ids'])
         balise_model = self.env['res.partner.bankbalise']
-        
+
         for line in data_file.splitlines():
             data_line.append(line)
         for i in range(0, len(data_line)):
@@ -141,9 +141,10 @@ class AccountBankStatementImport(models.TransientModel):
             date_cfonb_str = line[34:40]
             date_dt = False
             date_str = False
+
             line_iban = self._RIBwithoutkey2IBAN(line_bank_code, 
-                                                    line_guichet_code,
-                                                    line_account_number)
+                                                 line_guichet_code,
+                                                 line_account_number)
             if date_cfonb_str != '      ':
                 date_dt = datetime.strptime(date_cfonb_str, '%d%m%y')
                 date_str = fields.Date.to_string(date_dt)
@@ -166,16 +167,16 @@ class AccountBankStatementImport(models.TransientModel):
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
                 name = line[48:79].strip()
-                j=1
+                j = 1
                 try:
                     while data_line[i+j][0:2] == '05':
                         name += ' %s' % data_line[i+j][48:79].strip()
                         j+=1
                 except:
                     pass
-                
+
                 id_line_unique = '%s-%s-%.2f-%s' % (date_str, ref, amount, name)
-                
+
                 # if case id_line_unique is not unique on same count 
                 # (it is possible : double credit card paiement on same day), 
                 # add a number to make a difference
@@ -183,9 +184,9 @@ class AccountBankStatementImport(models.TransientModel):
                     ind_anti_double += 1
                     id_line_unique += str(" " + str(ind_anti_double))
                     name += str(" " + str(ind_anti_double))
-                
+
                 anti_double.append(id_line_unique)
-                
+
                 # find a partner in field bank with a balise "-U-5667-U-", 
                 # 5667 is the id of partner, 
                 # add this balise when you do a bank transfert in bank website
@@ -196,11 +197,15 @@ class AccountBankStatementImport(models.TransientModel):
                     if partner['balise_ids']:
                         for balise_part in partner['balise_ids']:
                             # print (balise_part)
-                            balise_name = balise_model.search([('id', '=', balise_part)]).balise_id
+                            balise_name = \
+                                balise_model.search([('id', 
+                                                      '=',
+                                                      balise_part)]).balise_id
                             # print ("cool", balise_name)
                             if str(balise_name) in name:
                                 partner_id = partner['id']
-                                print ("Find", name, balise_name, partner['id'])
+                                # print 
+                                # ("Find", name, balise_name, partner['id'])
                                 find = True 
                                 break
                             else:
@@ -218,7 +223,6 @@ class AccountBankStatementImport(models.TransientModel):
                     'partner_id': partner_id,
                     'bank_account_id': bank_account_id,
                 }
-                
                 transactions.append(vals_line)
 
             if rec_type == '07':
@@ -226,22 +230,23 @@ class AccountBankStatementImport(models.TransientModel):
                     raise UserError(
                         _('Error CFONB File, account line is differente from \
                         the last account line %d.') % i)
-            
+
                 end_date_str = date_str
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
                 vals_bank_statement = {'currency_code':currency_code,
                                        'account_number':iban,
-                                       #utilise la numérotation odoo
+                                       # utilise la numérotation odoo
                                        'name': False, 
                                        'date': start_date_str,
                                        'balance_start': start_balance,
                                        'balance_end_real': end_balance,
                                        'transactions': transactions,
                     }
-                #print( "CCCCC", currency_code, iban)
+                # print( "CCCCC", currency_code, iban)
                 bank.append([currency_code, iban, [vals_bank_statement]])
                 transactions = []
-                bank_code = guichet_code = account_number = currency_code = False
+                bank_code = guichet_code = \
+                    account_number = currency_code = False
                 decimals = start_balance = False
                 start_balance = end_balance = \
                     start_date_str = end_date_str = False
@@ -255,12 +260,12 @@ class AccountBankStatementImport(models.TransientModel):
         and go to reconciliation. use for multi bank"""
         self.ensure_one()
         # Let the appropriate implementation module parse the file and return
-        #the required data
+        # the required data
         # The active_id is passed in context in case an implementation module 
-        #requires information about the wizard state (see QIF)
+        # requires information about the wizard state (see QIF)
         super_data = self.with_context(active_id=self.ids[0]).\
                         _parse_file(base64.b64decode(self.data_file))
-        #print ("super", super_data)
+        # print ("super", super_data)
         total_imported = 0
         all_statement_ids = []
         all_notifications = []
@@ -271,7 +276,7 @@ class AccountBankStatementImport(models.TransientModel):
             # self._check_parsed_data(stmts_vals)
             # Try to find the currency and journal in odoo
             currency, journal = self._find_additional_data(currency_code, 
-                                                            account_number)
+                                                           account_number)
             # If no journal found, ask the user about creating one
             if not journal:
                 raise UserError(
@@ -282,8 +287,8 @@ class AccountBankStatementImport(models.TransientModel):
                 # _journal_creation_wizard(currency, account_number)
             # Prepare statement data to be used for bank statements creation
             stmts_vals = self._complete_stmts_vals(stmts_vals, 
-                                                    journal, 
-                                                    account_number,)
+                                                   journal, 
+                                                   account_number,)
             # Create the bank statements
             statement_ids, notifications = \
                 self._create_bank_statements(stmts_vals)
@@ -291,8 +296,9 @@ class AccountBankStatementImport(models.TransientModel):
             all_notifications.extend(notifications)
             total_imported += len(statement_ids)
             # Now that the import worked out, set it as the 
-            #bank_statements_source of the journal
+            # bank_statements_source of the journal
             journal.bank_statements_source = 'file_import'
+
         # Finally dispatch to reconciliation interface
         if total_imported == 0:
             raise UserError(_('You have already imported that file.'))
@@ -301,12 +307,12 @@ class AccountBankStatementImport(models.TransientModel):
             'name': action.name,
             'tag': action.tag,
             'context': {
-                'statement_ids': all_statement_ids,
-                'notifications': all_notifications,
+                        'statement_ids': all_statement_ids,
+                        'notifications': all_notifications,
             },
             'type': 'ir.actions.client',
         }
-        
+
     @api.model    
     def _find_additional_data(self, currency_code, account_number):
         """ Look for a res.currency and account.journal using values 
@@ -319,9 +325,9 @@ class AccountBankStatementImport(models.TransientModel):
         sanitized_account_number = sanitize_account_number(account_number)
         if currency_code:
             currency = self.env['res.currency'].search([('name',
-                                                            '=ilike', 
-                                                            currency_code),]
-                                                            , limit=1)
+                                                         '=ilike', 
+                                                         currency_code),]
+                                                         , limit=1)
             if not currency:
                 raise UserError(_("No currency \
                                     found matching '%s'.") % currency_code)
@@ -329,8 +335,9 @@ class AccountBankStatementImport(models.TransientModel):
                 currency = False
 
         if account_number:
-            journal = journal_obj.search(
-                        [('bank_acc_number', '=', account_number)], limit=1)
+            journal = journal_obj.search([('bank_acc_number',
+                                           '=',
+                                           account_number)], limit=1)
         return currency, journal
     @api.model    
     def _complete_stmts_vals(self, stmts_vals, journal, account_number):
@@ -344,10 +351,11 @@ class AccountBankStatementImport(models.TransientModel):
                         sanitize_account_number(account_number)
                     line_vals['unique_import_id'] = \
                         (sanitized_account_number and \
-                        sanitized_account_number + '-' or '') + unique_import_id
-                    #suppression de  + str(journal.id) + '-' +  
-                    #afin de garder la compatibilité avec la V8
-        #print ("================", stmts_vals)
+                        sanitized_account_number + '-' or '')\
+                        + unique_import_id
+                    # suppression de  + str(journal.id) + '-' +  
+                    # afin de garder la compatibilité avec la V8
+        # print ("================", stmts_vals)
         return stmts_vals
 
     @api.model   
@@ -384,7 +392,7 @@ class AccountBankStatementImport(models.TransientModel):
                 st_vals['line_ids'] = [[0, False, line] \
                                         for line in filtered_st_lines]
                 statement_ids.append(BankStatement.create(st_vals).id)
-        #if len(statement_ids) == 0:
+        # if len(statement_ids) == 0:
         #    raise UserError(_('You have already imported that file.'))
 
         # Prepare import feedback
