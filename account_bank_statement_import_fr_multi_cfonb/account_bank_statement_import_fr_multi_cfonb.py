@@ -41,11 +41,11 @@ class BankBalise(models.Model):
                          'unique (balise_id)',
                          'Balise need to be unique')]
 
-                         
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     balise_ids = fields.One2many('res.partner.bankbalise', 'partner_id',
-        string='Balises', copy=True)
+                                    string='Balises', copy=True)
 
         
 class AccountBankStatementImport(models.TransientModel):
@@ -112,14 +112,14 @@ class AccountBankStatementImport(models.TransientModel):
         vals_line = False
         bank = []
         data_line = []
-        #import balise
+        # import balise
         partner_model = self.env['res.partner']
         partners = partner_model.search_read([], ['balise_ids'])
         balise_model = self.env['res.partner.bankbalise']
-        balise_ids = balise_model.search_read([], ['balise_id','partner_id'])
+        
         for line in data_file.splitlines():
             data_line.append(line)
-        for i in range(0,len(data_line)):
+        for i in range(0, len(data_line)):
             line = data_line[i]
             _logger.debug("Line %d: %s" % (i, line))
             if not line:
@@ -141,8 +141,9 @@ class AccountBankStatementImport(models.TransientModel):
             date_cfonb_str = line[34:40]
             date_dt = False
             date_str = False
-            line_iban = self._RIBwithoutkey2IBAN(line_bank_code, line_guichet_code, line_account_number)
-            
+            line_iban = self._RIBwithoutkey2IBAN(line_bank_code, 
+                                                    line_guichet_code,
+                                                    line_account_number)
             if date_cfonb_str != '      ':
                 date_dt = datetime.strptime(date_cfonb_str, '%d%m%y')
                 date_str = fields.Date.to_string(date_dt)
@@ -159,8 +160,8 @@ class AccountBankStatementImport(models.TransientModel):
             if rec_type == '04':
                 if iban != line_iban:
                     raise UserError(
-                        _('Error CFONB File, account line is differente from the last account line %d.') % i)
-            
+                        _('Error CFONB File, account line is \
+                        differente from the last account line %d.') % i)
                 bank_account_id = partner_id = False
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
@@ -175,8 +176,9 @@ class AccountBankStatementImport(models.TransientModel):
                 
                 id_line_unique = '%s-%s-%.2f-%s' % (date_str, ref, amount, name)
                 
-                #if case id_line_unique is not unique on same count (it is possible : double credit card paiement on same day), 
-                #add a number to make a difference
+                # if case id_line_unique is not unique on same count 
+                # (it is possible : double credit card paiement on same day), 
+                # add a number to make a difference
                 if id_line_unique in anti_double:
                     ind_anti_double += 1
                     id_line_unique += str(" " + str(ind_anti_double))
@@ -184,17 +186,17 @@ class AccountBankStatementImport(models.TransientModel):
                 
                 anti_double.append(id_line_unique)
                 
-                #find a partner in field bank with a balise "-U-5667-U-", 5667 is the id of partner, 
-                #add this balise when you do a bank transfert in bank website
+                # find a partner in field bank with a balise "-U-5667-U-", 5667 is the id of partner, 
+                # add this balise when you do a bank transfert in bank website
                 
                 for partner in partners:
                     find = False 
-                    #print ("#################", partner['id'])
+                    # print ("#################", partner['id'])
                     if partner['balise_ids']:
                         for balise_part in partner['balise_ids']:
-                            #print (balise_part)
+                            # print (balise_part)
                             balise_name = balise_model.search([('id', '=', balise_part)]).balise_id
-                            #print ("cool", balise_name)
+                            # print ("cool", balise_name)
                             if str(balise_name) in name:
                                 partner_id = partner['id']
                                 print ("Find", name, balise_name, partner['id'])
@@ -204,7 +206,8 @@ class AccountBankStatementImport(models.TransientModel):
                                 partner_id = False
                     if find: 
                         break
-                #context = none #{'ir_sequence_date', date_str}
+
+                # context = none #{'ir_sequence_date', date_str}
                 vals_line = {
                     'date': date_str,
                     'name': name,
