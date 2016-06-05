@@ -37,11 +37,9 @@ class BankBalise(models.Model):
     balise_id = fields.Char('Balise', required=True)
     partner_id = fields.Many2one('res.partner', string='Partner', select=True,
                                  required=True, ondelete='cascade')
-    _sql_constraints = [
-                        ('balise_id',
+    _sql_constraints = [('balise_id',
                          'unique (balise_id)',
-                         'Balise need to be unique')
-    ]
+                         'Balise need to be unique')]
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -71,7 +69,7 @@ class AccountBankStatementImport(models.TransientModel):
             amount_num = float(amount_str[:-1] + credit_trans[amount_str[-1]])
         return amount_num
 
-    def _RIBwithoutkey2IBAN(self,banque, guichet, compte):
+    def _RIBwithoutkey2IBAN(self, banque, guichet, compte):
         # http://fr.wikipedia.org/wiki/Clé_RIB#V.C3.A9rifier_un_RIB_avec_un
         #e_formule_Excel
         # calcul key rib :
