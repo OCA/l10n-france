@@ -234,7 +234,6 @@ class AccountBankStatementImport(models.TransientModel):
                         _('Error CFONB File, account line is differente from \
                         the last account line %d.') % i)
 
-
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
                 vals_bank_statement = {'currency_code': currency_code,
                                        'account_number': iban,
