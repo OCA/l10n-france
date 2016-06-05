@@ -308,8 +308,7 @@ class AccountBankStatementImport(models.TransientModel):
         action = self.env.ref('account.action_bank_reconcile_bank_statements')
         return {'name': action.name,
                 'tag': action.tag,
-                'context': {
-                            'statement_ids': all_statement_ids,
+                'context': {'statement_ids': all_statement_ids,
                             'notifications': all_notifications,
                             },
                 'type': 'ir.actions.client',
@@ -330,8 +329,8 @@ class AccountBankStatementImport(models.TransientModel):
                                                          currency_code)],
                                                          limit=1)
             if not currency:
-                raise UserError(_("No currency \
-                                    found matching '%s'.") % currency_code)
+                raise UserError(_("No currency found matching '%s'.") 
+                                % currency_code)
             if currency == company_currency:
                 currency = False
 
@@ -352,7 +351,7 @@ class AccountBankStatementImport(models.TransientModel):
                     sanitized_account_number = \
                         sanitize_account_number(account_number)
                     line_vals['unique_import_id'] = \
-                        (sanitized_account_number and \
+                        (sanitized_account_number and
                         sanitized_account_number + '-' or '')\
                         + unique_import_id
                     # suppression de  + str(journal.id) + '-' +
@@ -380,7 +379,7 @@ class AccountBankStatementImport(models.TransientModel):
                             search([('unique_import_id',
                                      '=',
                                      line_vals['unique_import_id'])],
-                                     limit=1)):
+                                    limit=1)):
 
                     filtered_st_lines.append(line_vals)
                 else:
@@ -407,7 +406,7 @@ class AccountBankStatementImport(models.TransientModel):
                 'type': 'warning',
                 'message': _("%d transactions had already been imported \
                              and were ignored.")
-                             % num_ignored if num_ignored > 1 \
+                             % num_ignored if num_ignored > 1
                              else _("1 transaction had already been \
                              imported and was ignored."),
                 'details': {
