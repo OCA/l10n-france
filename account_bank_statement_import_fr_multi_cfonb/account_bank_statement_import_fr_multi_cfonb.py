@@ -108,7 +108,7 @@ class AccountBankStatementImport(models.TransientModel):
                 _('The file is empty.'))
         currency_code = False
         decimals = start_balance = False
-        start_balance = end_balance = start_date_str = end_date_str = False
+        start_balance = end_balance = start_date_str = False
         vals_line = False
         bank = []
         data_line = []
@@ -243,7 +243,7 @@ class AccountBankStatementImport(models.TransientModel):
                                        'date': start_date_str,
                                        'balance_start': start_balance,
                                        'balance_end_real': end_balance,
-                                       'transactions': transactions,}
+                                       'transactions': transactions, }
 
                 # print( "CCCCC", currency_code, iban)
                 bank.append([currency_code, iban, [vals_bank_statement]])
@@ -263,34 +263,36 @@ class AccountBankStatementImport(models.TransientModel):
         self.ensure_one()
         # Let the appropriate implementation module parse the file and return
         # the required data
-        # The active_id is passed in context in case an implementation module 
+        # The active_id is passed in context in case an implementation module
         # requires information about the wizard state (see QIF)
-        super_data = self.with_context(
-                        active_id=self.ids[0]).\
-                        _parse_file(base64.b64decode(self.data_file))
+        super_data = \
+            self.with_context(active_id=self.ids[0]).\
+                              _parse_file(base64.b64decode(self.data_file))
         # print ("super", super_data)
         total_imported = 0
         all_statement_ids = []
         all_notifications = []
+
         for s_data in super_data:
-            
             currency_code, account_number, stmts_vals = s_data
             # Check raw data
             # self._check_parsed_data(stmts_vals)
             # Try to find the currency and journal in odoo
-            currency, journal = self._find_additional_data(currency_code, 
+            currency, journal = self._find_additional_data(currency_code,
                                                            account_number)
             # If no journal found, ask the user about creating one
             if not journal:
                 raise UserError(
-                _('Can not find the account number %s.') % account_number)
-                # The active_id is passed in context so the wizard can call 
+                                _('Can not find the account number %s.')\
+                                % account_number)
+                # The active_id is passed in context so the wizard can call
                 # import_file again once the journal is created
                 # return self.with_context(active_id=self.ids[0]).
                 # _journal_creation_wizard(currency, account_number)
+
             # Prepare statement data to be used for bank statements creation
-            stmts_vals = self._complete_stmts_vals(stmts_vals, 
-                                                   journal, 
+            stmts_vals = self._complete_stmts_vals(stmts_vals,
+                                                   journal,
                                                    account_number,)
             # Create the bank statements
             statement_ids, notifications = \
@@ -312,11 +314,11 @@ class AccountBankStatementImport(models.TransientModel):
                 'context': {
                             'statement_ids': all_statement_ids,
                             'notifications': all_notifications,
-                },
+                            },
                 'type': 'ir.actions.client',
-        }
+                }
 
-    @api.model    
+    @api.model
     def _find_additional_data(self, currency_code, account_number):
         """ Look for a res.currency and account.journal using values 
             extracted from the
@@ -376,16 +378,18 @@ class AccountBankStatementImport(models.TransientModel):
             filtered_st_lines = []
             for line_vals in st_vals['transactions']:
                 if 'unique_import_id' not in line_vals \
-                   or not line_vals['unique_import_id'] \
-                   or not bool(BankStatementLine.sudo().search(
-                                [('unique_import_id',
-                                '=',
-                                line_vals['unique_import_id'])],
-                                limit=1)):
+                    or not line_vals['unique_import_id'] \
+                    or not bool(BankStatementLine.sudo().\
+                            search([('unique_import_id',
+                                     '=',
+                                     line_vals['unique_import_id'])],
+                                     limit=1)):
+
                     filtered_st_lines.append(line_vals)
                 else:
                     ignored_statement_lines_import_ids.\
                         append(line_vals['unique_import_id'])
+
             if len(filtered_st_lines) > 0:
                 # Remove values that won't be used to create records
                 st_vals.pop('transactions', None)
