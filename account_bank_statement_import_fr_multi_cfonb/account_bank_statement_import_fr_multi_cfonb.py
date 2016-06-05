@@ -186,7 +186,8 @@ class AccountBankStatementImport(models.TransientModel):
                 
                 anti_double.append(id_line_unique)
                 
-                # find a partner in field bank with a balise "-U-5667-U-", 5667 is the id of partner, 
+                # find a partner in field bank with a balise "-U-5667-U-", 
+                # 5667 is the id of partner, 
                 # add this balise when you do a bank transfert in bank website
                 
                 for partner in partners:
@@ -257,7 +258,8 @@ class AccountBankStatementImport(models.TransientModel):
         #the required data
         # The active_id is passed in context in case an implementation module 
         #requires information about the wizard state (see QIF)
-        super_data = self.with_context(active_id=self.ids[0])._parse_file(base64.b64decode(self.data_file))
+        super_data = self.with_context(active_id=self.ids[0]).\
+                        _parse_file(base64.b64decode(self.data_file))
         #print ("super", super_data)
         total_imported = 0
         all_statement_ids = []
@@ -268,15 +270,16 @@ class AccountBankStatementImport(models.TransientModel):
             # Check raw data
             # self._check_parsed_data(stmts_vals)
             # Try to find the currency and journal in odoo
-            currency, journal = self._find_additional_data(currency_code, account_number)
+            currency, journal = self._find_additional_data(currency_code, 
+                                                            account_number)
             # If no journal found, ask the user about creating one
             if not journal:
                 raise UserError(
                 _('Can not find the account number %s.') % account_number)
                 # The active_id is passed in context so the wizard can call 
-                #import_file again once the journal is created
+                # import_file again once the journal is created
                 # return self.with_context(active_id=self.ids[0]).
-                #_journal_creation_wizard(currency, account_number)
+                # _journal_creation_wizard(currency, account_number)
             # Prepare statement data to be used for bank statements creation
             stmts_vals = self._complete_stmts_vals(stmts_vals, 
                                                     journal, 
@@ -363,17 +366,23 @@ class AccountBankStatementImport(models.TransientModel):
             for line_vals in st_vals['transactions']:
                 if 'unique_import_id' not in line_vals \
                    or not line_vals['unique_import_id'] \
-                   or not bool(BankStatementLine.sudo().search([('unique_import_id', '=', line_vals['unique_import_id'])], limit=1)):
+                   or not bool(BankStatementLine.sudo().search(
+                                [('unique_import_id',
+                                '=',
+                                line_vals['unique_import_id'])],
+                                limit=1)):
                     filtered_st_lines.append(line_vals)
                 else:
-                    ignored_statement_lines_import_ids.append(line_vals['unique_import_id'])
+                    ignored_statement_lines_import_ids.\
+                        append(line_vals['unique_import_id'])
             if len(filtered_st_lines) > 0:
                 # Remove values that won't be used to create records
                 st_vals.pop('transactions', None)
                 for line_vals in filtered_st_lines:
                     line_vals.pop('account_number', None)
                 # Create the satement
-                st_vals['line_ids'] = [[0, False, line] for line in filtered_st_lines]
+                st_vals['line_ids'] = [[0, False, line] \
+                                        for line in filtered_st_lines]
                 statement_ids.append(BankStatement.create(st_vals).id)
         #if len(statement_ids) == 0:
         #    raise UserError(_('You have already imported that file.'))
@@ -384,11 +393,16 @@ class AccountBankStatementImport(models.TransientModel):
         if num_ignored > 0:
             notifications += [{
                 'type': 'warning',
-                'message': _("%d transactions had already been imported and were ignored.") % num_ignored if num_ignored > 1 else _("1 transaction had already been imported and was ignored."),
+                'message': _("%d transactions had already been imported \
+                            and were ignored.") \
+                            % num_ignored if num_ignored > 1 \
+                            else _("1 transaction had already been \
+                            imported and was ignored."),
                 'details': {
                     'name': _('Already imported items'),
                     'model': 'account.bank.statement.line',
-                    'ids': BankStatementLine.search([('unique_import_id', 'in', ignored_statement_lines_import_ids)]).ids
+                    'ids': BankStatementLine.search([('unique_import_id', 
+                            'in', ignored_statement_lines_import_ids)]).ids
                 }
             }]
         return statement_ids, notifications
