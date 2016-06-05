@@ -1,5 +1,5 @@
 Import French CFONB MULTI Bank Statements
-===================================
+=========================================
 
 This module allows you to import the text-based French
 Multicompte
