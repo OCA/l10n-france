@@ -267,7 +267,7 @@ class AccountBankStatementImport(models.TransientModel):
         # requires information about the wizard state (see QIF)
         super_data = \
             self.with_context(active_id=self.ids[0]).\
-                              _parse_file(base64.b64decode(self.data_file))
+                _parse_file(base64.b64decode(self.data_file))
         # print ("super", super_data)
         total_imported = 0
         all_statement_ids = []
@@ -282,8 +282,7 @@ class AccountBankStatementImport(models.TransientModel):
                                                            account_number)
             # If no journal found, ask the user about creating one
             if not journal:
-                raise UserError(
-                                _('Can not find the account number %s.')\
+                raise UserError(_('Can not find the account number %s.')
                                 % account_number)
                 # The active_id is passed in context so the wizard can call
                 # import_file again once the journal is created
@@ -300,7 +299,7 @@ class AccountBankStatementImport(models.TransientModel):
             all_statement_ids.extend(statement_ids)
             all_notifications.extend(notifications)
             total_imported += len(statement_ids)
-            # Now that the import worked out, set it as the 
+            # Now that the import worked out, set it as the
             # bank_statements_source of the journal
             journal.bank_statements_source = 'file_import'
 
@@ -308,8 +307,7 @@ class AccountBankStatementImport(models.TransientModel):
         if total_imported == 0:
             raise UserError(_('You have already imported that file.'))
         action = self.env.ref('account.action_bank_reconcile_bank_statements')
-        return {
-                'name': action.name,
+        return {'name': action.name,
                 'tag': action.tag,
                 'context': {
                             'statement_ids': all_statement_ids,
@@ -331,8 +329,8 @@ class AccountBankStatementImport(models.TransientModel):
         if currency_code:
             currency = self.env['res.currency'].search([('name',
                                                          '=ilike',
-                                                         currency_code),]
-                                                         , limit=1)
+                                                         currency_code), ]
+                                                         , limit=1, )
             if not currency:
                 raise UserError(_("No currency \
                                     found matching '%s'.") % currency_code)
