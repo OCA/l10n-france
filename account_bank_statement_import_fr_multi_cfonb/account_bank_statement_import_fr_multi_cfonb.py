@@ -36,11 +36,11 @@ class BankBalise(models.Model):
     _order = 'partner_id desc'
     balise_id = fields.Char('Balise', required=True)
     partner_id = fields.Many2one('res.partner', string='Partner', select=True,
-        required=True, ondelete='cascade')
+                                 required=True, ondelete='cascade')
     _sql_constraints = [
-    ('balise_id',
-         'unique (balise_id)',
-         'Balise need to be unique')
+    ('balise_id', \
+                 'unique (balise_id)',
+                 'Balise need to be unique')
     ]
 
 class ResPartner(models.Model):
