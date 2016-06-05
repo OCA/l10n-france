@@ -106,7 +106,7 @@ class AccountBankStatementImport(models.TransientModel):
         if not data_file.splitlines():
             raise UserError(
                 _('The file is empty.'))
-        bank_code = guichet_code = account_number = currency_code = False
+        currency_code = False
         decimals = start_balance = False
         start_balance = end_balance = start_date_str = end_date_str = False
         vals_line = False
@@ -213,7 +213,7 @@ class AccountBankStatementImport(models.TransientModel):
                                 break
                             else:
                                 partner_id = False
-                    if find: 
+                    if find:
                         break
 
                 # context = none #{'ir_sequence_date', date_str}
@@ -234,17 +234,17 @@ class AccountBankStatementImport(models.TransientModel):
                         _('Error CFONB File, account line is differente from \
                         the last account line %d.') % i)
 
-                end_date_str = date_str
+
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
-                vals_bank_statement = {'currency_code':currency_code,
-                                       'account_number':iban,
+                vals_bank_statement = {'currency_code': currency_code,
+                                       'account_number': iban,
                                        # utilise la numérotation odoo
                                        'name': False,
                                        'date': start_date_str,
                                        'balance_start': start_balance,
                                        'balance_end_real': end_balance,
-                                       'transactions': transactions,
-                                        }
+                                       'transactions': transactions,}
+
                 # print( "CCCCC", currency_code, iban)
                 bank.append([currency_code, iban, [vals_bank_statement]])
                 transactions = []
@@ -258,14 +258,15 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.multi
     def import_file(self):
-        """ Process the file chosen in the wizard, create bank statement(s) 
+        """ Process the file chosen in the wizard, create bank statement(s)
         and go to reconciliation. use for multi bank"""
         self.ensure_one()
         # Let the appropriate implementation module parse the file and return
         # the required data
         # The active_id is passed in context in case an implementation module 
         # requires information about the wizard state (see QIF)
-        super_data = self.with_context(active_id=self.ids[0]).\
+        super_data = self.with_context(
+                        active_id=self.ids[0]).\
                         _parse_file(base64.b64decode(self.data_file))
         # print ("super", super_data)
         total_imported = 0
@@ -327,7 +328,7 @@ class AccountBankStatementImport(models.TransientModel):
         sanitized_account_number = sanitize_account_number(account_number)
         if currency_code:
             currency = self.env['res.currency'].search([('name',
-                                                         '=ilike', 
+                                                         '=ilike',
                                                          currency_code),]
                                                          , limit=1)
             if not currency:
@@ -362,8 +363,8 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model   
     def _create_bank_statements(self, stmts_vals):
-        """ Create new bank statements from imported values, 
-        filtering out already imported transactions, and 
+        """ Create new bank statements from imported values,
+        filtering out already imported transactions, and
         returns data used by the reconciliation widget """
         BankStatement = self.env['account.bank.statement']
         BankStatementLine = self.env['account.bank.statement.line']
