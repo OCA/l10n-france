@@ -404,10 +404,9 @@ class AccountBankStatementImport(models.TransientModel):
         if num_ignored > 0:
             notifications += [{
                 'type': 'warning',
-                'message': _("%d transactions had already been imported \
-                    and were ignored.") % num_ignored 
-                    if num_ignored > 1
-                    else _("1 transaction had already been \
+                'message': _("%d transactions had already been imported and \
+                    were ignored.") % num_ignored if num_ignored > 1 else _("\
+                    1 transaction had already been \
                     imported and was ignored."),
                 'details': {
                     'name': _('Already imported items'),
