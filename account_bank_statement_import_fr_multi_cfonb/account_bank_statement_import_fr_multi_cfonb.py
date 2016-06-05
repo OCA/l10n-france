@@ -41,11 +41,13 @@ class BankBalise(models.Model):
                          'unique (balise_id)',
                          'Balise need to be unique')]
 
+                         
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     balise_ids = fields.One2many('res.partner.bankbalise', 'partner_id',
         string='Balises', copy=True)
 
+        
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
@@ -71,7 +73,7 @@ class AccountBankStatementImport(models.TransientModel):
 
     def _RIBwithoutkey2IBAN(self, banque, guichet, compte):
         # http://fr.wikipedia.org/wiki/Clé_RIB#V.C3.A9rifier_un_RIB_avec_un
-        #e_formule_Excel
+        # e_formule_Excel
         # calcul key rib :
         lettres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         chiffres = "12345678912345678923456789"
@@ -81,12 +83,11 @@ class AccountBankStatementImport(models.TransientModel):
                 achar = char.upper()
                 achiffre = chiffres[lettres.find(achar)]
                 compte = compte.replace(char, achiffre)
-        reste = ( 89*int(banque) + 15*int(guichet) + 3*int(compte) ) % 97
+        reste = (89*int(banque) + 15*int(guichet) + 3*int(compte)) % 97
         cle = 97 - reste
-        
-        #conversion rib to IBAN, france only:
+        # conversion rib to IBAN, france only:
         rib = str(banque)+str(guichet)+str(compte)+str(cle)
-        tmp_iban = int("".join(str(int(c,36)) for c in rib+"FR00"))
+        tmp_iban = int("".join(str(int(c, 36)) for c in rib+"FR00"))
         key = 98 - (tmp_iban % 97)
         return "FR%.2d%s" % (key, rib)
 
@@ -105,23 +106,19 @@ class AccountBankStatementImport(models.TransientModel):
         if not data_file.splitlines():
             raise UserError(
                 _('The file is empty.'))
-                
         bank_code = guichet_code = account_number = currency_code = False
         decimals = start_balance = False
         start_balance = end_balance = start_date_str = end_date_str = False
         vals_line = False
         bank = []
         data_line = []
-        
         #import balise
         partner_model = self.env['res.partner']
         partners = partner_model.search_read([], ['balise_ids'])
         balise_model = self.env['res.partner.bankbalise']
         balise_ids = balise_model.search_read([], ['balise_id','partner_id'])
-
         for line in data_file.splitlines():
             data_line.append(line)
-
         for i in range(0,len(data_line)):
             line = data_line[i]
             _logger.debug("Line %d: %s" % (i, line))
