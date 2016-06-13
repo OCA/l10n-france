@@ -37,9 +37,9 @@
     'data': [
         'security/intrastat_product_security.xml',
         'security/ir.model.access.csv',
-        'intrastat_type_data.xml',
         'intrastat_product_view.xml',
-        'intrastat_type_view.xml',
+        'intrastat_transaction_data.xml',
+        'intrastat_transaction_view.xml',
         'intrastat_product_reminder.xml',
         'company_view.xml',
         'partner_view.xml',
