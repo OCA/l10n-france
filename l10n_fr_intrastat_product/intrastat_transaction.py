@@ -33,8 +33,8 @@ class IntrastatTransaction(models.Model):
 
     fr_object_type = fields.Selection([
         ('out_invoice', 'Customer Invoice'),
-        ('in_invoice', 'Supplier Invoice'),
         ('out_refund', 'Customer Refund'),
+        ('in_invoice', 'Supplier Invoice'),
         ('none', 'None'),
         ], string='Possible on', select=True, required=True)
     # procedure_code = fields.Selection([ => code
@@ -67,14 +67,17 @@ class IntrastatTransaction(models.Model):
         help="True for all procedure codes except 11, 19 and 29. "
         "When False, the VAT number should not be filled in the "
         "Intrastat product line.")
-    fr_intrastat_product_type = fields.Char(
-        # TODO : see with Luc if we can move it to intrastat_product
-        string='Intrastat product type',
+    # TODO : see with Luc if we can move it to intrastat_product
+    fr_intrastat_product_type = fields.Selection([
+        ('arrivals', 'Arrivals'),
+        ('dispatches', 'Dispatches'),
+        ], string='Intrastat product type',
         help="Decides on which kind of Intrastat product report "
         "('Import' or 'Export') this Intrastat type can be selected.")
 
+    # replace the native SQL constraint of the intrastat_product module
     _sql_constraints = [(
-        'code_invoice_type_uniq',
+        'intrastat_transaction_code_unique',
         'unique(code, fr_transaction_code, company_id)',
         'An Intrastat Transaction already exists for this company with the '
         'same code and the same procedure code.'
@@ -83,23 +86,15 @@ class IntrastatTransaction(models.Model):
     @api.one
     @api.constrains('code', 'fr_transaction_code')
     def _code_check(self):
-        if self.company_id.country_id and self.company_id.country_id == 'FR':
-            if self.fr_object_type == 'out' and self.fr_procedure_code != '29':
-                raise ValidationError(
-                    _("Procedure code must be '29' for an Outgoing products."))
-            elif (
-                    self.fr_object_type == 'in' and
-                    self.fr_procedure_code != '19'):
-                raise ValidationError(
-                    _("Procedure code must be '19' for an Incoming products."))
+        if (
+                self.company_id.country_id and
+                self.company_id.country_id == self.env.ref('base.fr')):
             if (
-                    self.fr_procedure_code not in fiscal_only_tuple and
+                    self.code not in fiscal_only_tuple and
                     not self.fr_transaction_code):
                 raise ValidationError(
                     _('You must enter a value for the transaction code.'))
-            if (
-                    self.fr_procedure_code in fiscal_only_tuple and
-                    self.fr_transaction_code):
+            if self.code in fiscal_only_tuple and self.fr_transaction_code:
                 raise ValidationError(_(
                     "You should not set a transaction code when the "
                     "Code (i.e. Procedure Code) is '25', '26' or '31'."))
