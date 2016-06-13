@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import intrastat_type
+from . import intrastat_transaction
 from . import partner
 from . import product
 from . import stock

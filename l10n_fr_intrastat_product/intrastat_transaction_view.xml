@@ -9,7 +9,6 @@
 <openerp>
 <data>
 
-<!-- Intrastat Type - Tree view -->
 <record id="intrastat_transaction_tree" model="ir.ui.view">
     <field name="name">fr.intrastat.transaction.tree</field>
     <field name="model">intrastat.transaction</field>
@@ -26,7 +25,6 @@
     </field>
 </record>
 
-<!-- Intrastat Type - Form view -->
 <record id="intrastat_transaction_form" model="ir.ui.view">
     <field name="name">fr.intrastat.transaction.form</field>
     <field name="model">intrastat.transaction</field>
