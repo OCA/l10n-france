@@ -50,7 +50,7 @@
             <!--<field name="search_view_id" ref="res_partner_bank_balise_search"/>-->
             <field name="arch" type="xml">
                 
-                <tree string="Partner Balise" create="true" editable="top">
+                <tree string="Partner Balise" create="true" editable="top"  default_order = "partner_id">
                     <field name="partner_id"/>
                     <field name="balise_id"/>
                 </tree>
