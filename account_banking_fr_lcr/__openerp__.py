@@ -17,5 +17,6 @@
         },
     'data': ['data/account_payment_method.xml'],
     'demo': ['demo/lcr_demo.xml'],
+    'post_init_hook': 'update_bank_journals',
     'installable': True,
 }
