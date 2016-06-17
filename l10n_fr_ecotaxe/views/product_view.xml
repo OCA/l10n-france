@@ -36,22 +36,6 @@
                 </field>
             </field>
         </record>
-		
-<!--		
-        <record id="ecotaxe_category_property_form" model="ir.ui.view">
-            <field name="name">ecotaxe.product.categ.form</field>
-            <field name="model">product.category</field>
-            <field name="inherit_id" ref="account.view_category_property_form" />
-            <field name="arch" type="xml">
-                <group name="account_property" position="inside">
-                    <field name="ecotaxe_type"/>
-                    <field name="ecotaxe_coef"
-                           attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
-                    <field name="default_fixed_ecotaxe"
-                           attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
-                </group>
-            </field>
-        </record>-->
 
     </data>
 </openerp>
