@@ -33,7 +33,7 @@ _logger = logging.getLogger(__name__)
 class BankBalise(models.Model):
     _name = 'res.partner.bankbalise'
     _description = 'Bank Balise'
-    _order = 'partner_id desc'
+    _order = 'partner_id'
     balise_id = fields.Char('Balise', required=True)
     partner_id = fields.Many2one('res.partner', string='Partner', select=True,
                                  required=True, ondelete='cascade')

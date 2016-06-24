@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <openerp>
     <data>
-    
-            
+
+
         <menuitem name="Import Bank Statement" id="account_bank_statement_import_menu" parent="account.menu_finance_entries" action="account_bank_statement_import.action_account_bank_statement_import" sequence="10000"/>
 
         <record id="respartnerbaliseform" model="ir.ui.view">
@@ -20,7 +20,7 @@
                 </group>
             </field>
         </record>
-        
+
         <record id="action_res_partner_bank_balise_2" model="ir.actions.act_window">
             <field name="name">Bank balise</field>
             <field name="type">ir.actions.act_window</field>
@@ -28,10 +28,10 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree</field>
             <field name="target">current</field>
-            
-        </record>   
 
-        
+        </record>
+
+
         <record id="res_partner_bank_balise_search" model="ir.ui.view">
             <field name="name">res.partner.bankbalise.search</field>
             <field name="model">res.partner.bankbalise</field>
@@ -42,15 +42,15 @@
                 </search>
             </field>
         </record>
-        
+
         <record id="res_partner_bank_balise_tree" model="ir.ui.view">
             <field name="name">res.partner.bankbalise.tree</field>
             <field name="model">res.partner.bankbalise</field>
             <field name="type">tree</field>
             <!--<field name="search_view_id" ref="res_partner_bank_balise_search"/>-->
             <field name="arch" type="xml">
-                
-                <tree string="Partner Balise" create="true" editable="top"  default_order = "partner_id">
+
+                <tree string="Partner Balise" create="true" editable="top">
                     <field name="partner_id"/>
                     <field name="balise_id"/>
                 </tree>
@@ -62,10 +62,10 @@
                 <field name="res_model">account.bank.statement</field>
                 <field name="view_type">form</field>
                 <field name="view_mode">tree,form,pivot,graph</field>
-                
+
         </record>
-        
-        
+
+
         <record id="view_bank_statement_line_search_2" model="ir.ui.view">
             <field name="name">account.bank.statement.line.search2</field>
             <field name="model">account.bank.statement.line</field>
@@ -95,29 +95,29 @@
               </p>
             </field>
         </record>
-        
-        
-        
-        <menuitem name="Bank Statement" 
-        id="account_bank_statement_menu" 
-        parent="account.menu_finance_entries" 
-        action="action_account_bank_statement" 
+
+
+
+        <menuitem name="Bank Statement"
+        id="account_bank_statement_menu"
+        parent="account.menu_finance_entries"
+        action="action_account_bank_statement"
         sequence="1900"/>
-        
-        <menuitem name="Bank Partner Balise" 
-        id="action_res_partner_bank_balise_menu" 
-        parent="account.menu_finance_entries" 
-        action="action_res_partner_bank_balise_2" 
+
+        <menuitem name="Bank Partner Balise"
+        id="action_res_partner_bank_balise_menu"
+        parent="account.menu_finance_entries"
+        action="action_res_partner_bank_balise_2"
         sequence="2200"/>
 
-        
-        <menuitem name="Bank Statement Lines" 
-        id="action_bank_statement_line_menu" 
-        parent="account.menu_finance_entries" 
-        action="action_bank_statement_line_2" 
+
+        <menuitem name="Bank Statement Lines"
+        id="action_bank_statement_line_menu"
+        parent="account.menu_finance_entries"
+        action="action_bank_statement_line_2"
         sequence="2000"/>
 
-        
-        
+
+
     </data>
 </openerp>
