@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    l10n FR States module for OpenERP
@@ -25,7 +26,7 @@
   !record {model: res.country.state, id: res_country_state_alsace}:
     code: 44
     country_id: base.fr
-    name: Alsace-Champagne-Ardenne-Lorraine
+    name: Grand Est  # ex Alsace-Champagne-Ardenne-Lorraine
 
 - 
   Creating a res.country.state record
@@ -33,7 +34,7 @@
   !record {model: res.country.state, id: res_country_state_aquitaine}:
     code: 75
     country_id: base.fr
-    name: Aquitaine-Limousin-Poitou-Charentes
+    name: Nouvelle Aquitaine  # ex Aquitaine-Limousin-Poitou-Charentes
 
 - 
   Creating a res.country.state record
@@ -89,7 +90,7 @@
   !record {model: res.country.state, id: res_country_state_languedocroussillon}:
     code: 76
     country_id: base.fr
-    name: Languedoc-Roussillon-Midi-Pyrénées
+    name: Occitanie  # ex Languedoc-Roussillon-Midi-Pyrénées
 
 - 
   Creating a res.country.state record
@@ -97,7 +98,7 @@
   !record {model: res.country.state, id: res_country_state_nordpasdecalais}:
     code: 32
     country_id: base.fr
-    name: Nord-Pas-de-Calais-Picardie
+    name: Hauts-de-France  # ex Nord-Pas-de-Calais-Picardie
 
 - 
   Creating a res.country.state record
