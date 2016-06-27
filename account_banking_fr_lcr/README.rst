@@ -6,8 +6,8 @@
 French Letter of Change
 =======================
 
-This module adds support for French Letters of Change (in French :
-Lettre de Change Relevé aka LCR).
+This module adds support for French Letters of Change (in French:
+*Lettre de Change Relevé* aka LCR).
 
 This payment type is still in use in France and it is *not* replaced by SEPA
 one-off Direct Debits.
