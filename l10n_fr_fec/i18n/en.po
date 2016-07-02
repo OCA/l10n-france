@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-14 09:46+0000\n"
-"PO-Revision-Date: 2016-03-14 09:47+0000\n"
+"POT-Creation-Date: 2016-06-27 15:32+0000\n"
+"PO-Revision-Date: 2016-06-27 15:32+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: English (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -41,6 +41,11 @@ msgstr "Created by"
 #: field:account.fr.fec,create_date:0
 msgid "Created on"
 msgstr "Created on"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
 
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0
@@ -108,6 +113,11 @@ msgstr "I.S. or BIC @ I.R."
 #: field:account.fr.fec,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,write_uid:0

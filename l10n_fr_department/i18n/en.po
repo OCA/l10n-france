@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-26 09:01+0000\n"
-"PO-Revision-Date: 2016-02-25 23:19+0000\n"
+"POT-Creation-Date: 2016-06-27 15:32+0000\n"
+"PO-Revision-Date: 2016-06-27 15:32+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: English (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -74,6 +74,11 @@ msgid "Departments related to this state"
 msgstr "Departments related to this state"
 
 #. module: l10n_fr_department
+#: field:res.country.department,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: l10n_fr_department
 #: model:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
 msgid "Display and manage the list of all departments."
 msgstr "Display and manage the list of all departments."
@@ -82,6 +87,11 @@ msgstr "Display and manage the list of all departments."
 #: field:res.country.department,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_fr_department
+#: field:res.country.department,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
 
 #. module: l10n_fr_department
 #: field:res.country.department,write_uid:0
