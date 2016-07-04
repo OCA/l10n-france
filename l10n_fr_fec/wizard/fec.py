@@ -126,6 +126,7 @@ class account_fr_fec(orm.TransientModel):
         WHERE
             am.period_id IN %s
             AND am.company_id = %s
+            AND (aml.debit != 0 OR aml.credit != 0)
         '''
         # For official report: only use posted entries
         if cur_wiz.export_type == "official":
