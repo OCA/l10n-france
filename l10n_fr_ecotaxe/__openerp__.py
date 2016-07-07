@@ -16,6 +16,7 @@
         'purchase'
     ],
     'data': [
+        'data/account_data.xml',
         'security/ir_rule.xml',
         'security/ir_model_access.yml',
         'views/product_view.xml',
