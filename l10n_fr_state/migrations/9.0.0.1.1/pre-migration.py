@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 def migrate(cr, version):
-    print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx version=", version
     if not version:
         return
 
