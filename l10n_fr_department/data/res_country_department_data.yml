@@ -25,7 +25,7 @@
 -
   !record {model: res.country.department, id: res_country_department_ain}:
     code: '01'
-    state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Ain
     country_id: base.fr
 
@@ -34,7 +34,7 @@
 -
   !record {model: res.country.department, id: res_country_department_aisne}:
     code: '02'
-    state_id: l10n_fr_state.res_country_state_picardie
+    state_id: l10n_fr_state.res_country_state_nordpasdecalais
     name: Aisne
     country_id: base.fr
 
@@ -79,7 +79,7 @@
 -
   !record {model: res.country.department, id: res_country_department_ardeche}:
     code: '07'
-    state_id: l10n_fr_state.res_country_state_rhonealpes
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Ardèche
     country_id: base.fr
 
@@ -88,7 +88,7 @@
 -
   !record {model: res.country.department, id: res_country_department_ardennes}:
     code: '08'
-    state_id: l10n_fr_state.res_country_state_champagneardenne
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Ardennes
     country_id: base.fr
 
@@ -97,7 +97,7 @@
 -
   !record {model: res.country.department, id: res_country_department_ariege}:
     code: '09'
-    state_id: l10n_fr_state.res_country_state_midipyrenees
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Ariège
     country_id: base.fr
 
@@ -105,8 +105,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_aube}:
-    code: 10
-    state_id: l10n_fr_state.res_country_state_champagneardenne
+    code: '10'
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Aube
     country_id: base.fr
 
@@ -123,8 +123,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_aveyron}:
-    code: 12
-    state_id: l10n_fr_state.res_country_state_midipyrenees
+    code: '12'
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Aveyron
     country_id: base.fr
 
@@ -159,8 +159,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_charente}:
-    code: 16
-    state_id: l10n_fr_state.res_country_state_poitoucharentes
+    code: '16'
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Charente
     country_id: base.fr
 
@@ -168,8 +168,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_charentemaritime}:
-    code: 17
-    state_id: l10n_fr_state.res_country_state_poitoucharentes
+    code: '17'
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Charente-Maritime
     country_id: base.fr
 
@@ -185,9 +185,9 @@
 -
   Creating a res.country.department record
 -
-  !record {model: res.country.department, id: res_country_department_corrze}:
-    code: 19
-    state_id: l10n_fr_state.res_country_state_limousin
+  !record {model: res.country.department, id: res_country_department_correze}:
+    code: '19'
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Corrèze
     country_id: base.fr
 
@@ -232,8 +232,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_creuse}:
-    code: 23
-    state_id: l10n_fr_state.res_country_state_limousin
+    code: '23'
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Creuse
     country_id: base.fr
 
@@ -250,8 +250,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_doubs}:
-    code: 25
-    state_id: l10n_fr_state.res_country_state_franchecomte
+    code: '25'
+    state_id: l10n_fr_state.res_country_state_bourgogne
     name: Doubs
     country_id: base.fr
 
@@ -259,8 +259,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_drome}:
-    code: 26
-    state_id: l10n_fr_state.res_country_state_rhonealpes
+    code: '26'
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Drôme
     country_id: base.fr
 
@@ -268,8 +268,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_eure}:
-    code: 27
-    state_id: l10n_fr_state.res_country_state_hautenormandie
+    code: '27'
+    state_id: l10n_fr_state.res_country_state_bassenormandie
     name: Eure
     country_id: base.fr
 
@@ -304,8 +304,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_hautegaronne}:
-    code: 31
-    state_id: l10n_fr_state.res_country_state_midipyrenees
+    code: '31'
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Haute-Garonne
     country_id: base.fr
 
@@ -313,8 +313,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_gers}:
-    code: 32
-    state_id: l10n_fr_state.res_country_state_midipyrenees
+    code: '32'
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Gers
     country_id: base.fr
 
@@ -367,8 +367,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_isere}:
-    code: 38
-    state_id: l10n_fr_state.res_country_state_rhonealpes
+    code: '38'
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Isère
     country_id: base.fr
 
@@ -376,8 +376,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_jura}:
-    code: 39
-    state_id: l10n_fr_state.res_country_state_franchecomte
+    code: '39'
+    state_id: l10n_fr_state.res_country_state_bourgogne
     name: Jura
     country_id: base.fr
 
@@ -403,8 +403,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_loire}:
-    code: 42
-    state_id: l10n_fr_state.res_country_state_rhonealpes
+    code: '42'
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Loire
     country_id: base.fr
 
@@ -439,8 +439,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_lot}:
-    code: 46
-    state_id: l10n_fr_state.res_country_state_midipyrenees
+    code: '46'
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Lot
     country_id: base.fr
 
@@ -484,8 +484,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_marne}:
-    code: 51
-    state_id: l10n_fr_state.res_country_state_champagneardenne
+    code: '51'
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Marne
     country_id: base.fr
 
@@ -493,8 +493,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_hautemarne}:
-    code: 52
-    state_id: l10n_fr_state.res_country_state_champagneardenne
+    code: '52'
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Haute-Marne
     country_id: base.fr
 
@@ -511,8 +511,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_meurtheetmoselle}:
-    code: 54
-    state_id: l10n_fr_state.res_country_state_lorraine
+    code: '54'
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Meurthe-et-Moselle
     country_id: base.fr
 
@@ -520,8 +520,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_meuse}:
-    code: 55
-    state_id: l10n_fr_state.res_country_state_lorraine
+    code: '55'
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Meuse
     country_id: base.fr
 
@@ -538,8 +538,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_moselle}:
-    code: 57
-    state_id: l10n_fr_state.res_country_state_lorraine
+    code: '57'
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Moselle
     country_id: base.fr
 
@@ -565,8 +565,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_oise}:
-    code: 60
-    state_id: l10n_fr_state.res_country_state_picardie
+    code: '60'
+    state_id: l10n_fr_state.res_country_state_nordpasdecalais
     name: Oise
     country_id: base.fr
 
@@ -610,8 +610,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_hautespyrenees}:
-    code: 65
-    state_id: l10n_fr_state.res_country_state_midipyrenees
+    code: '65'
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Hautes-Pyrénées
     country_id: base.fr
 
@@ -646,8 +646,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_rhone}:
-    code: 69
-    state_id: l10n_fr_state.res_country_state_rhonealpes
+    code: '69'
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Rhône
     country_id: base.fr
 
@@ -655,8 +655,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_hautesaone}:
-    code: 70
-    state_id: l10n_fr_state.res_country_state_franchecomte
+    code: '70'
+    state_id: l10n_fr_state.res_country_state_bourgogne
     name: Haute-Saône
     country_id: base.fr
 
@@ -682,8 +682,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_savoie}:
-    code: 73
-    state_id: l10n_fr_state.res_country_state_rhonealpes
+    code: '73'
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Savoie
     country_id: base.fr
 
@@ -691,8 +691,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_hautesavoie}:
-    code: 74
-    state_id: l10n_fr_state.res_country_state_rhonealpes
+    code: '74'
+    state_id: l10n_fr_state.res_country_state_auvergne
     name: Haute-Savoie
     country_id: base.fr
 
@@ -709,8 +709,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_seinemaritime}:
-    code: 76
-    state_id: l10n_fr_state.res_country_state_hautenormandie
+    code: '76'
+    state_id: l10n_fr_state.res_country_state_bassenormandie
     name: Seine-Maritime
     country_id: base.fr
 
@@ -736,8 +736,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_deuxsevres}:
-    code: 79
-    state_id: l10n_fr_state.res_country_state_poitoucharentes
+    code: '79'
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Deux-Sèvres
     country_id: base.fr
 
@@ -745,8 +745,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_somme}:
-    code: 80
-    state_id: l10n_fr_state.res_country_state_picardie
+    code: '80'
+    state_id: l10n_fr_state.res_country_state_nordpasdecalais
     name: Somme
     country_id: base.fr
 
@@ -754,8 +754,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_tarn}:
-    code: 81
-    state_id: l10n_fr_state.res_country_state_midipyrenees
+    code: '81'
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Tarn
     country_id: base.fr
 
@@ -763,8 +763,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_tarnetgaronne}:
-    code: 82
-    state_id: l10n_fr_state.res_country_state_midipyrenees
+    code: '82'
+    state_id: l10n_fr_state.res_country_state_languedocroussillon
     name: Tarn-et-Garonne
     country_id: base.fr
 
@@ -799,8 +799,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_vienne}:
-    code: 86
-    state_id: l10n_fr_state.res_country_state_poitoucharentes
+    code: '86'
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Vienne
     country_id: base.fr
 
@@ -808,8 +808,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_hautevienne}:
-    code: 87
-    state_id: l10n_fr_state.res_country_state_limousin
+    code: '87'
+    state_id: l10n_fr_state.res_country_state_aquitaine
     name: Haute-Vienne
     country_id: base.fr
 
@@ -817,8 +817,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_vosges}:
-    code: 88
-    state_id: l10n_fr_state.res_country_state_lorraine
+    code: '88'
+    state_id: l10n_fr_state.res_country_state_alsace
     name: Vosges
     country_id: base.fr
 
@@ -835,8 +835,8 @@
   Creating a res.country.department record
 -
   !record {model: res.country.department, id: res_country_department_territoiredebelfort}:
-    code: 90
-    state_id: l10n_fr_state.res_country_state_franchecomte
+    code: '90'
+    state_id: l10n_fr_state.res_country_state_bourgogne
     name: Territoire de Belfort
     country_id: base.fr
 
