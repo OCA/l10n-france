@@ -21,6 +21,7 @@
 ###############################################################################
 
 from openerp import api, fields, models
+import openerp.addons.decimal_precision as dp
 
 
 class AccountTax(models.Model):
@@ -66,11 +67,12 @@ class AccountEcotaxeClassification(models.Model):
         "the ecotaxe coef must take into account\n"
         "the weight unit of measure (kg by default)"
     )
-    ecotaxe_coef = fields.Float('Ecotaxe Coef')
+    ecotaxe_coef = fields.Float(
+        string='Ecotaxe Coef',
+        digits=dp.get_precision('Ecotaxe'))
     fixed_ecotaxe = fields.Float(
-        'Fixed Ecotaxe',
-        help="fixed ecotaxe amount.\n"
-    )
+        string='Fixed Ecotaxe',
+        help="fixed ecotaxe amount.\n")
     sale_ecotaxe_id = fields.Many2one(
         'account.tax',
         string="Sale EcoTaxe",
