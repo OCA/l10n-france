@@ -31,6 +31,8 @@ _logger = logging.getLogger(__name__)
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
+    _excluded_accounts = []
+
     def _parse_cfonb_amount(self, amount_str, nb_of_dec):
         """Taken from the cfonb lib"""
         amount_str = amount_str[:-nb_of_dec] + '.' + amount_str[-nb_of_dec:]
@@ -91,6 +93,8 @@ class AccountBankStatementImport(models.TransientModel):
             date_cfonb_str = line[34:40]
             date_dt = False
             date_str = False
+            if line_account_number in self._excluded_accounts:
+                continue
             if date_cfonb_str != '      ':
                 date_dt = datetime.strptime(date_cfonb_str, '%d%m%y')
                 date_str = fields.Date.to_string(date_dt)
