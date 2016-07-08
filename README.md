@@ -21,7 +21,7 @@ addon | version | summary
 [l10n_fr_fec](l10n_fr_fec/) | 8.0.0.1.0 | Fichier d'Échange Informatisé (FEC) for France
 [l10n_fr_naf_ape](l10n_fr_naf_ape/) | 8.0.1.0.0 | French NAF partner categories and APE code
 [l10n_fr_siret](l10n_fr_siret/) | 8.0.1.2.0 | French company identity numbers SIRET/SIREN/NIC
-[l10n_fr_state](l10n_fr_state/) | 8.0.0.1.1 | Populate Database with French States (Région)
+[l10n_fr_state](l10n_fr_state/) | 8.0.0.1.2 | Populate Database with French States (Région)
 [l10n_fr_tax_sale_ttc](l10n_fr_tax_sale_ttc/) | 8.0.0.1.0 | Adds Sale Tax TTC (all rates)
 
 [//]: # (end addons)
