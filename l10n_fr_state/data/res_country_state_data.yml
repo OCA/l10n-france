@@ -1,24 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    l10n FR States module for OpenERP
-#    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2013-2014 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
+# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 
 - 
   Creating a res.country.state record
@@ -123,3 +105,38 @@
     code: 93
     country_id: base.fr
     name: Provence-Alpes-Côte d'Azur
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_guadeloupe}:
+    code: GP
+    country_id: base.gp
+    name: Guadeloupe
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_martinique}:
+    code: MQ
+    country_id: base.mq
+    name: Martinique
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_guyane}:
+    code: GF
+    country_id: base.gf
+    name: Guyane
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_reunion}:
+    code: RE
+    country_id: base.re
+    name: La Réunion
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_mayotte}:
+    code: YT
+    country_id: base.yt
+    name: Mayotte
