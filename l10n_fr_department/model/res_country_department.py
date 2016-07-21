@@ -40,8 +40,8 @@ class ResCountryDepartment(models.Model):
     name = fields.Char(
         string='Department Name', size=128, required=True)
     code = fields.Char(
-        string='Departement Code', size=2, required=True,
-        help="""The department code in two chars."""
+        string='Departement Code', size=3, required=True,
+        help="""The department code."""
         """(ISO 3166-2 Codification)""")
 
     _sql_constraints = [
