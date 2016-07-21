@@ -902,7 +902,7 @@
   Creating a res.country.department record
 - 
   !record {model: res.country.department, id: res_country_department_mayotte}:
-    code: '975'
+    code: '976'
     state_id: l10n_fr_state.res_country_state_mayotte
     name: Mayotte
     country_id: base.yt
