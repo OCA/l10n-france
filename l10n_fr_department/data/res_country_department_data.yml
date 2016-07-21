@@ -1,24 +1,6 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    l10n FR Departments module for OpenERP
-#    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2013-2014 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
+# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 
 -
   Creating a res.country.department record
@@ -884,3 +866,43 @@
     state_id: l10n_fr_state.res_country_state_iledefrance
     name: Val-d'Oise
     country_id: base.fr
+- 
+  Creating a res.country.department record
+- 
+  !record {model: res.country.department, id: res_country_department_guadeloupe}:
+    code: '971'
+    state_id: l10n_fr_state.res_country_state_guadeloupe
+    name: Guadeloupe
+    country_id: base.gp
+- 
+  Creating a res.country.department record
+- 
+  !record {model: res.country.department, id: res_country_department_martinique}:
+    code: '972'
+    state_id: l10n_fr_state.res_country_state_martinique
+    name: Martinique
+    country_id: base.mq
+- 
+  Creating a res.country.department record
+- 
+  !record {model: res.country.department, id: res_country_department_guyane}:
+    code: '973'
+    state_id: l10n_fr_state.res_country_state_guyane
+    name: Guyane
+    country_id: base.gf
+- 
+  Creating a res.country.department record
+- 
+  !record {model: res.country.department, id: res_country_department_reunion}:
+    code: '974'
+    state_id: l10n_fr_state.res_country_state_reunion
+    name: La Réunion
+    country_id: base.re
+- 
+  Creating a res.country.department record
+- 
+  !record {model: res.country.department, id: res_country_department_mayotte}:
+    code: '975'
+    state_id: l10n_fr_state.res_country_state_mayotte
+    name: Mayotte
+    country_id: base.yt
