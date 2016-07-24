@@ -35,10 +35,13 @@ class ResPartner(models.Model):
         zip = self.zip
         if (
                 self.country_id and
-                self.country_id.code == 'FR' and
+                self.country_id.code in (
+                'FR', 'GP', 'MQ', 'GF', 'RE', 'YT') and
                 zip and
                 len(zip) == 5):
             code = zip[0:2]
+            if code == '97':
+                code = zip[0:3]
             dpts = self.env['res.country.department'].search([
                 ('code', '=', code),
                 ('country_id', '=', self.country_id.id),
