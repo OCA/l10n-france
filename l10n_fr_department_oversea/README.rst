@@ -2,19 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=================================
-French Departments (Départements)
-=================================
+===========================================================================
+French Oversea States and Departments (Régions et Départements d'outre-mer)
+===========================================================================
 
-This module creates a new model *res_country_department*, sub
-division of the *res_country_state* and populate it with all the
-french departments, but only the french departments of mainland.
-If you need the overseas departments, please install the module
-*l10n_fr_department_oversea*.
-
-It also adds a computed many2one *department_id* field on the
-*res_partner* object (this field is not displayed in the partner form
-view by default).
+This module adds the 5 French overseas States (Régions) and Departments (Départements) in the *res_country_state* and *res_country_department* tables.
 
 Usage
 =====
@@ -38,7 +30,6 @@ Credits
 Contributors
 ------------
 
-* Sylvain LE GAL (`Twitter <https://twitter.com/legalsylvain>`_), GRAP (Groupement Régional Alimentaire de Proximité)
 * Alexis de Lattre <alexis.delattre@akretion.com>
 
 Maintainer
