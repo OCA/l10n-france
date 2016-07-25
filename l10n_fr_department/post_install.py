@@ -1,24 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    L10n FR department module for Odoo
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
-#    @author: Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import SUPERUSER_ID
 
@@ -31,8 +13,15 @@ def set_department_on_partner(cr, pool):
     departments are not available in the DB, so the department_id field
     on res.partner stays null. This post_install script fixes this."""
     rpo = pool['res.partner']
+    fr_country_ids = pool['res.country'].search(
+        cr, SUPERUSER_ID,
+        [('code', 'in', ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT'))])
     partner_ids = rpo.search(
-        cr, SUPERUSER_ID, ['|', ('active', '=', False), ('active', '=', True)])
+        cr, SUPERUSER_ID,
+        [
+            '|', ('active', '=', False), ('active', '=', True),
+            ('country_id', 'in', fr_country_ids),
+        ])
     partners = rpo.browse(cr, SUPERUSER_ID, partner_ids)
     partners._compute_department()
     return
