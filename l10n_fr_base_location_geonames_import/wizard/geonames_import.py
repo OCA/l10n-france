@@ -1,36 +1,18 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    l10n FR Base Location Geonames Import module for Odoo
-#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com/)
-#    @author: Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, api
 
 
-class better_zip_geonames_import(models.TransientModel):
+class BetterZipGeonamesImport(models.TransientModel):
     _inherit = 'better.zip.geonames.import'
 
     @api.model
-    def _prepare_better_zip(self, row, country_id):
+    def _prepare_better_zip(self, row, country):
         from unidecode import unidecode
-        res = super(better_zip_geonames_import, self)._prepare_better_zip(
-            row, country_id)
+        res = super(BetterZipGeonamesImport, self)._prepare_better_zip(
+            row, country)
         if row[0] in [
                 'FR', 'RE', 'GP', 'MQ', 'GF', 'YT', 'BL', 'MF', 'PM',
                 'PF', 'NC', 'WF', 'MC', 'AD']:
