@@ -4,8 +4,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'French Departments (Départements)',
-    'summary': 'Populate Database with French Departments (Départements)',
+    'name': u'French Departments (Départements)',
+    'summary': u'Populate Database with French Departments (Départements)',
     'version': '9.0.0.1.1',
     'category': 'French Localization',
     'author': "GRAP,Akretion,Odoo Community Association (OCA)",
