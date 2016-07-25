@@ -4,7 +4,8 @@
 
 {
     'name': 'French Overseas Departments (DOM)',
-    'summary': 'Populate Database with overseas French Departments (Départements)',
+    'summary': u"Populate Database with overseas French "
+               u"Departments (Départements d'outre-mer)",
     'version': '9.0.1.0.0',
     'category': 'French Localization',
     'author': "Akretion,Odoo Community Association (OCA)",
