@@ -13,7 +13,6 @@ def set_oversea_department_on_partner(cr, pool):
     departments are not available in the DB, so the department_id field
     on res.partner stays null. This post_install script fixes this."""
     rpo = pool['res.partner']
-    print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     fr_country_ids = pool['res.country'].search(
         cr, SUPERUSER_ID,
         [('code', 'in', ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT'))])
