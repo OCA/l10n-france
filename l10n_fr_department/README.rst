@@ -6,10 +6,11 @@
 French Departments (Départements)
 =================================
 
-This module creates a new model *res_country_department*, sub division
-of the *res_country_state* and populate it with all the french
-departments, including overseas departments (in order to have the full
-list of legal French departments in the res_country_department table).
+This module creates a new model *res_country_department*, sub
+division of the *res_country_state* and populate it with all the
+french departments, but only the french departments of mainland.
+If you need the overseas departments, please install the module
+*l10n_fr_department_oversea*.
 
 It also adds a computed many2one *department_id* field on the
 *res_partner* object (this field is not displayed in the partner form

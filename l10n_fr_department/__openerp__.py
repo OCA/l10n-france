@@ -25,6 +25,5 @@
     'images': [
         'static/src/img/screenshots/1.png'
     ],
-    'test': ['test/department.yml'],
     'installable': True,
 }
