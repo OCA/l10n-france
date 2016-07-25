@@ -105,38 +105,3 @@
     code: 93
     country_id: base.fr
     name: Provence-Alpes-Côte d'Azur
-- 
-  Creating a res.country.state record
-- 
-  !record {model: res.country.state, id: res_country_state_guadeloupe}:
-    code: GP
-    country_id: base.gp
-    name: Guadeloupe
-- 
-  Creating a res.country.state record
-- 
-  !record {model: res.country.state, id: res_country_state_martinique}:
-    code: MQ
-    country_id: base.mq
-    name: Martinique
-- 
-  Creating a res.country.state record
-- 
-  !record {model: res.country.state, id: res_country_state_guyane}:
-    code: GF
-    country_id: base.gf
-    name: Guyane
-- 
-  Creating a res.country.state record
-- 
-  !record {model: res.country.state, id: res_country_state_reunion}:
-    code: RE
-    country_id: base.re
-    name: La Réunion
-- 
-  Creating a res.country.state record
-- 
-  !record {model: res.country.state, id: res_country_state_mayotte}:
-    code: YT
-    country_id: base.yt
-    name: Mayotte
