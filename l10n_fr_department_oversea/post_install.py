@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import SUPERUSER_ID
 
 
-def set_department_on_partner(cr, pool):
+def set_oversea_department_on_partner(cr, pool):
     """This post_install script is required because, when the module
     is installed, Odoo creates the column in the DB and compute the field
     and THEN it loads the file data/res_country_department_data.yml...
@@ -21,6 +21,7 @@ def set_department_on_partner(cr, pool):
         [
             '|', ('active', '=', False), ('active', '=', True),
             ('country_id', 'in', fr_country_ids),
+            ('department_id', '=', False),
         ])
     partners = rpo.browse(cr, SUPERUSER_ID, partner_ids)
     partners._compute_department()
