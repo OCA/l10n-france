@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 10:26+0000\n"
-"PO-Revision-Date: 2016-04-14 10:26+0000\n"
+"POT-Creation-Date: 2016-07-30 02:48+0000\n"
+"PO-Revision-Date: 2016-07-29 19:51+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: English (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -131,8 +131,8 @@ msgstr "State related to the current department"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_code
-msgid "The department code in two chars.(ISO 3166-2 Codification)"
-msgstr "The department code in two chars.(ISO 3166-2 Codification)"
+msgid "The department code.(ISO 3166-2 Codification)"
+msgstr "The department code.(ISO 3166-2 Codification)"
 
 #. module: l10n_fr_department
 #: code:addons/l10n_fr_department/model/res_country_department.py:49
