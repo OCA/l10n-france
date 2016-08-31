@@ -1,24 +1,7 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#
-#   Module for OpenERP
-#   Copyright (C) 2015 Akretion (http://www.akretion.com).
+# © 2014-2016 Akretion (http://www.akretion.com)
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
-#
-#   This program is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU Affero General Public License as
-#   published by the Free Software Foundation, either version 3 of the
-#   License, or (at your option) any later version.
-#
-#   This program is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU Affero General Public License for more details.
-#
-#   You should have received a copy of the GNU Affero General Public License
-#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-###############################################################################
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import api, fields, models
 import openerp.addons.decimal_precision as dp
@@ -55,14 +38,14 @@ class AccountEcotaxeClassification(models.Model):
     def _default_company_id(self):
         return self.env['res.users']._get_company()
 
-    name = fields.Char('Name')
+    name = fields.Char('Name', required=True,)
     code = fields.Char('Code')
     ecotaxe_type = fields.Selection(
         [
             ('fixed', u'Fixed'),
             ('weight_based', 'Weight based'),
         ],
-        string='Ecotaxe Type',
+        string='Ecotaxe Type', required=True,
         help="If ecotaxe is weight based,"
         "the ecotaxe coef must take into account\n"
         "the weight unit of measure (kg by default)"
@@ -75,14 +58,14 @@ class AccountEcotaxeClassification(models.Model):
         help="fixed ecotaxe amount.\n")
     sale_ecotaxe_id = fields.Many2one(
         'account.tax',
-        string="Sale EcoTaxe",
+        string="Sale EcoTaxe", required=True,
         domain=[
             ('is_ecotaxe', '=', True),
             ('parent_id', '=', False),
             ('type_tax_use', 'in', ['sale', 'all'])])
     purchase_ecotaxe_id = fields.Many2one(
         'account.tax',
-        string="Purchase EcoTaxe",
+        string="Purchase EcoTaxe", required=True,
         domain=[
             ('is_ecotaxe', '=', True),
             ('parent_id', '=', False),
@@ -104,7 +87,7 @@ class AccountEcotaxeClassification(models.Model):
             self.ecotaxe_coef = 0
 
 
-class account_invoice_tax(models.Model):
+class AccountInvoiceTax(models.Model):
     _inherit = "account.invoice.tax"
 
     @api.depends('tax_code_id', 'base_code_id', 'account_id', 'invoice_id')
