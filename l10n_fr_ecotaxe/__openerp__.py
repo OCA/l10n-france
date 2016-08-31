@@ -10,8 +10,7 @@
     'website': 'http://www.akretion.com',
     'category': 'Localization/Account Taxes',
     'depends': [
-        'account',
-        'product',
+        'account_accountant',
         'sale',
         'purchase'
     ],
