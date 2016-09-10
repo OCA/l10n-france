@@ -117,8 +117,16 @@ class AccountBankStatementImport(models.TransientModel):
         partners = partner_model.search_read([], ['balise_ids'])
         balise_model = self.env['res.partner.bankbalise']
 
-        for line in data_file.splitlines():
-            data_line.append(line)
+        # if one line file
+        data_file_split = data_file.splitlines()
+
+        if len(data_file_split) == 1:
+            for start in range(0, len(data_file), 120):
+                data_line.append(data_file[start:start + 120])
+        else:
+            for line in data_file_split:
+                data_line.append(line)
+
         for i in range(0, len(data_line)):
             line = data_line[i]
             _logger.debug("Line %d: %s" % (i, line))
