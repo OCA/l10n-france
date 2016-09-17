@@ -11,9 +11,9 @@ class BaseUbl(models.AbstractModel):
 
     @api.model
     def _ubl_add_party_identification(
-            self, commercial_partner, parent_node, ns):
+            self, commercial_partner, parent_node, ns, version='2.1'):
         res = super(BaseUbl, self)._ubl_add_party_identification(
-            commercial_partner, parent_node, ns)
+            commercial_partner, parent_node, ns, version=version)
         if commercial_partner.siren and commercial_partner.nic:
             party_ident = etree.SubElement(
                 parent_node, ns['cac'] + 'PartyIdentification')
