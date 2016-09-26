@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'data/res_country_department_data.yml',
         'view/res_country_department.xml',
+        'view/res_partner.xml',
     ],
     'post_init_hook': 'set_department_on_partner',
     'images': [
