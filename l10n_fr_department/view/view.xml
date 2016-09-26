@@ -33,6 +33,8 @@
                     <group string="Group By" name="groupby">
                         <filter name="state_groupby" string="State"
                             context="{'group_by': 'state_id'}"/>
+                        <filter name="country_groupby" string="Country"
+                            context="{'group_by': 'country_id'}"/>
                     </group>
                 </search>
             </field>
