@@ -41,11 +41,8 @@ class ReportEBP(interface.report_int):
         # Get objects and context from Webkit Parser
         parser = TrialBalanceWebkit(
             cr, uid, 'ebp.parser', context=context)
-        objects, new_ids, context_report_values =\
+        objects, new_ids, ctx_val =\
             parser.compute_balance_data(data)
-
-        # Get the list of visible account
-        to_display_accounts = context_report_values['to_display_accounts']
 
         # Init file and write header
         f = StringIO()
@@ -62,23 +59,23 @@ class ReportEBP(interface.report_int):
             "Balance.SldCptNSoldeC",
             ]
         w.writerow(header)
-
         # Write row
         for current_account in objects:
-            if to_display_accounts.get(current_account.id) \
+            if ctx_val['to_display_accounts'].get(current_account.id) \
                     and current_account.type != 'view':
-                if current_account.balance >= 0:
-                    bal_debit = current_account.balance
+                bal = ctx_val['balance_accounts'][current_account.id]
+                if bal >= 0:
+                    bal_debit = bal
                     bal_credit = 0
                 else:
-                    bal_credit = -current_account.balance
+                    bal_credit = -bal
                     bal_debit = 0
 
                 w.writerow([
                     current_account.code,
                     current_account.name,
-                    f2s(current_account.debit),
-                    f2s(current_account.credit),
+                    f2s(ctx_val['debit_accounts'][current_account.id]),
+                    f2s(ctx_val['credit_accounts'][current_account.id]),
                     f2s(bal_debit),
                     f2s(bal_credit),
                     ])
