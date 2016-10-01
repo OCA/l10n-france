@@ -12,6 +12,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[account_balance_ebp_csv_export](account_balance_ebp_csv_export/) | 8.0.1.1.0 | Account Balance EBP CSV export
 [account_bank_statement_import_fr_cfonb](account_bank_statement_import_fr_cfonb/) | 8.0.0.1.0 | Import French CFONB files as Bank Statements in Odoo
 [account_banking_fr_lcr](account_banking_fr_lcr/) | 8.0.0.1.0 | Create French LCR CFONB files
 [l10n_fr_account_fiscal_position_rule](l10n_fr_account_fiscal_position_rule/) | 8.0.0.0.1 | l10n_fr_account_fiscal_position_rule
