@@ -14,5 +14,5 @@
     'depends': ['base'],
     'data': ['data/res_country_state_data.yml'],
     'images': ['static/src/img/screenshots/1.png'],
-    'installable': True,
+    'installable': False,
 }
