@@ -22,5 +22,5 @@
     'images': [
         'static/src/img/screenshots/department_list.jpg'
     ],
-    'installable': True,
+    'installable': False,
 }
