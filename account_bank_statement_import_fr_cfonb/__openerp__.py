@@ -29,5 +29,5 @@
     'summary': 'Import French CFONB files as Bank Statements in Odoo',
     'depends': ['account_bank_statement_import'],
     'data': [],
-    'installable': True,
+    'installable': False,
 }
