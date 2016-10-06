@@ -18,5 +18,5 @@
     ],
     'post_init_hook': 'set_oversea_department_on_partner',
     'images': [],
-    'installable': True,
+    'installable': False,
 }
