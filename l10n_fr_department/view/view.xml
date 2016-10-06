@@ -1,84 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- ********************************************************************** -->
-<!--l10n FR Departments module for Odoo                                     -->
-<!--Copyright (C) 2013-2014 GRAP (http://www.grap.coop)                     -->
-<!--@author Sylvain LE GAL (https://twitter.com/legalsylvain)               -->
+<!--
+  © 2013-2016 GRAP (http://www.grap.coop)
+  @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 
-<!--This program is free software: you can redistribute it and/or modify    -->
-<!--it under the terms of the GNU Affero General Public License as          -->
-<!--published by the Free Software Foundation, either version 3 of the      -->
-<!--License, or (at your option) any later version.                         -->
+<odoo>
 
-<!--This program is distributed in the hope that it will be useful,         -->
-<!--but WITHOUT ANY WARRANTY; without even the implied warranty of          -->
-<!--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           -->
-<!--GNU Affero General Public License for more details.                     -->
+    <record id="view_country_department_search" model="ir.ui.view">
+        <field name="name">res.country.department.search</field>
+        <field name="model">res.country.department</field>
+        <field name="arch" type="xml">
+            <search string="Departments">
+                <field name="name" string="Name or Code"
+                    filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+                <group string="Group By" name="groupby">
+                    <filter name="state_groupby" string="State"
+                        context="{'group_by': 'state_id'}"/>
+                    <filter name="country_groupby" string="Country"
+                        context="{'group_by': 'country_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
 
-<!--You should have received a copy of the GNU Affero General Public License-->
-<!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
-<!-- ********************************************************************** -->
+    <record id="view_country_department_tree" model="ir.ui.view">
+        <field name="name">res.country.department.tree</field>
+        <field name="model">res.country.department</field>
+        <field name="arch" type="xml">
+            <tree string="Departments">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
 
-<openerp>
-    <data>
-
-        <record id="view_country_department_search" model="ir.ui.view">
-            <field name="name">res.country.department.search</field>
-            <field name="model">res.country.department</field>
-            <field name="arch" type="xml">
-                <search string="Departments">
-                    <field name="name" string="Name or Code"
-                        filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
-                    <field name="state_id"/>
-                    <field name="country_id"/>
-                    <group string="Group By" name="groupby">
-                        <filter name="state_groupby" string="State"
-                            context="{'group_by': 'state_id'}"/>
-                        <filter name="country_groupby" string="Country"
-                            context="{'group_by': 'country_id'}"/>
-                    </group>
-                </search>
-            </field>
-        </record>
-
-        <record id="view_country_department_tree" model="ir.ui.view">
-            <field name="name">res.country.department.tree</field>
-            <field name="model">res.country.department</field>
-            <field name="arch" type="xml">
-                <tree string="Departments">
+    <record id="view_country_department_form" model="ir.ui.view">
+        <field name="name">res.country.department.form</field>
+        <field name="model">res.country.department</field>
+        <field name="arch" type="xml">
+            <form string="Departments">
+                <group name="main">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="state_id"/>
                     <field name="country_id"/>
-                </tree>
-            </field>
-        </record>
+                </group>
+            </form>
+        </field>
+    </record>
 
-        <record id="view_country_department_form" model="ir.ui.view">
-            <field name="name">res.country.department.form</field>
-            <field name="model">res.country.department</field>
-            <field name="arch" type="xml">
-                <form string="Departments">
-                    <group>
-                        <field name="name"/>
-                        <field name="code"/>
-                        <field name="state_id"/>
-                        <field name="country_id" readonly="1"/>
-                    </group>
-                </form>
-            </field>
-        </record>
+    <record id="action_view_country_department_tree" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">res.country.department</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">Display and manage the list of all departments.</field>
+    </record>
 
-        <record id="action_view_country_department_tree" model="ir.actions.act_window">
-            <field name="name">Departments</field>
-            <field name="res_model">res.country.department</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help">Display and manage the list of all departments.</field>
-        </record>
+<!-- We don't want to depend on sales_team
+    <menuitem id="menu_res_country_department"
+        parent="sales_team.menu_localisation"
+        action="action_view_country_department_tree"
+        sequence="2"/>
+-->
 
-        <menuitem id="menu_res_country_department"
-            parent="base.menu_localisation"
-            action="action_view_country_department_tree"
-            sequence="2"/>
-
-    </data>
-</openerp>
+</odoo>
