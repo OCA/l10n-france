@@ -24,5 +24,5 @@
     'images': [
         'static/src/img/screenshots/1.png'
     ],
-    'installable': True,
+    'installable': False,
 }
