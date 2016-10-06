@@ -6,7 +6,7 @@
 {
     'name': u'French States (Régions)',
     'summary': u'Populate Database with French States (Régions)',
-    'version': '9.0.0.1.1',
+    'version': '10.0.0.1.1',
     'category': 'French Localization',
     'author': "GRAP,Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.grap.coop',
@@ -14,5 +14,5 @@
     'depends': ['base'],
     'data': ['data/res_country_state_data.yml'],
     'images': ['static/src/img/screenshots/1.png'],
-    'installable': False,
+    'installable': True,
 }
