@@ -6,7 +6,7 @@
 {
     'name': 'French Letter of Change',
     'summary': 'Create French LCR CFONB files',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
@@ -18,5 +18,5 @@
     'data': ['data/account_payment_method.xml'],
     'demo': ['demo/lcr_demo.xml'],
     'post_init_hook': 'update_bank_journals',
-    'installable': False,
+    'installable': True,
 }
