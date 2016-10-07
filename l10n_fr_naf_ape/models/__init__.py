@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution
@@ -19,15 +19,4 @@
 #
 ##############################################################################
 
-from openerp import models, fields
-
-
-class Partner(models.Model):
-    """Add the French APE (official main activity of the company)"""
-    _inherit = 'res.partner'
-
-    ape_id = fields.Many2one(
-        'res.partner.category', string='APE',
-        help="If the partner is a French company, enter its official "
-        "main activity in this field. The APE is chosen among the "
-        "NAF nomenclature.")
+from . import partner
