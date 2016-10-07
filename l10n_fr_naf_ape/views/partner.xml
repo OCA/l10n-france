@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--  Add the APE (main activity) -->
+    <record model="ir.ui.view" id="view_partner_add">
+        <field name="name">res.partner.form.ape</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="website" position="after">
+                <field name="ape_id" context="{'partner_category_display': 'short'}"
+                    attrs="{'invisible': [('is_company', '=', False)]}"
+                    domain="[('parent_id', 'child_of', %(l10n_eu_nace.nace_root)d)]"
+                    options='{"always_reload": True}'/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
