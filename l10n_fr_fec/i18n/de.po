@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 15:28+0000\n"
-"PO-Revision-Date: 2016-09-09 11:32+0000\n"
+"POT-Creation-Date: 2016-10-01 04:00+0000\n"
+"PO-Revision-Date: 2016-10-04 09:42+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -20,12 +20,12 @@ msgstr ""
 #. module: l10n_fr_fec
 #: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #. module: l10n_fr_fec
 #: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
 msgid "Close"
-msgstr ""
+msgstr "Abschließen"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,type:0
@@ -45,7 +45,7 @@ msgstr "Erstellt am:"
 #. module: l10n_fr_fec
 #: field:account.fr.fec,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Anzeigename"
 
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0
@@ -117,7 +117,7 @@ msgstr "ID"
 #. module: l10n_fr_fec
 #: field:account.fr.fec,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Zuletzt geändert am"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,write_uid:0
