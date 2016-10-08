@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-30 21:33+0000\n"
+"POT-Creation-Date: 2016-10-02 06:49+0000\n"
 "PO-Revision-Date: 2016-08-04 05:05+0000\n"
 "Last-Translator: Imre Kristoffer Eilertsen <imreeil42@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/nb_NO/)\n"
@@ -20,6 +20,7 @@ msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_country_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Country"
 msgstr "Land"
 
@@ -51,6 +52,7 @@ msgstr "Departemént-kode"
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner_department_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
 msgstr "Departement"
 
@@ -136,7 +138,7 @@ msgid "The department code.(ISO 3166-2 Codification)"
 msgstr ""
 
 #. module: l10n_fr_department
-#: code:addons/l10n_fr_department/model/res_country_department.py:49
+#: code:addons/l10n_fr_department/model/res_country_department.py:53
 #: sql_constraint:res.country.department:0
 #, python-format
 msgid "You cannot have two departments with the same code!"
