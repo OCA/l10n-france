@@ -2,7 +2,8 @@
 # © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, api
+from odoo import models, api
+from unidecode import unidecode
 
 
 class BetterZipGeonamesImport(models.TransientModel):
@@ -10,7 +11,6 @@ class BetterZipGeonamesImport(models.TransientModel):
 
     @api.model
     def _prepare_better_zip(self, row, country):
-        from unidecode import unidecode
         res = super(BetterZipGeonamesImport, self)._prepare_better_zip(
             row, country)
         if row[0] in [
