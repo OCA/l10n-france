@@ -11,5 +11,6 @@
     'website': 'http://www.akretion.com',
     'summary': 'Import French CFONB files as Bank Statements in Odoo',
     'depends': ['account_bank_statement_import'],
+    'data': ['views/account_bank_statement_import.xml'],
     'installable': True,
 }
