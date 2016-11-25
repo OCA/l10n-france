@@ -1,24 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * l10n_fr_department
+#	* l10n_fr_department
 #
-# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: l10n-france (9.0)\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 15:35+0000\n"
-"PO-Revision-Date: 2016-09-16 21:46+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: French (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/fr/)\n"
+"POT-Creation-Date: 2016-11-25 19:36+0000\n"
+"PO-Revision-Date: 2016-11-25 19:36+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: \n"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_country_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Country"
 msgstr "Pays"
 
@@ -30,7 +29,7 @@ msgstr "Pays associé à la région"
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_state
 msgid "Country state"
-msgstr ""
+msgstr "État"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_uid
@@ -40,16 +39,17 @@ msgstr "Créé par"
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_date
 msgid "Created on"
-msgstr "Date"
+msgstr "Créé le"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
-msgid "Departement Code"
+msgid "Department Code"
 msgstr "Code du département"
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner_department_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
 msgstr "Département"
 
@@ -61,7 +61,6 @@ msgstr "Nom du département"
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,name:l10n_fr_department.action_view_country_department_tree
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state_department_ids
-#: model:ir.ui.menu,name:l10n_fr_department.menu_res_country_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_form
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_tree
@@ -71,12 +70,12 @@ msgstr "Départements"
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_state_department_ids
 msgid "Departments related to this state"
-msgstr ""
+msgstr "Départements associés à cette région"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_display_name
 msgid "Display Name"
-msgstr "Nom à afficher"
+msgstr "Afficher le nom"
 
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
@@ -96,7 +95,7 @@ msgstr "ID"
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department___last_update
 msgid "Last Modified on"
-msgstr "Dernière modification le"
+msgstr "Dernière Modification le"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_uid
@@ -111,7 +110,7 @@ msgstr "Dernière mise à jour le"
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Name or Code"
-msgstr ""
+msgstr "Nom ou code"
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
@@ -122,7 +121,7 @@ msgstr "Partenaire"
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "State"
-msgstr "Région"
+msgstr "État"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_state_id
@@ -131,11 +130,11 @@ msgstr "Région associée au département courrant"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_code
-msgid "The department code.(ISO 3166-2 Codification)"
-msgstr ""
+msgid "The department code (ISO 3166-2 codification)"
+msgstr "Code du département (codification ISO 3166-2)"
 
 #. module: l10n_fr_department
-#: code:addons/l10n_fr_department/model/res_country_department.py:49
+#: code:addons/l10n_fr_department/model/res_country_department.py:36
 #: sql_constraint:res.country.department:0
 #, python-format
 msgid "You cannot have two departments with the same code!"
