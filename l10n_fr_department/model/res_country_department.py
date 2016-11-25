@@ -5,7 +5,7 @@
 # @author Alexis de Lattre (alexis.delattre@akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 
 
 class ResCountryDepartment(models.Model):
@@ -24,17 +24,17 @@ class ResCountryDepartment(models.Model):
     name = fields.Char(
         string='Department Name', size=128, required=True)
     code = fields.Char(
-        string='Departement Code', size=3, required=True,
-        help="""The department code."""
-        """(ISO 3166-2 Codification)""")
+        string='Department Code', size=3, required=True,
+        help="The department code (ISO 3166-2 codification)")
     display_name = fields.Char(
         compute='compute_display_name', string='Display Name', readonly=True,
         store=True)
 
-    _sql_constraints = [
-        ('code_uniq', 'unique (code)',
-            _("You cannot have two departments with the same code!")),
-    ]
+    _sql_constraints = [(
+        'code_uniq',
+        'unique (code)',
+        "You cannot have two departments with the same code!"
+        )]
 
     @api.one
     @api.depends('name', 'code')
