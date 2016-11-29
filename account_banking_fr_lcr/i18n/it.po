@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 15:28+0000\n"
-"PO-Revision-Date: 2016-09-09 12:24+0000\n"
+"POT-Creation-Date: 2016-10-01 04:00+0000\n"
+"PO-Revision-Date: 2016-11-25 14:57+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr.wizard,state:0
 msgid "Create"
-msgstr ""
+msgstr "Crea"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,create_uid:0
@@ -132,7 +132,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,state:0
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:258

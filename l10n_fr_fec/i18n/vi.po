@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 15:28+0000\n"
-"PO-Revision-Date: 2016-06-27 15:32+0000\n"
+"POT-Creation-Date: 2016-10-01 04:00+0000\n"
+"PO-Revision-Date: 2016-11-25 14:55+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -35,17 +35,17 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Được tạo bởi"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Được tạo vào"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Tên hiển thị"
 
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0
@@ -112,22 +112,22 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Sửa lần cuối vào"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Last Updated by"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Cập nhật lần cuối vào"
 
 #. module: l10n_fr_fec
 #: code:addons/l10n_fr_fec/wizard/fec.py:182

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-10-04 09:43+0000\n"
+"PO-Revision-Date: 2016-11-25 14:56+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:account_banking_fr_lcr.banking_export_lcr_wizard_form
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:77
@@ -46,7 +46,7 @@ msgstr "创建时间"
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "显示名称"
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_banking_export_lcr_wizard
@@ -112,7 +112,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "最后修改时间"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,write_uid:0

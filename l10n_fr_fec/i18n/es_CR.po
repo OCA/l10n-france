@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 15:28+0000\n"
-"PO-Revision-Date: 2016-09-09 12:26+0000\n"
+"POT-Creation-Date: 2016-10-01 04:00+0000\n"
+"PO-Revision-Date: 2016-11-25 14:56+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/es_CR/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creado en"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,display_name:0
@@ -112,7 +112,7 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,__last_update:0
