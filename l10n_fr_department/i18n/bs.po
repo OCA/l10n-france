@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-01 09:10+0000\n"
-"PO-Revision-Date: 2016-11-25 14:55+0000\n"
+"PO-Revision-Date: 2016-10-11 09:50+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/pt_BR/)\n"
+"Language-Team: Bosnian (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/bs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: bs\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_country_id
@@ -36,12 +36,12 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_uid
 msgid "Created by"
-msgstr "Criado por"
+msgstr "Kreirao"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_date
 msgid "Created on"
-msgstr "Criado em"
+msgstr "Kreirano"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
@@ -78,7 +78,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_display_name
 msgid "Display Name"
-msgstr "Nome para Mostrar"
+msgstr "Prikaži naziv"
 
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
@@ -88,27 +88,27 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Group By"
-msgstr "Agrupado por"
+msgstr "Grupiši po"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_id
 msgid "ID"
-msgstr "Identificação"
+msgstr "ID"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department___last_update
 msgid "Last Modified on"
-msgstr "Última atualização em"
+msgstr "Zadnje mijenjano"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr "Zadnji ažurirao"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_date
 msgid "Last Updated on"
-msgstr "Última atualização em"
+msgstr "Zadnje ažurirano"
 
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
@@ -118,13 +118,13 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
 msgid "Partner"
-msgstr "Parceiro"
+msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "State"
-msgstr "Estado"
+msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_state_id

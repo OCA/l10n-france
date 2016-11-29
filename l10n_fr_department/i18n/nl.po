@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-02 06:49+0000\n"
-"PO-Revision-Date: 2016-09-17 18:43+0000\n"
+"POT-Creation-Date: 2016-11-01 09:10+0000\n"
+"PO-Revision-Date: 2016-11-25 14:57+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -36,12 +36,12 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_date
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
@@ -93,7 +93,7 @@ msgstr "Groepeer op"
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department___last_update
@@ -103,12 +103,12 @@ msgstr "Laatst bijgewerkt op"
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search

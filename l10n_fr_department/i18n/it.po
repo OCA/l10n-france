@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-02 06:49+0000\n"
-"PO-Revision-Date: 2016-10-04 09:43+0000\n"
+"POT-Creation-Date: 2016-11-01 09:10+0000\n"
+"PO-Revision-Date: 2016-11-25 14:57+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Group By"
-msgstr ""
+msgstr "Raggruppa per"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_id
@@ -124,7 +124,7 @@ msgstr "Partner"
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_state_id

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 15:35+0000\n"
-"PO-Revision-Date: 2016-09-15 12:46+0000\n"
+"POT-Creation-Date: 2016-11-01 09:10+0000\n"
+"PO-Revision-Date: 2016-11-25 14:55+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,7 @@ msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_country_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Country"
 msgstr ""
 
@@ -50,6 +51,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner_department_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
 msgstr ""
 
@@ -116,7 +118,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Kumppani"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
@@ -135,7 +137,7 @@ msgid "The department code.(ISO 3166-2 Codification)"
 msgstr ""
 
 #. module: l10n_fr_department
-#: code:addons/l10n_fr_department/model/res_country_department.py:49
+#: code:addons/l10n_fr_department/model/res_country_department.py:53
 #: sql_constraint:res.country.department:0
 #, python-format
 msgid "You cannot have two departments with the same code!"
