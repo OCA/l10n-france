@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-01 09:10+0000\n"
-"PO-Revision-Date: 2016-11-25 14:57+0000\n"
+"POT-Creation-Date: 2016-11-29 12:44+0000\n"
+"PO-Revision-Date: 2016-12-01 10:42+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (Switzerland) (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/fr_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_state
 msgid "Country state"
-msgstr ""
+msgstr "Canton"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_uid
@@ -78,7 +78,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom affiché"
 
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
@@ -98,7 +98,7 @@ msgstr "ID"
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Dernière modification le"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_uid
@@ -118,7 +118,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Partenaire"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
