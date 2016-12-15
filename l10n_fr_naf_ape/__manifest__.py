@@ -12,8 +12,9 @@
     ],
     'data': [
         'data/res.partner.category.csv',
-        'views/partner.xml',
+        'views/partner_view.xml',
     ],
     'license': 'AGPL-3',
-    'installable': False,
+    'auto_install': False,
+    'installable': True,
 }
