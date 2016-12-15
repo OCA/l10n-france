@@ -12,8 +12,13 @@
     ],
     'data': [
         'data/res.partner.category.csv',
+<<<<<<< HEAD
         'views/partner.xml',
+=======
+        'views/partner_view.xml',
+>>>>>>> [MIG] l10n_fr_naf_ape: Migrated to 10.0
     ],
     'license': 'AGPL-3',
-    'installable': False,
+    'auto_install': False,
+    'installable': True,
 }

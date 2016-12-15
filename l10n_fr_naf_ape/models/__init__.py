@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+<<<<<<< HEAD
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution
@@ -19,4 +20,23 @@
 #
 ##############################################################################
 
+<<<<<<< HEAD:l10n_fr_naf_ape/models/__init__.py
 from . import partner
+=======
+from odoo import models, fields
+
+
+class Partner(models.Model):
+    """Add the French APE (official main activity of the company)"""
+    _inherit = 'res.partner'
+
+    ape_id = fields.Many2one(
+        'res.partner.category', string='APE',
+        help="If the partner is a French company, enter its official "
+        "main activity in this field. The APE is chosen among the "
+        "NAF nomenclature.")
+>>>>>>> [MIG] l10n_fr_naf_ape: Migrated to 10.0:l10n_fr_naf_ape/models/partner.py
+=======
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+from . import partner
+>>>>>>> [MIG] l10n_fr_naf_ape: Migrated to 10.0
