@@ -53,7 +53,7 @@ class AccountBankStatementImport(models.TransientModel):
         i = 0
         bank_code = guichet_code = account_number = currency_code = False
         decimals = start_balance = False
-        start_balance = end_balance = start_date_str = end_date_str = False
+        start_balance = end_balance = False
         vals_line = False
         # The CFONB spec says you should only have digits, capital letters
         # and * - . /
@@ -101,7 +101,6 @@ class AccountBankStatementImport(models.TransientModel):
                         "A CFONB file should start with '01'") % rec_type)
                 start_balance = self._parse_cfonb_amount(
                     line[90:104], decimals)
-                start_date_str = date_str
 
             if (
                     bank_code != line_bank_code or
@@ -119,7 +118,6 @@ class AccountBankStatementImport(models.TransientModel):
                 transactions.append(vals_line)
                 vals_line = False
             if rec_type == '07':
-                end_date_str = date_str
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
             elif rec_type == '04':
                 bank_account_id = partner_id = False
@@ -145,8 +143,7 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line['unique_import_id'] += name_append
 
         vals_bank_statement = {
-            'name': _('Account %s %s > %s') % (
-                account_number, start_date_str, end_date_str),
+            'name': _('Account %s') % account_number,
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
