@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-11-25 14:57+0000\n"
+"PO-Revision-Date: 2016-12-30 21:47+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Vazgeç"
 #. module: l10n_fr_fec
 #: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
 msgid "Close"
-msgstr ""
+msgstr "Kapat"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,type:0
@@ -45,7 +45,7 @@ msgstr "Oluşturuldu"
 #. module: l10n_fr_fec
 #: field:account.fr.fec,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Görünen İsim"
 
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0
@@ -92,7 +92,7 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Dosya adı"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,fiscalyear_id:0
@@ -117,7 +117,7 @@ msgstr "ID"
 #. module: l10n_fr_fec
 #: field:account.fr.fec,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Son değişiklik"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,write_uid:0
