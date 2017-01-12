@@ -4,7 +4,11 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from unidecode import unidecode
+
+try:
+    from unidecode import unidecode
+except ImportError:
+    unidecode = False
 
 LCR_DATE_FORMAT = '%d%m%y'
 
