@@ -27,8 +27,8 @@ class ResCountryDepartment(models.Model):
         string='Department Code', size=3, required=True,
         help="The department code (ISO 3166-2 codification)")
     display_name = fields.Char(
-        compute='_compute_display_name', string='Display Name', readonly=True,
-        store=True)
+        compute='_compute_display_name_field', string='Display Name',
+        readonly=True, store=True)
 
     _sql_constraints = [(
         'code_uniq',
@@ -38,7 +38,7 @@ class ResCountryDepartment(models.Model):
 
     @api.multi
     @api.depends('name', 'code')
-    def _compute_display_name(self):
+    def _compute_display_name_field(self):
         for rec in self:
             dname = rec.name
             if rec.code:
