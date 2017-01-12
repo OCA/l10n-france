@@ -2,34 +2,25 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=======================
-French Letter of Change
-=======================
+===================================================
+French Localization - Base Location Geonames Import
+===================================================
 
-This module adds support for French Letters of Change (in French:
-*Lettre de Change Relevé* aka LCR).
-
-This payment type is still in use in France and it is *not* replaced by SEPA
-one-off Direct Debits.
-
-With this module, you can generate an LCR CFONB file to send to your bank.
-
-Configuration
-=============
-
-To configure this module, you need to create a new payment mode linked
-to the payment method *Lettre de Change Relevé* that is automatically
-created when you install this module.
+This module adds some France-specific tuning for the wizard that imports
+better zip entries from `Geonames <http://www.geonames.org/>`_. This
+wizard is provided by the module base_location_geonames_import from the
+projet *partner-contact-management*. This tuning aims at complying with
+France's postal standards published by *La Poste*. This tuning will
+be applied for France and France-related territories where *La Poste*
+postal standards apply.
 
 Usage
 =====
 
-To use this module, you need to create a new Debit Order and
-select the LCR payment mode.
-
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/121/10.0
+
 
 Bug Tracker
 ===========

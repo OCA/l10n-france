@@ -42,44 +42,46 @@ class Partner(models.Model):
     """Add the French official company identity numbers SIREN, NIC and SIRET"""
     _inherit = 'res.partner'
 
-    @api.one
+    @api.multi
     @api.depends('siren', 'nic')
-    def _get_siret(self):
+    def _compute_siret(self):
         """Concatenate the SIREN and NIC to form the SIRET"""
-        if self.siren:
-            if self.nic:
-                self.siret = self.siren + self.nic
+        for rec in self:
+            if rec.siren:
+                if rec.nic:
+                    rec.siret = rec.siren + rec.nic
+                else:
+                    rec.siret = rec.siren + '*****'
             else:
-                self.siret = self.siren + '*****'
-        else:
-            self.siret = ''
+                rec.siret = ''
 
-    @api.one
     @api.constrains('siren', 'nic')
     def _check_siret(self):
         """Check the SIREN's and NIC's keys (last digits)"""
-        if self.nic:
-            # Check the NIC type and length
-            if not self.nic.isdecimal() or len(self.nic) != 5:
-                raise UserError(
-                    _("The NIC '%s' is incorrect: it must be have "
-                        "exactly 5 digits.")
-                    % self.nic)
-        if self.siren:
-            # Check the SIREN type, length and key
-            if not self.siren.isdecimal() or len(self.siren) != 9:
-                raise UserError(
-                    _("The SIREN '%s' is incorrect: it must have "
-                        "exactly 9 digits.") % self.siren)
-            if not _check_luhn(self.siren):
-                raise UserError(
-                    _("The SIREN '%s' is invalid: the checksum is wrong.")
-                    % self.siren)
-            # Check the NIC key (you need both SIREN and NIC to check it)
-            if self.nic and not _check_luhn(self.siren + self.nic):
-                return UserError(
-                    _("The SIRET '%s%s' is invalid: the checksum is wrong.")
-                    % (self.siren, self.nic))
+        for rec in self:
+            if rec.nic:
+                # Check the NIC type and length
+                if not rec.nic.isdecimal() or len(rec.nic) != 5:
+                    raise UserError(
+                        _("The NIC '%s' is incorrect: it must be have "
+                            "exactly 5 digits.")
+                        % rec.nic)
+            if rec.siren:
+                # Check the SIREN type, length and key
+                if not rec.siren.isdecimal() or len(rec.siren) != 9:
+                    raise UserError(
+                        _("The SIREN '%s' is incorrect: it must have "
+                            "exactly 9 digits.") % rec.siren)
+                if not _check_luhn(rec.siren):
+                    raise UserError(
+                        _("The SIREN '%s' is invalid: the checksum is wrong.")
+                        % rec.siren)
+                # Check the NIC key (you need both SIREN and NIC to check it)
+                if rec.nic and not _check_luhn(rec.siren + rec.nic):
+                    return UserError(
+                        _("The SIRET '%s%s' is invalid: "
+                          "the checksum is wrong.")
+                        % (rec.siren, rec.nic))
 
     @api.model
     def _commercial_fields(self):
@@ -99,7 +101,7 @@ class Partner(models.Model):
         "makes the last 5 digits of the SIRET "
         "number.")
     siret = fields.Char(
-        compute='_get_siret', string='SIRET', size=14, store=True,
+        compute='_compute_siret', string='SIRET', size=14, store=True,
         help="The SIRET number is the official identity number of this "
         "company's office in France. It is composed of the 9 digits "
         "of the SIREN number and the 5 digits of the NIC number, ie. "

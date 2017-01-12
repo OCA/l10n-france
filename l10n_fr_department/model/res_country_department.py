@@ -1,28 +1,11 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    l10n FR Departments module for Odoo
-#    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#    @author Alexis de Lattre (alexis.delattre@akretion.com)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2013-2016 GRAP (http://www.grap.coop)
+# © 2015-2016 Akretion (http://www.akretion.com)
+# @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+# @author Alexis de Lattre (alexis.delattre@akretion.com)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api
 
 
 class ResCountryDepartment(models.Model):
@@ -41,22 +24,23 @@ class ResCountryDepartment(models.Model):
     name = fields.Char(
         string='Department Name', size=128, required=True)
     code = fields.Char(
-        string='Departement Code', size=3, required=True,
-        help="""The department code."""
-        """(ISO 3166-2 Codification)""")
+        string='Department Code', size=3, required=True,
+        help="The department code (ISO 3166-2 codification)")
     display_name = fields.Char(
-        compute='compute_display_name', string='Display Name', readonly=True,
-        store=True)
+        compute='_compute_display_name_field', string='Display Name',
+        readonly=True, store=True)
 
-    _sql_constraints = [
-        ('code_uniq', 'unique (code)',
-            _("""You cannot have two departments with the same code!""")),
-    ]
+    _sql_constraints = [(
+        'code_uniq',
+        'unique (code)',
+        "You cannot have two departments with the same code!"
+        )]
 
-    @api.one
+    @api.multi
     @api.depends('name', 'code')
-    def compute_display_name(self):
-        dname = self.name
-        if self.code:
-            dname = '%s (%s)' % (dname, self.code)
-        self.display_name = dname
+    def _compute_display_name_field(self):
+        for rec in self:
+            dname = rec.name
+            if rec.code:
+                dname = '%s (%s)' % (dname, rec.code)
+            rec.display_name = dname
