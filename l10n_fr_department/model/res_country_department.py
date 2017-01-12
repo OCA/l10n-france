@@ -27,7 +27,7 @@ class ResCountryDepartment(models.Model):
         string='Department Code', size=3, required=True,
         help="The department code (ISO 3166-2 codification)")
     display_name = fields.Char(
-        compute='compute_display_name', string='Display Name', readonly=True,
+        compute='_compute_display_name', string='Display Name', readonly=True,
         store=True)
 
     _sql_constraints = [(
@@ -36,10 +36,11 @@ class ResCountryDepartment(models.Model):
         "You cannot have two departments with the same code!"
         )]
 
-    @api.one
+    @api.multi
     @api.depends('name', 'code')
-    def compute_display_name(self):
-        dname = self.name
-        if self.code:
-            dname = '%s (%s)' % (dname, self.code)
-        self.display_name = dname
+    def _compute_display_name(self):
+        for rec in self:
+            dname = rec.name
+            if rec.code:
+                dname = '%s (%s)' % (dname, rec.code)
+            rec.display_name = dname
