@@ -42,19 +42,19 @@ class Partner(models.Model):
     """Add the French official company identity numbers SIREN, NIC and SIRET"""
     _inherit = 'res.partner'
 
-    @api.one
+    @api.multi
     @api.depends('siren', 'nic')
-    def _get_siret(self):
+    def _compute_siret(self):
         """Concatenate the SIREN and NIC to form the SIRET"""
-        if self.siren:
-            if self.nic:
-                self.siret = self.siren + self.nic
+        for rec in self:
+            if rec.siren:
+                if rec.nic:
+                    rec.siret = rec.siren + rec.nic
+                else:
+                    rec.siret = rec.siren + '*****'
             else:
-                self.siret = self.siren + '*****'
-        else:
-            self.siret = ''
+                rec.siret = ''
 
-    @api.one
     @api.constrains('siren', 'nic')
     def _check_siret(self):
         """Check the SIREN's and NIC's keys (last digits)"""
@@ -99,7 +99,7 @@ class Partner(models.Model):
         "makes the last 5 digits of the SIRET "
         "number.")
     siret = fields.Char(
-        compute='_get_siret', string='SIRET', size=14, store=True,
+        compute='_compute_siret', string='SIRET', size=14, store=True,
         help="The SIRET number is the official identity number of this "
         "company's office in France. It is composed of the 9 digits "
         "of the SIREN number and the 5 digits of the NIC number, ie. "
