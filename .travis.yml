@@ -22,13 +22,12 @@ env:
   global:
   - VERSION="9.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
   - TRANSIFEX_USER='transbot@odoo-community.org'
-
   - secure: axBDnKRsoWFK+yYseiC2VZ76aiKjRnT25p4R7wtMs0UXhydbJvac1lWEUWVm8XwiMKNK+sor3csVlm6mfuAqEAtBtC6mprS4oFgFdUSPoA0pPus99GLkOXJw6AD00R1p3O5S6ukQ1JNhMJZvIRhKFm+icd8+VJkn8GGclnuqrp4=
   matrix:
   - LINT_CHECK="1"
   - TRANSIFEX="1"
-  - ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  - TESTS="1" ODOO_REPO="odoo/odoo"
+  - TESTS="1" ODOO_REPO="OCA/OCB"
 
 virtualenv:
   system_site_packages: true
@@ -44,4 +43,7 @@ script:
 
 after_success:
   - travis_after_tests_success
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
