@@ -1,19 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_fr_department
-#
+# * l10n_fr_department
+# 
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-25 19:36+0000\n"
-"PO-Revision-Date: 2016-11-25 19:36+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-11-30 10:45+0000\n"
+"PO-Revision-Date: 2017-11-30 10:45+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_country_id
@@ -42,16 +45,17 @@ msgid "Created on"
 msgstr "Créé le"
 
 #. module: l10n_fr_department
-#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
-msgid "Department Code"
-msgstr "Code du département"
-
-#. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner_department_id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_users_department_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
 msgstr "Département"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
+msgid "Department Code"
+msgstr "Code du département"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_name
@@ -85,7 +89,7 @@ msgstr "Afficher et gérer la liste de tous les départements."
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Group By"
-msgstr "Regrouper par"
+msgstr "Grouper par"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_id
@@ -100,12 +104,12 @@ msgstr "Dernière Modification le"
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_uid
 msgid "Last Updated by"
-msgstr "Dernière mise à jour par"
+msgstr "Dernière modification par"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_date
 msgid "Last Updated on"
-msgstr "Dernière mise à jour le"
+msgstr "Dernière modification le"
 
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
@@ -134,8 +138,6 @@ msgid "The department code (ISO 3166-2 codification)"
 msgstr "Code du département (codification ISO 3166-2)"
 
 #. module: l10n_fr_department
-#: code:addons/l10n_fr_department/model/res_country_department.py:36
 #: sql_constraint:res.country.department:0
-#, python-format
 msgid "You cannot have two departments with the same code!"
 msgstr "Vous ne pouvez pas avoir deux départements avec le même code !"
