@@ -3,14 +3,14 @@
 # * account_banking_fr_lcr
 # 
 # Translators:
-# Imre Kristoffer Eilertsen <imreeil42@gmail.com>, 2016
+# OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0c\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-30 21:33+0000\n"
-"PO-Revision-Date: 2016-07-30 21:33+0000\n"
-"Last-Translator: Imre Kristoffer Eilertsen <imreeil42@gmail.com>, 2016\n"
+"POT-Creation-Date: 2017-01-13 03:36+0000\n"
+"PO-Revision-Date: 2017-01-13 03:36+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Norwegian Bokmål (Norway) (https://www.transifex.com/oca/teams/23907/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,13 +19,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:31
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:35
 #, python-format
 msgid "Cannot convert the field '%s' to ASCII"
 msgstr "Kan ikke konvertere feltet '%s' til ASCII"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:49
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:53
 #, python-format
 msgid ""
 "For the bank account '%s' of partner '%s', the Bank Account Type should be "
@@ -44,7 +44,7 @@ msgid "LCR"
 msgstr "LCR"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:55
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:59
 #, python-format
 msgid ""
 "LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not "
@@ -59,7 +59,7 @@ msgid "Payment Order"
 msgstr "Betalingsordre"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:197
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:201
 #, python-format
 msgid ""
 "The currency of payment line '%s' is '%s'. To be included in a French LCR, "
@@ -69,7 +69,7 @@ msgstr ""
 "LCR, må myntenheten være EUR."
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:19
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:23
 #, python-format
 msgid "The field '%s' is empty or 0. It should have a non-null value."
 msgstr ""
