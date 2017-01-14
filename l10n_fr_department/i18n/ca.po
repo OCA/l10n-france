@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-12-27 08:21+0000\n"
+"PO-Revision-Date: 2017-01-13 09:22+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: view:res.country.department:l10n_fr_department.view_country_department_search
 #: field:res.country.department,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: l10n_fr_department
 #: help:res.country.department,country_id:0
@@ -78,7 +78,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: field:res.country.department,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Veure el nom"
 
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
@@ -98,7 +98,7 @@ msgstr "ID"
 #. module: l10n_fr_department
 #: field:res.country.department,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Darrera modificació el"
 
 #. module: l10n_fr_department
 #: field:res.country.department,write_uid:0
@@ -124,7 +124,7 @@ msgstr "Empresa"
 #: view:res.country.department:l10n_fr_department.view_country_department_search
 #: field:res.country.department,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Estat"
 
 #. module: l10n_fr_department
 #: help:res.country.department,state_id:0
