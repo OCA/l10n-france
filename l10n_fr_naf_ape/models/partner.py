@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
-<<<<<<< HEAD
 # © 2011 Numérigraphe SARL.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-=======
-=======
->>>>>>> resolve confilcts
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution
@@ -26,11 +21,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-<<<<<<< HEAD:l10n_fr_naf_ape/models/__init__.py
-from . import partner
-=======
->>>>>>> [MIG] l10n_fr_naf_ape: Migrated to 10.0
 from odoo import models, fields
 
 
@@ -43,7 +33,3 @@ class Partner(models.Model):
         help="If the partner is a French company, enter its official "
         "main activity in this field. The APE is chosen among the "
         "NAF nomenclature.")
-<<<<<<< HEAD
-=======
->>>>>>> [MIG] l10n_fr_naf_ape: Migrated to 10.0:l10n_fr_naf_ape/models/partner.py
->>>>>>> [MIG] l10n_fr_naf_ape: Migrated to 10.0
