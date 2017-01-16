@@ -12,7 +12,7 @@
     ],
     'data': [
         'data/res.partner.category.csv',
-        'views/partner_view.xml',
+        'views/partner.xml',
     ],
     'license': 'AGPL-3',
     'auto_install': False,
