@@ -15,5 +15,6 @@
         'views/partner.xml',
     ],
     'license': 'AGPL-3',
-    'installable': False,
+    'auto_install': False,
+    'installable': True,
 }
