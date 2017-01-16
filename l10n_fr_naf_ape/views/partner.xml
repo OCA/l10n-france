@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <!--  Add the APE (main activity) -->
     <record model="ir.ui.view" id="view_partner_add">
         <field name="name">res.partner.form.ape</field>
@@ -14,4 +15,5 @@
             </field>
         </field>
     </record>
+
 </odoo>
