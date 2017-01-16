@@ -23,8 +23,12 @@
 #
 ##############################################################################
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD:l10n_fr_naf_ape/models/__init__.py
+=======
+
+>>>>>>> resolve conflict
 from . import partner
 =======
 from odoo import models, fields
