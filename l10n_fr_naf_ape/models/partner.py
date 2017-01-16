@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 <<<<<<< HEAD
+<<<<<<< HEAD
 # © 2011 Numérigraphe SARL.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 =======
+=======
+>>>>>>> resolve confilcts
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution

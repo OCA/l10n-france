@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> resolve confilcts
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution
@@ -19,6 +22,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+<<<<<<< HEAD
 
 <<<<<<< HEAD:l10n_fr_naf_ape/models/__init__.py
 from . import partner
@@ -38,5 +42,7 @@ class Partner(models.Model):
 >>>>>>> [MIG] l10n_fr_naf_ape: Migrated to 10.0:l10n_fr_naf_ape/models/partner.py
 =======
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+=======
+>>>>>>> resolve confilcts
 from . import partner
 >>>>>>> [MIG] l10n_fr_naf_ape: Migrated to 10.0
