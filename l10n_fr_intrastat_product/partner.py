@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Report intrastat product module for Odoo
@@ -46,8 +46,8 @@ class ResPartner(models.Model):
     @api.one
     @api.constrains('intrastat_fiscal_representative')
     def _check_fiscal_representative(self):
-        '''The Fiscal rep. must be based in the same country as our '''
-        '''company or in an intrastat country'''
+        """The Fiscal rep. must be based in the same country as our
+        company or in an intrastat country"""
         rep = self.intrastat_fiscal_representative
         if rep:
             if not rep.country_id:
