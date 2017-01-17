@@ -8,7 +8,12 @@ from openerp import models, api
 from openerp.report import interface
 from openerp.addons.account_financial_report_webkit.report.\
     trial_balance import TrialBalanceWebkit
-import unicodecsv
+import logging
+logger = logging.getLogger(__name__)
+try:
+    import unicodecsv
+except ImportError:
+    logger.debug('Cannot import unicodecsv')
 
 try:
     from cStringIO import StringIO
