@@ -73,6 +73,7 @@ class ReportEBP(interface.report_int):
         data = f.read()
         return (data, 'csv')
 
+
 ReportEBP('report.trial.balance.ebp')
 
 
