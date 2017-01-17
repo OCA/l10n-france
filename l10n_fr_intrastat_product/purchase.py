@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    L10n FR Report intrastat product module for Odoo
@@ -27,8 +27,8 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     def _prepare_invoice(self, cr, uid, order, line_ids, context=None):
-        '''Copy country of partner_id =("origin country") and '''
-        '''arrival department on invoice'''
+        """Copy country of partner_id =("origin country") and
+        arrival department on invoice"""
         invoice_vals = super(PurchaseOrder, self)._prepare_invoice(
             cr, uid, order, line_ids, context=context)
         if order.partner_id.country_id:
