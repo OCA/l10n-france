@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    French Letter of Change module for Odoo
@@ -22,8 +22,14 @@
 
 from openerp import models, fields, api, workflow, _
 from openerp.exceptions import Warning
-from unidecode import unidecode
 import base64
+import logging
+logger = logging.getLogger(__name__)
+
+try:
+    from unidecode import unidecode
+except ImportError:
+    logger.debug('Cannot import unidecode')
 
 LCR_DATE_FORMAT = '%d%m%y'
 
