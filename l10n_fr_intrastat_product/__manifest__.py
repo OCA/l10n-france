@@ -46,6 +46,6 @@
         'product_view.xml',
     ],
     'demo': ['intrastat_demo.xml'],
-    'installable': True,
+    'installable': False,
     'application': True,
 }
