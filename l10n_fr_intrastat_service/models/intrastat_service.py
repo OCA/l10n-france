@@ -1,29 +1,11 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    l10n FR intrastat service module for Odoo (DES)
-#    Copyright (C) 2010-2016 Akretion (http://www.akretion.com/)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2010-2017 Akretion (http://www.akretion.com/)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import Warning as UserError
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 import logging
@@ -38,12 +20,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     _rec_name = "year_month"
     _inherit = ['mail.thread', 'intrastat.common']
     _description = "DES"
-    _track = {
-        'state': {
-            'l10n_fr_intrastat_service.l10n_fr_declaration_done':
-            lambda self, cr, uid, obj, ctx=None: obj.state == 'done',
-            }
-        }
 
     @api.model
     def _get_year(self):
@@ -59,12 +35,13 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         else:
             return datetime.now().month - 1
 
-    @api.one
+    @api.multi
     @api.depends('year', 'month')
     def _compute_year_month(self):
-        if self.year and self.month:
-            self.year_month = '-'.join(
-                [str(self.year), format(self.month, '02')])
+        for rec in self:
+            if rec.year and rec.month:
+                rec.year_month = '-'.join(
+                    [str(rec.year), format(rec.month, '02')])
 
     company_id = fields.Many2one(
         'res.company', string='Company',
@@ -72,8 +49,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         default=lambda self: self.env['res.company']._company_default_get(
             'l10n.fr.intrastat.service.declaration'))
     year = fields.Integer(
-        string='Year', required=True,
-        default=_get_year)
+        string='Year', required=True, default=_get_year,
+        states={'done': [('readonly', True)]})
     month = fields.Selection([
         (1, '01'),
         (2, '02'),
@@ -87,26 +64,27 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         (10, '10'),
         (11, '11'),
         (12, '12')
-        ], string='Month', required=True,
-        default=_get_month)
+        ], string='Month', required=True, default=_get_month,
+        states={'done': [('readonly', True)]})
     year_month = fields.Char(
         compute='_compute_year_month', string='Period', readonly=True,
-        track_visibility='always', store=True,
+        track_visibility='onchange', store=True,
         help="Year and month of the declaration.")
     declaration_line_ids = fields.One2many(
         'l10n.fr.intrastat.service.declaration.line',
         'parent_id', string='Intrastat Service Lines',
         states={'done': [('readonly', True)]}, copy=False)
     num_decl_lines = fields.Integer(
-        compute='_compute_numbers', string='Number of lines', store=True,
-        track_visibility='always')
-    total_amount = fields.Float(
-        compute='_compute_numbers', digits=dp.get_precision('Account'),
-        string='Total amount', store=True, track_visibility='always',
+        compute='_compute_numbers', string='Number of Lines', store=True,
+        readonly=True, track_visibility='always')
+    total_amount = fields.Monetary(
+        compute='_compute_numbers', currency_field='currency_id',
+        string='Total Amount', store=True, track_visibility='onchange',
+        readonly=True,
         help="Total amount in company currency of the declaration.")
     currency_id = fields.Many2one(
-        'res.currency', related='company_id.currency_id', readonly=True,
-        string='Currency')
+        related='company_id.currency_id', readonly=True,
+        string='Company Currency')
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
@@ -147,15 +125,14 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         lines_to_remove = line_obj.search([
             ('invoice_id', '!=', False),
             ('parent_id', '=', self.id)])
-        if lines_to_remove:
-            lines_to_remove.unlink()
+        lines_to_remove.unlink()
 
         invoices = invoice_obj.search(
             self._prepare_domain(), order='date_invoice')
         for invoice in invoices:
             if not invoice.partner_id.country_id:
-                raise UserError(
-                    _("Missing country on partner '%s'.")
+                raise UserError(_(
+                    "Missing country on partner '%s'.")
                     % invoice.partner_id.name)
             elif not invoice.partner_id.country_id.intrastat:
                 continue
@@ -169,7 +146,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             amount_invoice_cur_accessory_cost = 0.0
             regular_product_in_invoice = False
 
-            for line in invoice.invoice_line:
+            for line in invoice.invoice_line_ids:
                 if not line.product_id:
                     continue
 
@@ -190,11 +167,9 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 if not line.quantity or not line.price_subtotal:
                     continue
 
-                skip_this_line = False
-                for line_tax in line.invoice_line_tax_id:
-                    if line_tax.exclude_from_intrastat_if_present:
-                        skip_this_line = True
-                if skip_this_line:
+                if any([
+                        line_tax.exclude_from_intrastat_if_present
+                        for line_tax in line.invoice_line_tax_ids]):
                     continue
 
                 if line.product_id.is_accessory_cost:
@@ -216,7 +191,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     invoice.currency_id.with_context(
                         date=invoice.date_invoice).compute(
                         amount_invoice_cur_to_write,
-                        self.company_id.currency_id, round=False),
+                        self.company_id.currency_id),
                     0))
             else:
                 amount_company_cur_to_write = int(round(
@@ -238,8 +213,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 # end of the loop on the invoice lines and the "if
                 # amount_company_cur_to_write:"
                 if not invoice.partner_id.vat:
-                    raise UserError(
-                        _("Missing VAT number on partner '%s'.")
+                    raise UserError(_(
+                        "Missing VAT number on partner '%s'.")
                         % invoice.partner_id.name)
                 else:
                     partner_vat_to_write = invoice.partner_id.vat
@@ -256,12 +231,12 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         self.message_post(_('Re-generating lines from invoices'))
         return
 
-    @api.one
+    @api.multi
     def done(self):
         self.state = 'done'
         return
 
-    @api.one
+    @api.multi
     def back2draft(self):
         self.state = 'draft'
         return
@@ -295,7 +270,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             numlin_des = etree.SubElement(ligne_des, 'numlin_des')
             numlin_des.text = str(line)
             valeur = etree.SubElement(ligne_des, 'valeur')
-            # We take amount_company_currency, to get amounts in EUR
             valeur.text = str(sline.amount_company_currency)
             partner_des = etree.SubElement(ligne_des, 'partner_des')
             try:
@@ -370,32 +344,33 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
 
     parent_id = fields.Many2one(
         'l10n.fr.intrastat.service.declaration',
-        string='Intrastat service ref', ondelete='cascade')
+        string='Intrastat Service Declaration', ondelete='cascade')
     company_id = fields.Many2one(
         'res.company', related='parent_id.company_id',
         string="Company", readonly=True, store=True)
     company_currency_id = fields.Many2one(
         'res.currency', related='company_id.currency_id',
-        string="Company currency", readonly=True)
+        string="Company Currency", readonly=True)
     invoice_id = fields.Many2one(
-        'account.invoice', string='Invoice ref', readonly=True)
+        'account.invoice', string='Invoice', readonly=True,
+        ondelete='restrict')
     date_invoice = fields.Date(
         related='invoice_id.date_invoice',
-        string='Invoice date', readonly=True)
+        string='Invoice Date', readonly=True)
     partner_vat = fields.Char(string='Customer VAT')
     partner_id = fields.Many2one(
-        'res.partner', 'Partner name', ondelete='restrict')
+        'res.partner', string='Partner Name', ondelete='restrict')
     amount_company_currency = fields.Integer(
-        string='Amount in company currency',
+        string='Amount',
         help="Amount in company currency to write in the declaration. "
         "Amount in company currency = amount in invoice currency "
         "converted to company currency with the rate of the invoice "
         "date and rounded at 0 digits")
-    amount_invoice_currency = fields.Float(
-        string='Amount in invoice currency',
-        digits=dp.get_precision('Account'), readonly=True)
+    amount_invoice_currency = fields.Monetary(
+        string='Amount in Invoice Currency',
+        readonly=True, currency_field='invoice_currency_id')
     invoice_currency_id = fields.Many2one(
-        'res.currency', "Invoice currency", readonly=True)
+        'res.currency', "Invoice Currency", readonly=True)
 
     @api.onchange('partner_id')
     def partner_on_change(self):
