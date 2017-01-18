@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
-    Copyright (C) 2010-2015 Akretion (http://www.akretion.com/)
-    @author Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  Copyright (C) 2010-2017 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <!-- Form view for DES -->
 <record id="l10n_fr_intrastat_service_declaration_form" model="ir.ui.view">
@@ -17,9 +15,9 @@
         <form string="DES">
             <header>
                 <button name="done" string="Done" type="object" states="draft" class="oe_highlight"/>
-                <button name="back2draft" string="Back to draft" type="object" states="done" />
-                <button name="generate_service_lines" string="Generate lines from invoices" type="object" states="draft" class="oe_highlight"/>
-                <button name="generate_xml" string="Attach XML file" type="object" />
+                <button name="back2draft" string="Back to Draft" type="object" states="done" />
+                <button name="generate_service_lines" string="Generate Lines from Invoices" type="object" states="draft" class="oe_highlight"/>
+                <button name="generate_xml" string="Attach XML File" type="object"/>
                 <field name="state" widget="statusbar" />
             </header>
             <sheet string="Intrastat Service">
@@ -36,7 +34,7 @@
                     </group>
                     <group name="properties-2">
                         <field name="num_decl_lines" />
-                        <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="total_amount"/>
                         <field name="currency_id" invisible="1"/>
                         <field name="company_id" groups="base.group_multi_company" widget="selection" />
                     </group>
@@ -59,11 +57,12 @@
     <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
         <tree string="DES" colors="blue:state=='draft'">
-            <field name="year_month" />
+            <field name="year_month"/>
+            <field name="company_id" groups="base.group_multi_company"/>
             <field name="num_decl_lines" />
-            <field name="total_amount" sum="Total amount" />
-            <field name="currency_id" />
-            <field name="state" />
+            <field name="total_amount" sum="Total amount"/>
+            <field name="currency_id" invisible="1"/>
+            <field name="state"/>
         </tree>
     </field>
 </record>
@@ -74,9 +73,24 @@
     <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
         <search string="Search DES">
-            <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
-            <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
+            <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+            <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+            <group string="Group By" name="groupby">
+                <filter name="year_groupby" string="Year" context="{'group_by': 'year'}"/>
+            </group>
         </search>
+    </field>
+</record>
+
+<!-- Graph view for DES -->
+<record id="l10n_fr_intrastat_service_declaration_graph" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.declaration.graph</field>
+    <field name="model">l10n.fr.intrastat.service.declaration</field>
+    <field name="arch"  type="xml">
+        <graph string="DES Graph">
+            <field name="year_month" type="row"/>
+            <field name="total_amount" type="measure"/>
+        </graph>
     </field>
 </record>
 
@@ -86,17 +100,17 @@
     <field name="model">l10n.fr.intrastat.service.declaration.line</field>
     <field name="arch" type="xml">
         <form string="Intrastat Service Lines">
-            <group string="Information to declare" name="to-declare">
+            <group string="Information to Declare" name="to-declare">
                 <field name="partner_id" />
                 <field name="partner_vat" />
-                <field name="amount_company_currency" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="amount_company_currency"/>
                 <field name="company_currency_id" invisible="1"/>
             </group>
-            <group string="Additionnal information" name="additionnal">
-                <field name="amount_invoice_currency" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
-                <field name="invoice_currency_id" invisible="1"/>
+            <group string="Related Invoice" name="additionnal">
                 <field name="invoice_id" />
                 <field name="date_invoice" />
+                <field name="amount_invoice_currency"/>
+                <field name="invoice_currency_id" invisible="1"/>
             </group>
         </form>
     </field>
@@ -109,8 +123,12 @@
     <field name="arch" type="xml">
         <tree string="Intrastat Service Lines">
             <field name="partner_vat" />
-            <field name="amount_company_currency" />
-            <field name="company_currency_id" string="Currency" />
+            <!-- amount_company_currency is an Integer field,
+            not a fields.Monetary, that's why I use explicitely
+            the widget and the options in the field below -->
+            <field name="amount_company_currency" widget="monetary"
+                options="{'currency_field': 'company_currency_id'}"/>
+            <field name="company_currency_id" invisible="1" />
             <field name="partner_id" />
             <field name="invoice_id" />
         </tree>
@@ -122,7 +140,7 @@
 <record id="l10n_fr_intrastat_service_declaration_action" model="ir.actions.act_window">
     <field name="name">DES</field>
     <field name="res_model">l10n.fr.intrastat.service.declaration</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree,form,graph</field>
 </record>
 
 
@@ -132,13 +150,4 @@
     action="l10n_fr_intrastat_service_declaration_action" />
 
 
-<!-- Notification in the chatter -->
-<record id="l10n_fr_declaration_done" model="mail.message.subtype">
-    <field name="name">DES Validated</field>
-    <field name="res_model">l10n.fr.intrastat.service.declaration</field>
-    <field name="default" eval="False"/>
-    <field name="description">DES Validated</field>
-</record>
-
-</data>
-</openerp>
+</odoo>
