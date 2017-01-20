@@ -1,0 +1,144 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_fr_department
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: l10n-france (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-01 04:00+0000\n"
+"PO-Revision-Date: 2016-12-16 00:24+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: l10n_fr_department
+#: view:res.country.department:l10n_fr_department.view_country_department_search
+#: field:res.country.department,country_id:0
+msgid "Country"
+msgstr "País"
+
+#. module: l10n_fr_department
+#: help:res.country.department,country_id:0
+msgid "Country of the related state"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: l10n_fr_department
+#: field:res.country.department,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: l10n_fr_department
+#: field:res.country.department,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: l10n_fr_department
+#: field:res.country.department,code:0
+msgid "Departement Code"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_country_department
+#: view:res.partner:l10n_fr_department.view_res_partner_filter
+#: field:res.partner,department_id:0
+msgid "Department"
+msgstr "Departamento"
+
+#. module: l10n_fr_department
+#: field:res.country.department,name:0
+msgid "Department Name"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.actions.act_window,name:l10n_fr_department.action_view_country_department_tree
+#: model:ir.ui.menu,name:l10n_fr_department.menu_res_country_department
+#: view:res.country.department:l10n_fr_department.view_country_department_form
+#: view:res.country.department:l10n_fr_department.view_country_department_search
+#: view:res.country.department:l10n_fr_department.view_country_department_tree
+#: field:res.country.state,department_ids:0
+msgid "Departments"
+msgstr "Departamentos"
+
+#. module: l10n_fr_department
+#: help:res.country.state,department_ids:0
+msgid "Departments related to this state"
+msgstr ""
+
+#. module: l10n_fr_department
+#: field:res.country.department,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: l10n_fr_department
+#: model:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
+msgid "Display and manage the list of all departments."
+msgstr ""
+
+#. module: l10n_fr_department
+#: view:res.country.department:l10n_fr_department.view_country_department_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: l10n_fr_department
+#: field:res.country.department,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_fr_department
+#: field:res.country.department,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: l10n_fr_department
+#: field:res.country.department,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: l10n_fr_department
+#: field:res.country.department,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: l10n_fr_department
+#: view:res.country.department:l10n_fr_department.view_country_department_search
+msgid "Name or Code"
+msgstr "Nombre o código"
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: l10n_fr_department
+#: view:res.country.department:l10n_fr_department.view_country_department_search
+#: field:res.country.department,state_id:0
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_fr_department
+#: help:res.country.department,state_id:0
+msgid "State related to the current department"
+msgstr ""
+
+#. module: l10n_fr_department
+#: help:res.country.department,code:0
+msgid "The department code in two chars.(ISO 3166-2 Codification)"
+msgstr ""
+
+#. module: l10n_fr_department
+#: code:addons/l10n_fr_department/model/res_country_department.py:53
+#: sql_constraint:res.country.department:0
+#, python-format
+msgid "You cannot have two departments with the same code!"
+msgstr ""

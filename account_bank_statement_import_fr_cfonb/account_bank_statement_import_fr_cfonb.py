@@ -155,9 +155,7 @@ class AccountBankStatementImport(models.TransientModel):
             elif rec_type == '05':
                 assert vals_line, 'vals_line should have a value !'
                 complementary_info_type = line[45:48]
-                if (
-                        not complementary_info_type or
-                        complementary_info_type == 'LIB'):
+                if complementary_info_type in ('   ', 'LIB'):
                     name_append = ' ' + line[48:118].strip()
                     vals_line['name'] += name_append
                     vals_line['unique_import_id'] += name_append

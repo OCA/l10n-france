@@ -1,0 +1,156 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_fr_fec
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: l10n-france (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-01 04:00+0000\n"
+"PO-Revision-Date: 2016-12-27 08:25+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: Hebrew (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/he/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: l10n_fr_fec
+#: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
+msgid "Cancel"
+msgstr "בטל"
+
+#. module: l10n_fr_fec
+#: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
+msgid "Close"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,type:0
+msgid "Company Type"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,create_uid:0
+msgid "Created by"
+msgstr "נוצר על ידי"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,create_date:0
+msgid "Created on"
+msgstr "נוצר ב-"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,display_name:0
+msgid "Display Name"
+msgstr "השם המוצג"
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,state:0
+msgid "Done"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,export_type:0
+msgid "Export Type"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: model:ir.actions.act_window,name:l10n_fr_fec.account_fr_fec_action
+#: model:ir.ui.menu,name:l10n_fr_fec.account_fr_fec_menu
+msgid "FEC"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,fec_data:0
+msgid "FEC File"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
+msgid "FEC File Generation"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: code:addons/l10n_fr_fec/wizard/fec.py:177
+#, python-format
+msgid "FEC is for French companies only !"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: model:ir.model,name:l10n_fr_fec.model_account_fr_fec
+msgid "Ficher Echange Informatise"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,filename:0
+msgid "Filename"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
+msgid "Generate"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,type:0
+msgid "I.S. or BIC @ I.R."
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,id:0
+msgid "ID"
+msgstr "מזהה"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,__last_update:0
+msgid "Last Modified on"
+msgstr "תאריך שינוי אחרון"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,write_uid:0
+msgid "Last Updated by"
+msgstr "עודכן לאחרונה על ידי"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,write_date:0
+msgid "Last Updated on"
+msgstr "עודכן לאחרונה על"
+
+#. module: l10n_fr_fec
+#: code:addons/l10n_fr_fec/wizard/fec.py:182
+#, python-format
+msgid "Missing VAT number and SIRET for company %s"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,export_type:0
+msgid "Non-official FEC report (posted and unposted entries)"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,export_type:0
+msgid "Official FEC report (posted entries only)"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,state:0
+msgid "State"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
+msgid "The encoding of this text file is UTF-8."
+msgstr ""
