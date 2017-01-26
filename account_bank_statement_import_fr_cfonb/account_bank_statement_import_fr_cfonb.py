@@ -149,7 +149,9 @@ class AccountBankStatementImport(models.TransientModel):
                 }
             elif rec_type == '05':
                 assert vals_line, 'vals_line should have a value !'
-                vals_line['name'] += ' %s' % line[48:79].strip()
+                name_ext = line[48:79].strip()
+                vals_line['name'] += ' %s' % name_ext
+                vals_line['unique_import_id'] += '-%s' % name_ext
 
         vals_bank_statement = {
             'name': _('Account %s %s > %s') % (
