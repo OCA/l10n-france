@@ -186,6 +186,9 @@ class BankingExportLcrWizard(models.TransientModel):
         numero_enregistrement = str(transactions_count + 1).zfill(8)
         reference_tire = self._prepare_field(
             u'Référence tiré', line.communication, 10)
+        if not line.bank_id:
+            raise Warning(_(
+                "Missing bank account on bank payment line %s.") % line.name)
         rib = self._get_rib_from_iban(line.bank_id)
 
         nom_tire = self._prepare_field(
