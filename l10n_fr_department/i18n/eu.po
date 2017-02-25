@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-10-11 09:51+0000\n"
+"PO-Revision-Date: 2017-02-23 15:58+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Basque (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: view:res.country.department:l10n_fr_department.view_country_department_search
 #: field:res.country.department,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "Herrialdea"
 
 #. module: l10n_fr_department
 #: help:res.country.department,country_id:0
@@ -118,7 +118,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Kidea"
 
 #. module: l10n_fr_department
 #: view:res.country.department:l10n_fr_department.view_country_department_search
