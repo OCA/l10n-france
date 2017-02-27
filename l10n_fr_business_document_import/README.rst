@@ -6,7 +6,7 @@
 L10n FR Business Document Import
 ================================
 
-This small module adds support for partner matching based on SIREN when importing a business document (invoice, customer order, etc), in Odoo. It depends on the module base_business_document_import which is the base module for:
+This small module adds support for partner matching based on SIREN when importing a business document (invoice, customer order, etc), in Odoo. It depends on the module *base_business_document_import* from the `edi OCA project <https://github.com/OCA/edi>`_. This module is the base module for:
 
 * *account_invoice_import* which imports supplier invoices as PDF or XML files (this module also requires some additionnal modules such as *account_invoice_import_invoice2data*, *account_invoice_import_ubl*, etc... to support specific invoice formats),
 
@@ -22,7 +22,7 @@ Usage
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/121/8.0
+   :target: https://runbot.odoo-community.org/runbot/121/10.0
 
 Bug Tracker
 ===========
