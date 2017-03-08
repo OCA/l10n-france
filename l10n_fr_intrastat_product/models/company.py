@@ -25,4 +25,5 @@ class ResCompany(models.Model):
             if company.country_id and company.country_id.code == 'FR':
                 if company.intrastat_arrivals == 'standard':
                     raise ValidationError(_(
-                        'In France, Arrival DEB can only be Exempt or Extended.'))
+                        "In France, Arrival DEB can only be Exempt "
+                        "or Extended."))
