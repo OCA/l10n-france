@@ -77,7 +77,9 @@ class IntrastatTransaction(models.Model):
                         not trans.fr_transaction_code):
                     raise ValidationError(
                         _('You must enter a value for the transaction code.'))
-                if trans.code in fiscal_only_tuple and trans.fr_transaction_code:
+                if (
+                        trans.code in fiscal_only_tuple and
+                        trans.fr_transaction_code):
                     raise ValidationError(_(
                         "You should not set a transaction code when the "
                         "Code (i.e. Procedure Code) is '25', '26' or '31'."))
