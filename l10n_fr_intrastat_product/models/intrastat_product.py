@@ -187,7 +187,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
             "Invalid reporting level"
         if self.reporting_level == 'extended':
             declaration_type_code.text = '1'
-        elif self.obligation_level == 'standard':
+        elif self.reporting_level == 'standard':
             declaration_type_code.text = '4'
         flow_code = etree.SubElement(declaration, 'flowCode')
 
