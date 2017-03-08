@@ -35,7 +35,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         else:
             return datetime.now().month - 1
 
-    @api.multi
     @api.depends('year', 'month')
     def _compute_year_month(self):
         for rec in self:
@@ -114,7 +113,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         else:
             return False
 
-    @api.multi
     def generate_service_lines(self):
         self.ensure_one()
         line_obj = self.env['l10n.fr.intrastat.service.declaration.line']
@@ -199,8 +197,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
 
             if amount_company_cur_to_write:
                 if invoice.type == 'out_refund':
-                    amount_invoice_cur_to_write = - amount_invoice_cur_to_write
-                    amount_company_cur_to_write = - amount_company_cur_to_write
+                    amount_invoice_cur_to_write *= -1
+                    amount_company_cur_to_write *= -1
 
                 # Why do I check that the Partner has a VAT number
                 # only here and not earlier ? Because, if I sell
@@ -231,17 +229,14 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         self.message_post(_('Re-generating lines from invoices'))
         return
 
-    @api.multi
     def done(self):
         self.state = 'done'
         return
 
-    @api.multi
     def back2draft(self):
         self.state = 'draft'
         return
 
-    @api.multi
     def generate_xml(self):
         self.ensure_one()
 
