@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+<record id="view_account_config_settings" model="ir.ui.view">
+    <field name="name">l10n_fr_intrastat_product.account.config.settings.form</field>
+    <field name="model">account.config.settings</field>
+    <field name="inherit_id" ref="intrastat_product.view_account_config_settings"/>
+    <field name="arch" type="xml">
+        <group name="intrastat" position="inside">
+            <field name="fr_intrastat_accreditation"/>
+        </group>
+    </field>
+</record>
+
+
+</odoo>
