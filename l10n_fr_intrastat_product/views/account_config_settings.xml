@@ -7,6 +7,9 @@
     <field name="model">account.config.settings</field>
     <field name="inherit_id" ref="intrastat_product.view_account_config_settings"/>
     <field name="arch" type="xml">
+        <field name="intrastat_accessory_costs" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
         <group name="intrastat" position="inside">
             <field name="fr_intrastat_accreditation"/>
         </group>
