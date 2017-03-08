@@ -12,6 +12,7 @@
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': ['base'],
+    'pre_init_hook': 'create_fr_state_xmlid',
     'data': ['data/res_country_state_data.yml'],
     'images': ['static/src/img/screenshots/1.png'],
     'installable': True,
