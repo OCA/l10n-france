@@ -1,27 +1,10 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    L10n FR Report intrastat product module for Odoo
-#    Copyright (C) 2009-2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2009-2017 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning as UserError
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import logging
@@ -39,17 +22,17 @@ class IntrastatProductDeclaration(models.Model):
     # Inherit also num_decl_lines to avoid double loop
     num_decl_lines = fields.Integer(compute='_fr_compute_numbers')
 
-    @api.one
     @api.depends('declaration_line_ids.amount_company_currency')
     def _fr_compute_numbers(self):
-        total_amount = 0.0
-        num_lines = 0
-        for line in self.declaration_line_ids:
-            total_amount += line.amount_company_currency *\
-                line.transaction_id.fr_fiscal_value_multiplier
-            num_lines += 1
-        self.num_decl_lines = num_lines
-        self.total_amount = total_amount
+        for decl in self:
+            total_amount = 0.0
+            num_lines = 0
+            for line in decl.declaration_line_ids:
+                total_amount += line.amount_company_currency *\
+                    line.transaction_id.fr_fiscal_value_multiplier
+                num_lines += 1
+            decl.num_decl_lines = num_lines
+            decl.total_amount = total_amount
 
 
 class L10nFrIntrastatProductDeclaration(models.Model):
@@ -98,26 +81,19 @@ class L10nFrIntrastatProductDeclaration(models.Model):
     @api.model
     def _get_fr_department(self, inv_line):
         dpt = False
-        if inv_line.invoice_id.type in ('in_invoice', 'in_refund'):
-            if inv_line.move_line_ids:
-                dpt = inv_line.move_line_ids[0].location_dest_id.\
-                    get_fr_department()
-            else:
-                po_lines = self.env['purchase.order.line'].search(
-                    [('invoice_lines', 'in', inv_line.id)])
-                if po_lines:
-                    po = po_lines.order_id
-                    dpt = po.location_id.get_fr_department()
-        elif inv_line.invoice_id.type in ('out_invoice', 'out_refund'):
-            if inv_line.move_line_ids:
-                dpt = inv_line.move_line_ids[0].location_id.\
-                    get_fr_department()
-            else:
-                so_lines = self.env['sale.order.line'].search(
-                    [('invoice_lines', 'in', inv_line.id)])
-                if so_lines:
-                    so = so_lines.order_id
-                    dpt = so.warehouse_id.get_fr_department()
+        inv_type = inv_line.invoice_id.type
+        if inv_type in ('in_invoice', 'in_refund'):
+            po_lines = self.env['purchase.order.line'].search(
+                [('invoice_lines', 'in', inv_line.id)])
+            if po_lines:
+                if po_lines[0].move_ids:
+                    dpt = po_lines[0].move_ids[0].location_id.get_fr_department()
+        elif inv_type in ('out_invoice', 'out_refund'):
+            so_lines = self.env['sale.order.line'].search(
+                [('invoice_lines', 'in', inv_line.id)])
+            if so_lines:
+                so = so_lines[0].order_id
+                dpt = so.warehouse_id.get_fr_department()
         if not dpt:
             dpt = self.company_id.partner_id.department_id
         return dpt
@@ -129,14 +105,14 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 inv_line, line_vals)
         inv = inv_line.invoice_id
         if not inv.partner_id.country_id.intrastat:
-            if not inv.partner_id.intrastat_fiscal_representative:
+            if not inv.partner_id.intrastat_fiscal_representative_id:
                 note = "\n" + _(
                     "Missing fiscal representative on partner '%s'"
                     % inv.partner_id.name_get()[0][1])
                 self._note += note
             else:
                 line_vals['fr_partner_id'] =\
-                    inv.partner_id.intrastat_fiscal_representative.id
+                    inv.partner_id.intrastat_fiscal_representative_id.id
         else:
             line_vals['fr_partner_id'] = inv.partner_id.id
         dpt = self._get_fr_department(inv_line)
@@ -459,8 +435,7 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
     @api.model
     def _prepare_grouped_fields(self, computation_line, fields_to_sum):
         vals = super(L10nFrIntrastatProductDeclarationLine, self).\
-            _prepare_grouped_fields(
-                computation_line, fields_to_sum)
+            _prepare_grouped_fields(computation_line, fields_to_sum)
         vals['fr_partner_id'] = computation_line.fr_partner_id.id
         vals['fr_department_id'] = computation_line.fr_department_id.id
         return vals
