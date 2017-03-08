@@ -15,7 +15,7 @@ More information about the DES is available on this `official web page <http://w
 Usage
 =====
 
-To use this module, you need to go to the menu Accounting > Reporting > Legal Reports > Intrastat Reporting > Intrastat Service and create a new DES. Then, click on the button *Generate lines from invoices* to automatically generate the lines of DES. After checking the lines that have been automatically generated, click on the button *Attach XML file* to create the XML file corresponding to the DES. Eventually, connect to your account on `pro.douane <https://pro.douane.gouv.fr/>` and upload the DES XML file.
+To use this module, you need to go to the menu Accounting > Reports > Intrastat > DES and create a new DES. Then, click on the button *Generate lines from invoices* to automatically generate the lines of DES. After checking the lines that have been automatically generated, click on the button *Attach XML file* to create the XML file corresponding to the DES. Eventually, connect to your account on `pro.douane <https://pro.douane.gouv.fr/>` and upload the DES XML file.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
