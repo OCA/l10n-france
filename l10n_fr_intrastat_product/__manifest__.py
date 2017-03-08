@@ -29,6 +29,7 @@
         'views/partner.xml',
         'views/product.xml',
     ],
+    'post_init_hook': 'set_fr_company_intrastat',
     'demo': ['demo/intrastat_demo.xml'],
     'installable': True,
     'application': True,
