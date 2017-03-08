@@ -1,32 +1,15 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    L10n FR intrastat product module for Odoo
-#    Copyright (C) 2010-2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2010-2017 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
 {
-    'name': 'France Intrastat Product',
-    'version': '8.0.2.0.0',
+    'name': 'DEB',
+    'version': '10.0.1.0.0',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
-    'summary': 'Module for Intrastat product reporting (DEB) for France',
+    'summary': "DEB (Déclaration d'Échange de Biens) for France",
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': [
@@ -37,15 +20,16 @@
     'data': [
         'security/intrastat_product_security.xml',
         'security/ir.model.access.csv',
-        'intrastat_product_view.xml',
-        'intrastat_transaction_data.xml',
-        'intrastat_transaction_view.xml',
-        'intrastat_product_reminder.xml',
-        'company_view.xml',
-        'partner_view.xml',
-        'product_view.xml',
+        'views/intrastat_product.xml',
+        'data/intrastat_transaction.xml',
+        'views/intrastat_transaction.xml',
+        'views/intrastat_unit.xml',
+        'data/intrastat_product_reminder.xml',
+        'views/account_config_settings.xml',
+        'views/partner.xml',
+        'views/product.xml',
     ],
-    'demo': ['intrastat_demo.xml'],
-    'installable': False,
+    'demo': ['demo/intrastat_demo.xml'],
+    'installable': True,
     'application': True,
 }
