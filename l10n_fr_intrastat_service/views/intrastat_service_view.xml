@@ -147,7 +147,7 @@
 <!-- Intrastat service menu -->
 <menuitem id="l10n_fr_intrastat_service_declaration_menu"
     parent="intrastat_base.menu_intrastat_base_root"
-    action="l10n_fr_intrastat_service_declaration_action" />
+    action="l10n_fr_intrastat_service_declaration_action" sequence="20"/>
 
 
 </odoo>
