@@ -87,7 +87,8 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 [('invoice_lines', 'in', inv_line.id)])
             if po_lines:
                 if po_lines[0].move_ids:
-                    dpt = po_lines[0].move_ids[0].location_id.get_fr_department()
+                    location = po_lines[0].move_ids[0].location_id
+                    dpt = location.get_fr_department()
         elif inv_type in ('out_invoice', 'out_refund'):
             so_lines = self.env['sale.order.line'].search(
                 [('invoice_lines', 'in', inv_line.id)])
