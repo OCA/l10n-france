@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <!--
-    Copyright (C) 2010-2015 Akretion (http://www.akretion.com/)
-    @author Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  © 2010-2017 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <record id="l10n_fr_intrastat_product_declaration_form" model="ir.ui.view">
     <field name="name">l10n.fr.intrastat.product.declaration.form</field>
@@ -126,5 +125,4 @@
       parent="intrastat_base.menu_intrastat_base_root"
       action="l10n_fr_intrastat_product_declaration_action"/>
 
-</data>
-</openerp>
+</odoo>
