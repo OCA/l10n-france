@@ -15,14 +15,29 @@ def set_fr_company_intrastat(cr, registry):
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
         fr_id = env.ref('base.fr').id
+        fr_vat_tax_codes = [
+            '20.0', '8.5', '10.0', '5.5', '2.1',
+            '20.0-TTC', '8.5-TTC', '10.0-TTC', '5.5-TTC', '2.1-TTC',
+            'ACH-20.0', 'ACH-8.5', 'ACH-10.0', 'ACH-5.5', 'ACH-2.1',
+            'ACH-20.0-TTC', 'ACH-8.5-TTC', 'ACH-10.0-TTC', 'ACH-5.5-TTC',
+            'ACH-2.1-TTC',
+            'IMMO-20.0', 'IMMO-8.5', 'IMMO-10.0', 'IMMO-5.5', 'IMMO-2.1']
         companies = env['res.company'].search([
             ('partner_id.country_id', '=', fr_id)])
+        out_inv_trans_id = env.ref(
+            'l10n_fr_intrastat_product.intrastat_transaction_21_11').id
+        out_ref_trans_id = env.ref(
+            'l10n_fr_intrastat_product.intrastat_transaction_25').id
+        in_inv_trans_id = env.ref(
+            'l10n_fr_intrastat_product.intrastat_transaction_11_11').id
         for company in companies:
-            company.intrastat_transaction_out_invoice = env.ref(
-                'l10n_fr_intrastat_product.intrastat_transaction_21_11').id
-            company.intrastat_transaction_out_refund = env.ref(
-                'l10n_fr_intrastat_product.intrastat_transaction_25').id
-            company.intrastat_transaction_in_invoice = env.ref(
-                'l10n_fr_intrastat_product.intrastat_transaction_11_11').id
-            company.intrastat_accessory_costs = True
+            company.write({
+                'intrastat_transaction_out_invoice': out_inv_trans_id,
+                'intrastat_transaction_out_refund': out_ref_trans_id,
+                'intrastat_transaction_in_invoice': in_inv_trans_id,
+                'intrastat_accessory_costs': True,
+                })
+            fr_vat_taxes = env['account.tax'].search([
+                ('description', 'in', fr_vat_tax_codes)])
+            fr_vat_taxes.write({'exclude_from_intrastat_if_present': True})
     return
