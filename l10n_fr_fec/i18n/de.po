@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2017-01-10 08:59+0000\n"
+"PO-Revision-Date: 2017-03-10 13:16+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: German (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,7 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Dateiname"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,fiscalyear_id:0
