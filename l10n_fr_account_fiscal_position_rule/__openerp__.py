@@ -24,7 +24,7 @@
     'name': 'l10n_fr_account_fiscal_position_rule',
     'version': '8.0.0.0.1',
     'author': "Akretion,Odoo Community Association (OCA)",
-    'website': 'www.akretion.com',
+    'website': 'http://www.akretion.com/',
     'license': 'AGPL-3',
     'category': 'French Localization',
     'description': """French Fiscal rule to set automatically the
