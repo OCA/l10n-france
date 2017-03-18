@@ -14,6 +14,7 @@ addon | version | summary
 --- | --- | ---
 [account_bank_statement_import_fr_cfonb](account_bank_statement_import_fr_cfonb/) | 10.0.1.0.0 | Import French CFONB files as Bank Statements in Odoo
 [account_banking_fr_lcr](account_banking_fr_lcr/) | 10.0.1.0.0 | Create French LCR CFONB files
+[l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 10.0.1.0.0 | Auto-configure UNECE params on French taxes
 [l10n_fr_base_location_geonames_import](l10n_fr_base_location_geonames_import/) | 10.0.1.0.0 | France-specific tuning for import of better zip entries from Geonames
 [l10n_fr_department](l10n_fr_department/) | 10.0.1.0.0 | Populate Database with French Departments (Départements)
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 10.0.1.0.0 | Populate Database with overseas French Departments (Départements d'outre-mer)
