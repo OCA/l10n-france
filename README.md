@@ -8,6 +8,7 @@ French localization for Odoo
 Write Me. 
 
 [//]: # (addons)
+
 Available addons
 ----------------
 addon | version | summary
