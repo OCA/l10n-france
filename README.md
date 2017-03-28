@@ -23,6 +23,7 @@ addon | version | summary
 [l10n_fr_siret](l10n_fr_siret/) | 10.0.1.0.0 | French company identity numbers SIRET/SIREN/NIC
 [l10n_fr_state](l10n_fr_state/) | 10.0.1.0.0 | Populate Database with French States (Régions)
 
+
 Unported addons
 ---------------
 addon | version | summary
