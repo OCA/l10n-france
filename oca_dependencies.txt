@@ -3,3 +3,4 @@ bank-payment
 partner-contact
 account-fiscal-rule
 community-data-files
+intrastat
