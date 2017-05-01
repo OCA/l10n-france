@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-07 03:14+0000\n"
-"PO-Revision-Date: 2017-01-13 09:22+0000\n"
+"PO-Revision-Date: 2017-04-26 10:13+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -113,7 +113,7 @@ msgstr "Darrera Actualització el"
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Name or Code"
-msgstr ""
+msgstr "Nom o Codi "
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
