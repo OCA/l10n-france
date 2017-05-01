@@ -11,12 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2017-04-26 02:41+0000\n"
 "PO-Revision-Date: 2017-04-26 02:41+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
-"Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
+"Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_fr_intrastat_service
 #: model:mail.template,body_html:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
@@ -103,12 +103,12 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: selection:l10n.fr.intrastat.service.declaration,month:0
 msgid "11"
-msgstr "11"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: selection:l10n.fr.intrastat.service.declaration,month:0
 msgid "12"
-msgstr "12"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: sql_constraint:l10n.fr.intrastat.service.declaration:0
@@ -132,10 +132,6 @@ msgid ""
 "currency = amount in invoice currency converted to company currency with the"
 " rate of the invoice date and rounded at 0 digits"
 msgstr ""
-"Montant dans la monnaie de la société à reporter dans la déclaration. "
-"Montant dans la monnaie de la société = montant dans la monnaie de la "
-"facture converti au taux de la date de la facture et arrondi à l'entier le "
-"plus proche"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
@@ -151,7 +147,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_company_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_company_id
 msgid "Company"
-msgstr "Société"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_currency_id
@@ -163,18 +159,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_create_uid
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_create_uid
 msgid "Created by"
-msgstr "Créé par"
+msgstr "Creato da"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_create_date
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_create_date
 msgid "Created on"
-msgstr "Créé le"
+msgstr "Creato il"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_partner_vat
 msgid "Customer VAT"
-msgstr "N° TVA du client"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.act_window,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_action
@@ -194,20 +190,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_display_name
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_display_name
 msgid "Display Name"
-msgstr "Afficher le nom"
+msgstr "Nome da visualizzare"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Done"
-msgstr "Déclaré"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Draft"
-msgstr "Brouillon"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
@@ -217,7 +213,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Group By"
-msgstr "Grouper par"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_id
@@ -233,12 +229,12 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Intrastat Service"
-msgstr "DES"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:mail.template,subject:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid "Intrastat Service ${object.year_month} for ${object.company_id.name}"
-msgstr "DES ${object.year_month} pour ${object.company_id.name}"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_parent_id
@@ -251,7 +247,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_tree
 msgid "Intrastat Service Lines"
-msgstr "Lignes de DES"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_invoice_id
@@ -277,37 +273,37 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration___last_update
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line___last_update
 msgid "Last Modified on"
-msgstr "Dernière Modification le"
+msgstr "Ultima modifica il"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_write_uid
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_write_uid
 msgid "Last Updated by"
-msgstr "Dernière modification par"
+msgstr "Ultimo aggiornamento di"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_write_date
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_write_date
 msgid "Last Updated on"
-msgstr "Dernière modification le"
+msgstr "Ultimo aggiornamento il"
 
 #. module: l10n_fr_intrastat_service
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:214
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:274
 #, python-format
 msgid "Missing VAT number on partner '%s'."
-msgstr "Numéro de TVA non renseigné pour le partenaire '%s'."
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:132
 #, python-format
 msgid "Missing country on partner '%s'."
-msgstr "Pays manquant sur le partenaire '%s'."
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_month
 msgid "Month"
-msgstr "Mois"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_num_decl_lines
@@ -343,7 +339,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_state
 msgid "State"
-msgstr "État"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_total_amount
@@ -353,12 +349,12 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
 msgid "Total amount"
-msgstr "Montant total"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_total_amount
 msgid "Total amount in company currency of the declaration."
-msgstr "Montant total en monnaie société de la déclaration."
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_year
@@ -369,4 +365,4 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_year_month
 msgid "Year and month of the declaration."
-msgstr "Année et mois de la déclaration."
+msgstr ""
