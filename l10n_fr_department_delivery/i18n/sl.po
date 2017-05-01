@@ -20,7 +20,7 @@ msgstr ""
 #. module: l10n_fr_department_delivery
 #: model:ir.model,name:l10n_fr_department_delivery.model_delivery_carrier
 msgid "Carrier"
-msgstr ""
+msgstr "Prevoznik"
 
 #. module: l10n_fr_department_delivery
 #: model:ir.model,name:l10n_fr_department_delivery.model_delivery_grid
