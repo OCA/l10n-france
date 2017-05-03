@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data>
+
+
+<record id="public_market_form" model="ir.ui.view">
+    <field name="name">public.market.form</field>
+    <field name="model">public.market</field>
+    <field name="arch" type="xml">
+        <form string="Public Market">
+            <group name="main">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="public_market_tree" model="ir.ui.view">
+    <field name="name">public.market.tree</field>
+    <field name="model">public.market</field>
+    <field name="arch" type="xml">
+        <tree string="Public Markets">
+            <field name="code"/>
+            <field name="name"/>
+            <field name="company_id" groups="base.group_multi_company"/>
+        </tree>
+    </field>
+</record>
+
+<record id="public_market_search" model="ir.ui.view">
+    <field name="name">public.market.search</field>
+    <field name="model">public.market</field>
+    <field name="arch" type="xml">
+        <search string="Search Public Markets">
+            <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Name or Number"/>
+        </search>
+    </field>
+</record>
+
+<record id="public_market_action" model="ir.actions.act_window">
+    <field name="name">Public Marlet</field>
+    <field name="res_model">public.market</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+
+</data>
+</openerp>
