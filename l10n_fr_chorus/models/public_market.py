@@ -14,6 +14,9 @@ class PublicMarket(models.Model):
     code = fields.Char(
         string='Market Number', required=True, copy=False, size=50)
     name = fields.Char(string='Market Name', required=True)
+    partner_id = fields.Many2one(
+        'res.partner', string='Customer', ondelete='restrict', required=True,
+        domain=[('customer', '=', True), ('parent_id', '=', False)])
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env['res.company']._company_default_get(
@@ -22,6 +25,9 @@ class PublicMarket(models.Model):
     display_name = fields.Char(
         compute='compute_display_name_field',
         readonly=True, store=True)
+    invoice_ids = fields.One2many(
+        'account.invoice', 'public_market_id', string='Invoices',
+        readonly=True)
 
     @api.multi
     @api.depends('code', 'name')
@@ -30,7 +36,7 @@ class PublicMarket(models.Model):
             market.display_name = u'[%s] %s' % (market.code, market.name)
 
     _sql_constraints = [(
-        'code_company_unique',
-        'unique(code, company_id)',
-        'This public market number already exists!'
+        'code_partner_company_unique',
+        'unique(code, partner_id, company_id)',
+        'This public market number already exists for this customer!'
         )]

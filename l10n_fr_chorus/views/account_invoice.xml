@@ -20,6 +20,18 @@
     </field>
 </record>
 
+<record id="view_account_invoice_filter" model="ir.ui.view">
+    <field name="name">chorus.account.invoice.search</field>
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+    <field name="arch" type="xml">
+        <group expand="0" position="inside">
+            <filter string="Public Market" name="public_market_groupby"
+                context="{'group_by': 'public_market_id'}"/>
+        </group>
+    </field>
+</record>
+
 
 </data>
 </openerp>

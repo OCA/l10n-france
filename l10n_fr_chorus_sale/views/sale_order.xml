@@ -22,6 +22,16 @@
     </field>
 </record>
 
+<record id="view_sales_order_filter" model="ir.ui.view">
+    <field name="name">chorus.sale.order.search</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+    <field name="arch" type="xml">
+        <group expand="0" position="inside">
+            <filter string="Public Market" name="public_market_groupby" context="{'group_by': 'public_market_id'}"/>
+        </group>
+    </field>
+</record>
 
 </data>
 </openerp>

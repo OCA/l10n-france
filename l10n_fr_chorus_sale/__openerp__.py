@@ -16,6 +16,7 @@
         ],
     'data': [
         'views/sale_order.xml',
+        'views/public_market.xml',
         ],
     'installable': True,
     'auto_install': True,

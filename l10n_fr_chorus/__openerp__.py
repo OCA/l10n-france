@@ -22,6 +22,8 @@
         'views/partner.xml',
         'views/account_invoice.xml',
         'security/ir.model.access.csv',
+        'security/public_market_security.xml',
         ],
+    'demo': ['demo/demo.xml'],
     'installable': True,
 }
