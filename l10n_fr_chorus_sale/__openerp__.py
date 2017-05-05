@@ -11,7 +11,7 @@
     'website': 'http://www.akretion.com',
     'license': 'AGPL-3',
     'depends': [
-        'sale',
+        'sale_commercial_partner',
         'l10n_fr_chorus',
         ],
     'data': [

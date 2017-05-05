@@ -15,7 +15,8 @@
     <field name="arch" type="xml">
         <field name="client_order_ref" position="after">
             <field name="public_market_id"
-                attrs="{'invisible': [('invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
+                attrs="{'invisible': [('invoice_transmit_method_code', '!=', 'fr-chorus')]}"
+                domain="[('partner_id', 'child_of', commercial_partner_id)]"/>
             <field name="invoice_transmit_method_id"/>
             <field name="invoice_transmit_method_code" invisible="1"/>
         </field>

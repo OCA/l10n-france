@@ -15,7 +15,9 @@
     <field name="arch" type="xml">
         <xpath expr="//page/group/group/field[@name='name']" position="after">
             <field name="public_market_id"
-                attrs="{'invisible': [('transmit_method_code', '!=', 'fr-chorus')]}"/>
+                attrs="{'invisible': [('transmit_method_code', '!=', 'fr-chorus')]}"
+                domain="[('partner_id', 'child_of', commercial_partner_id)]"/>
+            <field name="commercial_partner_id" invisible="1"/>
         </xpath>
     </field>
 </record>
