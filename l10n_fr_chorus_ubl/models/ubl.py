@@ -5,8 +5,8 @@
 from openerp import models, api
 
 ODOO2CHORUS_TAX_CATEG_CODE = {
-    'debit': 'TVA DEBIT',  # or TVA DEBIT ?
-    'cashin': 'TVA ENCAISSEMENT',  # or TVA ENCAISSEMENT ?
+    'debit': 'TVA DEBIT',
+    'cashin': 'TVA ENCAISSEMENT',
     }
 
 

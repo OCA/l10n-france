@@ -11,7 +11,7 @@
 <record id="public_market_form" model="ir.ui.view">
     <field name="name">sale.order.public.market.form</field>
     <field name="model">public.market</field>
-    <field name="inherit_id" ref="l10n_fr_chorus.public_market_form"/>
+    <field name="inherit_id" ref="l10n_fr_chorus_account.public_market_form"/>
     <field name="arch" type="xml">
         <group name="invoices" position="after">
             <group name="sale_orders" string="Sales Orders">
