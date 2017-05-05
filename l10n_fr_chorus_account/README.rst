@@ -18,10 +18,10 @@ Go to the menu *Settings > Configuration > Accounting*: in the section *eInvoici
 * *Debit* if your company's invoicing regime is *TVA sur les débits*,
 * or *Cash in* if your company's invoicing regime is *TVA sur les encaissements*.
 
-On the Customers that you invoice via Chorus, you must to:
+On the Customers that you invoice via Chorus, you must:
 
 * enter their *SIRET* (*Accounting* tab),
-* select *Chorus* as *Customer Invoice Send Method* (*Accounting* tab),
+* select *Chorus* as *Customer Invoice Transmission Method* (*Accounting* tab),
 * select the *Info Required for Chorus* to the value that you obtained from Chorus (menu *Rechercher Structure Publique*),
 * if the service code is a required information for that customer in Chorus, create an invoicing contact and enter the related *Chorus Service Code* and make sure that this contact is used as *Customer* on the invoice.
 
@@ -35,7 +35,7 @@ Usage
 Known issues / Roadmap
 ======================
 
-Add support for the automatic transmission of invoices to Chorus via API (but it requires a RGS 1 star certificate, which costs about 250 € / year)
+Add support for the automatic transmission of invoices to Chorus via API (but it requires a RGS 1 star certificate, which costs about 250 € / year).
 
 Bug Tracker
 ===========
