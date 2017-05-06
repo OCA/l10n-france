@@ -1,0 +1,421 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_fr_intrastat_service
+# 
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-05 21:17+0000\n"
+"PO-Revision-Date: 2017-05-05 21:17+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"Language-Team: Mongolian (https://www.transifex.com/oca/teams/23907/mn/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: mn\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: l10n_fr_intrastat_service
+#: model:email.template,body_html:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
+msgid ""
+"\n"
+"<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"\n"
+"<p>I would like to remind you that we are approaching the deadline for the Intrastat Service declaration for month ${object.year_month}.</p>\n"
+"\n"
+"<p>As there were no Intrastat Service declaration for that month in Odoo, a draft declaration has been generated automatically.</p>\n"
+"\n"
+"% if ctx.get('exception'):\n"
+"<p>When trying to generate the lines of the Intrastat Service declaration, the following error was encountered:</p>\n"
+"\n"
+"<p>${ctx.get('error_msg')}</p>\n"
+"\n"
+"<p>You should solve this error, then go to the menu <em>Accounting > Reporting > Legal Reports > Intrastat reporting > Intrastat Service</em>, open the declaration of month ${object.year_month} and click on the button <em>Re-generate lines</em>.</p>\n"
+"\n"
+"% else:\n"
+"% if object.num_decl_lines > 0:\n"
+"<p>This draft Intrastat Service declaration contains ${object.num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'} and the total amount is ${object.total_amount} ${object.currency_id.symbol}.</p>\n"
+"% else:\n"
+"<p>This draft Intrastat Service declaration generated automatically by Odoo doesn't contain any line.</p>\n"
+"% endif\n"
+"\n"
+"<p>Go and check this declaration in the menu <em>Accounting > Reporting > Legal Reports > Intrastat reporting > Intrastat Service</em>.</p>\n"
+"\n"
+"% endif\n"
+"\n"
+"<p>\n"
+"-- \n"
+"Automatic e-mail sent by Odoo.\n"
+"</p>\n"
+"</div>\n"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "01"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "02"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "03"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "04"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "05"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "06"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "07"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "08"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "09"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "10"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "11"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: selection:l10n.fr.intrastat.service.declaration,month:0
+msgid "12"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: sql_constraint:l10n.fr.intrastat.service.declaration:0
+msgid "A DES already exists for this month!"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
+msgid "Additionnal information"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,amount_company_currency:0
+msgid "Amount in company currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.intrastat.service.declaration.line,amount_company_currency:0
+msgid ""
+"Amount in company currency to write in the declaration. Amount in company "
+"currency = amount in invoice currency converted to company currency with the"
+" rate of the invoice date and rounded at 0 digits"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,amount_invoice_currency:0
+msgid "Amount in invoice currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+msgid "Attach XML file"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+msgid "Back to draft"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,company_id:0
+#: field:l10n.fr.intrastat.service.declaration.line,company_id:0
+msgid "Company"
+msgstr "Компани"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,company_currency_id:0
+msgid "Company currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,create_uid:0
+#: field:l10n.fr.intrastat.service.declaration.line,create_uid:0
+msgid "Created by"
+msgstr "Үүсгэгч"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,create_date:0
+#: field:l10n.fr.intrastat.service.declaration.line,create_date:0
+msgid "Created on"
+msgstr "Үүсгэсэн"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,currency_id:0
+#: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_tree
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,partner_vat:0
+msgid "Customer VAT"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.actions.act_window,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_action
+#: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration
+#: model:ir.ui.menu,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_menu
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
+msgid "DES"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:mail.message.subtype,description:l10n_fr_intrastat_service.l10n_fr_declaration_done
+#: model:mail.message.subtype,name:l10n_fr_intrastat_service.l10n_fr_declaration_done
+msgid "DES Validated"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.intrastat.service.declaration,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Бичлэгт хамгийн сүүлд илгээгдсэн зурвасын огноо."
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,display_name:0
+#: field:l10n.fr.intrastat.service.declaration.line,display_name:0
+msgid "Display Name"
+msgstr "Дэлгэцийн Нэр"
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
+#: selection:l10n.fr.intrastat.service.declaration,state:0
+msgid "Done"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
+#: selection:l10n.fr.intrastat.service.declaration,state:0
+msgid "Draft"
+msgstr "Ноорог"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,message_follower_ids:0
+msgid "Followers"
+msgstr "Дагагчид"
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+msgid "Generate lines from invoices"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.intrastat.service.declaration,message_summary:0
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,id:0
+#: field:l10n.fr.intrastat.service.declaration.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.intrastat.service.declaration,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr ""
+"Хэрэв тэмдэглэгдсэн бол таныг шинэ зурвасуудад анхаарал хандуулахыг "
+"шаардана."
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
+msgid "Information to declare"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+msgid "Intrastat Service"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:email.template,subject:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
+msgid "Intrastat Service ${object.year_month} for ${object.company_id.name}"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration_line
+#: field:l10n.fr.intrastat.service.declaration,declaration_line_ids:0
+#: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
+#: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_tree
+msgid "Intrastat Service Lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,parent_id:0
+msgid "Intrastat service ref"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,invoice_currency_id:0
+msgid "Invoice currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,date_invoice:0
+msgid "Invoice date"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,invoice_id:0
+msgid "Invoice ref"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,message_is_follower:0
+msgid "Is a Follower"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.intrastat.service.declaration.line,date_invoice:0
+msgid "Keep empty to use the current date"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,message_last_post:0
+msgid "Last Message Date"
+msgstr "Сүүлийн зурвасын огноо"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,__last_update:0
+#: field:l10n.fr.intrastat.service.declaration.line,__last_update:0
+msgid "Last Modified on"
+msgstr "Сүүлийн засвар хийсэн огноо"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,write_uid:0
+#: field:l10n.fr.intrastat.service.declaration.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Сүүлийн засвар хийсэн"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,write_date:0
+#: field:l10n.fr.intrastat.service.declaration.line,write_date:0
+msgid "Last Updated on"
+msgstr "Сүүлийн засвар хийсэн огноо"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,message_ids:0
+msgid "Messages"
+msgstr "Зурвасууд"
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.intrastat.service.declaration,message_ids:0
+msgid "Messages and communication history"
+msgstr "Зурвас болон харилцсан түүх"
+
+#. module: l10n_fr_intrastat_service
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:242
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:305
+#, python-format
+msgid "Missing VAT number on partner '%s'."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:158
+#, python-format
+msgid "Missing country on partner '%s'."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,month:0
+msgid "Month"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,num_decl_lines:0
+msgid "Number of lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration.line,partner_id:0
+msgid "Partner name"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,year_month:0
+msgid "Period"
+msgstr "Мөчлөг"
+
+#. module: l10n_fr_intrastat_service
+#: code:addons/l10n_fr_intrastat_service/intrastat_service.py:256
+#, python-format
+msgid "Re-generating lines from invoices"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
+msgid "Search DES"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,state:0
+msgid "State"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,message_summary:0
+msgid "Summary"
+msgstr "Хураангуй"
+
+#. module: l10n_fr_intrastat_service
+#: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
+#: field:l10n.fr.intrastat.service.declaration,total_amount:0
+msgid "Total amount"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.intrastat.service.declaration,total_amount:0
+msgid "Total amount in company currency of the declaration."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,message_unread:0
+msgid "Unread Messages"
+msgstr "Уншаагүй Зурвасууд"
+
+#. module: l10n_fr_intrastat_service
+#: field:l10n.fr.intrastat.service.declaration,year:0
+msgid "Year"
+msgstr "Жил"
+
+#. module: l10n_fr_intrastat_service
+#: help:l10n.fr.intrastat.service.declaration,year_month:0
+msgid "Year and month of the declaration."
+msgstr ""
