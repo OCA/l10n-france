@@ -13,10 +13,10 @@
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//page[@name='sales_purchases']/group/group/field[@name='ref']" position="after">
+        <field name="ref" position="after">
             <field name="fr_chorus_service_code"
                 attrs="{'invisible': ['|', ('parent_id', '=', False), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
-        </xpath>
+        </field>
         <xpath expr="//field[@name='child_ids']/form//div[@name='div_type']" position="after">
             <field name="fr_chorus_service_code"
                 attrs="{'invisible': ['|', ('type', 'not in', ('invoice', 'default')), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
