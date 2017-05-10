@@ -2,27 +2,18 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-===================
-L10n FR Chorus Sale
-===================
+=========================
+L10n FR Chorus Sale Stock
+=========================
 
-This module is an extension of the *l10n_fr_chorus_account* module for sale orders. Please refer to the README of the *l10n_fr_chorus* for more info about Chorus and electronic invoices for the French administration.
+This module is an extension of the *l10n_fr_chorus_account* and *l10n_fr_chorus_sale* modules. With this module, the field *Public Market* will be copied from sale order to invoice when invoicing on delivery order.
 
 Usage
 =====
 
-Before validating a quotation, if the *Invoice Address* has an *Invoice Transmission Method* set to *Chorus*, you can select a Public Market for that order.
-
-Upon validation of a quotation, if the *Invoice Address* has an *Invoice Transmission Method* set to *Chorus*, if will perform configuration checks depending on the value of the field *Info Required for Chorus* of the Invoicing Partner.
-
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/121/8.0
-
-Known issues / Roadmap
-======================
-
-Add support for the automatic transmission of invoices to Chorus via API (but it requires a RGS 1 star certificate, which costs about 250 € / year)
 
 Bug Tracker
 ===========
