@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-12-27 08:22+0000\n"
+"POT-Creation-Date: 2017-05-05 21:17+0000\n"
+"PO-Revision-Date: 2017-05-11 14:11+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Russian (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: view:res.country.department:l10n_fr_department.view_country_department_search
 #: field:res.country.department,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "Страна"
 
 #. module: l10n_fr_department
 #: help:res.country.department,country_id:0
@@ -137,7 +137,7 @@ msgid "The department code in two chars.(ISO 3166-2 Codification)"
 msgstr ""
 
 #. module: l10n_fr_department
-#: code:addons/l10n_fr_department/model/res_country_department.py:53
+#: code:addons/l10n_fr_department/model/res_country_department.py:54
 #: sql_constraint:res.country.department:0
 #, python-format
 msgid "You cannot have two departments with the same code!"

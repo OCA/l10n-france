@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2017-04-25 10:41+0000\n"
+"POT-Creation-Date: 2017-05-05 21:17+0000\n"
+"PO-Revision-Date: 2017-05-11 14:11+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Russian (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr ""
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0
 msgid "Done"
-msgstr ""
+msgstr "Завершен"
 
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0

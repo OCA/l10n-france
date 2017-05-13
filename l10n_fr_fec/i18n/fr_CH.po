@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2017-04-25 10:42+0000\n"
+"POT-Creation-Date: 2017-05-05 21:17+0000\n"
+"PO-Revision-Date: 2017-05-11 14:15+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: French (Switzerland) (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/fr_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Annuler"
 #. module: l10n_fr_fec
 #: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,type:0
@@ -92,7 +92,7 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Nom de fichier"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,fiscalyear_id:0
@@ -102,7 +102,7 @@ msgstr ""
 #. module: l10n_fr_fec
 #: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
 msgid "Generate"
-msgstr ""
+msgstr "Générer"
 
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,type:0

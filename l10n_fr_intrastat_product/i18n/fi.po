@@ -697,7 +697,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,month:0
 msgid "Month"
-msgstr ""
+msgstr "Kuukausi"
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.computation.line,weight:0
