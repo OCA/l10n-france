@@ -11,12 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2017-05-19 02:52+0000\n"
 "PO-Revision-Date: 2017-05-19 02:52+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
-"Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
+"Language-Team: Spanish (Paraguay) (https://www.transifex.com/oca/teams/23907/es_PY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: es_PY\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.actions.act_window,help:l10n_fr_ecotaxe.action_ecotaxe_classification
@@ -30,7 +30,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,active:0
 msgid "Active"
-msgstr "Actives"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
@@ -40,12 +40,12 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,code:0
 msgid "Code"
-msgstr "Code"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,company_id:0
 msgid "Company"
-msgstr "Société"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: field:product.product,computed_ecotaxe:0
@@ -55,12 +55,12 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,create_uid:0
 msgid "Created by"
-msgstr "Créé par"
+msgstr "Creado por"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,create_date:0
 msgid "Created on"
-msgstr "Créé le"
+msgstr "Creado en"
 
 #. module: l10n_fr_ecotaxe
 #: help:product.category,default_fixed_ecotaxe:0
@@ -70,22 +70,18 @@ msgid ""
 "on creating a new product (triged by on change product category)\n"
 "Set this field to 0 if you want not default value"
 msgstr ""
-"Valeur par défaut de l'écotaxe fixe.\n"
-"Cette valeur est attribuée par défaut lors du choix\n"
-"de la catégorie sur le produit.\n"
-"Mettre 0 si vous voulez qu'il y ait pas de valeur par défaut"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,display_name:0
 msgid "Display Name"
-msgstr "Nom affiché"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice.line,amount_ecotaxe:0 field:account.tax,is_ecotaxe:0
 #: field:purchase.order.line,amount_ecotaxe:0
 #: field:sale.order.line,amount_ecotaxe:0
 msgid "Ecotaxe"
-msgstr "Ecotaxe"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.actions.act_window,name:l10n_fr_ecotaxe.action_ecotaxe_classification
@@ -99,13 +95,13 @@ msgstr ""
 #: field:account.ecotaxe.classification,ecotaxe_coef:0
 #: field:product.category,ecotaxe_coef:0
 msgid "Ecotaxe Coef"
-msgstr "Ecotaxe Coef"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,ecotaxe_type:0
 #: field:product.category,ecotaxe_type:0
 msgid "Ecotaxe Type"
-msgstr "Type Ecotaxe"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: view:product.template:l10n_fr_ecotaxe.product_template_form_ecotaxe
@@ -134,14 +130,14 @@ msgstr ""
 #: selection:account.ecotaxe.classification,ecotaxe_type:0
 #: selection:product.category,ecotaxe_type:0
 msgid "Fixed"
-msgstr "Fixe"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,fixed_ecotaxe:0
 #: field:product.category,default_fixed_ecotaxe:0
 #: field:product.product,fixed_ecotaxe:0
 msgid "Fixed Ecotaxe"
-msgstr "Ecotaxe Fixe"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: help:product.product,fixed_ecotaxe:0
@@ -165,7 +161,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
 msgid "Group By"
-msgstr "Grouper par"
+msgstr "Agrupado por"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,id:0
@@ -179,24 +175,22 @@ msgid ""
 "If ecotaxe is weight based,the ecotaxe coef must take into account\n"
 "the weight unit of measure (kg by default)"
 msgstr ""
-"If ecotaxe is weight based,the ecotaxe coef must take into account\n"
-"the weight unit of measure (kg by default)"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice,amount_ecotaxe:0
 #: field:purchase.order,amount_ecotaxe:0 field:sale.order,amount_ecotaxe:0
 msgid "Included Ecotaxe"
-msgstr "Dont Ecotaxe"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice
 msgid "Invoice"
-msgstr "Facture"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_line
 msgid "Invoice Line"
-msgstr "Ligne de facture"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_tax
@@ -206,45 +200,45 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,__last_update:0
 msgid "Last Modified on"
-msgstr "Dernière mise-à-jour le"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_uid:0
 msgid "Last Updated by"
-msgstr "Dernière mise-à-jour par"
+msgstr "Ultima actualización por"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_date:0
 msgid "Last Updated on"
-msgstr "Dernière mise-à-jour le"
+msgstr "Ultima actualización en"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
 #: field:account.ecotaxe.classification,name:0
 msgid "Name"
-msgstr "Nom"
+msgstr "Nombre"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice,amount_tax_without_ecotaxe:0
 #: field:purchase.order,amount_tax_without_ecotaxe:0
 #: field:sale.order,amount_tax_without_ecotaxe:0
 msgid "Other Taxes"
-msgstr "Taxes"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_product_product
 msgid "Product"
-msgstr "Article"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_product_category
 msgid "Product Category"
-msgstr "Catégorie d'article"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_product_template
 msgid "Product Template"
-msgstr "Modèle de produit"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,purchase_ecotaxe_id:0
@@ -254,12 +248,12 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order
 msgid "Purchase Order"
-msgstr "Commande d'achat"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Ligne de commande d'achat"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,sale_ecotaxe_id:0
@@ -269,12 +263,12 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order
 msgid "Sales Order"
-msgstr "Bon de commande"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Sales Order Line"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
@@ -292,7 +286,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_tax
 msgid "Tax"
-msgstr "Taxes"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: view:account.invoice:l10n_fr_ecotaxe.invoice_form
@@ -300,19 +294,19 @@ msgstr "Taxes"
 #: view:purchase.order:l10n_fr_ecotaxe.view_purchase_order_form
 #: view:sale.order:l10n_fr_ecotaxe.view_order_form
 msgid "True"
-msgstr "True"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
 msgid "Type"
-msgstr "Type"
+msgstr "Tipo"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice,amount_untaxed_with_ecotaxe:0
 #: field:purchase.order,amount_untaxed_with_ecotaxe:0
 #: field:sale.order,amount_untaxed_with_ecotaxe:0
 msgid "Untaxed Amount with Ecotaxe"
-msgstr "Montant hors taxe"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: help:account.tax,is_ecotaxe:0
@@ -327,7 +321,7 @@ msgstr ""
 #: selection:account.ecotaxe.classification,ecotaxe_type:0
 #: selection:product.category,ecotaxe_type:0
 msgid "Weight based"
-msgstr "Basée sur le poids"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: help:account.ecotaxe.classification,fixed_ecotaxe:0
