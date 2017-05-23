@@ -40,6 +40,8 @@ Dans 'Configuration > Technique > Ressource > Temps de travail', créer une
 feuille de temps de travail. Celle-ci doit contenir uniquement des horaires du
 lundi au vendredi.
 
+Lier la feuille de temps aux employés.
+
 Configurer les jours fériés
 ---------------------------
 
