@@ -9,10 +9,18 @@ class HolidaysComputeCommon(TransactionCase):
 
     def setUp(self):
         super(HolidaysComputeCommon, self).setUp()
+        self.user = self.env['res.users'].with_context(
+            {'no_reset_password': True, 'tracking_disable': True}
+        ).create({
+            'name': 'test user',
+            'login': 'test',
+            'email': 'test@example.com',
+            'groups_id': [(6, 0, [self.env.ref('base.group_user').id])],
+        })
+
         self.contract_model = self.env["hr.contract"]
         self.employee_model = self.env['hr.employee']
         self.holiday_status_model = self.env['hr.holidays.status']
-        self.holiday_model = self.env['hr.holidays']
         self.public_holiday_model = self.env["hr.holidays.public"]
         self.public_holiday_model_line = self.env["hr.holidays.public.line"]
         self.employee_model = self.env['hr.employee']
@@ -21,6 +29,7 @@ class HolidaysComputeCommon(TransactionCase):
             self.env['resource.calendar.attendance']
         )
         self.saturday_model = self.env['hr.holidays.employee.saturday']
+        self.holiday_model = self.env['hr.holidays']
 
         self.company = self.env.ref('base.main_company')
         self.company.holiday_deduct_ouvrable = True
@@ -29,6 +38,7 @@ class HolidaysComputeCommon(TransactionCase):
         # Create employee
         self.employee = self.employee_model.create({
             'name': 'Employee 1',
+            'user_id': self.user.id,
         })
 
         # Create calendar

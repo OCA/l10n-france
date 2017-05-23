@@ -114,7 +114,7 @@ class HrHolidays(models.Model):
     @api.multi
     def _sync_employee_saturdays(self, saturdays):
         # remove linked saturdays if dates of holidays have been changed
-        saturday_model = self.env['hr.holidays.employee.saturday']
+        saturday_model = self.env['hr.holidays.employee.saturday'].sudo()
         saturday_dates = [fields.Date.to_string(sat) for sat in saturdays]
         saturday_model.search(
             [('saturday', 'not in', saturday_dates),

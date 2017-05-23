@@ -39,7 +39,7 @@ class TestSaturdaySync(HolidaysComputeCommon):
             )
 
     def _create_holidays(self, date_from, date_to):
-        return self.holiday_model.create({
+        return self.holiday_model.sudo(self.user).create({
             'name': 'Holidays',
             'employee_id': self.employee.id,
             'type': 'remove',
