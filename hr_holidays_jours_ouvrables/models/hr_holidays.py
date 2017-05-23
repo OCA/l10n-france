@@ -80,6 +80,8 @@ class HrHolidays(models.Model):
             )
 
         for date in self._iter_between_dates(start, end):
+            # we look for fridays in leaves, so it works when
+            # users set leaves from monday to friday too
             if date.weekday() == calendar.FRIDAY:
                 saturday = date + timedelta(days=1)
                 if is_public_holiday(saturday, employee_id=employee.id):
