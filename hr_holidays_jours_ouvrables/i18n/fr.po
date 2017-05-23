@@ -36,7 +36,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_holidays_jours_ouvrables.field_hr_holidays_status_deduct_ouvrable
 #: model:ir.model.fields,field_description:hr_holidays_jours_ouvrables.field_res_company_holiday_deduct_ouvrable
 msgid "Deduct Leaves on \"Jours ouvrables\""
-msgstr "Déduire les congés en jours ouvrables"
+msgstr "Congés décomptés sur jours ouvrables"
 
 #. module: hr_holidays_jours_ouvrables
 #: model:ir.model.fields,field_description:hr_holidays_jours_ouvrables.field_hr_holidays_employee_saturday_display_name
@@ -93,7 +93,7 @@ msgstr "Type de congé"
 #. module: hr_holidays_jours_ouvrables
 #: model:ir.model.fields,field_description:hr_holidays_jours_ouvrables.field_res_company_holiday_max_number_of_saturday
 msgid "Max. number of Saturday Holidays"
-msgstr "Nombre max. de samedi en congés payés"
+msgstr "Nombre max. de samedis en congés payés"
 
 #. module: hr_holidays_jours_ouvrables
 #: model:ir.model.fields,field_description:hr_holidays_jours_ouvrables.field_hr_holidays_employee_saturday_saturday

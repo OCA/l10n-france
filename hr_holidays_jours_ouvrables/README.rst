@@ -6,7 +6,7 @@
 France - Jours Ouvrables
 ========================
 
-Ce module permets de gérer le décompte des jours ouvrables en prenant en
+Ce module permet de gérer le décompte des jours ouvrables en prenant en
 compte les samedis payés. Lors de la saisie de vacances, le samedi sera
 automatiquement ajouté au total des congés payés, à hauteur de 5 samedis par
 an.
@@ -20,7 +20,7 @@ Activation des jours ouvrables
 ------------------------------
 
 Dans 'Configuration > Utilisateurs > Sociétés', éditer la ou les sociétés et
-activer "Déduire les congés en jours ouvrables".
+activer "Congés décomptés sur jours ouvrables".
 
 Configurer le type de congé
 ---------------------------
@@ -29,7 +29,7 @@ Dans 'Congés > Configuration', activer les options suivantes sur le type de
 congé :
 
 * Le champ "Société" doit être saisi
-* Déduire les congés en jours ouvrables
+* Congés décomptés sur jours ouvrables
 * Exclure les jours de repos
 * Exclure les jours fériés
 
