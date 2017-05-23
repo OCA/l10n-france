@@ -3,6 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 from datetime import datetime
+from psycopg2 import IntegrityError
+
+from odoo import exceptions
+from odoo.tools import mute_logger
 from odoo.tests.common import TransactionCase
 from .common import HolidaysComputeCommon
 
@@ -37,22 +41,6 @@ class TestSaturdaySync(HolidaysComputeCommon):
                     'calendar_id': self.calendar.id
                 }
             )
-
-    def _create_holidays(self, date_from, date_to):
-        return self.holiday_model.sudo(self.user).create({
-            'name': 'Holidays',
-            'employee_id': self.employee.id,
-            'type': 'remove',
-            'holiday_type': 'employee',
-            'holiday_status_id': self.holiday_type.id,
-            'date_from': date_from,
-            'date_to': date_to,
-        })
-
-    def _search_saturdays(self):
-        return self.saturday_model.search(
-            [('employee_id', '=', self.employee.id)]
-        )
 
     def test_create_saturdays(self):
         """ Saturdays are recorded """
@@ -117,3 +105,47 @@ class TestSaturdaySync(HolidaysComputeCommon):
             ['2017-09-02', '2017-09-09', '2017-09-16'],
             saturdays.mapped('saturday')
         )
+
+
+class SaturdaysChecks(HolidaysComputeCommon):
+
+    def setUp(self):
+        super(SaturdaysChecks, self).setUp()
+        # Create a work calendar from Monday to Friday
+        for day in range(5):
+            self.calendar_attendance_model.create(
+                {
+                    'name': 'Attendance',
+                    'dayofweek': str(day),
+                    'hour_from': '08',
+                    'hour_to': '18',
+                    'calendar_id': self.calendar.id
+                }
+            )
+
+    @mute_logger('odoo.sql_db')
+    def test_unique(self):
+        self.saturday_model.create({
+            'status_id': self.holiday_type.id,
+            'employee_id': self.employee.id,
+            'saturday': '2017-05-27',
+        })
+        msg = ('duplicate key value violates unique constraint '
+               '"hr_holidays_employee_saturday_saturday_uniq"')
+        with self.assertRaisesRegexp(IntegrityError, msg):
+            self.saturday_model.create({
+                'status_id': self.holiday_type.id,
+                'employee_id': self.employee.id,
+                'saturday': '2017-05-27',
+            })
+
+    def test_saturday_not_in_bounds(self):
+        holiday = self._create_holidays('2017-08-28', '2017-8-29')
+        msg = 'The date of this saturday is not within the leave bounds'
+        with self.assertRaisesRegexp(exceptions.ValidationError, msg):
+            self.saturday_model.create({
+                'status_id': self.holiday_type.id,
+                'employee_id': self.employee.id,
+                'saturday': '2017-05-27',
+                'holidays_id': holiday.id,
+            })

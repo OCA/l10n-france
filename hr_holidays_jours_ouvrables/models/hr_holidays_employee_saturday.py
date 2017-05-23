@@ -2,7 +2,7 @@
 # Copyright 2017 Camptocamp SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields, models
+from odoo import _, api, exceptions, fields, models
 
 
 class HrHolidaysEmployeeSaturday(models.Model):
@@ -28,3 +28,22 @@ class HrHolidaysEmployeeSaturday(models.Model):
         string='Leave',
         ondelete='cascade',
     )
+
+    _sql_constraints = [
+        ('saturday_uniq', 'unique (employee_id, saturday)',
+         "This saturday is already used."),
+    ]
+
+    @api.constrains('holidays_id', 'saturday')
+    def _check_saturday_in_holidays(self):
+        for record in self:
+            if not record.holidays_id:
+                continue
+            saturday = fields.Date.from_string(record.saturday)
+            start = fields.Date.from_string(record.holidays_id.date_from)
+            end = fields.Date.from_string(record.holidays_id.date_to)
+            if not (start < saturday < end):
+                raise exceptions.ValidationError(
+                    _('The date of this saturday is not within the '
+                      'leave bounds.')
+                )
