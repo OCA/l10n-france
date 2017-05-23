@@ -110,3 +110,19 @@ class HolidaysComputeCommon(TransactionCase):
         })
         leave._onchange_date_from()
         return leave.number_of_days_temp
+
+    def _create_holidays(self, date_from, date_to):
+        return self.holiday_model.sudo(self.user).create({
+            'name': 'Holidays',
+            'employee_id': self.employee.id,
+            'type': 'remove',
+            'holiday_type': 'employee',
+            'holiday_status_id': self.holiday_type.id,
+            'date_from': date_from,
+            'date_to': date_to,
+        })
+
+    def _search_saturdays(self):
+        return self.saturday_model.search(
+            [('employee_id', '=', self.employee.id)]
+        )

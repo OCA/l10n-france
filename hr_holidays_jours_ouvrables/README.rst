@@ -64,6 +64,8 @@ Limitations
 Uniquement la semaine de travail du lundi au vendredi est supportée avec les
 jours ouvrables à ce jour.
 
+L'édition manuelle des samedis n'est pas encore implémentée.
+
 Credits
 =======
 

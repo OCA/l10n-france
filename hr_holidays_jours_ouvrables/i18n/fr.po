@@ -1,15 +1,16 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* hr_holidays_jours_ouvrables
+# 	* hr_holidays_jours_ouvrables
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-23 08:40+0000\n"
+"POT-Creation-Date: 2017-05-23 10:08+0000\n"
 "PO-Revision-Date: 2017-05-23 08:40+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -100,9 +101,24 @@ msgid "Saturday Date"
 msgstr "Date du samedi"
 
 #. module: hr_holidays_jours_ouvrables
+#: code:addons/hr_holidays_jours_ouvrables/models/hr_holidays_employee_saturday.py:47
+#: code:addons/odoo/external-src/l10n-france/hr_holidays_jours_ouvrables/models/hr_holidays_employee_saturday.py:47
+#, python-format
+msgid "The date of this saturday is not within the leave bounds."
+msgstr "La date de ce samedi est en dehors de la période de congé."
+
+#. module: hr_holidays_jours_ouvrables
+#: sql_constraint:hr.holidays.employee.saturday:0
+msgid "This saturday is already used."
+msgstr "Ce samedi est déjà utilisé."
+
+#. module: hr_holidays_jours_ouvrables
 #: code:addons/hr_holidays_jours_ouvrables/models/hr_holidays.py:39
 #: code:addons/odoo/external-src/l10n-france/hr_holidays_jours_ouvrables/models/hr_holidays.py:39
 #, python-format
-msgid "Using a \"Jours Ouvrables\" calendar status is not possible with a work week different than Monday-Friday"
-msgstr "Utiliser un type de calendrier en jours ouvrables n'est pas possible avec une semaine de travail qui n'est pas du lundi au vendredi."
-
+msgid ""
+"Using a \"Jours Ouvrables\" calendar status is not possible with a work week "
+"different than Monday-Friday"
+msgstr ""
+"Utiliser un type de calendrier en jours ouvrables n'est pas possible avec "
+"une semaine de travail qui n'est pas du lundi au vendredi."
