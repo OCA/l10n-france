@@ -28,6 +28,8 @@ class HrHolidays(models.Model):
 
     def _compute_number_of_days(self):
         days = super(HrHolidays, self)._compute_number_of_days()
+        if not days:
+            return days
         supported_calendars = [
             range(5),  # Monday to Friday
         ]
