@@ -1,24 +1,7 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    account_bank_statement_import_fr_cfonb module for Odoo
-#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
 from datetime import datetime
@@ -160,12 +143,18 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line['name'] += name_append
                     vals_line['unique_import_id'] += name_append
 
+        ctx = dict(self._context, account_period_prefer_normal=1)
+        period = self.env['account.period'].with_context(ctx).find(
+            end_date_str)
+
         vals_bank_statement = {
             'name': _('Account %s  %s > %s') % (
                 account_number, start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'currency_code': currency_code,
+            'period_id': period.id,
+            'date': end_date_str,
             'transactions': transactions,
-            }
+        }
         return currency_code, account_number, [vals_bank_statement]
