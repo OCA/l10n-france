@@ -4,14 +4,14 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
-# Mario Gielissen <mario@openworx.nl>, 2017
+# Peter Hageman <hageman.p@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
-"Last-Translator: Mario Gielissen <mario@openworx.nl>, 2017\n"
+"POT-Creation-Date: 2017-05-19 02:52+0000\n"
+"PO-Revision-Date: 2017-05-19 02:52+0000\n"
+"Last-Translator: Peter Hageman <hageman.p@gmail.com>, 2017\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/oca/teams/23907/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -387,7 +387,7 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,display_name:0
 #: field:l10n.fr.intrastat.product.declaration.line,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Weergavenaam"
 
 #. module: l10n_fr_intrastat_product
 #: selection:l10n.fr.intrastat.product.declaration,state:0
@@ -439,7 +439,7 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,id:0
 #: field:l10n.fr.intrastat.product.declaration.line,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.declaration,message_unread:0
@@ -586,7 +586,7 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,__last_update:0
 #: field:l10n.fr.intrastat.product.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Laatst gewijzigd op"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_uid:0

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
+# Peter Hageman <hageman.p@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-19 02:52+0000\n"
 "PO-Revision-Date: 2017-05-19 02:52+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"Last-Translator: Peter Hageman <hageman.p@gmail.com>, 2017\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/oca/teams/23907/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +75,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Weergavenaam"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice.line,amount_ecotaxe:0 field:account.tax,is_ecotaxe:0
@@ -166,7 +167,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_fr_ecotaxe
 #: help:account.ecotaxe.classification,ecotaxe_type:0
@@ -200,7 +201,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Laatst gewijzigd op"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_uid:0
