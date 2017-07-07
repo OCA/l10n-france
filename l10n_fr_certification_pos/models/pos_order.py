@@ -4,11 +4,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import time
-
-from openerp import models, api, fields
-from openerp.tools.translate import _
-from openerp.exceptions import Warning as UserError
+from openerp import models, api
 
 
 class PosOrder(models.Model):
