@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp><data>
+
+        <record id="partner_french_company" model="res.partner" context="{'default_is_company': True}">
+            <field name="name">Your French Company</field>
+            <field name="customer" eval="False"/>
+            <field name="is_company" eval="True"/>
+        </record>
+
+</data></openerp>
