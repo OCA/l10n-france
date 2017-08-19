@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (9.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-07 03:14+0000\n"
-"PO-Revision-Date: 2017-02-16 15:55+0000\n"
+"PO-Revision-Date: 2017-08-11 11:58+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_state_id
