@@ -12,7 +12,6 @@
     'license': 'AGPL-3',
     'depends': [
         'l10n_fr_siret',
-        'account_invoice_ubl',
         'account_invoice_transmit_method',
         ],
     'data': [
