@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_partner_form" model="ir.ui.view">
+    <field name="name">chorus.res.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+        <field name="ref" position="after">
+            <field name="fr_chorus_service_code"
+                attrs="{'invisible': ['|', ('parent_id', '=', False), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
+        </field>
+        <xpath expr="//field[@name='child_ids']/form//label[@for='street']" position="before">
+            <field name="fr_chorus_service_code"
+                attrs="{'invisible': ['|', ('type', 'not in', ('invoice', 'default')), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
+        </xpath>
+    </field>
+</record>
+
+<record id="view_partner_property_form" model="ir.ui.view">
+    <field name="name">chorus.account_tab.res.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account_invoice_transmit_method.view_partner_property_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//page[@name='accounting']//field[@name='customer_invoice_transmit_method_id']" position="after">
+            <field name="fr_chorus_required" attrs="{'invisible': [('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>
