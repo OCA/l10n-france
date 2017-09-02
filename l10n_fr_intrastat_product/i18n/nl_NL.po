@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 02:52+0000\n"
-"PO-Revision-Date: 2017-05-19 02:52+0000\n"
+"POT-Creation-Date: 2017-08-19 03:46+0000\n"
+"PO-Revision-Date: 2017-08-19 03:46+0000\n"
 "Last-Translator: Peter Hageman <hageman.p@gmail.com>, 2017\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/oca/teams/23907/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -311,14 +311,14 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,create_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,create_date:0
 #: field:l10n.fr.intrastat.product.declaration,create_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,currency_id:0
@@ -542,12 +542,12 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,invoice_id:0
 msgid "Invoice"
-msgstr ""
+msgstr "Factuur"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,invoice_line_id:0
 msgid "Invoice Line"
-msgstr ""
+msgstr "Factuurregel"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_is_follower:0
@@ -593,14 +593,14 @@ msgstr "Laatst gewijzigd op"
 #: field:l10n.fr.intrastat.product.declaration,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_date:0
 #: field:l10n.fr.intrastat.product.declaration,write_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_ids:0
@@ -712,7 +712,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:intrastat.transaction,fr_object_type:0
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,note:0
