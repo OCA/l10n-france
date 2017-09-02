@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 02:52+0000\n"
-"PO-Revision-Date: 2017-05-19 02:52+0000\n"
+"POT-Creation-Date: 2017-08-19 03:46+0000\n"
+"PO-Revision-Date: 2017-08-19 03:46+0000\n"
 "Last-Translator: Peter Hageman <hageman.p@gmail.com>, 2017\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/oca/teams/23907/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -56,12 +56,12 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: l10n_fr_ecotaxe
 #: help:product.category,default_fixed_ecotaxe:0
@@ -186,12 +186,12 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factuur"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_line
 msgid "Invoice Line"
-msgstr ""
+msgstr "Factuurregel"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_tax
@@ -206,12 +206,12 @@ msgstr "Laatst gewijzigd op"
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
@@ -254,7 +254,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr ""
+msgstr "Inkooporderregel"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,sale_ecotaxe_id:0
@@ -264,12 +264,12 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Verkooporder"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order_line
 msgid "Sales Order Line"
-msgstr ""
+msgstr "Verkooporderregel"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
