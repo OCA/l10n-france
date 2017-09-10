@@ -12,7 +12,7 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="agreement_sale.view_order_form"/>
     <field name="arch" type="xml">
-        <field name="sale_agreement_id" position="after">
+        <field name="agreement_id" position="after">
             <field name="invoice_transmit_method_id"/>
             <field name="invoice_transmit_method_code" invisible="1"/>
         </field>
