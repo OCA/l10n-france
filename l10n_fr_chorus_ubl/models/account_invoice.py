@@ -22,6 +22,6 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         cdr_dict = super(AccountInvoice, self).\
             _ubl_get_contract_document_reference_dict()
-        if self.sale_agreement_id:
-            cdr_dict[u'Marché public'] = self.sale_agreement_id.code
+        if self.agreement_id:
+            cdr_dict[u'Marché public'] = self.agreement_id.code
         return cdr_dict
