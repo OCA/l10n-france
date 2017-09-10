@@ -53,7 +53,6 @@ class BaseUbl(models.AbstractModel):
 
     @api.model
     def _ubl_get_party_identification(self, commercial_partner):
-        print "_ubl_get_party_identification ============="
         res = super(BaseUbl, self)._ubl_get_party_identification(
             commercial_partner)
         # partner.siret has a value even if partner.nic == False

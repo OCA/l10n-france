@@ -13,7 +13,7 @@ class TestUblInvoice(TransactionCase):
         product = self.env.ref('product.product_product_4')
         uom = self.env.ref('product.product_uom_unit')
         company = self.env.ref('base.main_company')
-        sale_agreement = self.env.ref('l10n_fr_chorus_account.market3')
+        agreement = self.env.ref('l10n_fr_chorus_account.market3')
         partner = self.env.ref(
             'l10n_fr_chorus_account.national_education_ministry_service1')
         product_change = ailo.browse(False).product_id_change(
@@ -23,7 +23,7 @@ class TestUblInvoice(TransactionCase):
             'out_invoice', partner.id, company_id=company.id)
         vals = dict(
             partner_change['value'], partner_id=partner.id, name='EJ1242',
-            sale_agreement_id=sale_agreement.id)
+            agreement_id=agreement.id)
         il_vals = dict(product_change['value'], product_id=product.id)
         if il_vals['invoice_line_tax_id']:
             il_vals['invoice_line_tax_id'] = [
