@@ -26,6 +26,7 @@
     <field name="parent_id" ref="national_education_ministry"/>
     <field name="fr_chorus_service_code">SAAM D5</field>
     <field name="type">invoice</field>
+    <field name="country_id" ref="base.fr"/>
 </record>
 
 <record id="national_education_ministry_service2" model="res.partner">
@@ -33,6 +34,7 @@
     <field name="parent_id" ref="national_education_ministry"/>
     <field name="fr_chorus_service_code">SAAM D4</field>
     <field name="type">invoice</field>
+    <field name="country_id" ref="base.fr"/>
 </record>
 
 <record id="aphp" model="res.partner">
@@ -110,6 +112,7 @@
     <field name="code">BCODE0042</field>
     <field name="name">Lecteurs code barre 2D</field>
     <field name="partner_id" ref="aphp"/>
+    <field name="agreement_type">sale</field>
     <field name="signature_date">2017-08-22</field>
 </record>
 
@@ -117,6 +120,7 @@
     <field name="code">TEL0012</field>
     <field name="name">IPBX site de Necker</field>
     <field name="partner_id" ref="aphp"/>
+    <field name="agreement_type">sale</field>
     <field name="signature_date">2017-07-21</field>
 </record>
 
@@ -124,6 +128,7 @@
     <field name="code">INFO007</field>
     <field name="name">Déploiement Odoo</field>
     <field name="partner_id" ref="national_education_ministry"/>
+    <field name="agreement_type">sale</field>
     <field name="signature_date">2017-07-14</field>
 </record>
 
