@@ -1,29 +1,23 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    l10n FR FEC module for Odoo
-#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2013-2017 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 import base64
 import StringIO
+import logging
+logger = logging.getLogger(__name__)
+
+try:
+    from unidecode import unidecode
+except ImportError:
+    logger.debug('Cannot import unidecode')
+try:
+    import unicodecsv
+except ImportError:
+    logger.debug('Cannot import unicodecsv')
 
 
 class AccountFrFec(models.TransientModel):
@@ -34,23 +28,27 @@ class AccountFrFec(models.TransientModel):
         'account.fiscalyear', string='Fiscal Year', required=True)
     type = fields.Selection([
         ('is_ir_bic', 'I.S. or BIC @ I.R.'),
-    ], string='Company Type', default='is_ir_bic')
+        ], string='Company Type', default='is_ir_bic')
+    encoding = fields.Selection([
+        ('iso8859_15', 'ISO-8859-15'),
+        ('utf-8', 'UTF-8'),
+        ('ascii', 'ASCII'),
+        ], string='Encoding', default='iso8859_15', required=True)
     fec_data = fields.Binary('FEC File', readonly=True)
     filename = fields.Char(string='Filename', size=256, readonly=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
-    ], string='State', default='draft')
+        ], string='State', default='draft')
     export_type = fields.Selection([
         ('official', 'Official FEC report (posted entries only)'),
         (
             'nonofficial',
             'Non-official FEC report (posted and unposted entries)'),
-    ], string='Export Type', required=True, default='official')
+        ], string='Export Type', required=True, default='official')
 
     @api.multi
     def generate_fec(self):
-        import unicodecsv
         self.ensure_one()
         assert self.fiscalyear_id.period_ids,\
             'The Fiscal Year must have periods'
@@ -81,9 +79,10 @@ class AccountFrFec(models.TransientModel):
             'ValidDate',      # 15
             'Montantdevise',  # 16
             'Idevise',        # 17
-        ]
+            ]
 
         company = self.fiscalyear_id.company_id
+        encoding = self.encoding
 
         sql_query = '''
         SELECT
@@ -95,7 +94,8 @@ class AccountFrFec(models.TransientModel):
             am.name, E'[\\n\\r\\t\|]+', '/', 'g') AS EcritureNum,
             am.date AS EcritureDate,
             aa.code AS CompteNum,
-            replace(aa.name, '|', '/') AS CompteLib,
+            regexp_replace(
+            aa.name, E'[\\n\\r\\t\|]+', '/', 'g') AS CompteLib,
             CASE WHEN rp.ref IS null OR rp.ref = ''
             THEN 'ID ' || rp.id
             ELSE rp.ref
@@ -150,7 +150,8 @@ class AccountFrFec(models.TransientModel):
             sql_query, (tuple(self.fiscalyear_id.period_ids.ids), company.id))
 
         fecfile = StringIO.StringIO()
-        w = unicodecsv.writer(fecfile, encoding='utf-8', delimiter='|')
+        w = unicodecsv.writer(
+            fecfile, encoding=encoding, errors='replace', delimiter='|')
         w.writerow(header)
 
         while 1:
@@ -175,18 +176,24 @@ class AccountFrFec(models.TransientModel):
                 listrow[12] = ('%.2f' % listrow[12]).replace('.', ',')
                 if listrow[16]:
                     listrow[16] = ('%.2f' % listrow[16]).replace('.', ',')
+                if encoding == 'ascii':
+                    for char_col in [1, 5, 7, 8, 10]:
+                        listrow[char_col] = unidecode(listrow[char_col])
+                # I don't do a special treatment for 'latin1' ; I just
+                # take advantage of unicodecsv.writer(errors='replace')
+                # -> unicode caracters not available in latin1 will be
+                # replaced by '?'
                 w.writerow(listrow)
 
         if company.vat:
             vat = company.vat.replace(' ', '')
             if vat[0:2] != 'FR':
-                raise Warning(
-                    _("FEC is for French companies only !"))
+                raise UserError(_("FEC is for French companies only !"))
             siren = vat[4:13]
         elif company.siret:
             siren = company.siret[0:9]
         else:
-            raise Warning(_(
+            raise UserError(_(
                 "Missing VAT number and SIRET for company %s") % company.name)
         fy_end_date = self.fiscalyear_id.date_stop.replace('-', '')
         suffix = ''
@@ -198,7 +205,7 @@ class AccountFrFec(models.TransientModel):
             'fec_data': base64.encodestring(fecvalue),
             'filename': '%sFEC%s%s.csv' % (siren, fy_end_date, suffix),
             # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
-        })
+            })
         fecfile.close()
 
         action = {
@@ -208,5 +215,5 @@ class AccountFrFec(models.TransientModel):
             'res_model': self._name,
             'res_id': self.id,
             'target': 'new',
-        }
+            }
         return action
