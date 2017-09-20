@@ -34,19 +34,19 @@ class AccountFrFec(models.TransientModel):
         'account.fiscalyear', string='Fiscal Year', required=True)
     type = fields.Selection([
         ('is_ir_bic', 'I.S. or BIC @ I.R.'),
-        ], string='Company Type', default='is_ir_bic')
+    ], string='Company Type', default='is_ir_bic')
     fec_data = fields.Binary('FEC File', readonly=True)
     filename = fields.Char(string='Filename', size=256, readonly=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
-        ], string='State', default='draft')
+    ], string='State', default='draft')
     export_type = fields.Selection([
         ('official', 'Official FEC report (posted entries only)'),
         (
             'nonofficial',
             'Non-official FEC report (posted and unposted entries)'),
-        ], string='Export Type', required=True, default='official')
+    ], string='Export Type', required=True, default='official')
 
     @api.multi
     def generate_fec(self):
@@ -81,15 +81,18 @@ class AccountFrFec(models.TransientModel):
             'ValidDate',      # 15
             'Montantdevise',  # 16
             'Idevise',        # 17
-            ]
+        ]
 
         company = self.fiscalyear_id.company_id
 
         sql_query = '''
         SELECT
-            replace(aj.code, '|', '/') AS JournalCode,
-            replace(aj.name, '|', '/') AS JournalLib,
-            replace(am.name, '|', '/') AS EcritureNum,
+            regexp_replace(
+            aj.code, E'[\\n\\r\\t\|]+', '/', 'g') AS JournalCode,
+            regexp_replace(
+            aj.name, E'[\\n\\r\\t\|]+', '/', 'g') AS JournalLib,
+            regexp_replace(
+            am.name, E'[\\n\\r\\t\|]+', '/', 'g') AS EcritureNum,
             am.date AS EcritureDate,
             aa.code AS CompteNum,
             replace(aa.name, '|', '/') AS CompteLib,
@@ -98,17 +101,21 @@ class AccountFrFec(models.TransientModel):
             ELSE rp.ref
             END
             AS CompAuxNum,
-            replace(rp.name, '|', '/') AS CompAuxLib,
+            regexp_replace(
+            rp.name, E'[\\n\\r\\t\|]+', '/', 'g') AS CompAuxLib,
             CASE WHEN am.ref IS null OR am.ref = ''
             THEN '-'
-            ELSE replace(am.ref, '|', '/')
+            ELSE regexp_replace(
+            am.ref, E'[\\n\\r\\t\|]+', '/', 'g')
             END
             AS PieceRef,
             am.date AS PieceDate,
-            replace(aml.name, '|', '/') AS EcritureLib,
+            regexp_replace(
+            aml.name, E'[\\n\\r\\t\|]+', '/', 'g') AS EcritureLib,
             aml.debit AS Debit,
             aml.credit AS Credit,
-            replace(amr.name, '|', '/') AS EcritureLet,
+            regexp_replace(
+            amr.name, E'[\\n\\r\\t\|]+', '/', 'g') AS EcritureLet,
             amr.create_date::timestamp::date AS DateLet,
             am.date AS ValidDate,
             aml.amount_currency AS Montantdevise,
@@ -191,7 +198,7 @@ class AccountFrFec(models.TransientModel):
             'fec_data': base64.encodestring(fecvalue),
             'filename': '%sFEC%s%s.csv' % (siren, fy_end_date, suffix),
             # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
-            })
+        })
         fecfile.close()
 
         action = {
@@ -201,5 +208,5 @@ class AccountFrFec(models.TransientModel):
             'res_model': self._name,
             'res_id': self.id,
             'target': 'new',
-            }
+        }
         return action
