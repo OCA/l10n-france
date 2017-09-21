@@ -84,38 +84,38 @@ class AccountFrFec(models.TransientModel):
         company = self.fiscalyear_id.company_id
         encoding = self.encoding
 
-        sql_query = '''
+        sql_query = r'''
         SELECT
             regexp_replace(
-            aj.code, E'[\\n\\r\\t\|]+', '/', 'g') AS JournalCode,
+            aj.code, E'[\n\r\t\|]+', '/', 'g') AS JournalCode,
             regexp_replace(
-            aj.name, E'[\\n\\r\\t\|]+', '/', 'g') AS JournalLib,
+            aj.name, E'[\n\r\t\|]+', '/', 'g') AS JournalLib,
             regexp_replace(
-            am.name, E'[\\n\\r\\t\|]+', '/', 'g') AS EcritureNum,
+            am.name, E'[\n\r\t\|]+', '/', 'g') AS EcritureNum,
             am.date AS EcritureDate,
             aa.code AS CompteNum,
             regexp_replace(
-            aa.name, E'[\\n\\r\\t\|]+', '/', 'g') AS CompteLib,
+            aa.name, E'[\n\r\t\|]+', '/', 'g') AS CompteLib,
             CASE WHEN rp.ref IS null OR rp.ref = ''
             THEN 'ID ' || rp.id
             ELSE rp.ref
             END
             AS CompAuxNum,
             regexp_replace(
-            rp.name, E'[\\n\\r\\t\|]+', '/', 'g') AS CompAuxLib,
+            rp.name, E'[\n\r\t\|]+', '/', 'g') AS CompAuxLib,
             CASE WHEN am.ref IS null OR am.ref = ''
             THEN '-'
             ELSE regexp_replace(
-            am.ref, E'[\\n\\r\\t\|]+', '/', 'g')
+            am.ref, E'[\n\r\t\|]+', '/', 'g')
             END
             AS PieceRef,
             am.date AS PieceDate,
             regexp_replace(
-            aml.name, E'[\\n\\r\\t\|]+', '/', 'g') AS EcritureLib,
+            aml.name, E'[\n\r\t\|]+', '/', 'g') AS EcritureLib,
             aml.debit AS Debit,
             aml.credit AS Credit,
             regexp_replace(
-            amr.name, E'[\\n\\r\\t\|]+', '/', 'g') AS EcritureLet,
+            amr.name, E'[\n\r\t\|]+', '/', 'g') AS EcritureLet,
             amr.create_date::timestamp::date AS DateLet,
             am.date AS ValidDate,
             aml.amount_currency AS Montantdevise,
