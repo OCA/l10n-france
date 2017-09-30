@@ -22,7 +22,7 @@ addon | version | summary
 [l10n_fr_department](l10n_fr_department/) | 8.0.0.1.1 | Populate Database with French Departments (Départements)
 [l10n_fr_department_delivery](l10n_fr_department_delivery/) | 8.0.0.1.0 | Use French Departments in delivery costs
 [l10n_fr_ecotaxe](l10n_fr_ecotaxe/) | 8.0.0.1.0 | Use Ecotaxe in French localisation contexte
-[l10n_fr_fec](l10n_fr_fec/) | 8.0.0.1.0 | Fichier d'Échange Informatisé (FEC) for France
+[l10n_fr_fec](l10n_fr_fec/) | 8.0.0.2.0 | Fichier d'Échange Informatisé (FEC) for France
 [l10n_fr_intrastat_product](l10n_fr_intrastat_product/) | 8.0.2.0.0 | Module for Intrastat product reporting (DEB) for France
 [l10n_fr_intrastat_service](l10n_fr_intrastat_service/) | 8.0.2.0.0 | Module for Intrastat service reporting (DES) for France
 [l10n_fr_mis_reports](l10n_fr_mis_reports/) | 8.0.0.0.1 | MIS Report templates for the French P&L and Balance Sheets
