@@ -36,6 +36,11 @@ class AccountBankStatementImport(models.TransientModel):
             amount_num = float(amount_str[:-1] + credit_trans[amount_str[-1]])
         return amount_num
 
+    def _get_cfonb_st_name(self, account_number, start_date_str, end_date_str):
+        name = _('Account %s  %s > %s'
+                 ) % (account_number, start_date_str, end_date_str)
+        return name
+
     @api.model
     def _check_cfonb(self, data_file):
         return data_file.strip().startswith('01')
@@ -51,6 +56,7 @@ class AccountBankStatementImport(models.TransientModel):
         if not data_file.splitlines():
             raise UserError(_('The file is empty.'))
         i = 0
+        seq = 1
         bank_code = guichet_code = account_number = currency_code = False
         decimals = start_balance = False
         start_balance = end_balance = False
@@ -101,6 +107,7 @@ class AccountBankStatementImport(models.TransientModel):
                         "A CFONB file should start with '01'") % rec_type)
                 start_balance = self._parse_cfonb_amount(
                     line[90:104], decimals)
+                start_date_str = date_str
 
             if (
                     bank_code != line_bank_code or
@@ -119,12 +126,14 @@ class AccountBankStatementImport(models.TransientModel):
                 vals_line = False
             if rec_type == '07':
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
+                end_date_str = date_str
             elif rec_type == '04':
                 bank_account_id = partner_id = False
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
                 name = line[48:79].strip()
                 vals_line = {
+                    'sequence': seq,
                     'date': date_str,
                     'name': name,
                     'ref': ref,
@@ -134,6 +143,7 @@ class AccountBankStatementImport(models.TransientModel):
                     'partner_id': partner_id,
                     'bank_account_id': bank_account_id,
                 }
+                seq += 1
             elif rec_type == '05':
                 assert vals_line, 'vals_line should have a value !'
                 complementary_info_type = line[45:48]
@@ -142,8 +152,12 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line['name'] += name_append
                     vals_line['unique_import_id'] += name_append
 
+        st_name = self._get_cfonb_st_name(account_number,
+                                          start_date_str, end_date_str)
+
         vals_bank_statement = {
-            'name': _('Account %s') % account_number,
+            'name': st_name,
+            'date': end_date_str,
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
