@@ -9,9 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 UNECE2CHORUS_TAX_CATEG_CODE = {
-    '2': 'TVA DEBIT',
-    '3': 'TVA DEBIT',
-    '432': 'TVA ENCAISSEMENT',
+    '5': 'TVA DEBIT',
+    '72': 'TVA ENCAISSEMENT',
     }
 
 
