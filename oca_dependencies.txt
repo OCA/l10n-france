@@ -4,4 +4,6 @@ partner-contact
 account-fiscal-rule
 community-data-files
 edi
+contract
+account-invoicing
 intrastat
