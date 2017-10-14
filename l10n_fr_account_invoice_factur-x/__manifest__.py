@@ -8,7 +8,7 @@
     'category': 'Localisation',
     'license': 'AGPL-3',
     'summary': "France-specific module to generate Factur-X invoices",
-    'author': 'Akretion',
+    'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'depends': [
         'account_invoice_factur-x',
