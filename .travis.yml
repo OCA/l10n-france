@@ -37,7 +37,8 @@ install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
-  - pip install unicodecsv unidecode ofxparse PyPDF2
+  - pip install unicodecsv unidecode ofxparse
+  - pip install git+https://github.com/akretion/factur-x
 
 script:
   - travis_run_tests
