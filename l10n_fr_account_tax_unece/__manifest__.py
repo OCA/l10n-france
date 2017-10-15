@@ -11,6 +11,7 @@
     'website': 'http://www.akretion.com',
     'license': 'AGPL-3',
     'depends': ['l10n_fr', 'account_tax_unece'],
+    'data': ['data/account_tax_template.xml'],
     'post_init_hook': 'set_unece_on_taxes',
     'installable': True,
     'auto_installable': True,
