@@ -1,6 +1,7 @@
 account-financial-reporting
 account-fiscal-rule
 account-financial-reporting
+mis-builder
 account-invoicing
 bank-payment
 bank-statement-import
