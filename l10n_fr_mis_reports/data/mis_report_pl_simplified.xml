@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 Akretion (http://www.akretion.com/)
-    @author: Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  © 2015-2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-  <data>
+<odoo>
 
     <record model="mis.report" id="mis_report_pl_simplified">
       <field name="name">Compte de résultat (FR - liasse fiscale simplifiée)</field>
@@ -17,10 +16,8 @@
       <field name="name">lf210</field>
       <field name="description">Ventes de marchandises</field>
       <field name="expression">-balp[707%,7097%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">2</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_simplified_214">
@@ -28,10 +25,8 @@
       <field name="name">lf214</field>
       <field name="description">Production vendue de biens</field>
       <field name="expression">-balp[701%,702%,703%,7091%,7092%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">4</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_simplified_218">
@@ -39,10 +34,8 @@
       <field name="name">lf218</field>
       <field name="description">Production vendue de services</field>
       <field name="expression">-balp[704%,705%,706%,708%,7094%,7095%,7096%,7098%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">6</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_222">
@@ -50,10 +43,8 @@
       <field name="name">lf222</field>
       <field name="description">Production stockée</field>
       <field name="expression">-balp[71%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">20</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_224">
@@ -61,10 +52,8 @@
       <field name="name">lf224</field>
       <field name="description">Production immobilisée</field>
       <field name="expression">-balp[72%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">30</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_226">
@@ -72,10 +61,8 @@
       <field name="name">lf226</field>
       <field name="description">Subventions d'exploitation reçues</field>
       <field name="expression">-balp[74%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">40</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_230">
@@ -83,10 +70,8 @@
       <field name="name">lf230</field>
       <field name="description">Autres produits</field>
       <field name="expression">-balp[75%,781%,791%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">60</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_232">
@@ -94,10 +79,9 @@
       <field name="name">lf232</field>
       <field name="description">Total des produits d'exploitation hors TVA (I)</field>
       <field name="expression">+lf210 +lf214 +lf218 +lf222 +lf224 +lf226 +lf230</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">70</field>
     </record>
 
@@ -106,10 +90,8 @@
       <field name="name">lf234</field>
       <field name="description">Achats de marchandises (y compris droits de douane)</field>
       <field name="expression">balp[607%,608%,6097%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">80</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_236">
@@ -117,10 +99,8 @@
       <field name="name">lf236</field>
       <field name="description">Variation de stock (marchandises)</field>
       <field name="expression">balp[6037%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">90</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_238">
@@ -128,10 +108,8 @@
       <field name="name">lf238</field>
       <field name="description">Achats de matières premières et autres approvisionnements (y compris droits de douane)</field>
       <field name="expression">balp[601%,602%,6091%,6092%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">100</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_240">
@@ -139,10 +117,8 @@
       <field name="name">lf240</field>
       <field name="description">Variation de stock (matières premières et approvisionnements)</field>
       <field name="expression">balp[6031%,6032%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">110</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_242">
@@ -150,10 +126,8 @@
       <field name="name">lf242</field>
       <field name="description">Autres charges externes</field>
       <field name="expression">balp[604%,605%,606%,6094%,6095%,6096%,61%,62%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">120</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_244">
@@ -161,10 +135,8 @@
       <field name="name">lf244</field>
       <field name="description">Impôts, taxes et versements assimilés</field>
       <field name="expression">balp[63%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">130</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_250">
@@ -172,10 +144,8 @@
       <field name="name">lf250</field>
       <field name="description">Rémunération du personnel</field>
       <field name="expression">balp[641%,644%,648%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">140</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_252">
@@ -183,10 +153,8 @@
       <field name="name">lf252</field>
       <field name="description">Charges sociales</field>
       <field name="expression">balp[645%,646%,647%,649%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">150</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_254">
@@ -194,10 +162,8 @@
       <field name="name">lf254</field>
       <field name="description">Dotations aux amortissements</field>
       <field name="expression">balp[6811%,6812%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">160</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_256">
@@ -205,10 +171,8 @@
       <field name="name">lf256</field>
       <field name="description">Dotations aux provisions</field>
       <field name="expression">balp[6815%,6816%,6817%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">170</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_262">
@@ -216,10 +180,8 @@
       <field name="name">lf262</field>
       <field name="description">Autres charges</field>
       <field name="expression">balp[651%,653%,654%,658%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">200</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_264">
@@ -227,10 +189,9 @@
       <field name="name">lf264</field>
       <field name="description">Total des charges d'exploitation (II)</field>
       <field name="expression">+lf234 +lf236 +lf238 +lf240 +lf242 +lf244 +lf250 +lf252 +lf254 +lf256 +lf262</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">210</field>
     </record>
 
@@ -239,10 +200,9 @@
       <field name="name">lf270</field>
       <field name="description">1. Résultat d'exploitation (I - II)</field>
       <field name="expression">+lf232 -lf264</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">220</field>
     </record>
 
@@ -251,10 +211,9 @@
       <field name="name">lf280</field>
       <field name="description">Produits financiers (III)</field>
       <field name="expression">-balp[76%,786%,796%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">250</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_290">
@@ -262,10 +221,9 @@
       <field name="name">lf290</field>
       <field name="description">Produits exceptionnels (IV)</field>
       <field name="expression">-balp[77%,787%,797%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">260</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_294">
@@ -273,10 +231,9 @@
       <field name="name">lf294</field>
       <field name="description">Charges financières (V)</field>
       <field name="expression">balp[655%,66%,686%]</field> <!-- où met-on le 655 ? -->
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">320</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_300">
@@ -284,10 +241,9 @@
       <field name="name">lf300</field>
       <field name="description">Charges exceptionnelles (VI)</field>
       <field name="expression">balp[67%,687%,691%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">430</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_306">
@@ -295,10 +251,9 @@
       <field name="name">lf306</field>
       <field name="description">Impôts sur les bénéfices (VII)</field>
       <field name="expression">balp[695%,696%,697%,698%,699%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">440</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_310">
@@ -306,12 +261,10 @@
       <field name="name">lf310</field>
       <field name="description">2. Bénéfice ou perte: Produits (I + III + IV) - Charges (II + V + VI + VII)</field>
       <field name="expression">+lf232 +lf280 +lf290 -lf264 -lf294 -lf300 -lf306</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">520</field>
     </record>
 
-  </data>
-</openerp>
+</odoo>
