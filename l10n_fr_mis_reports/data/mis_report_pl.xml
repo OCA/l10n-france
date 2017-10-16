@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 Akretion (http://www.akretion.com/)
-    @author: Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  © 2015-2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-  <data>
+<odoo>
 
     <record model="mis.report" id="mis_report_pl">
       <field name="name">Compte de résultat (FR - liasse fiscale)</field>
@@ -18,10 +17,8 @@
       <field name="name">FC</field>
       <field name="description">Ventes de marchandises</field>
       <field name="expression">-balp[707%,7097%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 3em</field>
       <field name="sequence">2</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_ff">
@@ -29,10 +26,8 @@
       <field name="name">FF</field>
       <field name="description">Production vendue de biens</field>
       <field name="expression">-balp[701%,702%,703%,7091%,7092%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 3em</field>
       <field name="sequence">4</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_fi">
@@ -40,10 +35,8 @@
       <field name="name">FI</field>
       <field name="description">Production vendue de services</field>
       <field name="expression">-balp[704%,705%,706%,708%,7094%,7095%,7096%,7098%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 3em</field>
       <field name="sequence">6</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_fl">
@@ -51,10 +44,9 @@
       <field name="name">FL</field>
       <field name="description">Chiffres d'affaires nets</field>
       <field name="expression">+FC +FF +FI</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em; font-weight: bold;</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">10</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fm">
@@ -62,10 +54,8 @@
       <field name="name">FM</field>
       <field name="description">Production stockée</field>
       <field name="expression">-balp[71%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">20</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fn">
@@ -73,10 +63,8 @@
       <field name="name">FN</field>
       <field name="description">Production immobilisée</field>
       <field name="expression">-balp[72%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">30</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fo">
@@ -84,10 +72,8 @@
       <field name="name">FO</field>
       <field name="description">Subventions d'exploitation</field>
       <field name="expression">-balp[74%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">40</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fp">
@@ -95,10 +81,8 @@
       <field name="name">FP</field>
       <field name="description">Reprises sur amortissements et provisions, transferts de charges</field>
       <field name="expression">-balp[781%,791%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">50</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fq">
@@ -106,10 +90,8 @@
       <field name="name">FQ</field>
       <field name="description">Autres produits</field>
       <field name="expression">-balp[751%,752%,753%,754%,758%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">60</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fr">
@@ -117,10 +99,9 @@
       <field name="name">FR</field>
       <field name="description">Total des produits d'exploitation (I)</field>
       <field name="expression">+FL +FM +FN +FO +FP +FQ</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
+      <field name="style_id" ref="level2"/>
       <field name="sequence">70</field>
     </record>
 
@@ -129,10 +110,8 @@
       <field name="name">FS</field>
       <field name="description">Achats de marchandises (y compris droits de douane)</field>
       <field name="expression">balp[607%,608%,6097%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">80</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_ft">
@@ -140,10 +119,8 @@
       <field name="name">FT</field>
       <field name="description">Variation de stock (marchandises)</field>
       <field name="expression">balp[6037%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">90</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fu">
@@ -151,10 +128,8 @@
       <field name="name">FU</field>
       <field name="description">Achats de matières premières et autres approvisionnements (y compris droits de douane)</field>
       <field name="expression">balp[601%,602%,6091%,6092%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">100</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fv">
@@ -162,10 +137,8 @@
       <field name="name">FV</field>
       <field name="description">Variation de stock (matières premières et approvisionnements)</field>
       <field name="expression">balp[6031%,6032%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">110</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fw">
@@ -173,10 +146,8 @@
       <field name="name">FW</field>
       <field name="description">Autres achats et charges externes</field>
       <field name="expression">balp[604%,605%,606%,6094%,6095%,6096%,61%,62%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">120</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fx">
@@ -184,10 +155,8 @@
       <field name="name">FX</field>
       <field name="description">Impôts, taxes et versements assimilés</field>
       <field name="expression">balp[63%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">130</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fy">
@@ -195,10 +164,8 @@
       <field name="name">FY</field>
       <field name="description">Salaires et traitements</field>
       <field name="expression">balp[641%,644%,648%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">140</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_fz">
@@ -206,10 +173,8 @@
       <field name="name">FZ</field>
       <field name="description">Charges sociales</field>
       <field name="expression">balp[645%,646%,647%,649%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">150</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_ga">
@@ -217,10 +182,8 @@
       <field name="name">GA</field>
       <field name="description">Dotations aux amortissements</field>
       <field name="expression">balp[6811%,6812%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">160</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gb">
@@ -228,10 +191,8 @@
       <field name="name">GB</field>
       <field name="description">Dotations aux provisions</field>
       <field name="expression">balp[6816%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">170</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gc">
@@ -239,10 +200,8 @@
       <field name="name">GC</field>
       <field name="description">Sur actif circulant : dotations aux provisions</field>
       <field name="expression">balp[6817%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">180</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gd">
@@ -250,10 +209,8 @@
       <field name="name">GD</field>
       <field name="description">Pour risques et charges : dotations aux provisions</field>
       <field name="expression">balp[6815%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">190</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_ge">
@@ -261,10 +218,8 @@
       <field name="name">GE</field>
       <field name="description">Autres charges</field>
       <field name="expression">balp[651%,653%,654%,658%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">200</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gf">
@@ -272,10 +227,9 @@
       <field name="name">GF</field>
       <field name="description">Total des charges d'exploitation (II)</field>
       <field name="expression">+FS +FT +FU +FV +FW +FX +FY +FZ +GA +GB +GC +GD +GE</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
+      <field name="style_id" ref="level2"/>
       <field name="sequence">210</field>
     </record>
 
@@ -284,10 +238,9 @@
       <field name="name">GG</field>
       <field name="description">1. Résultat d'exploitation (I - II)</field>
       <field name="expression">+FR -GF</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">220</field>
     </record>
 
@@ -296,10 +249,9 @@
       <field name="name">GH</field>
       <field name="description">Opérations en commun - bénéfice attribué ou perte transférée (III)</field>
       <field name="expression">-balp[755%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">230</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gi">
@@ -307,10 +259,9 @@
       <field name="name">GI</field>
       <field name="description">Opérations en commun - perte supportée ou bénéfice transféré (IV)</field>
       <field name="expression">balp[655%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">240</field>
     </record>
 
@@ -320,10 +271,8 @@
       <field name="name">GJ</field>
       <field name="description">Produits financiers de participations</field>
       <field name="expression">-balp[761%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">250</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gk">
@@ -331,10 +280,8 @@
       <field name="name">GK</field>
       <field name="description">Produits des autres valeurs mobilières et créances de l'actif immobilisé</field>
       <field name="expression">-balp[762%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">260</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gl">
@@ -342,10 +289,8 @@
       <field name="name">GL</field>
       <field name="description">Autres intérêts et produits assimilés</field>
       <field name="expression">-balp[763%,764%,765%,768%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">270</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gm">
@@ -353,10 +298,8 @@
       <field name="name">GM</field>
       <field name="description">Reprises sur provisions et transferts de charges</field>
       <field name="expression">-balp[786%,796%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">280</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gn">
@@ -364,10 +307,8 @@
       <field name="name">GN</field>
       <field name="description">Différences positives de change</field>
       <field name="expression">-balp[766%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">290</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_go">
@@ -375,10 +316,8 @@
       <field name="name">GO</field>
       <field name="description">Produits nets sur cessions de valeurs mobilières de placement</field>
       <field name="expression">-balp[767%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">300</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gp">
@@ -386,10 +325,9 @@
       <field name="name">GP</field>
       <field name="description">Total des produits financiers (V)</field>
       <field name="expression">+GJ +GK +GL +GM +GN +GO</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
+      <field name="style_id" ref="level2"/>
       <field name="sequence">310</field>
     </record>
 
@@ -398,10 +336,8 @@
       <field name="name">GQ</field>
       <field name="description">Dotations financières aux amortissements et provisions</field>
       <field name="expression">balp[686%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">320</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gr">
@@ -409,10 +345,8 @@
       <field name="name">GR</field>
       <field name="description">Intérêts et charges assimilées</field>
       <field name="expression">balp[661%,%664,665%,668%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">330</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gs">
@@ -420,10 +354,8 @@
       <field name="name">GS</field>
       <field name="description">Différences négatives de change</field>
       <field name="expression">balp[666%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">340</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gt">
@@ -431,10 +363,8 @@
       <field name="name">GT</field>
       <field name="description">Charges nettes sur cessions de valeurs mobilières de placement</field>
       <field name="expression">balp[667%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">350</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_gu">
@@ -442,10 +372,9 @@
       <field name="name">GU</field>
       <field name="description">Total des charges financières (VI)</field>
       <field name="expression">+GQ +GR +GS +GT</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
+      <field name="style_id" ref="level2"/>
       <field name="sequence">360</field>
     </record>
 
@@ -454,10 +383,9 @@
       <field name="name">GV</field>
       <field name="description">2. Résultat financier (V - VI)</field>
       <field name="expression">+GP -GU</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">370</field>
     </record>
 
@@ -466,10 +394,9 @@
       <field name="name">GW</field>
       <field name="description">3. Résultat courant avant impôts (I - II + III - IV + V - VI)</field>
       <field name="expression">+FR -GF +GH -GI +GP -GU</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">380</field>
     </record>
 
@@ -479,10 +406,8 @@
       <field name="name">HA</field>
       <field name="description">Produits exceptionnels sur opérations de gestion</field>
       <field name="expression">-balp[771%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">390</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hb">
@@ -490,10 +415,8 @@
       <field name="name">HB</field>
       <field name="description">Produits exceptionnels sur opérations en capital</field>
       <field name="expression">-balp[775%,777%,778%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">400</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hc">
@@ -501,10 +424,8 @@
       <field name="name">HC</field>
       <field name="description">Reprises sur provisions et transferts de charges</field>
       <field name="expression">-balp[787%,797%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">410</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hd">
@@ -512,10 +433,9 @@
       <field name="name">HD</field>
       <field name="description">Total des produits exceptionnels (VII)</field>
       <field name="expression">+HA +HB +HC</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
+      <field name="style_id" ref="level2"/>
       <field name="sequence">420</field>
     </record>
 
@@ -524,10 +444,8 @@
       <field name="name">HE</field>
       <field name="description">Charges exceptionnelles sur opérations de gestion</field>
       <field name="expression">balp[671%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">430</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hf">
@@ -535,10 +453,8 @@
       <field name="name">HF</field>
       <field name="description">Charges exceptionnelles sur opérations en capital</field>
       <field name="expression">balp[675%,678%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">440</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hg">
@@ -546,10 +462,8 @@
       <field name="name">HG</field>
       <field name="description">Dotations exceptionnelles aux amortissements et provisions</field>
       <field name="expression">balp[687%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 2em</field>
       <field name="sequence">450</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hh">
@@ -557,10 +471,9 @@
       <field name="name">HH</field>
       <field name="description">Total des charges exceptionnelles (VIII)</field>
       <field name="expression">+HE +HF +HG</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em; font-weight: bold</field>
+      <field name="style_id" ref="level2"/>
       <field name="sequence">460</field>
     </record>
 
@@ -569,10 +482,9 @@
       <field name="name">HI</field>
       <field name="description">4. Résultat exceptionnel (VII - VIII)</field>
       <field name="expression">+HD -HH</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">470</field>
     </record>
 
@@ -582,10 +494,9 @@
       <field name="name">HJ</field>
       <field name="description">Participation des salariés aux résultats de l'entreprise (IX)</field>
       <field name="expression">balp[691%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">480</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_hk">
@@ -593,10 +504,9 @@
       <field name="name">HK</field>
       <field name="description">Impôts sur les bénéfices (X)</field>
       <field name="expression">balp[695%,696%,697%,698%,699%]</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">text-indent: 1em</field>
+      <field name="style_id" ref="level3"/>
       <field name="sequence">490</field>
     </record>
 
@@ -605,10 +515,9 @@
       <field name="name">HL</field>
       <field name="description">Total des produits (I + III + V + VII)</field>
       <field name="expression">+FR +GH +GP +HD</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">500</field>
     </record>
 
@@ -617,10 +526,9 @@
       <field name="name">HM</field>
       <field name="description">Total des charges (II + IV + VI + VIII + IX + X)</field>
       <field name="expression">+GF +GI +GU +HH +HJ +HK</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">510</field>
     </record>
 
@@ -629,12 +537,10 @@
       <field name="name">HN</field>
       <field name="description">Bénéfice ou perte (Total des produits - Total des charges)</field>
       <field name="expression">+HL -HM</field>
-      <field name="suffix">€</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
-      <field name="default_css_style">font-weight: bold; font-style: italic;</field>
+      <field name="style_id" ref="level1"/>
       <field name="sequence">520</field>
     </record>
 
-  </data>
-</openerp>
+</odoo>
