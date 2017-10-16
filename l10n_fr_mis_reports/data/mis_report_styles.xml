@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="level1" model="mis.report.style">
+    <field name="name">l10n_fr N1</field>
+    <field name="background_color_inherit" eval="0"/>
+    <field name="background_color">#ffff66</field>
+    <field name="font_weight_inherit" eval="0"/>
+    <field name="font_weight">bold</field>
+    <field name="font_size_inherit" eval="0"/>
+    <field name="font_size">large</field>
+</record>
+
+<record id="level2" model="mis.report.style">
+    <field name="name">l10n_fr N2</field>
+    <field name="background_color_inherit" eval="0"/>
+    <field name="background_color">#ffff99</field>
+    <field name="font_weight_inherit" eval="0"/>
+    <field name="font_weight">bold</field>
+</record>
+
+<record id="level3" model="mis.report.style">
+    <field name="name">l10n_fr N3</field>
+    <field name="background_color_inherit" eval="0"/>
+    <field name="background_color">#ffffcc</field>
+    <field name="font_style_inherit" eval="0"/>
+    <field name="font_style">italic</field>
+</record>
+
+
+</odoo>
