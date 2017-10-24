@@ -26,8 +26,8 @@ class HrHolidays(models.Model):
                     record.holiday_status_id.deduct_ouvrable):
                 record.has_to_deduct_ouvrable = True
 
-    def _compute_number_of_days(self):
-        days = super(HrHolidays, self)._compute_number_of_days()
+    def _recompute_number_of_days(self):
+        days = super(HrHolidays, self)._recompute_number_of_days()
         if not days:
             return days
         supported_calendars = [
