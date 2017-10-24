@@ -31,7 +31,9 @@ class AccountPaymentOrder(models.Model):
                 ]
             for unallowed_ascii_char in unallowed_ascii_chars:
                 value = value.replace(unallowed_ascii_char, '-')
-        except:
+        except Exception:
+            # seems that unidecode doesn't raise exception so might
+            # be useless
             raise UserError(_(
                 "Cannot convert the field '%s' to ASCII") % field_name)
         value = value.upper()
