@@ -269,7 +269,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             partner_des = etree.SubElement(ligne_des, 'partner_des')
             try:
                 partner_des.text = sline.partner_vat.replace(' ', '')
-            except:
+            except AttributeError:
                 raise UserError(
                     _("Missing VAT number on partner '%s'.")
                     % sline.partner_id.name)
