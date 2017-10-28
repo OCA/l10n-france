@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-11-28 06:20+0000\n"
+"POT-Creation-Date: 2017-09-30 00:43+0000\n"
+"PO-Revision-Date: 2017-10-23 10:55+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_state
 msgid "Country state"
-msgstr ""
+msgstr "Zvezna država"
 
 #. module: l10n_fr_department
 #: field:res.country.department,create_uid:0
@@ -113,7 +113,7 @@ msgstr "Zadnjič posodobljeno"
 #. module: l10n_fr_department
 #: view:res.country.department:l10n_fr_department.view_country_department_search
 msgid "Name or Code"
-msgstr ""
+msgstr "Naziv ali koda"
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
@@ -137,7 +137,7 @@ msgid "The department code in two chars.(ISO 3166-2 Codification)"
 msgstr ""
 
 #. module: l10n_fr_department
-#: code:addons/l10n_fr_department/model/res_country_department.py:53
+#: code:addons/l10n_fr_department/model/res_country_department.py:54
 #: sql_constraint:res.country.department:0
 #, python-format
 msgid "You cannot have two departments with the same code!"

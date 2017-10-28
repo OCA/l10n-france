@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-19 03:46+0000\n"
-"PO-Revision-Date: 2017-08-21 07:26+0000\n"
+"POT-Creation-Date: 2017-09-30 00:43+0000\n"
+"PO-Revision-Date: 2017-10-23 10:55+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -56,12 +56,12 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Naziv datoteke"
 
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr.wizard,state:0
 msgid "Finish"
-msgstr ""
+msgstr "Dokončaj"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:111
@@ -84,7 +84,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:account_banking_fr_lcr.banking_export_lcr_wizard_form
 msgid "Generate"
-msgstr ""
+msgstr "Ustvari"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,id:0
@@ -133,7 +133,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,payment_order_ids:0
 msgid "Payment Orders"
-msgstr ""
+msgstr "Plačilni nalogi"
 
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,state:0

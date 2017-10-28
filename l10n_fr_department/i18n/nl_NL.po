@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-19 03:46+0000\n"
-"PO-Revision-Date: 2017-08-29 08:01+0000\n"
+"POT-Creation-Date: 2017-09-30 00:43+0000\n"
+"PO-Revision-Date: 2017-09-22 20:56+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: view:res.country.department:l10n_fr_department.view_country_department_search
 #: field:res.country.department,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #. module: l10n_fr_department
 #: help:res.country.department,country_id:0
@@ -31,7 +31,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_state
 msgid "Country state"
-msgstr ""
+msgstr "Provincie"
 
 #. module: l10n_fr_department
 #: field:res.country.department,create_uid:0
@@ -88,7 +88,7 @@ msgstr ""
 #. module: l10n_fr_department
 #: view:res.country.department:l10n_fr_department.view_country_department_search
 msgid "Group By"
-msgstr ""
+msgstr "Groeperen op"
 
 #. module: l10n_fr_department
 #: field:res.country.department,id:0
@@ -124,7 +124,7 @@ msgstr ""
 #: view:res.country.department:l10n_fr_department.view_country_department_search
 #: field:res.country.department,state_id:0
 msgid "State"
-msgstr ""
+msgstr "Provincie"
 
 #. module: l10n_fr_department
 #: help:res.country.department,state_id:0
