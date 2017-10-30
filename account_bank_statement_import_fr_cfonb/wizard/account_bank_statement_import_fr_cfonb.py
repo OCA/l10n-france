@@ -1,24 +1,7 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    account_bank_statement_import_fr_cfonb module for Odoo
-#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
 from datetime import datetime
@@ -77,6 +60,12 @@ class AccountBankStatementImport(models.TransientModel):
         # And I found one (LCL) that even uses caracters with accents
         # So the best method is probably to decode with latin1
         data_file_decoded = data_file.decode('latin1')
+        # check of statement line supports the value date field
+        # introduced by e.g. the following modules
+        # - account_bank_statement_extensions
+        # - account_bank_statement_advanced
+        has_vaL_date = hasattr(self.env['account.bank.statement.line'],
+                               'val_date')
         for line in data_file_decoded.splitlines():
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
@@ -85,8 +74,8 @@ class AccountBankStatementImport(models.TransientModel):
             if len(line) != 120:
                 raise Warning(
                     _('Line %d is %d caracters long. All lines of a '
-                        'CFONB bank statement file must be 120 caracters '
-                        'long.')
+                      'CFONB bank statement file must be 120 caracters '
+                      'long.')
                     % (i, len(line)))
             rec_type = line[0:2]
             line_bank_code = line[2:7]
@@ -103,6 +92,8 @@ class AccountBankStatementImport(models.TransientModel):
             if date_cfonb_str != '      ':
                 date_dt = datetime.strptime(date_cfonb_str, '%d%m%y')
                 date_str = fields.Date.to_string(date_dt)
+            val_date_dt = False
+            val_date_str = False
             assert decimals == 2, 'We use 2 decimals in France!'
 
             if i == 1:
@@ -142,16 +133,24 @@ class AccountBankStatementImport(models.TransientModel):
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
                 name = line[48:79].strip()
+                val_date_cfonb_str = line[42:48]
+                if val_date_cfonb_str != '      ':
+                    val_date_dt = datetime.strptime(val_date_cfonb_str,
+                                                    '%d%m%y')
+                    val_date_str = fields.Date.to_string(val_date_dt)
                 vals_line = {
                     'date': date_str,
                     'name': name,
                     'ref': ref,
                     'unique_import_id':
-                    '%s-%s-%.2f-%s' % (date_str, ref, amount, name),
+                    '%s-%s-%.2f-%s-%s' % (date_str, ref, amount, name,
+                                          val_date_str),
                     'amount': amount,
                     'partner_id': partner_id,
                     'bank_account_id': bank_account_id,
                 }
+                if has_vaL_date:
+                    vals_line['val_date'] = val_date_str
             elif rec_type == '05':
                 assert vals_line, 'vals_line should have a value !'
                 complementary_info_type = line[45:48]
@@ -160,12 +159,18 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line['name'] += name_append
                     vals_line['unique_import_id'] += name_append
 
+        ctx = dict(self._context, account_period_prefer_normal=1)
+        period = self.env['account.period'].with_context(ctx).find(
+            end_date_str)
+
         vals_bank_statement = {
             'name': _('Account %s  %s > %s') % (
                 account_number, start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'currency_code': currency_code,
+            'period_id': period.id,
+            'date': end_date_str,
             'transactions': transactions,
-            }
+        }
         return currency_code, account_number, [vals_bank_statement]
