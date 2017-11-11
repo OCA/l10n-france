@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-12-27 08:22+0000\n"
+"POT-Creation-Date: 2017-09-30 00:43+0000\n"
+"PO-Revision-Date: 2017-11-03 12:15+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,encoding:0
+msgid "ASCII"
+msgstr ""
 
 #. module: l10n_fr_fec
 #: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
@@ -55,6 +60,11 @@ msgstr ""
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0
 msgid "Draft"
+msgstr "Draf"
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,encoding:0
+msgid "Encoding"
 msgstr ""
 
 #. module: l10n_fr_fec
@@ -79,7 +89,7 @@ msgid "FEC File Generation"
 msgstr ""
 
 #. module: l10n_fr_fec
-#: code:addons/l10n_fr_fec/wizard/fec.py:177
+#: code:addons/l10n_fr_fec/wizard/fec.py:191
 #, python-format
 msgid "FEC is for French companies only !"
 msgstr ""
@@ -115,6 +125,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: l10n_fr_fec
+#: selection:account.fr.fec,encoding:0
+msgid "ISO-8859-15"
+msgstr ""
+
+#. module: l10n_fr_fec
 #: field:account.fr.fec,__last_update:0
 msgid "Last Modified on"
 msgstr "Terakhir Dimodifikasi pada"
@@ -130,7 +145,7 @@ msgid "Last Updated on"
 msgstr "Diperbaharui pada"
 
 #. module: l10n_fr_fec
-#: code:addons/l10n_fr_fec/wizard/fec.py:182
+#: code:addons/l10n_fr_fec/wizard/fec.py:196
 #, python-format
 msgid "Missing VAT number and SIRET for company %s"
 msgstr ""
@@ -148,9 +163,9 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,state:0
 msgid "State"
-msgstr ""
+msgstr "Bagian"
 
 #. module: l10n_fr_fec
-#: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
-msgid "The encoding of this text file is UTF-8."
+#: selection:account.fr.fec,encoding:0
+msgid "UTF-8"
 msgstr ""
