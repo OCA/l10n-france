@@ -113,13 +113,11 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
                             certification_deferred.reject();
                             return server_ids;
                         });
-                    } else {
-                        certification_deferred.resolve(false);
-                        return server_ids;
                     }
-                } else {
-                    certification_deferred.reject();
+                    certification_deferred.resolve(false);
+                    return server_ids;
                 }
+                certification_deferred.reject();
             }, function error() {
                 certification_deferred.reject();
             });
@@ -191,11 +189,7 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
         print_receipt: function(receipt){
             var self = this;
             var setting = this.pos.config.l10n_fr_prevent_print;
-            if (!receipt){
-                // Weird core feature, print_receipt is called regularly
-                // without receipt
-                ProxyDeviceParent.prototype.print_receipt.apply(this, [receipt]);
-            } else {
+            if (receipt){
                 if (setting === 'no'){
                     self.print_receipt_certification(receipt, setting, false);
                 } else {
@@ -205,6 +199,10 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
                         self.print_receipt_certification(receipt, setting, false);
                     });
                 }
+            else{
+                // Weird core feature, print_receipt is called regularly
+                // without receipt
+                ProxyDeviceParent.prototype.print_receipt.apply(this, [receipt]);
             }
         },
 
@@ -217,7 +215,7 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
                 });
             } else {
                 // Add the according text
-                changed_receipt = receipt.replace("__CERTIFICATION_TEXT__", prepare_certification_text(hash, setting));
+                var changed_receipt = receipt.replace("__CERTIFICATION_TEXT__", prepare_certification_text(hash, setting));
                 // Print the bill
                 ProxyDeviceParent.prototype.print_receipt.apply(this, [changed_receipt]);
             }

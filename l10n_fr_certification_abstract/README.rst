@@ -19,8 +19,8 @@ The 9.0 module has been backported, and refactored into two modules and a third
 one is created for Point Of Sale.
 
 1. l10n_fr_certification_abstract, that provide generic feature. (around sha1)
-  to be used in extra other modules like l10n_fr_certification_pos.
-  This module provides three new abstract models:
+   to be used in extra other modules like l10n_fr_certification_pos.
+   This module provides three new abstract models:
 
 * certification.sequence.holder.mixin that creates on a defined model
   a new ir.sequence (type no_gap) if the model is associated to a french
