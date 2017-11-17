@@ -4,9 +4,9 @@
     @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
  *****************************************************************************/
-'use strict'
-openerp.l10n_fr_certification_pos = function(instance, local) {
+'use strict';
 
+openerp.l10n_fr_certification_pos = function(instance, local) {
 
     var module = instance.point_of_sale;
     var QWeb = instance.web.qweb;
@@ -23,17 +23,15 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
         Function that return certification text, depending of a hash
     */
     var prepare_certification_text = function(hash, setting){
-        if (setting == 'no'){
+        if (setting === 'no'){
             return false;
         }
         if (hash){
             return _t('Certification Number: ') + hash.substring(0, 10) + '...' + hash.substring(hash.length - 10);
         }
-        else{
-            return _t("Because of a network problem," +
-                " this ticket could not be certified." +
-                " You can ask later for a certified ticket.");
-        }
+        return _t("Because of a network problem," +
+            " this ticket could not be certified." +
+            " You can ask later for a certified ticket.");
     };
 
     /*************************************************************************
@@ -53,20 +51,19 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
 
         export_for_printing: function(attributes){
             var order = moduleOrderParent.prototype.export_for_printing.apply(this, arguments);
-            if (this.pos.config.l10n_fr_prevent_print == 'no'){
-                order['certification_text'] = false;
-            }
-            else{
+            if (this.pos.config.l10n_fr_prevent_print === 'no'){
+                order.certification_text = false;
+            } else {
                 // We add a tag that will be replaced after, because
                 // when export_for_printing is called, hash is unknown
-                order['certification_text'] = "__CERTIFICATION_TEXT__";
+                order.certification_text = "__CERTIFICATION_TEXT__";
             }
             return order;
         },
 
         export_as_JSON: function() {
             var order = moduleOrderParent.prototype.export_as_JSON.apply(this, arguments);
-            order['certification_text'] = this.get('certification_text');
+            order.certification_text = this.get('certification_text');
             return order;
         },
 
@@ -85,7 +82,7 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
             // Get PoS Config Settings
             var setting = self.config.l10n_fr_prevent_print;
 
-            if (setting == 'no'){
+            if (setting === 'no'){
                 return PosModelParent.prototype._save_to_server.apply(this, arguments);
             }
             // Create a new promise that will resolved after the call to get the hash
@@ -97,11 +94,11 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
 
             return PosModelParent.prototype._save_to_server.apply(this, arguments).then(function(server_ids) {
                 if (server_ids) {
-                    if (server_ids.length != 0){
+                    if (server_ids.length > 0){
                         // Try to get hash of saved orders, if required
                         var posOrderModel = new instance.web.Model('pos.order');
                         return posOrderModel.call(
-                            'get_certification_information', [server_ids], undefined
+                            'get_certification_information', [server_ids], false
                         ).then(function (results) {
                             var hash = false;
                             _.each(results, function(result){
@@ -116,13 +113,11 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
                             certification_deferred.reject();
                             return server_ids;
                         });
-                    }
-                    else{
+                    } else {
                         certification_deferred.resolve(false);
                         return server_ids;
                     }
-                }
-                else{
+                } else {
                     certification_deferred.reject();
                 }
             }, function error() {
@@ -133,7 +128,7 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
 
     /*************************************************************************
         Extend ReceiptScreenWidgetParent:
-            if iface_print_via_proxy IS NOT enabled, 
+            if iface_print_via_proxy IS NOT enabled,
             if certification security is enabled, wait for result,
             before printing. Display an error message if hash has not
             been recovered and setting is set to 'block'.
@@ -145,11 +140,10 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
         show: function(){
             var self = this;
             var setting = this.pos.config.l10n_fr_prevent_print;
-            if (setting == 'no'){
+            if (setting === 'no'){
                 // Direct Call
                 self.show_certification(setting);
-            }
-            else{
+            } else {
                 // Wait for Promise
                 certification_deferred.then(function success(order_id) {
                     self.show_certification(setting);
@@ -161,7 +155,7 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
 
         // New Function
         show_certification: function(setting){
-            if (!this.pos.get('selectedOrder').get('hash') && setting == 'block') {
+            if (!this.pos.get('selectedOrder').get('hash') && setting === 'block') {
                 // mark the bill as printed to avoid a useless window.print call
                 this.pos.get('selectedOrder')._printed = true;
 
@@ -175,7 +169,7 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
                     message: _t('Connection required'),
                     comment: _t('Can not print the bill because your point of sale is currently offline'),
                 });
-            }else{
+            } else {
                 // Display the bill for printing
                 ReceiptScreenWidgetParent.prototype.show.apply(this, []);
             }
@@ -201,12 +195,10 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
                 // Weird core feature, print_receipt is called regularly
                 // without receipt
                 ProxyDeviceParent.prototype.print_receipt.apply(this, [receipt]);
-            }
-            else{
-                if (setting == 'no'){
+            } else {
+                if (setting === 'no'){
                     self.print_receipt_certification(receipt, setting, false);
-                }
-                else{
+                } else {
                     certification_deferred.then(function success(hash) {
                         self.print_receipt_certification(receipt, setting, hash);
                     }, function error() {
@@ -217,18 +209,17 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
         },
 
         print_receipt_certification: function(receipt, setting, hash){
-            if (!hash && setting == 'block') {
+            if (!hash && setting === 'block') {
                 // block the printing
                 this.pos.pos_widget.screen_selector.show_popup('error', {
                     message: _t('Connection required'),
                     comment: _t('Can not print the bill because your point of sale is currently offline'),
                 });
-            }
-            else{
+            } else {
                 // Add the according text
-                receipt = receipt.replace("__CERTIFICATION_TEXT__", prepare_certification_text(hash, setting));
+                changed_receipt = receipt.replace("__CERTIFICATION_TEXT__", prepare_certification_text(hash, setting));
                 // Print the bill
-                ProxyDeviceParent.prototype.print_receipt.apply(this, [receipt]);
+                ProxyDeviceParent.prototype.print_receipt.apply(this, [changed_receipt]);
             }
             certification_deferred = null;
         },

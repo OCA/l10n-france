@@ -18,27 +18,30 @@ Technical and Migration Note
 The 9.0 module has been backported, and refactored into two modules and a third
 one is created for Point Of Sale.
 
-* l10n_fr_certification_abstract, that provide generic feature. (around sha1)
+1. l10n_fr_certification_abstract, that provide generic feature. (around sha1)
   to be used in extra other modules like l10n_fr_certification_pos.
   This module provides three new abstract models:
-    * certification.sequence.holder.mixin that creates on a defined model
-      a new ir.sequence (type no_gap) if the model is associated to a french
-      company.
-    * certification.model.mixin that provides functions to generate a hash
-      for a certified model.
-    * certification.model.line.mixin that provides extra features to
-      generate a hash.
+
+* certification.sequence.holder.mixin that creates on a defined model
+  a new ir.sequence (type no_gap) if the model is associated to a french
+  company.
+* certification.model.mixin that provides functions to generate a hash
+  for a certified model.
+* certification.model.line.mixin that provides extra features to
+  generate a hash.
 
 
-* l10n_fr_certification_account:
-    * account.move overloads certification.model.mixin model.
-    * account.move.line overloads certification.model.line.mixin model.
-    * res.company overloads certification.sequence.holder.mixin model.
+2. l10n_fr_certification_account:
 
-* l10n_fr_certification_pos:
-    * pos.order overloads certification.model.mixin model.
-    * pos.order.line overloads certification.model.line.mixin model.
-    * pos.config overloads certification.sequence.holder.mixin model.
+* account.move overloads certification.model.mixin model.
+* account.move.line overloads certification.model.line.mixin model.
+* res.company overloads certification.sequence.holder.mixin model.
+
+3. l10n_fr_certification_pos:
+
+* pos.order overloads certification.model.mixin model.
+* pos.order.line overloads certification.model.line.mixin model.
+* pos.config overloads certification.sequence.holder.mixin model.
 
 
 When you'll migrate your database into 9.0+ version, the present module
