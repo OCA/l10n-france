@@ -199,7 +199,7 @@ openerp.l10n_fr_certification_pos = function(instance, local) {
                         self.print_receipt_certification(receipt, setting, false);
                     });
                 }
-            else{
+            } else {
                 // Weird core feature, print_receipt is called regularly
                 // without receipt
                 ProxyDeviceParent.prototype.print_receipt.apply(this, [receipt]);
