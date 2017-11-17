@@ -4,8 +4,9 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import fields, models, api
+from openerp import _, api, fields, models
 from openerp.tools.config import config
+from openerp.exceptions import ValidationError
 
 
 class PosConfig(models.Model):
@@ -63,6 +64,21 @@ class PosConfig(models.Model):
         # function)
         self.generate_secure_sequence_if_required()
         return res
+
+    @api.multi
+    def _create_secure_sequence(self):
+        # check if all session are closed, before creating a new sequence
+        session_obj = self.env['pos.session']
+        sessions = session_obj.search([
+            ('config_id', 'in', self.ids),
+            ('state', '!=', 'closed')])
+        if sessions:
+            raise ValidationError(_(
+                "You can not create Secure Sequences for the pos"
+                " configuration because some sessions are not in a closed"
+                " state. Please close before the following PoS sessions:\n"
+                " - %s" % ('\n -'.join(sessions.mapped('name')))))
+        return super(PosConfig, self)._create_secure_sequence()
 
     # Compute Section
     @api.multi

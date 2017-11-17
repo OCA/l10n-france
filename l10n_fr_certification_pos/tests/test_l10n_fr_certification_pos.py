@@ -5,23 +5,39 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp.tests.common import TransactionCase
+from openerp.exceptions import ValidationError
 
 
 class TestL10nFrCertificationPos(TransactionCase):
 
-    def test_company_setting(self):
+    def setUp(self):
+        super(TestL10nFrCertificationPos, self).setUp()
+        self.pos_config = self.env.ref('point_of_sale.pos_config_main')
+        self.main_company = self.env.ref('base.main_company')
+
+    def test_01_company_setting(self):
         """Setting a company to french should change generate a Sequence
         for the pos config"""
         # Set company country to France
-        company = self.env.ref('base.main_company')
-        company.country_id = self.env.ref('base.fr')
+        self.main_company.country_id = self.env.ref('base.fr')
         self.assertNotEqual(
             self.env.ref(
                 'point_of_sale.pos_config_main').l10n_fr_secure_sequence_id,
             False,
             "Set France to a company should create Sequence fof Pos Configs")
 
-    def test_alteration(self):
+    def test_02_company_setting_opened_session(self):
+        """ Changing setting to a french company that has an open session
+        should fail"""
+        pos_session = self.env['pos.session'].create({
+            'config_id': self.pos_config.id,
+        })
+        pos_session.open_cb()
+        # Set company country to France should fail if pos session is open
+        with self.assertRaises(ValidationError):
+            self.main_company.country_id = self.env.ref('base.fr')
+
+    def test_03_alteration(self):
         """Creating a PoS Order and altering in by DB, should mark the order
         as corrupted.
         """
