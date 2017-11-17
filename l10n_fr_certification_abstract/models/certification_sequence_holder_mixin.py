@@ -6,6 +6,7 @@
 
 from openerp import _, api, fields, models
 from openerp.exceptions import Warning as UserError
+from .res_company import UNALTERABLE_COUNTRIES
 
 
 class CertificationSequenceHolderMixin(models.AbstractModel):
@@ -45,7 +46,8 @@ class CertificationSequenceHolderMixin(models.AbstractModel):
     @api.multi
     def security_required(self):
         self.ensure_one()
-        return self._get_certification_country() == self.env.ref('base.fr')
+        return self._get_certification_country() and (
+             self._get_certification_country().code in UNALTERABLE_COUNTRIES)
 
     @api.multi
     def generate_secure_sequence_if_required(self):
