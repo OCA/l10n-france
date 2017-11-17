@@ -1,9 +1,9 @@
 account-financial-reporting
 account-fiscal-rule
-account-financial-reporting
 bank-payment
 bank-statement-import
 community-data-files
+mis-builder
 partner-contact
 reporting-engines
 edi
