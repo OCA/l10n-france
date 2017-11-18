@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-30 00:43+0000\n"
-"PO-Revision-Date: 2017-09-30 00:43+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: Jan Prokop <jprokop@creativehome.sk>, 2017\n"
 "Language-Team: Slovak (https://www.transifex.com/oca/teams/23907/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -206,12 +206,12 @@ msgstr "Posledná modifikácia"
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_uid:0
 msgid "Last Updated by"
-msgstr "Naposledy upravoval"
+msgstr "Naposledy upravil"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_date:0
 msgid "Last Updated on"
-msgstr "Naposledy upravované"
+msgstr "Naposledy upravené"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form

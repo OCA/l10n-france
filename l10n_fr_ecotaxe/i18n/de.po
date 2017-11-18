@@ -7,14 +7,13 @@
 # Philipp Hug <philipp@hug.cx>, 2017
 # Rudolf Schnapka <rs@techno-flex.de>, 2017
 # Renzo Meister <info@jamotion.ch>, 2017
-# Niki Waibel <niki.waibel@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 02:52+0000\n"
-"PO-Revision-Date: 2017-05-19 02:52+0000\n"
-"Last-Translator: Niki Waibel <niki.waibel@gmail.com>, 2017\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
+"Last-Translator: Renzo Meister <info@jamotion.ch>, 2017\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +63,7 @@ msgstr "Erstellt von"
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,create_date:0
 msgid "Created on"
-msgstr "Erstellt am:"
+msgstr "Erstellt am"
 
 #. module: l10n_fr_ecotaxe
 #: help:product.category,default_fixed_ecotaxe:0
@@ -165,7 +164,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
 msgid "Group By"
-msgstr "Gruppieren nach"
+msgstr "Gruppiert nach"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,id:0
@@ -209,18 +208,18 @@ msgstr "Zuletzt geändert am"
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_uid:0
 msgid "Last Updated by"
-msgstr "Zuletzt aktualisiert von"
+msgstr "Zuletzt geändert durch"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_date:0
 msgid "Last Updated on"
-msgstr "Zuletzt aktualisiert am"
+msgstr "Zuletzt geändert am"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
 #: field:account.ecotaxe.classification,name:0
 msgid "Name"
-msgstr "Bezeichnung"
+msgstr "Name"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice,amount_tax_without_ecotaxe:0
