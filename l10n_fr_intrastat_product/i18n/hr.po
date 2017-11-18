@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: Ana-Maria Olujić <ana-maria.olujic@slobodni-programi.hr>, 2017\n"
 "Language-Team: Croatian (https://www.transifex.com/oca/teams/23907/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -221,6 +221,17 @@ msgid "Action"
 msgstr "Akcija"
 
 #. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency_sign:0
+msgid "Amount accessory cost company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_company_currency_sign:0
+#: field:l10n.fr.intrastat.product.declaration.line,amount_company_currency_sign:0
+msgid "Amount company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency:0
 msgid ""
 "Amount in company currency of the accessory costs related to this invoice "
@@ -259,7 +270,7 @@ msgstr "Poduzeća"
 #: field:l10n.fr.intrastat.product.declaration,company_id:0
 #: field:l10n.fr.intrastat.product.declaration.line,company_id:0
 msgid "Company"
-msgstr "Poduzeće"
+msgstr "Organizacija"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,company_country_code:0
@@ -311,14 +322,14 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,create_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,create_uid:0
 msgid "Created by"
-msgstr "Kreirao"
+msgstr "Stvorio/la"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,create_date:0
 #: field:l10n.fr.intrastat.product.declaration,create_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,create_date:0
 msgid "Created on"
-msgstr "Kreirano"
+msgstr "Stvoreno dana"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,currency_id:0
@@ -387,17 +398,17 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,display_name:0
 #: field:l10n.fr.intrastat.product.declaration.line,display_name:0
 msgid "Display Name"
-msgstr "Naziv "
+msgstr "Prikaži naziv"
 
 #. module: l10n_fr_intrastat_product
 #: selection:l10n.fr.intrastat.product.declaration,state:0
 msgid "Done"
-msgstr "Izvršeno"
+msgstr "Završeno"
 
 #. module: l10n_fr_intrastat_product
 #: selection:l10n.fr.intrastat.product.declaration,state:0
 msgid "Draft"
-msgstr "Skica"
+msgstr "Nacrt"
 
 #. module: l10n_fr_intrastat_product
 #: field:res.partner,intrastat_fiscal_representative:0
@@ -588,21 +599,21 @@ msgstr "Datum zadnje poruke"
 #: field:l10n.fr.intrastat.product.declaration,__last_update:0
 #: field:l10n.fr.intrastat.product.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr "Zadnje modificirano"
+msgstr "Zadnja izmjena"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_uid:0
 msgid "Last Updated by"
-msgstr "Zadnji ažurirao"
+msgstr "Zadnju izmjenu izvršio/la"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_date:0
 #: field:l10n.fr.intrastat.product.declaration,write_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_date:0
 msgid "Last Updated on"
-msgstr "Zadnje ažuriranje"
+msgstr "Zadnja izmjena"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_ids:0

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
+# Quentin THEURET <odoo@kerpeo.com>, 2017
 # Maxime Chambreuil <mchambreuil@ursainfosystems.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: Maxime Chambreuil <mchambreuil@ursainfosystems.com>, 2017\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -224,6 +225,17 @@ msgid "Action"
 msgstr "Action"
 
 #. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency_sign:0
+msgid "Amount accessory cost company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_company_currency_sign:0
+#: field:l10n.fr.intrastat.product.declaration.line,amount_company_currency_sign:0
+msgid "Amount company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency:0
 msgid ""
 "Amount in company currency of the accessory costs related to this invoice "
@@ -316,19 +328,19 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,create_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Créé par"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,create_date:0
 #: field:l10n.fr.intrastat.product.declaration,create_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Créé le"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,currency_id:0
 msgid "Currency"
-msgstr "Currency"
+msgstr "Devise"
 
 #. module: l10n_fr_intrastat_product
 #: selection:intrastat.transaction,fr_object_type:0
@@ -356,7 +368,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.declaration,message_last_post:0
 msgid "Date of the last message posted on the record."
-msgstr "Date of the last message posted on the record."
+msgstr "Date du dernier message enregistré sur cet enregistrement"
 
 #. module: l10n_fr_intrastat_product
 #: help:intrastat.transaction,fr_intrastat_product_type:0
@@ -394,12 +406,12 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,display_name:0
 #: field:l10n.fr.intrastat.product.declaration.line,display_name:0
 msgid "Display Name"
-msgstr "Display Name"
+msgstr "Afficher le nom"
 
 #. module: l10n_fr_intrastat_product
 #: selection:l10n.fr.intrastat.product.declaration,state:0
 msgid "Done"
-msgstr "Déclaré"
+msgstr "Fait"
 
 #. module: l10n_fr_intrastat_product
 #: selection:l10n.fr.intrastat.product.declaration,state:0
@@ -425,7 +437,7 @@ msgstr "Multiplicateur de la valeur fiscale"
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_follower_ids:0
 msgid "Followers"
-msgstr "Followers"
+msgstr "Abonnés"
 
 #. module: l10n_fr_intrastat_product
 #: help:intrastat.transaction,fr_transaction_code:0
@@ -448,12 +460,12 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,id:0
 #: field:l10n.fr.intrastat.product.declaration.line,id:0
 msgid "ID"
-msgstr "ID"
+msgstr "Id."
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.declaration,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "If checked new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
 
 #. module: l10n_fr_intrastat_product
 #: help:res.partner,intrastat_fiscal_representative:0
@@ -550,7 +562,7 @@ msgstr "Flux de la DEB"
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_stock_location
 msgid "Inventory Locations"
-msgstr "Inventory Locations"
+msgstr "Emplacements de stock"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,invoice_id:0
@@ -560,7 +572,7 @@ msgstr "Facture"
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,invoice_line_id:0
 msgid "Invoice Line"
-msgstr "Ligne de facture"
+msgstr "Lignes de facture"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_is_follower:0
@@ -592,28 +604,28 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_last_post:0
 msgid "Last Message Date"
-msgstr "Last Message Date"
+msgstr "Date du dernier message"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,__last_update:0
 #: field:l10n.fr.intrastat.product.declaration,__last_update:0
 #: field:l10n.fr.intrastat.product.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr "Last Modified on"
+msgstr "Dernière Modification le"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_uid:0
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Dernière mise à jour par"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_date:0
 #: field:l10n.fr.intrastat.product.declaration,write_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Dernière mise à jour le"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_ids:0
@@ -647,7 +659,7 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:308
 #, python-format
 msgid "Missing VAT number on partner '%s'."
-msgstr "Numéro de TVA manquant pour le partenaire '%s'."
+msgstr "Numéro de TVA non renseigné pour le partenaire '%s'."
 
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/intrastat_product.py:86
@@ -730,7 +742,7 @@ msgstr "Aucun"
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,note:0
 msgid "Notes"
-msgstr "Commentaires"
+msgstr "Notes"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,num_decl_lines:0
@@ -777,7 +789,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,product_id:0
 msgid "Product"
-msgstr "Article"
+msgstr "Produit"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,reporting_level:0
@@ -806,7 +818,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,state:0
 msgid "State"
-msgstr "État"
+msgstr "Status"
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.declaration,state:0
@@ -820,7 +832,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_summary:0
 msgid "Summary"
-msgstr "Summary"
+msgstr "Listes des factures en attente de règlement"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,intrastat_unit_id:0
@@ -923,7 +935,7 @@ msgstr "Type"
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_unread:0
 msgid "Unread Messages"
-msgstr "Unread Messages"
+msgstr "Messages non-lus"
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.declaration,company_country_code:0
@@ -955,7 +967,7 @@ msgstr "Weight"
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,year:0
 msgid "Year"
-msgstr "Year"
+msgstr "Année"
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.declaration,year_month:0

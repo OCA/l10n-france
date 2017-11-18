@@ -3,13 +3,14 @@
 # * l10n_fr_intrastat_product
 # 
 # Translators:
+# Wahyu Setiawan <wahyusetiaaa@gmail.com>, 2017
 # OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Indonesian (https://www.transifex.com/oca/teams/23907/id/)\n"
 "MIME-Version: 1.0\n"
@@ -220,6 +221,17 @@ msgid "Action"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency_sign:0
+msgid "Amount accessory cost company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_company_currency_sign:0
+#: field:l10n.fr.intrastat.product.declaration.line,amount_company_currency_sign:0
+msgid "Amount company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency:0
 msgid ""
 "Amount in company currency of the accessory costs related to this invoice "
@@ -396,7 +408,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:l10n.fr.intrastat.product.declaration,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Draf"
 
 #. module: l10n_fr_intrastat_product
 #: field:res.partner,intrastat_fiscal_representative:0
@@ -432,6 +444,8 @@ msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
 msgstr ""
+"Memegang ringkasan Chatter (jumlah pesan, ...). Ringkasan ini langsung dalam"
+" format html agar bisa dimasukkan dalam pandangan kanban."
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,id:0
@@ -551,7 +565,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_is_follower:0
 msgid "Is a Follower"
-msgstr ""
+msgstr "Ini Adalah Pengikut"
 
 #. module: l10n_fr_intrastat_product
 #: field:intrastat.transaction,fr_is_fiscal_only:0
@@ -585,21 +599,21 @@ msgstr "Tanggal pesan terakhir"
 #: field:l10n.fr.intrastat.product.declaration,__last_update:0
 #: field:l10n.fr.intrastat.product.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr "Terakhir Dimodifikasi pada"
+msgstr "Terakhir Diubah pada"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_uid:0
 msgid "Last Updated by"
-msgstr "Diperbaharui oleh"
+msgstr "Terakhir Diperbaharui oleh"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_date:0
 #: field:l10n.fr.intrastat.product.declaration,write_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_date:0
 msgid "Last Updated on"
-msgstr "Diperbaharui pada"
+msgstr "Terakhir Diperbaharui pada"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_ids:0
@@ -791,7 +805,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,state:0
 msgid "State"
-msgstr ""
+msgstr "Bagian"
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.declaration,state:0
@@ -803,7 +817,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_summary:0
 msgid "Summary"
-msgstr ""
+msgstr "Ringkasan"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,intrastat_unit_id:0
@@ -926,7 +940,7 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.computation.line,weight:0
 #: field:l10n.fr.intrastat.product.declaration.line,weight:0
 msgid "Weight"
-msgstr ""
+msgstr "Berat"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,year:0

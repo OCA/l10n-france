@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Norwegian Bokmål (https://www.transifex.com/oca/teams/23907/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -220,6 +220,17 @@ msgid "Action"
 msgstr "Tiltak"
 
 #. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency_sign:0
+msgid "Amount accessory cost company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_company_currency_sign:0
+#: field:l10n.fr.intrastat.product.declaration.line,amount_company_currency_sign:0
+msgid "Amount company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency:0
 msgid ""
 "Amount in company currency of the accessory costs related to this invoice "
@@ -396,7 +407,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: selection:l10n.fr.intrastat.product.declaration,state:0
 msgid "Draft"
-msgstr "Utkast"
+msgstr "Kladd"
 
 #. module: l10n_fr_intrastat_product
 #: field:res.partner,intrastat_fiscal_representative:0

@@ -1,23 +1,27 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_fr_intrastat_service
-#
+# * l10n_fr_intrastat_service
+# 
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-19 22:27+0000\n"
-"PO-Revision-Date: 2017-03-19 22:27+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_fr_intrastat_service
 #: model:email.template,body_html:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
-msgid "\n"
+msgid ""
+"\n"
 "<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
 "\n"
 "<p>I would like to remind you that we are approaching the deadline for the Intrastat Service declaration for month ${object.year_month}.</p>\n"
@@ -47,8 +51,8 @@ msgid "\n"
 "Automatic e-mail sent by Odoo.\n"
 "</p>\n"
 "</div>\n"
-""
-msgstr "\n"
+msgstr ""
+"\n"
 "<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
 "\n"
 "<p>I would like to remind you that we are approaching the deadline for the Intrastat Service declaration for month ${object.year_month}.</p>\n"
@@ -78,7 +82,6 @@ msgstr "\n"
 "Automatic e-mail sent by Odoo.\n"
 "</p>\n"
 "</div>\n"
-""
 
 #. module: l10n_fr_intrastat_service
 #: selection:l10n.fr.intrastat.service.declaration,month:0
@@ -157,8 +160,14 @@ msgstr "Amount in company currency"
 
 #. module: l10n_fr_intrastat_service
 #: help:l10n.fr.intrastat.service.declaration.line,amount_company_currency:0
-msgid "Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date and rounded at 0 digits"
-msgstr "Amount in company currency to write in the declaration. Amount in company currency = amount in invoice currency converted to company currency with the rate of the invoice date and rounded at 0 digits"
+msgid ""
+"Amount in company currency to write in the declaration. Amount in company "
+"currency = amount in invoice currency converted to company currency with the"
+" rate of the invoice date and rounded at 0 digits"
+msgstr ""
+"Amount in company currency to write in the declaration. Amount in company "
+"currency = amount in invoice currency converted to company currency with the"
+" rate of the invoice date and rounded at 0 digits"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration.line,amount_invoice_currency:0
@@ -179,7 +188,7 @@ msgstr "Back to draft"
 #: field:l10n.fr.intrastat.service.declaration,company_id:0
 #: field:l10n.fr.intrastat.service.declaration.line,company_id:0
 msgid "Company"
-msgstr "Company"
+msgstr "Société"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration.line,company_currency_id:0
@@ -190,19 +199,19 @@ msgstr "Company currency"
 #: field:l10n.fr.intrastat.service.declaration,create_uid:0
 #: field:l10n.fr.intrastat.service.declaration.line,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Créé par"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,create_date:0
 #: field:l10n.fr.intrastat.service.declaration.line,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Créé le"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,currency_id:0
 #: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_tree
 msgid "Currency"
-msgstr "Currency"
+msgstr "Devise"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration.line,partner_vat:0
@@ -227,31 +236,31 @@ msgstr "DES Validated"
 #. module: l10n_fr_intrastat_service
 #: help:l10n.fr.intrastat.service.declaration,message_last_post:0
 msgid "Date of the last message posted on the record."
-msgstr "Date of the last message posted on the record."
+msgstr "Date du dernier message enregistré sur cet enregistrement"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,display_name:0
 #: field:l10n.fr.intrastat.service.declaration.line,display_name:0
 msgid "Display Name"
-msgstr "Display Name"
+msgstr "Afficher le nom"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Done"
-msgstr "Done"
+msgstr "Fait"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Draft"
-msgstr "Draft"
+msgstr "Brouillon"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_follower_ids:0
 msgid "Followers"
-msgstr "Followers"
+msgstr "Abonnés"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
@@ -260,19 +269,23 @@ msgstr "Generate lines from invoices"
 
 #. module: l10n_fr_intrastat_service
 #: help:l10n.fr.intrastat.service.declaration,message_summary:0
-msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
-msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+msgstr ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,id:0
 #: field:l10n.fr.intrastat.service.declaration.line,id:0
 msgid "ID"
-msgstr "ID"
+msgstr "Id."
 
 #. module: l10n_fr_intrastat_service
 #: help:l10n.fr.intrastat.service.declaration,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "If checked new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
@@ -310,7 +323,7 @@ msgstr "Invoice currency"
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration.line,date_invoice:0
 msgid "Invoice date"
-msgstr "Invoice date"
+msgstr "Date de facture"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration.line,invoice_id:0
@@ -330,25 +343,25 @@ msgstr "Keep empty to use the current date"
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_last_post:0
 msgid "Last Message Date"
-msgstr "Last Message Date"
+msgstr "Date du dernier message"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,__last_update:0
 #: field:l10n.fr.intrastat.service.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr "Last Modified on"
+msgstr "Dernière Modification le"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,write_uid:0
 #: field:l10n.fr.intrastat.service.declaration.line,write_uid:0
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Dernière mise à jour par"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,write_date:0
 #: field:l10n.fr.intrastat.service.declaration.line,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Dernière mise à jour le"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_ids:0
@@ -376,7 +389,7 @@ msgstr "Pays manquant sur le partenaire '%s'."
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,month:0
 msgid "Month"
-msgstr "Month"
+msgstr "Mois"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,num_decl_lines:0
@@ -407,12 +420,12 @@ msgstr "Search DES"
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,state:0
 msgid "State"
-msgstr "State"
+msgstr "Status"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_summary:0
 msgid "Summary"
-msgstr "Summary"
+msgstr "Listes des factures en attente de règlement"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
@@ -428,15 +441,14 @@ msgstr "Total amount in company currency of the declaration."
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_unread:0
 msgid "Unread Messages"
-msgstr "Unread Messages"
+msgstr "Messages non-lus"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,year:0
 msgid "Year"
-msgstr "Year"
+msgstr "Année"
 
 #. module: l10n_fr_intrastat_service
 #: help:l10n.fr.intrastat.service.declaration,year_month:0
 msgid "Year and month of the declaration."
 msgstr "Year and month of the declaration."
-

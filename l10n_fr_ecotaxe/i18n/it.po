@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 02:52+0000\n"
-"PO-Revision-Date: 2017-05-19 02:52+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: Paolo Valier <paolo.valier@hotmail.it>, 2017\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,display_name:0
 msgid "Display Name"
-msgstr "Nome da visualizzare"
+msgstr "Display Name"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice.line,amount_ecotaxe:0 field:account.tax,is_ecotaxe:0
@@ -201,17 +201,17 @@ msgstr "Imposta della fattura"
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,__last_update:0
 msgid "Last Modified on"
-msgstr "Ultima Modifica il"
+msgstr "Last Modified on"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_uid:0
 msgid "Last Updated by"
-msgstr "Ultimo aggiornamento di"
+msgstr "Last Updated by"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_date:0
 msgid "Last Updated on"
-msgstr "Ultimo aggiornamento il"
+msgstr "Last Updated on"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
@@ -287,7 +287,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_tax
 msgid "Tax"
-msgstr "Importo"
+msgstr "Imposta"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.invoice:l10n_fr_ecotaxe.invoice_form

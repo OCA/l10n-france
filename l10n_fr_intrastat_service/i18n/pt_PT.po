@@ -4,15 +4,15 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
-# Pedro Castro Silva <pedrocs@sossia.pt>, 2017
 # Daniel Reis <dreis.pt@gmail.com>, 2017
+# Pedro Castro Silva <inactive+pcs.sossia@transifex.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
-"Last-Translator: Daniel Reis <dreis.pt@gmail.com>, 2017\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
+"Last-Translator: Pedro Castro Silva <inactive+pcs.sossia@transifex.com>, 2017\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/oca/teams/23907/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -211,14 +211,14 @@ msgstr "Data da última mensagem registada."
 #: field:l10n.fr.intrastat.service.declaration,display_name:0
 #: field:l10n.fr.intrastat.service.declaration.line,display_name:0
 msgid "Display Name"
-msgstr "Nome a Apresentar"
+msgstr "Nome a exibir"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Done"
-msgstr "Concluído"
+msgstr "Feito"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
@@ -318,19 +318,19 @@ msgstr "Data da Última Mensagem"
 #: field:l10n.fr.intrastat.service.declaration,__last_update:0
 #: field:l10n.fr.intrastat.service.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr "Última Modificação Em"
+msgstr "Modificado pela última vez em"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,write_uid:0
 #: field:l10n.fr.intrastat.service.declaration.line,write_uid:0
 msgid "Last Updated by"
-msgstr "Última Atualização Por"
+msgstr "Atualizado pela última vez por"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,write_date:0
 #: field:l10n.fr.intrastat.service.declaration.line,write_date:0
 msgid "Last Updated on"
-msgstr "Última Atualização Em"
+msgstr "Atualizado pela última vez em"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_ids:0

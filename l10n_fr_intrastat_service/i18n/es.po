@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: Javier García-Panach <panaka7@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgstr "Volver a borrador"
 #: field:l10n.fr.intrastat.service.declaration,company_id:0
 #: field:l10n.fr.intrastat.service.declaration.line,company_id:0
 msgid "Company"
-msgstr "Compañia"
+msgstr "Compañía"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration.line,company_currency_id:0
@@ -173,13 +173,13 @@ msgstr "Creado por"
 #: field:l10n.fr.intrastat.service.declaration,create_date:0
 #: field:l10n.fr.intrastat.service.declaration.line,create_date:0
 msgid "Created on"
-msgstr "Creado el"
+msgstr "Creado en"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,currency_id:0
 #: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_tree
 msgid "Currency"
-msgstr "Moneda"
+msgstr "Divisa"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration.line,partner_vat:0
@@ -210,20 +210,20 @@ msgstr "Fecha del último mensaje publicado en el registro."
 #: field:l10n.fr.intrastat.service.declaration,display_name:0
 #: field:l10n.fr.intrastat.service.declaration.line,display_name:0
 msgid "Display Name"
-msgstr "Nombre a mostrar"
+msgstr "Nombre mostrado"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Done"
-msgstr "Hecho"
+msgstr "Completado"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Draft"
-msgstr "No suscrito"
+msgstr "Borrador"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_follower_ids:0
@@ -253,7 +253,7 @@ msgstr "ID"
 #. module: l10n_fr_intrastat_service
 #: help:l10n.fr.intrastat.service.declaration,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "Si se marca, los nuevos mensajes requieren su atención"
+msgstr "Si está marcado, hay nuevos mensajes que requieren de su atención."
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration.line:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
@@ -317,7 +317,7 @@ msgstr "Fecha del último mensaje"
 #: field:l10n.fr.intrastat.service.declaration,__last_update:0
 #: field:l10n.fr.intrastat.service.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr "Última actualización por"
+msgstr "Última modificación en"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,write_uid:0
@@ -329,7 +329,7 @@ msgstr "Última actualización por"
 #: field:l10n.fr.intrastat.service.declaration,write_date:0
 #: field:l10n.fr.intrastat.service.declaration.line,write_date:0
 msgid "Last Updated on"
-msgstr "Última actualización el"
+msgstr "Última actualización en"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_ids:0
@@ -409,7 +409,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_unread:0
 msgid "Unread Messages"
-msgstr "Mensajes no leídos"
+msgstr "Mensajes sin leer"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,year:0

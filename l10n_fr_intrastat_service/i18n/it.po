@@ -4,16 +4,16 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
-# Stefano <stefano.sforzi@agilebg.com>, 2017
 # Paolo Valier <paolo.valier@hotmail.it>, 2017
 # Giacomo <giacomo.spettoli@gmail.com>, 2017
+# Stefano <stefano.sforzi@agilebg.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
-"Last-Translator: Giacomo <giacomo.spettoli@gmail.com>, 2017\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
+"Last-Translator: Stefano <stefano.sforzi@agilebg.com>, 2017\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,13 +169,13 @@ msgstr ""
 #: field:l10n.fr.intrastat.service.declaration,create_uid:0
 #: field:l10n.fr.intrastat.service.declaration.line,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Creato da"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,create_date:0
 #: field:l10n.fr.intrastat.service.declaration.line,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Creato il"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,currency_id:0
@@ -212,14 +212,14 @@ msgstr "Data dell'ultimo messaggio aggiunto al record."
 #: field:l10n.fr.intrastat.service.declaration,display_name:0
 #: field:l10n.fr.intrastat.service.declaration.line,display_name:0
 msgid "Display Name"
-msgstr "Nome da visualizzare"
+msgstr "Display Name"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Done"
-msgstr "Completato"
+msgstr "Fatto"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
@@ -319,7 +319,7 @@ msgstr "Data dell'ultimo messaggio"
 #: field:l10n.fr.intrastat.service.declaration,__last_update:0
 #: field:l10n.fr.intrastat.service.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr "Ultima modifica il"
+msgstr "Last Modified on"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,write_uid:0
@@ -395,7 +395,7 @@ msgstr "Stato"
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_summary:0
 msgid "Summary"
-msgstr "Periodo Iva"
+msgstr "Riepilogo"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
