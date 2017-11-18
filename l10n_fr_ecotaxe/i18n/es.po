@@ -4,15 +4,13 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
-# Rafael Blasco <rafabn@antiun.com>, 2017
-# Pedro M. Baeza <pedro.baeza@gmail.com>, 2017
 # Antonio Trueba <atgayol@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 02:52+0000\n"
-"PO-Revision-Date: 2017-05-19 02:52+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: Antonio Trueba <atgayol@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +61,7 @@ msgstr "Creado por"
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,create_date:0
 msgid "Created on"
-msgstr "Creado el"
+msgstr "Creado en"
 
 #. module: l10n_fr_ecotaxe
 #: help:product.category,default_fixed_ecotaxe:0
@@ -203,17 +201,17 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,__last_update:0
 msgid "Last Modified on"
-msgstr "Última modificación el"
+msgstr "Última modificación en"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_uid:0
 msgid "Last Updated by"
-msgstr "Actualizado por última vez por"
+msgstr "Última actualización por"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,write_date:0
 msgid "Last Updated on"
-msgstr "Actualizado por última vez el"
+msgstr "Última actualización en"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
@@ -256,7 +254,7 @@ msgstr "Pedido de compra"
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Línea orden de compra"
+msgstr "Línea pedido de compra"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,sale_ecotaxe_id:0
@@ -266,12 +264,12 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order
 msgid "Sales Order"
-msgstr "Pedido de venta"
+msgstr "Pedidos de venta"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Línea de pedido de venta"
+msgstr "Línea pedido de venta"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
@@ -297,7 +295,7 @@ msgstr "Impuesto"
 #: view:purchase.order:l10n_fr_ecotaxe.view_purchase_order_form
 #: view:sale.order:l10n_fr_ecotaxe.view_order_form
 msgid "True"
-msgstr "True"
+msgstr "Verdadero"
 
 #. module: l10n_fr_ecotaxe
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search

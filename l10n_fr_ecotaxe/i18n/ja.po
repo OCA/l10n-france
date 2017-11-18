@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 02:52+0000\n"
-"PO-Revision-Date: 2017-05-19 02:52+0000\n"
+"POT-Creation-Date: 2017-11-17 14:35+0000\n"
+"PO-Revision-Date: 2017-11-17 14:35+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/oca/teams/23907/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgstr "最終更新日"
 #: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
 #: field:account.ecotaxe.classification,name:0
 msgid "Name"
-msgstr "名称"
+msgstr "名前"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice,amount_tax_without_ecotaxe:0
