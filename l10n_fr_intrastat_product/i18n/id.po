@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-17 14:35+0000\n"
-"PO-Revision-Date: 2017-11-17 14:35+0000\n"
+"POT-Creation-Date: 2017-11-18 04:26+0000\n"
+"PO-Revision-Date: 2017-11-18 04:26+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Indonesian (https://www.transifex.com/oca/teams/23907/id/)\n"
 "MIME-Version: 1.0\n"
@@ -708,7 +708,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,month:0
 msgid "Month"
-msgstr ""
+msgstr "Bulan"
 
 #. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.computation.line,weight:0
@@ -755,7 +755,7 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.computation.line,fr_partner_id:0
 #: field:l10n.fr.intrastat.product.declaration.line,fr_partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Mitra"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,year_month:0

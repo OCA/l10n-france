@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-17 14:35+0000\n"
-"PO-Revision-Date: 2017-11-17 14:35+0000\n"
+"POT-Creation-Date: 2017-11-18 04:26+0000\n"
+"PO-Revision-Date: 2017-11-18 04:26+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Indonesian (https://www.transifex.com/oca/teams/23907/id/)\n"
 "MIME-Version: 1.0\n"
@@ -306,7 +306,7 @@ msgstr "Ini Adalah Pengikut"
 #. module: l10n_fr_intrastat_service
 #: help:l10n.fr.intrastat.service.declaration.line,date_invoice:0
 msgid "Keep empty to use the current date"
-msgstr ""
+msgstr "Biarkan kosong untuk menggunakan tanggal sekarang"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_last_post:0
@@ -357,7 +357,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,month:0
 msgid "Month"
-msgstr ""
+msgstr "Bulan"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,num_decl_lines:0
