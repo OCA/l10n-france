@@ -12,6 +12,13 @@ class AccountInvoice(models.Model):
     @api.model
     def _cii_trade_contact_department_name(self, partner):
         if partner.fr_chorus_service_code:
+            return partner.name
+        return super(AccountInvoice, self)._cii_trade_contact_department_name(
+            partner)
+
+    @api.model
+    def _cii_trade_agreement_buyer_ref(self, partner):
+        if partner.fr_chorus_service_code:
             return partner.fr_chorus_service_code
         return super(AccountInvoice, self)._cii_trade_contact_department_name(
             partner)
