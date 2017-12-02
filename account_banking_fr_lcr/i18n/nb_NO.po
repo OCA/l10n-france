@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-13 03:36+0000\n"
-"PO-Revision-Date: 2017-01-13 03:36+0000\n"
+"POT-Creation-Date: 2017-11-30 10:45+0000\n"
+"PO-Revision-Date: 2017-11-30 10:45+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Norwegian Bokmål (Norway) (https://www.transifex.com/oca/teams/23907/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -19,13 +19,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:35
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:37
 #, python-format
 msgid "Cannot convert the field '%s' to ASCII"
 msgstr "Kan ikke konvertere feltet '%s' til ASCII"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:53
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:55
 #, python-format
 msgid ""
 "For the bank account '%s' of partner '%s', the Bank Account Type should be "
@@ -44,7 +44,7 @@ msgid "LCR"
 msgstr "LCR"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:59
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:61
 #, python-format
 msgid ""
 "LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not "
@@ -54,12 +54,17 @@ msgstr ""
 "ikke en fransk IBAN."
 
 #. module: account_banking_fr_lcr
+#: model:account.payment.method,name:account_banking_fr_lcr.fr_lcr
+msgid "Lettre de Change Relevé"
+msgstr ""
+
+#. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_account_payment_order
 msgid "Payment Order"
 msgstr "Betalingsordre"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:201
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:203
 #, python-format
 msgid ""
 "The currency of payment line '%s' is '%s'. To be included in a French LCR, "
