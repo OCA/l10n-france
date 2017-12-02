@@ -1,0 +1,130 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_fr_chorus_account
+# 
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-30 10:45+0000\n"
+"PO-Revision-Date: 2017-11-30 10:45+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner_fr_chorus_service_code
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users_fr_chorus_service_code
+msgid "Chorus Service Code"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "Engagement"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner_fr_chorus_required
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users_fr_chorus_required
+msgid "Info Required for Chorus"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model,name:l10n_fr_chorus_account.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:43
+#, python-format
+msgid ""
+"Missing 'Chorus Service Code' on contact '%s' of customer '%s' which is "
+"configured as Service Code required for Chorus."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:26
+#, python-format
+msgid ""
+"Missing SIRET on partner '%s'. This information is required for Chorus "
+"invoices."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "None"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model,name:l10n_fr_chorus_account.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:34
+#, python-format
+msgid ""
+"Partner '%s' is configured as Service Code required for Chorus, so you must "
+"select a contact as customer for the invoice."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:74
+#, python-format
+msgid ""
+"Partner '%s' is configured as Service or Engagement required for Chorus but "
+"there is no engagement number in the field 'Reference/Description' and the "
+"'Chorus Service Code' is not configured on contact '%s'"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:62
+#, python-format
+msgid ""
+"Partner '%s' is configured as Service or Engagement required for Chorus but "
+"there is no engagement number in the field 'Reference/Description' and the "
+"customer is not a contact (Service Codes can only be configured on contacts)"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "Service"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_partner_fr_chorus_service_code
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_users_fr_chorus_service_code
+msgid "Service Code may be required for Chorus invoices"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "Service and Engagement"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "Service or Engagement"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:52
+#, python-format
+msgid ""
+"The field 'Reference/Description' should contain the engagement number "
+"because customer '%s' is configured as Engagement required for Chorus."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:20
+#, python-format
+msgid ""
+"Unece Due Date not configured on tax '%s'. This information is required for "
+"Chorus invoices."
+msgstr ""
