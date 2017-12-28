@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_account_config_settings" model="ir.ui.view">
+    <field name="name">chorus.account.config.settings.form</field>
+    <field name="model">account.config.settings</field>
+    <field name="inherit_id" ref="account.view_account_config_settings" />
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='overdue_msg']/.." position="after">
+            <group name="fr-chorus" string="Chorus API">
+                <field name="group_chorus_api" widget="radio"/>
+                <field name="fr_chorus_invoice_format" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}"/>
+                <field name="fr_chorus_api_login" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}"/>
+                <field name="fr_chorus_api_password" password="1" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}"/>
+                <field name="fr_chorus_qualif" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}"/>
+            </group>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>
