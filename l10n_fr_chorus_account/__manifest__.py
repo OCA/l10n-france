@@ -4,8 +4,9 @@
 
 {
     'name': u'L10n FR Chorus',
-    'summary': "Generate Chorus-compliant e-invoices",
-    'version': '10.0.1.0.0',
+    'summary': "Generate Chorus-compliant e-invoices and transmit them "
+               "via the Chorus API",
+    'version': '10.0.2.0.0',
     'category': 'French Localization',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
@@ -16,8 +17,12 @@
         'agreement_account',
         ],
     'data': [
+        'security/group.xml',
         'data/transmit_method.xml',
+        'data/cron.xml',
         'views/partner.xml',
+        'views/account_config_settings.xml',
+        'views/account_invoice.xml',
         ],
     'demo': ['demo/demo.xml'],
     'installable': True,
