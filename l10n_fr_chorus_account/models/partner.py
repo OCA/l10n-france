@@ -22,3 +22,6 @@ class ResPartner(models.Model):
     fr_chorus_service_code = fields.Char(
         string='Chorus Service Code', size=100, track_visibility='onchange',
         help='Service Code may be required for Chorus invoices')
+
+# TODO : try to find an API to set the field fr_chorus_required
+# it seems it doesn't exist for the moment, but it is in the roadmap
