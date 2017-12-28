@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo noupdate="0">
+
+<record id="group_chorus_api" model="res.groups">
+    <field name="name">Chorus API</field>
+    <field name="category_id" ref="base.module_category_hidden"/>
+</record>
+
+</odoo>
