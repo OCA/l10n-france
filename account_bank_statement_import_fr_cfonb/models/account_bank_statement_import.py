@@ -163,3 +163,15 @@ class AccountBankStatementImport(models.TransientModel):
             'transactions': transactions,
             }
         return currency_code, account_number, [vals_bank_statement]
+
+    def _check_journal_bank_account(self, journal, account_number):
+        res = super(
+            AccountBankStatementImport, self
+        )._check_journal_bank_account(journal, account_number)
+        if not res:
+            # try to compare the bank account number only
+            # as CFONB statements may not feature the full IBAN
+            acc_nbr = journal.bank_account_id.sanitized_acc_number
+            short_acc_nbr = acc_nbr[-len(account_number)-2:-2]
+            res = (short_acc_nbr == account_number)
+        return res
