@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp><data>
+
+        <record id="l10n_fr_certification_abstract.french_sale_account_journal" model="account.journal">
+            <field name="name">Your French Sale Journal</field>
+            <field name="code">FRSJ</field>
+            <field name="type">sale</field>
+            <field name="company_id" ref="l10n_fr_certification_abstract.french_company"/>
+        </record>
+
+        <record id="l10n_fr_certification_abstract.french_cash_account_journal" model="account.journal">
+            <field name="name">Your French Cash Journal</field>
+            <field name="code">FRCS</field>
+            <field name="type">cash</field>
+            <field name="journal_user" eval="True" />
+            <field name="company_id" ref="l10n_fr_certification_abstract.french_company"/>
+        </record>
+
+</data></openerp>

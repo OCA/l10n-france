@@ -1,0 +1,184 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_certification_pos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-17 12:22+0000\n"
+"PO-Revision-Date: 2017-11-17 12:22+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_certification_pos
+#: selection:pos.config,l10n_fr_prevent_print_legacy:0
+msgid "Allow Printing"
+msgstr "Autoriser l'impression"
+
+#. module: l10n_fr_certification_pos
+#. openerp-web
+#: code:addons/l10n_fr_certification_pos/static/src/js/l10n_fr_certification_pos.js:33
+#, python-format
+msgid "Because of a network problem, this ticket could not be certified. You can ask later for a certified ticket."
+msgstr "A cause d'un problème réseau, ce ticket n'a pas pu être certifié. Vous pourrez demander ultérieurement un ticket certifié."
+
+#. module: l10n_fr_certification_pos
+#. openerp-web
+#: code:addons/l10n_fr_certification_pos/static/src/js/l10n_fr_certification_pos.js:176
+#: code:addons/l10n_fr_certification_pos/static/src/js/l10n_fr_certification_pos.js:224
+#, python-format
+msgid "Can not print the bill because your point of sale is currently offline"
+msgstr "Impossible d'imprimer le ticket, car votre point de vente est hors ligne."
+
+#. module: l10n_fr_certification_pos
+#. openerp-web
+#: code:addons/l10n_fr_certification_pos/static/src/js/l10n_fr_certification_pos.js:30
+#, python-format
+msgid "Certification Number: "
+msgstr "Numéro de sécurité : "
+
+#. module: l10n_fr_certification_pos
+#: selection:pos.order,l10n_fr_secure_state:0
+msgid "Certified"
+msgstr "Certifié"
+
+#. module: l10n_fr_certification_pos
+#: model:ir.model,name:l10n_fr_certification_pos.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: l10n_fr_certification_pos
+#. openerp-web
+#: code:addons/l10n_fr_certification_pos/static/src/js/l10n_fr_certification_pos.js:175
+#: code:addons/l10n_fr_certification_pos/static/src/js/l10n_fr_certification_pos.js:223
+#, python-format
+msgid "Connection required"
+msgstr "Connexion requise"
+
+#. module: l10n_fr_certification_pos
+#: selection:pos.order,l10n_fr_secure_state:0
+msgid "Corrupted"
+msgstr "Corrompu"
+
+#. module: l10n_fr_certification_pos
+#: field:pos.order,l10n_fr_secure_state:0
+msgid "Inalterability State"
+msgstr "Etat d'inaltérabilité"
+
+#. module: l10n_fr_certification_pos
+#: help:pos.config,l10n_fr_prevent_print_legacy:0
+msgid "Indicate what is the behaviour of the Point of Sale, if the server is unreachable\n"
+" * 'Allow Printing': Normal behaviour\n"
+" * 'Mark a Warning': A warning text will be printed on the bill\n"
+" * 'Prevent Printing': The downgraded mode is disabled and the cashier will not have the possibility to give the bill to the customer, if there is a network problem. This is the most secure mode from a point of view of certification but you have to ensure that network connection is reliable.\n"
+"\n"
+" Note : This setting has no effect, if server configuration file has a value different to 'legacy', for the key 'l10n_fr_certification_mode'"
+msgstr "Indique quel est le comportement du point de vente, si le serveur est inacessible\n"
+" * 'Autoriser l'impression': Comportement normal\n"
+" * 'Marquer un avertissement': Un texte d'avertissement sera imprimé sur le ticket de caisse\n"
+" * 'Empêcher l'impression': Le mode dégradé est désactivé et le caissier ne sera pas en mesure de fournir un ticket au client s'il y a un problème réseau. Il s'agit du mode le plus sécurisé, d'un point de vue de la certification, mais vous devez vous assurer que votre connexion réseau est fiable.\n"
+"\n"
+" Note : Ce paramétrage n'a pas d'effet, si le server est configé avec une valeur différente de 'legacy' (mode héritée), pour la clé de configuration 'l10n_fr_certification_mode'"
+
+#. module: l10n_fr_certification_pos
+#: help:pos.config,l10n_fr_prevent_print:0
+msgid "Indicate what is the behaviour of the Point of Sale, if the server is unreachable\n"
+"This field is a computed field, based on 'Prevent Uncertified Bill' and the value of the key 'l10n_fr_certification_mode' in the server configuration file."
+msgstr "Indique quel est le comportement du point de vente, si le serveur est inacessible\n"
+"Ce champs est un champs calculé, basé sur le champs 'Empêcher les tickets non certifiés' et sur la valeur de la clé 'l10n_fr_certification_mode' du fichier de configuration."
+
+#. module: l10n_fr_certification_pos
+#: model:ir.model,name:l10n_fr_certification_pos.model_pos_order_line
+msgid "Lines of Point of Sale"
+msgstr "Lignes de Points de Vente"
+
+#. module: l10n_fr_certification_pos
+#: field:pos.order,l10n_fr_is_locked:0
+#: field:pos.order.line,l10n_fr_is_locked:0
+msgid "Locked"
+msgstr "Verrouillé"
+
+#. module: l10n_fr_certification_pos
+#: selection:pos.config,l10n_fr_prevent_print_legacy:0
+msgid "Mark a Warning"
+msgstr "Marquer un avertissement"
+
+#. module: l10n_fr_certification_pos
+#: selection:pos.order,l10n_fr_secure_state:0
+msgid "Not Concerned"
+msgstr "Non concerné"
+
+#. module: l10n_fr_certification_pos
+#: model:ir.model,name:l10n_fr_certification_pos.model_pos_order
+msgid "Point of Sale"
+msgstr "Point de Vente"
+
+#. module: l10n_fr_certification_pos
+#: selection:pos.config,l10n_fr_prevent_print_legacy:0
+msgid "Prevent Printing"
+msgstr "Empêcher l'impression"
+
+#. module: l10n_fr_certification_pos
+#: field:pos.config,l10n_fr_prevent_print_legacy:0
+msgid "Prevent Uncertified Bill"
+msgstr "Empêcher les tickets non certifiés"
+
+#. module: l10n_fr_certification_pos
+#: field:pos.config,l10n_fr_prevent_print:0
+msgid "Prevent Uncertified Bill (Computed)"
+msgstr "Empêcher les tickets non certifiés (Champ calculé)"
+
+#. module: l10n_fr_certification_pos
+#: view:pos.order:l10n_fr_certification_pos.view_pos_order_form
+msgid "Securisation"
+msgstr "Sécurisation"
+
+#. module: l10n_fr_certification_pos
+#: field:pos.order,l10n_fr_hash:0
+msgid "Security Hash"
+msgstr "Hash de sécurité"
+
+#. module: l10n_fr_certification_pos
+#: field:pos.config,l10n_fr_secure_sequence_id:0
+msgid "Security Sequence"
+msgstr "Sequence de sécurité"
+
+#. module: l10n_fr_certification_pos
+#: field:pos.order,l10n_fr_secure_sequence_number:0
+msgid "Security Sequence Number"
+msgstr "Numéro de séquence de sécurité"
+
+#. module: l10n_fr_certification_pos
+#: help:pos.config,l10n_fr_secure_sequence_id:0
+msgid "Sequence to use to ensure the securisation of data"
+msgstr "Séquence a utiliser pour assurer la sécurisation des données"
+
+#. module: l10n_fr_certification_pos
+#: help:pos.order,l10n_fr_secure_state:0
+msgid "State of the hash.\n"
+" * 'Not Concerned' : The hash has not be generated. No Inalteribiliy can be granted\n"
+" * 'Certified': The stored hash is conform with the current data Inalteribiliy is granted\n"
+" * 'Corrupted': The stored hash is not conform with the current data"
+msgstr "Etat du hash.\n"
+" * 'Non concerné' : Le hash n'a pas été généré. Aucune inaltérabilité ne peut être garantie\n"
+" * 'Certifié': Le hash enregistré est conforme avec les données actuelles. L'inaltérabilité est garantie\n"
+" * 'Corrompu': Le hash enregistré n'est pas conforme avec les données actuelles"
+
+#. module: l10n_fr_certification_pos
+#: code:addons/l10n_fr_certification_pos/models/pos_config.py:80
+#, python-format
+msgid "You can not create Secure Sequences for the pos configuration because some sessions are not in a closed state. Please close before the following PoS sessions:\n"
+" - %s"
+msgstr "Vous ne pouvez pas créer des séquences sécurisées pour les points de vente car certaines sessions ne sont pas fermées. Veuillez fermer auparavant les sessions suivantes:\n"
+" - %s"
+
+#. module: l10n_fr_certification_pos
+#: field:pos.order,l10n_fr_string_to_hash:0
+msgid "hashed Data"
+msgstr "Données hashées"
+
