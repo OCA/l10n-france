@@ -4,90 +4,83 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import _, api, fields, models
-from openerp.tools.config import config
-from openerp.exceptions import ValidationError
+from odoo import api, fields, models
+from odoo.tools.config import config
 
 
 class PosConfig(models.Model):
-    _name = 'pos.config'
-    _inherit = ['pos.config', 'certification.sequence.holder.mixin']
+    _inherit = 'pos.config'
 
-    _secured_model_name = 'pos.order'
-
-    _SELECTION_HASH_PRINT_LEGACY = [
-        ('no', 'Do not Print Hash'),
-        ('warning', 'Print Hash or Mark a Warning'),
-        ('block', 'Print Hash or Prevent Printing'),
+    _SELECTION_HASH_PRINT = [
+        ('no', 'Default behaviour'),
+        ('normal_or_block', 'Do not Print Hash or Prevent Printing'),
+        ('hash_or_warning', 'Print Hash or Mark a Warning'),
+        ('hash_or_block', 'Print Hash or Prevent Printing'),
     ]
 
-    l10n_fr_prevent_print = fields.Char(
-        string='Prevent Uncertified Bill (Computed)',
+    _SELECTION_HASH_PRINT_LEGACY = [
+        ('normal_or_block', 'Do not Print Hash or Prevent Printing'),
+        ('hash_or_warning', 'Print Hash or Mark a Warning'),
+        ('hash_or_block', 'Print Hash or Prevent Printing'),
+    ]
+
+    l10n_fr_is_accounting_unalterable = fields.Boolean(
+        compute='_compute_l10n_fr_is_accounting_unalterable')
+
+    l10n_fr_prevent_print = fields.Selection(
+        string='Prevent Uncertified Bill (Fixed Value)',
+        selection=_SELECTION_HASH_PRINT,
         compute='_compute_l10n_fr_prevent_print',
         help="Indicate what is the behaviour of the Point of Sale, if"
-        " the server is unreachable\n"
-        "This field is a computed field, based on 'Prevent Uncertified Bill'"
-        " and the value of the key 'l10n_fr_certification_mode' in the server"
-        " configuration file.")
+        " the server is unreachable. The value has been fixed by your"
+        " Odoo host administrator. You should contact him if you want to"
+        " change the value.")
 
-    l10n_fr_hash_print_legacy = fields.Selection(
-        string='Prevent Uncertified Bill', required=True, default='no',
+    l10n_fr_prevent_print_server = fields.Char(
+        string='Prevent Uncertified Bill (Server Value)',
+        compute='_compute_l10n_fr_prevent_print_server')
+
+    l10n_fr_prevent_print_legacy = fields.Selection(
+        string='Prevent Uncertified Bill',
         selection=_SELECTION_HASH_PRINT_LEGACY, help="Indicate what is the"
-        " behaviour of the Point of Sale\n"
-        " * 'Do not Print Hash': Normal behaviour\n"
-        " * 'Print Hash or Mark a Warning': A warning text will be printed"
-        " on the bill if the server is unreachable\n"
-        " * 'Print Hash or Prevent Printing': The downgraded mode is disabled"
-        " and the cashier will not have the possibility to give the bill to"
-        " the customer, if there is a network problem. This is the most secure"
-        " mode from a point of view of certification but you have to ensure"
-        " that network connection is reliable.\n\n"
-        " Note : This setting has no effect, if server configuration file"
-        " has a value different to 'legacy', for the key"
-        " 'l10n_fr_certification_mode'")
-
-    @api.multi
-    def _get_certification_country(self):
-        self.ensure_one()
-        return self.company_id.country_id
-
-    @api.multi
-    def _get_certification_company(self):
-        self.ensure_one()
-        return self.company_id
-
-    @api.multi
-    def write(self, vals):
-        res = super(PosConfig, self).write(vals)
-        # Note: this part of code should be set in the module
-        # l10n_fr_certification_abstract, but overloading write function
-        # doesn't work for AbstractModel. (even if it works for create
-        # function)
-        self.generate_secure_sequence_if_required()
-        return res
-
-    @api.multi
-    def _create_secure_sequence(self):
-        # check if all session are closed, before creating a new sequence
-        session_obj = self.env['pos.session']
-        sessions = session_obj.search([
-            ('config_id', 'in', self.ids),
-            ('state', '!=', 'closed')])
-        if sessions:
-            raise ValidationError(_(
-                "You can not create Secure Sequences for the pos"
-                " configuration because some sessions are not in a closed"
-                " state. Please close before the following PoS sessions:\n"
-                " - %s" % ('\n -'.join(sessions.mapped('name')))))
-        return super(PosConfig, self)._create_secure_sequence()
+        " behaviour of the Point of Sale, regarding French Certification:\n\n"
+        " * 'Do not Print Hash or Prevent Printing':\n"
+        " -> In normal mode (online), normal bill is printed\n"
+        " -> in downgraded mode (offline), bill printing is disabled\n\n"
+        " * 'Print Hash or Mark a Warning':\n"
+        " -> In normal mode (online), the hash is printed\n"
+        " -> in downgraded mode (offline), a warning is printed\n\n"
+        " * 'Print Hash or Prevent Printing':\n"
+        " -> In normal mode (online), the hash is printed\n"
+        " -> in downgraded mode (offline), bill printing is disabled\n\n"
+        " Disabling printing is the most secure mode from a point of view"
+        " of certification but you have to ensure that network connection"
+        " is reliable")
 
     # Compute Section
-    @api.multi
-    def _compute_l10n_fr_prevent_print(self):
+    def _compute_l10n_fr_is_accounting_unalterable(self):
+        for pos_config in self:
+            pos_config.l10n_fr_is_accounting_unalterable =\
+                pos_config.company_id._is_accounting_unalterable()
+
+    def _compute_l10n_fr_prevent_print_server(self):
         file_value = config.get('l10n_fr_certification_mode', 'legacy')
         for pos_config in self:
-            if file_value == 'legacy':
-                pos_config.l10n_fr_prevent_print =\
-                    pos_config.l10n_fr_prevent_print_legacy
+            pos_config.l10n_fr_prevent_print_server = file_value
+
+    @api.depends(
+        'l10n_fr_prevent_print_server', 'l10n_fr_prevent_print_legacy')
+    def _compute_l10n_fr_prevent_print(self):
+        for pos_config in self:
+            if not pos_config.l10n_fr_is_accounting_unalterable:
+                pos_config.l10n_fr_prevent_print = 'no'
+                continue
+            server_value = pos_config.l10n_fr_prevent_print_server
+            if server_value == 'legacy':
+                if not pos_config.l10n_fr_prevent_print_legacy:
+                    pos_config.l10n_fr_prevent_print = 'no'
+                else:
+                    pos_config.l10n_fr_prevent_print =\
+                        pos_config.l10n_fr_prevent_print_legacy
             else:
-                pos_config.l10n_fr_prevent_print = file_value
+                pos_config.l10n_fr_prevent_print = server_value
