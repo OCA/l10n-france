@@ -36,6 +36,7 @@ To configure this module, you need to:
   set to the mode 'legacy'.
 
 .. figure:: /l10n_fr_certification_pos_offline/static/description/pos_config.png
+   :alt: PoS Configuration
    :width: 800 px
 
 Alternatively, you can configure all your french PoS config with the same value
@@ -48,17 +49,20 @@ Usage
 
 Depending of the settings, the french bills printed by the point of sale :
 
-* will display an extract of the hash of the order.
+* will display an extract of the hash of the order, if setting is set to ``hash_or_warning`` or ``hash_or_block``.
 
 .. figure:: /l10n_fr_certification_pos_offline/static/description/bill_with_hash.png
+   :alt: Bill with Hash
 
-* will display a warning text, if setting is set to 'warning'.
+* will display a warning text, if setting is set to ``hash_or_warning``
 
 .. figure:: /l10n_fr_certification_pos_offline/static/description/bill_warning.png
+   :alt: Bill Warning
 
-* will not be printed, if setting is set to 'block'.
+* will not be printed, if setting is set to ``normal_or_block`` or ``hash_or_block``
 
 .. figure:: /l10n_fr_certification_pos_offline/static/description/bill_unprinted.png
+   :alt: Bill Unprinted
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
