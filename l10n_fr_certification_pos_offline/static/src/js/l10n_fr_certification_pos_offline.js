@@ -18,12 +18,15 @@ odoo.define('l10n_fr_certification_pos_offline.models', function (require) {
     /*************************************************************************
         Promise that will be resolved, when the hash of the saved order is
         known
-    */
+     */
     var certification_deferred = null;
 
     /*************************************************************************
-        Function that return certification text, depending of a hash
-    */
+     * Function that return certification text, depending of a hash
+     * @param {string} hash: value of the pos_order.l10n_fr_hash
+     * @param {string} setting: value of the pos_config.l10n_fr_prevent_print
+     * @returns {string}: Certification Text that will be printed on the bill
+     */
     var prepare_certification_text = function(hash, setting){
         if (['no', 'normal_or_block'].indexOf(setting) !== -1){
             return '';
@@ -41,7 +44,7 @@ odoo.define('l10n_fr_certification_pos_offline.models', function (require) {
             Add a new certification_text field that will content a text and
             the hash of the PoS Order, or a warning if hash has not been
             recovered.
-    */
+     */
     var OrderParent = models.Order.prototype;
     models.Order = models.Order.extend({
         set_hash: function(hash, setting) {
@@ -76,7 +79,7 @@ odoo.define('l10n_fr_certification_pos_offline.models', function (require) {
         Extend module.PosModel:
             Overload _save_to_server and store if the order has been
             correctly created in the promise 'last_orders'
-    */
+     */
     var PosModelParent = models.PosModel.prototype;
     models.PosModel = models.PosModel.extend({
         _save_to_server: function (orders, options) {
@@ -136,7 +139,7 @@ odoo.define('l10n_fr_certification_pos_offline.models', function (require) {
             before printing. Display an error message if hash has not
             been recovered and setting is set to 'block'.
             ('hash_or_block' or 'normal_or_block')
-    */
+     */
     var ReceiptScreenWidgetShowParent = screens.ReceiptScreenWidget.prototype.show;
     screens.ReceiptScreenWidget.include({
         // Overload Function
@@ -187,7 +190,7 @@ odoo.define('l10n_fr_certification_pos_offline.models', function (require) {
             before printing. Display an error message if hash has not
             been recovered and setting is set to 'block'.
             ('hash_or_block' or 'normal_or_block')
-    */
+     */
     var ProxyDevicePrintReceiptParent = devices.ProxyDevice.prototype.print_receipt;
     devices.ProxyDevice.include({
 

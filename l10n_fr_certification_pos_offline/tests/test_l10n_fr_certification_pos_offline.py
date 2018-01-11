@@ -37,7 +37,7 @@ class TestL10nFrCertificationPos(odoo.tests.HttpCase):
             'name': 'Account Receivable - Test',
             'user_type_id': type_receivable.id,
             'reconcile': True,
-         })
+        })
 
         # Create property
         property_obj.create({

@@ -18,8 +18,8 @@ odoo.define('l10n_fr_certification_pos_offline.Tour', function (require) {
     }
 
     function generate_keypad_steps(amount_str, keypad_selector) {
-        var i, steps = [], current_char;
-        for (i = 0; i < amount_str.length; ++i) {
+        var steps = [], current_char = '';
+        for (var i = 0; i < amount_str.length; ++i) {
             current_char = amount_str[i];
             steps.push({
                 content: 'press ' + current_char + ' on payment keypad',
