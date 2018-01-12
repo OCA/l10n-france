@@ -1,0 +1,98 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_certification_pos_offline
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-10 14:02+0000\n"
+"PO-Revision-Date: 2018-01-10 14:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_certification_pos_offline
+#. openerp-web
+#: code:addons/l10n_fr_certification_pos_offline/static/src/js/l10n_fr_certification_pos_offline.js:34
+#, python-format
+msgid "Because of a network problem, this ticket could not be certified. You can ask later for a certified ticket."
+msgstr "A cause d'un problème réseau, ce ticket n'a pas pu être certifié. Vous pourrez demander ultérieurement un ticket certifié."
+
+#. module: l10n_fr_certification_pos_offline
+#. openerp-web
+#: code:addons/l10n_fr_certification_pos_offline/static/src/js/l10n_fr_certification_pos_offline.js:172
+#: code:addons/l10n_fr_certification_pos_offline/static/src/js/l10n_fr_certification_pos_offline.js:218
+#, python-format
+msgid "Can not print the bill because your point of sale is currently offline"
+msgstr "Impossible d'imprimer le ticket, car votre point de vente est hors ligne."
+
+#. module: l10n_fr_certification_pos_offline
+#. openerp-web
+#: code:addons/l10n_fr_certification_pos_offline/static/src/js/l10n_fr_certification_pos_offline.js:32
+#, python-format
+msgid "Certification Number: "
+msgstr "Numéro de sécurité : "
+
+#. module: l10n_fr_certification_pos_offline
+#. openerp-web
+#: code:addons/l10n_fr_certification_pos_offline/static/src/js/l10n_fr_certification_pos_offline.js:171
+#: code:addons/l10n_fr_certification_pos_offline/static/src/js/l10n_fr_certification_pos_offline.js:217
+#, python-format
+msgid "Connection required"
+msgstr "Connexion requise"
+
+#. module: l10n_fr_certification_pos_offline
+#: selection:pos.config,l10n_fr_prevent_print_legacy:0
+msgid "Do not Print Hash"
+msgstr "Ne pas imprimer le Hash"
+
+#. module: l10n_fr_certification_pos_offline
+#: model:ir.model.fields,help:l10n_fr_certification_pos_offline.field_pos_config_l10n_fr_prevent_print_legacy
+msgid "Indicate what is the behaviour of the Point of Sale\n"
+" * 'Do not Print Hash': Normal behaviour\n"
+" * 'Print Hash or Mark a Warning': A warning text will be printed on the bill if the server is unreachable\n"
+" * 'Print Hash or Prevent Printing': The downgraded mode is disabled and the cashier will not have the possibility to give the bill to the customer, if there is a network problem. This is the most secure mode from a point of view of certification but you have to ensure that network connection is reliable.\n"
+"\n"
+" Note : This setting has no effect, if server configuration file has a value different to 'legacy', for the key 'l10n_fr_certification_mode'"
+msgstr "Indique quel est le comportement du point de vente, si le serveur est inacessible\n"
+" * 'Autoriser l'impression': Comportement normal\n"
+" * 'Marquer un avertissement': Un texte d'avertissement sera imprimé sur le ticket de caisse\n"
+" * 'Empêcher l'impression': Le mode dégradé est désactivé et le caissier ne sera pas en mesure de fournir un ticket au client s'il y a un problème réseau. Il s'agit du mode le plus sécurisé, d'un point de vue de la certification, mais vous devez vous assurer que votre connexion réseau est fiable.\n"
+"\n"
+" Note : Ce paramétrage n'a pas d'effet, si le server est configé avec une valeur différente de 'legacy' (mode héritée), pour la clé de configuration 'l10n_fr_certification_mode'"
+
+#. module: l10n_fr_certification_pos_offline
+#: model:ir.model.fields,help:l10n_fr_certification_pos_offline.field_pos_config_l10n_fr_prevent_print
+msgid "Indicate what is the behaviour of the Point of Sale, if the server is unreachable\n"
+"This field is a computed field, based on 'Prevent Uncertified Bill' and the value of the key 'l10n_fr_certification_mode' in the server configuration file."
+msgstr "Indique quel est le comportement du point de vente, si le serveur est inacessible\n"
+"Ce champs est un champs calculé, basé sur le champs 'Empêcher les tickets non certifiés' et sur la valeur de la clé 'l10n_fr_certification_mode' du fichier de configuration."
+
+#. module: l10n_fr_certification_pos_offline
+#: model:ir.model.fields,field_description:l10n_fr_certification_pos_offline.field_pos_config_l10n_fr_prevent_print_legacy
+msgid "Prevent Uncertified Bill"
+msgstr "Empêcher les tickets non certifiés"
+
+#. module: l10n_fr_certification_pos_offline
+#: model:ir.model.fields,field_description:l10n_fr_certification_pos_offline.field_pos_config_l10n_fr_prevent_print
+msgid "Prevent Uncertified Bill (Computed)"
+msgstr "Empêcher les tickets non certifiés (Champ calculé)"
+
+#. module: l10n_fr_certification_pos_offline
+#: selection:pos.config,l10n_fr_prevent_print_legacy:0
+msgid "Print Hash or Mark a Warning"
+msgstr "Imprimer le hash ou un avertissement"
+
+#. module: l10n_fr_certification_pos_offline
+#: selection:pos.config,l10n_fr_prevent_print_legacy:0
+msgid "Print Hash or Prevent Printing"
+msgstr "Imprimer le hash ou empêcher l'impression"
+
+#. module: l10n_fr_certification_pos_offline
+#: model:stock.location,name:l10n_fr_certification_pos_offline.french_stock_location
+msgid "Your French Stock Location"
+msgstr "Your French Stock Location"
