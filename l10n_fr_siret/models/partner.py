@@ -1,28 +1,5 @@
-# -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Odoo, Open Source Management Solution
-#    Copyright (C) 2011 Numérigraphe SARL
-#    Copyright (C) 2014 Akretion France SARL
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-
-from openerp import models, fields, api, _
-from openerp.exceptions import UserError
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 # XXX: this is used for checking various codes such as credit card
@@ -63,7 +40,7 @@ class Partner(models.Model):
                 # Check the NIC type and length
                 if not rec.nic.isdecimal() or len(rec.nic) != 5:
                     raise UserError(
-                        _("The NIC '%s' is incorrect: it must be have "
+                        _("The NIC '%s' is incorrect: it must have "
                             "exactly 5 digits.")
                         % rec.nic)
             if rec.siren:
@@ -83,7 +60,7 @@ class Partner(models.Model):
                           "the checksum is wrong.")
                         % (rec.siren, rec.nic))
 
-    @api.model
+
     def _commercial_fields(self):
         res = super(Partner, self)._commercial_fields()
         res += ['siren', 'nic']
