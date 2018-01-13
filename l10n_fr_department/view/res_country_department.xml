@@ -61,11 +61,9 @@
         <field name="help">Display and manage the list of all departments.</field>
     </record>
 
-<!-- We don't want to depend on sales_team
     <menuitem id="menu_res_country_department"
-        parent="sales_team.menu_localisation"
+        parent="contacts.menu_localisation"
         action="action_view_country_department_tree"
         sequence="2"/>
--->
 
 </odoo>
