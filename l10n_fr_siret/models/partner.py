@@ -60,7 +60,6 @@ class Partner(models.Model):
                           "the checksum is wrong.")
                         % (rec.siren, rec.nic))
 
-
     def _commercial_fields(self):
         res = super(Partner, self)._commercial_fields()
         res += ['siren', 'nic']
