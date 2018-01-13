@@ -21,8 +21,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp.exceptions import UserError
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 # XXX: this is used for checking various codes such as credit card
@@ -83,7 +83,7 @@ class Partner(models.Model):
                           "the checksum is wrong.")
                         % (rec.siren, rec.nic))
 
-    @api.model
+
     def _commercial_fields(self):
         res = super(Partner, self)._commercial_fields()
         res += ['siren', 'nic']
