@@ -69,13 +69,13 @@ class Partner(models.Model):
     siren = fields.Char(
         string='SIREN', size=9, track_visibility='onchange',
         help="The SIREN number is the official identity "
-        "number of the company in France. It makes "
+        "number of the company in France. It composes "
         "the first 9 digits of the SIRET number.")
     nic = fields.Char(
         string='NIC', size=5, track_visibility='onchange',
         help="The NIC number is the official rank number "
         "of this office in the company in France. It "
-        "makes the last 5 digits of the SIRET "
+        "composes the last 5 digits of the SIRET "
         "number.")
     siret = fields.Char(
         compute='_compute_siret', string='SIRET', size=14, store=True,
