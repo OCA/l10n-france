@@ -5,14 +5,14 @@
     <record model="ir.ui.view" id="view_partner_add">
         <field name="name">res.partner.form.siret</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
         <field name="arch" type="xml">
             <group name="fiscal_information" position="inside">
                 <!-- oe_read_only hides the field in read mode in v8+ -->
-                <field name="siret" class="oe_read_only" />
+                <field name="siret" class="oe_read_only"/>
                 <field name="siren" class="oe_edit_only"/>
                 <field name="nic" class="oe_edit_only"/>
-                <field name="company_registry" />
+                <field name="company_registry"/>
             </group>
         </field>
     </record>
