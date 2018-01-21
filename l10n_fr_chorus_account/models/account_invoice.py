@@ -312,20 +312,19 @@ class AccountInvoice(models.Model):
                 invoice.write(vals)
         logger.info('End of the retreival of chorus invoice identifiers')
 
-    def chorus_api_consulter_fournisseur(self, api_params, session=None):
-        url_path = 'factures/consulter/fournisseur'
+    def chorus_api_consulter_historique(self, api_params, session=None):
+        url_path = 'factures/consulter/historique'
         payload = {
-            'identifiantFactureCPP': self.chorus_identifier,
+            'idFacture': self.chorus_identifier,
             }
         answer, session = self.chorus_post(
             api_params, url_path, payload, session=session)
         res = False
         if (
-                answer.get('facture') and
-                answer['facture'].get('identifiantFactureCPP') ==
-                self.chorus_identifier and
-                answer['facture'].get('statutFacture')):
-            res = answer['facture']['statutFacture']
+                answer.get('idFacture') and
+                answer['idFacture'] == self.chorus_identifier and
+                answer.get('statutCourantCode')):
+            res = answer['statutCourantCode']
         return (res, session)
 
     def chorus_update_invoice_status(self):
@@ -355,7 +354,7 @@ class AccountInvoice(models.Model):
         session = None
         for invoice in invoices:
             api_params = company2api[invoice.company_id]
-            inv_status, session = invoice.chorus_api_consulter_fournisseur(
+            inv_status, session = invoice.chorus_api_consulter_historique(
                 api_params, session)
             if inv_status:
                 invoice.write({
