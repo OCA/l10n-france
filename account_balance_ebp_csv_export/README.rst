@@ -6,7 +6,7 @@
 Account Balance EBP CSV export
 ==============================
 
-This module adds a button *EBP csv File* next to the *Print* button on the Trial Balance wizard. It will export the Trial Balance in the CSV export format of the EBP accounting software.
+This module adds a button *Export EBP CSV* next to the *Export PDF* and *Export XLSX* buttons on the Trial Balance wizard. It will export the Trial Balance in the CSV export format of the EBP accounting software.
 
 One of the possible usage scenario of this module is to export the trial balance to software dedicated to the `liasse fiscale <http://fr.wikipedia.org/wiki/Liasse_fiscale>`_ (French fiscal declaration) that accept CSV files from the EBP accounting software. This file has been successfully tested with the following software:
 
@@ -25,11 +25,11 @@ This module doesn't require any configuration.
 Usage
 =====
 
-To use this module, go to the menu *Accounting > Reporting > Legal Reports > Accounting Reports > Trial Balance* and you will see the button *EBP csv File*.
+To use this module, go to the menu *Accounting > Reports > OCA accounting reports > Trial Balance* and you will see the button *Export EBP CSV*.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/121/8.0
+   :target: https://runbot.odoo-community.org/runbot/121/10.0
 
 Bug Tracker
 ===========
