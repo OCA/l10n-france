@@ -6,7 +6,7 @@
     id="action_report_trial_balance_ebp_csv"
     model="report_trial_balance_qweb"
     string="EBP CSV Balance"
-    report_type="qweb-txt"
+    report_type="qweb-txt-csv"
     name="account_balance_ebp_csv_export.report_trial_balance_ebp_csv"
     file="account_balance_ebp_csv_export.report_trial_balance_ebp_csv"
     />
