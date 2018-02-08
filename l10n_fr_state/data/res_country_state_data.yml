@@ -1,0 +1,107 @@
+# -*- coding: utf-8 -*-
+# © 2013-2014 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
+# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_alsace}:
+    code: 44
+    country_id: base.fr
+    name: Grand Est  # ex Alsace-Champagne-Ardenne-Lorraine
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_aquitaine}:
+    code: 75
+    country_id: base.fr
+    name: Nouvelle Aquitaine  # ex Aquitaine-Limousin-Poitou-Charentes
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_auvergne}:
+    code: 84
+    country_id: base.fr
+    name: Auvergne-Rhône-Alpes
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_bourgogne}:
+    code: 27
+    country_id: base.fr
+    name: Bourgogne-Franche-Comté
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_bretagne}:
+    code: 53
+    country_id: base.fr
+    name: Bretagne
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_centre}:
+    code: 24
+    country_id: base.fr
+    name: Centre-Val de Loire
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_corse}:
+    code: 94
+    country_id: base.fr
+    name: Corse
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_iledefrance}:
+    code: 11
+    country_id: base.fr
+    name: Île-de-France
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_languedocroussillon}:
+    code: 76
+    country_id: base.fr
+    name: Occitanie  # ex Languedoc-Roussillon-Midi-Pyrénées
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_nordpasdecalais}:
+    code: 32
+    country_id: base.fr
+    name: Hauts-de-France  # ex Nord-Pas-de-Calais-Picardie
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_bassenormandie}:
+    code: 28
+    country_id: base.fr
+    name: Normandie
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_paysdelaloire}:
+    code: 52
+    country_id: base.fr
+    name: Pays de la Loire
+
+- 
+  Creating a res.country.state record
+- 
+  !record {model: res.country.state, id: res_country_state_provencealpescotedazur}:
+    code: 93
+    country_id: base.fr
+    name: Provence-Alpes-Côte d'Azur
