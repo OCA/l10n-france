@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-11-22 16:25+0000\n"
+"POT-Creation-Date: 2017-12-02 05:27+0000\n"
+"PO-Revision-Date: 2018-02-02 14:11+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/oca/OCA-l10n-france-8-0/language/ca_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Language: ca_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: l10n_fr_fec
+#: selection:account.fr.fec,encoding:0
+msgid "ASCII"
+msgstr ""
 
 #. module: l10n_fr_fec
 #: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
@@ -35,17 +40,17 @@ msgstr ""
 #. module: l10n_fr_fec
 #: field:account.fr.fec,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creat per"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creat a"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nom visible"
 
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0
@@ -55,6 +60,11 @@ msgstr ""
 #. module: l10n_fr_fec
 #: selection:account.fr.fec,state:0
 msgid "Draft"
+msgstr ""
+
+#. module: l10n_fr_fec
+#: field:account.fr.fec,encoding:0
+msgid "Encoding"
 msgstr ""
 
 #. module: l10n_fr_fec
@@ -79,7 +89,7 @@ msgid "FEC File Generation"
 msgstr ""
 
 #. module: l10n_fr_fec
-#: code:addons/l10n_fr_fec/wizard/fec.py:177
+#: code:addons/l10n_fr_fec/wizard/fec.py:191
 #, python-format
 msgid "FEC is for French companies only !"
 msgstr ""
@@ -115,22 +125,27 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_fr_fec
+#: selection:account.fr.fec,encoding:0
+msgid "ISO-8859-15"
+msgstr ""
+
+#. module: l10n_fr_fec
 #: field:account.fr.fec,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Darrera modificació en"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Darrera actualització per"
 
 #. module: l10n_fr_fec
 #: field:account.fr.fec,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Darrera actualització el"
 
 #. module: l10n_fr_fec
-#: code:addons/l10n_fr_fec/wizard/fec.py:182
+#: code:addons/l10n_fr_fec/wizard/fec.py:196
 #, python-format
 msgid "Missing VAT number and SIRET for company %s"
 msgstr ""
@@ -151,6 +166,6 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_fr_fec
-#: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
-msgid "The encoding of this text file is UTF-8."
+#: selection:account.fr.fec,encoding:0
+msgid "UTF-8"
 msgstr ""

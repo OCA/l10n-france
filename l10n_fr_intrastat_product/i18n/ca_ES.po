@@ -4,13 +4,14 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
+# Carlos Hormigo, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"POT-Creation-Date: 2017-12-02 05:27+0000\n"
+"PO-Revision-Date: 2017-12-02 05:27+0000\n"
+"Last-Translator: Carlos Hormigo, 2018\n"
 "Language-Team: Catalan (Spain) (https://www.transifex.com/oca/teams/23907/ca_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -220,6 +221,17 @@ msgid "Action"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency_sign:0
+msgid "Amount accessory cost company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: field:l10n.fr.intrastat.product.computation.line,amount_company_currency_sign:0
+#: field:l10n.fr.intrastat.product.declaration.line,amount_company_currency_sign:0
+msgid "Amount company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: help:l10n.fr.intrastat.product.computation.line,amount_accessory_cost_company_currency:0
 msgid ""
 "Amount in company currency of the accessory costs related to this invoice "
@@ -310,14 +322,14 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,create_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creat per"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,create_date:0
 #: field:l10n.fr.intrastat.product.declaration,create_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creat a"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,currency_id:0
@@ -386,7 +398,7 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,display_name:0
 #: field:l10n.fr.intrastat.product.declaration.line,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nom visible"
 
 #. module: l10n_fr_intrastat_product
 #: selection:l10n.fr.intrastat.product.declaration,state:0
@@ -585,21 +597,21 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,__last_update:0
 #: field:l10n.fr.intrastat.product.declaration.line,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Darrera modificació en"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration,write_uid:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Darrera actualització per"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.computation.line,write_date:0
 #: field:l10n.fr.intrastat.product.declaration,write_date:0
 #: field:l10n.fr.intrastat.product.declaration.line,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Darrera actualització el"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_ids:0
@@ -716,7 +728,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,num_decl_lines:0
@@ -894,7 +906,7 @@ msgstr ""
 #: field:l10n.fr.intrastat.product.declaration,type:0
 #: field:l10n.fr.intrastat.product.declaration.line,type:0
 msgid "Type"
-msgstr ""
+msgstr "Tipus"
 
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_unread:0
