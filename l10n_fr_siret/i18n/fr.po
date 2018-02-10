@@ -4,13 +4,14 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2018
+# Quentin THEURET <odoo@kerpeo.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-24 03:43+0000\n"
-"PO-Revision-Date: 2018-01-24 03:43+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2018\n"
+"POT-Creation-Date: 2018-02-09 03:39+0000\n"
+"PO-Revision-Date: 2018-02-09 03:39+0000\n"
+"Last-Translator: Quentin THEURET <odoo@kerpeo.com>, 2018\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +33,7 @@ msgstr "RCS"
 #. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company_nic
@@ -52,7 +53,7 @@ msgstr "SIREN"
 #: code:addons/l10n_fr_siret/models/partner.py:43
 #, python-format
 msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
-msgstr ""
+msgstr "Le NIC '%s' est incorrect. Il doit contenir exactement 5 numéros."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company_nic
@@ -62,6 +63,8 @@ msgid ""
 "The NIC number is the official rank number of this office in the company in "
 "France. It composes the last 5 digits of the SIRET number."
 msgstr ""
+"Le numéro NIC est le numéro de classement officiel de ce bureau dans la "
+"société en France. Il compose les 5 derniers numéros du numéro de SIRET."
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/partner.py:50
@@ -83,6 +86,8 @@ msgid ""
 "The SIREN number is the official identity number of the company in France. "
 "It composes the first 9 digits of the SIRET number."
 msgstr ""
+"Le numéro de SIREN est le numéro d'identité officiel de la société en "
+"France. Il compose les 9 premiers chiffres du numéro de SIRET."
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/partner.py:59
