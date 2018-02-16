@@ -382,6 +382,7 @@ class AccountInvoice(models.Model):
             ('chorus_identifier', '=', False)])
         invoices_get_identifier.chorus_get_identifier()
         invoices_update_invoice_status = self.search(base_domain + [
-            ('chorus_identifier', '!=', False)])
+            ('chorus_identifier', '!=', False),
+            ('chorus_status', '!=', 'MANDATEE')])
         invoices_update_invoice_status.chorus_update_invoice_status()
         logger.info('End Chorus API cron')
