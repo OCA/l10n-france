@@ -44,7 +44,10 @@ class ChorusApi(models.AbstractModel):
             logger.error(
                 "Chorus API webservice answered with HTTP status code=%s"
                 % r.status_code)
-            return False
+            raise UserError(_(
+                "Wrong request on %s. HTTP error code received from "
+                "Chorus: %s") % (url, r.status_code))
+
         answer = r.json()
         logger.info('Chorus WS answer payload: %s', answer)
         return (answer, session)
