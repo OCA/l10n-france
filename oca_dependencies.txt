@@ -9,3 +9,5 @@ account-invoicing
 intrastat
 hr
 mis-builder
+account-financial-reporting
+reporting-engine
