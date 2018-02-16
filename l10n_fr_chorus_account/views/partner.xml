@@ -28,9 +28,19 @@
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="account_invoice_transmit_method.view_partner_property_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//page[@name='accounting']//field[@name='customer_invoice_transmit_method_id']" position="after">
-            <field name="fr_chorus_required" attrs="{'invisible': [('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
-        </xpath>
+        <group name="accounting_entries" position="after">
+            <group name="fr-chorus" string="Chorus"
+                    attrs="{'invisible': [('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}">
+                <button name="fr_chorus_identifier_and_required_button"
+                    type="object" string="Get Info Required for Chorus"
+                    attrs="{'invisible': [('fr_chorus_required', '!=', False)]}"
+                    colspan="2" class="btn-primary"
+                    groups="l10n_fr_chorus_account.group_chorus_api"/>
+                <field name="fr_chorus_required"/>
+                <field name="fr_chorus_identifier"
+                    groups="l10n_fr_chorus_account.group_chorus_api"/>
+            </group>
+        </group>
     </field>
 </record>
 
