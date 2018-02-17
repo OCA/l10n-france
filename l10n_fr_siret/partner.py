@@ -22,8 +22,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from openerp.exceptions import UserError
-
+from openerp.exceptions import UserError, ValidationError
 
 # XXX: this is used for checking various codes such as credit card
 # numbers: should it be moved to tools.py?
@@ -58,6 +57,12 @@ class Partner(models.Model):
     @api.constrains('siren', 'nic')
     def _check_siret(self):
         """Check the SIREN's and NIC's keys (last digits)"""
+        # Check unicity of siret
+        for partner in self.env['res.partner'].search([('id', '!=', self.id),('siret', 'not in', [False,''])]):
+            siret = str(self.siren) + str(self.nic)
+            if siret == partner.siret:
+                raise ValidationError(_("Siret must be unique !\n It was defined for '%s'.") % partner.name)
+
         if self.nic:
             # Check the NIC type and length
             if not self.nic.isdecimal() or len(self.nic) != 5:

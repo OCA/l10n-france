@@ -12,6 +12,8 @@ NIC.
 These numbers identify each company and their subsidiaries, and are
 often required for administrative tasks.
 
+- Add unicity for siret to handle partner duplicates.
+
 Usage
 =====
 
@@ -37,6 +39,7 @@ Credits
 Contributors
 ------------
 * Lionel Sausin (Numérigraphe) <ls@numerigraphe.com>
+* Nicolas JEUDY (Sudokeys) <nicolas@sudokeys.com>
 
 Maintainer
 ----------

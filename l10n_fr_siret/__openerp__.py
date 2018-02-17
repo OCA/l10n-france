@@ -25,7 +25,7 @@
     'name': 'French company identity numbers SIRET/SIREN/NIC',
     'version': '9.0.1.2.0',
     "category": 'French Localization',
-    'author': u'Numérigraphe,Odoo Community Association (OCA)',
+    'author': u'Numérigraphe,Sudokeys,Odoo Community Association (OCA)',
     'license': 'AGPL-3',
     'depends': ['l10n_fr', 'account'],
     # account is required only for the inherit of the partner form view
