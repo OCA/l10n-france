@@ -15,7 +15,7 @@ This module require the Python `stdnum <https://arthurdejong.org/python-stdnum/>
 
 .. code::
 
-  pip install stdnum
+  pip install python-stdnum
 
 Usage
 =====
