@@ -39,7 +39,7 @@ install:
   - travis_install_nightly
   - pip install unicodecsv unidecode ofxparse
   - pip install git+https://github.com/akretion/factur-x
-  - pip install stdnum
+  - pip install python-stdnum
 
 script:
   - travis_run_tests
