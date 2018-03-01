@@ -11,8 +11,8 @@ class TestSsnidCheck(TransactionCase):
     def test_validate_ssnid(self):
         heo = self.env['hr.employee']
         with self.assertRaises(ValidationError):
-            heo.france_check_ssnid('1 91 12')
+            heo.create({'name': 'AA', 'ssnid': '1 91 12'})
         with self.assertRaises(ValidationError):
-            heo.france_check_ssnid('1 91 02 99 412 042 19')
-        self.assertTrue(heo.france_check_ssnid('1 91 02 99 412 042 42'))
-        self.assertTrue(heo.france_check_ssnid('1 55 01 2A 011 222 86'))
+            heo.create({'name': 'AB', 'ssnid': '1 91 02 99 412 042 19'})
+        heo.create({'name': 'AC', 'ssnid': '1 91 02 99 412 042 42'})
+        heo.create({'name': 'AD', 'ssnid': '1 55 01 2A 011 222 86'})
