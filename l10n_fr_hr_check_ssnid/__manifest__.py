@@ -11,7 +11,7 @@
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'depends': ['hr'],
-    'external_dependencies': {'python': ['python-stdnum']},
+    'external_dependencies': {'python': ['stdnum']},
     'data': ['views/hr_employee.xml'],
     'installable': True,
 }
