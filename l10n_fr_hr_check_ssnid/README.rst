@@ -8,6 +8,15 @@ French Localization - Check Social Security Number
 
 With this module, the social security number of employees of French companies will be checked: if the length or checksum is wrong, an error message will be displayed.
 
+Installation
+============
+
+This module require the Python `stdnum <https://arthurdejong.org/python-stdnum/>`_ library. To install it, run:
+
+.. code::
+
+  pip install stdnum
+
 Usage
 =====
 
