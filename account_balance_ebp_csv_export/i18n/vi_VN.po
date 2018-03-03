@@ -3,14 +3,14 @@
 # * account_balance_ebp_csv_export
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2016
+# OCA Transbot <transbot@odoo-community.org>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-01 04:00+0000\n"
-"PO-Revision-Date: 2016-10-01 04:00+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"POT-Creation-Date: 2018-02-17 03:48+0000\n"
+"PO-Revision-Date: 2018-02-17 03:48+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2018\n"
 "Language-Team: Vietnamese (Viet Nam) (https://www.transifex.com/oca/teams/23907/vi_VN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,16 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: account_balance_ebp_csv_export
-#: view:trial.balance.webkit:account_balance_ebp_csv_export.account_trial_balance_view_webkit
-msgid "EBP csv File"
+#: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.report_trial_balance_ebp_csv
+msgid ""
+"Compte.Numero,Compte.Intitule,Balance.SldCptNDebit,Balance.SldCptNCredit,Balance.SldCptNSoldeD,Balance.SldCptNSoldeC"
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
-#: model:ir.model,name:account_balance_ebp_csv_export.model_trial_balance_webkit
-msgid "Trial Balance Report"
+#: model:ir.actions.report.xml,name:account_balance_ebp_csv_export.action_report_trial_balance_ebp_csv
+msgid "EBP CSV Balance"
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
-#: view:trial.balance.webkit:account_balance_ebp_csv_export.account_trial_balance_view_webkit
+#: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_wizard
+msgid "Export EBP CSV"
+msgstr ""
+
+#. module: account_balance_ebp_csv_export
+#: model:ir.model,name:account_balance_ebp_csv_export.model_trial_balance_report_wizard
+msgid "Trial Balance Report Wizard"
+msgstr ""
+
+#. module: account_balance_ebp_csv_export
+#: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_wizard
 msgid "or"
 msgstr "hoặc"
