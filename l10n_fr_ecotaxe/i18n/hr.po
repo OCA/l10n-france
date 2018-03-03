@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-17 14:35+0000\n"
-"PO-Revision-Date: 2017-11-17 14:35+0000\n"
+"POT-Creation-Date: 2018-02-10 05:46+0000\n"
+"PO-Revision-Date: 2018-02-10 05:46+0000\n"
 "Last-Translator: Ana-Maria Olujić <ana-maria.olujic@slobodni-programi.hr>, 2017\n"
 "Language-Team: Croatian (https://www.transifex.com/oca/teams/23907/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -254,7 +254,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr ""
+msgstr "Stavka naloga za nabavu"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,sale_ecotaxe_id:0

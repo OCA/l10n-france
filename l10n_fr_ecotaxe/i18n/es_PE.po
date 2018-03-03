@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 02:52+0000\n"
-"PO-Revision-Date: 2017-05-19 02:52+0000\n"
+"POT-Creation-Date: 2018-02-10 05:46+0000\n"
+"PO-Revision-Date: 2018-02-10 05:46+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Spanish (Peru) (https://www.transifex.com/oca/teams/23907/es_PE/)\n"
 "MIME-Version: 1.0\n"
@@ -185,7 +185,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_line
@@ -253,7 +253,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr ""
+msgstr "Linea de orden de compra"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,sale_ecotaxe_id:0
