@@ -3,51 +3,51 @@
 # * l10n_fr_department
 # 
 # Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2018
+# Lukáš Spurný <lukasspurny8@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-22 03:41+0000\n"
 "PO-Revision-Date: 2018-02-22 03:41+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2018\n"
-"Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
+"Last-Translator: Lukáš Spurný <lukasspurny8@gmail.com>, 2018\n"
+"Language-Team: Czech (Czech Republic) (https://www.transifex.com/oca/teams/23907/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_country_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Country"
-msgstr "Država"
+msgstr "Země"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_country_id
 msgid "Country of the related state"
-msgstr ""
+msgstr "Země příslušného státu"
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_state
 msgid "Country state"
-msgstr ""
+msgstr "Stav státu"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_uid
 msgid "Created by"
-msgstr "Ustvaril"
+msgstr "Vytvořil"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_create_date
 msgid "Created on"
-msgstr "Ustvarjeno"
+msgstr "Vytvořeno"
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
@@ -55,17 +55,17 @@ msgstr "Ustvarjeno"
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_users_department_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
-msgstr ""
+msgstr "Oddělení"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
 msgid "Department Code"
-msgstr ""
+msgstr "Kód oddělení"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_name
 msgid "Department Name"
-msgstr ""
+msgstr "Název oddělení"
 
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,name:l10n_fr_department.action_view_country_department_tree
@@ -75,27 +75,27 @@ msgstr ""
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_tree
 msgid "Departments"
-msgstr ""
+msgstr "Oddělení"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_state_department_ids
 msgid "Departments related to this state"
-msgstr ""
+msgstr "Oddělení související s tímto stavem"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_display_name
 msgid "Display Name"
-msgstr "Prikazni naziv"
+msgstr "Zobrazovaný název"
 
 #. module: l10n_fr_department
 #: model:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
 msgid "Display and manage the list of all departments."
-msgstr ""
+msgstr "Zobrazte a spravujte seznam všech oddělení."
 
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Group By"
-msgstr "Združi po"
+msgstr "Skupina vytvořená"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_id
@@ -105,40 +105,40 @@ msgstr "ID"
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department___last_update
 msgid "Last Modified on"
-msgstr "Zadnjič spremenjeno"
+msgstr "Poslední změna dne"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_uid
 msgid "Last Updated by"
-msgstr "Zadnjič posodobil"
+msgstr "Naposledy aktualizováno"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_write_date
 msgid "Last Updated on"
-msgstr "Zadnjič posodobljeno"
+msgstr "Poslední aktualizace dne"
 
 #. module: l10n_fr_department
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Name or Code"
-msgstr ""
+msgstr "Jméno nebo kód"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "State"
-msgstr "Stanje"
+msgstr "Stát"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_state_id
 msgid "State related to the current department"
-msgstr ""
+msgstr "Stát ve vztahu k současnému oddělení"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_code
 msgid "The department code (ISO 3166-2 codification)"
-msgstr ""
+msgstr "Kód oddělení (kodifikace ISO 3166-2)"
 
 #. module: l10n_fr_department
 #: sql_constraint:res.country.department:0
 msgid "You cannot have two departments with the same code!"
-msgstr ""
+msgstr "Nemůžete mít dvě oddělení se stejným kódem!"
