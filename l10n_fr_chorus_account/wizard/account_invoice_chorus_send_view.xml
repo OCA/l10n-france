@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2018 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="account_invoice_chorus_send_form" model="ir.ui.view">
+    <field name="model">account.invoice.chorus.send</field>
+    <field name="arch"  type="xml">
+        <form string="Send invoices to Chorus">
+            <p>This wizard will send electronic invoices to Chorus via the Chorus API.</p>
+            <group name="main">
+                <field name="invoice_ids" widget="many2many_tags"/>
+                <field name="invoice_count"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="chorus_invoice_format"/>
+            </group>
+            <footer>
+                <button type="object" name="run" string="Send to Chorus" class="btn-primary"/>
+                <button special="cancel" string="Cancel" class="oe_link"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<act_window id="account_invoice_chorus_send_action"
+            multi="True"
+            key2="client_action_multi"
+            name="Send to Chorus"
+            res_model="account.invoice.chorus.send"
+            src_model="account.invoice"
+            view_mode="form"
+            target="new"
+            groups="l10n_fr_chorus_account.group_chorus_api" />
+
+</odoo>
