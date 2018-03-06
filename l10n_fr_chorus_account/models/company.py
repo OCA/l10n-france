@@ -28,18 +28,17 @@ class ResCompany(models.Model):
 
     def chorus_get_api_certificates(self, raise_if_ko=False):
         self.ensure_one()
-        company_id = self.id
-        cert_filepath = tools.config.get('chorus_api_cert-%d' % company_id)
-        key_filepath = tools.config.get('chorus_api_key-%d' % company_id)
+        cert_filepath = tools.config.get('chorus_api_cert')
+        key_filepath = tools.config.get('chorus_api_key')
         if not cert_filepath:
             if raise_if_ko:
                 raise UserError(_(
-                    "Missing key 'chorus_api_cert-%d' in Odoo server "
-                    "configuration file") % company_id)
+                    "Missing key 'chorus_api_cert' in Odoo server "
+                    "configuration file"))
             else:
                 logger.warning(
-                    "Missing key 'chorus_api_cert-%d' in Odoo server "
-                    "configuration file", company_id)
+                    "Missing key 'chorus_api_cert' in Odoo server "
+                    "configuration file")
                 return False
         if not os.path.isfile(cert_filepath):
             if raise_if_ko:
@@ -55,11 +54,11 @@ class ResCompany(models.Model):
             if raise_if_ko:
                 raise UserError(_(
                     "Missing key 'chorus_api_key-%d' in Odoo server "
-                    "configuration file") % company_id)
+                    "configuration file"))
             else:
                 logger.warning(
                     "Missing key 'chorus_api_key-%d' in Odoo server "
-                    "configuration file", company_id)
+                    "configuration file")
                 return False
         if not os.path.isfile(key_filepath):
             if raise_if_ko:
@@ -71,7 +70,7 @@ class ResCompany(models.Model):
                     "The Chorus key file '%s' doesn't exist",
                     key_filepath)
                 return False
-        # TODO check certificat validity here ?
+        # TODO check certificate validity here ?
         return (cert_filepath, key_filepath)
 
     def chorus_get_api_params(self, raise_if_ko=False):

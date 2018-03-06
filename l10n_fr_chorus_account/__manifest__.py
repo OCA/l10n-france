@@ -18,8 +18,11 @@
         ],
     'data': [
         'security/group.xml',
+        'security/ir.model.access.csv',
         'data/transmit_method.xml',
         'data/cron.xml',
+        'wizard/account_invoice_chorus_send_view.xml',
+        'views/chorus_flow.xml',
         'views/partner.xml',
         'views/account_config_settings.xml',
         'views/account_invoice.xml',
