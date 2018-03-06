@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2017 Akretion (http://www.akretion.com/)
+  Copyright 2017-2018 Akretion (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -8,15 +8,15 @@
 <odoo noupdate="1">
 
 
-<record id="chorus_api_cron" model="ir.cron">
-    <field name="name">Chorus Invoice Status Update</field>
+<record id="chorus_flow_cron" model="ir.cron">
+    <field name="name">Chorus Status Update</field>
     <field name="active" eval="False"/>
     <field name="user_id" ref="base.user_root"/>
     <field name="interval_number">1</field>
     <field name="interval_type">days</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
-    <field name="model">account.invoice</field>
-    <field name="function">chorus_status_cron</field>
+    <field name="model">chorus.flow</field>
+    <field name="function">chorus_cron</field>
     <field name="args">()</field>
 </record>
 

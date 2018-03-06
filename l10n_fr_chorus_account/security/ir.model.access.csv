@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_chorus_flow_read,Read/Write/Create access on chorus.flow to invoicing grp,model_chorus_flow,account.group_account_invoice,1,1,1,0
+access_chorus_flow_full,Full access on chorus.flow to system grp,model_chorus_flow,base.group_system,1,1,1,1
