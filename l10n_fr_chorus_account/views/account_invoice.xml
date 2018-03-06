@@ -13,26 +13,16 @@
     <field name="inherit_id" ref="account_invoice_transmit_method.invoice_form"/>
     <field name="arch" type="xml">
         <button name="action_invoice_sent" position="after">
-            <button name="chorus_send_invoice" type="object" attrs="{'invisible': ['|', '|', ('sent', '=', True), ('state', 'not in', ('open', 'paid')), ('transmit_method_code', '!=', 'fr-chorus')]}" string="Send to Chorus" class="btn-primary" groups="l10n_fr_chorus_account.group_chorus_api"/>
+            <button name="%(account_invoice_chorus_send_action)d" type="action" attrs="{'invisible': ['|', '|', ('sent', '=', True), ('state', 'not in', ('open', 'paid')), ('transmit_method_code', '!=', 'fr-chorus')]}" string="Send to Chorus" class="btn-primary" groups="l10n_fr_chorus_account.group_chorus_api"/>
         </button>
         <notebook position="inside">
             <page name="fr-chorus" string="Chorus" attrs="{'invisible': [('transmit_method_code', '!=', 'fr-chorus')]}" groups="l10n_fr_chorus_account.group_chorus_api">
                 <group name="chorus-main">
-                    <group name="chorus-flow">
-                        <field name="chorus_flow_ref"/>
-                        <field name="chorus_flow_date"/>
-                        <field name="chorus_format"/>
-                        <field name="chorus_flow_status"/>
-                        <field name="chorus_flow_status_date"/>
-                        <button name="chorus_update_flow_status" type="object" string="=> Update Chorus Flow Status" attrs="{'invisible': ['|', ('chorus_flow_ref', '=', False), ('chorus_flow_status', '=', 'IN_INTEGRE')]}" colspan="2" class="oe_link"/>
-                    </group>
-                    <group name="chorus-invoice">
-                        <field name="chorus_identifier"/>
-                        <button name="chorus_get_identifier" type="object" string="=> Get Chorus Identifier" attrs="{'invisible': ['|', ('chorus_identifier', 'not in', (0, False)), ('chorus_flow_status', '!=', 'IN_INTEGRE')]}" colspan="2" class="oe_link"/>
-                        <field name="chorus_status"/>
-                        <field name="chorus_status_date"/>
-                        <button name="chorus_update_invoice_status" type="object" string="=> Update Chorus Invoice Status" attrs="{'invisible': [('chorus_identifier', 'in', (False, 0))]}" colspan="2" class="oe_link"/>
-                    </group>
+                    <field name="chorus_flow_id"/>
+                    <field name="chorus_identifier"/>
+                    <field name="chorus_status"/>
+                    <field name="chorus_status_date"/>
+                    <button name="chorus_update_invoice_status" type="object" string="=> Update Chorus Invoice Status" attrs="{'invisible': [('chorus_identifier', 'in', (False, 0))]}" colspan="2" class="oe_link"/>
                 </group>
             </page>
         </notebook>
