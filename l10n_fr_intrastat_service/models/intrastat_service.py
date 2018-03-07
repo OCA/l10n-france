@@ -131,7 +131,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             if not invoice.partner_id.country_id:
                 raise UserError(_(
                     "Missing country on partner '%s'.")
-                    % invoice.partner_id.name)
+                    % invoice.partner_id.display_name)
             elif not invoice.partner_id.country_id.intrastat:
                 continue
             elif (invoice.partner_id.country_id.id ==
@@ -213,7 +213,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 if not invoice.partner_id.vat:
                     raise UserError(_(
                         "Missing VAT number on partner '%s'.")
-                        % invoice.partner_id.name)
+                        % invoice.partner_id.display_name)
                 else:
                     partner_vat_to_write = invoice.partner_id.vat
 
@@ -272,7 +272,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             except AttributeError:
                 raise UserError(
                     _("Missing VAT number on partner '%s'.")
-                    % sline.partner_id.name)
+                    % sline.partner_id.display_name)
         xml_string = etree.tostring(
             root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
 
