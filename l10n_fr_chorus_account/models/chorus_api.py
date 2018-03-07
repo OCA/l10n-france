@@ -24,7 +24,9 @@ class ChorusApi(models.AbstractModel):
         if session is None:
             session = requests.Session()
             session.cert = api_params['cert']
-        logger.info('Chorus API POST request to %s', url)
+        logger.info(
+            'Chorus API POST request to %s with login %s',
+            url, api_params['login'])
         logger.info('Payload of the Chorus POST request: %s', payload)
         try:
             r = session.post(
