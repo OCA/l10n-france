@@ -62,7 +62,8 @@ class AccountInvoiceChorusSend(models.TransientModel):
         'account.invoice', string='Invoices to Send', readonly=True)
     invoice_count = fields.Integer(
         string="Number of Invoices", readonly=True)
-    company_id = fields.Many2one('res.company', string='Company', readonly=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company', readonly=True)
     chorus_invoice_format = fields.Selection(
         related='company_id.fr_chorus_invoice_format', readonly=True)
 
@@ -91,7 +92,10 @@ class AccountInvoiceChorusSend(models.TransientModel):
                 'attachment_id': attach.id,
                 'company_id': company.id,
                 })
-            self.invoice_ids.write({'chorus_flow_id': flow.id})
+            self.invoice_ids.write({
+                'chorus_flow_id': flow.id,
+                'sent': True,
+                })
             action = self.env['ir.actions.act_window'].for_xml_id(
                 'l10n_fr_chorus_account', 'chorus_flow_action')
             action.update({
