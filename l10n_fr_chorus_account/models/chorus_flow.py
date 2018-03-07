@@ -33,12 +33,12 @@ class ChorusFlow(models.Model):
         default=lambda self: self.env['res.company']._company_default_get(
             'chorus.flow'))
     invoice_identifiers = fields.Boolean(
-        compute='compute_invoice_identifiers', readonly=True, store=True)
+        compute='_compute_invoice_identifiers', readonly=True, store=True)
     invoice_ids = fields.One2many(
         'account.invoice', 'chorus_flow_id', string='Invoices', readonly=True)
 
     @api.depends('invoice_ids.chorus_identifier')
-    def compute_invoice_identifiers(self):
+    def _compute_invoice_identifiers(self):
         for flow in self:
             flow.invoice_identifiers = all(
                 [inv.chorus_identifier for inv in flow.invoice_ids])
