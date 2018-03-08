@@ -8,7 +8,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 try:
-    from stdnum.fr.nir import validate
+    from stdnum.fr.nir import validate, InvalidFormat,\
+        InvalidLength, InvalidChecksum
 except ImportError:
     logger.debug('Cannot import stdnum')
 
@@ -22,7 +23,7 @@ class HrEmployee(models.Model):
             if empl.company_id.country_id.code == 'FR' and empl.ssnid:
                 try:
                     validate(empl.ssnid)
-                except Exception, e:
+                except (InvalidFormat, InvalidLength, InvalidChecksum) as e:
                     raise ValidationError(_(
                         "The French Social Security Number '%s' is invalid. "
                         "(%s)") % (empl.ssnid, e))
