@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import api, SUPERUSER_ID
 
@@ -16,11 +15,10 @@ def set_oversea_department_on_partner(cr, registry):
         env = api.Environment(cr, SUPERUSER_ID, {})
         fr_countries = env['res.country'].search(
             [('code', 'in', ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT'))])
-        partners = env['res.partner'].search(
-            [
-                '|', ('active', '=', False), ('active', '=', True),
-                ('country_id', 'in', fr_countries.ids),
-                ('department_id', '=', False),
-            ])
+        partners = env['res.partner'].search([
+            '|', ('active', '=', False), ('active', '=', True),
+            ('country_id', 'in', fr_countries.ids),
+            ('department_id', '=', False)
+        ])
         partners._compute_department()
     return
