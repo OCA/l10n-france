@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
     'name': 'French Overseas Departments (DOM)',
-    'summary': u"Populate Database with overseas French "
-               u"Departments (Départements d'outre-mer)",
-    'version': '10.0.1.0.0',
+    'summary': 'Populate Database with overseas French '
+               "Departments (Départements d'outre-mer)",
+    'version': '11.0.1.0.0',
     'category': 'French Localization',
-    'author': "Akretion,Odoo Community Association (OCA)",
+    'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'license': 'AGPL-3',
     'depends': ['l10n_fr_department'],
