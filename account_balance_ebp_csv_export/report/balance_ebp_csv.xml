@@ -2,7 +2,7 @@
 <odoo>
 
 <template id="report_trial_balance_ebp_csv">Compte.Numero,Compte.Intitule,Balance.SldCptNDebit,Balance.SldCptNCredit,Balance.SldCptNSoldeD,Balance.SldCptNSoldeC
-<t t-foreach="docs" t-as="o"><t t-foreach="o.account_ids" t-as="a"><t t-esc="a.code"/>,"<t t-esc="a.name"/>",<t t-esc="a.debit"/>,<t t-esc="a.credit"/>,<t t-esc="a.final_balance &lt; 0 and -a.final_balance or 0.00" />,<t t-esc="a.final_balance > 0 and a.final_balance or 0.00"/>
+<t t-foreach="docs" t-as="o"><t t-foreach="o.account_ids" t-as="a"><t t-esc="a.code"/>,"<t t-esc="a.name"/>",<t t-esc="round(a.debit, 2)"/>,<t t-esc="round(a.credit, 2)"/>,<t t-esc="a.final_balance &gt; 0 and round(a.final_balance, 2) or 0.00" />,<t t-esc="a.final_balance &lt; 0 and -round(a.final_balance, 2) or 0.00"/>
 </t></t>
 </template>
 
