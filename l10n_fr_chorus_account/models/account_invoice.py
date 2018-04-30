@@ -110,14 +110,16 @@ class AccountInvoice(models.Model):
                 % self[0].company_id.display_name)
         chorus_invoice_format = self[0].company_id.fr_chorus_invoice_format
         short_format = chorus_invoice_format[4:]
+        file_extension = chorus_invoice_format[:3]
         syntaxe_flux = self.env['chorus.flow'].syntax_odoo2chorus()[
             chorus_invoice_format]
         if len(self) == 1:
             chorus_file_content = self.chorus_get_invoice(
                 chorus_invoice_format)
-            filename = '%s_chorus_facture_%s.xml' % (
+            filename = '%s_chorus_facture_%s.%s' % (
                 short_format,
-                self.number.replace('/', '-'))
+                self.number.replace('/', '-'),
+                file_extension)
         else:
             filename = '%s_chorus_lot_factures.tar.gz' % short_format
             tarfileobj = BytesIO()
@@ -126,9 +128,10 @@ class AccountInvoice(models.Model):
                     xml_string = inv.chorus_get_invoice(chorus_invoice_format)
                     xmlfileio = BytesIO(xml_string)
                     xmlfilename =\
-                        '%s_chorus_facture_%s.xml' % (
+                        '%s_chorus_facture_%s.%s' % (
                             short_format,
-                            inv.number.replace('/', '-'))
+                            inv.number.replace('/', '-'),
+                            file_extension)
                     tarinfo = tarfile.TarInfo(name=xmlfilename)
                     tarinfo.size = len(xml_string)
                     tarinfo.mtime = int(time.time())
