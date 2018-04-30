@@ -5,6 +5,9 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+import tarfile
+import time
+from io import BytesIO
 import logging
 logger = logging.getLogger(__name__)
 
@@ -95,10 +98,51 @@ class AccountInvoice(models.Model):
                         cpartner.name, inv.partner_id.name))
         return super(AccountInvoice, self).action_move_create()
 
+    def chorus_get_invoice(self, chorus_invoice_format):
+        self.ensure_one()
+        return False
+
     def prepare_chorus_deposer_flux_payload(self):
-        raise UserError(_(
-            "The Chorus Invoice Format '%s' is not supported.")
-            % self.company_id.fr_chorus_invoice_format)
+        if not self[0].company_id.fr_chorus_invoice_format:
+            raise UserError(_(
+                "The Chorus Invoice Format is not configured on the "
+                "Accounting Configuration page of company '%s'")
+                % self[0].company_id.display_name)
+        chorus_invoice_format = self[0].company_id.fr_chorus_invoice_format
+        short_format = chorus_invoice_format[4:]
+        syntaxe_flux = self.env['chorus.flow'].syntax_odoo2chorus()[
+            chorus_invoice_format]
+        if len(self) == 1:
+            chorus_file_content = self.chorus_get_invoice(
+                chorus_invoice_format)
+            filename = '%s_chorus_facture_%s.xml' % (
+                short_format,
+                self.number.replace('/', '-'))
+        else:
+            filename = '%s_chorus_lot_factures.tar.gz' % short_format
+            tarfileobj = BytesIO()
+            with tarfile.open(fileobj=tarfileobj, mode='w:gz') as tar:
+                for inv in self:
+                    xml_string = inv.chorus_get_invoice(chorus_invoice_format)
+                    xmlfileio = BytesIO(xml_string)
+                    xmlfilename =\
+                        '%s_chorus_facture_%s.xml' % (
+                            short_format,
+                            inv.number.replace('/', '-'))
+                    tarinfo = tarfile.TarInfo(name=xmlfilename)
+                    tarinfo.size = len(xml_string)
+                    tarinfo.mtime = int(time.time())
+                    tar.addfile(tarinfo=tarinfo, fileobj=xmlfileio)
+                tar.close()
+            tarfileobj.seek(0)
+            chorus_file_content = tarfileobj.read()
+        payload = {
+            'fichierFlux': chorus_file_content.encode('base64'),
+            'nomFichier': filename,
+            'syntaxeFlux': syntaxe_flux,
+            'avecSignature': False,
+            }
+        return payload
 
     def chorus_api_consulter_historique(self, api_params, session=None):
         url_path = 'factures/consulter/historique'
