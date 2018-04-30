@@ -4,7 +4,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, models
-from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
@@ -24,31 +23,17 @@ class AccountInvoice(models.Model):
         return super(AccountInvoice, self)._cii_trade_contact_department_name(
             partner)
 
-    def prepare_chorus_deposer_flux_payload(self):
-        chorus_format = self.company_id.fr_chorus_invoice_format
-        cfo = self.env['chorus.flow']
-        if chorus_format in ['xml_cii', 'pdf_factur-x']:
-            syntaxe_flux = cfo.syntax_odoo2chorus()[chorus_format]
-            if len(self) == 1:
-                # Seems they don't want '/' in filenames
-                inv_ref = self.number.replace('/', '-')
-                if chorus_format == 'xml_cii':
-                    chorus_file_content = self.generate_facturx_xml()[0]
-                    filename = 'CII_16B_chorus_facture_%s.xml' % inv_ref
-                elif chorus_format == 'pdf_factur-x':
-                    filename = 'FacturX_chorus_%s.pdf' % inv_ref
-                    chorus_file_content = self.env['report'].get_pdf(
-                        self.ids, 'account.report_invoice')
-            else:
-                raise UserError(
-                    'TODO: add support for sending multiple invoices '
-                    'at the same time.')
-            payload = {
-                'fichierFlux': chorus_file_content.encode('base64'),
-                'nomFichier': filename,
-                'syntaxeFlux': syntaxe_flux,
-                'avecSignature': False,
-                }
-            return payload
-        return super(
-            AccountInvoice, self).prepare_chorus_deposer_flux_payload()
+    def chorus_get_invoice(self, chorus_invoice_format):
+        self.ensure_one()
+        if chorus_invoice_format == 'xml_cii':
+            # Our syntax doesn't comply to what Chorus expects for CII 16B
+            chorus_file_content = self.generate_facturx_xml()[0]
+        elif chorus_invoice_format == 'pdf_factur-x':
+            # deposerFlux works in Factur-X for single invoice,
+            # but not in multi-invoice with tarball
+            chorus_file_content = self.env['report'].get_pdf(
+                self.ids, 'account.report_invoice')
+        else:
+            chorus_file_content = super(AccountInvoice, self).\
+                chorus_get_invoice(chorus_invoice_format)
+        return chorus_file_content
