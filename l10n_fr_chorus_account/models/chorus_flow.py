@@ -81,16 +81,6 @@ class ChorusFlow(models.Model):
         raise_if_ko = self._context.get('chorus_raise_if_ko', True)
         flows = []
         for flow in self:
-            if not flow.syntax.startswith('xml_'):
-                if raise_if_ko:
-                    raise UserError(_(
-                        "The Chorus flow format %s is not supported for "
-                        "the moment (flow %s).")
-                        % (flow.syntax, flow.name))
-                logger.warning(
-                    "Skipping flow %s: unsupported syntax format %s",
-                    flow.name, flow.syntax)
-                continue
             company = flow.company_id
             if company not in company2api:
                 api_params = company.chorus_get_api_params(
