@@ -8,6 +8,7 @@ Import French CFONB Bank Statements
 
 This module allows you to import the text-based French
 CFONB files in Odoo as bank statements.
+Support multi bank files
 
 The specifications are available on the `official CFONB website <http://www.cfonb.org>`_ under the section *Espace documentaire > Organisation des échanges > Restituation d'information*. The document is named *Relevé de compte sur support informatique* (`direct link <http://www.cfonb.org/fichiers/20130612113947_7_4_Releve_de_Compte_sur_support_informatique_2004_07.pdf>`_).
 
@@ -18,7 +19,7 @@ In the dashboard of the *Accounting* menu, click on the button *Import Statement
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/121/10.0
+   :target: https://runbot.odoo-community.org/runbot/121/11.0
 
 Bug Tracker
 ===========
@@ -35,6 +36,7 @@ Contributors
 ------------
 
 * Alexis de Lattre <alexis.delattre@akretion.com>
+* Florent de Labarre <florent.mirieu@gmail.com>
 
 Maintainer
 ----------
