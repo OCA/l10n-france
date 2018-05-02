@@ -58,19 +58,36 @@ class ChorusFlow(models.Model):
 
     def chorus_api_consulter_cr(self, api_params, session=None):
         self.ensure_one()
-        syntax_flux = self.syntax_odoo2chorus()[self.syntax]
         payload = {
             'numeroFluxDepot': self.name,
-            'dateDepot': self.date,
-            'syntaxeFlux': syntax_flux,
             }
+        # The webservice 'consulterCR' is broken for Factur-X (1/5/2018)
+        # So I switch to 'consulterCRDetaille' which works fine for all formats
         answer, session = self.env['chorus.api'].chorus_post(
-            api_params, 'transverses/consulterCR', payload, session=session)
+            api_params, 'transverses/consulterCRDetaille', payload,
+            session=session)
         res = {}
         if answer:
+            notes = u''
+            if (
+                    answer.get('listeErreurDP') and
+                    isinstance(answer['listeErreurDP'], list)):
+                i = 0
+                for error in answer['listeErreurDP']:
+                    i += 1
+                    notes += u"Erreur %d :\n"\
+                        u"  Identifiant fournisseur : %s\n"\
+                        u"  Identifiant destinataire : %s\n"\
+                        u"  Ref facture : %s\n"\
+                        u"  Libellé erreur : %s\n" % (
+                            i,
+                            error.get('identifiantFournisseur'),
+                            error.get('identifiantDestinataire'),
+                            error.get('numeroDP'),
+                            error.get('libelleErreurDP'))
             res = {
-                'status': answer.get('etatCourantFlux'),
-                'notes': answer.get('libelle'),
+                'status': answer.get('etatCourantDepotFlux'),
+                'notes': notes or answer.get('libelle'),
                 }
         return (res, session)
 
@@ -81,16 +98,6 @@ class ChorusFlow(models.Model):
         raise_if_ko = self._context.get('chorus_raise_if_ko', True)
         flows = []
         for flow in self:
-            if not flow.syntax.startswith('xml_'):
-                if raise_if_ko:
-                    raise UserError(_(
-                        "The Chorus flow format %s is not supported for "
-                        "the moment (flow %s).")
-                        % (flow.syntax, flow.name))
-                logger.warning(
-                    "Skipping flow %s: unsupported syntax format %s",
-                    flow.name, flow.syntax)
-                continue
             company = flow.company_id
             if company not in company2api:
                 api_params = company.chorus_get_api_params(

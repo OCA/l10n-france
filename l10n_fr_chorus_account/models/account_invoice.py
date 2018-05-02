@@ -5,8 +5,13 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+import tarfile
+import time
+from io import BytesIO
 import logging
 logger = logging.getLogger(__name__)
+
+CREDIT_TRF_CODES = ('30', '31', '42')
 
 
 class AccountInvoice(models.Model):
@@ -93,12 +98,83 @@ class AccountInvoice(models.Model):
                         "'Chorus Service Code' is not configured "
                         "on contact '%s'") % (
                         cpartner.name, inv.partner_id.name))
+                if not self.payment_mode_id:
+                    raise UserError(_(
+                        "Missing Payment Mode. This "
+                        "information is required for Chorus."))
+                payment_means_code = self.payment_mode_id.payment_method_id.\
+                    unece_code or '30'
+                partner_bank_id =\
+                    self.partner_bank_id or (
+                        self.payment_mode_id.bank_account_link == 'fixed' and
+                        self.payment_mode_id.fixed_journal_id.bank_account_id)
+                if payment_means_code in CREDIT_TRF_CODES:
+                    if not partner_bank_id:
+                        raise UserError(_(
+                            "Missing bank account information for payment. "
+                            "For that, you have two options: either the "
+                            "payment mode of the invoice should have "
+                            "'Link to Bank Account' = "
+                            "'fixed' and the related bank journal should have "
+                            "a 'Bank Account' set, or the field "
+                            "'Bank Account' should be set on the customer "
+                            "invoice."
+                            ))
+                    if partner_bank_id.acc_type != 'iban':
+                        raise UserError(_(
+                            "Chorus only accepts IBAN. But the bank account "
+                            "'%s' is not an IBAN.")
+                            % partner_bank_id.acc_number)
         return super(AccountInvoice, self).action_move_create()
 
+    def chorus_get_invoice(self, chorus_invoice_format):
+        self.ensure_one()
+        return False
+
     def prepare_chorus_deposer_flux_payload(self):
-        raise UserError(_(
-            "The Chorus Invoice Format '%s' is not supported.")
-            % self.company_id.fr_chorus_invoice_format)
+        if not self[0].company_id.fr_chorus_invoice_format:
+            raise UserError(_(
+                "The Chorus Invoice Format is not configured on the "
+                "Accounting Configuration page of company '%s'")
+                % self[0].company_id.display_name)
+        chorus_invoice_format = self[0].company_id.fr_chorus_invoice_format
+        short_format = chorus_invoice_format[4:]
+        file_extension = chorus_invoice_format[:3]
+        syntaxe_flux = self.env['chorus.flow'].syntax_odoo2chorus()[
+            chorus_invoice_format]
+        if len(self) == 1:
+            chorus_file_content = self.chorus_get_invoice(
+                chorus_invoice_format)
+            filename = '%s_chorus_facture_%s.%s' % (
+                short_format,
+                self.number.replace('/', '-'),
+                file_extension)
+        else:
+            filename = '%s_chorus_lot_factures.tar.gz' % short_format
+            tarfileobj = BytesIO()
+            with tarfile.open(fileobj=tarfileobj, mode='w:gz') as tar:
+                for inv in self:
+                    xml_string = inv.chorus_get_invoice(chorus_invoice_format)
+                    xmlfileio = BytesIO(xml_string)
+                    xmlfilename =\
+                        '%s_chorus_facture_%s.%s' % (
+                            short_format,
+                            inv.number.replace('/', '-'),
+                            file_extension)
+                    tarinfo = tarfile.TarInfo(name=xmlfilename)
+                    tarinfo.size = len(xml_string)
+                    tarinfo.mtime = int(time.time())
+                    tar.addfile(tarinfo=tarinfo, fileobj=xmlfileio)
+                tar.close()
+            tarfileobj.seek(0)
+            chorus_file_content = tarfileobj.read()
+        payload = {
+            'fichierFlux': chorus_file_content.encode('base64'),
+            'nomFichier': filename,
+            'syntaxeFlux': syntaxe_flux,
+            'avecSignature': False,
+            }
+        return payload
 
     def chorus_api_consulter_historique(self, api_params, session=None):
         url_path = 'factures/consulter/historique'
