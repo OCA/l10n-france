@@ -68,9 +68,26 @@ class ChorusFlow(models.Model):
             session=session)
         res = {}
         if answer:
+            notes = u''
+            if (
+                    answer.get('listeErreurDP') and
+                    isinstance(answer['listeErreurDP'], list)):
+                i = 0
+                for error in answer['listeErreurDP']:
+                    i += 1
+                    notes += u"Erreur %d :\n"\
+                        u"  Identifiant fournisseur : %s\n"\
+                        u"  Identifiant destinataire : %s\n"\
+                        u"  Ref facture : %s\n"\
+                        u"  Libellé erreur : %s\n" % (
+                            i,
+                            error.get('identifiantFournisseur'),
+                            error.get('identifiantDestinataire'),
+                            error.get('numeroDP'),
+                            error.get('libelleErreurDP'))
             res = {
                 'status': answer.get('etatCourantDepotFlux'),
-                'notes': answer.get('libelle'),
+                'notes': notes or answer.get('libelle'),
                 }
         return (res, session)
 
