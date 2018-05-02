@@ -11,6 +11,8 @@ from io import BytesIO
 import logging
 logger = logging.getLogger(__name__)
 
+CREDIT_TRF_CODES = ('30', '31', '42')
+
 
 class AccountInvoice(models.Model):
     _name = 'account.invoice'
@@ -96,6 +98,33 @@ class AccountInvoice(models.Model):
                         "'Chorus Service Code' is not configured "
                         "on contact '%s'") % (
                         cpartner.name, inv.partner_id.name))
+                if not self.payment_mode_id:
+                    raise UserError(_(
+                        "Missing Payment Mode. This "
+                        "information is required for Chorus."))
+                payment_means_code = self.payment_mode_id.payment_method_id.\
+                    unece_code or '30'
+                partner_bank_id =\
+                    self.partner_bank_id or (
+                        self.payment_mode_id.bank_account_link == 'fixed' and
+                        self.payment_mode_id.fixed_journal_id.bank_account_id)
+                if payment_means_code in CREDIT_TRF_CODES:
+                    if not partner_bank_id:
+                        raise UserError(_(
+                            "Missing bank account information for payment. "
+                            "For that, you have two options: either the "
+                            "payment mode of the invoice should have "
+                            "'Link to Bank Account' = "
+                            "'fixed' and the related bank journal should have "
+                            "a 'Bank Account' set, or the field "
+                            "'Bank Account' should be set on the customer "
+                            "invoice."
+                            ))
+                    if partner_bank_id.acc_type != 'iban':
+                        raise UserError(_(
+                            "Chorus only accepts IBAN. But the bank account "
+                            "'%s' is not an IBAN.")
+                            % partner_bank_id.acc_number)
         return super(AccountInvoice, self).action_move_create()
 
     def chorus_get_invoice(self, chorus_invoice_format):
