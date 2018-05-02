@@ -58,18 +58,18 @@ class ChorusFlow(models.Model):
 
     def chorus_api_consulter_cr(self, api_params, session=None):
         self.ensure_one()
-        syntax_flux = self.syntax_odoo2chorus()[self.syntax]
         payload = {
             'numeroFluxDepot': self.name,
-            'dateDepot': self.date,
-            'syntaxeFlux': syntax_flux,
             }
+        # The webservice 'consulterCR' is broken for Factur-X (1/5/2018)
+        # So I switch to 'consulterCRDetaille' which works fine for all formats
         answer, session = self.env['chorus.api'].chorus_post(
-            api_params, 'transverses/consulterCR', payload, session=session)
+            api_params, 'transverses/consulterCRDetaille', payload,
+            session=session)
         res = {}
         if answer:
             res = {
-                'status': answer.get('etatCourantFlux'),
+                'status': answer.get('etatCourantDepotFlux'),
                 'notes': answer.get('libelle'),
                 }
         return (res, session)
