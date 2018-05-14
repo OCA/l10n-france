@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import models, fields, _
-from odoo.exceptions import UserError
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
 
 
 class ResPartner(models.Model):
@@ -25,6 +25,21 @@ class ResPartner(models.Model):
     fr_chorus_service_code = fields.Char(
         string='Chorus Service Code', size=100, track_visibility='onchange',
         help='Service Code may be required for Chorus invoices')
+
+    @api.constrains('fr_chorus_service_code', 'name', 'parent_id')
+    def check_fr_chorus_service_code(self):
+        for partner in self:
+            if partner.fr_chorus_service_code and not partner.parent_id:
+                raise ValidationError(_(
+                    "Chorus service codes can only be set on contacts, "
+                    "not on parent partners. Chorus service code '%s' has "
+                    "been set on partner %s that has no parent.")
+                    % (partner.fr_chorus_service_code, partner.display_name))
+            if partner.fr_chorus_service_code and not partner.name:
+                raise ValidationError(_(
+                    "Contacts with a Chorus service code should have a name. "
+                    "The Chorus service code '%s' has been set on a contact "
+                    "without a name.") % partner.fr_chorus_service_code)
 
     def fr_chorus_api_structures_rechercher(self, api_params, session=None):
         url_path = 'structures/rechercher'
