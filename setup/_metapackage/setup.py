@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo11-addon-l10n_fr_department',
+        'odoo11-addon-l10n_fr_department_oversea',
         'odoo11-addon-l10n_fr_siret',
         'odoo11-addon-l10n_fr_state',
     ],
