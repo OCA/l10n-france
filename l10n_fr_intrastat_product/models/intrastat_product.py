@@ -18,12 +18,12 @@ class IntrastatProductDeclaration(models.Model):
 
     # I wanted to inherit this field in l10n.fr.intrastat.product.declaration
     # but it doesn't work
-    total_amount = fields.Float(compute='_fr_compute_numbers')
+    total_amount = fields.Float(compute='_compute_fr_numbers')
     # Inherit also num_decl_lines to avoid double loop
-    num_decl_lines = fields.Integer(compute='_fr_compute_numbers')
+    num_decl_lines = fields.Integer(compute='_compute_fr_numbers')
 
     @api.depends('declaration_line_ids.amount_company_currency')
-    def _fr_compute_numbers(self):
+    def _compute_fr_numbers(self):
         for decl in self:
             total_amount = 0.0
             num_lines = 0
