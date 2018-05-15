@@ -9,7 +9,7 @@
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
     'summary': "DEB (Déclaration d'Échange de Biens) for France",
-    'author': 'Akretion',
+    'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
     'depends': [
         'intrastat_product',
