@@ -18,12 +18,12 @@ class IntrastatProductDeclaration(models.Model):
 
     # I wanted to inherit this field in l10n.fr.intrastat.product.declaration
     # but it doesn't work
-    total_amount = fields.Float(compute='_fr_compute_numbers')
+    total_amount = fields.Float(compute='_compute_fr_numbers')
     # Inherit also num_decl_lines to avoid double loop
-    num_decl_lines = fields.Integer(compute='_fr_compute_numbers')
+    num_decl_lines = fields.Integer(compute='_compute_fr_numbers')
 
     @api.depends('declaration_line_ids.amount_company_currency')
-    def _fr_compute_numbers(self):
+    def _compute_fr_numbers(self):
         for decl in self:
             total_amount = 0.0
             num_lines = 0
@@ -53,13 +53,9 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         domain = super(L10nFrIntrastatProductDeclaration, self).\
             _prepare_invoice_domain()
         if self.type == 'arrivals':
-            newdomain = []
-            for entry in domain:
-                if entry[0] == 'type' and 'in_invoice' in entry[2]:
-                    newdomain.append(('type', '=', 'in_invoice'))
-                else:
-                    newdomain.append(entry)
-            return newdomain
+            domain.append(('type', '=', 'in_invoice'))
+        elif self.type == 'dispatches':
+            domain.append(('type', 'in', ('out_invoice', 'out_refund')))
         return domain
 
     @api.model
