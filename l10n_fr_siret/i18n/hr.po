@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * l10n_fr_siret
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
@@ -12,11 +12,12 @@ msgstr ""
 "PO-Revision-Date: 2017-01-17 03:38+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Croatian (https://www.transifex.com/oca/teams/23907/hr/)\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: hr\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_company
@@ -25,53 +26,52 @@ msgstr ""
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner_company_registry
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users_company_registry
 msgid "Company Registry"
+msgstr ""
+
+#. module: l10n_fr_siret
+#: model:ir.model,name:l10n_fr_siret.model_res_partner
+msgid "Contact"
 msgstr ""
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company_nic
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner_nic
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users_nic
 msgid "NIC"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model,name:l10n_fr_siret.model_res_partner
-msgid "Partner"
-msgstr "Partner"
-
-#. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company_siren
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner_siren
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users_siren
 msgid "SIREN"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner_siret
-msgid "SIRET"
-msgstr ""
-
-#. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:66
+#: code:addons/l10n_fr_siret/models/partner.py:43
 #, python-format
-msgid "The NIC '%s' is incorrect: it must be have exactly 5 digits."
+msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
 msgstr ""
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company_nic
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner_nic
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users_nic
 msgid ""
 "The NIC number is the official rank number of this office in the company in "
-"France. It makes the last 5 digits of the SIRET number."
+"France. It composes the last 5 digits of the SIRET number."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:73
+#: code:addons/l10n_fr_siret/models/partner.py:50
 #, python-format
 msgid "The SIREN '%s' is incorrect: it must have exactly 9 digits."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:77
+#: code:addons/l10n_fr_siret/models/partner.py:54
 #, python-format
 msgid "The SIREN '%s' is invalid: the checksum is wrong."
 msgstr ""
@@ -79,26 +79,23 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company_siren
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner_siren
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users_siren
 msgid ""
 "The SIREN number is the official identity number of the company in France. "
-"It makes the first 9 digits of the SIRET number."
+"It composes the first 9 digits of the SIRET number."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:82
+#: code:addons/l10n_fr_siret/models/partner.py:59
 #, python-format
 msgid "The SIRET '%s%s' is invalid: the checksum is wrong."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner_siret
-msgid ""
-"The SIRET number is the official identity number of this company's office in"
-" France. It is composed of the 9 digits of the SIREN number and the 5 digits"
-" of the NIC number, ie. 14 digits."
-msgstr ""
-
-#. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner_company_registry
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users_company_registry
 msgid "The name of official registry where this company was declared."
 msgstr ""
+
+#~ msgid "Partner"
+#~ msgstr "Partner"
