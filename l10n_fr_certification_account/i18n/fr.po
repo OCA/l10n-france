@@ -1,0 +1,99 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_certification_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-07 16:37+0000\n"
+"PO-Revision-Date: 2017-07-07 16:37+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_certification_account
+#: model:ir.model,name:l10n_fr_certification_account.model_account_move
+msgid "Account Entry"
+msgstr "Pièce comptable"
+
+#. module: l10n_fr_certification_account
+#: selection:account.move,l10n_fr_secure_state:0
+msgid "Certified"
+msgstr "Certifié"
+
+#. module: l10n_fr_certification_account
+#: model:ir.model,name:l10n_fr_certification_account.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: l10n_fr_certification_account
+#: selection:account.move,l10n_fr_secure_state:0
+msgid "Corrupted"
+msgstr "Corrompu"
+
+#. module: l10n_fr_certification_account
+#: field:account.move,l10n_fr_secure_state:0
+msgid "Inalterability State"
+msgstr "Etat d'inaltérabilité"
+
+#. module: l10n_fr_certification_account
+#: model:ir.model,name:l10n_fr_certification_account.model_account_move_line
+msgid "Journal Items"
+msgstr "Écritures comptables"
+
+#. module: l10n_fr_certification_account
+#: field:account.move,l10n_fr_is_locked:0
+#: field:account.move.line,l10n_fr_is_locked:0
+msgid "Locked"
+msgstr "Vérrouillé"
+
+#. module: l10n_fr_certification_account
+#: selection:account.move,l10n_fr_secure_state:0
+msgid "Not Concerned"
+msgstr "Non concerné"
+
+#. module: l10n_fr_certification_account
+#: view:account.move:l10n_fr_certification_account.view_account_move_form
+msgid "Securisation"
+msgstr "Sécurisation"
+
+#. module: l10n_fr_certification_account
+#: field:account.move,l10n_fr_hash:0
+msgid "Security Hash"
+msgstr "Hash de sécurité"
+
+#. module: l10n_fr_certification_account
+#: field:res.company,l10n_fr_secure_sequence_id:0
+msgid "Security Sequence"
+msgstr "Sequence de sécurité"
+
+#. module: l10n_fr_certification_account
+#: field:account.move,l10n_fr_secure_sequence_number:0
+msgid "Security Sequence Number"
+msgstr "Numéro de séquence de sécurité"
+
+#. module: l10n_fr_certification_account
+#: help:res.company,l10n_fr_secure_sequence_id:0
+msgid "Sequence to use to ensure the securisation of data"
+msgstr "Séquence a utiliser pour assurer la sécurisation des données"
+
+#. module: l10n_fr_certification_account
+#: help:account.move,l10n_fr_secure_state:0
+msgid "State of the hash.\n"
+" * 'Not Concerned' : The hash has not be generated. No Inalteribiliy can be granted\n"
+" * 'Certified': The stored hash is conform with the current data Inalteribiliy is granted\n"
+" * 'Corrupted': The stored hash is not conform with the current data"
+msgstr "Etat du hash.\n"
+" * 'Non concerné' : Le hash n'a pas été généré. Aucune inaltérabilité ne peut être garantie\n"
+" * 'Certifié': Le hash enregistré est conforme avec les données actuelles. L'inaltérabilité est garantie\n"
+" * 'Corrompu': Le hash enregistré n'est pas conforme avec les données actuelles"
+
+#. module: l10n_fr_certification_account
+#: field:account.move,l10n_fr_string_to_hash:0
+msgid "hashed Data"
+msgstr "Données hashées"
+

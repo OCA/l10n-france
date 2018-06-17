@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp><data>
+
+        <record id="l10n_fr_certification_abstract.french_fiscalyear" model="account.fiscalyear">
+            <field eval="'French Fiscal Year X '+time.strftime('%Y')" name="name"/>
+            <field eval="'FR'+time.strftime('%Y')" name="code"/>
+            <field eval="time.strftime('%Y')+'-01-01'" name="date_start"/>
+            <field eval="time.strftime('%Y')+'-12-31'" name="date_stop"/>
+            <field name="company_id" ref="l10n_fr_certification_abstract.french_company"/>
+        </record>
+
+        <record id="l10n_fr_certification_abstract.french_period" model="account.period">
+            <field eval="'X 01/'+time.strftime('%Y')" name="name"/>
+            <field eval="'01/'+time.strftime('%Y')" name="code"/>
+            <field name="fiscalyear_id" ref="l10n_fr_certification_abstract.french_fiscalyear"/>
+            <field eval="time.strftime('%Y')+'-01-01'" name="date_start"/>
+            <field eval="time.strftime('%Y')+'-12-31'" name="date_stop"/>
+            <field name="company_id" ref="l10n_fr_certification_abstract.french_company"/>
+        </record>
+
+</data></openerp>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp><data>
+
+        <record id="l10n_fr_certification_abstract.french_receivable_account" model="account.account">
+            <field name="name">French Receivable Account</field>
+            <field name="code">411X</field>
+            <field name="user_type" ref="account.data_account_type_receivable"/>
+            <field name="company_id" ref="l10n_fr_certification_abstract.french_company"/>
+        </record>
+
+        <record id="l10n_fr_certification_abstract.property_account_receivable" model="ir.property">
+            <field name="name">french_property_account_receivable</field>
+            <field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_receivable')]"/>
+            <field eval="'account.account,'+str(ref('l10n_fr_certification_abstract.french_receivable_account'))" name="value"/>
+            <field name="company_id" ref="l10n_fr_certification_abstract.french_company"/>
+        </record>
+
+</data></openerp>
