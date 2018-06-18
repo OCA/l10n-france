@@ -17,7 +17,7 @@ class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
     @api.model
-    def _prepare_field(self, field_name, field_value, size):
+    def _prepare_lcr_field(self, field_name, field_value, size):
         '''This function is designed to be inherited.'''
         if not field_value:
             raise UserError(_(
@@ -81,16 +81,16 @@ class AccountPaymentOrder(models.Model):
         today_str = fields.Date.context_today(self)
         today_dt = fields.Date.from_string(today_str)
         date_remise = today_dt.strftime(LCR_DATE_FORMAT)
-        raison_sociale_cedant = self._prepare_field(
+        raison_sociale_cedant = self._prepare_lcr_field(
             u'Raison sociale du cédant', self.company_id.name, 24)
-        domiciliation_bancaire_cedant = self._prepare_field(
+        domiciliation_bancaire_cedant = self._prepare_lcr_field(
             u'Domiciliation bancaire du cédant',
             self.company_partner_bank_id.bank_id.name, 24)
         code_entree = '3'
         code_dailly = ' '
         code_monnaie = 'E'
         rib = self._get_rib_from_iban(self.company_partner_bank_id)
-        ref_remise = self._prepare_field(
+        ref_remise = self._prepare_lcr_field(
             u'Référence de la remise', self.name, 11)
         cfonb_line = ''.join([
             code_enregistrement,
@@ -124,13 +124,13 @@ class AccountPaymentOrder(models.Model):
         code_enregistrement = '06'
         code_operation = '60'
         numero_enregistrement = str(transactions_count + 1).zfill(8)
-        reference_tire = self._prepare_field(
+        reference_tire = self._prepare_lcr_field(
             u'Référence tiré', line.communication, 10)
         rib = self._get_rib_from_iban(line.partner_bank_id)
 
-        nom_tire = self._prepare_field(
+        nom_tire = self._prepare_lcr_field(
             u'Nom tiré', line.partner_id.name, 24)
-        nom_banque = self._prepare_field(
+        nom_banque = self._prepare_lcr_field(
             u'Nom banque', line.partner_bank_id.bank_id.name, 24)
         code_acceptation = '0'
         montant_centimes = str(line.amount_currency * 100).split('.')[0]
