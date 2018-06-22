@@ -1,22 +1,17 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * l10n_fr_naf_ape
+#	* l10n_fr_naf_ape
 #
-# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: l10n-france (9.0)\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-02 06:49+0000\n"
-"PO-Revision-Date: 2016-04-14 10:26+0000\n"
 "Last-Translator: <>\n"
-"Language-Team: German (http://www.transifex.com/oca/OCA-l10n-france-9-0/"
-"language/de/)\n"
-"Language: de\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 
 #. module: l10n_fr_naf_ape
 #: model:ir.model.fields,field_description:l10n_fr_naf_ape.field_res_partner_ape_id
@@ -27,21 +22,17 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:ir.model.fields,help:l10n_fr_naf_ape.field_res_partner_ape_id
 #: model:ir.model.fields,help:l10n_fr_naf_ape.field_res_users_ape_id
-msgid ""
-"If the partner is a French company, enter its official main activity in this "
-"field. The APE is chosen among the NAF nomenclature."
+msgid "If the partner is a French company, enter its official main activity in this field. The APE is chosen among the NAF nomenclature."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:ir.model,name:l10n_fr_naf_ape.model_res_partner
 msgid "Partner"
-msgstr "Partner"
+msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_01_11Z
-msgid ""
-"[01.11Z] Culture de céréales (à l'exception du riz), de légumineuses et de "
-"graines oléagineuses"
+msgid "[01.11Z] Culture de céréales (à l'exception du riz), de légumineuses et de graines oléagineuses"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -96,8 +87,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_01_25Z
-msgid ""
-"[01.25Z] Culture d'autres fruits d'arbres ou d'arbustes et de fruits à coque"
+msgid "[01.25Z] Culture d'autres fruits d'arbres ou d'arbustes et de fruits à coque"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -112,9 +102,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_01_28Z
-msgid ""
-"[01.28Z] Culture de plantes à épices, aromatiques, médicinales et "
-"pharmaceutiques"
+msgid "[01.28Z] Culture de plantes à épices, aromatiques, médicinales et pharmaceutiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -209,8 +197,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_02_30Z
-msgid ""
-"[02.30Z] Récolte de produits forestiers non ligneux poussant à l'état sauvage"
+msgid "[02.30Z] Récolte de produits forestiers non ligneux poussant à l'état sauvage"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -275,16 +262,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_08_11Z
-msgid ""
-"[08.11Z] Extraction de pierres ornementales et de construction, de calcaire "
-"industriel, de gypse, de craie et d'ardoise"
+msgid "[08.11Z] Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d'ardoise"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_08_12Z
-msgid ""
-"[08.12Z] Exploitation de gravières et sablières, extraction d'argiles et de "
-"kaolin"
+msgid "[08.12Z] Exploitation de gravières et sablières, extraction d'argiles et de kaolin"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -339,9 +322,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_10_20Z
-msgid ""
-"[10.20Z] Transformation et conservation de poisson, de crustacés et de "
-"mollusques"
+msgid "[10.20Z] Transformation et conservation de poisson, de crustacés et de mollusques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -441,8 +422,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_10_72Z
-msgid ""
-"[10.72Z] Fabrication de biscuits, biscottes et pâtisseries de conservation"
+msgid "[10.72Z] Fabrication de biscuits, biscottes et pâtisseries de conservation"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -637,14 +617,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_15_11Z
-msgid ""
-"[15.11Z] Apprêt et tannage des cuirs ; préparation et teinture des fourrures"
+msgid "[15.11Z] Apprêt et tannage des cuirs ; préparation et teinture des fourrures"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_15_12Z
-msgid ""
-"[15.12Z] Fabrication d'articles de voyage, de maroquinerie et de sellerie"
+msgid "[15.12Z] Fabrication d'articles de voyage, de maroquinerie et de sellerie"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -684,9 +662,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_16_29Z
-msgid ""
-"[16.29Z] Fabrication d'objets divers en bois ; fabrication d'objets en "
-"liège, vannerie et sparterie"
+msgid "[16.29Z] Fabrication d'objets divers en bois ; fabrication d'objets en liège, vannerie et sparterie"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -716,8 +692,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_17_22Z
-msgid ""
-"[17.22Z] Fabrication d'articles en papier à usage sanitaire ou domestique"
+msgid "[17.22Z] Fabrication d'articles en papier à usage sanitaire ou domestique"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -787,8 +762,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_20_13B
-msgid ""
-"[20.13B] Fabrication d'autres produits chimiques inorganiques de base n.c.a."
+msgid "[20.13B] Fabrication d'autres produits chimiques inorganiques de base n.c.a."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -878,9 +852,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_22_21Z
-msgid ""
-"[22.21Z] Fabrication de plaques, feuilles, tubes et profilés en matières "
-"plastiques"
+msgid "[22.21Z] Fabrication de plaques, feuilles, tubes et profilés en matières plastiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -890,8 +862,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_22_23Z
-msgid ""
-"[22.23Z] Fabrication d'éléments en matières plastiques pour la construction"
+msgid "[22.23Z] Fabrication d'éléments en matières plastiques pour la construction"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -901,9 +872,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_22_29B
-msgid ""
-"[22.29B] Fabrication de produits de consommation courante en matières "
-"plastiques"
+msgid "[22.29B] Fabrication de produits de consommation courante en matières plastiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -928,9 +897,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_23_19Z
-msgid ""
-"[23.19Z] Fabrication et façonnage d'autres articles en verre, y compris "
-"verre technique"
+msgid "[23.19Z] Fabrication et façonnage d'autres articles en verre, y compris verre technique"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -945,15 +912,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_23_32Z
-msgid ""
-"[23.32Z] Fabrication de briques, tuiles et produits de construction, en "
-"terre cuite"
+msgid "[23.32Z] Fabrication de briques, tuiles et produits de construction, en terre cuite"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_23_41Z
-msgid ""
-"[23.41Z] Fabrication d'articles céramiques à usage domestique ou ornemental"
+msgid "[23.41Z] Fabrication d'articles céramiques à usage domestique ou ornemental"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1038,9 +1002,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_24_20Z
-msgid ""
-"[24.20Z] Fabrication de tubes, tuyaux, profilés creux et accessoires "
-"correspondants en acier"
+msgid "[24.20Z] Fabrication de tubes, tuyaux, profilés creux et accessoires correspondants en acier"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1115,8 +1077,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_25_11Z
-msgid ""
-"[25.11Z] Fabrication de structures métalliques et de parties de structures"
+msgid "[25.11Z] Fabrication de structures métalliques et de parties de structures"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1126,21 +1087,17 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_25_21Z
-msgid ""
-"[25.21Z] Fabrication de radiateurs et de chaudières pour le chauffage central"
+msgid "[25.21Z] Fabrication de radiateurs et de chaudières pour le chauffage central"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_25_29Z
-msgid ""
-"[25.29Z] Fabrication d'autres réservoirs, citernes et conteneurs métalliques"
+msgid "[25.29Z] Fabrication d'autres réservoirs, citernes et conteneurs métalliques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_25_30Z
-msgid ""
-"[25.30Z] Fabrication de générateurs de vapeur, à l'exception des chaudières "
-"pour le chauffage central"
+msgid "[25.30Z] Fabrication de générateurs de vapeur, à l'exception des chaudières pour le chauffage central"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1205,9 +1162,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_25_93Z
-msgid ""
-"[25.93Z] Fabrication d'articles en fils métalliques, de chaînes et de "
-"ressorts"
+msgid "[25.93Z] Fabrication d'articles en fils métalliques, de chaînes et de ressorts"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1267,9 +1222,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_26_60Z
-msgid ""
-"[26.60Z] Fabrication d'équipements d'irradiation médicale, d'équipements "
-"électromédicaux et électrothérapeutiques"
+msgid "[26.60Z] Fabrication d'équipements d'irradiation médicale, d'équipements électromédicaux et électrothérapeutiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1284,14 +1237,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_27_11Z
-msgid ""
-"[27.11Z] Fabrication de moteurs, génératrices et transformateurs électriques"
+msgid "[27.11Z] Fabrication de moteurs, génératrices et transformateurs électriques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_27_12Z
-msgid ""
-"[27.12Z] Fabrication de matériel de distribution et de commande électrique"
+msgid "[27.12Z] Fabrication de matériel de distribution et de commande électrique"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1306,8 +1257,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_27_32Z
-msgid ""
-"[27.32Z] Fabrication d'autres fils et câbles électroniques ou électriques"
+msgid "[27.32Z] Fabrication d'autres fils et câbles électroniques ou électriques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1337,9 +1287,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_28_11Z
-msgid ""
-"[28.11Z] Fabrication de moteurs et turbines, à l'exception des moteurs "
-"d'avions et de véhicules"
+msgid "[28.11Z] Fabrication de moteurs et turbines, à l'exception des moteurs d'avions et de véhicules"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1359,8 +1307,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_28_15Z
-msgid ""
-"[28.15Z] Fabrication d'engrenages et d'organes mécaniques de transmission"
+msgid "[28.15Z] Fabrication d'engrenages et d'organes mécaniques de transmission"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1375,9 +1322,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_28_23Z
-msgid ""
-"[28.23Z] Fabrication de machines et d'équipements de bureau (à l'exception "
-"des ordinateurs et équipements périphériques)"
+msgid "[28.23Z] Fabrication de machines et d'équipements de bureau (à l'exception des ordinateurs et équipements périphériques)"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1387,15 +1332,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_28_25Z
-msgid ""
-"[28.25Z] Fabrication d'équipements aérauliques et frigorifiques industriels"
+msgid "[28.25Z] Fabrication d'équipements aérauliques et frigorifiques industriels"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_28_29A
-msgid ""
-"[28.29A] Fabrication d'équipements d'emballage, de conditionnement et de "
-"pesage"
+msgid "[28.29A] Fabrication d'équipements d'emballage, de conditionnement et de pesage"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1440,15 +1382,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_28_95Z
-msgid ""
-"[28.95Z] Fabrication de machines pour les industries du papier et du carton"
+msgid "[28.95Z] Fabrication de machines pour les industries du papier et du carton"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_28_96Z
-msgid ""
-"[28.96Z] Fabrication de machines pour le travail du caoutchouc ou des "
-"plastiques"
+msgid "[28.96Z] Fabrication de machines pour le travail du caoutchouc ou des plastiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1473,8 +1412,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_29_31Z
-msgid ""
-"[29.31Z] Fabrication d'équipements électriques et électroniques automobiles"
+msgid "[29.31Z] Fabrication d'équipements électriques et électroniques automobiles"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1494,8 +1432,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_30_20Z
-msgid ""
-"[30.20Z] Construction de locomotives et d'autre matériel ferroviaire roulant"
+msgid "[30.20Z] Construction de locomotives et d'autre matériel ferroviaire roulant"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1545,8 +1482,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_31_09B
-msgid ""
-"[31.09B] Fabrication d'autres meubles et industries connexes de l'ameublement"
+msgid "[31.09B] Fabrication d'autres meubles et industries connexes de l'ameublement"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1561,9 +1497,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_32_13Z
-msgid ""
-"[32.13Z] Fabrication d'articles de bijouterie fantaisie et articles "
-"similaires"
+msgid "[32.13Z] Fabrication d'articles de bijouterie fantaisie et articles similaires"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1643,9 +1577,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_33_20A
-msgid ""
-"[33.20A] Installation de structures métalliques, chaudronnées et de "
-"tuyauterie"
+msgid "[33.20A] Installation de structures métalliques, chaudronnées et de tuyauterie"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1655,16 +1587,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_33_20C
-msgid ""
-"[33.20C] Conception d'ensemble et assemblage sur site industriel "
-"d'équipements de contrôle des processus industriels"
+msgid "[33.20C] Conception d'ensemble et assemblage sur site industriel d'équipements de contrôle des processus industriels"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_33_20D
-msgid ""
-"[33.20D] Installation d'équipements électriques, de matériels électroniques "
-"et optiques ou d'autres matériels"
+msgid "[33.20D] Installation d'équipements électriques, de matériels électroniques et optiques ou d'autres matériels"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1859,8 +1787,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_43_22B
-msgid ""
-"[43.22B] Travaux d'installation d'équipements thermiques et de climatisation"
+msgid "[43.22B] Travaux d'installation d'équipements thermiques et de climatisation"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1980,9 +1907,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_11Z
-msgid ""
-"[46.11Z] Intermédiaires du commerce en matières premières agricoles, animaux "
-"vivants, matières premières textiles et produits semi-finis"
+msgid "[46.11Z] Intermédiaires du commerce en matières premières agricoles, animaux vivants, matières premières textiles et produits semi-finis"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1992,36 +1917,27 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_12B
-msgid ""
-"[46.12B] Autres intermédiaires du commerce en combustibles, métaux, minéraux "
-"et produits chimiques"
+msgid "[46.12B] Autres intermédiaires du commerce en combustibles, métaux, minéraux et produits chimiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_13Z
-msgid ""
-"[46.13Z] Intermédiaires du commerce en bois et matériaux de construction"
+msgid "[46.13Z] Intermédiaires du commerce en bois et matériaux de construction"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_14Z
-msgid ""
-"[46.14Z] Intermédiaires du commerce en machines, équipements industriels, "
-"navires et avions"
+msgid "[46.14Z] Intermédiaires du commerce en machines, équipements industriels, navires et avions"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_15Z
-msgid ""
-"[46.15Z] Intermédiaires du commerce en meubles, articles de ménage et "
-"quincaillerie"
+msgid "[46.15Z] Intermédiaires du commerce en meubles, articles de ménage et quincaillerie"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_16Z
-msgid ""
-"[46.16Z] Intermédiaires du commerce en textiles, habillement, fourrures, "
-"chaussures et articles en cuir"
+msgid "[46.16Z] Intermédiaires du commerce en textiles, habillement, fourrures, chaussures et articles en cuir"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2031,15 +1947,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_17B
-msgid ""
-"[46.17B] Autres intermédiaires du commerce en denrées, boissons et tabac"
+msgid "[46.17B] Autres intermédiaires du commerce en denrées, boissons et tabac"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_18Z
-msgid ""
-"[46.18Z] Intermédiaires spécialisés dans le commerce d'autres produits "
-"spécifiques"
+msgid "[46.18Z] Intermédiaires spécialisés dans le commerce d'autres produits spécifiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2054,15 +1967,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_21Z
-msgid ""
-"[46.21Z] Commerce de gros (commerce interentreprises) de céréales, de tabac "
-"non manufacturé, de semences et d'aliments pour le bétail"
+msgid "[46.21Z] Commerce de gros (commerce interentreprises) de céréales, de tabac non manufacturé, de semences et d'aliments pour le bétail"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_22Z
-msgid ""
-"[46.22Z] Commerce de gros (commerce interentreprises) de fleurs et plantes"
+msgid "[46.22Z] Commerce de gros (commerce interentreprises) de fleurs et plantes"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2077,34 +1987,27 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_31Z
-msgid ""
-"[46.31Z] Commerce de gros (commerce interentreprises) de fruits et légumes"
+msgid "[46.31Z] Commerce de gros (commerce interentreprises) de fruits et légumes"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_32A
-msgid ""
-"[46.32A] Commerce de gros (commerce interentreprises) de viandes de boucherie"
+msgid "[46.32A] Commerce de gros (commerce interentreprises) de viandes de boucherie"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_32B
-msgid ""
-"[46.32B] Commerce de gros (commerce interentreprises) de produits à base de "
-"viande"
+msgid "[46.32B] Commerce de gros (commerce interentreprises) de produits à base de viande"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_32C
-msgid ""
-"[46.32C] Commerce de gros (commerce interentreprises) de volailles et gibier"
+msgid "[46.32C] Commerce de gros (commerce interentreprises) de volailles et gibier"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_33Z
-msgid ""
-"[46.33Z] Commerce de gros (commerce interentreprises) de produits laitiers, "
-"œufs, huiles et matières grasses comestibles"
+msgid "[46.33Z] Commerce de gros (commerce interentreprises) de produits laitiers, œufs, huiles et matières grasses comestibles"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2114,50 +2017,37 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_35Z
-msgid ""
-"[46.35Z] Commerce de gros (commerce interentreprises) de produits à base de "
-"tabac"
+msgid "[46.35Z] Commerce de gros (commerce interentreprises) de produits à base de tabac"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_36Z
-msgid ""
-"[46.36Z] Commerce de gros (commerce interentreprises) de sucre, chocolat et "
-"confiserie"
+msgid "[46.36Z] Commerce de gros (commerce interentreprises) de sucre, chocolat et confiserie"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_37Z
-msgid ""
-"[46.37Z] Commerce de gros (commerce interentreprises) de café, thé, cacao et "
-"épices"
+msgid "[46.37Z] Commerce de gros (commerce interentreprises) de café, thé, cacao et épices"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_38A
-msgid ""
-"[46.38A] Commerce de gros (commerce interentreprises) de poissons, crustacés "
-"et mollusques"
+msgid "[46.38A] Commerce de gros (commerce interentreprises) de poissons, crustacés et mollusques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_38B
-msgid ""
-"[46.38B] Commerce de gros (commerce interentreprises) alimentaire spécialisé "
-"divers"
+msgid "[46.38B] Commerce de gros (commerce interentreprises) alimentaire spécialisé divers"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_39A
-msgid ""
-"[46.39A] Commerce de gros (commerce interentreprises) de produits surgelés"
+msgid "[46.39A] Commerce de gros (commerce interentreprises) de produits surgelés"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_39B
-msgid ""
-"[46.39B] Commerce de gros (commerce interentreprises) alimentaire non "
-"spécialisé"
+msgid "[46.39B] Commerce de gros (commerce interentreprises) alimentaire non spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2167,158 +2057,117 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_42Z
-msgid ""
-"[46.42Z] Commerce de gros (commerce interentreprises) d'habillement et de "
-"chaussures"
+msgid "[46.42Z] Commerce de gros (commerce interentreprises) d'habillement et de chaussures"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_43Z
-msgid ""
-"[46.43Z] Commerce de gros (commerce interentreprises) d'appareils "
-"électroménagers"
+msgid "[46.43Z] Commerce de gros (commerce interentreprises) d'appareils électroménagers"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_44Z
-msgid ""
-"[46.44Z] Commerce de gros (commerce interentreprises) de vaisselle, verrerie "
-"et produits d'entretien"
+msgid "[46.44Z] Commerce de gros (commerce interentreprises) de vaisselle, verrerie et produits d'entretien"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_45Z
-msgid ""
-"[46.45Z] Commerce de gros (commerce interentreprises) de parfumerie et de "
-"produits de beauté"
+msgid "[46.45Z] Commerce de gros (commerce interentreprises) de parfumerie et de produits de beauté"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_46Z
-msgid ""
-"[46.46Z] Commerce de gros (commerce interentreprises) de produits "
-"pharmaceutiques"
+msgid "[46.46Z] Commerce de gros (commerce interentreprises) de produits pharmaceutiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_47Z
-msgid ""
-"[46.47Z] Commerce de gros (commerce interentreprises) de meubles, de tapis "
-"et d'appareils d'éclairage"
+msgid "[46.47Z] Commerce de gros (commerce interentreprises) de meubles, de tapis et d'appareils d'éclairage"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_48Z
-msgid ""
-"[46.48Z] Commerce de gros (commerce interentreprises) d'articles "
-"d'horlogerie et de bijouterie"
+msgid "[46.48Z] Commerce de gros (commerce interentreprises) d'articles d'horlogerie et de bijouterie"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_49Z
-msgid ""
-"[46.49Z] Commerce de gros (commerce interentreprises) d'autres biens "
-"domestiques"
+msgid "[46.49Z] Commerce de gros (commerce interentreprises) d'autres biens domestiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_51Z
-msgid ""
-"[46.51Z] Commerce de gros (commerce interentreprises) d'ordinateurs, "
-"d'équipements informatiques périphériques et de logiciels"
+msgid "[46.51Z] Commerce de gros (commerce interentreprises) d'ordinateurs, d'équipements informatiques périphériques et de logiciels"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_52Z
-msgid ""
-"[46.52Z] Commerce de gros (commerce interentreprises) de composants et "
-"d'équipements électroniques et de télécommunication"
+msgid "[46.52Z] Commerce de gros (commerce interentreprises) de composants et d'équipements électroniques et de télécommunication"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_61Z
-msgid ""
-"[46.61Z] Commerce de gros (commerce interentreprises) de matériel agricole"
+msgid "[46.61Z] Commerce de gros (commerce interentreprises) de matériel agricole"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_62Z
-msgid ""
-"[46.62Z] Commerce de gros (commerce interentreprises) de machines-outils"
+msgid "[46.62Z] Commerce de gros (commerce interentreprises) de machines-outils"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_63Z
-msgid ""
-"[46.63Z] Commerce de gros (commerce interentreprises) de machines pour "
-"l'extraction, la construction et le génie civil"
+msgid "[46.63Z] Commerce de gros (commerce interentreprises) de machines pour l'extraction, la construction et le génie civil"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_64Z
-msgid ""
-"[46.64Z] Commerce de gros (commerce interentreprises) de machines pour "
-"l'industrie textile et l'habillement"
+msgid "[46.64Z] Commerce de gros (commerce interentreprises) de machines pour l'industrie textile et l'habillement"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_65Z
-msgid ""
-"[46.65Z] Commerce de gros (commerce interentreprises) de mobilier de bureau"
+msgid "[46.65Z] Commerce de gros (commerce interentreprises) de mobilier de bureau"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_66Z
-msgid ""
-"[46.66Z] Commerce de gros (commerce interentreprises) d'autres machines et "
-"équipements de bureau"
+msgid "[46.66Z] Commerce de gros (commerce interentreprises) d'autres machines et équipements de bureau"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_69A
-msgid ""
-"[46.69A] Commerce de gros (commerce interentreprises) de matériel électrique"
+msgid "[46.69A] Commerce de gros (commerce interentreprises) de matériel électrique"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_69B
-msgid ""
-"[46.69B] Commerce de gros (commerce interentreprises) de fournitures et "
-"équipements industriels divers"
+msgid "[46.69B] Commerce de gros (commerce interentreprises) de fournitures et équipements industriels divers"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_69C
-msgid ""
-"[46.69C] Commerce de gros (commerce interentreprises) de fournitures et "
-"équipements divers pour le commerce et les services"
+msgid "[46.69C] Commerce de gros (commerce interentreprises) de fournitures et équipements divers pour le commerce et les services"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_71Z
-msgid ""
-"[46.71Z] Commerce de gros (commerce interentreprises) de combustibles et de "
-"produits annexes"
+msgid "[46.71Z] Commerce de gros (commerce interentreprises) de combustibles et de produits annexes"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_72Z
-msgid ""
-"[46.72Z] Commerce de gros (commerce interentreprises) de minerais et métaux"
+msgid "[46.72Z] Commerce de gros (commerce interentreprises) de minerais et métaux"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_73A
-msgid ""
-"[46.73A] Commerce de gros (commerce interentreprises) de bois et de "
-"matériaux de construction"
+msgid "[46.73A] Commerce de gros (commerce interentreprises) de bois et de matériaux de construction"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_73B
-msgid ""
-"[46.73B] Commerce de gros (commerce interentreprises) d'appareils sanitaires "
-"et de produits de décoration"
+msgid "[46.73B] Commerce de gros (commerce interentreprises) d'appareils sanitaires et de produits de décoration"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2328,28 +2177,22 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_74B
-msgid ""
-"[46.74B] Commerce de gros (commerce interentreprises) de fournitures pour la "
-"plomberie et le chauffage"
+msgid "[46.74B] Commerce de gros (commerce interentreprises) de fournitures pour la plomberie et le chauffage"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_75Z
-msgid ""
-"[46.75Z] Commerce de gros (commerce interentreprises) de produits chimiques"
+msgid "[46.75Z] Commerce de gros (commerce interentreprises) de produits chimiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_76Z
-msgid ""
-"[46.76Z] Commerce de gros (commerce interentreprises) d'autres produits "
-"intermédiaires"
+msgid "[46.76Z] Commerce de gros (commerce interentreprises) d'autres produits intermédiaires"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_77Z
-msgid ""
-"[46.77Z] Commerce de gros (commerce interentreprises) de déchets et débris"
+msgid "[46.77Z] Commerce de gros (commerce interentreprises) de déchets et débris"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2404,23 +2247,17 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_22Z
-msgid ""
-"[47.22Z] Commerce de détail de viandes et de produits à base de viande en "
-"magasin spécialisé"
+msgid "[47.22Z] Commerce de détail de viandes et de produits à base de viande en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_23Z
-msgid ""
-"[47.23Z] Commerce de détail de poissons, crustacés et mollusques en magasin "
-"spécialisé"
+msgid "[47.23Z] Commerce de détail de poissons, crustacés et mollusques en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_24Z
-msgid ""
-"[47.24Z] Commerce de détail de pain, pâtisserie et confiserie en magasin "
-"spécialisé"
+msgid "[47.24Z] Commerce de détail de pain, pâtisserie et confiserie en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2430,8 +2267,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_26Z
-msgid ""
-"[47.26Z] Commerce de détail de produits à base de tabac en magasin spécialisé"
+msgid "[47.26Z] Commerce de détail de produits à base de tabac en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2446,22 +2282,17 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_41Z
-msgid ""
-"[47.41Z] Commerce de détail d'ordinateurs, d'unités périphériques et de "
-"logiciels en magasin spécialisé"
+msgid "[47.41Z] Commerce de détail d'ordinateurs, d'unités périphériques et de logiciels en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_42Z
-msgid ""
-"[47.42Z] Commerce de détail de matériels de télécommunication en magasin "
-"spécialisé"
+msgid "[47.42Z] Commerce de détail de matériels de télécommunication en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_43Z
-msgid ""
-"[47.43Z] Commerce de détail de matériels audio et vidéo en magasin spécialisé"
+msgid "[47.43Z] Commerce de détail de matériels audio et vidéo en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2471,29 +2302,22 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_52A
-msgid ""
-"[47.52A] Commerce de détail de quincaillerie, peintures et verres en petites "
-"surfaces (moins de 400 m²)"
+msgid "[47.52A] Commerce de détail de quincaillerie, peintures et verres en petites surfaces (moins de 400 m²)"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_52B
-msgid ""
-"[47.52B] Commerce de détail de quincaillerie, peintures et verres en grandes "
-"surfaces (400 m² et plus)"
+msgid "[47.52B] Commerce de détail de quincaillerie, peintures et verres en grandes surfaces (400 m² et plus)"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_53Z
-msgid ""
-"[47.53Z] Commerce de détail de tapis, moquettes et revêtements de murs et de "
-"sols en magasin spécialisé"
+msgid "[47.53Z] Commerce de détail de tapis, moquettes et revêtements de murs et de sols en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_54Z
-msgid ""
-"[47.54Z] Commerce de détail d'appareils électroménagers en magasin spécialisé"
+msgid "[47.54Z] Commerce de détail d'appareils électroménagers en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2513,15 +2337,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_62Z
-msgid ""
-"[47.62Z] Commerce de détail de journaux et papeterie en magasin spécialisé"
+msgid "[47.62Z] Commerce de détail de journaux et papeterie en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_63Z
-msgid ""
-"[47.63Z] Commerce de détail d'enregistrements musicaux et vidéo en magasin "
-"spécialisé"
+msgid "[47.63Z] Commerce de détail d'enregistrements musicaux et vidéo en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2551,36 +2372,27 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_73Z
-msgid ""
-"[47.73Z] Commerce de détail de produits pharmaceutiques en magasin spécialisé"
+msgid "[47.73Z] Commerce de détail de produits pharmaceutiques en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_74Z
-msgid ""
-"[47.74Z] Commerce de détail d'articles médicaux et orthopédiques en magasin "
-"spécialisé"
+msgid "[47.74Z] Commerce de détail d'articles médicaux et orthopédiques en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_75Z
-msgid ""
-"[47.75Z] Commerce de détail de parfumerie et de produits de beauté en "
-"magasin spécialisé"
+msgid "[47.75Z] Commerce de détail de parfumerie et de produits de beauté en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_76Z
-msgid ""
-"[47.76Z] Commerce de détail de fleurs, plantes, graines, engrais, animaux de "
-"compagnie et aliments pour ces animaux en magasin spécialisé"
+msgid "[47.76Z] Commerce de détail de fleurs, plantes, graines, engrais, animaux de compagnie et aliments pour ces animaux en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_77Z
-msgid ""
-"[47.77Z] Commerce de détail d'articles d'horlogerie et de bijouterie en "
-"magasin spécialisé"
+msgid "[47.77Z] Commerce de détail d'articles d'horlogerie et de bijouterie en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2610,9 +2422,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_82Z
-msgid ""
-"[47.82Z] Commerce de détail de textiles, d'habillement et de chaussures sur "
-"éventaires et marchés"
+msgid "[47.82Z] Commerce de détail de textiles, d'habillement et de chaussures sur éventaires et marchés"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2637,9 +2447,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_99B
-msgid ""
-"[47.99B] Vente par automates et autres commerces de détail hors magasin, "
-"éventaires ou marchés n.c.a."
+msgid "[47.99B] Vente par automates et autres commerces de détail hors magasin, éventaires ou marchés n.c.a."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2784,9 +2592,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_53_10Z
-msgid ""
-"[53.10Z] Activités de poste dans le cadre d'une obligation de service "
-"universel"
+msgid "[53.10Z] Activités de poste dans le cadre d'une obligation de service universel"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2806,8 +2612,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_55_30Z
-msgid ""
-"[55.30Z] Terrains de camping et parcs pour caravanes ou véhicules de loisirs"
+msgid "[55.30Z] Terrains de camping et parcs pour caravanes ou véhicules de loisirs"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2912,9 +2717,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_59_12Z
-msgid ""
-"[59.12Z] Post-production de films cinématographiques, de vidéo et de "
-"programmes de télévision"
+msgid "[59.12Z] Post-production de films cinématographiques, de vidéo et de programmes de télévision"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3049,9 +2852,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_64_99Z
-msgid ""
-"[64.99Z] Autres activités des services financiers, hors assurance et caisses "
-"de retraite, n.c.a."
+msgid "[64.99Z] Autres activités des services financiers, hors assurance et caisses de retraite, n.c.a."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3091,9 +2892,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_66_19B
-msgid ""
-"[66.19B] Autres activités auxiliaires de services financiers, hors assurance "
-"et caisses de retraite, n.c.a."
+msgid "[66.19B] Autres activités auxiliaires de services financiers, hors assurance et caisses de retraite, n.c.a."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3108,8 +2907,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_66_29Z
-msgid ""
-"[66.29Z] Autres activités auxiliaires d'assurance et de caisses de retraite"
+msgid "[66.29Z] Autres activités auxiliaires d'assurance et de caisses de retraite"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3204,8 +3002,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_72_19Z
-msgid ""
-"[72.19Z] Recherche-développement en autres sciences physiques et naturelles"
+msgid "[72.19Z] Recherche-développement en autres sciences physiques et naturelles"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3260,16 +3057,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_77_11A
-msgid ""
-"[77.11A] Location de courte durée de voitures et de véhicules automobiles "
-"légers"
+msgid "[77.11A] Location de courte durée de voitures et de véhicules automobiles légers"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_77_11B
-msgid ""
-"[77.11B] Location de longue durée de voitures et de véhicules automobiles "
-"légers"
+msgid "[77.11B] Location de longue durée de voitures et de véhicules automobiles légers"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3289,8 +3082,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_77_29Z
-msgid ""
-"[77.29Z] Location et location-bail d'autres biens personnels et domestiques"
+msgid "[77.29Z] Location et location-bail d'autres biens personnels et domestiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3300,16 +3092,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_77_32Z
-msgid ""
-"[77.32Z] Location et location-bail de machines et équipements pour la "
-"construction"
+msgid "[77.32Z] Location et location-bail de machines et équipements pour la construction"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_77_33Z
-msgid ""
-"[77.33Z] Location et location-bail de machines de bureau et de matériel "
-"informatique"
+msgid "[77.33Z] Location et location-bail de machines de bureau et de matériel informatique"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3324,16 +3112,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_77_39Z
-msgid ""
-"[77.39Z] Location et location-bail d'autres machines, équipements et biens "
-"matériels n.c.a."
+msgid "[77.39Z] Location et location-bail d'autres machines, équipements et biens matériels n.c.a."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_77_40Z
-msgid ""
-"[77.40Z] Location-bail de propriété intellectuelle et de produits "
-"similaires, à l'exception des œuvres soumises à copyright"
+msgid "[77.40Z] Location-bail de propriété intellectuelle et de produits similaires, à l'exception des œuvres soumises à copyright"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3393,8 +3177,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_81_22Z
-msgid ""
-"[81.22Z] Autres activités de nettoyage des bâtiments et nettoyage industriel"
+msgid "[81.22Z] Autres activités de nettoyage des bâtiments et nettoyage industriel"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3419,9 +3202,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_82_19Z
-msgid ""
-"[82.19Z] Photocopie, préparation de documents et autres activités "
-"spécialisées de soutien de bureau"
+msgid "[82.19Z] Photocopie, préparation de documents et autres activités spécialisées de soutien de bureau"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3436,9 +3217,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_82_91Z
-msgid ""
-"[82.91Z] Activités des agences de recouvrement de factures et des sociétés "
-"d'information financière sur la clientèle"
+msgid "[82.91Z] Activités des agences de recouvrement de factures et des sociétés d'information financière sur la clientèle"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3458,9 +3237,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_84_12Z
-msgid ""
-"[84.12Z] Administration publique (tutelle) de la santé, de la formation, de "
-"la culture et des services sociaux, autre que sécurité sociale"
+msgid "[84.12Z] Administration publique (tutelle) de la santé, de la formation, de la culture et des services sociaux, autre que sécurité sociale"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3540,8 +3317,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_85_51Z
-msgid ""
-"[85.51Z] Enseignement de disciplines sportives et d'activités de loisirs"
+msgid "[85.51Z] Enseignement de disciplines sportives et d'activités de loisirs"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3621,9 +3397,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_86_90E
-msgid ""
-"[86.90E] Activités des professionnels de la rééducation, de l'appareillage "
-"et des pédicures-podologues"
+msgid "[86.90E] Activités des professionnels de la rééducation, de l'appareillage et des pédicures-podologues"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3643,9 +3417,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_87_10C
-msgid ""
-"[87.10C] Hébergement médicalisé pour adultes handicapés et autre hébergement "
-"médicalisé"
+msgid "[87.10C] Hébergement médicalisé pour adultes handicapés et autre hébergement médicalisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3675,9 +3447,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_87_90B
-msgid ""
-"[87.90B] Hébergement social pour adultes et familles en difficultés et autre "
-"hébergement social"
+msgid "[87.90B] Hébergement social pour adultes et familles en difficultés et autre hébergement social"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3687,9 +3457,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_88_10B
-msgid ""
-"[88.10B] Accueil ou accompagnement sans hébergement d'adultes handicapés ou "
-"de personnes âgées"
+msgid "[88.10B] Accueil ou accompagnement sans hébergement d'adultes handicapés ou de personnes âgées"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3704,15 +3472,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_88_91B
-msgid ""
-"[88.91B] Accueil ou accompagnement sans hébergement d'enfants handicapés"
+msgid "[88.91B] Accueil ou accompagnement sans hébergement d'enfants handicapés"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_88_99A
-msgid ""
-"[88.99A] Autre accueil ou accompagnement sans hébergement d'enfants et "
-"d'adolescents"
+msgid "[88.99A] Autre accueil ou accompagnement sans hébergement d'enfants et d'adolescents"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3757,16 +3522,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_91_03Z
-msgid ""
-"[91.03Z] Gestion des sites et monuments historiques et des attractions "
-"touristiques similaires"
+msgid "[91.03Z] Gestion des sites et monuments historiques et des attractions touristiques similaires"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_91_04Z
-msgid ""
-"[91.04Z] Gestion des jardins botaniques et zoologiques et des réserves "
-"naturelles"
+msgid "[91.04Z] Gestion des jardins botaniques et zoologiques et des réserves naturelles"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3851,9 +3612,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_95_22Z
-msgid ""
-"[95.22Z] Réparation d'appareils électroménagers et d'équipements pour la "
-"maison et le jardin"
+msgid "[95.22Z] Réparation d'appareils électroménagers et d'équipements pour la maison et le jardin"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3913,25 +3672,21 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_97_00Z
-msgid ""
-"[97.00Z] Activités des ménages en tant qu'employeurs de personnel domestique"
+msgid "[97.00Z] Activités des ménages en tant qu'employeurs de personnel domestique"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_98_10Z
-msgid ""
-"[98.10Z] Activités indifférenciées des ménages en tant que producteurs de "
-"biens pour usage propre"
+msgid "[98.10Z] Activités indifférenciées des ménages en tant que producteurs de biens pour usage propre"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_98_20Z
-msgid ""
-"[98.20Z] Activités indifférenciées des ménages en tant que producteurs de "
-"services pour usage propre"
+msgid "[98.20Z] Activités indifférenciées des ménages en tant que producteurs de services pour usage propre"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_99_00Z
 msgid "[99.00Z] Activités des organisations et organismes extraterritoriaux"
 msgstr ""
+
