@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * l10n_fr_intrastat_product
-# 
+#
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
@@ -12,44 +12,57 @@ msgstr ""
 "PO-Revision-Date: 2017-04-26 02:41+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
 "Language-Team: Galician (https://www.transifex.com/oca/teams/23907/gl/)\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_fr_intrastat_product
 #: model:mail.template,body_html:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
 msgid ""
 "\n"
-"<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-"
+"serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
 "\n"
-"<p>I would like to remind you that we are approaching the deadline for the Intrastat Product declaration for month ${object.year_month}.</p>\n"
+"<p>I would like to remind you that we are approaching the deadline for the "
+"Intrastat Product declaration for month ${object.year_month}.</p>\n"
 "\n"
-"<p>As there were no ${object.type} Intrastat Product declaration for that month in Odoo, a draft declaration has been generated automatically by Odoo.</p>\n"
+"<p>As there were no ${object.type} Intrastat Product declaration for that "
+"month in Odoo, a draft declaration has been generated automatically by Odoo."
+"</p>\n"
 "\n"
 "% if ctx.get('exception'):\n"
-"<p>When trying to generate the lines of the ${object.type} Intrastat Product declaration, the following error was encountered:</p>\n"
+"<p>When trying to generate the lines of the ${object.type} Intrastat Product "
+"declaration, the following error was encountered:</p>\n"
 "\n"
 "<p>${ctx.get('error_msg')}</p>\n"
 "\n"
-"<p>You should solve this error, then go to the menu \"Accounting > Reporting > Legal Reports > Intrastat reporting > Intrastat Product\", open the ${object.type} declaration for month ${object.year_month} and click on the button \"Generate lines from invoices\".</p>\n"
+"<p>You should solve this error, then go to the menu \"Accounting > Reporting "
+"> Legal Reports > Intrastat reporting > Intrastat Product\", open the "
+"${object.type} declaration for month ${object.year_month} and click on the "
+"button \"Generate lines from invoices\".</p>\n"
 "\n"
 "% else:\n"
 "% if object.num_lines and object.num_lines > 0:\n"
-"<p>This draft ${object.type} Intrastat Product declaration contains ${object.num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'}.</p>\n"
+"<p>This draft ${object.type} Intrastat Product declaration contains ${object."
+"num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'}.</p>\n"
 "% else:\n"
-"<p>This draft ${object.type} Intrastat Product declaration generated automatically by Odoo doesn't contain any line.</p>\n"
+"<p>This draft ${object.type} Intrastat Product declaration generated "
+"automatically by Odoo doesn't contain any line.</p>\n"
 "% endif\n"
 "\n"
-"<p>Go and check this declaration in Odoo in the menu \"Accounting > Reporting > Legal Reports > Intrastat reporting > DEB\".</p>\n"
+"<p>Go and check this declaration in Odoo in the menu \"Accounting > "
+"Reporting > Legal Reports > Intrastat reporting > DEB\".</p>\n"
 "\n"
 "% endif\n"
 "\n"
 "<p>\n"
 "-- \n"
 "Automatic e-mail sent by Odoo.\n"
-"<!-- TODO : print database name (we used object._cr.dbname in openerp 6.1, but it's not possible in OpenERP 7 because the executing of jinja2 is sandboxed and private attributes can't be accessed). -->\n"
+"<!-- TODO : print database name (we used object._cr.dbname in openerp 6.1, "
+"but it's not possible in OpenERP 7 because the executing of jinja2 is "
+"sandboxed and private attributes can't be accessed). -->\n"
 "</p>\n"
 "</div>\n"
 msgstr ""
@@ -63,8 +76,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction_fr_fiscal_value_multiplier
 msgid ""
 "'0' for procedure codes 19 and 29, '-1' for procedure code 25, '1' for all "
-"the others. This multiplier is used to compute the total fiscal value of the"
-" declaration."
+"the others. This multiplier is used to compute the total fiscal value of the "
+"declaration."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -242,7 +255,7 @@ msgid "Departement"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:322
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:318
 #, python-format
 msgid "Department is not set on line %d."
 msgstr ""
@@ -290,8 +303,8 @@ msgstr "ID"
 msgid ""
 "If this partner is located outside the EU but you deliver the goods inside "
 "the UE, the partner needs to have a fiscal representative with a VAT number "
-"inside the EU. In this scenario, the VAT number of the fiscal representative"
-" will be used for the Intrastat Product report (DEB)."
+"inside the EU. In this scenario, the VAT number of the fiscal representative "
+"will be used for the Intrastat Product report (DEB)."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -390,31 +403,31 @@ msgid "Last Updated on"
 msgstr "Última actualización en"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:258
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:254
 #, python-format
 msgid "Missing Country of Origin/Destination on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:226
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:222
 #, python-format
 msgid "Missing H.S. code on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:233
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:229
 #, python-format
 msgid "Missing Label for DEB on Intrastat Unit of Measure '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:289
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:285
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:73
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:69
 #, python-format
 msgid ""
 "Missing country of origin on product %s. This product is present in invoice "
@@ -422,19 +435,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:112
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:108
 #, python-format
 msgid "Missing fiscal representative on partner '%s'"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:277
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:273
 #, python-format
 msgid "Missing fiscal value on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:285
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:281
 #, python-format
 msgid "Missing partner on line %d."
 msgstr ""
@@ -446,31 +459,31 @@ msgid "Missing partner on warehouse %s"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:264
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:260
 #, python-format
 msgid "Missing product country of origin on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:248
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:244
 #, python-format
 msgid "Missing quantity on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:270
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:266
 #, python-format
 msgid "Missing weight on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:316
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:312
 #, python-format
 msgid "Mode of transport is not set on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:206
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:202
 #, python-format
 msgid "No declaration lines. You probably forgot to generate them !"
 msgstr ""
@@ -511,7 +524,7 @@ msgid "Possible on"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:145
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:141
 #, python-format
 msgid "Pro.dou@ne only accepts XML file upload for the original declaration."
 msgstr ""
@@ -527,13 +540,13 @@ msgid "Supplier Invoice"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:142
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:138
 #, python-format
 msgid "The SIRET is not set on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:156
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:152
 #, python-format
 msgid "The customs accreditation identifier is not set for the company '%s'."
 msgstr ""
@@ -569,7 +582,7 @@ msgid "Transaction code"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:310
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:306
 #, python-format
 msgid "Transaction code on line %d should have 2 digits."
 msgstr ""
@@ -596,8 +609,8 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:83
 #, python-format
 msgid ""
-"You should not set a transaction code when the Code (i.e. Procedure Code) is"
-" '25', '26' or '31'."
+"You should not set a transaction code when the Code (i.e. Procedure Code) is "
+"'25', '26' or '31'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
