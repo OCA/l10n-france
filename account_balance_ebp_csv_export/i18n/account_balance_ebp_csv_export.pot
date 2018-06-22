@@ -1,29 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * account_balance_ebp_csv_export
+#	* account_balance_ebp_csv_export
 #
-# Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-17 03:48+0000\n"
-"PO-Revision-Date: 2018-02-17 03:48+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2018\n"
-"Language-Team: English (Australia) (https://www.transifex.com/oca/"
-"teams/23907/en_AU/)\n"
-"Language: en_AU\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 
 #. module: account_balance_ebp_csv_export
 #: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.report_trial_balance_ebp_csv
-msgid ""
-"Compte.Numero,Compte.Intitule,Balance.SldCptNDebit,Balance.SldCptNCredit,"
-"Balance.SldCptNSoldeD,Balance.SldCptNSoldeC"
+msgid "Compte.Numero,Compte.Intitule,Balance.SldCptNDebit,Balance.SldCptNCredit,Balance.SldCptNSoldeD,Balance.SldCptNSoldeC"
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
@@ -44,4 +36,5 @@ msgstr ""
 #. module: account_balance_ebp_csv_export
 #: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_wizard
 msgid "or"
-msgstr "or"
+msgstr ""
+
