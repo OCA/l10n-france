@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * l10n_fr_naf_ape
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
@@ -10,23 +10,26 @@ msgstr ""
 "POT-Creation-Date: 2016-10-02 06:49+0000\n"
 "PO-Revision-Date: 2016-04-14 10:26+0000\n"
 "Last-Translator: <>\n"
-"Language-Team: Italian (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/it/)\n"
+"Language-Team: Italian (http://www.transifex.com/oca/OCA-l10n-france-9-0/"
+"language/it/)\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_fr_naf_ape
 #: model:ir.model.fields,field_description:l10n_fr_naf_ape.field_res_partner_ape_id
+#: model:ir.model.fields,field_description:l10n_fr_naf_ape.field_res_users_ape_id
 msgid "APE"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:ir.model.fields,help:l10n_fr_naf_ape.field_res_partner_ape_id
+#: model:ir.model.fields,help:l10n_fr_naf_ape.field_res_users_ape_id
 msgid ""
-"If the partner is a French company, enter its official main activity in this"
-" field. The APE is chosen among the NAF nomenclature."
+"If the partner is a French company, enter its official main activity in this "
+"field. The APE is chosen among the NAF nomenclature."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -207,8 +210,7 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_02_30Z
 msgid ""
-"[02.30Z] Récolte de produits forestiers non ligneux poussant à l'état "
-"sauvage"
+"[02.30Z] Récolte de produits forestiers non ligneux poussant à l'état sauvage"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -894,8 +896,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_22_29A
-msgid ""
-"[22.29A] Fabrication de pièces techniques à base de matières plastiques"
+msgid "[22.29A] Fabrication de pièces techniques à base de matières plastiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1012,8 +1013,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_23_69Z
-msgid ""
-"[23.69Z] Fabrication d'autres ouvrages en béton, en ciment ou en plâtre"
+msgid "[23.69Z] Fabrication d'autres ouvrages en béton, en ciment ou en plâtre"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1127,8 +1127,7 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_25_21Z
 msgid ""
-"[25.21Z] Fabrication de radiateurs et de chaudières pour le chauffage "
-"central"
+"[25.21Z] Fabrication de radiateurs et de chaudières pour le chauffage central"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1547,8 +1546,7 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_31_09B
 msgid ""
-"[31.09B] Fabrication d'autres meubles et industries connexes de "
-"l'ameublement"
+"[31.09B] Fabrication d'autres meubles et industries connexes de l'ameublement"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1983,8 +1981,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_11Z
 msgid ""
-"[46.11Z] Intermédiaires du commerce en matières premières agricoles, animaux"
-" vivants, matières premières textiles et produits semi-finis"
+"[46.11Z] Intermédiaires du commerce en matières premières agricoles, animaux "
+"vivants, matières premières textiles et produits semi-finis"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -1995,8 +1993,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_12B
 msgid ""
-"[46.12B] Autres intermédiaires du commerce en combustibles, métaux, minéraux"
-" et produits chimiques"
+"[46.12B] Autres intermédiaires du commerce en combustibles, métaux, minéraux "
+"et produits chimiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2069,14 +2067,12 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_23Z
-msgid ""
-"[46.23Z] Commerce de gros (commerce interentreprises) d'animaux vivants"
+msgid "[46.23Z] Commerce de gros (commerce interentreprises) d'animaux vivants"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_24Z
-msgid ""
-"[46.24Z] Commerce de gros (commerce interentreprises) de cuirs et peaux"
+msgid "[46.24Z] Commerce de gros (commerce interentreprises) de cuirs et peaux"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2088,8 +2084,7 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_32A
 msgid ""
-"[46.32A] Commerce de gros (commerce interentreprises) de viandes de "
-"boucherie"
+"[46.32A] Commerce de gros (commerce interentreprises) de viandes de boucherie"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2134,22 +2129,22 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_37Z
 msgid ""
-"[46.37Z] Commerce de gros (commerce interentreprises) de café, thé, cacao et"
-" épices"
+"[46.37Z] Commerce de gros (commerce interentreprises) de café, thé, cacao et "
+"épices"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_38A
 msgid ""
-"[46.38A] Commerce de gros (commerce interentreprises) de poissons, crustacés"
-" et mollusques"
+"[46.38A] Commerce de gros (commerce interentreprises) de poissons, crustacés "
+"et mollusques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_38B
 msgid ""
-"[46.38B] Commerce de gros (commerce interentreprises) alimentaire spécialisé"
-" divers"
+"[46.38B] Commerce de gros (commerce interentreprises) alimentaire spécialisé "
+"divers"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2187,8 +2182,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_44Z
 msgid ""
-"[46.44Z] Commerce de gros (commerce interentreprises) de vaisselle, verrerie"
-" et produits d'entretien"
+"[46.44Z] Commerce de gros (commerce interentreprises) de vaisselle, verrerie "
+"et produits d'entretien"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2322,8 +2317,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_73B
 msgid ""
-"[46.73B] Commerce de gros (commerce interentreprises) d'appareils sanitaires"
-" et de produits de décoration"
+"[46.73B] Commerce de gros (commerce interentreprises) d'appareils sanitaires "
+"et de produits de décoration"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2334,8 +2329,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_46_74B
 msgid ""
-"[46.74B] Commerce de gros (commerce interentreprises) de fournitures pour la"
-" plomberie et le chauffage"
+"[46.74B] Commerce de gros (commerce interentreprises) de fournitures pour la "
+"plomberie et le chauffage"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2436,8 +2431,7 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_26Z
 msgid ""
-"[47.26Z] Commerce de détail de produits à base de tabac en magasin "
-"spécialisé"
+"[47.26Z] Commerce de détail de produits à base de tabac en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2467,8 +2461,7 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_43Z
 msgid ""
-"[47.43Z] Commerce de détail de matériels audio et vidéo en magasin "
-"spécialisé"
+"[47.43Z] Commerce de détail de matériels audio et vidéo en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2479,29 +2472,28 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_52A
 msgid ""
-"[47.52A] Commerce de détail de quincaillerie, peintures et verres en petites"
-" surfaces (moins de 400 m²)"
+"[47.52A] Commerce de détail de quincaillerie, peintures et verres en petites "
+"surfaces (moins de 400 m²)"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_52B
 msgid ""
-"[47.52B] Commerce de détail de quincaillerie, peintures et verres en grandes"
-" surfaces (400 m² et plus)"
+"[47.52B] Commerce de détail de quincaillerie, peintures et verres en grandes "
+"surfaces (400 m² et plus)"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_53Z
 msgid ""
-"[47.53Z] Commerce de détail de tapis, moquettes et revêtements de murs et de"
-" sols en magasin spécialisé"
+"[47.53Z] Commerce de détail de tapis, moquettes et revêtements de murs et de "
+"sols en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_54Z
 msgid ""
-"[47.54Z] Commerce de détail d'appareils électroménagers en magasin "
-"spécialisé"
+"[47.54Z] Commerce de détail d'appareils électroménagers en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2560,8 +2552,7 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_73Z
 msgid ""
-"[47.73Z] Commerce de détail de produits pharmaceutiques en magasin "
-"spécialisé"
+"[47.73Z] Commerce de détail de produits pharmaceutiques en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2581,8 +2572,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_47_76Z
 msgid ""
-"[47.76Z] Commerce de détail de fleurs, plantes, graines, engrais, animaux de"
-" compagnie et aliments pour ces animaux en magasin spécialisé"
+"[47.76Z] Commerce de détail de fleurs, plantes, graines, engrais, animaux de "
+"compagnie et aliments pour ces animaux en magasin spécialisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -2993,8 +2984,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_62_02B
-msgid ""
-"[62.02B] Tierce maintenance de systèmes et d'applications informatiques"
+msgid "[62.02B] Tierce maintenance de systèmes et d'applications informatiques"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3060,8 +3050,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_64_99Z
 msgid ""
-"[64.99Z] Autres activités des services financiers, hors assurance et caisses"
-" de retraite, n.c.a."
+"[64.99Z] Autres activités des services financiers, hors assurance et caisses "
+"de retraite, n.c.a."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3102,8 +3092,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_66_19B
 msgid ""
-"[66.19B] Autres activités auxiliaires de services financiers, hors assurance"
-" et caisses de retraite, n.c.a."
+"[66.19B] Autres activités auxiliaires de services financiers, hors assurance "
+"et caisses de retraite, n.c.a."
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3305,8 +3295,7 @@ msgstr ""
 
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_77_31Z
-msgid ""
-"[77.31Z] Location et location-bail de machines et équipements agricoles"
+msgid "[77.31Z] Location et location-bail de machines et équipements agricoles"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3655,8 +3644,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_87_10C
 msgid ""
-"[87.10C] Hébergement médicalisé pour adultes handicapés et autre hébergement"
-" médicalisé"
+"[87.10C] Hébergement médicalisé pour adultes handicapés et autre hébergement "
+"médicalisé"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
@@ -3687,8 +3676,8 @@ msgstr ""
 #. module: l10n_fr_naf_ape
 #: model:res.partner.category,name:l10n_fr_naf_ape.naf_87_90B
 msgid ""
-"[87.90B] Hébergement social pour adultes et familles en difficultés et autre"
-" hébergement social"
+"[87.90B] Hébergement social pour adultes et familles en difficultés et autre "
+"hébergement social"
 msgstr ""
 
 #. module: l10n_fr_naf_ape
