@@ -409,6 +409,24 @@ class L10nFrIntrastatProductComputationLine(models.Model):
         'Destination partner (or his fiscal representative) for dispatches')
     fr_department_id = fields.Many2one(
         'res.country.department', string='Departement', ondelete='restrict')
+    # the 2 fields below are useful for reports
+    amount_company_currency_sign = fields.Float(
+        compute='_compute_amount_company_currency_sign', readonly=True,
+        store=True)
+    amount_accessory_cost_company_currency_sign = fields.Float(
+        compute='_compute_amount_company_currency_sign', readonly=True,
+        store=True)
+
+    @api.depends(
+        'amount_company_currency', 'amount_accessory_cost_company_currency',
+        'transaction_id.fr_fiscal_value_multiplier')
+    def _compute_amount_company_currency_sign(self):
+        for line in self:
+            sign = line.transaction_id.fr_fiscal_value_multiplier or 1
+            line.amount_company_currency_sign =\
+                sign * line.amount_company_currency
+            line.amount_accessory_cost_company_currency_sign =\
+                sign * line.amount_accessory_cost_company_currency
 
 
 class L10nFrIntrastatProductDeclarationLine(models.Model):
@@ -428,6 +446,18 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
         'Destination partner (or his fiscal representative) for dispatches')
     fr_department_id = fields.Many2one(
         'res.country.department', string='Departement', ondelete='restrict')
+    # the field below is useful for reports
+    amount_company_currency_sign = fields.Float(
+        compute='_compute_amount_company_currency_sign', readonly=True,
+        store=True)
+
+    @api.depends(
+        'amount_company_currency', 'transaction_id.fr_fiscal_value_multiplier')
+    def _compute_amount_company_currency_sign(self):
+        for line in self:
+            sign = line.transaction_id.fr_fiscal_value_multiplier or 1
+            line.amount_company_currency_sign =\
+                sign * line.amount_company_currency
 
     @api.model
     def _prepare_grouped_fields(self, computation_line, fields_to_sum):
