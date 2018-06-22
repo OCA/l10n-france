@@ -1,22 +1,17 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * l10n_fr_mis_reports
+#	* l10n_fr_mis_reports
 #
-# Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:17+0000\n"
-"PO-Revision-Date: 2017-05-05 21:17+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
-"Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
-"Language: it\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gg
@@ -26,8 +21,7 @@ msgstr ""
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_310
-msgid ""
-"2. Bénéfice ou perte: Produits (I + III + IV) - Charges (II + V + VI + VII)"
+msgid "2. Bénéfice ou perte: Produits (I + III + IV) - Charges (II + V + VI + VII)"
 msgstr ""
 
 #. module: l10n_fr_mis_reports
@@ -54,9 +48,7 @@ msgstr ""
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fu
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_238
-msgid ""
-"Achats de matières premières et autres approvisionnements (y compris droits "
-"de douane)"
+msgid "Achats de matières premières et autres approvisionnements (y compris droits de douane)"
 msgstr ""
 
 #. module: l10n_fr_mis_reports
@@ -126,7 +118,7 @@ msgstr ""
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dg
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_132
 msgid "Autres réserves"
-msgstr "Altre riserve"
+msgstr ""
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_bd
@@ -536,8 +528,7 @@ msgstr ""
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gk
-msgid ""
-"Produits des autres valeurs mobilières et créances de l'actif immobilisé"
+msgid "Produits des autres valeurs mobilières et créances de l'actif immobilisé"
 msgstr ""
 
 #. module: l10n_fr_mis_reports
@@ -815,3 +806,4 @@ msgstr ""
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_210
 msgid "Ventes de marchandises"
 msgstr ""
+
