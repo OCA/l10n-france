@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * l10n_fr_department
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
@@ -10,15 +10,22 @@ msgstr ""
 "POT-Creation-Date: 2016-08-26 15:35+0000\n"
 "PO-Revision-Date: 2016-09-09 12:26+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Amharic (http://www.transifex.com/oca/OCA-l10n-france-9-0/language/am/)\n"
+"Language-Team: Amharic (http://www.transifex.com/oca/OCA-l10n-france-9-0/"
+"language/am/)\n"
+"Language: am\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: am\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_country_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "Country"
 msgstr ""
 
@@ -43,14 +50,16 @@ msgid "Created on"
 msgstr "Creado en"
 
 #. module: l10n_fr_department
-#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
-msgid "Departement Code"
+#: model:ir.model,name:l10n_fr_department.model_res_country_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner_department_id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_users_department_id
+#: model:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
+msgid "Department"
 msgstr ""
 
 #. module: l10n_fr_department
-#: model:ir.model,name:l10n_fr_department.model_res_country_department
-#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner_department_id
-msgid "Department"
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_code
+msgid "Department Code"
 msgstr ""
 
 #. module: l10n_fr_department
@@ -114,11 +123,6 @@ msgid "Name or Code"
 msgstr ""
 
 #. module: l10n_fr_department
-#: model:ir.model,name:l10n_fr_department.model_res_partner
-msgid "Partner"
-msgstr ""
-
-#. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department_state_id
 #: model:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
 msgid "State"
@@ -131,12 +135,10 @@ msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department_code
-msgid "The department code.(ISO 3166-2 Codification)"
+msgid "The department code (ISO 3166-2 codification)"
 msgstr ""
 
 #. module: l10n_fr_department
-#: code:addons/l10n_fr_department/model/res_country_department.py:49
 #: sql_constraint:res.country.department:0
-#, python-format
 msgid "You cannot have two departments with the same code!"
 msgstr ""
