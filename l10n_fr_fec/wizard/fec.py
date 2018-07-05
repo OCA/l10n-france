@@ -190,7 +190,7 @@ class AccountFrFec(models.TransientModel):
             if vat[0:2] != 'FR':
                 raise UserError(_("FEC is for French companies only !"))
             siren = vat[4:13]
-        elif company.siret:
+        elif 'siret' in company._fields and company.siret:
             siren = company.siret[0:9]
         else:
             raise UserError(_(
