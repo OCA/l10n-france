@@ -9,6 +9,7 @@
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
     'category': 'Localization/Account Taxes',
+    'license': 'AGPL-3',
     'depends': [
         'account_accountant',
         'sale',
