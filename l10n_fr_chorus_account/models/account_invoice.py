@@ -70,11 +70,13 @@ class AccountInvoice(models.Model):
                         "field 'Reference/Description' must contain "
                         "an engagement number.") % cpartner.name)
                 if (
-                        cpartner.fr_chorus_required == 'service_or_engagement'
-                        and (not inv.name and not (
+                        cpartner.fr_chorus_required ==
+                        'service_or_engagement' and
+                        not inv.name and
+                        not (
                         inv.partner_id.parent_id and
                         inv.partner_id.name and
-                        inv.partner_id.fr_chorus_service_code))):
+                        inv.partner_id.fr_chorus_service_code)):
                         raise UserError(_(
                             "Partner '%s' is configured as "
                             "'Service or Engagement' required for Chorus but "
