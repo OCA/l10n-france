@@ -150,6 +150,17 @@ msgid "99"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_amount_accessory_cost_company_currency_sign
+msgid "Amount accessory cost company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_amount_company_currency_sign
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_amount_company_currency_sign
+msgid "Amount company currency sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: sql_constraint:intrastat.transaction:0
 msgid "An Intrastat Transaction already exists for this company with the same code and the same procedure code."
 msgstr ""
