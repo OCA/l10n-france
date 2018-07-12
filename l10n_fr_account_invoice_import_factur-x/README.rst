@@ -2,20 +2,15 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-================================
-L10n FR Business Document Import
-================================
+===================================
+Factur-X Invoices Import for France
+===================================
 
-This small module adds support for partner matching based on SIRET or SIREN when importing a business document (invoice, customer order, etc), in Odoo. It depends on the module *base_business_document_import* from the `edi OCA project <https://github.com/OCA/edi>`_. This module is the base module for:
+This module implements the France-specific part of the Factur-X standard to import Factur-X invoices. In particular, it extracts the SIRET of the XML of the Factur-X invoices, which is an important information to match the supplier.
 
-* *account_invoice_import* which imports supplier invoices as PDF or XML files (this module also requires some additionnal modules such as *account_invoice_import_invoice2data*, *account_invoice_import_ubl*, etc... to support specific invoice formats),
+Factur-X is the e-invoicing standard for France and Germany. The Factur-X specifications are available on the website of `FNFE-MPE <http://fnfe-mpe.org/factur-x/>`_.
 
-* *sale_invoice_import* which imports sale orders as CSV, XML or PDF files (this module also requires some additionnal modules such as *sale_invoice_import_csv* or *sale_invoice_import_ubl* to support specific order formats)
-
-Configuration
-=============
-
-No configuration needed.
+This module will be installed automatically when the modules *account_invoice_import_factur-x* and *l10n_fr_siret* are installed.
 
 Usage
 =====
