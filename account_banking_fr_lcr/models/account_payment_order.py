@@ -130,8 +130,11 @@ class AccountPaymentOrder(models.Model):
 
         nom_tire = self._prepare_lcr_field(
             u'Nom tiré', line.partner_id.name, 24)
-        nom_banque = self._prepare_lcr_field(
-            u'Nom banque', line.partner_bank_id.bank_id.name, 24)
+        if line.partner_bank_id.bank_id:
+            nom_banque = self._prepare_lcr_field(
+                u'Nom banque', line.partner_bank_id.bank_id.name, 24)
+        else:
+            nom_banque = ' ' * 24
         code_acceptation = '0'
         montant_centimes = str(line.amount_currency * 100).split('.')[0]
         zero_montant_centimes = montant_centimes.zfill(12)
