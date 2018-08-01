@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo10-addon-account_banking_fr_lcr',
         'odoo10-addon-hr_holidays_jours_ouvrables',
         'odoo10-addon-l10n_fr_account_invoice_factur-x',
+        'odoo10-addon-l10n_fr_account_invoice_import_factur-x',
         'odoo10-addon-l10n_fr_account_tax_unece',
         'odoo10-addon-l10n_fr_base_location_geonames_import',
         'odoo10-addon-l10n_fr_business_document_import',
