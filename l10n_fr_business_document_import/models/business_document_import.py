@@ -11,12 +11,15 @@ class BusinessDocumentImport(models.AbstractModel):
     @api.model
     def _match_partner(
             self, partner_dict, chatter_msg, partner_type='supplier'):
+        company_id = self._context.get('force_company') or\
+            self.env.user.company_id.id
+        domain = [
+            '|', ('company_id', '=', False),
+            ('company_id', '=', company_id)]
         if partner_type == 'supplier':
-            domain = [('supplier', '=', True)]
+            domain += [('supplier', '=', True)]
         elif partner_type == 'customer':
-            domain = [('customer', '=', True)]
-        else:
-            domain = []
+            domain += [('customer', '=', True)]
 
         if partner_dict.get('siret'):
             siret = partner_dict['siret'].replace(' ', '')
