@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-# © 2015-2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2015-2018 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, api
+from odoo import api, models, _
 
 
 class BusinessDocumentImport(models.AbstractModel):
@@ -46,3 +47,34 @@ class BusinessDocumentImport(models.AbstractModel):
                     return partners[0]
         return super(BusinessDocumentImport, self)._match_partner(
             partner_dict, chatter_msg, partner_type=partner_type)
+
+    @api.model
+    def _check_company(self, company_dict, chatter_msg):
+        if not company_dict:
+            company_dict = {}
+        rco = self.env['res.company']
+        if self._context.get('force_company'):
+            company = rco.browse(self._context['force_company'])
+        else:
+            company = self.env.user.company_id
+        if company_dict.get('siret'):
+            parsed_company_siret = company_dict['siret'].replace(' ', '')
+            if (
+                    len(parsed_company_siret) == 14 and
+                    parsed_company_siret.isdigit()):
+                parsed_company_siren = parsed_company_siret[:9]
+                if company.siren:
+                    if company.siren != parsed_company_siren:
+                        raise self.user_error_wrap(_(
+                            "The SIREN of the customer written in the "
+                            "business document (%s) doesn't match the SIREN "
+                            "of the company '%s' (%s) in which you are "
+                            "trying to import this document.") % (
+                                parsed_company_siren, company.display_name,
+                                company.siren))
+                else:
+                    chatter_msg.append(_(
+                        "Missing SIRET on company '%s'")
+                        % company.display_name)
+        return super(BusinessDocumentImport, self)._check_company(
+            company_dict, chatter_msg)
