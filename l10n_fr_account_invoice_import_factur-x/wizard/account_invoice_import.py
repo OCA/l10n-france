@@ -16,4 +16,9 @@ class AccountInvoiceImport(models.TransientModel):
             "/ram:SellerTradeParty"
             "/ram:SpecifiedLegalOrganization"
             "/ram:ID[@schemeID='0002']"]
+        xpathd['company']['siret'] = [
+            "//ram:ApplicableHeaderTradeAgreement"
+            "/ram:BuyerTradeParty"
+            "/ram:SpecifiedLegalOrganization"
+            "/ram:ID[@schemeID='0002']"]
         return xpathd
