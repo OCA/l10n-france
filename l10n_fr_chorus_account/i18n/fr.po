@@ -210,7 +210,7 @@ msgstr "Ne pas utiliser l'API Chorus"
 #. module: l10n_fr_chorus_account
 #: selection:res.partner,fr_chorus_required:0
 msgid "Engagement"
-msgstr "Obligation"
+msgstr "Engagement"
 
 #. module: l10n_fr_chorus_account
 #: selection:chorus.flow,syntax:0
