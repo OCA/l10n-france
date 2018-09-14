@@ -20,5 +20,17 @@
     <field name="args">()</field>
 </record>
 
+<record id="chorus_api_expiry_reminder_cron" model="ir.cron">
+    <field name="name">Chorus API Expiry Reminder Email</field>
+    <field name="active" eval="False"/>
+    <field name="user_id" ref="base.user_root"/>
+    <field name="interval_number">1</field>
+    <field name="interval_type">days</field>
+    <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
+    <field name="model">res.company</field>
+    <field name="function">chorus_api_expiry_reminder_cron</field>
+    <field name="args">()</field>
+</record>
+
 
 </odoo>
