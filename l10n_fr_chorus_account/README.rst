@@ -28,7 +28,7 @@ If you want to use the Chorus API to easily send invoices to Chorus from Odoo, y
 
 * in the menu *Accounting > Configuration > Settings*, in the section *Chorus API*, enable the option *Use Chorus API*, which will add all users to the *Chorus API* group. Then set the additional configuration parameters for Chorus API that will be prompted on the settings page.
 
-In the menu *Settings > Technical > Automation > Scheduled Actions*, you should also activate the scheduled action *Chorus Status Update*.
+In the menu *Settings > Technical > Automation > Scheduled Actions*, you should also activate the scheduled actions *Chorus Status Update* and *Chorus API Expiry Reminder Email*.
 
 Usage
 =====
