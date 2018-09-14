@@ -84,34 +84,6 @@ class ResCompany(models.Model):
                     "The Chorus key file '%s' doesn't exist",
                     key_filepath)
                 return False
-        today = fields.Date.context_today()
-        if (
-                self.fr_chorus_cert_expiry_date and
-                self.fr_chorus_cert_expiry_date > today):
-            if raise_if_ko:
-                raise UserError(_(
-                    "The expiry date of the certificate for Chorus API "
-                    "is %s. You should deploy a new certificate.")
-                    % self.fr_chorus_cert_expiry_date)
-            else:
-                logger.warning(
-                    "The Chorus Pro API certificate %s expired on %s",
-                    cert_filepath, self.fr_chorus_cert_expiry_date)
-        if (
-                self.fr_chorus_pwd_expiry_date and
-                self.fr_chorus_pwd_expiry_date > today):
-            if raise_if_ko:
-                raise UserError(_(
-                    "The expiry date of the technical user credentials for "
-                    "Chorus API is %s. You should login to Chorus Pro, "
-                    "generate new credentials for the technical user and "
-                    "update it in the menu Accounting > Configuration > "
-                    "Configuration.")
-                    % self.fr_chorus_pwd_expiry_date)
-            else:
-                logger.warning(
-                    "The Chorus Pro API credentials expired on %s",
-                    self.fr_chorus_pwd_expiry_date)
         return (cert_filepath, key_filepath)
 
     def read_cert_expiry_date(self, cert_filepath, raise_if_ko=False):
@@ -119,8 +91,9 @@ class ResCompany(models.Model):
         with open(cert_filepath, 'r') as f:
             pem_data = f.read()
             try:
-                cert = x509.load_pem_x509_certificate(
-                    pem_data, default_backend())
+                backend = default_backend()
+                logger.debug("Backend for chorus cert analysis: %s", backend)
+                cert = x509.load_pem_x509_certificate(pem_data, backend)
             except Exception as e:
                 if raise_if_ko:
                     raise UserError(_(
@@ -170,6 +143,34 @@ class ResCompany(models.Model):
             logger.warning(
                 'Some Chorus API parameters are missing on company %s',
                 self.display_name)
+        today = fields.Date.context_today(self)
+        if (
+                self.fr_chorus_cert_expiry_date and
+                self.fr_chorus_cert_expiry_date < today):
+            if raise_if_ko:
+                raise UserError(_(
+                    "The expiry date of the certificate for Chorus API "
+                    "is %s. You should deploy a new certificate.")
+                    % self.fr_chorus_cert_expiry_date)
+            else:
+                logger.warning(
+                    "The Chorus Pro API certificate expired on %s",
+                    self.fr_chorus_cert_expiry_date)
+        if (
+                self.fr_chorus_pwd_expiry_date and
+                self.fr_chorus_pwd_expiry_date < today):
+            if raise_if_ko:
+                raise UserError(_(
+                    "The expiry date of the technical user credentials for "
+                    "Chorus API is %s. You should login to Chorus Pro, "
+                    "generate new credentials for the technical user and "
+                    "update it in the menu Accounting > Configuration > "
+                    "Configuration.")
+                    % self.fr_chorus_pwd_expiry_date)
+            else:
+                logger.warning(
+                    "The Chorus Pro API credentials expired on %s",
+                    self.fr_chorus_pwd_expiry_date)
         return api_params
 
     def chorus_expiry_remind_user_list(self):
@@ -201,13 +202,13 @@ class ResCompany(models.Model):
                     if company.fr_chorus_pwd_expiry_date:
                         days_ctx['pwd_days'] = (
                             fields.Date.from_string(
-                                company.fr_chorus_pwd_expiry_date)
-                            - today_dt).days
+                                company.fr_chorus_pwd_expiry_date) -
+                            today_dt).days
                     if company.fr_chorus_cert_expiry_date:
                         days_ctx['cert_days'] = (
                             fields.Date.from_string(
-                                company.fr_chorus_cert_expiry_date)
-                            - today_dt).days
+                                company.fr_chorus_cert_expiry_date) -
+                            today_dt).days
                     mail_tpl.with_context(days_ctx).send_mail(company.id)
                     logger.info(
                         'The Chorus API expiry reminder has been sent '
