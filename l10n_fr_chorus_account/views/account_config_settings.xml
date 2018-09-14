@@ -12,12 +12,21 @@
     <field name="inherit_id" ref="account.view_account_config_settings" />
     <field name="arch" type="xml">
         <xpath expr="//field[@name='overdue_msg']/.." position="after">
-            <group name="fr-chorus" string="Chorus API">
+            <group name="fr-chorus-api-group" string="Chorus API">
                 <field name="group_chorus_api" widget="radio"/>
-                <field name="fr_chorus_invoice_format" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}"/>
-                <field name="fr_chorus_api_login" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}"/>
-                <field name="fr_chorus_api_password" password="1" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}"/>
-                <field name="fr_chorus_qualif" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}"/>
+            </group>
+            <group name="fr-chorus-api" attrs="{'invisible': [('group_chorus_api', '!=', 1)]}">
+                <field name="fr_chorus_invoice_format"/>
+                <field name="fr_chorus_api_login"/>
+                <field name="fr_chorus_api_password" password="1"/>
+                <field name="fr_chorus_pwd_expiry_date"/>
+                <label for="fr_chorus_cert_expiry_date"/>
+                <div name="fr_chorus_cert_expiry_date">
+                    <field name="fr_chorus_cert_expiry_date" class="oe_inline"/>
+                    <button name="fr_chorus_cert_expiry_date_update" type="object" string="Update Certificate Expiry Date" class="oe_link oe_inline" />
+                </div>
+                <field name="fr_chorus_expiry_remind_user_ids" widget="many2many_tags"/>
+                <field name="fr_chorus_qualif"/>
             </group>
         </xpath>
     </field>

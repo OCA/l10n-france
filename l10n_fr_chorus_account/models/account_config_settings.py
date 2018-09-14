@@ -24,3 +24,13 @@ class AccountConfigSettings(models.TransientModel):
         related='company_id.fr_chorus_qualif')
     fr_chorus_invoice_format = fields.Selection(
         related='company_id.fr_chorus_invoice_format')
+    fr_chorus_pwd_expiry_date = fields.Date(
+        related='company_id.fr_chorus_pwd_expiry_date')
+    fr_chorus_cert_expiry_date = fields.Date(
+        related='company_id.fr_chorus_cert_expiry_date')
+    fr_chorus_expiry_remind_user_ids = fields.Many2many(
+        related='company_id.fr_chorus_expiry_remind_user_ids')
+
+    def fr_chorus_cert_expiry_date_update(self):
+        self.ensure_one()
+        self.company_id.update_cert_expiry_date(raise_if_ko=True)
