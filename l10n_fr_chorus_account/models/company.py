@@ -6,13 +6,14 @@
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
 import os.path
-# lib 'requests' depends on 'cryptography'
-# so it must already be installed to run odoo, so no need for try/except
-from cryptography import x509
-from cryptography.hazmat.backends import default_backend
 from dateutil.relativedelta import relativedelta
 import logging
 logger = logging.getLogger(__name__)
+try:
+    from cryptography import x509
+    from cryptography.hazmat.backends import default_backend
+except ImportError:
+    logger.debug('Cannot import cryptography')
 
 
 class ResCompany(models.Model):
