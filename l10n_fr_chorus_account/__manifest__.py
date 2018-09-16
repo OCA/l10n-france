@@ -16,6 +16,7 @@
         'account_invoice_transmit_method',
         'agreement_account',
         ],
+    'external_dependencies': {'python': ['cryptography']},
     'data': [
         'security/group.xml',
         'security/ir.model.access.csv',
