@@ -16,11 +16,13 @@
         'account_invoice_transmit_method',
         'agreement_account',
         ],
+    'external_dependencies': {'python': ['cryptography']},
     'data': [
         'security/group.xml',
         'security/ir.model.access.csv',
         'data/transmit_method.xml',
         'data/cron.xml',
+        'data/mail_template.xml',
         'wizard/account_invoice_chorus_send_view.xml',
         'views/chorus_flow.xml',
         'views/partner.xml',
