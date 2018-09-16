@@ -18,3 +18,15 @@ msgstr ""
 msgid "Common methods to import business documents"
 msgstr ""
 
+#. module: l10n_fr_business_document_import
+#: code:addons/l10n_fr_business_document_import/models/business_document_import.py:76
+#, python-format
+msgid "Missing SIRET on company '%s'"
+msgstr ""
+
+#. module: l10n_fr_business_document_import
+#: code:addons/l10n_fr_business_document_import/models/business_document_import.py:68
+#, python-format
+msgid "The SIREN of the customer written in the business document (%s) doesn't match the SIREN of the company '%s' (%s) in which you are trying to import this document."
+msgstr ""
+
