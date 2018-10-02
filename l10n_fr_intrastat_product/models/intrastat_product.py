@@ -125,6 +125,14 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         res['partner_id'] = computation_line.fr_partner_id.id or False
         return res
 
+    @api.model
+    def _prepare_grouped_fields(self, computation_line, fields_to_sum):
+        vals = super(L10nFrIntrastatProductDeclaration, self).\
+            _prepare_grouped_fields(computation_line, fields_to_sum)
+        vals['fr_partner_id'] = computation_line.fr_partner_id.id
+        vals['fr_department_id'] = computation_line.fr_department_id.id
+        return vals
+
     def _get_region(self, inv_line):
         # TODO : modify only for country == FR
         return False
@@ -461,11 +469,3 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
             sign = line.transaction_id.fr_fiscal_value_multiplier or 1
             line.amount_company_currency_sign =\
                 sign * line.amount_company_currency
-
-    @api.model
-    def _prepare_grouped_fields(self, computation_line, fields_to_sum):
-        vals = super(L10nFrIntrastatProductDeclarationLine, self).\
-            _prepare_grouped_fields(computation_line, fields_to_sum)
-        vals['fr_partner_id'] = computation_line.fr_partner_id.id
-        vals['fr_department_id'] = computation_line.fr_department_id.id
-        return vals
