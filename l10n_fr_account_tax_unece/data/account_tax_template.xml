@@ -127,6 +127,31 @@
     <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s"/>
 </record>
 
+<!-- IMMO-20.0 -->
+<record id="l10n_fr.tva_imm_normale" model="account.tax.template">
+    <field name="unece_type_id" ref="account_tax_unece.tax_type_vat"/>
+</record>
+
+<!-- IMMO-10.0 -->
+<record id="l10n_fr.tva_imm_intermediaire" model="account.tax.template">
+    <field name="unece_type_id" ref="account_tax_unece.tax_type_vat"/>
+</record>
+
+<!-- IMMO-8.5 -->
+<record id="l10n_fr.tva_imm_specifique" model="account.tax.template">
+    <field name="unece_type_id" ref="account_tax_unece.tax_type_vat"/>
+</record>
+
+<!-- IMMO-5.5 -->
+<record id="l10n_fr.tva_imm_reduite" model="account.tax.template">
+    <field name="unece_type_id" ref="account_tax_unece.tax_type_vat"/>
+</record>
+
+<!-- IMMO-2.1 -->
+<record id="l10n_fr.tva_imm_super_reduite" model="account.tax.template">
+    <field name="unece_type_id" ref="account_tax_unece.tax_type_vat"/>
+</record>
+
 <!-- ACH_UE_due-20.0 -->
 <record id="l10n_fr.tva_intra_normale" model="account.tax.template">
     <field name="unece_type_id" ref="account_tax_unece.tax_type_vat"/>
