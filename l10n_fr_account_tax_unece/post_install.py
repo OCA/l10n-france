@@ -3,69 +3,54 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, SUPERUSER_ID
-
-MAPPING = {
-    '20.0': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '20.0-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '10.0': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '10.0-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '8.5': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '8.5-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '5.5': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '5.5-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '2.1': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    '2.1-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-20.0': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-20.0-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-10.0': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-10.0-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-8.5': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-8.5-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-5.5': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-5.5-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-2.1': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'ACH-2.1-TTC': {'categ': 'tax_categ_s', 'type': 'tax_type_vat'},
-    'IMMO-20.0': {'categ': False, 'type': 'tax_type_vat'},
-    'IMMO-10.0': {'categ': False, 'type': 'tax_type_vat'},
-    'IMMO-8.5': {'categ': False, 'type': 'tax_type_vat'},
-    'IMMO-5.5': {'categ': False, 'type': 'tax_type_vat'},
-    'IMMO-2.1': {'categ': False, 'type': 'tax_type_vat'},
-    'ACH_UE_due-20.0': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_due-10.0': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_due-8.5': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_due-5.5': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_due-2.1': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_ded.-20.0': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_ded.-10.0': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_ded.-8.5': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_ded.-5.5': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'ACH_UE_ded.-2.1': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'EXO-0': {'categ': 'tax_categ_e', 'type': 'tax_type_vat'},
-    'EXPORT-0': {'categ': 'tax_categ_g', 'type': 'tax_type_vat'},
-    'UE-0': {'categ': 'tax_categ_k', 'type': 'tax_type_vat'},
-    'IMPORT-0': {'categ': 'tax_categ_g', 'type': 'tax_type_vat'},
-    }
+from odoo.tools import file_open
+from lxml import etree
+import logging
+logger = logging.getLogger(__name__)
 
 
 def set_unece_on_taxes(cr, registry):
+    f = file_open(
+        'l10n_fr_account_tax_unece/data/account_tax_template.xml', 'rb')
+    xml_root = etree.parse(f)
+    data = {}
+    for record in xml_root.xpath('//record'):
+        xmlid = record.attrib['id']
+        data[xmlid] = {}
+        for xfield in record.xpath('field'):
+            xfield_dict = xfield.attrib
+            data[xmlid][xfield_dict['name']] = xfield_dict.get('ref')
+    logger.debug('set_unece_on_taxes data=%s', data)
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
         companies = env['res.company'].search([])
+        ato = env['account.tax']
+        imdo = env['ir.model.data']
         for company in companies:
+            logger.debug(
+                'set_unece_on_taxes working on company %s ID %d',
+                company.display_name, company.id)
             if company.country_id and company.country_id != env.ref('base.fr'):
                 continue
-            taxes = env['account.tax'].search(
-                [('company_id', '=', company.id)])
+            taxes = ato.search([('company_id', '=', company.id)])
             for tax in taxes:
-                if tax.description in MAPPING:
-                    tdesc = tax.description
-                    categ_id = MAPPING[tdesc]['categ'] and env.ref(
-                        'account_tax_unece.' + MAPPING[tdesc]['categ']).id\
-                        or False
-                    utype_id = env.ref(
-                        'account_tax_unece.' + MAPPING[tdesc]['type']).id
-                    tax.write({
-                        'unece_type_id': utype_id,
-                        'unece_categ_id': categ_id,
-                        })
+                xmlid_obj = imdo.search([
+                    ('model', '=', 'account.tax'),
+                    ('module', '=', 'l10n_fr'),
+                    ('res_id', '=', tax.id)], limit=1)
+                if (
+                        xmlid_obj and xmlid_obj.name and
+                        len(xmlid_obj.name.split('_')) > 1):
+                    # Remove the 'companyID_' prefix from XMLID of tax
+                    xmlid_ori_end = '_'.join(xmlid_obj.name.split('_')[1:])
+                    xmlid_ori = 'l10n_fr.%s' % xmlid_ori_end
+                    if data.get(xmlid_ori):
+                        vals = {}
+                        for rfield, rxmlid in data[xmlid_ori].items():
+                            if rxmlid:
+                                vals[rfield] = env.ref(rxmlid).id
+                        logger.debug(
+                            'set_unece_on_taxes writing vals=%s on tax ID %d',
+                            vals, tax.id)
+                        tax.write(vals)
     return
