@@ -19,7 +19,6 @@ class Partner(models.Model):
     """Add the French official company identity numbers SIREN, NIC and SIRET"""
     _inherit = 'res.partner'
 
-    @api.multi
     @api.depends('siren', 'nic')
     def _compute_siret(self):
         """Concatenate the SIREN and NIC to form the SIRET"""
@@ -60,6 +59,7 @@ class Partner(models.Model):
                           "the checksum is wrong.")
                         % (rec.siren, rec.nic))
 
+    @api.model
     def _commercial_fields(self):
         res = super(Partner, self)._commercial_fields()
         res += ['siren', 'nic']
@@ -76,8 +76,9 @@ class Partner(models.Model):
         "of this office in the company in France. It "
         "composes the last 5 digits of the SIRET "
         "number.")
+    # the original SIRET field is definied in l10n_fr
     siret = fields.Char(
-        compute='_compute_siret', string='SIRET', size=14, store=True,
+        compute='_compute_siret', store=True,
         help="The SIRET number is the official identity number of this "
         "company's office in France. It is composed of the 9 digits "
         "of the SIREN number and the 5 digits of the NIC number, ie. "
