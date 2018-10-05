@@ -1,4 +1,5 @@
-# © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2014-2018 Akretion France
+# author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api
@@ -7,7 +8,6 @@ from odoo import models, fields, api
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    @api.multi
     @api.depends('zip', 'country_id', 'country_id.code')
     # If a department code changes, it will have to be manually recomputed
     def _compute_department(self):
