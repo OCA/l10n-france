@@ -1,8 +1,10 @@
 <!--
-  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2016-2018 Akretion France
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
+
     <record id="res_country_department_guadeloupe" model="res.country.department">
         <field name="name">Guadeloupe</field>
         <field name="code">971</field>
@@ -32,4 +34,5 @@
         <field name="code">976</field>
         <field name="state_id" ref="res_country_state_mayotte"/>
     </record>
+
 </odoo>
