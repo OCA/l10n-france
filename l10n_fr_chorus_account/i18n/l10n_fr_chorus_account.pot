@@ -45,7 +45,7 @@ msgid "=> Update Chorus Invoice Status"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/wizard/account_invoice_chorus_send.py:48
+#: code:addons/l10n_fr_chorus_account/wizard/account_invoice_chorus_send.py:50
 #, python-format
 msgid "All the selected invoices must be in the same company"
 msgstr ""
@@ -574,7 +574,7 @@ msgstr ""
 #. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/wizard/account_invoice_chorus_send.py:43
 #, python-format
-msgid "The invoice '%s' has already been sent."
+msgid "The invoice '%s' has already been sent: it is linked to Chorus Flow %s."
 msgstr ""
 
 #. module: l10n_fr_chorus_account
