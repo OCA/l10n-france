@@ -39,10 +39,12 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     "'Chorus'.")
                     % (invoice.display_name,
                        invoice.transmit_method_id.name or _('None')))
-            if invoice.sent:
+            if invoice.chorus_flow_id:
                 raise UserError(_(
-                    "The invoice '%s' has already been sent.")
-                    % invoice.display_name)
+                    "The invoice '%s' has already been sent: it is linked to "
+                    "Chorus Flow %s.") % (
+                        invoice.display_name,
+                        invoice.chorus_flow_id.display_name))
             if company:
                 if company != invoice.company_id:
                     raise UserError(_(
