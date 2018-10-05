@@ -13,7 +13,7 @@
     <field name="inherit_id" ref="account_invoice_transmit_method.invoice_form"/>
     <field name="arch" type="xml">
         <button name="action_invoice_sent" position="after">
-            <button name="%(account_invoice_chorus_send_action)d" type="action" attrs="{'invisible': ['|', '|', ('sent', '=', True), ('state', 'not in', ('open', 'paid')), ('transmit_method_code', '!=', 'fr-chorus')]}" string="Send to Chorus" class="btn-primary" groups="l10n_fr_chorus_account.group_chorus_api"/>
+            <button name="%(account_invoice_chorus_send_action)d" type="action" attrs="{'invisible': ['|', '|', ('chorus_flow_id', '!=', False), ('state', 'not in', ('open', 'paid')), ('transmit_method_code', '!=', 'fr-chorus')]}" string="Send to Chorus" class="btn-primary" groups="l10n_fr_chorus_account.group_chorus_api"/>
         </button>
         <notebook position="inside">
             <page name="fr-chorus" string="Chorus" attrs="{'invisible': [('transmit_method_code', '!=', 'fr-chorus')]}" groups="l10n_fr_chorus_account.group_chorus_api">
