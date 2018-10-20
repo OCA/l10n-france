@@ -13,14 +13,12 @@ class ResCompany(models.Model):
 
     # siret field is defined in l10n_fr module on res.partner
     # with an unstored related field on res.company
-    siret = fields.Char(store=True, compute_sudo=True)
+    siret = fields.Char(store=True)
     siren = fields.Char(
-        string='SIREN', related='partner_id.siren',
-        store=True, compute_sudo=True)
+        string='SIREN', related='partner_id.siren', store=True)
     nic = fields.Char(
-        string='NIC', related='partner_id.nic',
-        store=True, compute_sudo=True)
+        string='NIC', related='partner_id.nic', store=True)
     # company_registry field is definied in base module on res.company
     company_registry = fields.Char(
         string='Company Registry', related='partner_id.company_registry',
-        store=True, compute_sudo=True)
+        store=True)
