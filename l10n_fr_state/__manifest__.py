@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2013-2016 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
 # © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
