@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2009-2017 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
@@ -245,7 +244,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     if not pline.suppl_unit_qty:
                         raise UserError(
                             _('Missing quantity on line %d.') % line)
-                    quantity_in_SU.text = unicode(pline.suppl_unit_qty)
+                    quantity_in_SU.text = str(pline.suppl_unit_qty)
                 else:
                     destination_country = etree.SubElement(
                         item, 'MSConsDestCode')
@@ -267,7 +266,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 if not pline.weight:
                     raise UserError(
                         _('Missing weight on line %d.') % line)
-                weight.text = unicode(pline.weight)
+                weight.text = str(pline.weight)
 
             # START of elements that are part of all DEBs
             invoiced_amount = etree.SubElement(item, 'invoicedAmount')
