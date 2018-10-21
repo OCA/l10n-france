@@ -16,7 +16,7 @@
     <field name="interval_type">months</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
     <field name="doall" eval="False"/>
-    <field name="model" eval="'l10n.fr.intrastat.product.declaration'"/>
+    <field name="model_id" ref="model_l10n_fr_intrastat_product_declaration"/>
     <field name="function" eval="'_scheduler_reminder'" />
     <field name="args" eval="'()'"/>
 </record>
@@ -57,7 +57,7 @@
 % endif
 
 <p>
--- 
+--
 Automatic e-mail sent by Odoo.
 <!-- TODO : print database name (we used object._cr.dbname in openerp 6.1, but it's not possible in OpenERP 7 because the executing of jinja2 is sandboxed and private attributes can't be accessed). -->
 </p>
