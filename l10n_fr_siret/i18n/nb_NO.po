@@ -25,8 +25,8 @@ msgid "Companies"
 msgstr "Firmaer"
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner_company_registry
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users_company_registry
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__company_registry
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
 msgid "Company Registry"
 msgstr "Firmaregister"
 
@@ -36,63 +36,74 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company_nic
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner_nic
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users_nic
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__nic
 msgid "NIC"
 msgstr "NIC"
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company_siren
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner_siren
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users_siren
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siren
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siren
 msgid "SIREN"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:43
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
+msgid "SIRET"
+msgstr ""
+
+#. module: l10n_fr_siret
+#: code:addons/l10n_fr_siret/models/partner.py:42
 #, python-format
 msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_company_nic
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner_nic
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_users_nic
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__nic
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__nic
 msgid ""
 "The NIC number is the official rank number of this office in the company in "
 "France. It composes the last 5 digits of the SIRET number."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:50
+#: code:addons/l10n_fr_siret/models/partner.py:49
 #, python-format
 msgid "The SIREN '%s' is incorrect: it must have exactly 9 digits."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:54
+#: code:addons/l10n_fr_siret/models/partner.py:53
 #, python-format
 msgid "The SIREN '%s' is invalid: the checksum is wrong."
 msgstr "SIREN-koden '%s' er ugyldig: Sjekksummen er feil."
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_company_siren
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner_siren
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_users_siren
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siren
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siren
 msgid ""
 "The SIREN number is the official identity number of the company in France. "
 "It composes the first 9 digits of the SIRET number."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:59
+#: code:addons/l10n_fr_siret/models/partner.py:58
 #, python-format
 msgid "The SIRET '%s%s' is invalid: the checksum is wrong."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner_company_registry
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_users_company_registry
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siret
+msgid ""
+"The SIRET number is the official identity number of this company's office in "
+"France. It is composed of the 9 digits of the SIREN number and the 5 digits "
+"of the NIC number, ie. 14 digits."
+msgstr ""
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__company_registry
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__company_registry
 msgid "The name of official registry where this company was declared."
 msgstr ""
