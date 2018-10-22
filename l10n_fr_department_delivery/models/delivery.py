@@ -20,6 +20,6 @@ class DeliveryCarrier(models.Model):
         if (
                 self.department_ids and
                 contact.department_id and
-                contact.department_id not in self.self.department_ids):
+                contact.department_id not in self.department_ids):
             return False
         return res
