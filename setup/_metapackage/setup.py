@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo12-addon-l10n_fr_department',
         'odoo12-addon-l10n_fr_department_oversea',
+        'odoo12-addon-l10n_fr_siret',
         'odoo12-addon-l10n_fr_state',
     ],
     classifiers=[
