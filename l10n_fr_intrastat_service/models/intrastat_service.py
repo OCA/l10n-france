@@ -330,6 +330,14 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     'intrastat_service_reminder_email_template')
         return True
 
+    def goto_prodouane_site(self):
+        return {
+            'name': "Prodouane site",
+            'type': 'ir.actions.act_url',
+            'url': 'https://pro.douane.gouv.fr/desweb/cf.srv?etape=initEdi',
+            'target': 'new',
+        }
+
 
 class L10nFrIntrastatServiceDeclarationLine(models.Model):
     _name = "l10n.fr.intrastat.service.declaration.line"
