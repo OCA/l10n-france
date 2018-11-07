@@ -275,6 +275,11 @@ msgid "For the 'DEB' declaration to France's customs administration, you should 
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: model:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_form
+msgid "Goto Prodou@ne"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_id
@@ -562,6 +567,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction_fr_is_vat_required
 msgid "True for all procedure codes except 11, 19 and 29. When False, the VAT number should not be filled in the Intrastat product line."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_form
+msgid "Vous devez être connecté au préalable sur le site https://pro.douane.gouv.fr pour bénéficier des services"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
