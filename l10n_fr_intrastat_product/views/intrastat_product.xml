@@ -13,6 +13,10 @@
     <field name="mode">primary</field>
     <field name="inherit_id" ref="intrastat_product.intrastat_product_declaration_view_form"/>
     <field name="arch" type="xml">
+        <header position="inside">
+            <button name="goto_prodouane_site" string="Goto Prodou@ne" type="object"
+                    help="Vous devez être connecté au préalable sur le site https://pro.douane.gouv.fr pour bénéficier des services"/>
+        </header>
         <form position="attributes">
             <attribute name="string">DEB</attribute>
         </form>
