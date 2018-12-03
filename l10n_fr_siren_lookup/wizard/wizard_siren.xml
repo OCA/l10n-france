@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- WIZARD FORM -->
+    <record id="siren_wizard_view_form" model="ir.ui.view">
+        <field name="name">siren.wizard.form</field>
+        <field name="model">siren.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Lookup Company">
+                <p>Lookup</p>
+                    <h4>
+                        <field name="name" />
+                        <button class="btn btn-sm btn-primary" name="get_company_lines" string="Search" type="object"/>
+                    </h4>
+                <field name="company_lines" readonly="True">
+                    <tree>
+                        <field name="name" />
+                        <field name="street" />
+                        <field name="zip" />
+                        <field name="city" />
+                        <button class="btn btn-primary" name="update_partner" string="Select" type="object" confirm="Confirm selected company ?"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button class="btn btn-sm btn-default" special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- COMPANY FORM -->
+    <record id="siren_wizard_company_view_form" model="ir.ui.view">
+        <field name="name">siren.wizard.company.form</field>
+        <field name="model">siren.wizard.company</field>
+        <field name="arch" type="xml">
+            <form string="Company">
+                <h3><field name="name" /></h3>
+                <group>
+                    <group string="Address">
+                        <field name="street" />
+                        <field name="zip" />
+                        <field name="city" />
+                    </group>
+                    <group string="Legal Infos">
+                        <field name="forme_juridique" />
+                        <field name="siren" />
+                        <field name="siret" />
+                        <field name="ape" />
+                        <field name="lib_ape" />
+                    </group>
+                    <group string="Company Infos">
+                        <field name="categorie" />
+                        <field name="date_creation" />
+                        <field name="effectif" />
+                    </group>
+                    <group string="ESS">
+                        <field name="ess" />
+                        <field name="lib_ess" />
+                        <field name="date_ess" />
+                    </group>
+                </group>
+                <footer>
+                    <button class="btn btn-sm btn-primary" name="update_partner" string="Select" type="object" confirm="Confirm selected company ?"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="siren_wizard_action" model="ir.actions.act_window">
+        <field name="name">Informations base Siren</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">siren.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="siren_wizard_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
