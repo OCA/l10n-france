@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<data>
+    <data>
 
-	    <!-- Client Form View -->
-	    <record id="partner_form_siren_view" model="ir.ui.view">
-		    <field name="name">res.partner.siren.form.view</field>
-		    <field name="model">res.partner</field>
-		    <field name="inherit_id" ref="base.view_partner_form"/>
-		    <field name="arch" type="xml" >
+        <!-- Client Form View -->
+        <record id="partner_form_siren_view" model="ir.ui.view">
+            <field name="name">res.partner.siren.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml" >
                 <!-- ADD HEADER BUTTON -->
                 <xpath expr="//sheet" position="before">
                     <header attrs="{'invisible': [('is_company','!=',True)]}">
@@ -16,30 +16,25 @@
                 </xpath>
                 <!-- ADD PARTNER INFO TAB -->
                 <xpath expr="//page[@name='internal_notes']" position="after" attrs="{'invisible': [('is_company','!=',True)]}">
-                	<page name="legal_infos" string="Legal Infos">
-                		<group>
-		                    <group string="Legal Infos">
-		                        <field name="forme_juridique" />
-		                        <field name="siren" />
-		                        <field name="siret" />
-		                        <field name="ape" />
-		                        <field name="lib_ape" />
-		                    </group>
-		                    <group string="Company Infos">
-		                        <field name="categorie" />
-		                        <field name="date_creation" />
-		                        <field name="effectif" />
-		                    </group>
-		                    <group string="ESS">
-		                        <field name="ess" />
-		                        <field name="lib_ess" />
-		                        <field name="date_ess" />
-		                    </group>
-		                </group>
-                	</page>
+                    <page name="legal_infos" string="Legal Infos">
+                        <group>
+                            <group string="Legal Infos">
+                                <field name="legal_type" />
+                                <field name="siren" />
+                                <field name="siret" />
+                                <field name="ape" />
+                                <field name="ape_label" />
+                            </group>
+                            <group string="Company Infos">
+                                <field name="category" />
+                                <field name="creation_date" />
+                                <field name="staff" />
+                            </group>
+                        </group>
+                    </page>
                 </xpath>
-			</field>
-		</record>
+            </field>
+        </record>
 
-	</data>
+    </data>
 </odoo>
