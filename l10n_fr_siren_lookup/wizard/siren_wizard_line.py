@@ -10,7 +10,7 @@ class SirenWizardLine(models.TransientModel):
     _name = 'siren.wizard.line'
     _description = 'Company Selection'
 
-    ## Fields
+    # Fields
     wizard_id = fields.Many2one('siren.wizard', string='Wizard',)
     name = fields.Char(string='Name')
     street = fields.Char(string='Street')
@@ -44,4 +44,3 @@ class SirenWizardLine(models.TransientModel):
             'staff': self.staff,
             'category': self.category,
         })
-        
