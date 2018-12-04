@@ -3,19 +3,18 @@
 # © 2018 Le Filament (<http://www.le-filament.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import json
 import requests
 
 from odoo import api, fields, models
 
 URL = "https://data.opendatasoft.com/api/records/1.0/search/?dataset=sirene%40public&q={request}&rows=100"
 
+
 class SirenWizard(models.TransientModel):
     _name = 'siren.wizard'
     _description = 'Get values from companies'
 
-
-    ## Default functions
+    # Default functions
     @api.model
     def _default_name(self):
         return self.env['res.partner'].browse(self.env.context.get('active_id')).name
@@ -24,13 +23,12 @@ class SirenWizard(models.TransientModel):
     def _default_partner(self):
         return self.env.context.get('active_id')
 
-    ## Fields
+    # Fields
     name = fields.Char(string='Company', default=_default_name)
     line_ids = fields.One2many('siren.wizard.line', 'wizard_id', string="Results",)
     partner_id = fields.Integer('Partner', default=_default_partner)
 
-
-    ## Action
+    # Action
     @api.model
     def _prepare_partner_from_data(self, data):
         return {
@@ -61,4 +59,4 @@ class SirenWizard(models.TransientModel):
                     'name': company['fields']['l1_normalisee'],
                 })
             new_company.update(self._prepare_partner_from_data(company['fields']))
-        return { "type": "ir.actions.do_nothing", }
+        return {"type": "ir.actions.do_nothing",}
