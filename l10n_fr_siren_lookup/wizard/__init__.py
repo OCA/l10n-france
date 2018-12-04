@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-import wizard_siren
+from . import siren_wizard, siren_wizard_line
