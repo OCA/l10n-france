@@ -6,18 +6,15 @@
 from odoo import api, fields, models
 
 
-class PartnerSiren(models.Model):
-	_inherit = 'res.partner'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
-	## Fields
-	forme_juridique = fields.Char("Legal Type")
-	siren = fields.Char("SIREN")
-	siret = fields.Char("SIRET")
-	ape = fields.Char("APE Code")
-	lib_ape = fields.Char("APE Label")
-	date_creation = fields.Date("Creation date")
-	effectif = fields.Char("# Staff")
-	lib_ess = fields.Char("ESS Label")
-	date_ess = fields.Date("ESS Date")
-	ess = fields.Boolean("ESS (Economie Sociale et Solidaire)")
-	categorie = fields.Char("Category")
+    ## Fields
+    legal_type = fields.Char("Legal Type")
+    siren = fields.Char("SIREN")
+    siret = fields.Char("SIRET")
+    ape = fields.Char("APE Code")
+    ape_label = fields.Char("APE Label")
+    creation_date = fields.Date("Creation date")
+    staff = fields.Char("# Staff")
+    category = fields.Char("Category")
