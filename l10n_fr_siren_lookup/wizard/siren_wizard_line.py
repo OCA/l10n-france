@@ -5,6 +5,7 @@
 
 from odoo import api, fields, models
 
+
 class SirenWizardLine(models.TransientModel):
     _name = 'siren.wizard.line'
     _description = 'Company Selection'
@@ -25,8 +26,7 @@ class SirenWizardLine(models.TransientModel):
     staff = fields.Char("# Staff")
     category = fields.Char("Category")
 
-    
-    ## Action
+    # Action
     @api.multi
     def update_partner(self):
         partner = self.env['res.partner'].browse(self.wizard_id.partner_id)
@@ -35,12 +35,13 @@ class SirenWizardLine(models.TransientModel):
             'street': self.street,
             'zip': self.zip,
             'city': self.city,
-            'legal_type': self.forme_juridique,
+            'legal_type': self.legal_type,
             'siren': self.siren,
             'siret': self.siret,
             'ape': self.ape,
-            'ape_label': self.lib_ape,
-            'creation_date': self.date_creation,
-            'staff': self.effectif,
-            'category': self.categorie,
+            'ape_label': self.ape_label,
+            'creation_date': self.creation_date,
+            'staff': self.staff,
+            'category': self.category,
         })
+        
