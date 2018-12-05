@@ -8,7 +8,7 @@ import requests
 from odoo import api, fields, models
 
 URL = "https://data.opendatasoft.com/api/records/1.0/"\
-"search/?dataset=sirene%40public&q={request}&rows=100"
+    "search/?dataset=sirene%40public&q={request}&rows=100"
 
 
 class SirenWizard(models.TransientModel):
@@ -19,7 +19,7 @@ class SirenWizard(models.TransientModel):
     @api.model
     def _default_name(self):
         return self.env['res.partner'].browse(
-                    self.env.context.get('active_id')).name
+            self.env.context.get('active_id')).name
 
     @api.model
     def _default_partner(self):
@@ -27,8 +27,8 @@ class SirenWizard(models.TransientModel):
 
     # Fields
     name = fields.Char(string='Company', default=_default_name)
-    line_ids = fields.One2many('siren.wizard.line', 'wizard_id', 
-                        string="Results",)
+    line_ids = fields.One2many('siren.wizard.line', 'wizard_id',
+                               string="Results")
     partner_id = fields.Integer('Partner', default=_default_partner)
 
     # Action
@@ -54,11 +54,10 @@ class SirenWizard(models.TransientModel):
         r = requests.get(URL.format(request=self.name))
         # Serialization request to JSON
         companies = r.json()
-        # Unlink all company lines
-        self.line_ids.unlink()
         # Fill new company lines
+        companies_vals = []
         for company in companies['records']:
             res = self._prepare_partner_from_data(company['fields'])
-            res['wizard_id'] = self.id
-            self.line_ids.create(res)
+            companies_vals.append((0, 0, res))
+        self.line_ids = companies_vals
         return {"type": "ir.actions.do_nothing", }
