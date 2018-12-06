@@ -16,6 +16,7 @@
         'l10n_fr_department',
         ],
     'data': [
+        'data/account_tax_template.xml',
         'security/intrastat_product_security.xml',
         'security/ir.model.access.csv',
         'views/intrastat_product.xml',
