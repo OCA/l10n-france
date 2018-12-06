@@ -389,7 +389,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                         'has been created by Odoo for company %s'
                         % (type, previous_month, company.name))
                     try:
-                        intrastat.generate_product_lines_from_invoice()
+                        intrastat.action_gather()
                     except Warning as e:
                         intrastat = intrastat.with_context(
                             exception=True, error_msg=e)
@@ -398,7 +398,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     # in the mail tpl ?
                     intrastat.send_reminder_email(
                         'l10n_fr_intrastat_product.'
-                        'intrastat_product_reminder_email_template')
+                        'l10n_fr_intrastat_product_reminder_email_template')
         return True
 
 
