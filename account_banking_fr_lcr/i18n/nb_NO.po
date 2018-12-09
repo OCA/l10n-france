@@ -65,7 +65,7 @@ msgid "Payment Order"
 msgstr "Betalingsordre"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:203
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:206
 #, python-format
 msgid ""
 "The currency of payment line '%s' is '%s'. To be included in a French LCR, "
