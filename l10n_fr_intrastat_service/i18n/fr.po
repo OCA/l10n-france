@@ -225,6 +225,11 @@ msgid "Generate Lines from Invoices"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
+#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+msgid "Goto Prodou@ne"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Group By"
 msgstr "Grouper par"
@@ -369,6 +374,13 @@ msgstr "Montant total"
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_total_amount
 msgid "Total amount in company currency of the declaration."
 msgstr "Montant total en monnaie société de la déclaration."
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+msgid ""
+"Vous devez être connecté au préalable sur le site https://pro.douane.gouv.fr "
+"pour bénéficier des services"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_year
