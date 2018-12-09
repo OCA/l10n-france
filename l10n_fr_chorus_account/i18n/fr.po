@@ -20,12 +20,44 @@ msgstr ""
 "X-Generator: Weblate 3.0.1\n"
 
 #. module: l10n_fr_chorus_account
+#: model:mail.template,body_html:l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template
+msgid ""
+"\n"
+"<p>The Odoo server of company <em>${object.name}</em> is setup to access the "
+"Chorus Pro API. Accessing the Chorus Pro API require both a technical user "
+"login/password and an RGS 1* certificate. Each of these 2 components have an "
+"expiry date. The expiry date of one of these components is imminent:</p>\n"
+"\n"
+"<ul>\n"
+"\n"
+"%if object.fr_chorus_pwd_expiry_date:\n"
+"<li>Technical user login/password: expire on ${object."
+"fr_chorus_pwd_expiry_date} (in <em>${ctx.get('pwd_days')})</em> days)</li>\n"
+"%endif\n"
+"\n"
+"%if object.fr_chorus_cert_expiry_date:\n"
+"<li>RGS 1* certificate: expire on ${object.fr_chorus_cert_expiry_date} (in "
+"<em>${ctx.get('cert_days')}</em> days)</li>\n"
+"%endif\n"
+"\n"
+"</ul>\n"
+"\n"
+"<p>Please take appropriate actions before the expiry date to ensure that "
+"Odoo will continue to access the Chorus Pro API without problems.</p>\n"
+"\n"
+"<p>\n"
+"-- <br/>\n"
+"Automatic e-mail sent by Odoo.\n"
+"</p>\n"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: model:ir.ui.view,arch_db:l10n_fr_chorus_account.invoice_form
 msgid "=> Update Chorus Invoice Status"
 msgstr "=> Mise à jour statut de la facture Chorus"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/wizard/account_invoice_chorus_send.py:48
+#: code:addons/l10n_fr_chorus_account/wizard/account_invoice_chorus_send.py:50
 #, python-format
 msgid "All the selected invoices must be in the same company"
 msgstr "Toutes les factures choisies doivent être de la même société"
@@ -63,6 +95,12 @@ msgid "Chorus API"
 msgstr "API Chorus"
 
 #. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_config_settings_fr_chorus_cert_expiry_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_cert_expiry_date
+msgid "Chorus API Certificate Expiry Date"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_config_settings_fr_chorus_api_login
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_api_login
 msgid "Chorus API Login"
@@ -72,6 +110,13 @@ msgstr "Identifiant API Chorus"
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_config_settings_fr_chorus_api_password
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_api_password
 msgid "Chorus API Password"
+msgstr "Mot de passe API Chorus"
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_config_settings_fr_chorus_pwd_expiry_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_pwd_expiry_date
+#, fuzzy
+msgid "Chorus API Password Expiry Date"
 msgstr "Mot de passe API Chorus"
 
 #. module: l10n_fr_chorus_account
@@ -129,7 +174,7 @@ msgid "Chorus Test Mode"
 msgstr "Mode de test Chorus"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:109
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:111
 #, python-format
 msgid "Chorus only accepts IBAN. But the bank account '%s' is not an IBAN."
 msgstr ""
@@ -343,7 +388,7 @@ msgid "Login of the Technical User for Chorus API"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/company.py:92
+#: code:addons/l10n_fr_chorus_account/models/company.py:140
 #, python-format
 msgid "Missing Chorus API parameters on the company %s"
 msgstr ""
@@ -355,13 +400,13 @@ msgid "Missing Chorus Identifier on partner %s"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:188
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:190
 #, python-format
 msgid "Missing Chorus Invoice Identifier on invoice '%s'"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:87
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:89
 #, python-format
 msgid "Missing Payment Mode. This information is required for Chorus."
 msgstr ""
@@ -381,7 +426,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:98
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:100
 #, python-format
 msgid ""
 "Missing bank account information for payment. For that, you have two "
@@ -391,13 +436,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/company.py:35
+#: code:addons/l10n_fr_chorus_account/models/company.py:50
 #, python-format
 msgid "Missing key 'chorus_api_cert' in Odoo server configuration file"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/company.py:55
+#: code:addons/l10n_fr_chorus_account/models/company.py:70
 #, python-format
 msgid "Missing key 'chorus_api_key-%d' in Odoo server configuration file"
 msgstr ""
@@ -447,7 +492,7 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:78
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:80
 #, python-format
 msgid ""
 "Partner '%s' is configured as 'Service or Engagement' required for Chorus "
@@ -537,7 +582,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:121
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:123
 #, python-format
 msgid ""
 "The Chorus Invoice Format is not configured on the Accounting Configuration "
@@ -551,21 +596,38 @@ msgid "The Chorus Invoice Identifiers are already set for flow %s"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/company.py:45
+#: code:addons/l10n_fr_chorus_account/models/company.py:60
 #, python-format
 msgid "The Chorus certificate file '%s' doesn't exist"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/company.py:65
+#: code:addons/l10n_fr_chorus_account/models/company.py:80
 #, python-format
 msgid "The Chorus key file '%s' doesn't exist"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/company.py:152
+#, python-format
+msgid ""
+"The expiry date of the certificate for Chorus API is %s. You should deploy a "
+"new certificate."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/company.py:164
+#, python-format
+msgid ""
+"The expiry date of the technical user credentials for Chorus API is %s. You "
+"should login to Chorus Pro, generate new credentials for the technical user "
+"and update it in the menu Accounting > Configuration > Configuration."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/wizard/account_invoice_chorus_send.py:43
 #, python-format
-msgid "The invoice '%s' has already been sent."
+msgid "The invoice '%s' has already been sent: it is linked to Chorus Flow %s."
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -588,11 +650,22 @@ msgid "UBL XML"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/company.py:100
+#, python-format
+msgid "Unable to get the expiry date of the certificate %s. Error message: %s."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/models/account_invoice.py:41
 #, python-format
 msgid ""
 "Unece Due Date not configured on tax '%s'. This information is required for "
 "Chorus invoices."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.view_account_config_settings
+msgid "Update Certificate Expiry Date"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -617,9 +690,20 @@ msgid "Use the Chorus Pro qualification website"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_config_settings_fr_chorus_expiry_remind_user_ids
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_expiry_remind_user_ids
+msgid "Users Receiving the Expiry Reminder"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/models/chorus_api.py:49
 #, python-format
 msgid "Wrong request on %s. HTTP error code received from Chorus: %s"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:mail.template,subject:l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template
+msgid "[${object.name}] Chorus API credentials/certificate expiry"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
