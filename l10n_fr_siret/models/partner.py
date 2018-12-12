@@ -54,7 +54,7 @@ class Partner(models.Model):
                         % rec.siren)
                 # Check the NIC key (you need both SIREN and NIC to check it)
                 if rec.nic and not _check_luhn(rec.siren + rec.nic):
-                    return UserError(
+                    raise UserError(
                         _("The SIRET '%s%s' is invalid: "
                           "the checksum is wrong.")
                         % (rec.siren, rec.nic))
