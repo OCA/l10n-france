@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2018 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="chorus_partner_service_form" model="ir.ui.view">
+    <field name="name">chorus.partner.service.form</field>
+    <field name="model">chorus.partner.service</field>
+    <field name="arch" type="xml">
+        <form string="Chorus Partner Service">
+            <group name="main">
+                <field name="partner_id"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="chorus_identifier"/>
+                <field name="active"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="chorus_partner_service_tree" model="ir.ui.view">
+    <field name="name">chorus.partner.service.tree</field>
+    <field name="model">chorus.partner.service</field>
+    <field name="arch" type="xml">
+        <tree string="Chorus Partner Services">
+            <field name="partner_id" invisible="not context.get('chorus_partner_service_main_view')"/>
+            <field name="code"/>
+            <field name="name"/>
+            <field name="chorus_identifier"/>
+        </tree>
+    </field>
+</record>
+
+<record id="chorus_partner_service_search" model="ir.ui.view">
+    <field name="name">chorus.partner.service.search</field>
+    <field name="model">chorus.partner.service</field>
+    <field name="arch" type="xml">
+        <search string="Search Partner Services">
+            <field name="name" string="Code, Name or Identifier" filter_domain="['|', '|', ('name', 'ilike', self), ('code', 'ilike', self), ('chorus_identifier', 'ilike', self)]"/>
+            <field name="partner_id"/>
+            <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            <group string="Group By" name="groupby">
+                <filter name="partner_groupby" string="Partner" context="{'group_by': 'partner_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<record id="chorus_partner_service_action" model="ir.actions.act_window">
+    <field name="name">Chorus Partner Services</field>
+    <field name="res_model">chorus.partner.service</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'chorus_partner_service_main_view': True}</field>
+</record>
+
+<menuitem id="chorus_partner_service_menu" action="chorus_partner_service_action" parent="chorus_config" groups="l10n_fr_chorus_account.group_chorus_api" sequence="90"/>
+
+</odoo>
