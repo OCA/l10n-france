@@ -13,10 +13,12 @@
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="arch" type="xml">
         <field name="ref" position="after">
+            <field name="fr_chorus_service_id" groups="l10n_fr_chorus_account.group_chorus_api" attrs="{'invisible': ['|', ('parent_id', '=', False), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}" domain="[('partner_id', '=', parent_id)]"/>
             <field name="fr_chorus_service_code"
                 attrs="{'invisible': ['|', ('parent_id', '=', False), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
         </field>
         <xpath expr="//field[@name='child_ids']/form//label[@for='street']" position="before">
+            <field name="fr_chorus_service_id" groups="l10n_fr_chorus_account.group_chorus_api" attrs="{'invisible': ['|', ('type', 'not in', ('invoice', 'default')), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}" domain="[('partner_id', '=', parent.id)]"/>
             <field name="fr_chorus_service_code"
                 attrs="{'invisible': ['|', ('type', 'not in', ('invoice', 'default')), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"/>
         </xpath>
@@ -32,13 +34,18 @@
             <group name="fr-chorus" string="Chorus"
                     attrs="{'invisible': [('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}">
                 <button name="fr_chorus_identifier_and_required_button"
-                    type="object" string="Get Info Required for Chorus"
-                    attrs="{'invisible': [('fr_chorus_required', '!=', False)]}"
+                    type="object" string="Update Info Required for Chorus"
                     colspan="2" class="btn-primary"
                     groups="l10n_fr_chorus_account.group_chorus_api"/>
                 <field name="fr_chorus_required"/>
                 <field name="fr_chorus_identifier"
-                    groups="l10n_fr_chorus_account.group_chorus_api"/>
+                        groups="l10n_fr_chorus_account.group_chorus_api"/>
+                <button type="action" class="btn-link"
+                    groups="l10n_fr_chorus_account.group_chorus_api"
+                    name="%(chorus_partner_service_action)d"
+                    context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}">
+                    <field name="fr_chorus_service_count" string="Chorus Services" widget="statinfo"/>
+                </button>
             </group>
         </group>
     </field>
