@@ -25,6 +25,7 @@
         'data/mail_template.xml',
         'wizard/account_invoice_chorus_send_view.xml',
         'views/chorus_flow.xml',
+        'views/chorus_partner_service.xml',
         'views/partner.xml',
         'views/account_config_settings.xml',
         'views/account_invoice.xml',
