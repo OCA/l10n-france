@@ -87,8 +87,8 @@
     <field name="view_mode">tree,form</field>
 </record>
 
-<menuitem id="chorus_config" parent="account.menu_finance_configuration" name="Chorus" sequence="100" groups="l10n_fr_chorus_account.group_chorus_api"/>
+<menuitem id="chorus_config" parent="account.menu_finance_configuration" name="Chorus" sequence="100"/>
 
-<menuitem id="chorus_flow_menu" action="chorus_flow_action" parent="chorus_config" groups="l10n_fr_chorus_account.group_chorus_api"/>
+<menuitem id="chorus_flow_menu" action="chorus_flow_action" parent="chorus_config" groups="l10n_fr_chorus_account.group_chorus_api" sequence="20"/>
 
 </odoo>
