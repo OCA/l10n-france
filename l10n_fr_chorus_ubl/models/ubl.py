@@ -64,6 +64,6 @@ class BaseUbl(models.AbstractModel):
 
     @api.model
     def _ubl_get_contact_id(self, partner):
-        if self._context.get('fr_chorus') and partner.fr_chorus_service_code:
-            return partner.fr_chorus_service_code
+        if self._context.get('fr_chorus') and partner.fr_chorus_service_id:
+            return partner.fr_chorus_service_id.code
         return super(BaseUbl, self)._ubl_get_contact_id(partner)
