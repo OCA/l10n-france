@@ -30,11 +30,7 @@ class ChorusPartnerService(models.Model):
     _sql_constraints = [
         ('partner_code_uniq',
          'unique(partner_id, code)',
-         'This Chorus service code already exists for that partner!'),
-        # the chorus_identifier seems global and not per partner
-        ('chorus_identifier_uniq',
-         'unique(chorus_identifier)',
-         'This service Chorus identifier already exists!')]
+         'This Chorus service code already exists for that partner!')]
 
     @api.model
     def name_search(
