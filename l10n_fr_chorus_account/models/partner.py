@@ -87,18 +87,51 @@ class ResPartner(models.Model):
         return (res, session)
 
     def fr_chorus_identifier_get(self):
-        api_params = self.env.user.company_id.chorus_get_api_params(
-            raise_if_ko=True)
-        for partner in self:
-            if partner.parent_id:
-                raise UserError(_(
-                    "Cannot get Chorus Identifier on a contact (%s)")
-                    % partner.display_name)
-            if not partner.nic or not partner.siren:
-                raise UserError(_(
-                    "Missing SIRET on partner %s") % partner.display_name)
-        session = None
+        company2api = {}
+        raise_if_ko = self._context.get('chorus_raise_if_ko', True)
+        partners = []
         for partner in self.filtered(lambda p: not p.fr_chorus_identifier):
+            if partner.parent_id:
+                if raise_if_ko:
+                    raise UserError(_(
+                        "Cannot get Chorus Identifier on a contact (%s)")
+                        % partner.display_name)
+                else:
+                    logger.warning(
+                        'Skipping partner %s: not a contact',
+                        partner.display_name)
+                    continue
+            if not partner.nic or not partner.siren:
+                if raise_if_ko:
+                    raise UserError(_(
+                        "Missing SIRET on partner %s") % partner.display_name)
+                else:
+                    logger.warning(
+                        'Skipping partner %s: missing SIRET',
+                        partner.display_name)
+                    continue
+            if partner.customer_invoice_transmit_method_code != 'fr-chorus':
+                if raise_if_ko:
+                    raise UserError(_(
+                        "On partner %s, the invoice transmit method "
+                        "is not set to Chorus") % partner.display_name)
+                else:
+                    logger.warning(
+                        'Skipping partner %s: invoice transmit method '
+                        'not set to fr-chorus', partner.display_name)
+                    continue
+            company = partner.company_id or self.env.user.company_id
+            if company not in company2api:
+                api_params = company.chorus_get_api_params(
+                    raise_if_ko=raise_if_ko)
+                if not api_params:
+                    continue
+                company2api[company] = api_params
+            partners.append(partner)
+        session = None
+        for partner in partners:
+            company = partner.company_id or self.env.user.company_id
+            api_params = company2api[company]
             (res, session) = partner.fr_chorus_api_structures_rechercher(
                 api_params, session)
             if res:
@@ -134,15 +167,32 @@ class ResPartner(models.Model):
         return (res, session)
 
     def fr_chorus_required_get(self):
-        api_params = self.env.user.company_id.chorus_get_api_params(
-            raise_if_ko=True)
+        company2api = {}
+        raise_if_ko = self._context.get('chorus_raise_if_ko', True)
+        partners = []
         for partner in self:
             if not partner.fr_chorus_identifier:
-                raise UserError(_(
-                    "Missing Chorus Identifier on partner %s")
-                    % partner.display_name)
+                if raise_if_ko:
+                    raise UserError(_(
+                        "Missing Chorus Identifier on partner '%s'.")
+                        % partner.display_name)
+                else:
+                    logger.warning(
+                        'Skipping partner %s: missing chorus identifier',
+                        partner.display_name)
+                    continue
+            company = partner.company_id or self.env.user.company_id
+            if company not in company2api:
+                api_params = company.chorus_get_api_params(
+                    raise_if_ko=raise_if_ko)
+                if not api_params:
+                    continue
+                company2api[company] = api_params
+            partners.append(partner)
         session = None
-        for partner in self:
+        for partner in partners:
+            company = partner.company_id or self.env.user.company_id
+            api_params = company2api[company]
             (res, session) = partner.fr_chorus_api_structures_consulter(
                 api_params, session)
             if res:
@@ -193,23 +243,47 @@ class ResPartner(models.Model):
         return (res, session)
 
     def fr_chorus_services_get(self):
-        api_params = self.env.user.company_id.chorus_get_api_params(
-            raise_if_ko=True)
+        company2api = {}
+        raise_if_ko = self._context.get('chorus_raise_if_ko', True)
+        partners = []
         for partner in self:
             if not partner.fr_chorus_identifier:
-                raise UserError(_(
-                    "Missing Chorus Identifier on partner %s.")
-                    % partner.display_name)
+                if raise_if_ko:
+                    raise UserError(_(
+                        "Missing Chorus Identifier on partner %s.")
+                        % partner.display_name)
+                else:
+                    logger.warning(
+                        'Skipping partner %s: missing Chorus identifier',
+                        partner.display_name)
+                    continue
             if not partner.fr_chorus_required:
-                raise UserError(_(
-                    "Missing Info Required for Chorus on partner %s.")
-                    % partner.display_name)
+                if raise_if_ko:
+                    raise UserError(_(
+                        "Missing Info Required for Chorus on partner %s.")
+                        % partner.display_name)
+                else:
+                    logger.warning(
+                        'Skipping partner %s: fr_chorus_required not set',
+                        partner.display_name)
+                    continue
+            company = partner.company_id or self.env.user.company_id
+            if company not in company2api:
+                api_params = company.chorus_get_api_params(
+                    raise_if_ko=raise_if_ko)
+                if not api_params:
+                    continue
+                company2api[company] = api_params
+            partners.append(partner)
+
         session = None
         cpso = self.env['chorus.partner.service']
-        for partner in self.filtered(
-                lambda p: p.fr_chorus_required in
-                ('service', 'service_or_engagement',
-                 'service_and_engagement')):
+        # We don't filter on fr_chorus_required in 'service', ...
+        # because we can have Chorus partners that have services
+        # but the service information is not required
+        for partner in partners:
+            company = partner.company_id or self.env.user.company_id
+            api_params = company2api[company]
             (res, session) = partner.fr_chorus_api_rechercher_services(
                 api_params, session)
             if res:
@@ -230,6 +304,9 @@ class ResPartner(models.Model):
                         'chorus_identifier': existing_srv['chorus_identifier'],
                         }
                 # pprint(existing_res)
+                # I match on code instead of chorus_identifier
+                # because Services can be created manually at the beginning
+                # before we start using the API
                 for ccode, cdata in res.items():
                     if existing_res.get(ccode):
                         existing_p = existing_res[ccode]
@@ -268,3 +345,17 @@ class ResPartner(models.Model):
         self.fr_chorus_required_get()
         self.fr_chorus_services_get()
         return
+
+    @api.model
+    def chorus_cron(self):
+        self = self.with_context(chorus_raise_if_ko=False)
+        logger.info('Start Chorus partner cron')
+        to_update_partners = self.search([
+            ('parent_id', '=', False),
+            ('customer_invoice_transmit_method_code', '=', 'fr-chorus'),
+            ('siren', '!=', False),
+            ('nic', '!=', False)])
+        to_update_partners.fr_chorus_identifier_get()
+        to_update_partners.fr_chorus_required_get()
+        to_update_partners.fr_chorus_services_get()
+        logger.info('End Chorus partner cron')
