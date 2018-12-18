@@ -21,18 +21,30 @@
     <field name="fr_chorus_required">engagement</field>
 </record>
 
+<record id="saam_d5_service" model="chorus.partner.service">
+    <field name="code">SAAM D5</field>
+    <field name="partner_id" ref="national_education_ministry"/>
+    <field name="name">MINISTERE EDUCATION NATIONALE</field>
+</record>
+
 <record id="national_education_ministry_service1" model="res.partner">
     <field name="name">Ministère de l'Education Nationale</field>
     <field name="parent_id" ref="national_education_ministry"/>
-    <field name="fr_chorus_service_code">SAAM D5</field>
+    <field name="fr_chorus_service_id" ref="saam_d5_service"/>
     <field name="type">invoice</field>
     <field name="country_id" ref="base.fr"/>
+</record>
+
+<record id="saam_d4_service" model="chorus.partner.service">
+    <field name="code">SAAM D4</field>
+    <field name="partner_id" ref="national_education_ministry"/>
+    <field name="name">MINISTERE EDUCATION NATIONALE RECHERCHE</field>
 </record>
 
 <record id="national_education_ministry_service2" model="res.partner">
     <field name="name">Ministère de l'Enseignement supérieur et de la Recherche</field>
     <field name="parent_id" ref="national_education_ministry"/>
-    <field name="fr_chorus_service_code">SAAM D4</field>
+    <field name="fr_chorus_service_id" ref="saam_d4_service"/>
     <field name="type">invoice</field>
     <field name="country_id" ref="base.fr"/>
 </record>
@@ -51,10 +63,16 @@
     <field name="fr_chorus_required">engagement</field>
 </record>
 
+<record id="necker_061_service" model="chorus.partner.service">
+    <field name="code">061</field>
+    <field name="partner_id" ref="aphp"/>
+    <field name="name">NECKER</field>
+</record>
+
 <record id="necker" model="res.partner">
     <field name="name">Hôpital Necker</field>
     <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_code">061</field>
+    <field name="fr_chorus_service_id" ref="necker_061_service"/>
     <field name="type">invoice</field>
     <field name="street">149 rue de Sèvres</field>
     <field name="city">Paris</field>
@@ -62,10 +80,16 @@
     <field name="country_id" ref="base.fr"/>
 </record>
 
+<record id="lariboisiere_047_service" model="chorus.partner.service">
+    <field name="code">047</field>
+    <field name="partner_id" ref="aphp"/>
+    <field name="name">LARIBOISIERE</field>
+</record>
+
 <record id="lariboisiere" model="res.partner">
     <field name="name">Hôpital Lariboisière</field>
     <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_code">047</field>
+    <field name="fr_chorus_service_id" ref="lariboisiere_047_service"/>
     <field name="type">invoice</field>
     <field name="street">2, rue Ambroise-Paré</field>
     <field name="city">Paris</field>
@@ -73,10 +97,16 @@
     <field name="country_id" ref="base.fr"/>
 </record>
 
+<record id="bicha_011_service" model="chorus.partner.service">
+    <field name="code">011</field>
+    <field name="partner_id" ref="aphp"/>
+    <field name="name">BICHAT-CLAUDE BERNAR</field>
+</record>
+
 <record id="bicha" model="res.partner">
     <field name="name">Hôpital Bicha-Claude Bernard</field>
     <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_code">011</field>
+    <field name="fr_chorus_service_id" ref="bicha_011_service"/>
     <field name="type">invoice</field>
     <field name="street">46 rue Henri Huchard</field>
     <field name="city">Paris</field>
@@ -84,10 +114,16 @@
     <field name="country_id" ref="base.fr"/>
 </record>
 
+<record id="pitie_066_service" model="chorus.partner.service">
+    <field name="code">066</field>
+    <field name="partner_id" ref="aphp"/>
+    <field name="name">PITIE-SALPETRIERE</field>
+</record>
+
 <record id="pitie" model="res.partner">
     <field name="name">Hôpital Pitié-Salpêtrière</field>
     <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_code">066</field>
+    <field name="fr_chorus_service_id" ref="pitie_066_service"/>
     <field name="type">invoice</field>
     <field name="street">47-83 bd de l’hôpital</field>
     <field name="city">Paris</field>
@@ -95,10 +131,16 @@
     <field name="country_id" ref="base.fr"/>
 </record>
 
+<record id="bicetre_010_service" model="chorus.partner.service">
+    <field name="code">010</field>
+    <field name="partner_id" ref="aphp"/>
+    <field name="name">BICETRE</field>
+</record>
+
 <record id="bicetre" model="res.partner">
     <field name="name">Hôpital Bicêtre</field>
     <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_code">010</field>
+    <field name="fr_chorus_service_id" ref="bicetre_010_service"/>
     <field name="type">invoice</field>
     <field name="street">78 rue du Général-Leclerc</field>
     <field name="city">Le Kremlin-Bicêtre</field>

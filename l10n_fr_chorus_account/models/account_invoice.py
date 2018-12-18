@@ -53,13 +53,12 @@ class AccountInvoice(models.Model):
                         ('service', 'service_and_engagement') and
                         not (inv.partner_id.parent_id and
                              inv.partner_id.name and
-                             inv.partner_id.fr_chorus_service_code)):
+                             inv.partner_id.fr_chorus_service_id)):
                     raise UserError(_(
-                        "Partner '%s' is configured as "
-                        "Service Code required for Chorus, so you must "
-                        "select a contact as customer for the invoice and "
-                        "this contact should have a name and a Chorus "
-                        "Service Code.") % cpartner.name)
+                        "Partner '%s' is configured as Service required for "
+                        "Chorus, so you must select a contact as customer "
+                        "for the invoice and this contact should have a name "
+                        "and a Chorus Service.") % cpartner.name)
                 if (
                         cpartner.fr_chorus_required in
                         ('engagement', 'service_and_engagement') and
@@ -76,14 +75,14 @@ class AccountInvoice(models.Model):
                         not (
                         inv.partner_id.parent_id and
                         inv.partner_id.name and
-                        inv.partner_id.fr_chorus_service_code)):
+                        inv.partner_id.fr_chorus_service_id)):
                         raise UserError(_(
                             "Partner '%s' is configured as "
                             "'Service or Engagement' required for Chorus but "
                             "there is no engagement number in the field "
                             "'Reference/Description' and the customer of the "
                             "invoice is not correctly configured as a service "
-                            "(should be a contact with a Chorus service code "
+                            "(should be a contact with a Chorus service "
                             "and a name).") % cpartner.name)
                 if not self.payment_mode_id:
                     raise UserError(_(

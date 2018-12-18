@@ -13,7 +13,7 @@
     <field name="arch" type="xml">
         <form string="Chorus Partner Service">
             <group name="main">
-                <field name="partner_id"/>
+                <field name="partner_id" invisible="not context.get('chorus_partner_service_main_view')"/>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="chorus_identifier"/>
@@ -59,6 +59,6 @@
     <field name="context">{'chorus_partner_service_main_view': True}</field>
 </record>
 
-<menuitem id="chorus_partner_service_menu" action="chorus_partner_service_action" parent="chorus_config" groups="l10n_fr_chorus_account.group_chorus_api" sequence="90"/>
+<menuitem id="chorus_partner_service_menu" action="chorus_partner_service_action" parent="chorus_config" sequence="10"/>
 
 </odoo>

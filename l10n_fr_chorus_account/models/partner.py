@@ -30,10 +30,7 @@ class ResPartner(models.Model):
     # On contact partner only
     fr_chorus_service_id = fields.Many2one(
         'chorus.partner.service', string='Chorus Service',
-        ondelete='restrict')
-    fr_chorus_service_code = fields.Char(
-        string='Chorus Service Code', size=100, track_visibility='onchange',
-        help='Service Code may be required for Chorus invoices')
+        ondelete='restrict', track_visibility='onchange')
 
     def _compute_fr_chorus_service_count(self):
         res = self.env['chorus.partner.service'].read_group(
@@ -42,41 +39,32 @@ class ResPartner(models.Model):
             partner = self.browse(re['partner_id'][0])
             partner.fr_chorus_service_count = re['partner_id_count']
 
-    @api.constrains('fr_chorus_service_code', 'name', 'parent_id')
-    def check_fr_chorus_service_code(self):
+    @api.constrains('fr_chorus_service_id', 'name', 'parent_id')
+    def check_fr_chorus_service(self):
         for partner in self:
-            if partner.fr_chorus_service_code and not partner.parent_id:
-                raise ValidationError(_(
-                    "Chorus service codes can only be set on contacts, "
-                    "not on parent partners. Chorus service code '%s' has "
-                    "been set on partner %s that has no parent.")
-                    % (partner.fr_chorus_service_code, partner.display_name))
-            if partner.fr_chorus_service_code and not partner.name:
-                raise ValidationError(_(
-                    "Contacts with a Chorus service code should have a name. "
-                    "The Chorus service code '%s' has been set on a contact "
-                    "without a name.") % partner.fr_chorus_service_code)
             if partner.fr_chorus_service_id:
-                if not partner.fr_chorus_service_code:
+                if not partner.parent_id:
                     raise ValidationError(_(
-                        "The contact '%s' has a link to a Chorus Service "
-                        "but its Chorus Service Code is not set.")
-                        % partner.display_name)
-                elif (
-                        partner.fr_chorus_service_code !=
-                        partner.fr_chorus_service_id.code):
+                        "Chorus service codes can only be set on contacts, "
+                        "not on parent partners. Chorus service code '%s' has "
+                        "been set on partner %s that has no parent.") % (
+                            partner.fr_chorus_service_id.code,
+                            partner.display_name))
+                if not partner.name:
                     raise ValidationError(_(
-                        "The contact '%s' has a link to Chorus Service "
-                        "'%s' but its Chorus Service Code has a different "
-                        "value (%s).") % (
-                            partner.display_name,
-                            partner.fr_chorus_service_id.display_name,
-                            partner.fr_chorus_service_code))
-
-    @api.onchange('fr_chorus_service_id')
-    def fr_chorus_service_id_change(self):
-        if self.fr_chorus_service_id:
-            self.fr_chorus_service_code = self.fr_chorus_service_id.code
+                        "Contacts with a Chorus service code should have a "
+                        "name. The Chorus service code '%s' has been set on "
+                        "a contact without a name.")
+                        % partner.fr_chorus_service_id.code)
+                if (
+                        partner.fr_chorus_service_id.partner_id !=
+                        partner.commercial_partner_id):
+                    raise ValidationError(_(
+                        "The Chorus Service '%s' configured on contact '%s' "
+                        "is attached to another partner (%s).") % (
+                        partner.fr_chorus_service_id.display_name,
+                        partner.display_name,
+                        partner.fr_chorus_service_id.partner_id.display_name))
 
     def fr_chorus_api_structures_rechercher(self, api_params, session=None):
         url_path = 'structures/rechercher'
@@ -177,11 +165,11 @@ class ResPartner(models.Model):
                 answer.get('listeServices') and
                 isinstance(answer['listeServices'], list)):
             for srv in answer['listeServices']:
-                if srv.get('idService') and srv.get('codeService'):
-                    res[int(srv['idService'])] = {
-                        'code': srv['codeService'],
+                if srv.get('codeService'):
+                    res[srv['codeService']] = {
                         'name': srv.get('libelleService'),
                         'active': srv.get('estActif'),
+                        'chorus_identifier': int(srv.get('idService')),
                         }
 # answer: {u'codeRetour': 0,
 # u'libelle': u'TRA_MSG_00.000',
@@ -235,44 +223,45 @@ class ResPartner(models.Model):
                     [('partner_id', '=', partner.id)],
                     ['code', 'name', 'chorus_identifier', 'active'])
                 for existing_srv in existing_srvs:
-                    existing_res[existing_srv['chorus_identifier']] = {
+                    existing_res[existing_srv['code']] = {
                         'id': existing_srv['id'],
                         'name': existing_srv['name'],
-                        'code': existing_srv['code'],
                         'active': existing_srv['active'],
+                        'chorus_identifier': existing_srv['chorus_identifier'],
                         }
                 # pprint(existing_res)
-                for chorus_identifier, cdata in res.items():
-                    if existing_res.get(chorus_identifier):
-                        existing_p = existing_res[chorus_identifier]
+                for ccode, cdata in res.items():
+                    if existing_res.get(ccode):
+                        existing_p = existing_res[ccode]
                         if (
                                 existing_p.get('name') != cdata.get('name') or
-                                existing_p.get('code') != cdata.get('code') or
+                                existing_p.get('chorus_identifier') !=
+                                cdata.get('chorus_identifier') or
                                 existing_p.get('active') !=
                                 cdata.get('active')):
                             partner_service = cpso.browse(existing_p['id'])
                             partner_service.write(cdata)
                             logger.info(
                                 'Chorus partner service ID %d with Chorus '
-                                'identifier %s updated',
-                                existing_p['id'], chorus_identifier)
+                                'code %s updated',
+                                existing_p['id'], ccode)
                         else:
                             logger.info(
                                 'Chorus partner service ID %d with Chorus '
-                                'identifier %s kept unchanged',
-                                existing_p['id'], chorus_identifier)
+                                'code %s kept unchanged',
+                                existing_p['id'], ccode)
                     else:
                         partner_service = cpso.create({
                             'partner_id': partner.id,
-                            'code': cdata.get('code'),
-                            'name': cdata.get('name'),
-                            'active': cdata.get('active'),
-                            'chorus_identifier': chorus_identifier,
+                            'code': ccode,
+                            'name': cdata['name'],
+                            'active': cdata['active'],
+                            'chorus_identifier': cdata['chorus_identifier'],
                             })
                         logger.info(
-                            'Chorus partner service with Chorus identifier %s '
+                            'Chorus partner service with Chorus code %s '
                             'created (ID %d)',
-                            chorus_identifier, partner_service.id)
+                            ccode, partner_service.id)
 
     def fr_chorus_identifier_and_required_button(self):
         self.fr_chorus_identifier_get()
