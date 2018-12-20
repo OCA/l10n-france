@@ -31,21 +31,18 @@ class SaleOrder(models.Model):
             if (
                     cpartner.fr_chorus_required in
                     ('service', 'service_and_engagement') and
-                    not order.partner_invoice_id.parent_id):
+                    not (order.partner_invoice_id.parent_id and
+                         order.partner_invoice_id.name and
+                         order.partner_invoice_id.fr_chorus_service_id and
+                         order.partner_invoice_id.fr_chorus_service_id.active)
+                    ):
                 raise UserError(_(
                     "Partner '%s' is configured as "
                     "Service required for Chorus, so you must "
-                    "select a contact as invoicing address for the order %s.")
+                    "select a contact as invoicing address for the order %s "
+                    "and this contact should have a name and a Chorus service "
+                    "and the Chorus service must be active.")
                     % (cpartner.name, order.name))
-            if (
-                    cpartner.fr_chorus_required in
-                    ('service', 'service_and_engagement') and
-                    not order.partner_invoice_id.fr_chorus_service_id):
-                raise UserError(_(
-                    "Missing 'Chorus Service' on contact '%s' of "
-                    "customer '%s' which is configured as "
-                    "Service required for Chorus.")
-                    % (order.partner_invoice_id.name, cpartner.name))
             if (
                     cpartner.fr_chorus_required in
                     ('engagement', 'service_and_engagement') and
