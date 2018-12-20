@@ -53,12 +53,14 @@ class AccountInvoice(models.Model):
                         ('service', 'service_and_engagement') and
                         not (inv.partner_id.parent_id and
                              inv.partner_id.name and
-                             inv.partner_id.fr_chorus_service_id)):
+                             inv.partner_id.fr_chorus_service_id and
+                             inv.partner_id.fr_chorus_service_id.active)):
                     raise UserError(_(
                         "Partner '%s' is configured as Service required for "
                         "Chorus, so you must select a contact as customer "
                         "for the invoice and this contact should have a name "
-                        "and a Chorus Service.") % cpartner.name)
+                        "and a Chorus service and the Chorus service must "
+                        "be active.") % cpartner.name)
                 if (
                         cpartner.fr_chorus_required in
                         ('engagement', 'service_and_engagement') and
