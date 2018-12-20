@@ -245,7 +245,7 @@ class ResPartner(models.Model):
     def fr_chorus_services_get(self):
         company2api = {}
         raise_if_ko = self._context.get('chorus_raise_if_ko', True)
-        partners = []
+        partners = self.env['res.partner']
         for partner in self:
             if not partner.fr_chorus_identifier:
                 if raise_if_ko:
@@ -274,10 +274,27 @@ class ResPartner(models.Model):
                 if not api_params:
                     continue
                 company2api[company] = api_params
-            partners.append(partner)
+            partners |= partner
 
         session = None
         cpso = self.env['chorus.partner.service']
+        partner_existing_res = {}
+        existing_srvs = cpso.search_read(
+            ['|', ('active', '=', True), ('active', '=', False),
+             ('partner_id', 'in', partners.ids)],
+            ['partner_id', 'code', 'name', 'chorus_identifier', 'active'])
+        for existing_srv in existing_srvs:
+            partner_id = existing_srv['partner_id'][0]
+            if partner_id not in partner_existing_res:
+                partner_existing_res[partner_id] = {}
+
+            partner_existing_res[partner_id][existing_srv['code']] = {
+                'id': existing_srv['id'],
+                'name': existing_srv['name'],
+                'active': existing_srv['active'],
+                'chorus_identifier': existing_srv['chorus_identifier'],
+                }
+
         # We don't filter on fr_chorus_required in 'service', ...
         # because we can have Chorus partners that have services
         # but the service information is not required
@@ -292,17 +309,7 @@ class ResPartner(models.Model):
                 logger.info(
                     'Starting to update Chorus services of partner %s ID %d',
                     partner.display_name, partner.id)
-                existing_res = {}
-                existing_srvs = cpso.search_read(
-                    [('partner_id', '=', partner.id)],
-                    ['code', 'name', 'chorus_identifier', 'active'])
-                for existing_srv in existing_srvs:
-                    existing_res[existing_srv['code']] = {
-                        'id': existing_srv['id'],
-                        'name': existing_srv['name'],
-                        'active': existing_srv['active'],
-                        'chorus_identifier': existing_srv['chorus_identifier'],
-                        }
+                existing_res = partner_existing_res.get(partner.id, {})
                 # pprint(existing_res)
                 # I match on code instead of chorus_identifier
                 # because Services can be created manually at the beginning
