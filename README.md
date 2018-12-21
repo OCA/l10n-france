@@ -22,7 +22,7 @@ addon | version | summary
 [l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 10.0.1.0.0 | Auto-configure UNECE params on French taxes
 [l10n_fr_base_location_geonames_import](l10n_fr_base_location_geonames_import/) | 10.0.1.0.0 | France-specific tuning for import of better zip entries from Geonames
 [l10n_fr_business_document_import](l10n_fr_business_document_import/) | 10.0.1.0.0 | Adapt the module base_business_document_import for France
-[l10n_fr_chorus_account](l10n_fr_chorus_account/) | 10.0.2.0.0 | Generate Chorus-compliant e-invoices and transmit them via the Chorus API
+[l10n_fr_chorus_account](l10n_fr_chorus_account/) | 10.0.2.1.0 | Generate Chorus-compliant e-invoices and transmit them via the Chorus API
 [l10n_fr_chorus_factur-x](l10n_fr_chorus_factur-x/) | 10.0.1.0.0 | Generate Chorus-compliant Factur-X invoices
 [l10n_fr_chorus_sale](l10n_fr_chorus_sale/) | 10.0.1.0.0 | Set public market on sale orders
 [l10n_fr_chorus_ubl](l10n_fr_chorus_ubl/) | 10.0.1.0.0 | Generate Chorus-compliant UBL e-invoices
