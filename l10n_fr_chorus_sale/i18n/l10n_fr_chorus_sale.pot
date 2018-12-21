@@ -29,33 +29,27 @@ msgid "Invoice Transmission Method"
 msgstr ""
 
 #. module: l10n_fr_chorus_sale
-#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:44
-#, python-format
-msgid "Missing 'Chorus Service Code' on contact '%s' of customer '%s' which is configured as Service Code required for Chorus."
-msgstr ""
-
-#. module: l10n_fr_chorus_sale
 #: code:addons/l10n_fr_chorus_sale/models/sale_order.py:27
 #, python-format
 msgid "Missing SIRET on partner '%s'. This information is required for Chorus invoices."
 msgstr ""
 
 #. module: l10n_fr_chorus_sale
-#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:35
+#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:72
 #, python-format
-msgid "Partner '%s' is configured as Service Code required for Chorus, so you must select a contact as invoicing address for the order %s."
+msgid "Partner '%s' is configured as Service or Engagement required for Chorus but there is no engagement number in the field 'Customer Reference' of order %s and the 'Chorus Service' is not configured on contact '%s'"
 msgstr ""
 
 #. module: l10n_fr_chorus_sale
-#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:75
+#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:60
 #, python-format
-msgid "Partner '%s' is configured as Service or Engagement required for Chorus but there is no engagement number in the field 'Customer Reference' of order %s and the 'Chorus Service Code' is not configured on contact '%s'"
+msgid "Partner '%s' is configured as Service or Engagement required for Chorus but there is no engagement number in the field 'Customer Reference' of order %s and the invoice address is not a contact (Chorus Service can only be configured on contacts)"
 msgstr ""
 
 #. module: l10n_fr_chorus_sale
-#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:63
+#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:39
 #, python-format
-msgid "Partner '%s' is configured as Service or Engagement required for Chorus but there is no engagement number in the field 'Customer Reference' of order %s and the invoice address is not a contact (Service Codes can only be configured on contacts)"
+msgid "Partner '%s' is configured as Service required for Chorus, so you must select a contact as invoicing address for the order %s and this contact should have a name and a Chorus service and the Chorus service must be active."
 msgstr ""
 
 #. module: l10n_fr_chorus_sale
@@ -64,7 +58,7 @@ msgid "Sales Order"
 msgstr ""
 
 #. module: l10n_fr_chorus_sale
-#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:53
+#: code:addons/l10n_fr_chorus_sale/models/sale_order.py:50
 #, python-format
 msgid "The field 'Customer Reference' of order %s should contain the engagement number because customer '%s' is configured as Engagement required for Chorus."
 msgstr ""
