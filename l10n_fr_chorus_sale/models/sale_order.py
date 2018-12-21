@@ -31,21 +31,18 @@ class SaleOrder(models.Model):
             if (
                     cpartner.fr_chorus_required in
                     ('service', 'service_and_engagement') and
-                    not order.partner_invoice_id.parent_id):
+                    not (order.partner_invoice_id.parent_id and
+                         order.partner_invoice_id.name and
+                         order.partner_invoice_id.fr_chorus_service_id and
+                         order.partner_invoice_id.fr_chorus_service_id.active)
+                    ):
                 raise UserError(_(
                     "Partner '%s' is configured as "
-                    "Service Code required for Chorus, so you must "
-                    "select a contact as invoicing address for the order %s.")
+                    "Service required for Chorus, so you must "
+                    "select a contact as invoicing address for the order %s "
+                    "and this contact should have a name and a Chorus service "
+                    "and the Chorus service must be active.")
                     % (cpartner.name, order.name))
-            if (
-                    cpartner.fr_chorus_required in
-                    ('service', 'service_and_engagement') and
-                    not order.partner_invoice_id.fr_chorus_service_code):
-                raise UserError(_(
-                    "Missing 'Chorus Service Code' on contact '%s' of "
-                    "customer '%s' which is configured as "
-                    "Service Code required for Chorus.")
-                    % (order.partner_invoice_id.name, cpartner.name))
             if (
                     cpartner.fr_chorus_required in
                     ('engagement', 'service_and_engagement') and
@@ -65,19 +62,18 @@ class SaleOrder(models.Model):
                     "Service or Engagement required for Chorus but "
                     "there is no engagement number in the field "
                     "'Customer Reference' of order %s and the invoice "
-                    "address is not a contact (Service Codes can only be "
+                    "address is not a contact (Chorus Service can only be "
                     "configured on contacts)") % (cpartner.name, order.name))
             if (
                     cpartner.fr_chorus_required ==
                     'service_or_engagement' and (
                     not order.client_order_ref or
-                    not order.partner_invoice_id.fr_chorus_service_code)):
+                    not order.partner_invoice_id.fr_chorus_service_id)):
                 raise UserError(_(
                     "Partner '%s' is configured as "
                     "Service or Engagement required for Chorus but "
                     "there is no engagement number in the field "
                     "'Customer Reference' of order %s and the "
-                    "'Chorus Service Code' is not configured "
-                    "on contact '%s'") % (
+                    "'Chorus Service' is not configured on contact '%s'") % (
                     cpartner.name, order.name, order.partner_invoice_id.name))
         return super(SaleOrder, self).action_confirm()
