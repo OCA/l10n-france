@@ -417,9 +417,9 @@ class L10nFrIntrastatProductComputationLine(models.Model):
     fr_partner_id = fields.Many2one(
         'res.partner', string='Partner', ondelete='restrict',
         help='Origin partner for arrivals. '
-        'Destination partner (or his fiscal representative) for dispatches')
+        'Destination partner (or his fiscal representative) for dispatches.')
     fr_department_id = fields.Many2one(
-        'res.country.department', string='Departement', ondelete='restrict')
+        'res.country.department', string='Department', ondelete='restrict')
     # the 2 fields below are useful for reports
     amount_company_currency_sign = fields.Float(
         compute='_compute_amount_company_currency_sign', readonly=True,

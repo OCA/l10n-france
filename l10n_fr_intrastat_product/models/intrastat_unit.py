@@ -11,4 +11,4 @@ class IntrastatUnit(models.Model):
     fr_xml_label = fields.Char(
         string='Label for DEB', size=12,
         help="Label used in the XML file export of the French Intrastat "
-        "Product Declaration for this unit of measure.")
+        "Product Declaration for this supplementary unit of measure.")
