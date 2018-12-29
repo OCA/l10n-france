@@ -402,6 +402,15 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                         'l10n_fr_intrastat_product_reminder_email_template')
         return True
 
+    def goto_prodouane_site(self):
+        return {
+            'name': "Prodou@ne",
+            'type': 'ir.actions.act_url',
+            'url': 'https://pro.douane.gouv.fr/debweb/html/aide/'
+                   'importerFichiers.htm',
+            'target': 'new',
+        }
+
 
 class L10nFrIntrastatProductComputationLine(models.Model):
     _name = 'l10n.fr.intrastat.product.computation.line'
