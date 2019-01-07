@@ -4,9 +4,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models, _
+from odoo.tools import pycompat
 from odoo.exceptions import UserError
 import tarfile
 import time
+import base64
 from io import BytesIO
 import logging
 logger = logging.getLogger(__name__)
@@ -78,14 +80,14 @@ class AccountInvoice(models.Model):
                         inv.partner_id.parent_id and
                         inv.partner_id.name and
                         inv.partner_id.fr_chorus_service_id)):
-                        raise UserError(_(
-                            "Partner '%s' is configured as "
-                            "'Service or Engagement' required for Chorus but "
-                            "there is no engagement number in the field "
-                            "'Reference/Description' and the customer of the "
-                            "invoice is not correctly configured as a service "
-                            "(should be a contact with a Chorus service "
-                            "and a name).") % cpartner.name)
+                    raise UserError(_(
+                        "Partner '%s' is configured as "
+                        "'Service or Engagement' required for Chorus but "
+                        "there is no engagement number in the field "
+                        "'Reference/Description' and the customer of the "
+                        "invoice is not correctly configured as a service "
+                        "(should be a contact with a Chorus service "
+                        "and a name).") % cpartner.name)
                 if not self.payment_mode_id:
                     raise UserError(_(
                         "Missing Payment Mode. This "
@@ -107,7 +109,7 @@ class AccountInvoice(models.Model):
                             "a 'Bank Account' set, or the field "
                             "'Bank Account' should be set on the customer "
                             "invoice."
-                            ))
+                        ))
                     if partner_bank_id.acc_type != 'iban':
                         raise UserError(_(
                             "Chorus only accepts IBAN. But the bank account "
@@ -157,18 +159,19 @@ class AccountInvoice(models.Model):
             tarfileobj.seek(0)
             chorus_file_content = tarfileobj.read()
         payload = {
-            'fichierFlux': chorus_file_content.encode('base64'),
+            'fichierFlux': pycompat.to_text(
+                base64.b64encode(chorus_file_content)),
             'nomFichier': filename,
             'syntaxeFlux': syntaxe_flux,
             'avecSignature': False,
-            }
+        }
         return payload
 
     def chorus_api_consulter_historique(self, api_params, session=None):
         url_path = 'factures/consulter/historique'
         payload = {
             'idFacture': self.chorus_identifier,
-            }
+        }
         answer, session = self.chorus_post(
             api_params, url_path, payload, session=session)
         res = False
@@ -212,5 +215,5 @@ class AccountInvoice(models.Model):
                 invoice.write({
                     'chorus_status': inv_status,
                     'chorus_status_date': fields.Datetime.now(),
-                    })
+                })
         logger.info('End of the update of chorus invoice status')

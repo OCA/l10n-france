@@ -29,5 +29,5 @@ def migrate(cr, version):
                     'code': fr_chorus_service_code,
                     'partner_id': partner.commercial_partner_id.id,
                     'name': 'TO UPDATE (MIGRATION)',
-                    })
+                })
             partner.fr_chorus_service_id = service.id

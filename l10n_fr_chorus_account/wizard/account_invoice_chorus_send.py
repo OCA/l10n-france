@@ -57,7 +57,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
             'invoice_ids': [(6, 0, invoices.ids)],
             'invoice_count': len(invoices),
             'company_id': company.id,
-            })
+        })
         return res
 
     invoice_ids = fields.Many2many(
@@ -80,7 +80,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
             'name': payload.get('nomFichier'),
             'datas_fname': payload.get('nomFichier'),
             'datas': payload.get('fichierFlux'),
-            })
+        })
         logger.info(
             'Start to send invoice IDs %s via Chorus %sWS',
             self.invoice_ids.ids, api_params['qualif'] and 'QUALIF. ' or '')
@@ -93,17 +93,17 @@ class AccountInvoiceChorusSend(models.TransientModel):
                 'syntax': company.fr_chorus_invoice_format,
                 'attachment_id': attach.id,
                 'company_id': company.id,
-                })
+            })
             self.invoice_ids.write({
                 'chorus_flow_id': flow.id,
                 'sent': True,
-                })
+            })
             action = self.env['ir.actions.act_window'].for_xml_id(
                 'l10n_fr_chorus_account', 'chorus_flow_action')
             action.update({
                 'view_mode': 'form,tree',
                 'views': False,
                 'res_id': flow.id,
-                })
+            })
             return action
         return

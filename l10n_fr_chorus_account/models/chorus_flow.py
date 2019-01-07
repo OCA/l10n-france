@@ -60,7 +60,7 @@ class ChorusFlow(models.Model):
         self.ensure_one()
         payload = {
             'numeroFluxDepot': self.name,
-            }
+        }
         # The webservice 'consulterCR' is broken for Factur-X (1/5/2018)
         # So I switch to 'consulterCRDetaille' which works fine for all formats
         answer, session = self.env['chorus.api'].chorus_post(
@@ -88,7 +88,7 @@ class ChorusFlow(models.Model):
             res = {
                 'status': answer.get('etatCourantDepotFlux'),
                 'notes': notes or answer.get('libelle'),
-                }
+            }
         return (res, session)
 
     def update_flow_status(self):
@@ -121,7 +121,7 @@ class ChorusFlow(models.Model):
         url_path = 'factures/rechercher/fournisseur'
         payload = {
             "numeroFluxDepot": self.name,
-            }
+        }
         answer, session = self.env['chorus.api'].chorus_post(
             api_params, url_path, payload)
         invnum2chorus = {}
@@ -135,12 +135,12 @@ class ChorusFlow(models.Model):
                         cinv.get('identifiantFactureCPP')):
                     invnum2chorus[cinv['numeroFacture']] = {
                         'chorus_identifier': cinv['identifiantFactureCPP'],
-                        }
+                    }
                     if cinv.get('statut'):
                         invnum2chorus[cinv['numeroFacture']].update({
                             'chorus_status': cinv['statut'],
                             'chorus_status_date': fields.Datetime.now(),
-                            })
+                        })
         return invnum2chorus, session
 
     def get_invoice_identifiers(self):

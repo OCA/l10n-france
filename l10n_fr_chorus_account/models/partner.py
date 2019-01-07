@@ -22,7 +22,7 @@ class ResPartner(models.Model):
         # better to use a bad English translation of the French word!
         ('service_or_engagement', u'Service or Engagement'),
         ('service_and_engagement', u'Service and Engagement'),
-        ], string='Info Required for Chorus', track_visibility='onchange')
+    ], string='Info Required for Chorus', track_visibility='onchange')
     fr_chorus_identifier = fields.Integer('Chorus Identifier', readonly=True)
     fr_chorus_service_count = fields.Integer(
         compute='_compute_fr_chorus_service_count', readonly=True,
@@ -72,8 +72,8 @@ class ResPartner(models.Model):
             'structure': {
                 'identifiantStructure': self.siret,
                 'typeIdentifiantStructure': 'SIRET',
-                },
-            }
+            },
+        }
         answer, session = self.chorus_post(
             api_params, url_path, payload, session=session)
         res = False
@@ -204,7 +204,7 @@ class ResPartner(models.Model):
             'idStructure': self.fr_chorus_identifier,
             'parametresRechercherServicesStructure':
                 {'nbResultatsParPage': 10000},
-            }
+        }
         answer, session = self.chorus_post(
             api_params, url_path, payload, session=session)
         res = {}
@@ -220,7 +220,7 @@ class ResPartner(models.Model):
                         'name': srv.get('libelleService'),
                         'active': srv.get('estActif'),
                         'chorus_identifier': int(srv.get('idService')),
-                        }
+                    }
 # answer: {u'codeRetour': 0,
 # u'libelle': u'TRA_MSG_00.000',
 # u'listeServices': [{u'codeService': u'XX',
@@ -293,7 +293,7 @@ class ResPartner(models.Model):
                 'name': existing_srv['name'],
                 'active': existing_srv['active'],
                 'chorus_identifier': existing_srv['chorus_identifier'],
-                }
+            }
 
         # We don't filter on fr_chorus_required in 'service', ...
         # because we can have Chorus partners that have services
@@ -341,7 +341,7 @@ class ResPartner(models.Model):
                             'name': cdata['name'],
                             'active': cdata['active'],
                             'chorus_identifier': cdata['chorus_identifier'],
-                            })
+                        })
                         logger.info(
                             'Chorus partner service with Chorus code %s '
                             'created (ID %d)',

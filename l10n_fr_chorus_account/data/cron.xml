@@ -15,9 +15,9 @@
     <field name="interval_number">1</field>
     <field name="interval_type">days</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
-    <field name="model">chorus.flow</field>
-    <field name="function">chorus_cron</field>
-    <field name="args">()</field>
+    <field name="model_id" ref="model_chorus_flow"/>
+    <field name="state">code</field>
+    <field name="code">model.chorus_cron()</field>
 </record>
 
 <record id="chorus_partner_cron" model="ir.cron">
@@ -27,9 +27,9 @@
     <field name="interval_number">1</field>
     <field name="interval_type">weeks</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
-    <field name="model">res.partner</field>
-    <field name="function">chorus_cron</field>
-    <field name="args">()</field>
+    <field name="model_id" ref="base.model_res_partner"/>
+    <field name="state">code</field>
+    <field name="code">model.chorus_cron()</field>
 </record>
 
 <record id="chorus_api_expiry_reminder_cron" model="ir.cron">
@@ -39,9 +39,9 @@
     <field name="interval_number">1</field>
     <field name="interval_type">days</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
-    <field name="model">res.company</field>
-    <field name="function">chorus_api_expiry_reminder_cron</field>
-    <field name="args">()</field>
+    <field name="model_id" ref="base.model_res_company"/>
+    <field name="state">code</field>
+    <field name="code">model.chorus_api_expiry_reminder_cron()</field>
 </record>
 
 

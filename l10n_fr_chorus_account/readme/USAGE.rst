@@ -1,0 +1,1 @@
+If you enabled the Chorus API, you should see a button *Send to Chorus* on validated customer invoices and refunds that have a transmission method set to *Chorus*. You can also select several customer invoices/refunds and do *Action > Send to Chorus*.

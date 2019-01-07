@@ -89,7 +89,7 @@ class ResCompany(models.Model):
 
     def read_cert_expiry_date(self, cert_filepath, raise_if_ko=False):
         expiry_date_dt = False
-        with open(cert_filepath, 'r') as f:
+        with open(cert_filepath, 'rb') as f:
             pem_data = f.read()
             try:
                 backend = default_backend()
@@ -105,7 +105,7 @@ class ResCompany(models.Model):
                         "Unable to get the expiry date of the certificate "
                         "%s. Error message: %s", cert_filepath, e)
                     return False
-            expiry_date_dt = cert.not_valid_after
+            expiry_date_dt = cert.not_valid_after.date()
             logger.info(
                 'Expiry date of certif. %s is %s',
                 cert_filepath, expiry_date_dt)
@@ -183,12 +183,12 @@ class ResCompany(models.Model):
     @api.model
     def chorus_api_expiry_reminder_cron(self):
         logger.info('Starting the Chorus Pro API expiry reminder cron')
-        today_dt = fields.Date.from_string(fields.Date.context_today(self))
-        limit_date = fields.Date.to_string(today_dt + relativedelta(days=15))
+        today_dt = fields.Date.context_today(self)
+        limit_date = today_dt + relativedelta(days=15)
         companies = self.env['res.company'].search([
             ('fr_chorus_api_password', '!=', False),
             ('fr_chorus_api_login', '!=', False),
-            ])
+        ])
         companies.update_cert_expiry_date()
         mail_tpl = self.env.ref(
             'l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template')
@@ -202,13 +202,11 @@ class ResCompany(models.Model):
                     days_ctx = {}
                     if company.fr_chorus_pwd_expiry_date:
                         days_ctx['pwd_days'] = (
-                            fields.Date.from_string(
-                                company.fr_chorus_pwd_expiry_date) -
+                            company.fr_chorus_pwd_expiry_date -
                             today_dt).days
                     if company.fr_chorus_cert_expiry_date:
                         days_ctx['cert_days'] = (
-                            fields.Date.from_string(
-                                company.fr_chorus_cert_expiry_date) -
+                            company.fr_chorus_cert_expiry_date -
                             today_dt).days
                     mail_tpl.with_context(days_ctx).send_mail(company.id)
                     logger.info(
