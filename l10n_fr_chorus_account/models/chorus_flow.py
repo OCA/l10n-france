@@ -193,7 +193,7 @@ class ChorusFlow(models.Model):
         self = self.with_context(chorus_raise_if_ko=False)
         logger.info('Start Chorus flow cron')
         to_update_flows = self.search([
-            ('status', '=', False)])
+            ('status', 'not in', ('IN_REJETE', 'IN_INTEGRE'))])
         to_update_flows.update_flow_status()
         get_identifiers_flows = self.search([
             ('status', '=', 'IN_INTEGRE'),
