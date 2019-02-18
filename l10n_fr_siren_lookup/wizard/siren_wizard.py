@@ -8,7 +8,7 @@ import requests
 from odoo import api, fields, models
 
 URL = "https://data.opendatasoft.com/api/records/1.0/"\
-    "search/?dataset=sirene%40public&q={request}&rows=100"
+    "search/?dataset=sirene_v3%40public&q={request}&rows=100"
 
 
 class SirenWizard(models.TransientModel):
@@ -35,18 +35,18 @@ class SirenWizard(models.TransientModel):
     @api.model
     def _prepare_partner_from_data(self, data):
         return {
-            'name': data.get('l1_normalisee'),
-            'street': data.get('l4_normalisee', False),
-            'zip': data.get('codpos', False),
-            'city': data.get('libcom', False),
+            'name': data.get('denominationunitelegale'),
+            'street': data.get('adresseetablissement', False),
+            'zip': data.get('codepostaletablissement', False),
+            'city': data.get('libellecommuneetablissement', False),
             'siren': data.get('siren', False),
             'siret': data.get('siret', False),
-            'category': data.get('categorie', False),
-            'creation_date': data.get('dcret', False),
-            'ape': data.get('apen700', False),
-            'ape_label': data.get('libapet', False),
-            'legal_type': data.get('libnj', False),
-            'staff': data.get('efetcent', 0),
+            'category': data.get('categorieentreprise', False),
+            'creation_date': data.get('datecreationunitelegale', False),
+            'ape': data.get('activiteprincipaleunitelegale', False),
+            'ape_label': data.get('divisionunitelegale', False),
+            'legal_type': data.get('naturejuridiqueunitelegale', False),
+            'staff': data.get('trancheeffectifsunitelegale', 0),
         }
 
     def get_lines(self):
@@ -59,5 +59,15 @@ class SirenWizard(models.TransientModel):
         for company in companies['records']:
             res = self._prepare_partner_from_data(company['fields'])
             companies_vals.append((0, 0, res))
+        self.line_ids.unlink()
         self.line_ids = companies_vals
-        return {"type": "ir.actions.do_nothing", }
+        return {
+            'context': self.env.context,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'siren.wizard',
+            'res_id': self.id,
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
