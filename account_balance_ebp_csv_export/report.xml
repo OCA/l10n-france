@@ -4,9 +4,9 @@
 
 <report
     id="action_report_trial_balance_ebp_csv"
-    model="report_trial_balance_qweb"
+    model="report_trial_balance"
     string="EBP CSV Balance"
-    report_type="qweb-txt-csv"
+    report_type="qweb-text"
     name="account_balance_ebp_csv_export.report_trial_balance_ebp_csv"
     file="account_balance_ebp_csv_export.report_trial_balance_ebp_csv"
     />
