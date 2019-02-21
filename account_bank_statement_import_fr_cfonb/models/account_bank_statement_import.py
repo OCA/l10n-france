@@ -89,6 +89,7 @@ class AccountBankStatementImport(models.TransientModel):
             date_cfonb_str = line[34:40]
             date_dt = False
             date_str = False
+            start_date_str = end_date_str = False
             if line_account_number in self._excluded_accounts:
                 continue
             if date_cfonb_str != '      ':
