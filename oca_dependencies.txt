@@ -1,0 +1,13 @@
+bank-statement-import
+bank-payment
+partner-contact
+account-fiscal-rule
+community-data-files
+edi
+contract
+account-invoicing
+intrastat
+hr
+mis-builder
+account-financial-reporting
+reporting-engine
