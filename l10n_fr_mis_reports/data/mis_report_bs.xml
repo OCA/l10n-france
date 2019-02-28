@@ -29,7 +29,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AB</field>
       <field name="description">Frais d'établissement</field>
-      <field name="expression">bale[201%] -bale[2801%]</field>
+      <field name="expression">bale[201%,2801%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">20</field>
@@ -38,7 +38,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">CX</field>
       <field name="description">Frais de développement</field>
-      <field name="expression">bale[203%] -bale[2803%]</field>
+      <field name="expression">bale[203%,2803%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">30</field>
@@ -47,7 +47,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AF</field>
       <field name="description">Concessions, brevets et droits similaires</field>
-      <field name="expression">bale[205%] -bale[2805%,2905%]</field>
+      <field name="expression">bale[205%,2805%,2905%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">40</field>
@@ -56,7 +56,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AH</field>
       <field name="description">Fonds commercial</field>
-      <field name="expression">bale[206%,207%] -bale[2807%,2906%,2907%]</field>  <!-- do we put 206 here ? -->
+      <field name="expression">bale[206%,207%,2807%,2906%,2907%]</field>  <!-- do we put 206 here ? -->
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">50</field>
@@ -65,7 +65,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AJ</field>
       <field name="description">Autres immobilisations incorporelles</field>
-      <field name="expression">bale[208%,232%] -bale[2808%,2908%,2932%]</field>
+      <field name="expression">bale[208%,232%,2808%,2908%,2932%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">60</field>
@@ -84,7 +84,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AN</field>
       <field name="description">Terrains</field>
-      <field name="expression">bale[211%,212%,22%] -bale[2811%,2812%,2911%,282%,292%]</field> <!-- 22, 282 and 292 could also be in "Constructions" or "Installations techniques, matériel et outillage industriels", depending on the nature of the items -->
+      <field name="expression">bale[211%,212%,22%,2811%,2812%,2911%,282%,292%]</field> <!-- 22, 282 and 292 could also be in "Constructions" or "Installations techniques, matériel et outillage industriels", depending on the nature of the items -->
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">80</field>
@@ -93,7 +93,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AP</field>
       <field name="description">Constructions</field>
-      <field name="expression">bale[213%,214%] -bale[2813%,2814%]</field>
+      <field name="expression">bale[213%,214%,2813%,2814%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">90</field>
@@ -102,7 +102,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AR</field>
       <field name="description">Installations techniques, matériel et outillage industriels</field>
-      <field name="expression">bale[215%] -bale[2815%]</field>
+      <field name="expression">bale[215%,2815%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">100</field>
@@ -111,7 +111,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AT</field>
       <field name="description">Autres immobilisations corporelles</field>
-      <field name="expression">bale[218%] -bale[2818%]</field>
+      <field name="expression">bale[218%,2818%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">110</field>
@@ -120,7 +120,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">AV</field>
       <field name="description">Immobilisations corporelles en cours</field>
-      <field name="expression">bale[231%] -bale[2931%]</field>
+      <field name="expression">bale[231%,2931%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">120</field>
@@ -148,7 +148,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">CU</field>
       <field name="description">Autres participations</field>
-      <field name="expression">bale[261%,266%] -bale[2961%,2966%]</field>
+      <field name="expression">bale[261%,266%,2961%,2966%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">150</field>
@@ -157,7 +157,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BB</field>
       <field name="description">Créances rattachées à des participations</field>
-      <field name="expression">bale[267%,268%] -bale[2967%,2968%]</field>
+      <field name="expression">bale[267%,268%,2967%,2968%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">160</field>
@@ -167,7 +167,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BD</field>
       <field name="description">Autres titres immobilisés</field>
-      <field name="expression">bale[271%,272%,273%,27682%,277%] -bale[2971%,2972%,2973%]</field>
+      <field name="expression">bale[271%,272%,273%,27682%,277%,2971%,2972%,2973%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">170</field>
@@ -176,7 +176,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BF</field>
       <field name="description">Prêts</field>
-      <field name="expression">bale[274%,27684%] -bale[2974%]</field>
+      <field name="expression">bale[274%,27684%,2974%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">180</field>
@@ -185,7 +185,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BH</field>
       <field name="description">Autres immobilisations financières</field>
-      <field name="expression">bale[275%,2761%,27685%,27688%] -bale[2975%,2976%]</field>
+      <field name="expression">bale[275%,2761%,27685%,27688%,2975%,2976%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">190</field>
@@ -367,7 +367,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">DA</field>
       <field name="description">Capital social ou individuel</field>
-      <field name="expression">-bale[101%,108%]</field>
+      <field name="expression">-bale[101%,102%,108%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">380</field>
