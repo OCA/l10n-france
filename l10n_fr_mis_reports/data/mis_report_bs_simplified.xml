@@ -30,7 +30,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf014</field>
       <field name="description">Immobilisations incorporelles - Autres</field>
-      <field name="expression">bale[201%,208%]-bale[280%,290%]</field>
+      <field name="expression">bale[201%,208%,280%,290%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">20</field>
@@ -39,7 +39,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf028</field>
       <field name="description">Immobilisations corporelles</field>
-      <field name="expression">bale[21%,23%]-bale[281%,291%]</field>
+      <field name="expression">bale[21%,23%,281%,291%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">30</field>
@@ -48,7 +48,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf040</field>
       <field name="description">Immobilisations financières</field>
-      <field name="expression">bale[27%]-bale[297%]</field>
+      <field name="expression">bale[27%,297%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">40</field>
@@ -164,7 +164,7 @@
       <field name="report_id" ref="mis_report_bs_simplified"/>
       <field name="name">lf120</field>
       <field name="description">Capital social ou individuel</field>
-      <field name="expression">-bale[101%,108%]</field>
+      <field name="expression">-bale[101%,102%,108%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="sequence">160</field>
