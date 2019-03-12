@@ -44,8 +44,8 @@ class ChorusApi(models.AbstractModel):
                 "Error details: %s") % e)
         if r.status_code != 200:
             logger.error(
-                "Chorus API webservice answered with HTTP status code=%s"
-                % r.status_code)
+                "Chorus API webservice answered with HTTP status code=%s and "
+                "content=%s" % (r.status_code, r.text))
             raise UserError(_(
                 "Wrong request on %s. HTTP error code received from "
                 "Chorus: %s") % (url, r.status_code))
