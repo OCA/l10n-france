@@ -16,8 +16,9 @@
                 <field name="partner_id" invisible="not context.get('chorus_partner_service_main_view')"/>
                 <field name="code"/>
                 <field name="name"/>
-                <field name="chorus_identifier"/>
+                <field name="engagement_required"/>
                 <field name="active"/>
+                <field name="chorus_identifier" groups="l10n_fr_chorus_account.group_chorus_api"/>
             </group>
         </form>
     </field>
@@ -31,7 +32,8 @@
             <field name="partner_id" invisible="not context.get('chorus_partner_service_main_view')"/>
             <field name="code"/>
             <field name="name"/>
-            <field name="chorus_identifier"/>
+            <field name="engagement_required"/>
+            <field name="chorus_identifier" groups="l10n_fr_chorus_account.group_chorus_api"/>
         </tree>
     </field>
 </record>
@@ -43,6 +45,8 @@
         <search string="Search Partner Services">
             <field name="name" string="Code, Name or Identifier" filter_domain="['|', '|', ('name', 'ilike', self), ('code', 'ilike', self), ('chorus_identifier', 'ilike', self)]"/>
             <field name="partner_id"/>
+            <separator/>
+            <filter string="Engagement Required" name="engagement_required" domain="[('engagement_required', '=', True)]"/>
             <separator/>
             <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             <group string="Group By" name="groupby">
