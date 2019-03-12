@@ -31,6 +31,9 @@ class ResPartner(models.Model):
     fr_chorus_service_id = fields.Many2one(
         'chorus.partner.service', string='Chorus Service',
         ondelete='restrict', track_visibility='onchange')
+    # On parent partner only
+    fr_chorus_service_ids = fields.One2many(
+        'chorus.partner.service', 'partner_id', string='Chorus Services')
 
     def _compute_fr_chorus_service_count(self):
         res = self.env['chorus.partner.service'].read_group(
@@ -215,7 +218,9 @@ class ResPartner(models.Model):
                 answer.get('listeServices') and
                 isinstance(answer['listeServices'], list)):
             for srv in answer['listeServices']:
-                if srv.get('codeService'):
+                if (
+                        srv.get('codeService') and
+                        srv['codeService'] != 'FACTURES_PUBLIQUES'):
                     res[srv['codeService']] = {
                         'name': srv.get('libelleService'),
                         'active': srv.get('estActif'),
@@ -351,6 +356,7 @@ class ResPartner(models.Model):
         self.fr_chorus_identifier_get()
         self.fr_chorus_required_get()
         self.fr_chorus_services_get()
+        self.fr_chorus_service_ids.service_update()
         return
 
     @api.model
@@ -365,4 +371,5 @@ class ResPartner(models.Model):
         to_update_partners.fr_chorus_identifier_get()
         to_update_partners.fr_chorus_required_get()
         to_update_partners.fr_chorus_services_get()
+        to_update_partners.fr_chorus_service_ids.service_update()
         logger.info('End Chorus partner cron')
