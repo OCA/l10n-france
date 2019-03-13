@@ -1,0 +1,235 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_chorus_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,active:0
+msgid "Active"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_vat_scheme:0
+msgid "Cash in"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:res.partner,fr_chorus_service_code:0
+msgid "Chorus Service Code"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model,name:l10n_fr_chorus_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: view:public.market:l10n_fr_chorus_account.public_market_search
+#: field:public.market,partner_id:0
+msgid "Customer"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_vat_scheme:0
+msgid "Debit"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,display_name:0
+msgid "Display name"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "Engagement"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:account.config.settings,fr_vat_scheme:0
+#: field:res.company,fr_vat_scheme:0
+#: field:res.partner,fr_vat_scheme:0
+msgid "French VAT Scheme"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:24
+#, python-format
+msgid "French VAT Scheme not configured on company '%s'. This information is required for Chorus invoices."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,id:0
+msgid "ID"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: view:public.market:l10n_fr_chorus_account.public_market_search
+msgid "Inactive"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:res.partner,fr_chorus_required:0
+msgid "Info Required for Chorus"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model,name:l10n_fr_chorus_account.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: view:public.market:l10n_fr_chorus_account.public_market_form
+#: field:public.market,invoice_ids:0
+msgid "Invoices"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,name:0
+msgid "Market Name"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: field:public.market,code:0
+msgid "Market Number"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:47
+#, python-format
+msgid "Missing 'Chorus Service Code' on contact '%s' of customer '%s' which is configured as Service Code required for Chorus."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:30
+#, python-format
+msgid "Missing SIRET on partner '%s'. This information is required for Chorus invoices."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: view:public.market:l10n_fr_chorus_account.public_market_search
+msgid "Name or Number"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "None"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model,name:l10n_fr_chorus_account.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:38
+#, python-format
+msgid "Partner '%s' is configured as Service Code required for Chorus, so you must select a contact as customer for the invoice."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:78
+#, python-format
+msgid "Partner '%s' is configured as Service or Engagement required for Chorus but there is no Engagement number in the field 'Reference/Description' and the 'Chorus Service Code' is not configured on contact '%s'"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:66
+#, python-format
+msgid "Partner '%s' is configured as Service or Engagement required for Chorus but there is no engagement number in the field 'Reference/Description' and the customer is not a contact (Service Codes can only be configured on contacts)"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: view:account.invoice:l10n_fr_chorus_account.view_account_invoice_filter
+#: field:account.invoice,public_market_id:0
+#: view:public.market:l10n_fr_chorus_account.public_market_form
+msgid "Public Market"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model,name:l10n_fr_chorus_account.model_public_market
+msgid "Public Market Reference"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.actions.act_window,name:l10n_fr_chorus_account.public_market_action
+#: model:ir.ui.menu,name:l10n_fr_chorus_account.public_market_menu
+#: view:public.market:l10n_fr_chorus_account.public_market_tree
+msgid "Public Markets"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: view:public.market:l10n_fr_chorus_account.public_market_search
+msgid "Search Public Markets"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "Service"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: help:res.partner,fr_chorus_service_code:0
+msgid "Service Code may be required for Chorus invoices"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "Service and Engagement"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:res.partner,fr_chorus_required:0
+msgid "Service or Engagement"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:56
+#, python-format
+msgid "The field 'Reference/Description' should contain the engagement number because customer '%s' is configured as Engagement required for Chorus."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: sql_constraint:public.market:0
+msgid "This public market number already exists for this customer!"
+msgstr ""
+
