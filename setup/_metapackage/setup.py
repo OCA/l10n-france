@@ -14,6 +14,10 @@ setuptools.setup(
         'odoo8-addon-l10n_fr_account_tax_unece',
         'odoo8-addon-l10n_fr_base_location_geonames_import',
         'odoo8-addon-l10n_fr_business_document_import',
+        'odoo8-addon-l10n_fr_chorus_account',
+        'odoo8-addon-l10n_fr_chorus_sale',
+        'odoo8-addon-l10n_fr_chorus_sale_stock',
+        'odoo8-addon-l10n_fr_chorus_ubl',
         'odoo8-addon-l10n_fr_department',
         'odoo8-addon-l10n_fr_department_delivery',
         'odoo8-addon-l10n_fr_ecotaxe',
@@ -25,7 +29,6 @@ setuptools.setup(
         'odoo8-addon-l10n_fr_siret',
         'odoo8-addon-l10n_fr_state',
         'odoo8-addon-l10n_fr_tax_sale_ttc',
-        'odoo8-addon-l10n_fr_ubl',
     ],
     classifiers=[
         'Programming Language :: Python',
