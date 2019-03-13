@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data>
+
+
+<record id="public_market_form" model="ir.ui.view">
+    <field name="name">public.market.form</field>
+    <field name="model">public.market</field>
+    <field name="arch" type="xml">
+        <form string="Public Market">
+            <group name="main">
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active"/>
+            </group>
+            <group string="Invoices" name="invoices">
+                <field name="invoice_ids" nolabel="1"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="public_market_tree" model="ir.ui.view">
+    <field name="name">public.market.tree</field>
+    <field name="model">public.market</field>
+    <field name="arch" type="xml">
+        <tree string="Public Markets">
+            <field name="partner_id"/>
+            <field name="code"/>
+            <field name="name"/>
+            <field name="company_id" groups="base.group_multi_company"/>
+        </tree>
+    </field>
+</record>
+
+<record id="public_market_search" model="ir.ui.view">
+    <field name="name">public.market.search</field>
+    <field name="model">public.market</field>
+    <field name="arch" type="xml">
+        <search string="Search Public Markets">
+            <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Name or Number"/>
+            <field name="partner_id"/>
+            <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+            <group name="groupby">
+                <filter name="partner_groupby" string="Customer"
+                    context="{'group_by': 'partner_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<record id="public_market_action" model="ir.actions.act_window">
+    <field name="name">Public Markets</field>
+    <field name="res_model">public.market</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="public_market_menu" action="public_market_action" parent="base.menu_sales" sequence="100"/>
+
+</data>
+</openerp>

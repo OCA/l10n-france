@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data>
+
+
+<record id="view_account_config_settings" model="ir.ui.view">
+    <field name="name">chorus.account.config.settings.form</field>
+    <field name="model">account.config.settings</field>
+    <field name="inherit_id" ref="account.view_account_config_settings"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='default_sale_tax']/.." position="after">
+            <div name="chorus">
+                <label for="fr_vat_scheme"/>
+                <field name="fr_vat_scheme" class="oe_inline"/>
+            </div>
+        </xpath>
+    </field>
+</record>
+
+
+</data>
+</openerp>

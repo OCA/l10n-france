@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_public_market_read,Read access on public.market to Employees,model_public_market,base.group_user,1,0,0,0
+access_public_market_full,Full access on public.market to Invoicing and Payment grp,model_public_market,account.group_account_invoice,1,1,1,1
