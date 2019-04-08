@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# © 2014-2016 Akretion (http://www.akretion.com)
+# Copyright 2014-2019 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -36,14 +35,19 @@ class AccountBankStatementImport(models.TransientModel):
             amount_num = float(amount_str[:-1] + credit_trans[amount_str[-1]])
         return amount_num
 
-    def _get_cfonb_st_name(self, account_number, start_date_str, end_date_str):
-        name = _('Account %s  %s > %s'
-                 ) % (account_number, start_date_str, end_date_str)
-        return name
+    def _check_journal_bank_account(self, journal, account_number):
+        res = super(AccountBankStatementImport, self).\
+            _check_journal_bank_account(journal, account_number)
+        if not res:
+            # compare the bank account number only instead of the full IBAN
+            jrnl_full_acc_number = journal.bank_account_id.sanitized_acc_number
+            jrnl_acc_number = jrnl_full_acc_number[-len(account_number)-2:-2]
+            res = (jrnl_acc_number == account_number)
+        return res
 
     @api.model
     def _check_cfonb(self, data_file):
-        return data_file.strip().startswith('01')
+        return data_file.decode('latin1').strip().startswith('01')
 
     @api.model
     def _parse_file(self, data_file):
@@ -107,7 +111,6 @@ class AccountBankStatementImport(models.TransientModel):
                         "A CFONB file should start with '01'") % rec_type)
                 start_balance = self._parse_cfonb_amount(
                     line[90:104], decimals)
-                start_date_str = date_str
 
             if (
                     bank_code != line_bank_code or
@@ -128,7 +131,6 @@ class AccountBankStatementImport(models.TransientModel):
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
                 end_date_str = date_str
             elif rec_type == '04':
-                bank_account_id = partner_id = False
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
                 name = line[48:79].strip()
@@ -140,8 +142,6 @@ class AccountBankStatementImport(models.TransientModel):
                     'unique_import_id':
                     '%s-%s-%.2f-%s' % (date_str, ref, amount, name),
                     'amount': amount,
-                    'partner_id': partner_id,
-                    'bank_account_id': bank_account_id,
                 }
                 seq += 1
             elif rec_type == '05':
@@ -152,11 +152,8 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line['name'] += name_append
                     vals_line['unique_import_id'] += name_append
 
-        st_name = self._get_cfonb_st_name(account_number,
-                                          start_date_str, end_date_str)
-
         vals_bank_statement = {
-            'name': st_name,
+            'name': account_number,
             'date': end_date_str,
             'balance_start': start_balance,
             'balance_end_real': end_balance,
