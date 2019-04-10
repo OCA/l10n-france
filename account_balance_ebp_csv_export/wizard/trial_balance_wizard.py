@@ -52,6 +52,13 @@ class ReportEBP(interface.report_int):
         for current_account in objects:
             if ctx_val['to_display_accounts'].get(current_account.id) \
                     and current_account.type != 'view':
+                initial_bal = ctx_val['init_balance_accounts'][current_account.id]
+                debit = ctx_val['debit_accounts'][current_account.id]
+                credit = ctx_val['credit_accounts'][current_account.id]
+                if initial_bal >= 0:
+                    debit += initial_bal
+                else:
+                    credit -= initial_bal
                 bal = ctx_val['balance_accounts'][current_account.id]
                 if bal >= 0:
                     bal_debit = bal
@@ -63,8 +70,8 @@ class ReportEBP(interface.report_int):
                 w.writerow([
                     current_account.code,
                     current_account.name,
-                    f2s(ctx_val['debit_accounts'][current_account.id]),
-                    f2s(ctx_val['credit_accounts'][current_account.id]),
+                    f2s(debit),
+                    f2s(credit),
                     f2s(bal_debit),
                     f2s(bal_credit),
                     ])
