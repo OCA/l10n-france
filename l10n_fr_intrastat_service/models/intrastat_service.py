@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# © 2010-2017 Akretion (http://www.akretion.com/)
+# Copyright 2010-2019 Akretion (http://www.akretion.com/)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -45,10 +44,10 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     company_id = fields.Many2one(
         'res.company', string='Company',
         required=True, states={'done': [('readonly', True)]},
-        default=lambda self: self.env['res.company']._company_default_get(
-            'l10n.fr.intrastat.service.declaration'))
+        default=lambda self: self.env['res.company']._company_default_get())
     year = fields.Integer(
-        string='Year', required=True, default=_get_year,
+        string='Year', required=True,
+        default=lambda self: self._get_year(),
         states={'done': [('readonly', True)]})
     month = fields.Selection([
         (1, '01'),
@@ -63,7 +62,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         (10, '10'),
         (11, '11'),
         (12, '12')
-        ], string='Month', required=True, default=_get_month,
+        ], string='Month', required=True,
+        default=lambda self: self._get_month(),
         states={'done': [('readonly', True)]})
     year_month = fields.Char(
         compute='_compute_year_month', string='Period', readonly=True,
@@ -71,7 +71,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         help="Year and month of the declaration.")
     declaration_line_ids = fields.One2many(
         'l10n.fr.intrastat.service.declaration.line',
-        'parent_id', string='Intrastat Service Lines',
+        'parent_id', string='DES Lines',
         states={'done': [('readonly', True)]}, copy=False)
     num_decl_lines = fields.Integer(
         compute='_compute_numbers', string='Number of Lines', store=True,
@@ -82,8 +82,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         readonly=True,
         help="Total amount in company currency of the declaration.")
     currency_id = fields.Many2one(
-        related='company_id.currency_id', readonly=True,
-        string='Company Currency')
+        related='company_id.currency_id', string='Company Currency',
+        store=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
@@ -102,7 +102,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ('type', 'in', ('out_invoice', 'out_refund')),
             ('date_invoice', '<=', end_date),
             ('date_invoice', '>=', start_date),
-            ('state', 'in', ('open', 'paid')),
+            ('state', 'in', ('open', 'in_payment', 'paid')),
             ('company_id', '=', self.company_id.id),
             ]
         return domain
@@ -119,7 +119,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         invoice_obj = self.env['account.invoice']
         eur_cur = self.env.ref('base.EUR')
         self._check_generate_lines()
-        # delete all service lines generated from invoices
+        # delete all DES lines generated from invoices
         lines_to_remove = line_obj.search([
             ('invoice_id', '!=', False),
             ('parent_id', '=', self.id)])
@@ -189,11 +189,10 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     invoice.currency_id.with_context(
                         date=invoice.date_invoice).compute(
                         amount_invoice_cur_to_write,
-                        self.company_id.currency_id),
-                    0))
+                        self.company_id.currency_id)))
             else:
                 amount_company_cur_to_write = int(round(
-                    amount_invoice_cur_to_write, 0))
+                    amount_invoice_cur_to_write))
 
             if amount_company_cur_to_write:
                 if invoice.type == 'out_refund':
@@ -253,10 +252,10 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         num_tva = etree.SubElement(decl, 'num_tvaFr')
         num_tva.text = my_company_vat
         mois_des = etree.SubElement(decl, 'mois_des')
-        mois_des.text = unicode(self.month).zfill(2)
+        mois_des.text = str(self.month).zfill(2)
         # month 2 digits
         an_des = etree.SubElement(decl, 'an_des')
-        an_des.text = unicode(self.year)
+        an_des.text = str(self.year)
         line = 0
         # we now go through each service line
         for sline in self.declaration_line_ids:
@@ -270,8 +269,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             try:
                 partner_des.text = sline.partner_vat.replace(' ', '')
             except AttributeError:
-                raise UserError(
-                    _("Missing VAT number on partner '%s'.")
+                raise UserError(_(
+                    "Missing VAT number on partner '%s'.")
                     % sline.partner_id.display_name)
         xml_string = etree.tostring(
             root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
@@ -290,14 +289,14 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         # I can't search on [('country_id', '=', ...)]
         # because it is a fields.function not stored and without fnct_search
         companies = self.env['res.company'].search([])
-        logger.info('Starting the Intrastat Service reminder')
+        logger.info('Starting the DES reminder')
         for company in companies:
             if company.country_id.code != 'FR':
                 logger.info(
                     'Skipping company %s because it is not based in France',
                     company.name)
                 continue
-            # Check if an intrastat service already exists for month N-1
+            # Check if a DES already exists for month N-1
             intrastats = self.search([
                 ('year_month', '=', previous_month),
                 ('company_id', '=', company.id)
@@ -307,17 +306,15 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             # if the state is still in draft ?
             if intrastats:
                 logger.info(
-                    'An Intrastat Service for month %s already exists for '
-                    'company %s'
-                    % (previous_month, company.name))
+                    'A DES for month %s already exists for company %s',
+                    previous_month, company.name)
                 continue
             else:
                 # If not, we create an intrastat.service for month N-1
                 intrastat = self.create({'company_id': company.id})
                 logger.info(
-                    'An Intrastat Service for month %s has been created '
-                    'by Odoo for company %s'
-                    % (previous_month, company.name))
+                    'A DES for month %s has been created by Odoo for '
+                    'company %s', previous_month, company.name)
                 # we try to generate the lines
                 try:
                     intrastat.generate_service_lines()
@@ -341,25 +338,25 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
 
 class L10nFrIntrastatServiceDeclarationLine(models.Model):
     _name = "l10n.fr.intrastat.service.declaration.line"
-    _description = "Intrastat Service Lines"
+    _description = "DES Line"
     _rec_name = "partner_vat"
     _order = 'id'
 
     parent_id = fields.Many2one(
-        'l10n.fr.intrastat.service.declaration',
-        string='Intrastat Service Declaration', ondelete='cascade')
+        'l10n.fr.intrastat.service.declaration', string='DES',
+        ondelete='cascade')
     company_id = fields.Many2one(
         'res.company', related='parent_id.company_id',
-        string="Company", readonly=True, store=True)
+        string="Company", store=True)
     company_currency_id = fields.Many2one(
         'res.currency', related='company_id.currency_id',
-        string="Company Currency", readonly=True)
+        string="Company Currency", store=True)
     invoice_id = fields.Many2one(
         'account.invoice', string='Invoice', readonly=True,
         ondelete='restrict')
     date_invoice = fields.Date(
-        related='invoice_id.date_invoice',
-        string='Invoice Date', readonly=True)
+        related='invoice_id.date_invoice', string='Invoice Date',
+        store=True)
     partner_vat = fields.Char(string='Customer VAT')
     partner_id = fields.Many2one(
         'res.partner', string='Partner Name', ondelete='restrict')
