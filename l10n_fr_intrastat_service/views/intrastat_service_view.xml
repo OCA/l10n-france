@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2010-2017 Akretion (http://www.akretion.com/)
+  Copyright 2010-2019 Akretion France (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -22,10 +22,10 @@
                         help="Vous devez être connecté au préalable sur le site https://pro.douane.gouv.fr pour bénéficier des services"/>
                 <field name="state" widget="statusbar" />
             </header>
-            <sheet string="Intrastat Service">
+            <sheet string="DES">
                 <div class="oe_title">
                     <h1>
-                        <label string="Intrastat Service" />
+                        <label string="DES" for="year_month"/>
                         <field name="year_month" class="oe_inline" />
                     </h1>
                 </div>
@@ -58,7 +58,7 @@
     <field name="name">fr.intrastat.service.declaration.tree</field>
     <field name="model">l10n.fr.intrastat.service.declaration</field>
     <field name="arch" type="xml">
-        <tree string="DES" colors="blue:state=='draft'">
+        <tree string="DES" decoration-info="state == 'draft'">
             <field name="year_month"/>
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="num_decl_lines" />
@@ -96,12 +96,25 @@
     </field>
 </record>
 
+<!-- Pivot view for DES -->
+<record id="l10n_fr_intrastat_service_declaration_pivot" model="ir.ui.view">
+    <field name="name">fr.intrastat.service.declaration.pivot</field>
+    <field name="model">l10n.fr.intrastat.service.declaration</field>
+    <field name="arch"  type="xml">
+        <pivot string="DES">
+            <field name="year_month" type="row"/>
+            <field name="total_amount" type="measure"/>
+        </pivot>
+    </field>
+</record>
+
+
 <!-- Form view for service lines -->
 <record id="l10n_fr_intrastat_service_declaration_line_form" model="ir.ui.view">
     <field name="name">fr.intrastat.service.declaration.line.form</field>
     <field name="model">l10n.fr.intrastat.service.declaration.line</field>
     <field name="arch" type="xml">
-        <form string="Intrastat Service Lines">
+        <form string="DES Lines">
             <group string="Information to Declare" name="to-declare">
                 <field name="partner_id" />
                 <field name="partner_vat" />
@@ -123,7 +136,7 @@
     <field name="name">fr.intrastat.service.declaration.line.tree</field>
     <field name="model">l10n.fr.intrastat.service.declaration.line</field>
     <field name="arch" type="xml">
-        <tree string="Intrastat Service Lines">
+        <tree string="DES Lines">
             <field name="partner_vat" />
             <!-- amount_company_currency is an Integer field,
             not a fields.Monetary, that's why I use explicitely
@@ -142,7 +155,7 @@
 <record id="l10n_fr_intrastat_service_declaration_action" model="ir.actions.act_window">
     <field name="name">DES</field>
     <field name="res_model">l10n.fr.intrastat.service.declaration</field>
-    <field name="view_mode">tree,form,graph</field>
+    <field name="view_mode">tree,form,graph,pivot</field>
 </record>
 
 

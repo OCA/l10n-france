@@ -1,13 +1,14 @@
-# -*- coding: utf-8 -*-
-# © 2016-2017 Akretion (http://www.akretion.com/)
+# Copyright 2016-2019 Akretion (http://www.akretion.com/)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 
 from odoo.tests.common import TransactionCase
 from odoo.tools import float_compare
-from datetime import datetime
+from odoo import fields
+from datetime import date as datelib
 from dateutil.relativedelta import relativedelta
 from lxml import etree
+import base64
 
 
 class TestFrIntrastatService(TransactionCase):
@@ -17,9 +18,21 @@ class TestFrIntrastatService(TransactionCase):
         # Set company country to France
         self.company = self.env.ref('base.main_company')
         self.company.country_id = self.env.ref('base.fr')
+        self.company.currency_id = self.env.ref('base.EUR')
         self.invoice_model = self.env['account.invoice']
         self.invoice_line_model = self.env['account.invoice.line']
         self.account_account_model = self.env['account.account']
+        self.service_product = self.env['product.product'].create({
+            'name': 'Engineering services',
+            'type': 'service',
+            'sale_ok': True,
+            })
+        self.belgian_partner = self.env['res.partner'].create({
+            'name': 'Odoo SA',
+            'is_company': True,
+            'vat': 'BE0477472701',
+            'country_id': self.env.ref('base.be').id,
+            })
         self.account_receivable = self.account_account_model.search(
             [('code', '=', '411100')], limit=1)
 
@@ -42,16 +55,16 @@ class TestFrIntrastatService(TransactionCase):
                 })
 
         # create first invoice
-        date = datetime.now() + relativedelta(day=5, months=-1)
+        date = datelib.today() + relativedelta(day=5, months=-1)
         inv1 = self.invoice_model.create({
-            'partner_id': self.env.ref('base.res_partner_2').id,
+            'partner_id': self.belgian_partner.id,
             'currency_id': self.env.ref('base.EUR').id,
             'account_id': self.account_receivable.id,
             'type': 'out_invoice',
             'date_invoice': date,
         })
         self.invoice_line_model.create({
-            'product_id': self.env.ref('product.service_cost_01').id,
+            'product_id': self.service_product.id,
             'quantity': 5,
             'price_unit': 90,
             'invoice_id': inv1.id,
@@ -59,6 +72,7 @@ class TestFrIntrastatService(TransactionCase):
             'account_id': self.account_revenue.id,
         })
         self.invoice_line_model.create({
+            # product
             'product_id': self.env.ref('product.product_product_25').id,
             'quantity': 1,
             'price_unit': 1950,
@@ -69,13 +83,14 @@ class TestFrIntrastatService(TransactionCase):
         inv1.action_invoice_open()
         # create 2nd invoice
         inv2 = self.invoice_model.create({
-            'partner_id': self.env.ref('base.res_partner_2').id,
+            'partner_id': self.belgian_partner.id,
             'currency_id': self.env.ref('base.EUR').id,
             'account_id': self.account_receivable.id,
             'type': 'out_invoice',
             'date_invoice': date,
         })
         self.invoice_line_model.create({
+            # service
             'product_id': self.env.ref('product.product_product_1').id,
             'quantity': 2,
             'price_unit': 90.2,
@@ -84,6 +99,7 @@ class TestFrIntrastatService(TransactionCase):
             'account_id': self.account_revenue.id,
         })
         self.invoice_line_model.create({
+            # consu product
             'product_id': self.env.ref('product.product_product_7').id,
             'quantity': 1,
             'price_unit': 45,
@@ -94,14 +110,14 @@ class TestFrIntrastatService(TransactionCase):
         inv2.action_invoice_open()
         # create refund
         inv3 = self.invoice_model.create({
-            'partner_id': self.env.ref('base.res_partner_2').id,
+            'partner_id': self.belgian_partner.id,
             'currency_id': self.env.ref('base.EUR').id,
             'account_id': self.account_receivable.id,
             'type': 'out_refund',
             'date_invoice': date,
         })
         self.invoice_line_model.create({
-            'product_id': self.env.ref('product.service_order_01').id,
+            'product_id': self.service_product.id,
             'quantity': 1,
             'price_unit': 90,
             'invoice_id': inv3.id,
@@ -128,7 +144,8 @@ class TestFrIntrastatService(TransactionCase):
         self.assertEquals(len(xml_des_files), 1)
         xml_des_file = xml_des_files[0]
         self.assertEquals(xml_des_file.datas_fname[-4:], '.xml')
-        xml_root = etree.fromstring(xml_des_file.datas.decode('base64'))
+        xml_str = base64.b64decode(xml_des_file.datas)
+        xml_root = etree.fromstring(xml_str)
         company_vat_xpath = xml_root.xpath(
             '/fichier_des/declaration_des/num_tvaFr')
         self.assertEquals(company_vat_xpath[0].text, self.company.vat)
