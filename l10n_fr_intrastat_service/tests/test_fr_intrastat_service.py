@@ -4,7 +4,6 @@
 
 from odoo.tests.common import TransactionCase
 from odoo.tools import float_compare
-from odoo import fields
 from datetime import date as datelib
 from dateutil.relativedelta import relativedelta
 from lxml import etree
