@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo12-addon-account_balance_ebp_csv_export',
+        'odoo12-addon-account_bank_statement_import_fr_cfonb',
         'odoo12-addon-l10n_fr_account_tax_unece',
         'odoo12-addon-l10n_fr_department',
         'odoo12-addon-l10n_fr_department_oversea',
