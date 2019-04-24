@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # © 2015-2017 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 {
     'name': 'MIS reports for France',
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'MIS Report templates for the French P&L and Balance Sheets',
