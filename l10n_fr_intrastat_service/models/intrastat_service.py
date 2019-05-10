@@ -225,7 +225,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     'amount_invoice_currency': amount_invoice_cur_to_write,
                     'amount_company_currency': amount_company_cur_to_write,
                     })
-        self.message_post(_('Re-generating lines from invoices'))
+        self.message_post(body=_('Re-generating lines from invoices'))
         return
 
     def done(self):
