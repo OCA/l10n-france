@@ -128,13 +128,13 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         invoices = invoice_obj.search(
             self._prepare_domain(), order='date_invoice')
         for invoice in invoices:
-            if not invoice.partner_id.country_id:
+            if not invoice.commercial_partner_id.country_id:
                 raise UserError(_(
                     "Missing country on partner '%s'.")
-                    % invoice.partner_id.display_name)
-            elif not invoice.partner_id.country_id.intrastat:
+                    % invoice.commercial_partner_id.display_name)
+            elif not invoice.commercial_partner_id.country_id.intrastat:
                 continue
-            elif (invoice.partner_id.country_id.id ==
+            elif (invoice.commercial_partner_id.country_id.id ==
                     self.company_id.country_id.id):
                 continue
 
@@ -209,18 +209,18 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 # So we should not block with a raise before the
                 # end of the loop on the invoice lines and the "if
                 # amount_company_cur_to_write:"
-                if not invoice.partner_id.vat:
+                if not invoice.commercial_partner_id.vat:
                     raise UserError(_(
                         "Missing VAT number on partner '%s'.")
-                        % invoice.partner_id.display_name)
+                        % invoice.commercial_partner_id.display_name)
                 else:
-                    partner_vat_to_write = invoice.partner_id.vat
+                    partner_vat_to_write = invoice.commercial_partner_id.vat
 
                 line_obj.create({
                     'parent_id': self.id,
                     'invoice_id': invoice.id,
                     'partner_vat': partner_vat_to_write,
-                    'partner_id': invoice.partner_id.id,
+                    'partner_id': invoice.commercial_partner_id.id,
                     'invoice_currency_id': invoice.currency_id.id,
                     'amount_invoice_currency': amount_invoice_cur_to_write,
                     'amount_company_currency': amount_company_cur_to_write,
