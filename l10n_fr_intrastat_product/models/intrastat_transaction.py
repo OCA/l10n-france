@@ -1,8 +1,8 @@
-# © 2010-2017 Akretion (http://www.akretion.com/)
+# Copyright 2010-2019 Akretion France (http://www.akretion.com/)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 # If you modify the line below, please also update intrastat_type_view.xml
@@ -19,7 +19,7 @@ class IntrastatTransaction(models.Model):
         ('in_invoice', 'Supplier Invoice'),
         ('none', 'None'),
         ], string='Possible on', index=True, required=True)
-    # procedure_code = fields.Selection([ => code
+    # procedure_code => field 'code' from intrastat_product
     fr_transaction_code = fields.Selection([
         ('', '-'),
         ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'),
@@ -89,12 +89,14 @@ class IntrastatTransaction(models.Model):
             self.fr_transaction_code = False
 
     @api.depends('code', 'description', 'fr_transaction_code')
-    def _compute_display_name(self):
+    def name_get(self):
+        res = []
         for trans in self:
-            display_name = trans.code
+            name = trans.code
             if trans.fr_transaction_code:
-                display_name += '/%s' % trans.fr_transaction_code
+                name += '/%s' % trans.fr_transaction_code
             if trans.description:
-                display_name += ' ' + trans.description
-            trans.display_name = len(display_name) > 55 \
-                and display_name[:55] + '...' or display_name
+                name += ' ' + trans.description
+            name = len(name) > 55 and name[:55] + '...' or name
+            res.append((trans.id, name))
+        return res
