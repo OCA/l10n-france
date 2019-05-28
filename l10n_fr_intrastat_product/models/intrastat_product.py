@@ -1,8 +1,8 @@
-# © 2009-2017 Akretion (http://www.akretion.com)
+# Copyright 2009-2019 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -17,7 +17,7 @@ class IntrastatProductDeclaration(models.Model):
 
     # I wanted to inherit this field in l10n.fr.intrastat.product.declaration
     # but it doesn't work
-    total_amount = fields.Float(compute='_compute_fr_numbers')
+    total_amount = fields.Integer(compute='_compute_fr_numbers')
     # Inherit also num_decl_lines to avoid double loop
     num_decl_lines = fields.Integer(compute='_compute_fr_numbers')
 
@@ -68,7 +68,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
             note = "\n" + _(
                 "Missing country of origin on product %s. "
                 "This product is present in invoice %s.") % (
-                    inv_line.product_id.name_get()[0][1],
+                    inv_line.product_id.display_name,
                     inv_line.invoice_id.number)
             self._note += note
         return inv_line.product_id.origin_country_id
@@ -107,7 +107,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
             if not inv.partner_id.intrastat_fiscal_representative_id:
                 note = "\n" + _(
                     "Missing fiscal representative on partner '%s'"
-                    % inv.partner_id.name_get()[0][1])
+                    % inv.partner_id.display_name)
                 self._note += note
             else:
                 line_vals['fr_partner_id'] =\
@@ -136,7 +136,6 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         # TODO : modify only for country == FR
         return False
 
-    @api.multi
     def _generate_xml(self):
         '''Generate the INSTAT XML file export.'''
         self._check_generate_xml()
@@ -334,7 +333,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         # Because we may catch some problems with the content
         # of the XML file this way
         self._check_xml_schema(
-            root, 'l10n_fr_intrastat_product/data/deb.xsd')
+            xml_string, 'l10n_fr_intrastat_product/data/deb.xsd')
         # Attach the XML file to the current object
         return xml_string
 
