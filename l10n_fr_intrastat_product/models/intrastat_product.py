@@ -37,7 +37,10 @@ class IntrastatProductDeclaration(models.Model):
 class L10nFrIntrastatProductDeclaration(models.Model):
     _name = "l10n.fr.intrastat.product.declaration"
     _description = "Intrastat Product for France (DEB)"
-    _inherit = ['intrastat.product.declaration', 'mail.thread']
+    _inherit = [
+        'intrastat.product.declaration',
+        'mail.thread',
+        'report.intrastat_product.product_declaration_xls']
 
     computation_line_ids = fields.One2many(
         'l10n.fr.intrastat.product.computation.line',
@@ -135,6 +138,48 @@ class L10nFrIntrastatProductDeclaration(models.Model):
     def _get_region(self, inv_line):
         # TODO : modify only for country == FR
         return False
+
+    @api.model
+    def _xls_template(self):
+        res = super(L10nFrIntrastatProductDeclaration, self)._xls_template()
+        res.update({
+            'fr_department': {
+                'header': {
+                    'type': 'string',
+                    'value': self._('Department'),
+                    },
+                'line': {
+                    'value': self._render(
+                        'line.fr_department_id.display_name'),
+                    },
+                'width': 18,
+                },
+            'fr_partner': {
+                'header': {
+                    'type': 'string',
+                    'value': self._('Partner'),
+                    },
+                'line': {
+                    'value': self._render('line.fr_partner_id.display_name'),
+                    },
+                'width': 28,
+                },
+            })
+        return res
+
+    @api.model
+    def _xls_computation_line_fields(self):
+        field_list = super(L10nFrIntrastatProductDeclaration, self).\
+            _xls_computation_line_fields()
+        field_list += ['fr_partner', 'fr_department']
+        return field_list
+
+    @api.model
+    def _xls_declaration_line_fields(self):
+        field_list = super(L10nFrIntrastatProductDeclaration, self).\
+            _xls_declaration_line_fields()
+        field_list += ['fr_partner', 'fr_department']
+        return field_list
 
     def _generate_xml(self):
         '''Generate the INSTAT XML file export.'''
