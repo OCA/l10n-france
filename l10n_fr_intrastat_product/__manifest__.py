@@ -4,15 +4,15 @@
 
 {
     'name': 'DEB',
-    'version': '12.0.1.0.0',
+    'version': '12.0.1.0.1',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
     'summary': "DEB (Déclaration d'Échange de Biens) for France",
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/l10n-france',
     'depends': [
+        'l10n_fr',
         'intrastat_product',
-        'l10n_fr_siret',
         'l10n_fr_department',
         ],
     'data': [
