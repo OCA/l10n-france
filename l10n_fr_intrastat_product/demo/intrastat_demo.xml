@@ -17,8 +17,7 @@
 </record>
 
 <record id="base.main_partner" model="res.partner">
-    <field name="siren">441019213</field>
-    <field name="nic">00013</field>
+    <field name="siret">44101921300013</field>
 </record>
 
 <record id="intrastat_product.intrastat_unit_pce" model="intrastat.unit">
