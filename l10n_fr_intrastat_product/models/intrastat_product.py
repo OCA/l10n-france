@@ -164,6 +164,16 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     },
                 'width': 28,
                 },
+            'fr_partner_vat': {
+                'header': {
+                    'type': 'string',
+                    'value': self._('Partner VAT'),
+                    },
+                'line': {
+                    'value': self._render('line.fr_partner_id.vat'),
+                },
+                'width': 18,
+                },
             })
         return res
 
@@ -171,14 +181,14 @@ class L10nFrIntrastatProductDeclaration(models.Model):
     def _xls_computation_line_fields(self):
         field_list = super(L10nFrIntrastatProductDeclaration, self).\
             _xls_computation_line_fields()
-        field_list += ['fr_partner', 'fr_department']
+        field_list += ['fr_partner', 'fr_partner_vat', 'fr_department']
         return field_list
 
     @api.model
     def _xls_declaration_line_fields(self):
         field_list = super(L10nFrIntrastatProductDeclaration, self).\
             _xls_declaration_line_fields()
-        field_list += ['fr_partner', 'fr_department']
+        field_list += ['fr_partner', 'fr_partner_vat', 'fr_department']
         return field_list
 
     def _generate_xml(self):
