@@ -19,19 +19,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_balance_ebp_csv_export
-#: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.report_trial_balance_ebp_csv
+#: model_terms:ir.ui.view,arch_db:account_balance_ebp_csv_export.report_trial_balance_ebp_csv
 msgid ""
 "\"Compte.Numero\",\"Compte.Intitule\",\"Balance.SldCptNDebit\",\"Balance."
 "SldCptNCredit\",\"Balance.SldCptNSoldeD\",\"Balance.SldCptNSoldeC\""
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
-#: model:ir.actions.report.xml,name:account_balance_ebp_csv_export.action_report_trial_balance_ebp_csv
+#: model:ir.actions.report,name:account_balance_ebp_csv_export.action_report_trial_balance_ebp_csv
 msgid "EBP CSV Balance"
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
-#: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_wizard
+#: model_terms:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_wizard
 msgid "Export EBP CSV"
 msgstr ""
 
@@ -41,6 +41,6 @@ msgid "Trial Balance Report Wizard"
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
-#: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_wizard
+#: model_terms:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_wizard
 msgid "or"
 msgstr "o"
