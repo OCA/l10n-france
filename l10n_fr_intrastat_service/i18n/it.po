@@ -23,34 +23,33 @@ msgstr ""
 msgid ""
 "\n"
 "<p>I would like to remind you that we are approaching the deadline for the "
-"Intrastat Service declaration for month ${object.year_month}.</p>\n"
+"DES declaration for month ${object.year_month}.</p>\n"
 "\n"
-"<p>As there were no Intrastat Service declaration for that month in Odoo, a "
-"draft declaration has been generated automatically.</p>\n"
+"<p>As there were no DES for that month in Odoo, a draft declaration has been "
+"generated automatically.</p>\n"
 "\n"
 "% if ctx.get('exception'):\n"
-"<p>When trying to generate the lines of the Intrastat Service declaration, "
-"the following error was encountered:</p>\n"
+"<p>When trying to generate the DES lines, the following error was "
+"encountered:</p>\n"
 "\n"
 "<p>${ctx.get('error_msg')}</p>\n"
 "\n"
-"<p>You should solve this error, then go to the menu <em>Accounting > "
-"Reporting > Legal Reports > Intrastat reporting > Intrastat Service</em>, "
-"open the declaration of month ${object.year_month} and click on the button "
-"<em>Re-generate lines</em>.</p>\n"
+"<p>You should solve this error, then go to the menu <em>Invoicing > "
+"Reporting > Intrastat > DES</em>, open the declaration of month ${object."
+"year_month} and click on the button <em>Re-generate lines</em>.</p>\n"
 "\n"
 "% else:\n"
 "% if object.num_lines and object.num_decl_lines > 0:\n"
-"<p>This draft Intrastat Service declaration contains ${object."
-"num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'} and the "
-"total amount is ${object.total_amount} ${object.currency_id.symbol}.</p>\n"
+"<p>This draft DES contains ${object.num_decl_lines} ${object.num_decl_lines "
+"== 1 and 'line' or 'lines'} and the total amount is ${object.total_amount} "
+"${object.currency_id.symbol}.</p>\n"
 "% else:\n"
-"<p>This draft Intrastat Service declaration generated automatically by Odoo "
-"doesn't contain any line.</p>\n"
+"<p>This draft DES generated automatically by Odoo doesn't contain any line.</"
+"p>\n"
 "% endif\n"
 "\n"
-"<p>Go and check this declaration in the menu <em>Accounting > Reporting > "
-"Legal Reports > Intrastat reporting > Intrastat Service</em>.</p>\n"
+"<p>Go and check this declaration in the menu <em>Invoicing > Reporting > "
+"Intrastat > DES</em>.</p>\n"
 "\n"
 "% endif\n"
 "\n"
@@ -126,17 +125,22 @@ msgid "A DES already exists for this month!"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_amount_company_currency
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_company_currency
 msgid "Amount"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_amount_invoice_currency
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_invoice_currency
 msgid "Amount in Invoice Currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_amount_company_currency
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_company_currency
 msgid ""
 "Amount in company currency to write in the declaration. Amount in company "
 "currency = amount in invoice currency converted to company currency with the "
@@ -144,167 +148,225 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Attach XML File"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Back to Draft"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_company_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_company_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__company_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__company_id
 msgid "Company"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_currency_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_company_currency_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__currency_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__company_currency_id
 msgid "Company Currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_create_uid
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_create_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__create_uid
 msgid "Created by"
 msgstr "Creato da"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_create_date
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_create_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__create_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__create_date
 msgid "Created on"
 msgstr "Creato il"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_partner_vat
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__partner_vat
 msgid "Customer VAT"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.act_window,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_action
 #: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__parent_id
 #: model:ir.ui.menu,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_menu
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_pivot
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
 msgid "DES"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_graph
+#: model:mail.template,subject:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
+msgid "DES ${object.year_month} for ${object.company_id.name}"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_graph
 msgid "DES Graph"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_display_name
+#: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration_line
+msgid "DES Line"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__declaration_line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_tree
+msgid "DES Lines"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.actions.server,name:l10n_fr_intrastat_service.intrastat_service_cron_ir_actions_server
+#: model:ir.cron,cron_name:l10n_fr_intrastat_service.intrastat_service_cron
+#: model:ir.cron,name:l10n_fr_intrastat_service.intrastat_service_cron
+msgid "DES Reminder"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__display_name
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__display_name
 msgid "Display Name"
 msgstr "Nome da visualizzare"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Done"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 #: selection:l10n.fr.intrastat.service.declaration,state:0
 msgid "Draft"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Generate Lines from Invoices"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Goto Prodou@ne"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Group By"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_unread
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
 msgid "Information to Declare"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
-msgid "Intrastat Service"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model:mail.template,subject:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
-msgid "Intrastat Service ${object.year_month} for ${object.company_id.name}"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_parent_id
-msgid "Intrastat Service Declaration"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration_line
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_declaration_line_ids
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_tree
-msgid "Intrastat Service Lines"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_invoice_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__invoice_id
 msgid "Invoice"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_invoice_currency_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__invoice_currency_id
 msgid "Invoice Currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_date_invoice
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__date_invoice
 msgid "Invoice Date"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_date_invoice
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__date_invoice
 msgid "Keep empty to use the current date"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration___last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line___last_update
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration____last_update
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line____last_update
 msgid "Last Modified on"
 msgstr "Ultima modifica il"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_write_uid
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_write_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_write_date
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_write_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__write_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__write_date
 msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:214
-#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:274
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:213
+#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:272
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr ""
@@ -316,75 +378,120 @@ msgid "Missing country on partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_month
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__month
 msgid "Month"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_num_decl_lines
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__num_decl_lines
 msgid "Number of Lines"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line_partner_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error_counter
+msgid "Number of error"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__partner_id
 msgid "Partner Name"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_year_month
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__year_month
 msgid "Period"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:229
+#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:228
 #, python-format
 msgid "Re-generating lines from invoices"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
 msgid "Related Invoice"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Search DES"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_state
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__state
 msgid "State"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_total_amount
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__total_amount
 msgid "Total Amount"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
 msgid "Total amount"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_total_amount
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__total_amount
 msgid "Total amount in company currency of the declaration."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid ""
 "Vous devez être connecté au préalable sur le site https://pro.douane.gouv.fr "
 "pour bénéficier des services"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_year
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__year
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Year"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_year_month
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__year_month
 msgid "Year and month of the declaration."
 msgstr ""
