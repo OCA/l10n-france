@@ -27,6 +27,7 @@ msgstr "Firmaer"
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__company_registry
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__company_registry
 msgid "Company Registry"
 msgstr "Firmaregister"
 
@@ -38,18 +39,21 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__nic
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__nic
 msgid "NIC"
 msgstr "NIC"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siren
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siren
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siren
 msgid "SIREN"
 msgstr ""
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret
 msgid "SIRET"
 msgstr ""
 
@@ -62,6 +66,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__nic
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__nic
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__nic
 msgid ""
 "The NIC number is the official rank number of this office in the company in "
 "France. It composes the last 5 digits of the SIRET number."
@@ -82,6 +87,7 @@ msgstr "SIREN-koden '%s' er ugyldig: Sjekksummen er feil."
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siren
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siren
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__siren
 msgid ""
 "The SIREN number is the official identity number of the company in France. "
 "It composes the first 9 digits of the SIRET number."
@@ -96,6 +102,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siret
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__siret
 msgid ""
 "The SIRET number is the official identity number of this company's office in "
 "France. It is composed of the 9 digits of the SIREN number and the 5 digits "
@@ -105,5 +112,6 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__company_registry
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__company_registry
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__company_registry
 msgid "The name of official registry where this company was declared."
 msgstr ""
