@@ -27,6 +27,7 @@ msgstr "Společnosti"
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__company_registry
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__company_registry
 msgid "Company Registry"
 msgstr "Společnost registru"
 
@@ -38,18 +39,21 @@ msgstr "Kontakt"
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__nic
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__nic
 msgid "NIC"
 msgstr "NIC"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siren
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siren
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siren
 msgid "SIREN"
 msgstr "SIRÉNA"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret
 #, fuzzy
 msgid "SIRET"
 msgstr "SIRÉNA"
@@ -63,6 +67,7 @@ msgstr "NIC '%s' je nesprávné: musí mít přesně pět číslic."
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__nic
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__nic
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__nic
 msgid ""
 "The NIC number is the official rank number of this office in the company in "
 "France. It composes the last 5 digits of the SIRET number."
@@ -85,6 +90,7 @@ msgstr "Hodnota SIREN '%s' je neplatná: kontrolní součet je nesprávný."
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siren
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siren
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__siren
 msgid ""
 "The SIREN number is the official identity number of the company in France. "
 "It composes the first 9 digits of the SIRET number."
@@ -101,6 +107,7 @@ msgstr "Hodnota SIRET '%s'%s' je neplatná: kontrolní součet je nesprávný."
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siret
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__siret
 #, fuzzy
 msgid ""
 "The SIRET number is the official identity number of this company's office in "
@@ -113,5 +120,6 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__company_registry
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__company_registry
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__company_registry
 msgid "The name of official registry where this company was declared."
 msgstr "Jméno úředního rejstříku, kde byla tato společnost prohlášena."
