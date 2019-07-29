@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
@@ -14,13 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/models/account_bank_statement_import.py:40
-#, python-format
-msgid "Account %s  %s > %s"
-msgstr ""
-
-#. module: account_bank_statement_import_fr_cfonb
-#: model:ir.ui.view,arch_db:account_bank_statement_import_fr_cfonb.account_bank_statement_import_view
+#: model_terms:ir.ui.view,arch_db:account_bank_statement_import_fr_cfonb.account_bank_statement_import_view
 msgid "CFONB (French format, fixed-length text lines of 120 caracters)"
 msgstr ""
 
@@ -30,25 +24,30 @@ msgid "Import Bank Statement"
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/models/account_bank_statement_import.py:76
+#: model:ir.model,name:account_bank_statement_import_fr_cfonb.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: account_bank_statement_import_fr_cfonb
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:80
 #, python-format
 msgid "Line %d is %d caracters long. All lines of a CFONB bank statement file must be 120 caracters long."
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/models/account_bank_statement_import.py:117
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:120
 #, python-format
 msgid "Only single-account files and single-currency files are supported for the moment. It is not the case starting from line %d."
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/models/account_bank_statement_import.py:105
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:109
 #, python-format
 msgid "The 2 first letters of the first line are '%s'. A CFONB file should start with '01'"
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/models/account_bank_statement_import.py:57
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:61
 #, python-format
 msgid "The file is empty."
 msgstr ""
