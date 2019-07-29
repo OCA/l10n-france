@@ -26,39 +26,37 @@ msgid ""
 "serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
 "\n"
 "<p>I would like to remind you that we are approaching the deadline for the "
-"Intrastat Product declaration for month ${object.year_month}.</p>\n"
+"DEB for month ${object.year_month}.</p>\n"
 "\n"
-"<p>As there were no ${object.type} Intrastat Product declaration for that "
-"month in Odoo, a draft declaration has been generated automatically by Odoo."
-"</p>\n"
+"<p>As there were no ${object.type} DEB for that month in Odoo, a draft DEB "
+"has been generated automatically by Odoo.</p>\n"
 "\n"
 "% if ctx.get('exception'):\n"
-"<p>When trying to generate the lines of the ${object.type} Intrastat Product "
-"declaration, the following error was encountered:</p>\n"
+"<p>When trying to generate the lines of the ${object.type} DEB, the "
+"following error was encountered:</p>\n"
 "\n"
 "<p>${ctx.get('error_msg')}</p>\n"
 "\n"
-"<p>You should solve this error, then go to the menu \"Accounting > Reporting "
-"> Legal Reports > Intrastat reporting > Intrastat Product\", open the "
-"${object.type} declaration for month ${object.year_month} and click on the "
-"button \"Generate lines from invoices\".</p>\n"
+"<p>You should solve this error, then go to the menu \"Invoicing > Reporting "
+"> Intrastat > DEB\", open the ${object.type} declaration for month ${object."
+"year_month} and click on the button \"Generate lines from invoices\".</p>\n"
 "\n"
 "% else:\n"
 "% if object.num_lines and object.num_lines > 0:\n"
-"<p>This draft ${object.type} Intrastat Product declaration contains ${object."
-"num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'}.</p>\n"
+"<p>This draft ${object.type} DEB contains ${object.num_decl_lines} ${object."
+"num_decl_lines == 1 and 'line' or 'lines'}.</p>\n"
 "% else:\n"
-"<p>This draft ${object.type} Intrastat Product declaration generated "
-"automatically by Odoo doesn't contain any line.</p>\n"
+"<p>This draft ${object.type} DEB generated automatically by Odoo doesn't "
+"contain any line.</p>\n"
 "% endif\n"
 "\n"
-"<p>Go and check this declaration in Odoo in the menu \"Accounting > "
-"Reporting > Legal Reports > Intrastat reporting > DEB\".</p>\n"
+"<p>Go and check this declaration in Odoo in the menu \"Invoicing > Reporting "
+"> Intrastat > DEB\".</p>\n"
 "\n"
 "% endif\n"
 "\n"
 "<p>\n"
-"-- \n"
+"--\n"
 "Automatic e-mail sent by Odoo.\n"
 "<!-- TODO : print database name (we used object._cr.dbname in openerp 6.1, "
 "but it's not possible in OpenERP 7 because the executing of jinja2 is "
@@ -73,7 +71,7 @@ msgid "${object.type} DEB ${object.year_month} for ${object.company_id.name}"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction_fr_fiscal_value_multiplier
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction__fr_fiscal_value_multiplier
 msgid ""
 "'0' for procedure codes 19 and 29, '-1' for procedure code 25, '1' for all "
 "the others. This multiplier is used to compute the total fiscal value of the "
@@ -81,12 +79,64 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "01"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "02"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "03"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "04"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "05"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "06"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "07"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "08"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "09"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,month:0
+msgid "10"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: selection:intrastat.transaction,fr_transaction_code:0
+#: selection:l10n.fr.intrastat.product.declaration,month:0
 msgid "11"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: selection:intrastat.transaction,fr_transaction_code:0
+#: selection:l10n.fr.intrastat.product.declaration,month:0
 msgid "12"
 msgstr ""
 
@@ -171,14 +221,46 @@ msgid "99"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_amount_accessory_cost_company_currency_sign
-msgid "Amount accessory cost company currency sign"
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__amount_accessory_cost_company_currency
+msgid "Accessory Costs"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_amount_company_currency_sign
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_amount_company_currency_sign
-msgid "Amount company currency sign"
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__action
+msgid "Action"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__amount_accessory_cost_company_currency_sign
+msgid "Amount Accessory Cost Company Currency Sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__amount_company_currency_sign
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__amount_company_currency_sign
+msgid "Amount Company Currency Sign"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__amount_accessory_cost_company_currency
+msgid ""
+"Amount in company currency of the accessory costs related to this invoice "
+"line (by default, these accessory costs are computed at the pro-rata of the "
+"amount of each invoice line."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__amount_company_currency
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__amount_company_currency
+msgid ""
+"Amount in company currency to write in the declaration. Amount in company "
+"currency = amount in invoice currency converted to company currency with the "
+"rate of the invoice date."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -194,34 +276,96 @@ msgid "Arrivals"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_res_company
 msgid "Companies"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_account_config_settings_fr_intrastat_accreditation
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_company_fr_intrastat_accreditation
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__company_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__company_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__company_country_code
+msgid "Company Country Code"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__company_currency_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__company_currency_id
+msgid "Company currency"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_company__fr_intrastat_accreditation
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_config_settings__fr_intrastat_accreditation
 msgid "Company identifier for Intrastat file export. Size : 4 characters."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_computation_line_ids
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__computation_line_ids
 msgid "Computation Lines"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_create_uid
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_create_uid
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_create_uid
+#: model:ir.model,name:l10n_fr_intrastat_product.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model,name:l10n_fr_intrastat_product.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__src_dest_country_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__src_dest_country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__product_origin_country_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__product_origin_country_id
+msgid "Country of Origin of the Product"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__src_dest_country_id
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__src_dest_country_id
+msgid "Country of Origin/Destination"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__product_origin_country_id
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__product_origin_country_id
+msgid "Country of origin of the product i.e. product 'made in ____'"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__create_uid
 msgid "Created by"
 msgstr "Creat per"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_create_date
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_create_date
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_create_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__create_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__create_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__create_date
 msgid "Created on"
 msgstr "Creat el"
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__currency_id
+msgid "Currency"
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: selection:intrastat.transaction,fr_object_type:0
@@ -234,39 +378,52 @@ msgid "Customer Refund"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_account_config_settings_fr_intrastat_accreditation
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_company_fr_intrastat_accreditation
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_company__fr_intrastat_accreditation
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_config_settings__fr_intrastat_accreditation
 msgid "Customs accreditation identifier"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.actions.act_window,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_action
 #: model:ir.ui.menu,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_menu
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_form
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_tree
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_tree
 msgid "DEB"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction_fr_intrastat_product_type
+#: model:ir.actions.server,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron_ir_actions_server
+#: model:ir.cron,cron_name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron
+#: model:ir.cron,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron
+msgid "DEB Reminder"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction__fr_intrastat_product_type
 msgid ""
 "Decides on which kind of Intrastat product report ('Import' or 'Export') "
 "this Intrastat type can be selected."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_declaration_line_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__declaration_line_id
 msgid "Declaration Line"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_fr_department_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_fr_department_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__fr_department_id
 msgid "Departement"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:321
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:149
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__fr_department_id
+#, python-format
+msgid "Department"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:372
 #, python-format
 msgid "Department is not set on line %d."
 msgstr ""
@@ -277,40 +434,91 @@ msgid "Dispatches"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_display_name
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__display_name
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__display_name
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_partner_intrastat_fiscal_representative_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_users_intrastat_fiscal_representative_id
+#: selection:l10n.fr.intrastat.product.declaration,state:0
+msgid "Done"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: selection:l10n.fr.intrastat.product.declaration,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_partner__intrastat_fiscal_representative_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_users__intrastat_fiscal_representative_id
 msgid "EU fiscal representative"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction_fr_fiscal_value_multiplier
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__amount_company_currency
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__amount_company_currency
+msgid "Fiscal Value"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction__fr_fiscal_value_multiplier
 msgid "Fiscal value multiplier"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction_fr_transaction_code
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction__fr_transaction_code
 msgid ""
 "For the 'DEB' declaration to France's customs administration, you should "
 "enter the number 'nature de la transaction' here."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_form
+msgid "Goto Prodou@ne"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_partner_intrastat_fiscal_representative_id
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_users_intrastat_fiscal_representative_id
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_unread
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_partner__intrastat_fiscal_representative_id
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_users__intrastat_fiscal_representative_id
 msgid ""
 "If this partner is located outside the EU but you deliver the goods inside "
 "the UE, the partner needs to have a fiscal representative with a VAT number "
@@ -319,24 +527,36 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/company.py:27
+#: code:addons/l10n_fr_intrastat_product/models/company.py:26
 #, python-format
 msgid "In France, Arrival DEB can only be Exempt or Extended."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_computation_line_ids
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__incoterm_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__incoterm_id
+msgid "Incoterm"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__hs_code_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__hs_code_id
+msgid "Intrastat Code"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__computation_line_ids
 msgid "Intrastat Product Computation Lines"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_parent_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_parent_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__parent_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__parent_id
 msgid "Intrastat Product Declaration"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_declaration_line_ids
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__declaration_line_ids
 msgid "Intrastat Product Declaration Lines"
 msgstr ""
 
@@ -351,17 +571,31 @@ msgid "Intrastat Product for France (DEB)"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__region_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__region_id
+msgid "Intrastat Region"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__intrastat_unit_id
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__intrastat_unit_id
+msgid "Intrastat Supplementary Unit"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_unit
 msgid "Intrastat Supplementary Units"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_transaction
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__transaction_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__transaction_id
 msgid "Intrastat Transaction"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction_fr_intrastat_product_type
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction__fr_intrastat_product_type
 msgid "Intrastat product type"
 msgstr ""
 
@@ -371,74 +605,104 @@ msgid "Inventory Locations"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction_fr_is_fiscal_only
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__invoice_id
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__invoice_line_id
+msgid "Invoice Line"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction__fr_is_fiscal_only
 msgid "Is fiscal only ?"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction_fr_is_vat_required
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction__fr_is_vat_required
 msgid "Is partner VAT required?"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_unit_fr_xml_label
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_unit__fr_xml_label
 msgid "Label for DEB"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_unit_fr_xml_label
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_unit__fr_xml_label
 msgid ""
 "Label used in the XML file export of the French Intrastat Product "
-"Declaration for this unit of measure."
+"Declaration for this supplementary unit of measure."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line___last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration___last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line___last_update
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line____last_update
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration____last_update
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_write_uid
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_write_uid
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_write_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__write_uid
 msgid "Last Updated by"
 msgstr "Darrera Actualització per"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_write_date
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_write_date
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_write_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__write_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__write_date
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__write_date
 msgid "Last Updated on"
 msgstr "Darrera Actualització el"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:257
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:308
 #, python-format
 msgid "Missing Country of Origin/Destination on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:225
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:276
 #, python-format
 msgid "Missing H.S. code on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:232
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:283
 #, python-format
 msgid "Missing Label for DEB on Intrastat Unit of Measure '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:288
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:339
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:69
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:71
 #, python-format
 msgid ""
 "Missing country of origin on product %s. This product is present in invoice "
@@ -452,49 +716,60 @@ msgid "Missing fiscal representative on partner '%s'"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:276
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:327
 #, python-format
 msgid "Missing fiscal value on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:284
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:335
 #, python-format
 msgid "Missing partner on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/stock.py:17
+#: code:addons/l10n_fr_intrastat_product/models/stock.py:15
 #, python-format
 msgid "Missing partner on warehouse %s"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:263
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:314
 #, python-format
 msgid "Missing product country of origin on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:247
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:298
 #, python-format
 msgid "Missing quantity on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:269
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:320
 #, python-format
 msgid "Missing weight on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:315
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:366
 #, python-format
 msgid "Mode of transport is not set on line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:205
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__month
+msgid "Month"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__weight
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__weight
+msgid "Net weight in Kg"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:256
 #, python-format
 msgid "No declaration lines. You probably forgot to generate them !"
 msgstr ""
@@ -505,44 +780,141 @@ msgid "None"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_num_decl_lines
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__note
+msgid "Notes"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__num_decl_lines
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__num_decl_lines
 msgid "Number of Declaration Lines"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction_fr_is_fiscal_only
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_has_error_counter
+msgid "Number of error"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction__fr_is_fiscal_only
 msgid "Only fiscal data should be provided for this procedure code."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_fr_partner_id
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_fr_partner_id
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__fr_partner_id
 msgid ""
 "Origin partner for arrivals. Destination partner (or his fiscal "
 "representative) for dispatches"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model,name:l10n_fr_intrastat_product.model_res_partner
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_fr_partner_id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_fr_partner_id
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__fr_partner_id
+msgid ""
+"Origin partner for arrivals. Destination partner (or his fiscal "
+"representative) for dispatches."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:160
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__fr_partner_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__fr_partner_id
+#, python-format
 msgid "Partner"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction_fr_object_type
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__year_month
+msgid "Period"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction__fr_object_type
 msgid "Possible on"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:144
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:195
 #, python-format
 msgid "Pro.dou@ne only accepts XML file upload for the original declaration."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_search
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__reporting_level
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__reporting_level
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__reporting_level
+msgid "Reporting Level"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__revision
+msgid "Revision"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_search
 msgid "Search DEB"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__type
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__type
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__type
+msgid "Select the declaration type."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__state
+msgid "State"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__state
+msgid ""
+"State of the declaration. When the state is set to 'Done', the parameters "
+"become read-only."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__intrastat_unit_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__intrastat_unit_id
+msgid "Suppl. Unit"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__suppl_unit_qty
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__suppl_unit_qty
+msgid "Suppl. Unit Qty"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__suppl_unit_qty
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__suppl_unit_qty
+msgid "Supplementary Units Quantity"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -551,19 +923,19 @@ msgid "Supplier Invoice"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:141
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:192
 #, python-format
 msgid "The SIRET is not set on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:155
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:206
 #, python-format
 msgid "The customs accreditation identifier is not set for the company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/partner.py:43
+#: code:addons/l10n_fr_intrastat_product/models/partner.py:42
 #, python-format
 msgid ""
 "The fiscal representative '%s' of partner '%s' must be based in an EU "
@@ -571,38 +943,84 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/partner.py:48
+#: code:addons/l10n_fr_intrastat_product/models/partner.py:47
 #, python-format
 msgid "The fiscal representative '%s' of partner '%s' must have a VAT number."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/partner.py:38
+#: code:addons/l10n_fr_intrastat_product/models/partner.py:37
 #, python-format
 msgid "The fiscal representative '%s' of partner '%s' must have a country."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_total_amount
-msgid "Total amount"
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__total_amount
+msgid "Total Fiscal Amount"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction_fr_transaction_code
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__total_amount
+msgid "Total fiscal amount in company currency of the declaration."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction__fr_transaction_code
 msgid "Transaction code"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:309
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:360
 #, python-format
 msgid "Transaction code on line %d should have 2 digits."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction_fr_is_vat_required
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__transport_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__transport_id
+msgid "Transport Mode"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction__fr_is_vat_required
 msgid ""
 "True for all procedure codes except 11, 19 and 29. When False, the VAT "
 "number should not be filled in the Intrastat product line."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__type
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__type
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__type
+msgid "Type"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__company_country_code
+msgid "Used in views and methods of localization modules."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__revision
+msgid "Used to keep track of changes"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__valid
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__valid
+msgid "Valid"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -611,22 +1029,53 @@ msgid "Warehouse"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:79
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__weight
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__weight
+msgid "Weight"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__year
+msgid "Year"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__year_month
+msgid "Year and month of the declaration."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__note
+msgid "You can add some comments here if you want."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:78
 #, python-format
 msgid "You must enter a value for the transaction code."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:83
+#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_form
+msgid "You should first be connected on https://pro.douane.gouv.fr"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:82
 #, python-format
 msgid ""
 "You should not set a transaction code when the Code (i.e. Procedure Code) is "
 "'25', '26' or '31'."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: model:ir.model,name:l10n_fr_intrastat_product.model_account_config_settings
-msgid "account.config.settings"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
