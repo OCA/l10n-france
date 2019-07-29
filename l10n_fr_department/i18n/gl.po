@@ -52,6 +52,7 @@ msgstr "Creado en"
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__department_id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_users__department_id
 #: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
 msgstr ""
