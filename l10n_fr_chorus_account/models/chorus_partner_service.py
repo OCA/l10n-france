@@ -58,7 +58,7 @@ class ChorusPartnerService(models.Model):
             self, name='', args=None, operator='ilike', limit=80):
         if args is None:
             args = []
-        if name:
+        if name and operator == 'ilike':
             srvs = self.search(
                 [('code', '=', name)] + args, limit=limit)
             if srvs:
