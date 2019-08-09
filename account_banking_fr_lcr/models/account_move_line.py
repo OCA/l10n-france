@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016-2019 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, api
+from odoo import api, models
 
 
 class AccountMoveLine(models.Model):
@@ -14,10 +14,10 @@ class AccountMoveLine(models.Model):
             payment_order)
         if payment_order.payment_mode_id.payment_method_id.code == 'fr_lcr':
             # Take the first IBAN account of the partner
-            bank_accounts = self.env['res.partner.bank'].search([
+            bank_account = self.env['res.partner.bank'].search([
                 ('partner_id', '=', self.partner_id.id),
                 ('acc_type', '=', 'iban'),
-                ])
-            if bank_accounts:
-                vals['partner_bank_id'] = bank_accounts[0].id
+                ], limit=1)
+            if bank_account:
+                vals['partner_bank_id'] = bank_account.id
         return vals
