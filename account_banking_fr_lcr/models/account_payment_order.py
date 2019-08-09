@@ -1,13 +1,18 @@
-# -*- coding: utf-8 -*-
-# © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2014-2019 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 try:
     from unidecode import unidecode
 except ImportError:
+    logger.debug('unidecode lib not installed')
     unidecode = False
 
 LCR_DATE_FORMAT = '%d%m%y'
@@ -47,10 +52,6 @@ class AccountPaymentOrder(models.Model):
 
     @api.model
     def _get_rib_from_iban(self, partner_bank):
-        # I do NOT want to add a dependancy on l10n_fr_rib, because
-        # we plan to remove the module in the near future
-        # So I consider that IBAN MUST be given in the res.partner.bank
-        # of type 'rib'
         if partner_bank.acc_type != 'iban':
             raise UserError(_(
                 "For the bank account '%s' of partner '%s', the Bank "
@@ -82,16 +83,16 @@ class AccountPaymentOrder(models.Model):
         today_dt = fields.Date.from_string(today_str)
         date_remise = today_dt.strftime(LCR_DATE_FORMAT)
         raison_sociale_cedant = self._prepare_lcr_field(
-            u'Raison sociale du cédant', self.company_id.name, 24)
+            'Raison sociale du cédant', self.company_id.name, 24)
         domiciliation_bancaire_cedant = self._prepare_lcr_field(
-            u'Domiciliation bancaire du cédant',
+            'Domiciliation bancaire du cédant',
             self.company_partner_bank_id.bank_id.name, 24)
         code_entree = '3'
         code_dailly = ' '
         code_monnaie = 'E'
         rib = self._get_rib_from_iban(self.company_partner_bank_id)
         ref_remise = self._prepare_lcr_field(
-            u'Référence de la remise', self.name, 11)
+            'Référence de la remise', self.name, 11)
         cfonb_line = ''.join([
             code_enregistrement,
             code_operation,
@@ -125,14 +126,14 @@ class AccountPaymentOrder(models.Model):
         code_operation = '60'
         numero_enregistrement = str(transactions_count + 1).zfill(8)
         reference_tire = self._prepare_lcr_field(
-            u'Référence tiré', line.communication, 10)
+            'Référence tiré', line.communication, 10)
         rib = self._get_rib_from_iban(line.partner_bank_id)
 
         nom_tire = self._prepare_lcr_field(
-            u'Nom tiré', line.partner_id.name, 24)
+            'Nom tiré', line.partner_id.name, 24)
         if line.partner_bank_id.bank_id:
             nom_banque = self._prepare_lcr_field(
-                u'Nom banque', line.partner_bank_id.bank_id.name, 24)
+                'Nom banque', line.partner_bank_id.bank_id.name, 24)
         else:
             nom_banque = ' ' * 24
         code_acceptation = '0'
@@ -215,4 +216,4 @@ class AccountPaymentOrder(models.Model):
             total_amount, transactions_count)
 
         filename = 'LCR_%s.txt' % self.name.replace('/', '-')
-        return (cfonb_string, filename)
+        return (cfonb_string.encode('ascii'), filename)
