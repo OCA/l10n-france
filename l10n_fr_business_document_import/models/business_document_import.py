@@ -36,7 +36,11 @@ class BusinessDocumentImport(models.AbstractModel):
                 elif not partner_dict.get('siren'):
                     partner_dict['siren'] = siret[:9]
         if partner_dict.get('siren'):
-            siren = partner_dict['siren'].replace(' ', '')
+            # when partner_dict comes from invoice2data, siren may be an int
+            if isinstance(partner_dict['siren'], int):
+                siren = str(partner_dict['siren'])
+            else:
+                siren = partner_dict['siren'].replace(' ', '')
             if len(siren) == 9 and siren.isdigit():
                 partners = self.env['res.partner'].search(
                     domain + [
