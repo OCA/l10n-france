@@ -3,13 +3,13 @@
 
 {
     'name': 'French NAF partner categories and APE code',
-    'version': '12.0.1.0.0',
+    'version': '12.0.2.0.0',
     'author': u'Numérigraphe SARL,'
               u'Odoo Community Association (OCA)',
     'category': 'French Localization',
     'depends': ['l10n_eu_nace'],
     'data': [
-        'data/res.partner.category.csv',
+        'data/res.partner.nace.csv',
         'views/partner.xml'],
     'license': 'AGPL-3',
 }
