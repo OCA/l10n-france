@@ -5,13 +5,6 @@
 def migrate(cr, version):
     cr.execute(
         """
-        UPDATE ir_model_data
-        SET name=concat('old_', name)
-        WHERE name LIKE 'naf_%'
-        """
-    )
-    cr.execute(
-        """
         ALTER TABLE res_partner
         ADD COLUMN IF NOT EXISTS ape_id_tmp INTEGER
         """
@@ -20,5 +13,19 @@ def migrate(cr, version):
         """
         UPDATE res_partner
         SET ape_id_tmp = ape_id
+        """
+    )
+    cr.execute(
+        """
+        ALTER TABLE res_partner
+        DROP COLUMN IF EXISTS ape_id
+        """
+    )
+    cr.execute(
+        """
+        UPDATE ir_model_data
+        SET name=concat('old_', name)
+        WHERE name LIKE 'naf_%'
+        AND module='l10n_fr_naf_ape'
         """
     )
