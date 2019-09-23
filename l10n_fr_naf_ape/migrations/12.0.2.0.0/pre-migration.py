@@ -5,8 +5,8 @@
 def migrate(cr, version):
     cr.execute(
         """
-        UPDATE ir_model_data 
-        SET name=concat('old_', name) 
+        UPDATE ir_model_data
+        SET name=concat('old_', name)
         WHERE name LIKE 'naf_%'
         """
     )

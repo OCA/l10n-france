@@ -9,8 +9,8 @@ def migrate(cr, registry):
         env = api.Environment(cr, SUPERUSER_ID, {})
         cr.execute(
             """
-            SELECT id, ape_id_tmp 
-            FROM res_partner 
+            SELECT id, ape_id_tmp
+            FROM res_partner
             WHERE ape_id_tmp IS NOT NULL
             """
         )
@@ -23,10 +23,10 @@ def migrate(cr, registry):
             )
     cr.execute(
         """
-        DELETE FROM res_partner_category 
+        DELETE FROM res_partner_category
         WHERE id IN (
-            SELECT res_id 
-            FROM ir_model_data 
+            SELECT res_id
+            FROM ir_model_data
             WHERE name like 'old_naf_%'
         )
         """
