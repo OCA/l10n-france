@@ -16,19 +16,19 @@ def migrate(cr, registry):
             """
         )
         rows = cr.fetchall()
-        ape_dict = defaultdict(int)
-        ape_model = env['res.partner.nace']
+        nace_dict = defaultdict(int)
+        nace_model = env['res.partner.nace']
         for partner_id, ape_id_tmp in rows:
             partner = env["res.partner"].browse(partner_id)
             category = env["res.partner.category"].browse(ape_id_tmp)
             xml_id = (
                 category.get_external_id().get(category.id).replace('old_', '')
             )
-            if ape_id_tmp not in ape_dict:
+            if ape_id_tmp not in nace_dict:
                 if 'naf' in xml_id:
-                    ape_dict[ape_id_tmp] = env.ref(xml_id)
+                    nace_dict[ape_id_tmp] = env.ref(xml_id)
                 else:
-                    ape_dict[ape_id_tmp] = ape_model.create(
+                    nace_dict[ape_id_tmp] = nace_model.create(
                         {'name': category.name}
                     )
-            partner.ape_id = ape_dict[ape_id_tmp]
+            partner.nace_id = nace_dict[ape_id_tmp]

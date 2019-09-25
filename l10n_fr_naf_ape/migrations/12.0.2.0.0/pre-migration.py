@@ -17,12 +17,6 @@ def migrate(cr, version):
     )
     cr.execute(
         """
-        ALTER TABLE res_partner
-        DROP COLUMN IF EXISTS ape_id
-        """
-    )
-    cr.execute(
-        """
         UPDATE ir_model_data
         SET name=concat('old_', name)
         WHERE name LIKE 'naf_%'

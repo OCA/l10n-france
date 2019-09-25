@@ -8,8 +8,6 @@
               u'Odoo Community Association (OCA)',
     'category': 'French Localization',
     'depends': ['l10n_eu_nace'],
-    'data': [
-        'data/res.partner.nace.csv',
-        'views/partner.xml'],
+    'data': ['data/res.partner.nace.csv'],
     'license': 'AGPL-3',
 }
