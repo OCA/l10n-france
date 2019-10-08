@@ -327,14 +327,13 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     raise UserError(
                         _('Department is not set on line %d.') % line)
                 region_code.text = pline.fr_department_id.code
-
         xml_string = etree.tostring(
             root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
         # We validate the XML file against the official XML Schema Definition
         # Because we may catch some problems with the content
         # of the XML file this way
         self._check_xml_schema(
-            root, 'l10n_fr_intrastat_product/data/deb.xsd')
+            xml_string, 'l10n_fr_intrastat_product/data/deb.xsd')
         # Attach the XML file to the current object
         return xml_string
 
