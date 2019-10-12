@@ -5,6 +5,4 @@
 French localization for Odoo
 ============================
 
-Write Me. 
-
-
+Write Me.
