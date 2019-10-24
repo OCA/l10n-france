@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record  model="ir.ui.view" id="city_zip_cedex_form" >
+        <field name="name">res.city.zip.cedex.form</field>
+        <field name="model">res.city.zip</field>
+        <field name="inherit_id" ref="base_location.city_zip_form"/>
+        <field name="arch" type="xml">
+            <field name="city_id" position="after">
+                <field name="cedex"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="city_zip_cedex_tree">
+        <field name="name">res.city.zip.cedex.tree</field>
+        <field name="model">res.city.zip</field>
+        <field name="inherit_id" ref="base_location.city_zip_tree"/>
+        <field name="arch" type="xml">
+            <field name="city_id" position="after">
+                <field name="cedex"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
