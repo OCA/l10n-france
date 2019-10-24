@@ -1,0 +1,1 @@
+This module adds a new field on res_partner named cedex.

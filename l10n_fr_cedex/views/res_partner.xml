@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!-- Copyright 2019 Le Filament (https://le-filament.com)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+    <data>
+        <record id="view_partner_cedex_form" model="ir.ui.view">
+            <field name="name">add cedex field in partner form view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="city" position="after">
+                    <field name="cedex" placeholder="Cedex" class="o_address_city" 
+                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                </field>
+                <xpath expr="//field[@name='child_ids']//kanban//field[@name='city']" position="after">
+                    <field name="cedex"/>
+                </xpath>
+                <xpath expr="//field[@name='child_ids']//form//field[@name='city']" position="after">
+                    <field name="cedex" placeholder="Cedex" class="o_address_city"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_address_cedex_form" model="ir.ui.view">
+            <field name="name">add cedex field in address form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_address_form"/>
+            <field name="arch" type="xml">
+                <field name="city" position="after">
+                    <field name="cedex" placeholder="Cedex" class="o_address_city"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_partner_cedex_short_form" model="ir.ui.view">
+            <field name="name">add cedex field in partner short form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_short_form"/>
+            <field name="arch" type="xml">
+                <field name="city" position="after">
+                    <field name="cedex" placeholder="Cedex" class="o_address_city" 
+                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
