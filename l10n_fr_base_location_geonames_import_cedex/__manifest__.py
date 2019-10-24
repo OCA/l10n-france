@@ -9,7 +9,7 @@
                'Geonames',
     'author': "Le Filament,Odoo Community Association (OCA)",
     'website': 'https://le-filament.com',
-    'depends': ['l10n_fr_base_location_geonames_import'],
+    'depends': ['l10n_fr_base_location_geonames_import', 'l10n_fr_cedex'],
     'external_dependencies': {'python': ['unidecode']},
     'installable': True,
     "data": [
