@@ -27,7 +27,7 @@ class CityZipGeonamesImport(models.TransientModel):
                 res = u'STE %s' % res[7:]
             if len(res) > 32 and res.startswith('SAINT '):
                 res = u'ST %s' % res[6:]
-            replace_arrondissement = re.compile('\s\d\d\Z')
+            replace_arrondissement = re.compile(r'\s\d\d\Z')
             if re.search(replace_arrondissement, res):
                 res = re.sub(replace_arrondissement, "", res)
         return res
