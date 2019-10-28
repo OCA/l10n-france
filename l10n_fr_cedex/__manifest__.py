@@ -11,6 +11,7 @@
     'depends': ['base'],
     'installable': True,
     "data": [
+        "views/res_company.xml",
         "views/res_partner.xml",
     ],
     'post_init_hook': 'post_init_hook',
