@@ -1,2 +1,0 @@
-id,address_format
-base.fr,"%(street)s\n%(street2)s\n%(zip)s %(city)s %(cedex)s\n%(country_name)s"

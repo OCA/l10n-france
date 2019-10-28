@@ -11,7 +11,8 @@
     'depends': ['base'],
     'installable': True,
     "data": [
-        "datas/res.country.csv",
         "views/res_partner.xml",
-    ]
+    ],
+    'post_init_hook': 'post_init_hook',
+    'uninstall_hook': 'uninstall_hook',
 }
