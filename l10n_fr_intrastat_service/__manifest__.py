@@ -11,7 +11,10 @@
     'summary': 'Module for Intrastat service reporting (DES) for France',
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'http://www.akretion.com',
-    'depends': ['intrastat_base'],
+    'depends': [
+        'intrastat_base',
+        'report_xlsx_helper',
+        ],
     'data': [
         'security/ir.model.access.csv',
         'views/intrastat_service_view.xml',
