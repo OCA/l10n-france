@@ -3,7 +3,7 @@
 
 {
     'name': 'French NAF partner categories and APE code',
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     'author': 'Numérigraphe SARL,Odoo Community Association (OCA)',
     'category': 'French Localization',
     'depends': [
