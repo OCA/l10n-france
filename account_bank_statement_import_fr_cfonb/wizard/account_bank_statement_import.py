@@ -57,7 +57,13 @@ class AccountBankStatementImport(models.TransientModel):
             return super(AccountBankStatementImport, self)._parse_file(
                 data_file)
         transactions = []
-        if not data_file.splitlines():
+        # The CFONB spec says you should only have digits, capital letters
+        # and * - . /
+        # But many banks don't respect that and use regular letters for exemple
+        # And I found one (LCL) that even uses caracters with accents
+        # So the best method is probably to decode with latin1
+        data_file_decoded = data_file.decode('latin1')
+        if not self.split_lines(data_file_decoded):
             raise UserError(_('The file is empty.'))
         i = 0
         seq = 1
@@ -65,13 +71,7 @@ class AccountBankStatementImport(models.TransientModel):
         decimals = start_balance = False
         start_balance = end_balance = False
         vals_line = False
-        # The CFONB spec says you should only have digits, capital letters
-        # and * - . /
-        # But many banks don't respect that and use regular letters for exemple
-        # And I found one (LCL) that even uses caracters with accents
-        # So the best method is probably to decode with latin1
-        data_file_decoded = data_file.decode('latin1')
-        for line in data_file_decoded.splitlines():
+        for line in self.split_lines(data_file_decoded):
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
             if not line:
@@ -158,5 +158,32 @@ class AccountBankStatementImport(models.TransientModel):
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
-            }
+        }
         return currency_code, account_number, [vals_bank_statement]
+
+    def split_lines(self, data_file):
+        """Split the data file into lines.
+
+        Returns a list of the lines in the file provided.
+        """
+        # According to the standard each line has to be 120 chars long, but
+        # some banks ship the files without line break.
+        # so we want to split the file after 120 chars, no matter if there
+        # is a newline there or not.
+
+        # remove linebreaks
+        data_file_without_linebreaks = data_file.replace(
+            '\n', ''
+        ).replace('\r', '')
+
+        # check length of file
+        max_len = len(data_file_without_linebreaks)
+        lines = []
+
+        # make sure the length is a multiple of 120 otherwise it isn't valid
+        if max_len % 120:
+            raise UserError(_("The file is not divisible in 120 char lines"))
+        for index in range(0, max_len, 120):
+            # append a 120 char slice of the file to the list of lines
+            lines.append(data_file_without_linebreaks[index:index + 120])
+        return lines
