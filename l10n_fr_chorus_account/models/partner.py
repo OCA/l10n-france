@@ -356,7 +356,8 @@ class ResPartner(models.Model):
         self.fr_chorus_identifier_get()
         self.fr_chorus_required_get()
         self.fr_chorus_services_get()
-        self.fr_chorus_service_ids.service_update()
+        for partner in self:
+            partner.fr_chorus_service_ids.service_update()
         return
 
     @api.model
@@ -371,5 +372,6 @@ class ResPartner(models.Model):
         to_update_partners.fr_chorus_identifier_get()
         to_update_partners.fr_chorus_required_get()
         to_update_partners.fr_chorus_services_get()
-        to_update_partners.fr_chorus_service_ids.service_update()
+        for to_update_partner in to_update_partners:
+            to_update_partner.fr_chorus_service_ids.service_update()
         logger.info('End Chorus partner cron')
