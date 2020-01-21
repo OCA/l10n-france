@@ -21,6 +21,7 @@ class ChorusApi(models.AbstractModel):
         service = api_params['qualif'] and 'service-qualif' or 'service'
         url = '%s/%s/%s' % (url_base, service, url_path)
         auth = (api_params['login'], api_params['password'])
+        headers = {'Content-type': 'application/json'}
         if session is None:
             session = requests.Session()
             session.cert = api_params['cert']
@@ -30,7 +31,8 @@ class ChorusApi(models.AbstractModel):
         logger.info('Payload of the Chorus POST request: %s', payload)
         try:
             r = session.post(
-                url, verify=True, data=json.dumps(payload), auth=auth)
+                url, verify=True, data=json.dumps(payload), auth=auth,
+                headers=headers)
         except requests.exceptions.ConnectionError as e:
             logger.error("Connection to %s failed. Error: %s", url, e)
             raise UserError(_(
