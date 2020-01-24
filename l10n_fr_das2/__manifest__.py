@@ -18,6 +18,7 @@
         'data/account_account_template.xml',
         'views/l10n_fr_das2.xml',
         'views/account_account.xml',
+        'views/account_config_settings.xml',
     ],
     'post_init_hook': 'setup_das2_accounts',
     'installable': True,
