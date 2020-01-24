@@ -198,6 +198,8 @@ class L10nFrDas2Line(models.Model):
         states={'done': [('readonly', True)]}, required=True)
     partner_siret = fields.Char(
         string='Partner SIRET', states={'done': [('readonly', True)]})
+    company_id = fields.Many2one(
+        related='parent_id.company_id', store=True, readonly=True)
     currency_id = fields.Many2one(
         related='parent_id.company_id.currency_id', store=True, readonly=True,
         string='Company Currency')
