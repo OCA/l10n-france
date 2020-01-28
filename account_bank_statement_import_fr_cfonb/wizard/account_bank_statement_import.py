@@ -9,6 +9,8 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+CFONB_WIDTH = 120
+
 
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
@@ -63,15 +65,14 @@ class AccountBankStatementImport(models.TransientModel):
         # And I found one (LCL) that even uses caracters with accents
         # So the best method is probably to decode with latin1
         data_file_decoded = data_file.decode('latin1')
-        if not self.split_lines(data_file_decoded):
-            raise UserError(_('The file is empty.'))
+        lines = self.split_lines(data_file_decoded)
         i = 0
         seq = 1
         bank_code = guichet_code = account_number = currency_code = False
         decimals = start_balance = False
         start_balance = end_balance = False
         vals_line = False
-        for line in self.split_lines(data_file_decoded):
+        for line in lines:
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
             if not line:
@@ -181,9 +182,13 @@ class AccountBankStatementImport(models.TransientModel):
         lines = []
 
         # make sure the length is a multiple of 120 otherwise it isn't valid
-        if max_len % 120:
+        if max_len % CFONB_WIDTH:
             raise UserError(_("The file is not divisible in 120 char lines"))
-        for index in range(0, max_len, 120):
+        if max_len == 0:
+            raise UserError(_('The file is empty.'))
+        for index in range(0, max_len, CFONB_WIDTH):
             # append a 120 char slice of the file to the list of lines
-            lines.append(data_file_without_linebreaks[index:index + 120])
+            lines.append(
+                data_file_without_linebreaks[index:index + CFONB_WIDTH]
+            )
         return lines
