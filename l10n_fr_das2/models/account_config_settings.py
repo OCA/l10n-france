@@ -9,5 +9,5 @@ from odoo import fields, models
 class AccountConfigSettings(models.TransientModel):
     _inherit = 'account.config.settings'
 
-    fr_das2_partner_declare_threshold = fields.Monetary(
+    fr_das2_partner_declare_threshold = fields.Integer(
         related='company_id.fr_das2_partner_declare_threshold', readonly=False)

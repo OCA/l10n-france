@@ -17,8 +17,9 @@ def setup_das2_accounts(cr, registry):
     for record in xml_root.xpath('//record'):
         xmlid = record.attrib['id']
         account_code = xmlid.split('_')[-1]
-        data[account_code] = True
-    logger.debug('set_unece_on_taxes data=%s', data)
+        for xfield in record.xpath('field'):
+            data[account_code] = xfield.text
+    logger.info('setup_das2_accounts data=%s', data)
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
         companies = env['res.company'].search([])
@@ -29,11 +30,12 @@ def setup_das2_accounts(cr, registry):
                 company.display_name, company.id)
             if company.country_id and company.country_id != env.ref('base.fr'):
                 continue
-            for account_code in data.keys():
+            for account_code, fr_das2 in data.items():
                 accounts = aao.search([
                     ('company_id', '=', company.id),
                     ('code', '=ilike', account_code + '%')])
-                accounts.write({'fr_das2': True})
-                logger.debug(
-                    'Set fr_das2=True on account IDs %s', accounts.ids)
+                accounts.write({'fr_das2': fr_das2})
+                logger.info(
+                    'Company %s: set fr_das2=%s on account IDs %s',
+                    company.display_name, fr_das2, accounts.ids)
     return
