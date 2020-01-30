@@ -12,6 +12,9 @@
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/l10n-france',
     'depends': ['account_fiscal_year', 'l10n_fr', 'l10n_fr_siret'],
+    'external_dependencies': {
+        'python': ['unidecode'],
+        },
     'data': [
         'security/das2_security.xml',
         'security/ir.model.access.csv',
