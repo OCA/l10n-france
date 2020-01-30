@@ -40,8 +40,10 @@
                         <field name="source_journal_ids" widget="many2many_tags" />
                     </group>
                     <group name="main-right">
-                        <field name="total_amount"/>
                         <field name="currency_id" invisible="1"/>
+                        <field name="partner_declare_threshold"/>
+                        <field name="contact_id"/>
+                        <field name="attachment_id"/>
                         <field name="company_id" groups="base.group_multi_company" widget="selection" />
                     </group>
                 </group>
@@ -65,7 +67,6 @@
         <tree string="DAS2" colors="blue:state=='draft'">
             <field name="date_range_id"/>
             <field name="company_id" groups="base.group_multi_company"/>
-            <field name="total_amount" sum="Total amount"/>
             <field name="currency_id" invisible="1"/>
             <field name="state"/>
         </tree>
@@ -83,21 +84,22 @@
     </field>
 </record>
 
+<!--
 <record id="l10n_fr_das2_graph" model="ir.ui.view">
     <field name="name">l10n.fr.das2.graph</field>
     <field name="model">l10n.fr.das2</field>
     <field name="arch"  type="xml">
         <graph string="DAS2 Graph">
             <field name="date_start" type="row"/>
-            <field name="total_amount" type="measure"/>
         </graph>
     </field>
 </record>
+-->
 
 <record id="l10n_fr_das2_action" model="ir.actions.act_window">
     <field name="name">DAS2</field>
     <field name="res_model">l10n.fr.das2</field>
-    <field name="view_mode">tree,form,graph</field>
+    <field name="view_mode">tree,form</field>
 </record>
 
 <menuitem id="l10n_fr_das2_menu"
@@ -113,9 +115,30 @@
             <group name="main">
                 <field name="partner_id"/>
                 <field name="partner_siret"/>
-                <field name="amount"/>
+                <field name="fee_amount"/>
+                <field name="commission_amount"/>
+                <field name="brokerage_amount"/>
+                <field name="discount_amount"/>
+                <field name="attendance_fee_amount"/>
+                <field name="copyright_royalties_amount"/>
+                <field name="licence_royalties_amount"/>
+                <field name="other_income_amount"/>
+                <field name="allowance_amount"/>
+                <field name="allowance_fixed" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
+                <field name="allowance_real" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
+                <field name="allowance_employer" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
+                <field name="benefits_in_kind_amount"/>
+                <field name="benefits_in_kind_food" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                <field name="benefits_in_kind_accomodation" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                <field name="benefits_in_kind_car" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                <field name="benefits_in_kind_other" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                <field name="benefits_in_kind_nict" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                <field name="withholding_tax_amount"/>
+                <field name="total_amount"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="to_declare"/>
+                <field name="job"/>
+                <field name="note"/>
                 <field name="state" invisible="1"/>
             </group>
         </form>
@@ -129,7 +152,17 @@
         <tree string="DAS2 Lines" decoration-muted="to_declare == False">
             <field name="partner_id"/>
             <field name="partner_siret"/>
-            <field name="amount" sum="1"/>
+            <field name="fee_amount" sum="1"/>
+            <field name="commission_amount" sum="1"/>
+            <field name="brokerage_amount" sum="1"/>
+            <field name="discount_amount" sum="1"/>
+            <field name="attendance_fee_amount" sum="1"/>
+            <field name="copyright_royalties_amount" sum="1"/>
+            <field name="licence_royalties_amount" sum="1"/>
+            <field name="other_income_amount" sum="1"/>
+            <field name="allowance_amount" sum="1"/>
+            <field name="withholding_tax_amount" sum="1"/>
+            <field name="total_amount" sum="1"/>
             <field name="currency_id" invisible="1"/>
             <field name="to_declare"/>
             <field name="state" invisible="1"/>
