@@ -9,7 +9,7 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    fr_das2_partner_declare_threshold = fields.Monetary(
+    fr_das2_partner_declare_threshold = fields.Integer(
         string='DAS2 Partner Declaration Threshold',
         default=1200)
 

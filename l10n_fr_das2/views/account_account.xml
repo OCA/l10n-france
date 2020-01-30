@@ -26,7 +26,10 @@
     <field name="arch" type="xml">
         <filter domain="[('internal_type','=','payable')]" position="after">
             <separator/>
-            <filter name="fr_das2" string="DAS2" domain="[('fr_das2', '=', True)]"/>
+            <filter name="fr_das2" string="DAS2" domain="[('fr_das2', '!=', False)]"/>
+        </filter>
+        <filter context="{'group_by':'user_type_id'}" position="after">
+            <filter string="DAS2 Type" name="das2_groupby" context="{'group_by': 'fr_das2'}"/>
         </filter>
     </field>
 </record>
