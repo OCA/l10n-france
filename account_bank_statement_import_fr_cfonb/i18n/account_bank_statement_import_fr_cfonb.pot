@@ -29,26 +29,32 @@ msgid "Journal"
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:80
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:81
 #, python-format
 msgid "Line %d is %d caracters long. All lines of a CFONB bank statement file must be 120 caracters long."
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:120
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:121
 #, python-format
 msgid "Only single-account files and single-currency files are supported for the moment. It is not the case starting from line %d."
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:109
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:110
 #, python-format
 msgid "The 2 first letters of the first line are '%s'. A CFONB file should start with '01'"
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:61
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:188
 #, python-format
 msgid "The file is empty."
+msgstr ""
+
+#. module: account_bank_statement_import_fr_cfonb
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:186
+#, python-format
+msgid "The file is not divisible in 120 char lines"
 msgstr ""
 
