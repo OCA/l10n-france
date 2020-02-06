@@ -11,19 +11,22 @@
     'summary': 'DAS2 (France)',
     'author': 'Akretion,Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/l10n-france',
-    'depends': ['account_fiscal_year', 'l10n_fr', 'l10n_fr_siret'],
+    'depends': [
+        'account_fiscal_year',
+        'l10n_fr',
+        'l10n_fr_siret',
+        'l10n_fr_cog',
+        ],
     'external_dependencies': {
         'python': ['unidecode'],
         },
     'data': [
         'security/das2_security.xml',
         'security/ir.model.access.csv',
-        'data/account_account_template.xml',
         'views/l10n_fr_das2.xml',
-        'views/account_account.xml',
+        'views/partner.xml',
         'views/account_config_settings.xml',
     ],
-    'post_init_hook': 'setup_das2_accounts',
     'installable': True,
     'application': True,
 }
