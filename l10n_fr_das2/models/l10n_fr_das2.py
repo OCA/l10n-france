@@ -358,7 +358,9 @@ class L10nFrDas2(models.Model):
             cprefix + '020' + ' ' * 14 + cape + '0' * 14 + ' ' * 41 +
             cname + caddress + ' ' * 40 + ' ' * 53 + 'N' * 6 + ' ' * 296)
 
-        for line in self.line_ids:
+        i = 0
+        for line in self.line_ids.filtered(lambda x: x.to_declare):
+            i += 1
             partner = line.partner_id
             if (
                     partner.country_id and
@@ -424,7 +426,7 @@ class L10nFrDas2(models.Model):
             '0' * 12 * 5 + ' ' * 74 +
             contact_name + contact_phone + contact_email + ' ' * 76)
 
-        lines_number = self._prepare_field('Number of lines', cpartner, len(self.line_ids), 6, numeric=True)
+        lines_number = self._prepare_field('Number of lines', cpartner, i, 6, numeric=True)
         flines.append(
             csiren + '9' * 12 + '310' + '00001' + '0' * 6 + lines_number +
             '0' * 6 * 3 + ' ' * 18 + '9' * 12 * 9 +
