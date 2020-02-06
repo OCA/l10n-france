@@ -34,10 +34,8 @@
                 </div>
                 <group name="main">
                     <group name="main-left">
-                        <field name="date_range_id" />
-                        <field name="date_start" />
-                        <field name="date_end" />
-                        <field name="source_journal_ids" widget="many2many_tags" />
+                        <field name="year" />
+                        <field name="payment_journal_ids" widget="many2many_tags" />
                     </group>
                     <group name="main-right">
                         <field name="currency_id" invisible="1"/>
@@ -65,7 +63,7 @@
     <field name="model">l10n.fr.das2</field>
     <field name="arch" type="xml">
         <tree string="DAS2" colors="blue:state=='draft'">
-            <field name="date_range_id"/>
+            <field name="year"/>
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="currency_id" invisible="1"/>
             <field name="state"/>
@@ -84,18 +82,6 @@
     </field>
 </record>
 
-<!--
-<record id="l10n_fr_das2_graph" model="ir.ui.view">
-    <field name="name">l10n.fr.das2.graph</field>
-    <field name="model">l10n.fr.das2</field>
-    <field name="arch"  type="xml">
-        <graph string="DAS2 Graph">
-            <field name="date_start" type="row"/>
-        </graph>
-    </field>
-</record>
--->
-
 <record id="l10n_fr_das2_action" model="ir.actions.act_window">
     <field name="name">DAS2</field>
     <field name="res_model">l10n.fr.das2</field>
@@ -113,7 +99,7 @@
     <field name="arch" type="xml">
         <form string="DAS2 Line" >
             <group name="main">
-                <field name="partner_id"/>
+                <field name="partner_id" context="{'show_address': 1}" options="{'always_reload': 1}"/>
                 <field name="partner_siret"/>
                 <field name="fee_amount"/>
                 <field name="commission_amount"/>
@@ -152,6 +138,7 @@
         <tree string="DAS2 Lines" decoration-muted="to_declare == False">
             <field name="partner_id"/>
             <field name="partner_siret"/>
+            <field name="job"/>
             <field name="fee_amount" sum="1"/>
             <field name="commission_amount" sum="1"/>
             <field name="brokerage_amount" sum="1"/>
