@@ -5,15 +5,14 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_compare, float_is_zero, float_round
 from dateutil.relativedelta import relativedelta
+from datetime import datetime
 from odoo.addons.l10n_fr_siret.models.partner import _check_luhn
 from unidecode import unidecode
 import base64
 import logging
 
 logger = logging.getLogger(__name__)
-
 
 try:
     from unidecode import unidecode
@@ -22,7 +21,8 @@ except ImportError:
     logger.debug('Cannot import unidecode')
 
 
-FRANCE_CODES = ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT')
+FRANCE_CODES = ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT', 'NC',
+                'PF', 'TF', 'MF', 'BL', 'PM', 'WF')
 AMOUNT_FIELDS = [
     'fee_amount', 'commission_amount', 'brokerage_amount',
     'discount_amount', 'attendance_fee_amount', 'copyright_royalties_amount',
@@ -33,18 +33,13 @@ AMOUNT_FIELDS = [
 class L10nFrDas2(models.Model):
     _name = 'l10n.fr.das2'
     _inherit = ['mail.thread']
-    _order = 'date_start desc'
+    _order = 'year desc'
     _description = 'DAS2'
 
-    date_range_id = fields.Many2one(
-        'date.range', string='Fiscal Year', ondelete='restrict', copy=False,
-        required=True, domain="[('type_id.fiscal_year', '=', True)]",
-        states={'done': [('readonly', True)]}, track_visibility='onchange',
-        default=lambda self: self._default_date_range())
-    date_start = fields.Date(
-        related='date_range_id.date_start', store=True, readonly=True)
-    date_end = fields.Date(
-        related='date_range_id.date_end', store=True, readonly=True)
+    year = fields.Integer(
+        string='Year', required=True, states={'done': [('readonly', True)]},
+        track_visibility='onchange',
+        default=lambda self: self._default_year())
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
@@ -57,10 +52,10 @@ class L10nFrDas2(models.Model):
     currency_id = fields.Many2one(
         related='company_id.currency_id', readonly=True, store=True,
         string='Company Currency')
-    source_journal_ids = fields.Many2many(
+    payment_journal_ids = fields.Many2many(
         'account.journal',
-        string='Source Journals', required=True,
-        default=lambda self: self._default_source_journals(),
+        string='Payment Journals', required=True,
+        default=lambda self: self._default_payment_journals(),
         states={'done': [('readonly', True)]})
     line_ids = fields.One2many(
         'l10n.fr.das2.line', 'parent_id', string='Lines',
@@ -77,33 +72,31 @@ class L10nFrDas2(models.Model):
         'ir.attachment', string='File Export', readonly=True)
 
     _sql_constraints = [(
-        'fiscal_year_company_uniq',
-        'unique(company_id, date_range_id)',
-        'A DAS2 already exists for this fiscal year!')]
+        'year_company_uniq',
+        'unique(company_id, year)',
+        'A DAS2 already exists for that year!')]
 
-    def _default_source_journals(self):
+    @api.model
+    def _default_payment_journals(self):
         res = []
-        src_journals = self.env['account.journal'].search([
-            ('type', '=', 'purchase'),
+        pay_journals = self.env['account.journal'].search([
+            ('type', 'in', ('bank', 'cash')),
             ('company_id', '=', self.env.user.company_id.id)])
-        if src_journals:
-            res = src_journals.ids
+        if pay_journals:
+            res = pay_journals.ids
         return res
 
     @api.model
-    def _default_date_range(self):
-        date_range = self.env['date.range'].search([
-            ('company_id', '=', self.env.user.company_id.id),
-            ('type_id.fiscal_year', '=', True),
-            ('date_end', '<', fields.Date.context_today(self)),
-            ], order='date_end desc', limit=1)
-        return date_range
+    def _default_year(self):
+        today = datetime.today()
+        prev_year = today - relativedelta(years=1)
+        return prev_year.year
 
-    @api.depends('date_range_id')
+    @api.depends('year')
     def name_get(self):
         res = []
         for rec in self:
-            res.append((rec.id, 'DAS2 %s' % rec.date_range_id.name))
+            res.append((rec.id, 'DAS2 %s' % rec.year))
         return res
 
     def done(self):
@@ -114,15 +107,19 @@ class L10nFrDas2(models.Model):
         self.state = 'draft'
         return
 
+    def unlink(self):
+        for rec in self:
+            if rec.state == 'done':
+                raise UserError(_(
+                    "Cannot delete declaration %s in done state.")
+                    % rec.display_name)
+        return super(L10nFrDas2, self).unlink()
+
     def generate_lines(self):
         self.ensure_one()
-        amo = self.env['account.move']
-        ato = self.env['account.tax']
         amlo = self.env['account.move.line']
-        aao = self.env['account.account']
         lfdlo = self.env['l10n.fr.das2.line']
         company = self.company_id
-        ccur_prec = company.currency_id.rounding
         if not company.country_id:
             raise UserError(_(
                 "Country not set on company '%s'.") % company.display_name)
@@ -144,204 +141,95 @@ class L10nFrDas2(models.Model):
                 "company '%s'.") % company.display_name)
         self.partner_declare_threshold =\
             company.fr_das2_partner_declare_threshold
-        das2_accounts = self.env['account.account'].search([
-            ('company_id', '=', company.id),
-            ('fr_das2', '!=', False),
-            ])
-        if not das2_accounts:
-            raise UserError(_(
-                "There are no expense accounts for DAS2 in company '%s'.")
-                % company.display_name)
-        das2acc2type = {}
-        for das2_account in das2_accounts:
-            das2acc2type[das2_account] = das2_account.fr_das2
-        # delete existing lines
+        das2_partners = self.env['res.partner'].search([
+            ('parent_id', '=', False),
+            ('fr_das2_type', '!=', False)])
         self.line_ids.unlink()
-        vat_deduc_accounts = aao.search([
-            '|', '|',
-            ('code', '=like', '4452%'),  # also include intracom due VAT
-            ('code', '=like', '44562%'),
-            ('code', '=like', '44566%'),
-            ('internal_type', '=', 'other'),
-            ('company_id', '=', company.id)])
-        if not vat_deduc_accounts:
-            raise UserError(_('No VAT deductible accounts found'))
-        logger.info(
-            'VAT deductible accounts: %s', [a.code for a in vat_deduc_accounts])
-        supplier_accounts = aao.search([
-            ('company_id', '=', company.id),
-            ('reconcile', '=', True),
-            ('internal_type', '=', 'payable'),
-            ])
-        if not supplier_accounts:
-            raise UserError(_('No supplier accounts found.'))
-        expense_accounts = aao.search([
-            ('company_id', '=', company.id),
-            ('internal_type', '=', 'other'),
-            '|', ('code', '=like', '6%'), ('code', '=like', '2%'),
-            ])
-        # I include 2% accounts so that VAT prorata works
-        if not expense_accounts:
-            raise UserError(_("No expense accounts found."))
-        speed_vattax2rate = {}
-        vattaxes = ato.search([
-            ('company_id', '=', company.id),
-            ('type_tax_use', '=', 'purchase'),
-            ('amount_type', '=', 'percent'),
-            ('amount', '!=', False)])
-        for vattax in vattaxes:
-            if not float_is_zero(vattax.amount, precision_digits=4):
-                speed_vattax2rate[vattax.id] = vattax.amount
-
-        date_end_scan_dt = fields.Date.from_string(self.date_end)\
-            + relativedelta(months=5)
-        date_start_scan_dt = fields.Date.from_string(self.date_start)\
-            - relativedelta(years=1)
+        if not das2_partners:
+            raise UserError(_(
+                "There are no partners configured for DAS2."))
         base_domain = [
             ('company_id', '=', self.company_id.id),
-            ('date', '>=', fields.Date.to_string(date_start_scan_dt)),
-            ('date', '<=', fields.Date.to_string(date_end_scan_dt)),
-            ('journal_id', 'in', self.source_journal_ids.ids),
+            ('date', '>=', '%d-01-01' % self.year),
+            ('date', '<=', '%d-12-31' % self.year),
+            ('journal_id', 'in', self.payment_journal_ids.ids),
+            ('balance', '!=', 0),
             ]
-        res = {}  # key = partner, value = {field: amount, 'note': []}
+        for partner in das2_partners:
+            mlines = amlo.search(base_domain + [
+                ('partner_id', '=', partner.id),
+                ('account_id', '=', partner.property_account_payable_id.id),
+                ])
+            note = []
+            amount = 0.0
+            for mline in mlines:
+                amount += mline.balance
+                if mline.full_reconcile_id:
+                    rec = _('reconciliation mark %s') % mline.full_reconcile_id.name
+                else:
+                    rec = _('not reconciled')
+                note.append(_(
+                    "Payment dated %s in journal '%s': %.2f € (%s, journal entry %s)") % (
+                    mline.date,
+                    mline.journal_id.display_name,
+                    mline.balance,
+                    rec,
+                    mline.move_id.name))
+            if note:
+                field_name = '%s_amount' % partner.fr_das2_type
+                vals = {
+                    field_name: int(round(amount, 2)),
+                    'parent_id': self.id,
+                    'partner_id': partner.id,
+                    'job': partner.fr_das2_job,
+                    'note': '\n'.join(note),
+                    }
+                if partner.siren and partner.nic:
+                    vals['partner_siret'] = partner.siret
+                lfdlo.create(vals)
+        self.add_warning_in_chatter(das2_partners)
 
-        rg_res = amlo.read_group(
-            base_domain + [('account_id', 'in', das2_accounts.ids)],
-            ['move_id'], ['move_id'])
-        for rg_re in rg_res:
-            move_id = rg_re['move_id'][0]
-            move = amo.browse(move_id)
-            logger.info('Processing move %s ID %d', move.name, move.id)
-            # Inspired by account_vat_prorata
-            tmp = {
-                'total_vat': 0.0,
-                'total_with_vat': 0.0,
-                'total_exp': 0.0,
-                'exps_have_tax_ids': False,
-                'partner': False,
-                'exps': {},  # expenses
-                             # key = id
-                             # value = {'weight_tax_ids', 'weight_no_tax_ids', 'bal': account_id
-                'payments': [],
-                'total_payments': 0.0,
-                'total_theoric_vat': 0.0,  # for prorata
-                }
-            for line in move.line_ids:
-                if float_is_zero(line.balance, precision_rounding=ccur_prec):
-                    continue
-                # VAT line
-                if line.account_id in vat_deduc_accounts:
-                    tmp['total_vat'] += line.balance
-                # Payable line
-                elif line.account_id in supplier_accounts:
-                    if not line.partner_id:
-                        raise UserError(_(
-                            "Move line '%s' with account '%s' "
-                            "dated %s (ID %d) has no partner.") % (
-                                line.name, line.account_id.display_name,
-                                line.date, line.id))
-                    tmp['total_with_vat'] -= line.balance
-                    partner = line.partner_id
-                    tmp['partner'] = partner
-                    if line.full_reconcile_id:
-                        for rec_line in line.full_reconcile_id.reconciled_line_ids:
-                            if (
-                                    rec_line != line and
-                                    rec_line.journal_id.type != 'purchase'
-                                    and
-                                    rec_line.date >= self.date_start and
-                                    rec_line.date <= self.date_end and
-                                    rec_line.partner_id == partner):
-                                tmp['payments'].append({
-                                    'date': rec_line.date,
-                                    'amount': rec_line.balance})
-                                tmp['total_payments'] += rec_line.balance
-                # Expense line
-                elif line.account_id in expense_accounts:
-                    tmp['total_exp'] += line.balance
-                    if line.tax_ids and len(line.tax_ids) == 1 and line.tax_ids[0].id in speed_vattax2rate:
-
-                        tmp['exps_have_tax_ids'] = True
-                        theoric_vat_amount = speed_vattax2rate[line.tax_ids[0].id] * line.balance / 100.0
-                        tmp['exps'][line.id] = {
-                            'bal': line.balance,
-                            'theoric_vat_amount': theoric_vat_amount,
-                            'account': line.account_id,
-                            'das2type': das2acc2type.get(line.account_id),
-                            'date': line.date,
-                            'name': line.name,
-                            }
-                        tmp['total_theoric_vat'] += theoric_vat_amount
-                    else:
-                        tmp['exps'][line.id] = {
-                            'bal': line.balance,
-                            'account': line.account_id,
-                            'das2type': das2acc2type.get(line.account_id),
-                            'theoric_vat_amount': 0,
-                            'date': line.date,
-                            'name': line.name,
-                            }
-
-            # Check
-            if float_compare(tmp['total_with_vat'], tmp['total_exp'] + tmp['total_vat'], precision_rounding=ccur_prec):
-                raise UserError(_("Move %s (ID %d) has a total with VAT (%s) with is different from the sum of VAT amount (%s) plus total expense (%s). This should not happen in a purchase journal.") % (move.name, move.id, tmp['total_with_vat'], tmp['total_vat'], tmp['total_exp']))
-
-            # process
-            if not float_is_zero(tmp['total_with_vat'], precision_rounding=ccur_prec) and tmp['payments'] and not float_is_zero(tmp['total_exp'], precision_rounding=ccur_prec):
-                payment_ratio = 100
-                if float_compare(tmp['total_payments'], tmp['total_with_vat'], precision_rounding=ccur_prec):
-                    payment_ratio = round(100 * tmp['total_payments'] / tmp['total_with_vat'], 2)
-                logger.info('Move ID %s selected with payment_ratio %s', move.id, payment_ratio)
-                for exp_line_id, exp_line_val in tmp['exps'].items():
-                    if exp_line_val['das2type']:
-                        if tmp['exps_have_tax_ids'] and not float_is_zero(tmp['total_theoric_vat'], precision_rounding=ccur_prec):
-                            bal_with_vat = float_round(exp_line_val['bal'] + tmp['total_vat'] * exp_line_val['theoric_vat_amount'] / tmp['total_theoric_vat'], precision_rounding=ccur_prec)
-                        else:
-                            bal_with_vat = float_round(exp_line_val['bal'] + tmp['total_vat'] * exp_line_val['bal'] / tmp['total_exp'], precision_rounding=ccur_prec)
-                        paid_amount = bal_with_vat * payment_ratio / 100.0
-                        note = _(
-                            u"Expense Line ID %d '%s' supplier '%s' dated %s "
-                            u"account %s DAS2 type '%s': "
-                            u"amount without VAT: %s €, amount with VAT: %s €, "
-                            u"payment ratio %s %%, paid amount with VAT: %s €. "
-                            u"Payments of related move: %s.") % (
-                            exp_line_id,
-                            exp_line_val['name'],
-                            tmp['partner'].display_name,
-                            exp_line_val['date'],
-                            exp_line_val['account'].code,
-                            exp_line_val['das2type'],
-                            exp_line_val['bal'],
-                            bal_with_vat,
-                            payment_ratio,
-                            paid_amount,
-                            ','.join([
-                                _(u'%s € on %s') % (x['amount'], x['date'])
-                                for x in tmp['payments']]),
-                            )
-
-                        field_name = '%s_amount' % exp_line_val['das2type']
-                        if partner in res:
-                            res[partner]['note'].append(note)
-                            if field_name in res[partner]:
-                                res[partner][field_name] += paid_amount
-                            else:
-                                res[partner][field_name] = paid_amount
-                        else:
-                            res[partner] = {field_name: paid_amount, 'note': [note]}
-
-        for partner, vals in res.items():
-            for key, value in vals.items():
-                if key.endswith('_amount'):
-                    vals[key] = int(round(value))
-            vals.update({
-                'parent_id': self.id,
-                'partner_id': partner.id,
-                'note': '\n'.join(vals['note'])
-                })
-            if partner.siren and partner.nic:
-                vals['partner_siret'] = partner.siret
-            lfdlo.create(vals)
+    def add_warning_in_chatter(self, das2_partners):
+        amlo = self.env['account.move.line']
+        aao = self.env['account.account']
+        ajo = self.env['account.journal']
+        rpo = self.env['res.partner']
+        company = self.company_id
+        # The code below is just to write warnings in chatter
+        purchase_journals = ajo.search([
+            ('type', '=', 'purchase'),
+            ('company_id', '=', company.id)])
+        das2_accounts = aao.search([
+            ('company_id', '=', company.id),
+            '|', '|', '|', '|',
+            ('code', '=like', '6222%'),
+            ('code', '=like', '6226%'),
+            ('code', '=like', '6228%'),
+            ('code', '=like', '653%'),
+            ('code', '=like', '6516%'),
+            ])
+        rg_res = amlo.read_group([
+            ('company_id', '=', company.id),
+            ('date', '>=', '%d-01-01' % self.year),
+            ('date', '<=', '%d-12-31' % self.year),
+            ('journal_id', 'in', purchase_journals.ids),
+            ('partner_id', '!=', False),
+            ('partner_id', 'not in', das2_partners.ids),
+            ('account_id', 'in', das2_accounts.ids),
+            ('balance', '!=', 0),
+            ], ['partner_id'], ['partner_id'])
+        if rg_res:
+            msg = _(
+                "<p>The following partners are not configured for DAS2 but "
+                "they have expenses in some accounts that indicate "
+                "that maybe they should be configured for DAS2:</p><ul>")
+            for rg_re in rg_res:
+                partner = rpo.browse(rg_re['partner_id'][0])
+                msg += '<li><a href=# data-oe-model=res.partner data-oe-id=%d>%s</a>' % (
+                    partner.id,
+                    partner.display_name)
+            msg += '</ul>'
+            self.message_post(msg)
 
     @api.model
     def _prepare_field(self, field_name, partner, value, size, required=False, numeric=False):
@@ -381,11 +269,40 @@ class L10nFrDas2(models.Model):
 
     def _prepare_address(self, partner):
         cstreet2 = self._prepare_field('Street2', partner, partner.street2, 32)
-        cstreet = self._prepare_field('Street', partner, partner.street, 26)
-        ccity = self._prepare_field('City', partner, partner.city, 26, True)
-        czip = self._prepare_field('Zip', partner, partner.zip, 5, True)
+        cstreet = self._prepare_field('Street', partner, partner.street, 32)
+        # specs section 5.4 : only bureau distributeur and code postal are
+        # required. And they say it is tolerated to set city as
+        # bureau distributeur
+        # And we don't set the commune field because we put the same info
+        # in bureau distributeur (section 5.4.1.3)
+        # specs section 5.4 and 5.4.1.2.b: it is possible to set the field
+        # "Adresse voie" without structuration on 32 chars => that's what we do
+        if not partner.city:
+            raise UserError(_(
+                "Missing city on partner '%s'.") % partner.display_name)
 
-        caddress = cstreet2 + ' ' + '0' * 4 + ' ' + ' ' + cstreet + '0' * 5 + ' ' + ccity + czip + ' ' + ' ' * 26
+        if partner.country_id and partner.country_id.code not in FRANCE_CODES:
+            if not partner.country_id.fr_cog:
+                raise UserError(_(
+                    u"Missing Code Officiel Géographique on country '%s'.")
+                    % partner.country_id.display_name)
+            cog = self._prepare_field(
+                'COG', partner, partner.country_id.fr_cog, 5, True, numeric=True)
+            raw_country_name = partner.with_context(lang='fr_FR').country_id.name
+            country_name = self._prepare_field(
+                'Nom du pays', partner, raw_country_name, 26, True)
+            raw_commune = partner.city
+            if partner.zip:
+                raw_commune = '%s %s' % (partner.zip, partner.city)
+            commune = self._prepare_field('Commune', partner, raw_commune, 26, True)
+            caddress = cstreet2 + ' ' + cstreet + cog + ' ' + commune + cog + ' ' + country_name
+        # According to the specs, we should have some code specific for DOM-TOM
+        # But it's not easy, because we are supposed to give the INSEE code
+        # of the city, not of the territory => we don't handle that for the moment
+        else:
+            ccity = self._prepare_field('City', partner, partner.city, 26, True)
+            czip = self._prepare_field('Zip', partner, partner.zip, 5, True)
+            caddress = cstreet2 + ' ' + cstreet + '0' * 5 + ' ' + ' ' * 26 + czip + ' ' + ccity
         assert len(caddress) == 129
         return caddress
 
@@ -425,7 +342,8 @@ class L10nFrDas2(models.Model):
         cape = self._prepare_field('APE', cpartner, company.ape, 5, True)
         cname = self._prepare_field('Name', cpartner, company.name, 50, True)
         file_type = 'X'  # tous déclarants honoraires seuls
-        year = str(fields.Date.from_string(self.date_start).year)
+        year = str(self.year)
+        assert len(year) == 4
         caddress = self._prepare_address(cpartner)
         cprefix = csiret + '01' + year + '5'
         # line 010 Company header
@@ -520,8 +438,7 @@ class L10nFrDas2(models.Model):
                     % (len(fline), fline))
         file_content = '\n'.join(flines)
         file_content_encoded = file_content.encode('latin1')
-        filename = 'DAS2_%s.txt' % (
-            unidecode(self.date_range_id.name.replace(' ', '_')))
+        filename = 'DAS2_%s.txt' % self.year
         attach = self.env['ir.attachment'].create({
             'name': filename,
             'res_id': self.id,
