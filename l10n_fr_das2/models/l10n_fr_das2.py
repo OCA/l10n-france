@@ -62,6 +62,11 @@ class L10nFrDas2(models.Model):
         states={'done': [('readonly', True)]})
     partner_declare_threshold = fields.Integer(
         string='Partner Declaration Threshold', readonly=True)
+    dads_type = fields.Selection([
+        ('5', u"La société verse des salaires"),
+        ('6', u"La société ne verse pas de salaires"),
+        ], 'Type DADS', required=True,
+        default=lambda self: self._default_dads_type())
     # option for draft moves ?
     contact_id = fields.Many2one(
         'res.partner', string='Administrative Contact',
@@ -75,6 +80,15 @@ class L10nFrDas2(models.Model):
         'year_company_uniq',
         'unique(company_id, year)',
         'A DAS2 already exists for that year!')]
+
+    @api.model
+    def _default_dads_type(self):
+        previous_decl = self.search(
+            [('dads_type', '!=', False)], order='year desc', limit=1)
+        if previous_decl:
+            return previous_decl.dads_type
+        else:
+            return '5'
 
     @api.model
     def _default_payment_journals(self):
@@ -345,7 +359,7 @@ class L10nFrDas2(models.Model):
         year = str(self.year)
         assert len(year) == 4
         caddress = self._prepare_address(cpartner)
-        cprefix = csiret + '01' + year + '5'
+        cprefix = csiret + '01' + year + self.dads_type
         # line 010 Company header
         flines = []
         flines.append(
@@ -354,6 +368,9 @@ class L10nFrDas2(models.Model):
             caddress + ' ' + ' ' * 288)
 
         # ligne 020 Etablissement header
+        # We don't add a field for profession on the company
+        # because it's not even a field on the paper form!
+        # We only set profession for suppliers
         flines.append(
             cprefix + '020' + ' ' * 14 + cape + '0' * 14 + ' ' * 41 +
             cname + caddress + ' ' * 40 + ' ' * 53 + 'N' * 6 + ' ' * 296)
@@ -416,7 +433,7 @@ class L10nFrDas2(models.Model):
         contact_name = self._prepare_field('Administrative contact name', contact, contact.name, 50)
         contact_email = self._prepare_field('Administrative contact email', contact, contact.email, 60)
         phone = contact.phone or contact.mobile
-        phone = phone.replace(' ', '').replace('.', '').replace('-', '')
+        phone = phone.replace(' ', '').replace('.', '').replace('-', '').replace(u'\u00A0', '')
         if phone.startswith('+33'):
             phone = '0%s' % phone[3:]
         contact_phone = self._prepare_field('Administrative contact phone', contact, phone, 10)
@@ -429,7 +446,7 @@ class L10nFrDas2(models.Model):
         lines_number = self._prepare_field('Number of lines', cpartner, i, 6, numeric=True)
         flines.append(
             csiren + '9' * 12 + '310' + '00001' + '0' * 6 + lines_number +
-            '0' * 6 * 3 + ' ' * 18 + '9' * 12 * 9 +
+            '0' * 6 * 3 + ' ' * 18 + '0' * 12 * 9 +
             ''.join(total_fields_list) + ' ' * 12 + '0' * 12 * 2 + '0' * 6 +
             '0' * 12 * 5 + ' ' * 253)
         for fline in flines:
@@ -440,7 +457,8 @@ class L10nFrDas2(models.Model):
                     % (len(fline), fline))
         file_content = '\n'.join(flines)
         file_content_encoded = file_content.encode('latin1')
-        filename = 'DAS2_%s.txt' % self.year
+        filename = 'DAS2_%s_%s.txt' % (
+            self.year, company.name.replace(' ', '_'))
         attach = self.env['ir.attachment'].create({
             'name': filename,
             'res_id': self.id,
@@ -486,7 +504,7 @@ class L10nFrDas2Line(models.Model):
         domain=[('parent_id', '=', False)],
         states={'done': [('readonly', True)]}, required=True)
     partner_siret = fields.Char(
-        string='Partner SIRET', size=14, states={'done': [('readonly', True)]})
+        string='SIRET', size=14, states={'done': [('readonly', True)]})
     company_id = fields.Many2one(
         related='parent_id.company_id', store=True, readonly=True)
     currency_id = fields.Many2one(
