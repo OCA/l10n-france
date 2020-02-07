@@ -215,7 +215,8 @@ class L10nFrDas2(models.Model):
             ('company_id', '=', company.id)])
         das2_accounts = aao.search([
             ('company_id', '=', company.id),
-            '|', '|', '|', '|',
+            '|', '|', '|', '|', '|',
+            ('code', '=like', '6221%'),
             ('code', '=like', '6222%'),
             ('code', '=like', '6226%'),
             ('code', '=like', '6228%'),
