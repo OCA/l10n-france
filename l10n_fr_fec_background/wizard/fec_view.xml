@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_fr_fec_view_inherit" model="ir.ui.view">
+        <field name="name">account.fr.fec.form.view.inherit</field>
+        <field name="model">account.fr.fec</field>
+        <field name="priority">100</field>
+        <field name="inherit_id" ref="l10n_fr_fec.account_fr_fec_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="replace">
+                <footer>
+                    <button string="CSV" name="export_fec_csv" type="object"
+                        class="oe_highlight"/>
+                    <button string="TXT" name="export_fec_txt" type="object"
+                        class="oe_highlight"/>
+                    <button string="CSV Background" name="export_fec_csv_background" type="object"
+                        class="oe_highlight"/>
+                    <button string="TXT Background" name="export_fec_txt_background" type="object"
+                        class="oe_highlight"/>
+                    <button string="Cancel" special="cancel" class="oe_link"/>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

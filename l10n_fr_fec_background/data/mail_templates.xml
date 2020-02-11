@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<odoo noupdate="1">
+
+        <record id="send_fec_file_mail_template" model="mail.template">
+            <field name="name">Send FEC file</field>
+            <field name="model_id" ref="l10n_fr_fec.model_account_fr_fec"/>
+            <field name="email_to">${object.env.user.partner_id.email|safe}</field>
+            <field name="partner_to">${object.env.user.partner_id.id}</field>
+            <field name="subject">Your requested FEC file</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html"><![CDATA[<p>Your requested FEC file</p>]]></field>
+        </record>
+
+</odoo>
