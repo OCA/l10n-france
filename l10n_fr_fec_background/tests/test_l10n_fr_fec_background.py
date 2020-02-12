@@ -14,7 +14,7 @@ class TestFrFECBackground(TransactionCase):
             [
                 ('func_string', 'like', str(self.fec_wizard)),
                 ('state', '=', 'pending'),
-             ]
+            ]
         )
         self.assertEquals(len(jobs), 2,
                           "Job for CSV Report is not created in background!")
@@ -25,7 +25,7 @@ class TestFrFECBackground(TransactionCase):
             [
                 ('func_string', 'like', str(self.fec_wizard)),
                 ('state', '=', 'pending'),
-             ]
+            ]
         )
         self.assertEquals(len(jobs), 2,
                           "Job for TXT Report is not created in background!")
