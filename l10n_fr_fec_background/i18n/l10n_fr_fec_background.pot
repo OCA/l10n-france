@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_fr_fec_background
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_fec_background
+#: model:mail.template,body_html:l10n_fr_fec_background.send_fec_file_mail_template
+msgid "<p>Your requested FEC file</p>"
+msgstr ""
+
+#. module: l10n_fr_fec_background
+#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_background.account_fr_fec_view_inherit
+msgid "CSV"
+msgstr ""
+
+#. module: l10n_fr_fec_background
+#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_background.account_fr_fec_view_inherit
+msgid "CSV Background"
+msgstr ""
+
+#. module: l10n_fr_fec_background
+#: model:ir.model,name:l10n_fr_fec_background.model_account_fr_fec
+msgid "Ficher Echange Informatise"
+msgstr ""
+
+#. module: l10n_fr_fec_background
+#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_background.account_fr_fec_view_inherit
+msgid "TXT"
+msgstr ""
+
+#. module: l10n_fr_fec_background
+#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_background.account_fr_fec_view_inherit
+msgid "TXT Background"
+msgstr ""
+
+#. module: l10n_fr_fec_background
+#: model:mail.template,subject:l10n_fr_fec_background.send_fec_file_mail_template
+msgid "Your requested FEC file"
+msgstr ""
+
