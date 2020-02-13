@@ -63,8 +63,8 @@ class L10nFrDas2(models.Model):
     partner_declare_threshold = fields.Integer(
         string='Partner Declaration Threshold', readonly=True)
     dads_type = fields.Selection([
-        ('5', u"La société verse des salaires"),
-        ('6', u"La société ne verse pas de salaires"),
+        ('4', u"La société verse des salaires"),
+        ('1', u"La société ne verse pas de salaires"),
         ], 'Type DADS', required=True,
         default=lambda self: self._default_dads_type())
     # option for draft moves ?
@@ -88,7 +88,7 @@ class L10nFrDas2(models.Model):
         if previous_decl:
             return previous_decl.dads_type
         else:
-            return '5'
+            return '4'
 
     @api.model
     def _default_payment_journals(self):
@@ -423,8 +423,8 @@ class L10nFrDas2(models.Model):
             else:
                 allow_letters = ' ' * 3
             flines.append(
-                cprefix + '210' + partner_siret + partner_name + firstname +
-                lastname + job + address + ''.join(amount_fields_list) +
+                cprefix + '210' + partner_siret + lastname + firstname +
+                partner_name + job + address + ''.join(amount_fields_list) +
                 bik_letters + allow_letters +
                 ' ' * 2 + '0' * 10 + ' ' * 245)
         rg = self.env['l10n.fr.das2.line'].read_group([('parent_id', '=', self.id)], AMOUNT_FIELDS, [])[0]
@@ -456,7 +456,7 @@ class L10nFrDas2(models.Model):
                     "One of the lines has a length of %d. "
                     "All lines should have a length of 672. Line: %s.")
                     % (len(fline), fline))
-        file_content = '\n'.join(flines)
+        file_content = '\r\n'.join(flines) + '\r\n'
         file_content_encoded = file_content.encode('latin1')
         filename = 'DAS2_%s_%s.txt' % (
             self.year, company.name.replace(' ', '_'))
