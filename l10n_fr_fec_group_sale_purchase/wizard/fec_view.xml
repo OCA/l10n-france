@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="account_fr_fec_view" model="ir.ui.view">
+        <field name="name">account.fr.fec.form.view</field>
+        <field name="model">account.fr.fec</field>
+        <field name="inherit_id" ref="l10n_fr_fec.account_fr_fec_view"/>
+        <field name="arch" type="xml">
+          <field name="date_to" position="after">
+            <field name="group_sale_purchase"/>
+          </field>
+        </field>
+    </record>
+
+  </data>
+</openerp>
