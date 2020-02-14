@@ -35,13 +35,13 @@
                 <group name="main">
                     <group name="main-left">
                         <field name="year" />
+                        <field name="dads_type"/>
                         <field name="payment_journal_ids" widget="many2many_tags" />
+                        <field name="contact_id"/>
                     </group>
                     <group name="main-right">
                         <field name="currency_id" invisible="1"/>
-                        <field name="dads_type"/>
                         <field name="partner_declare_threshold"/>
-                        <field name="contact_id"/>
                         <field name="attachment_id"/>
                         <field name="company_id" groups="base.group_multi_company" widget="selection" />
                     </group>
@@ -100,33 +100,39 @@
     <field name="arch" type="xml">
         <form string="DAS2 Line" >
             <group name="main">
-                <field name="partner_id" context="{'show_address': 1}" options="{'always_reload': 1}"/>
-                <field name="partner_siret"/>
-                <field name="fee_amount"/>
-                <field name="commission_amount"/>
-                <field name="brokerage_amount"/>
-                <field name="discount_amount"/>
-                <field name="attendance_fee_amount"/>
-                <field name="copyright_royalties_amount"/>
-                <field name="licence_royalties_amount"/>
-                <field name="other_income_amount"/>
-                <field name="allowance_amount"/>
-                <field name="allowance_fixed" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
-                <field name="allowance_real" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
-                <field name="allowance_employer" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
-                <field name="benefits_in_kind_amount"/>
-                <field name="benefits_in_kind_food" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
-                <field name="benefits_in_kind_accomodation" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
-                <field name="benefits_in_kind_car" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
-                <field name="benefits_in_kind_other" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
-                <field name="benefits_in_kind_nict" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
-                <field name="withholding_tax_amount"/>
-                <field name="total_amount"/>
-                <field name="currency_id" invisible="1"/>
-                <field name="to_declare"/>
-                <field name="job"/>
-                <field name="note"/>
-                <field name="state" invisible="1"/>
+                <group name="left">
+                    <field name="partner_id" context="{'show_address': 1}" options="{'always_reload': 1}"/>
+                    <field name="partner_siret"/>
+                    <field name="job"/>
+                    <field name="total_amount"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="to_declare"/>
+                    <field name="state" invisible="1"/>
+                </group>
+                <group name="right">
+                    <field name="fee_amount"/>
+                    <field name="commission_amount"/>
+                    <field name="brokerage_amount"/>
+                    <field name="discount_amount"/>
+                    <field name="attendance_fee_amount"/>
+                    <field name="copyright_royalties_amount"/>
+                    <field name="licence_royalties_amount"/>
+                    <field name="other_income_amount"/>
+                    <field name="allowance_amount"/>
+                    <field name="allowance_fixed" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
+                    <field name="allowance_real" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
+                    <field name="allowance_employer" attrs="{'invisible': [('allowance_amount', '=', 0)]}"/>
+                    <field name="benefits_in_kind_amount"/>
+                    <field name="benefits_in_kind_food" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                    <field name="benefits_in_kind_accomodation" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                    <field name="benefits_in_kind_car" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                    <field name="benefits_in_kind_other" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                    <field name="benefits_in_kind_nict" attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"/>
+                    <field name="withholding_tax_amount"/>
+                </group>
+                <group name="note" string="Notes" colspan="2">
+                    <field name="note" nolabel="1"/>
+                </group>
             </group>
         </form>
     </field>
