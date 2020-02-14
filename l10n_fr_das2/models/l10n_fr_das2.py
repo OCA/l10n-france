@@ -67,6 +67,7 @@ class L10nFrDas2(models.Model):
         ('4', u"La société verse des salaires"),
         ('1', u"La société ne verse pas de salaires"),
         ], 'DADS Type', required=True,
+        states={'done': [('readonly', True)]},
         track_visibility='onchange',
         default=lambda self: self._default_dads_type())
     # option for draft moves ?
@@ -496,7 +497,13 @@ class L10nFrDas2(models.Model):
                 "attachments and then re-generate it."))
 
         file_content = self._prepare_file()
-        file_content_encoded = file_content.encode('latin1')
+        try:
+            file_content_encoded = file_content.encode('latin1')
+        except UnicodeEncodeError:
+            raise UserError(_(
+                "A special character in the DAS2 file is not in the latin1 "
+                "table. Please locate this special character and replace "
+                "it by a standard character and try again."))
         filename = 'DAS2_%s_%s.txt' % (
             self.year, company.name.replace(' ', '_'))
         attach = self.env['ir.attachment'].create({
