@@ -1,6 +1,6 @@
 {
     'name': 'France - FEC Group Sale Purchase',
-    'version': '9.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Localization',
     'summary': "Fichier d'Échange Informatisé (FEC) for France",
     'author': "Druidoo",

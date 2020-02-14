@@ -272,7 +272,7 @@ class AccountFrFec(models.TransientModel):
 
     @api.multi
     def write_fec_lines(self):
-        sql_query = '''
+        sql_query = r'''
                 (SELECT
                     replace(aj.code, '|', '/') AS JournalCode,
                     replace(aj.name, '|', '/') AS JournalLib,
@@ -346,7 +346,7 @@ class AccountFrFec(models.TransientModel):
                     aml.id)
                 '''
 
-        sql_query2 = '''
+        sql_query2 = r'''
                 SELECT
                     replace(STRING_AGG(distinct aj.code, ';'), '|', '/') AS
                     JournalCode,
