@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2011 Numérigraphe SARL.
 # Copyright 2014-2018 Akretion France
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
