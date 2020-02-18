@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2013-2018 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
 # Copyright 2015-2018 Akretion France
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
