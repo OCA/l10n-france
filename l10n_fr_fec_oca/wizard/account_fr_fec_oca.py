@@ -53,17 +53,28 @@ class AccountFrFecOca(models.TransientModel):
         default=lambda self: self._default_partner_account_ids())
     fec_data = fields.Binary('FEC File', readonly=True)
     filename = fields.Char(string='Filename', size=256, readonly=True)
-    export_type = fields.Selection([
-        ('official', 'Official FEC report (posted entries only)'),
-        ('nonofficial',
-         'Non-official FEC report (posted and unposted entries)'),
-        ], string='Export Type', required=True, default='official')
+    target_move = fields.Selection([
+        ('posted', 'All Posted Entries'),
+        ('all', 'All Entries'),
+        ], string='Target Moves', required=True, default='posted')
+    include_initial_balance = fields.Boolean(
+        string='Include Initial Balance', default=True)
+    official = fields.Boolean(
+        string='Official FEC', default=True,
+        help="An official FEC corresponds to a FEC with initial balance "
+        "and with posted entries only.")
 
     @api.onchange('date_range_id')
     def date_range_change(self):
         if self.date_range_id:
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
+
+    @api.onchange('official')
+    def official_change(self):
+        if self.official:
+            self.target_move = 'posted'
+            self.include_initial_balance = True
 
     @api.model
     def _default_partner_account_type_ids(self):
@@ -126,7 +137,7 @@ class AccountFrFecOca(models.TransientModel):
             AND (aml.debit != 0 OR aml.credit != 0)
         '''
         # For official report: only use posted entries
-        if self.export_type == "official":
+        if self.target_move == "posted":
             sql_query += '''
             AND am.state = 'posted'
             '''
@@ -145,63 +156,8 @@ class AccountFrFecOca(models.TransientModel):
         listrow = list(row)
         return listrow
 
-    def _get_siren(self, company):
-        """
-        Dom-Tom are excluded from the EU's fiscal territory
-        Those regions do not have SIREN
-        sources:
-            https://www.service-public.fr/professionnels-entreprises/vosdroits/F23570
-            http://www.douane.gouv.fr/articles/a11024-tva-dans-les-dom
-        """
-        is_dom_tom = company.country_id.code in [
-            'GP', 'MQ', 'GF', 'RE', 'YT', 'NC',
-            'PF', 'TF', 'MF', 'BL', 'PM', 'WF']
-        if not is_dom_tom and not company.vat:
-            raise UserError(
-                _("Missing VAT number for company %s") % company.name)
-        vat = company.vat.upper().replace(' ', '')
-        if not is_dom_tom and vat[0:2] != 'FR':
-            raise UserError(
-                _("FEC is for French companies only !"))
-
-        siren = vat[4:13] if not is_dom_tom else ''
-        return siren
-
-    def generate_fec(self):
-        self.ensure_one()
-        # We choose to implement the flat file instead of the XML
-        # file for 2 reasons :
-        # 1) the XSD file impose to have the label on the account.move
-        # but Odoo has the label on the account.move.line, so that's a
-        # problem !
-        # 2) CSV files are easier to read/use for a regular accountant.
-        # So it will be easier for the accountant to check the file before
-        # sending it to the fiscal administration
+    def generate_initial_balance(self, rows_to_write):
         company = self.env.user.company_id
-
-        header = [
-            'JournalCode',    # 0
-            'JournalLib',     # 1
-            'EcritureNum',    # 2
-            'EcritureDate',   # 3
-            'CompteNum',      # 4
-            'CompteLib',      # 5
-            'CompAuxNum',     # 6  We use partner.id
-            'CompAuxLib',     # 7
-            'PieceRef',       # 8
-            'PieceDate',      # 9
-            'EcritureLib',    # 10
-            'Debit',          # 11
-            'Credit',         # 12
-            'EcritureLet',    # 13
-            'DateLet',        # 14
-            'ValidDate',      # 15
-            'Montantdevise',  # 16
-            'Idevise',        # 17
-            ]
-
-        rows_to_write = [header]
-        # INITIAL BALANCE
         unaffected_earnings_xml_ref = self.env.ref(
             'account.data_unaffected_earnings')
         # used to make sure that we add the unaffected earning initial balance
@@ -255,7 +211,7 @@ class AccountFrFecOca(models.TransientModel):
         '''
 
         # For official report: only use posted entries
-        if self.export_type == "official":
+        if self.target_move == "posted":
             sql_query += '''
             AND am.state = 'posted'
             '''
@@ -374,7 +330,7 @@ class AccountFrFecOca(models.TransientModel):
         '''
 
         # For official report: only use posted entries
-        if self.export_type == "official":
+        if self.target_move == "posted":
             sql_query += '''
             AND am.state = 'posted'
             '''
@@ -398,6 +354,75 @@ class AccountFrFecOca(models.TransientModel):
             account_id = listrow.pop()
             rows_to_write.append(listrow)
 
+    def _get_siren(self, company):
+        """
+        Dom-Tom are excluded from the EU's fiscal territory
+        Those regions do not have SIREN
+        sources:
+            https://www.service-public.fr/professionnels-entreprises/vosdroits/F23570
+            http://www.douane.gouv.fr/articles/a11024-tva-dans-les-dom
+        """
+        is_dom_tom = company.country_id.code in [
+            'GP', 'MQ', 'GF', 'RE', 'YT', 'NC',
+            'PF', 'TF', 'MF', 'BL', 'PM', 'WF']
+        if not is_dom_tom and not company.vat:
+            raise UserError(
+                _("Missing VAT number for company %s") % company.name)
+        vat = company.vat.upper().replace(' ', '')
+        if not is_dom_tom and vat[0:2] != 'FR':
+            raise UserError(
+                _("FEC is for French companies only !"))
+
+        siren = vat[4:13] if not is_dom_tom else ''
+        return siren
+
+    def generate_fec(self):
+        """Method called by the button of the wizard"""
+        self.ensure_one()
+        if self.official:
+            # additional security, in case onchange hasn't been played
+            self.write({
+                'target_move': 'posted',
+                'include_initial_balance': True,
+                })
+
+        # We choose to implement the flat file instead of the XML
+        # file for 2 reasons :
+        # 1) the XSD file impose to have the label on the account.move
+        # but Odoo has the label on the account.move.line, so that's a
+        # problem !
+        # 2) CSV files are easier to read/use for a regular accountant.
+        # So it will be easier for the accountant to check the file before
+        # sending it to the fiscal administration
+        company = self.env.user.company_id
+
+        header = [
+            'JournalCode',    # 0
+            'JournalLib',     # 1
+            'EcritureNum',    # 2
+            'EcritureDate',   # 3
+            'CompteNum',      # 4
+            'CompteLib',      # 5
+            'CompAuxNum',     # 6  We use partner.id
+            'CompAuxLib',     # 7
+            'PieceRef',       # 8
+            'PieceDate',      # 9
+            'EcritureLib',    # 10
+            'Debit',          # 11
+            'Credit',         # 12
+            'EcritureLet',    # 13
+            'DateLet',        # 14
+            'ValidDate',      # 15
+            'Montantdevise',  # 16
+            'Idevise',        # 17
+            ]
+
+        rows_to_write = [header]
+
+        if self.include_initial_balance:
+            self.generate_initial_balance(rows_to_write)
+
+        # START processing of regular lines
         sql_args = {
             'date_from': self.date_from,
             'date_to': self.date_to,
@@ -516,7 +541,7 @@ class AccountFrFecOca(models.TransientModel):
         '''
 
         # For official report: only use posted entries
-        if self.export_type == "official":
+        if self.target_move == "posted":
             sql_query += '''
             AND am.state = 'posted'
             '''
@@ -535,8 +560,8 @@ class AccountFrFecOca(models.TransientModel):
         fecvalue = self._csv_write_rows(rows_to_write)
         end_date = self.date_to.replace('-', '')
         suffix = ''
-        if self.export_type == "nonofficial":
-            suffix = '-NONOFFICIAL'
+        if not self.official:
+            suffix = '-NOT_OFFICIAL'
 
         siren = self._get_siren(company)
         self.write({

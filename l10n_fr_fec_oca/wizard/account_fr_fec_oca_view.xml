@@ -13,7 +13,9 @@
                         <field name="date_range_id"/>
                         <field name="date_from"/>
                         <field name="date_to"/>
-                        <field name="export_type"/>
+                        <field name="official"/>
+                        <field name="target_move" attrs="{'readonly': [('official', '=', True)]}" widget="radio"/>
+                        <field name="include_initial_balance" attrs="{'readonly': [('official', '=', True)]}"/>
                         <field name="encoding"/>
                         <field name="delimiter"/>
                         <field name="partner_option" widget="radio"/>
