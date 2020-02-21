@@ -26,6 +26,8 @@ addon | version | summary
 [l10n_fr_chorus_factur-x](l10n_fr_chorus_factur-x/) | 10.0.1.0.0 | Generate Chorus-compliant Factur-X invoices
 [l10n_fr_chorus_sale](l10n_fr_chorus_sale/) | 10.0.1.0.0 | Set public market on sale orders
 [l10n_fr_chorus_ubl](l10n_fr_chorus_ubl/) | 10.0.1.0.0 | Generate Chorus-compliant UBL e-invoices
+[l10n_fr_cog](l10n_fr_cog/) | 10.0.1.0.0 | Add Code Officiel Géographique (COG) on countries
+[l10n_fr_das2](l10n_fr_das2/) | 10.0.1.0.0 | DAS2 (France)
 [l10n_fr_department](l10n_fr_department/) | 10.0.1.1.0 | Populate Database with French Departments (Départements)
 [l10n_fr_department_delivery](l10n_fr_department_delivery/) | 10.0.0.1.0 | Use French Departments in delivery costs
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 10.0.1.0.0 | Populate Database with overseas French Departments (Départements d'outre-mer)
