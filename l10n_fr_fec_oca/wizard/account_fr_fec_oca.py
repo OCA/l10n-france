@@ -446,7 +446,7 @@ class AccountFrFecOca(models.TransientModel):
         else:
             aux_fields = sql_aux_num_base + 'AS CompAuxNum, '\
                 + sql_aux_lib_base + 'AS CompAuxLib,'
-        sql_args['aux_fields'] = aux_fields
+
         # LINES
         sql_query = '''
         SELECT
@@ -456,7 +456,7 @@ class AccountFrFecOca(models.TransientModel):
             TO_CHAR(am.date, 'YYYYMMDD') AS EcritureDate,
             aa.code AS CompteNum,
             replace(replace(aa.name, '|', '/'), '\t', '') AS CompteLib,
-            %(aux_fields)s
+        ''' + aux_fields + '''
             CASE
                 WHEN am.ref IS null OR am.ref = ''
                 THEN '-'
@@ -464,7 +464,7 @@ class AccountFrFecOca(models.TransientModel):
             END AS PieceRef,
             TO_CHAR(am.date, 'YYYYMMDD') AS PieceDate,
             CASE WHEN aml.name IS NULL OR aml.name = '' THEN '/'
-                WHEN aml.name SIMILAR TO '[\t|\\s|\n]*' THEN '/'
+                WHEN aml.name SIMILAR TO '[\t|\s|\n]*' THEN '/'
                 ELSE replace(replace(replace(replace(
                 aml.name, '|', '/'), '\t', ''), '\n', ''), '\r', '')
             END AS EcritureLib,
@@ -514,18 +514,20 @@ class AccountFrFecOca(models.TransientModel):
             AND am.date <= %(date_to)s
             AND am.company_id = %(company_id)s
             AND (aml.debit != 0 OR aml.credit != 0)
-            %(posted)s
+        '''
+
+        # For official report: only use posted entries
+        if self.export_type == "official":
+            sql_query += '''
+            AND am.state = 'posted'
+            '''
+
+        sql_query += '''
         ORDER BY
             am.date,
             am.name,
             aml.id
         '''
-
-        sql_args["posted"] = ""
-        # For official report: only use posted entries
-        if self.export_type == "official":
-            sql_args["posted"] = "AND am.state = 'posted'"
-
         self._cr.execute(sql_query, sql_args)
 
         for row in self._cr.fetchall():
