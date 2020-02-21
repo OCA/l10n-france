@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright 2013-2019 Akretion France (http://www.akretion.com)
 # Copyright 2016-2019 Odoo SA (https://www.odoo.com/fr_FR/)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
@@ -130,9 +131,8 @@ class AccountFrFecOca(models.TransientModel):
             AND am.state = 'posted'
             '''
         company = self.env.user.company_id
-        formatted_date_from = fields.Date.to_string(self.date_from).replace(
-            '-', '')
-        date_from = self.date_from
+        formatted_date_from = self.date_from.replace('-', '')
+        date_from = fields.Date.from_string(self.date_from)
         formatted_date_year = date_from.year
         self._cr.execute(sql_query, {
             'formatted_date_year': formatted_date_year,
@@ -153,9 +153,9 @@ class AccountFrFecOca(models.TransientModel):
             https://www.service-public.fr/professionnels-entreprises/vosdroits/F23570
             http://www.douane.gouv.fr/articles/a11024-tva-dans-les-dom
         """
-        dom_tom_group = self.env.ref('l10n_fr.dom-tom')
-        is_dom_tom = company.country_id.code in\
-            dom_tom_group.country_ids.mapped('code')
+        is_dom_tom = company.country_id.code in [
+            'GP', 'MQ', 'GF', 'RE', 'YT', 'NC',
+            'PF', 'TF', 'MF', 'BL', 'PM', 'WF']
         if not is_dom_tom and not company.vat:
             raise UserError(
                 _("Missing VAT number for company %s") % company.name)
@@ -265,9 +265,8 @@ class AccountFrFecOca(models.TransientModel):
         HAVING round(sum(aml.balance), %(currency_digits)s) != 0
         AND aat.type not in ('receivable', 'payable')
         '''
-        formatted_date_from = fields.Date.to_string(self.date_from).replace(
-            '-', '')
-        date_from = self.date_from
+        formatted_date_from = self.date_from.replace('-', '')
+        date_from = fields.Date.from_string(self.date_from)
         formatted_date_year = date_from.year
         currency_digits = 2
 
@@ -534,7 +533,7 @@ class AccountFrFecOca(models.TransientModel):
             rows_to_write.append(list(row))
 
         fecvalue = self._csv_write_rows(rows_to_write)
-        end_date = fields.Date.to_string(self.date_to).replace('-', '')
+        end_date = self.date_to.replace('-', '')
         suffix = ''
         if self.export_type == "nonofficial":
             suffix = '-NONOFFICIAL'
@@ -569,7 +568,7 @@ class AccountFrFecOca(models.TransientModel):
         """
         fecfile = io.BytesIO()
         encoding = self.encoding
-        delimiter = self.delimiter
+        delimiter = str(self.delimiter)
         if delimiter == 'tab':
             delimiter = '\t'
         writer = unicodecsv.writer(
