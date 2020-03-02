@@ -243,7 +243,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BL</field>
       <field name="description">Matières premières, approvisionnements</field>
-      <field name="expression">bale[31%,32%] -bale[391%,392%]</field>
+      <field name="expression">bale[31%,32%,391%,392%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True"/>
@@ -254,7 +254,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BN</field>
       <field name="description">En cours de production de biens</field>
-      <field name="expression">bale[33%] -bale[393%]</field>
+      <field name="expression">bale[33%,393%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True"/>
@@ -265,7 +265,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BP</field>
       <field name="description">En cours de production de services</field>
-      <field name="expression">bale[34%] -bale[394%]</field>
+      <field name="expression">bale[34%,394%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True"/>
@@ -287,7 +287,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BT</field>
       <field name="description">Marchandises</field>
-      <field name="expression">bale[36%,37%,38%] -bale[397%]</field>
+      <field name="expression">bale[36%,37%,38%,397%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True"/>
@@ -309,7 +309,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BX</field>
       <field name="description">Clients et comptes rattachés</field>
-      <field name="expression">bale[410%,411%,413%,416%,418%] -bale[491%]</field>
+      <field name="expression">bale[410%,411%,413%,416%,418%,491%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True"/>
