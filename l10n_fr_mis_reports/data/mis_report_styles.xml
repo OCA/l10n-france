@@ -34,5 +34,14 @@
     <field name="font_style">italic</field>
 </record>
 
+<record id="account_detail" model="mis.report.style">
+    <field name="name">l10n_fr account detail</field>
+    <field name="indent_level_inherit" eval="0"/>
+    <field name="indent_level">4</field>
+    <field name="font_style_inherit" eval="0"/>
+    <field name="font_style">italic</field>
+    <field name="font_size_inherit" eval="0"/>
+    <field name="font_size">small</field>
+</record>
 
 </odoo>
