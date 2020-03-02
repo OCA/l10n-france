@@ -20,6 +20,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">10</field>
     </record>
 
@@ -32,6 +34,8 @@
       <field name="expression">bale[201%,2801%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">20</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_cx">
@@ -41,6 +45,8 @@
       <field name="expression">bale[203%,2803%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">30</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_af">
@@ -50,6 +56,8 @@
       <field name="expression">bale[205%,2805%,2905%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">40</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ah">
@@ -59,6 +67,8 @@
       <field name="expression">bale[206%,207%,2807%,2906%,2907%]</field>  <!-- do we put 206 here ? -->
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">50</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_aj">
@@ -68,6 +78,8 @@
       <field name="expression">bale[208%,232%,2808%,2908%,2932%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">60</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_al">
@@ -77,6 +89,8 @@
       <field name="expression">bale[237%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">70</field>
     </record>
     <!-- IMMO CORPORELLES -->
@@ -87,6 +101,8 @@
       <field name="expression">bale[211%,212%,22%,2811%,2812%,2911%,282%,292%]</field> <!-- 22, 282 and 292 could also be in "Constructions" or "Installations techniques, matériel et outillage industriels", depending on the nature of the items -->
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">80</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ap">
@@ -96,6 +112,8 @@
       <field name="expression">bale[213%,214%,2813%,2814%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">90</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ar">
@@ -105,6 +123,8 @@
       <field name="expression">bale[215%,2815%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">100</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_at">
@@ -114,6 +134,8 @@
       <field name="expression">bale[218%,2818%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">110</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_av">
@@ -123,6 +145,8 @@
       <field name="expression">bale[231%,2931%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">120</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ax">
@@ -132,6 +156,8 @@
       <field name="expression">bale[238%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">130</field>
     </record>
     <!-- IMMO FINANCIERES -->
@@ -142,6 +168,8 @@
       <field name="expression">bale[262%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">140</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_cu">
@@ -151,6 +179,8 @@
       <field name="expression">bale[261%,266%,2961%,2966%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">150</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bb">
@@ -160,6 +190,8 @@
       <field name="expression">bale[267%,268%,2967%,2968%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">160</field>
     </record>
     <!-- quid du 269 ? -->
@@ -170,6 +202,8 @@
       <field name="expression">bale[271%,272%,273%,27682%,277%,2971%,2972%,2973%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">170</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bf">
@@ -179,6 +213,8 @@
       <field name="expression">bale[274%,27684%,2974%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">180</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bh">
@@ -188,6 +224,8 @@
       <field name="expression">bale[275%,2761%,27685%,27688%,2975%,2976%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">190</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bj">
@@ -208,6 +246,8 @@
       <field name="expression">bale[31%,32%] -bale[391%,392%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">210</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bn">
@@ -217,6 +257,8 @@
       <field name="expression">bale[33%] -bale[393%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">220</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bp">
@@ -226,6 +268,8 @@
       <field name="expression">bale[34%] -bale[394%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">230</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_br">
@@ -235,6 +279,8 @@
       <field name="expression">bale[35%] -bale[395%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">240</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bt">
@@ -244,6 +290,8 @@
       <field name="expression">bale[36%,37%,38%] -bale[397%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">250</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bv">
@@ -253,6 +301,8 @@
       <field name="expression">bale[4091%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">260</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bx">
@@ -262,6 +312,8 @@
       <field name="expression">bale[410%,411%,413%,416%,418%] -bale[491%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">270</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_bz">
@@ -271,6 +323,8 @@
       <field name="expression">bale[4096%,4097%,4098%,425%,4287%,4387%,441%,4452%,4456%,44581%,44582%,44583%,44586%,4487%,462%,465%,4687%] +max([bale[443%], 0]) +max([bale[444%], 0]) +max([bale[451%], 0]) +max([bale[455%], 0]) +max([bale[4561%], 0]) +max([bale[4563%], 0]) +max([bale[4564%], 0]) +max([bale[4566%], 0]) +max([bale[4567%], 0]) +max([bale[458%], 0]) +max([bale[467%], 0]) +max([bale[478%], 0]) -bale[495%,496%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">280</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_cb">
@@ -280,6 +334,8 @@
       <field name="expression">bale[4562%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">290</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_cd">
@@ -289,6 +345,8 @@
       <field name="expression">bale[501%,502%,503%,504%,505%,506%,507%,508%] -bale[59%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">300</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_cf">
@@ -298,6 +356,8 @@
       <field name="expression">bale[53%,54%,58%] +max([bale[511%], 0]) +max([bale[512%], 0]) +max([bale[514%], 0]) +max([bale[515%], 0]) +max([bale[516%], 0]) +max([bale[517%], 0]) +max([bale[5188%], 0]) +max([bale[52%], 0])</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">310</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ch">
@@ -307,6 +367,8 @@
       <field name="expression">bale[486%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">320</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_cj">
@@ -328,6 +390,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">340</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_cm">
@@ -338,6 +402,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">350</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_cn">
@@ -348,6 +414,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">360</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_co">
@@ -370,6 +438,8 @@
       <field name="expression">-bale[101%,102%,108%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">380</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_db">
@@ -379,6 +449,8 @@
       <field name="expression">-bale[104%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">390</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dc">
@@ -388,6 +460,8 @@
       <field name="expression">-bale[105%,107%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">400</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dd">
@@ -397,6 +471,8 @@
       <field name="expression">-bale[1061%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">410</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_de">
@@ -406,6 +482,8 @@
       <field name="expression">-bale[1063%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">420</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_df">
@@ -415,6 +493,8 @@
       <field name="expression">-bale[1062%,1064%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">430</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dg">
@@ -424,6 +504,8 @@
       <field name="expression">-bale[1068%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">440</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dh">
@@ -433,6 +515,8 @@
       <field name="expression">-bale[11%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">450</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_di">
@@ -442,6 +526,7 @@
       <field name="expression">-bale[12%] -bale[6%,7%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="False"/>
       <field name="sequence">460</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dj">
@@ -451,6 +536,8 @@
       <field name="expression">-bale[13%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">470</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dk">
@@ -460,6 +547,8 @@
       <field name="expression">-bale[14%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">480</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dl">
@@ -481,6 +570,8 @@
       <field name="expression">-bale[1671%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">500</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dn">
@@ -490,6 +581,8 @@
       <field name="expression">-bale[1674%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">510</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_do">
@@ -509,6 +602,8 @@
       <field name="expression">-bale[151%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">530</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dq">
@@ -518,6 +613,8 @@
       <field name="expression">-bale[153%,154%,155%,156%,157%,158%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">540</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dr">
@@ -537,6 +634,8 @@
       <field name="expression">-bale[161%,16881%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">560</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dt">
@@ -546,6 +645,8 @@
       <field name="expression">-bale[163%,16883%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">570</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_du">
@@ -555,6 +656,8 @@
       <field name="expression">-bale[164%,16884%,5181%,519%] +max([-bale[512%], 0]) +max([-bale[514%], 0]) +max([-bale[517%], 0]) +max([-bale[52%], 0])</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">580</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dv">
@@ -564,6 +667,8 @@
       <field name="expression">-bale[165%,166%,1675%,1681%,1685%,1687%,16885%,16886%,16887%,16888%,17%,426%,451%,455%,456%] +max([-bale[451%], 0]) +max([-bale[455%], 0]) +max([-bale[4561%], 0])</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">590</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dw">
@@ -573,6 +678,8 @@
       <field name="expression">-bale[4191%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">600</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dx">
@@ -582,6 +689,8 @@
       <field name="expression">-bale[400%,401%,403%,4081%,4088%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">610</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dy">
@@ -591,6 +700,8 @@
       <field name="expression">-bale[421%,422%,424%,427%,4282%,4284%,4286%,43%,442%,4455%,4457%,44584%,44587%,446%,447%,4482%,4486%,449%,457%] +max([-bale[443%], 0]) +max([-bale[444%], 0])</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">620</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_dz">
@@ -600,6 +711,8 @@
       <field name="expression">-bale[269%,279%,404%,405%,1685%,4084%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">630</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ea">
@@ -609,6 +722,8 @@
       <field name="expression">-bale[4196%,4197%,4198%,464%,4686%,509%,489%] +max([-bale[467%], 0]) +max([-bale[478%], 0])</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">640</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_eb">
@@ -618,6 +733,8 @@
       <field name="expression">-bale[487%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">650</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ec">
@@ -628,6 +745,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level2"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">660</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ed">
@@ -638,6 +757,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">670</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_ee">
