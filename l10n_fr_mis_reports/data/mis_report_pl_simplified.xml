@@ -18,6 +18,8 @@
       <field name="expression">-balp[707%,7097%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">2</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_simplified_214">
@@ -27,6 +29,8 @@
       <field name="expression">-balp[701%,702%,703%,7091%,7092%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">4</field>
     </record>
    <record model="mis.report.kpi" id="mis_report_pl_simplified_218">
@@ -36,6 +40,8 @@
       <field name="expression">-balp[704%,705%,706%,708%,7094%,7095%,7096%,7098%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">6</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_222">
@@ -45,6 +51,8 @@
       <field name="expression">-balp[71%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">20</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_224">
@@ -54,6 +62,8 @@
       <field name="expression">-balp[72%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">30</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_226">
@@ -63,6 +73,8 @@
       <field name="expression">-balp[74%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">40</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_230">
@@ -72,6 +84,8 @@
       <field name="expression">-balp[75%,781%,791%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">60</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_232">
@@ -92,6 +106,8 @@
       <field name="expression">balp[607%,608%,6097%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">80</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_236">
@@ -101,6 +117,8 @@
       <field name="expression">balp[6037%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">90</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_238">
@@ -110,6 +128,8 @@
       <field name="expression">balp[601%,602%,6091%,6092%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">100</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_240">
@@ -119,6 +139,8 @@
       <field name="expression">balp[6031%,6032%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">110</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_242">
@@ -128,6 +150,8 @@
       <field name="expression">balp[604%,605%,606%,6094%,6095%,6096%,61%,62%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">120</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_244">
@@ -137,6 +161,8 @@
       <field name="expression">balp[63%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">130</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_250">
@@ -146,6 +172,8 @@
       <field name="expression">balp[641%,644%,648%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">140</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_252">
@@ -155,6 +183,8 @@
       <field name="expression">balp[645%,646%,647%,649%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">150</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_254">
@@ -164,6 +194,8 @@
       <field name="expression">balp[6811%,6812%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">160</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_256">
@@ -173,6 +205,8 @@
       <field name="expression">balp[6815%,6816%,6817%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">170</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_262">
@@ -182,6 +216,8 @@
       <field name="expression">balp[651%,653%,654%,658%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">200</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_264">
@@ -214,6 +250,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">250</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_290">
@@ -224,6 +262,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">260</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_294">
@@ -234,6 +274,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">320</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_300">
@@ -244,6 +286,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">430</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_306">
@@ -254,6 +298,8 @@
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3"/>
+      <field name="auto_expand_accounts" eval="True"/>
+      <field name="auto_expand_accounts_style_id" ref="account_detail"/>
       <field name="sequence">440</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_310">
