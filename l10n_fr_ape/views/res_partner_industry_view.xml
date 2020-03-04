@@ -1,0 +1,36 @@
+<odoo>
+
+<record id="res_partner_industry_view_form" model="ir.ui.view">
+    <field name="model">res.partner.industry</field>
+    <field name="inherit_id" ref="base.res_partner_industry_view_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="after">
+            <field name="code"/>
+        </xpath>
+    </field>
+</record>
+
+    <record id="res_partner_industry_view_tree" model="ir.ui.view">
+        <field name="model">res.partner.industry</field>
+        <field name="inherit_id" ref="base.res_partner_industry_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_industry_view_search" model="ir.ui.view">
+       <field name="name">View Search</field>
+       <field name="model">res.partner.industry</field>
+        <field name="arch" type="xml">
+            <search string="Search Activitees">
+          <field name="name" string="Name" domain="[('', 'ilike', )]"/>
+          <field name="code" string="Code" domain="[('', 'ilike', )]"/>
+          <field name="full_name" string="Full Name" domain="[('', 'ilike', )]"/>
+        </search>
+       </field>
+    </record>
+
+
+</odoo>
