@@ -8,7 +8,7 @@
     'category': 'French Localization',
     'author': 'SAASLYS, '
               'Odoo Community Association (OCA)',
-    'website': 'http://www.saaslys.com/odoo/',
+    'website': 'https://github.com/OCA/l10n-france',
     'license': 'AGPL-3',
     'depends': ['base'],
     'data': [
