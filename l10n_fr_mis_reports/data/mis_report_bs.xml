@@ -320,7 +320,7 @@
       <field name="report_id" ref="mis_report_bs"/>
       <field name="name">BZ</field>
       <field name="description">Autres créances</field>
-      <field name="expression">bale[4096%,4097%,4098%,425%,4287%,4387%,441%,4452%,4456%,44581%,44582%,44583%,44586%,4487%,462%,465%,4687%,471%] +max([bale[443%], 0]) +max([bale[444%], 0]) +max([bale[451%], 0]) +max([bale[455%], 0]) +max([bale[4561%], 0]) +max([bale[4563%], 0]) +max([bale[4564%], 0]) +max([bale[4566%], 0]) +max([bale[4567%], 0]) +max([bale[458%], 0]) +max([bale[467%], 0]) +max([bale[478%], 0]) -bale[495%,496%]</field>
+      <field name="expression">bale[4096%,4097%,4098%,425%,4287%,4387%,441%,4452%,4456%,44581%,44582%,44583%,44586%,4487%,462%,465%,4687%,471%] +max([bale[443%], 0]) +max([bale[444%], 0]) +max([bale[451%], 0]) +max([bale[455%], 0]) +max([bale[4561%], 0]) +max([bale[4563%], 0]) +max([bale[4564%], 0]) +max([bale[4566%], 0]) +max([bale[4567%], 0]) +max([bale[458%], 0]) +max([bale[467%], 0]) +max([bale[478%], 0]) +bale[495%,496%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True"/>
