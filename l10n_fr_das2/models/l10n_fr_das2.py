@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2020 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -64,8 +63,8 @@ class L10nFrDas2(models.Model):
     partner_declare_threshold = fields.Integer(
         string='Partner Declaration Threshold', readonly=True)
     dads_type = fields.Selection([
-        ('4', u"La société verse des salaires"),
-        ('1', u"La société ne verse pas de salaires"),
+        ('4', "La société verse des salaires"),
+        ('1', "La société ne verse pas de salaires"),
         ], 'DADS Type', required=True,
         states={'done': [('readonly', True)]},
         track_visibility='onchange',
@@ -177,6 +176,7 @@ class L10nFrDas2(models.Model):
             vals = self._prepare_line(partner, base_domain)
             if vals:
                 lfdlo.create(vals)
+        self.message_post(body="DAS2 lines generated.")
         self.add_warning_in_chatter(das2_partners)
 
     def _prepare_line(self, partner, base_domain):
@@ -189,18 +189,12 @@ class L10nFrDas2(models.Model):
         amount = 0.0
         for mline in mlines:
             amount += mline.balance
-            if mline.full_reconcile_id:
-                rec = _(
-                    'reconciliation mark %s') % mline.full_reconcile_id.name
-            else:
-                rec = _('not reconciled')
             note.append(_(
                 "Payment dated %s in journal '%s': "
-                "%.2f € (%s, journal entry %s)") % (
+                "%.2f € (journal entry %s)") % (
                     mline.date,
                     mline.journal_id.display_name,
                     mline.balance,
-                    rec,
                     mline.move_id.name))
         res = False
         if note:
@@ -255,7 +249,7 @@ class L10nFrDas2(models.Model):
                 msg += '<li><a href=# data-oe-model=res.partner '\
                     'data-oe-id=%d>%s</a>' % (partner.id, partner.display_name)
             msg += '</ul>'
-            self.message_post(msg)
+            self.message_post(body=msg)
 
     @api.model
     def _prepare_field(
@@ -312,7 +306,7 @@ class L10nFrDas2(models.Model):
         if partner.country_id and partner.country_id.code not in FRANCE_CODES:
             if not partner.country_id.fr_cog:
                 raise UserError(_(
-                    u"Missing Code Officiel Géographique on country '%s'.")
+                    "Missing Code Officiel Géographique on country '%s'.")
                     % partner.country_id.display_name)
             cog = self._prepare_field(
                 'COG', partner, partner.country_id.fr_cog, 5, True,
@@ -439,7 +433,7 @@ class L10nFrDas2(models.Model):
             'Administrative contact email', contact, contact.email, 60)
         phone = contact.phone or contact.mobile
         phone = phone.replace(' ', '').replace('.', '').replace(
-            '-', '').replace(u'\u00A0', '')
+            '-', '').replace('\u00A0', '')
         if phone.startswith('+33'):
             phone = '0%s' % phone[3:]
         contact_phone = self._prepare_field(
@@ -514,6 +508,7 @@ class L10nFrDas2(models.Model):
             'datas_fname': filename,
             })
         self.attachment_id = attach.id
+        self.message_post(body="DAS2 file generated.")
         action = {
             'type': 'ir.actions.act_window',
             'name': _('DAS2 Export File'),
@@ -529,7 +524,8 @@ class L10nFrDas2(models.Model):
             pass
 
         # The code below works and triggers an immediate download, but
-        # the form view of DAS2 is frozen after that, we it's not usable in v10
+        # the form view of DAS2 is frozen after that, so it's not usable
+        # in v10/v12... maybe it's only designed to be used in a wizard
         # action = {
         #    'name': 'DAS2',
         #    'type': 'ir.actions.act_url',
@@ -570,57 +566,62 @@ class L10nFrDas2Line(models.Model):
         related='parent_id.company_id.currency_id', store=True, readonly=True,
         string='Company Currency')
     fee_amount = fields.Integer(
-        string=u'Honoraires et vacations',
+        string='Honoraires et vacations',
         states={'done': [('readonly', True)]})
     commission_amount = fields.Integer(
-        string=u'Commissions', states={'done': [('readonly', True)]})
+        string='Commissions', states={'done': [('readonly', True)]})
     brokerage_amount = fields.Integer(
-        string=u'Courtages', states={'done': [('readonly', True)]})
+        string='Courtages', states={'done': [('readonly', True)]})
     discount_amount = fields.Integer(
-        string=u'Ristournes', states={'done': [('readonly', True)]})
+        string='Ristournes', states={'done': [('readonly', True)]})
     attendance_fee_amount = fields.Integer(
-        string=u'Jetons de présence', states={'done': [('readonly', True)]})
+        string='Jetons de présence', states={'done': [('readonly', True)]})
     copyright_royalties_amount = fields.Integer(
-        string=u"Droits d'auteur", states={'done': [('readonly', True)]})
+        string="Droits d'auteur", states={'done': [('readonly', True)]})
     licence_royalties_amount = fields.Integer(
-        string=u"Droits d'inventeur", states={'done': [('readonly', True)]})
+        string="Droits d'inventeur", states={'done': [('readonly', True)]})
     other_income_amount = fields.Integer(
-        string=u'Autre rémunérations', states={'done': [('readonly', True)]})
+        string='Autre rémunérations', states={'done': [('readonly', True)]})
     allowance_amount = fields.Integer(
-        string=u'Indemnités et remboursements',
+        string='Indemnités et remboursements',
         states={'done': [('readonly', True)]})
     benefits_in_kind_amount = fields.Integer(
         string='Avantages en nature', states={'done': [('readonly', True)]})
     withholding_tax_amount = fields.Integer(
-        string=u'Retenue à la source', states={'done': [('readonly', True)]})
+        string='Retenue à la source', states={'done': [('readonly', True)]})
     total_amount = fields.Integer(
         compute='_compute_total_amount', string='Total Amount',
         store=True, readonly=True)
     to_declare = fields.Boolean(
         compute='_compute_total_amount', string='To Declare', readonly=True)
     allowance_fixed = fields.Boolean(
-        u'Allocation forfaitaire', states={'done': [('readonly', True)]})
+        'Allocation forfaitaire', states={'done': [('readonly', True)]})
     allowance_real = fields.Boolean(
-        u'Sur frais réels', states={'done': [('readonly', True)]})
+        'Sur frais réels', states={'done': [('readonly', True)]})
     allowance_employer = fields.Boolean(
-        u"Prise en charge directe par l'employeur",
+        "Prise en charge directe par l'employeur",
         states={'done': [('readonly', True)]})
     benefits_in_kind_food = fields.Boolean(
-        u'Nourriture', states={'done': [('readonly', True)]})
+        'Nourriture', states={'done': [('readonly', True)]})
     benefits_in_kind_accomodation = fields.Boolean(
-        u'Logement', states={'done': [('readonly', True)]})
+        'Logement', states={'done': [('readonly', True)]})
     benefits_in_kind_car = fields.Boolean(
-        u'Voiture', states={'done': [('readonly', True)]})
+        'Voiture', states={'done': [('readonly', True)]})
     benefits_in_kind_other = fields.Boolean(
-        u'Autres', states={'done': [('readonly', True)]})
+        'Autres', states={'done': [('readonly', True)]})
     benefits_in_kind_nict = fields.Boolean(
-        u'Outils issus des NTIC', states={'done': [('readonly', True)]})
+        'Outils issus des NTIC', states={'done': [('readonly', True)]})
     state = fields.Selection(
         related='parent_id.state', store=True, readonly=True)
     note = fields.Text()
-    job = fields.Char(string='Profession', size=30)
+    job = fields.Char(
+        string='Profession', size=30, states={'done': [('readonly', True)]})
 
     _sql_constraints = [
+        (
+            'partner_parent_unique',
+            'unique(partner_id, parent_id)',
+            'Same partner used on several lines!'),
         (
             'fee_amount_positive',
             'CHECK(fee_amount >= 0)',
@@ -702,5 +703,8 @@ class L10nFrDas2Line(models.Model):
 
     @api.onchange('partner_id')
     def partner_id_change(self):
-        if self.partner_id and self.partner_id.siren and self.partner_id.nic:
-            self.partner_siret = self.partner_id.siret
+        if self.partner_id:
+            if self.partner_id.siren and self.partner_id.nic:
+                self.partner_siret = self.partner_id.siret
+            if self.partner_id.fr_das2_job:
+                self.job = self.partner_id.fr_das2_job
