@@ -8,7 +8,7 @@
 <odoo>
 
 <record id="view_account_config_settings" model="ir.ui.view">
-    <field name="name">chorus.account.config.settings.form</field>
+    <field name="name">das2.account.config.settings.form</field>
     <field name="model">account.config.settings</field>
     <field name="inherit_id" ref="account.view_account_config_settings" />
     <field name="arch" type="xml">

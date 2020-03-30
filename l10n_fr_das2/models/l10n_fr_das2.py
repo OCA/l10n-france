@@ -177,6 +177,7 @@ class L10nFrDas2(models.Model):
             vals = self._prepare_line(partner, base_domain)
             if vals:
                 lfdlo.create(vals)
+        self.message_post(body="DAS2 lines generated.")
         self.add_warning_in_chatter(das2_partners)
 
     def _prepare_line(self, partner, base_domain):
@@ -189,18 +190,12 @@ class L10nFrDas2(models.Model):
         amount = 0.0
         for mline in mlines:
             amount += mline.balance
-            if mline.full_reconcile_id:
-                rec = _(
-                    'reconciliation mark %s') % mline.full_reconcile_id.name
-            else:
-                rec = _('not reconciled')
             note.append(_(
                 "Payment dated %s in journal '%s': "
-                "%.2f € (%s, journal entry %s)") % (
+                "%.2f € (journal entry %s)") % (
                     mline.date,
                     mline.journal_id.display_name,
                     mline.balance,
-                    rec,
                     mline.move_id.name))
         res = False
         if note:
@@ -255,7 +250,7 @@ class L10nFrDas2(models.Model):
                 msg += '<li><a href=# data-oe-model=res.partner '\
                     'data-oe-id=%d>%s</a>' % (partner.id, partner.display_name)
             msg += '</ul>'
-            self.message_post(msg)
+            self.message_post(body=msg)
 
     @api.model
     def _prepare_field(
@@ -514,6 +509,7 @@ class L10nFrDas2(models.Model):
             'datas_fname': filename,
             })
         self.attachment_id = attach.id
+        self.message_post(body="DAS2 file generated.")
         action = {
             'type': 'ir.actions.act_window',
             'name': _('DAS2 Export File'),
@@ -618,9 +614,14 @@ class L10nFrDas2Line(models.Model):
     state = fields.Selection(
         related='parent_id.state', store=True, readonly=True)
     note = fields.Text()
-    job = fields.Char(string='Profession', size=30)
+    job = fields.Char(
+        string='Profession', size=30, states={'done': [('readonly', True)]})
 
     _sql_constraints = [
+        (
+            'partner_parent_unique',
+            'unique(partner_id, parent_id)',
+            'Same partner used on several lines!'),
         (
             'fee_amount_positive',
             'CHECK(fee_amount >= 0)',
@@ -702,5 +703,8 @@ class L10nFrDas2Line(models.Model):
 
     @api.onchange('partner_id')
     def partner_id_change(self):
-        if self.partner_id and self.partner_id.siren and self.partner_id.nic:
-            self.partner_siret = self.partner_id.siret
+        if self.partner_id:
+            if self.partner_id.siren and self.partner_id.nic:
+                self.partner_siret = self.partner_id.siret
+            if self.partner_id.fr_das2_job:
+                self.job = self.partner_id.fr_das2_job
