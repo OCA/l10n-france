@@ -237,7 +237,7 @@ class L10nFrDas2(models.Model):
             ])
         rg_res = amlo.read_group([
             ('company_id', '=', company.id),
-            ('date', '>=', '%d-01-01' % self.year),
+            ('date', '>=', '%d-10-01' % (self.year - 1)),
             ('date', '<=', '%d-12-31' % self.year),
             ('journal_id', 'in', purchase_journals.ids),
             ('partner_id', '!=', False),
