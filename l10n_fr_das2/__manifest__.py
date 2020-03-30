@@ -25,6 +25,7 @@
         'views/partner.xml',
         'views/account_config_settings.xml',
     ],
+    'demo': ['demo/demo.xml'],
     'installable': True,
     'application': True,
 }
