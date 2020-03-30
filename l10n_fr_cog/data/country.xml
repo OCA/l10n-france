@@ -36,10 +36,6 @@
     <field name="fr_cog">99252</field>
 </record>
 
-<record id="base.an" model="res.country">
-    <field name="fr_cog">99431</field>
-</record>
-
 <record id="base.ao" model="res.country">
     <field name="fr_cog">99395</field>
 </record>
@@ -834,6 +830,10 @@
 
 <record id="base.tk" model="res.country">
     <field name="fr_cog">99502</field>
+</record>
+
+<record id="base.tl" model="res.country">
+    <field name="fr_cog">99262</field>
 </record>
 
 <record id="base.tm" model="res.country">
