@@ -176,7 +176,7 @@ class L10nFrDas2(models.Model):
             vals = self._prepare_line(partner, base_domain)
             if vals:
                 lfdlo.create(vals)
-        self.message_post(body="DAS2 lines generated.")
+        self.message_post(body=_("DAS2 lines generated."))
         self.add_warning_in_chatter(das2_partners)
 
     def _prepare_line(self, partner, base_domain):
@@ -508,7 +508,7 @@ class L10nFrDas2(models.Model):
             'datas_fname': filename,
             })
         self.attachment_id = attach.id
-        self.message_post(body="DAS2 file generated.")
+        self.message_post(body=_("DAS2 file generated."))
         action = {
             'type': 'ir.actions.act_window',
             'name': _('DAS2 Export File'),
