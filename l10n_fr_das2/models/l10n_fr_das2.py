@@ -7,7 +7,6 @@ from odoo.exceptions import UserError, ValidationError
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 from odoo.addons.l10n_fr_siret.models.partner import _check_luhn
-from unidecode import unidecode
 import base64
 import logging
 
