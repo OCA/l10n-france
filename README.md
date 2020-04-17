@@ -31,6 +31,7 @@ addon | version | summary
 [l10n_fr_department](l10n_fr_department/) | 10.0.1.1.0 | Populate Database with French Departments (Départements)
 [l10n_fr_department_delivery](l10n_fr_department_delivery/) | 10.0.0.1.0 | Use French Departments in delivery costs
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 10.0.1.0.0 | Populate Database with overseas French Departments (Départements d'outre-mer)
+[l10n_fr_fec_oca](l10n_fr_fec_oca/) | 10.0.1.0.0 | Fichier d'Échange Informatisé (FEC) for France
 [l10n_fr_hr_check_ssnid](l10n_fr_hr_check_ssnid/) | 10.0.1.0.0 | Check validity of Social Security Numbers in French companies
 [l10n_fr_intrastat_product](l10n_fr_intrastat_product/) | 10.0.1.0.0 | DEB (Déclaration d'Échange de Biens) for France
 [l10n_fr_intrastat_service](l10n_fr_intrastat_service/) | 10.0.1.0.0 | Module for Intrastat service reporting (DES) for France
