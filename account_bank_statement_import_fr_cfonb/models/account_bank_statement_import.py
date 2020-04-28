@@ -147,10 +147,19 @@ class AccountBankStatementImport(models.TransientModel):
             elif rec_type == '05':
                 assert vals_line, 'vals_line should have a value !'
                 complementary_info_type = line[45:48]
-                if complementary_info_type in ('   ', 'LIB'):
-                    name_append = ' ' + line[48:118].strip()
-                    vals_line['name'] += name_append
-                    vals_line['unique_import_id'] += name_append
+                complementary_info = line[48:118].strip()
+                # Strategy:
+                # We use ALL complementary_info_types in unique_import_id
+                # because it lowers the risk to get the error
+                # caused by 2 different lines with same amount/date/label,
+                # but we add the complementary_info in 'name' only
+                # when it's interesting for the user, in order to avoid
+                # too long labels with too much "pollution"
+                vals_line['unique_import_id'] += complementary_info
+                if (
+                        complementary_info_type in ('   ', 'LIB') and
+                        complementary_info):
+                    vals_line['name'] += ' ' + complementary_info
 
         st_name = self._get_cfonb_st_name(account_number,
                                           start_date_str, end_date_str)
