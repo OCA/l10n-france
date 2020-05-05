@@ -57,7 +57,7 @@ msgid ""
 "% endif\n"
 "\n"
 "<p>\n"
-"-- \n"
+"--\n"
 "Automatic e-mail sent by Odoo.\n"
 "<!-- TODO : print database name (we used object._cr.dbname in openerp 6.1, "
 "but it's not possible in OpenERP 7 because the executing of jinja2 is "
@@ -219,14 +219,14 @@ msgstr "99"
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_amount_accessory_cost_company_currency_sign
 #, fuzzy
-msgid "Amount accessory cost company currency sign"
+msgid "Amount Accessory Cost Company Currency Sign"
 msgstr "Amount Accessory Cost Company Currency Sign"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_amount_company_currency_sign
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_amount_company_currency_sign
 #, fuzzy
-msgid "Amount company currency sign"
+msgid "Amount Company Currency Sign"
 msgstr "Amount Company Currency Sign"
 
 #. module: l10n_fr_intrastat_product
@@ -249,8 +249,8 @@ msgid "Companies"
 msgstr "Sociétés"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_account_config_settings_fr_intrastat_accreditation
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_company_fr_intrastat_accreditation
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_config_settings_fr_intrastat_accreditation
 msgid "Company identifier for Intrastat file export. Size : 4 characters."
 msgstr ""
 "Numéro d'habilitation pour les fichiers de DEB délivré par l'administration "
@@ -260,6 +260,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_computation_line_ids
 msgid "Computation Lines"
 msgstr "Lignes de transaction"
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model,name:l10n_fr_intrastat_product.model_res_partner
+msgid "Contact"
+msgstr "Contact"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_create_uid
@@ -286,8 +291,8 @@ msgid "Customer Refund"
 msgstr "Avoir client"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_account_config_settings_fr_intrastat_accreditation
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_company_fr_intrastat_accreditation
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_config_settings_fr_intrastat_accreditation
 msgid "Customs accreditation identifier"
 msgstr "Numéro d'habilitation délivré par la douane"
 
@@ -298,6 +303,13 @@ msgstr "Numéro d'habilitation délivré par la douane"
 #: model:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_tree
 msgid "DEB"
 msgstr "DEB"
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.actions.server,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron_ir_actions_server
+#: model:ir.cron,cron_name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron
+#: model:ir.cron,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron
+msgid "DEB Reminder"
+msgstr "Rappel DEB"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction_fr_intrastat_product_type
@@ -314,14 +326,19 @@ msgid "Declaration Line"
 msgstr "Ligne de DEB"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_fr_department_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_fr_department_id
 #, fuzzy
 msgid "Departement"
 msgstr "Département"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:321
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_fr_department_id
+#, fuzzy
+msgid "Department"
+msgstr "Département"
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:328
 #, python-format
 msgid "Department is not set on line %d."
 msgstr "Département non renseigné sur la ligne %d."
@@ -357,6 +374,11 @@ msgid ""
 msgstr "Entrez le code 'nature de la transaction' de la DEB."
 
 #. module: l10n_fr_intrastat_product
+#: model:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_form
+msgid "Goto Prodou@ne"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_id
@@ -378,7 +400,7 @@ msgstr ""
 "représentant fiscal qui est utilisé pour la DEB."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/company.py:27
+#: code:addons/l10n_fr_intrastat_product/models/company.py:26
 #, python-format
 msgid "In France, Arrival DEB can only be Exempt or Extended."
 msgstr ""
@@ -451,7 +473,7 @@ msgstr "Libellé pour la DEB"
 #, fuzzy
 msgid ""
 "Label used in the XML file export of the French Intrastat Product "
-"Declaration for this unit of measure."
+"Declaration for this supplementary unit of measure."
 msgstr ""
 "Libellé utilisé dans le fichier d'export XML pour la DEB pour cette unité de "
 "mesure supplémentaire."
@@ -478,31 +500,31 @@ msgid "Last Updated on"
 msgstr "Dernière modification le"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:257
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:264
 #, python-format
 msgid "Missing Country of Origin/Destination on line %d."
 msgstr "Pays d'origine/destination manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:225
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:232
 #, python-format
 msgid "Missing H.S. code on line %d."
 msgstr "Code S.H. manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:232
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:239
 #, python-format
 msgid "Missing Label for DEB on Intrastat Unit of Measure '%s'."
 msgstr "Libellé pour la DEB manquant sur l'unité supplémentaire '%s'."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:288
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:295
 #, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr "Numéro de TVA non renseigné sur le partenaire '%s'."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:69
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:68
 #, python-format
 msgid ""
 "Missing country of origin on product %s. This product is present in invoice "
@@ -512,55 +534,55 @@ msgstr ""
 "la facture %s."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:111
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:110
 #, python-format
 msgid "Missing fiscal representative on partner '%s'"
 msgstr "Représentant fiscal non renseigné sur le partenaire '%s'"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:276
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:283
 #, python-format
 msgid "Missing fiscal value on line %d."
 msgstr "Valeur fiscale manquante sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:284
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:291
 #, python-format
 msgid "Missing partner on line %d."
 msgstr "Partenaire manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/stock.py:17
+#: code:addons/l10n_fr_intrastat_product/models/stock.py:16
 #, python-format
 msgid "Missing partner on warehouse %s"
 msgstr "Partenaire manquant sur l'entrepôt %s"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:263
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:270
 #, python-format
 msgid "Missing product country of origin on line %d."
 msgstr "Pays d'origine du produit manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:247
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:254
 #, python-format
 msgid "Missing quantity on line %d."
 msgstr "Quantité manquante sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:269
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:276
 #, python-format
 msgid "Missing weight on line %d."
 msgstr "Poids manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:315
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:322
 #, python-format
 msgid "Mode of transport is not set on line %d."
 msgstr "Mode de transport manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:205
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:212
 #, python-format
 msgid "No declaration lines. You probably forgot to generate them !"
 msgstr ""
@@ -582,7 +604,6 @@ msgid "Only fiscal data should be provided for this procedure code."
 msgstr "Seules les données fiscales doivent être fournies pour ce code régime."
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_fr_partner_id
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_fr_partner_id
 #, fuzzy
 msgid ""
@@ -593,7 +614,16 @@ msgstr ""
 "son représentant fiscal) pour les expéditions."
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model,name:l10n_fr_intrastat_product.model_res_partner
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_fr_partner_id
+#, fuzzy
+msgid ""
+"Origin partner for arrivals. Destination partner (or his fiscal "
+"representative) for dispatches."
+msgstr ""
+"Partenaire d'origine pour les introductions. Partenaire de destination (ou "
+"son représentant fiscal) pour les expéditions."
+
+#. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line_fr_partner_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line_fr_partner_id
 msgid "Partner"
@@ -605,7 +635,7 @@ msgid "Possible on"
 msgstr "Possible pour"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:144
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:151
 #, python-format
 msgid "Pro.dou@ne only accepts XML file upload for the original declaration."
 msgstr ""
@@ -622,19 +652,19 @@ msgid "Supplier Invoice"
 msgstr "Facture fournisseur"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:141
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:148
 #, python-format
 msgid "The SIRET is not set on company '%s'."
 msgstr "Le SIRET n'est pas renseigné sur la société '%s'."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:155
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:162
 #, python-format
 msgid "The customs accreditation identifier is not set for the company '%s'."
 msgstr "Le numéro d'habilitation n'est pas renseigné pour la société '%s'."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/partner.py:43
+#: code:addons/l10n_fr_intrastat_product/models/partner.py:42
 #, python-format
 msgid ""
 "The fiscal representative '%s' of partner '%s' must be based in an EU "
@@ -644,14 +674,14 @@ msgstr ""
 "de l'UE."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/partner.py:48
+#: code:addons/l10n_fr_intrastat_product/models/partner.py:47
 #, python-format
 msgid "The fiscal representative '%s' of partner '%s' must have a VAT number."
 msgstr ""
 "Le représentant fiscal '%s' du partenaire '%s' doit avoir un numéro de TVA."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/partner.py:38
+#: code:addons/l10n_fr_intrastat_product/models/partner.py:37
 #, python-format
 msgid "The fiscal representative '%s' of partner '%s' must have a country."
 msgstr "Le représentant fiscal '%s' du partenaire '%s' doit avoir un pays."
@@ -659,7 +689,7 @@ msgstr "Le représentant fiscal '%s' du partenaire '%s' doit avoir un pays."
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_total_amount
 #, fuzzy
-msgid "Total amount"
+msgid "Total Amount"
 msgstr "Montant total"
 
 #. module: l10n_fr_intrastat_product
@@ -668,7 +698,7 @@ msgid "Transaction code"
 msgstr "Nature de la transaction"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:309
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:316
 #, python-format
 msgid "Transaction code on line %d should have 2 digits."
 msgstr ""
@@ -690,13 +720,18 @@ msgid "Warehouse"
 msgstr "Entrepôt"
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:79
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:78
 #, python-format
 msgid "You must enter a value for the transaction code."
 msgstr "Vous devez entrer une valeur pour le code nature de la transaction."
 
 #. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:83
+#: model:ir.ui.view,arch_db:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_form
+msgid "You should first be connected on https://pro.douane.gouv.fr"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_transaction.py:82
 #, python-format
 msgid ""
 "You should not set a transaction code when the Code (i.e. Procedure Code) is "
@@ -704,12 +739,6 @@ msgid ""
 msgstr ""
 "Vous ne devez pas renseigner un code nature de la transaction pour les codes "
 "régime '25', '26' ou '31'."
-
-#. module: l10n_fr_intrastat_product
-#: model:ir.model,name:l10n_fr_intrastat_product.model_account_config_settings
-#, fuzzy
-msgid "account.config.settings"
-msgstr "res.config.settings"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_l10n_fr_intrastat_product_computation_line
@@ -721,8 +750,8 @@ msgstr "l10n.fr.intrastat.product.computation.line"
 msgid "l10n.fr.intrastat.product.declaration.line"
 msgstr "l10n.fr.intrastat.product.declaration.line"
 
-#~ msgid "Contact"
-#~ msgstr "Contact"
-
-#~ msgid "DEB Reminder"
-#~ msgstr "Rappel DEB"
+#. module: l10n_fr_intrastat_product
+#: model:ir.model,name:l10n_fr_intrastat_product.model_res_config_settings
+#, fuzzy
+msgid "res.config.settings"
+msgstr "res.config.settings"
