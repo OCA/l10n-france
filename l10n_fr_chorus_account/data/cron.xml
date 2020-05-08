@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2017-2018 Akretion (http://www.akretion.com/)
+  Copyright 2017-2020 Akretion France (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -9,7 +9,7 @@
 
 
 <record id="chorus_flow_cron" model="ir.cron">
-    <field name="name">Chorus Status Update</field>
+    <field name="name">Chorus Pro Invoice Status Update</field>
     <field name="active" eval="False"/>
     <field name="user_id" ref="base.user_root"/>
     <field name="interval_number">1</field>
@@ -21,7 +21,7 @@
 </record>
 
 <record id="chorus_partner_cron" model="ir.cron">
-    <field name="name">Chorus Partner Update</field>
+    <field name="name">Chorus Pro Partner Update</field>
     <field name="active" eval="False"/>
     <field name="user_id" ref="base.user_root"/>
     <field name="interval_number">1</field>
@@ -33,7 +33,7 @@
 </record>
 
 <record id="chorus_api_expiry_reminder_cron" model="ir.cron">
-    <field name="name">Chorus API Expiry Reminder Email</field>
+    <field name="name">Chorus Pro API Expiry Reminder Email</field>
     <field name="active" eval="False"/>
     <field name="user_id" ref="base.user_root"/>
     <field name="interval_number">1</field>
