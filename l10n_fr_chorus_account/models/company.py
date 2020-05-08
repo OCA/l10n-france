@@ -34,6 +34,14 @@ class ResCompany(models.Model):
     # start with either 'xml_' or 'pdf_'
     fr_chorus_invoice_format = fields.Selection(
         [], string='Chorus Invoice Format')
+    fr_chorus_check_commitment_number = fields.Boolean(
+        string='Check Commitment Numbers',
+        help="If enabled, Odoo will check the commitment number "
+        "('engagement juridique' in French) upon invoice validation. "
+        "It corresponds to the 'customer order reference' in "
+        "the administrative tongue. "
+        "It will also check it upon sale order validation if the module "
+        "l10n_fr_chorus_sale is installed.")
     fr_chorus_pwd_expiry_date = fields.Date(
         string='Chorus Technical User Password Expiry Date')
     fr_chorus_expiry_remind_user_ids = fields.Many2many(
@@ -172,7 +180,7 @@ class ResCompany(models.Model):
                 api_params['qualif'])
         else:
             logger.info(
-                'Using existing PISTE token (expire on %s GMT)',
+                'PISTE token expires on %s GMT (includes margin)',
                 expiry_date_gmt)
         return token
 
