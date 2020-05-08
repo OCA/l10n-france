@@ -16,13 +16,13 @@
             <button name="%(account_invoice_chorus_send_action)d" type="action" attrs="{'invisible': ['|', '|', ('chorus_flow_id', '!=', False), ('state', 'not in', ('open', 'paid')), ('transmit_method_code', '!=', 'fr-chorus')]}" string="Send to Chorus" class="btn-primary" groups="l10n_fr_chorus_account.group_chorus_api"/>
         </button>
         <notebook position="inside">
-            <page name="fr-chorus" string="Chorus" attrs="{'invisible': [('transmit_method_code', '!=', 'fr-chorus')]}" groups="l10n_fr_chorus_account.group_chorus_api">
+            <page name="fr-chorus" string="Chorus Pro" attrs="{'invisible': [('transmit_method_code', '!=', 'fr-chorus')]}" groups="l10n_fr_chorus_account.group_chorus_api">
                 <group name="chorus-main">
                     <field name="chorus_flow_id"/>
                     <field name="chorus_identifier"/>
                     <field name="chorus_status"/>
                     <field name="chorus_status_date"/>
-                    <button name="chorus_update_invoice_status" type="object" string="=> Update Chorus Invoice Status" attrs="{'invisible': [('chorus_identifier', 'in', (False, 0))]}" colspan="2" class="oe_link"/>
+                    <button name="chorus_update_invoice_status" type="object" string="Update Chorus Invoice Status" attrs="{'invisible': [('chorus_identifier', 'in', (False, 0))]}" colspan="2" class="btn-default"/>
                 </group>
             </page>
         </notebook>
