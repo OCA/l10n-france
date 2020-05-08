@@ -27,7 +27,7 @@
     <field name="inherit_id" ref="account_invoice_transmit_method.view_partner_property_form"/>
     <field name="arch" type="xml">
         <group name="accounting_entries" position="after">
-            <group name="fr-chorus" string="Chorus"
+            <group name="fr-chorus" string="Chorus Pro"
                     attrs="{'invisible': [('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}">
                 <button name="fr_chorus_identifier_and_required_button"
                     type="object" string="Update Info Required for Chorus"
