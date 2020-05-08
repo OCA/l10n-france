@@ -42,13 +42,28 @@ class SaleOrder(models.Model):
                     % (cpartner.display_name, order.name))
             if (
                     cpartner.fr_chorus_required in
-                    ('engagement', 'service_and_engagement') and
-                    not order.client_order_ref):
-                raise UserError(_(
-                    "The field 'Customer Reference' of order %s should "
-                    "contain the engagement number because customer '%s' is "
-                    "configured as Engagement required for Chorus.")
-                    % (order.name, cpartner.display_name))
+                    ('engagement', 'service_and_engagement')):
+                if order.client_order_ref:
+                    order.chorus_order_check_commitment_number()
+                else:
+                    raise UserError(_(
+                        "The field 'Customer Reference' of order %s should "
+                        "contain the engagement number because customer '%s' is "
+                        "configured as Engagement required for Chorus.")
+                        % (order.name, cpartner.display_name))
+            elif (
+                    invpartner.fr_chorus_service_id and
+                    invpartner.fr_chorus_service_id.engagement_required):
+                if order.client_order_ref:
+                    order.chorus_order_check_commitment_number()
+                else:
+                    raise UserError(_(
+                        "Partner '%s' is linked to Chorus service '%s' "
+                        "which is marked as 'Engagement required', so the "
+                        "field 'Customer Reference' of its orders must "
+                        "contain an engagement number.") % (
+                            invpartner.display_name,
+                            invpartner.fr_chorus_service_id.code))
             if (
                     cpartner.fr_chorus_required ==
                     'service_or_engagement' and
@@ -61,15 +76,10 @@ class SaleOrder(models.Model):
                     "'Customer Reference' of order %s and the invoice "
                     "address is not a contact (Chorus Service can only be "
                     "configured on contacts)") % (cpartner.display_name, order.name))
-            if (
-                    invpartner.fr_chorus_service_id and
-                    invpartner.fr_chorus_service_id.engagement_required and
-                    not order.client_order_ref):
-                raise UserError(_(
-                    "Partner '%s' is linked to Chorus service '%s' "
-                    "which is marked as 'Engagement required', so the "
-                    "field 'Customer Reference' of its orders must "
-                    "contain an engagement number.") % (
-                        invpartner.display_name,
-                        invpartner.fr_chorus_service_id.code))
         return super(SaleOrder, self).action_confirm()
+
+    def chorus_order_check_commitment_number(self, raise_if_not_found=True):
+        self.ensure_one()
+        return self.env['account.invoice'].chorus_check_commitment_number(
+            self.company_id, self.client_order_ref,
+            raise_if_not_found=raise_if_not_found)
