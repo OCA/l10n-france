@@ -59,13 +59,29 @@ class AccountInvoice(models.Model):
                     "be active.") % cpartner.display_name)
             if (
                     cpartner.fr_chorus_required in
-                    ('engagement', 'service_and_engagement') and
-                    not inv.name):
-                raise UserError(_(
-                    "Partner '%s' is configured as "
-                    "Engagement required for Chorus, so the "
-                    "field 'Reference/Description' of its invoices must "
-                    "contain an engagement number.") % cpartner.display_name)
+                    ('engagement', 'service_and_engagement')):
+                if inv.name:
+                    inv.chorus_invoice_check_commitment_number()
+                else:
+                    raise UserError(_(
+                        "Partner '%s' is configured as "
+                        "Engagement required for Chorus, so the "
+                        "field 'Reference/Description' of its invoices must "
+                        "contain an engagement number.") % cpartner.display_name)
+            elif (
+                    inv.partner_id.fr_chorus_service_id and
+                    inv.partner_id.fr_chorus_service_id.engagement_required):
+                if inv.name:
+                    inv.chorus_invoice_check_commitment_number()
+                else:
+                    raise UserError(_(
+                        "Partner '%s' is linked to Chorus service '%s' "
+                        "which is marked as 'Engagement required', so the "
+                        "field 'Reference/Description' of its invoices must "
+                        "contain an engagement number.") % (
+                            inv.partner_id.display_name,
+                            inv.partner_id.fr_chorus_service_id.code))
+
             if (
                     cpartner.fr_chorus_required ==
                     'service_or_engagement' and
@@ -79,17 +95,6 @@ class AccountInvoice(models.Model):
                     "invoice is not correctly configured as a service "
                     "(should be a contact with a Chorus service "
                     "and a name).") % cpartner.display_name)
-            if (
-                    inv.partner_id.fr_chorus_service_id and
-                    inv.partner_id.fr_chorus_service_id.engagement_required and
-                    not inv.name):
-                raise UserError(_(
-                    "Partner '%s' is linked to Chorus service '%s' "
-                    "which is marked as 'Engagement required', so the "
-                    "field 'Reference/Description' of its invoices must "
-                    "contain an engagement number.") % (
-                        inv.partner_id.display_name,
-                        inv.partner_id.fr_chorus_service_id.code))
             if not self.payment_mode_id:
                 raise UserError(_(
                     "Missing Payment Mode. This "
@@ -218,3 +223,65 @@ class AccountInvoice(models.Model):
                     'chorus_status_date': fields.Datetime.now(),
                     })
         logger.info('End of the update of chorus invoice status')
+
+    def chorus_invoice_check_commitment_number(self, raise_if_not_found=True):
+        self.ensure_one()
+        return self.chorus_check_commitment_number(
+            self.company_id, self.name, raise_if_not_found=raise_if_not_found)
+
+    # api.model because this method is called from invoice
+    # but also from sale.order
+    @api.model
+    def chorus_check_commitment_number(
+            self, company, order_ref, raise_if_not_found=True):
+        if not order_ref:
+            raise UserError(_("Missing commitment number."))
+        if not company.fr_chorus_check_commitment_number:
+            logger.info(
+                'Commitment number check not enabled on company %s',
+                company.display_name)
+            return
+        if not self.env.user.has_group(
+                'l10n_fr_chorus_account.group_chorus_api'):
+            return
+        if not company.partner_id.fr_chorus_identifier:
+            company.partner_id.sudo().fr_chorus_identifier_get()
+        company_identifier = company.partner_id.fr_chorus_identifier
+        order_ref = order_ref.strip()
+        if len(order_ref) > 10:
+            raise UserError(_(
+                "The engagement juridique '%s' is %d caracters long. "
+                "The maximum is 10. Please update the customer order "
+                "reference.") % (order_ref, len(order_ref)))
+        api_params = company.chorus_get_api_params()
+        return self.chorus_api_check_commitment_number(
+            api_params, company_identifier, order_ref,
+            raise_if_not_found=raise_if_not_found)
+
+    @api.model
+    def chorus_api_check_commitment_number(
+            self, api_params, company_identifier, order_ref,
+            session=None, raise_if_not_found=True):
+        assert order_ref
+        url_path = 'engagementsJuridiques/v1/rechercher'
+        payload = {
+            'structureReceptriceEngagementJuridique': str(company_identifier),
+            'numeroEngagementJuridique': order_ref,
+            'etatCourantEngagementJuridique': 'COMMANDE',
+            }
+        answer, session = self.env['res.company'].chorus_post(
+            api_params, url_path, payload, session=session)
+        if answer.get('listeEngagementJuridique'):
+            if len(answer['listeEngagementJuridique']) == 1:
+                return True
+            elif len(answer['listeEngagementJuridique']) > 1:
+                logger.warning('Several engagements juridiques... strange!')
+                return True
+        elif raise_if_not_found:
+            raise UserError(_(
+                "Commitment number '%s' not found in Chorus Pro. "
+                "Please check the customer order reference carefully.")
+                % order_ref)
+        logger.warning(
+            'Commitment number %s not found in Chorus Pro.', order_ref)
+        return False
