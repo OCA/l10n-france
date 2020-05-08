@@ -24,6 +24,8 @@ class AccountConfigSettings(models.TransientModel):
         related='company_id.fr_chorus_qualif', readonly=False)
     fr_chorus_invoice_format = fields.Selection(
         related='company_id.fr_chorus_invoice_format', readonly=False)
+    fr_chorus_check_commitment_number = fields.Boolean(
+        related='company_id.fr_chorus_check_commitment_number', readonly=False)
     fr_chorus_pwd_expiry_date = fields.Date(
         related='company_id.fr_chorus_pwd_expiry_date', readonly=False)
     fr_chorus_expiry_remind_user_ids = fields.Many2many(
