@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import chorus_api
 from . import chorus_flow
 from . import chorus_partner_service
 from . import partner
