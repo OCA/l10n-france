@@ -10,7 +10,7 @@
     <field name="model">account.invoice.chorus.send</field>
     <field name="arch"  type="xml">
         <form string="Send invoices to Chorus">
-            <p>This wizard will send electronic invoices to Chorus via the Chorus API.</p>
+            <p>This wizard will send electronic invoices to Chorus Pro via the Chorus API.</p>
             <group name="main">
                 <field name="invoice_ids" widget="many2many_tags"/>
                 <field name="invoice_count"/>
@@ -28,7 +28,7 @@
 <act_window id="account_invoice_chorus_send_action"
             multi="True"
             key2="client_action_multi"
-            name="Send to Chorus"
+            name="Send to Chorus Pro"
             res_model="account.invoice.chorus.send"
             src_model="account.invoice"
             view_mode="form"

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2018 Akretion (http://www.akretion.com)
+# Copyright 2018-2020 Akretion France (http://www.akretion.com)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -30,8 +30,7 @@ class ChorusFlow(models.Model):
     notes = fields.Text(string='Notes', readonly=True, copy=False)
     company_id = fields.Many2one(
         'res.company', string='Company', required=True, readonly=True,
-        default=lambda self: self.env['res.company']._company_default_get(
-            'chorus.flow'))
+        default=lambda self: self.env['res.company']._company_default_get())
     invoice_identifiers = fields.Boolean(
         compute='_compute_invoice_identifiers', readonly=True, store=True)
     invoice_ids = fields.One2many(
@@ -63,8 +62,8 @@ class ChorusFlow(models.Model):
             }
         # The webservice 'consulterCR' is broken for Factur-X (1/5/2018)
         # So I switch to 'consulterCRDetaille' which works fine for all formats
-        answer, session = self.env['chorus.api'].chorus_post(
-            api_params, 'transverses/consulterCRDetaille', payload,
+        answer, session = self.env['res.company'].chorus_post(
+            api_params, 'transverses/v1/consulterCRDetaille', payload,
             session=session)
         res = {}
         if answer:
@@ -118,11 +117,11 @@ class ChorusFlow(models.Model):
 
     def chorus_api_rechercher_fournisseur(self, api_params, session=None):
         self.ensure_one()
-        url_path = 'factures/rechercher/fournisseur'
+        url_path = 'factures/v1/rechercher/fournisseur'
         payload = {
             "numeroFluxDepot": self.name,
             }
-        answer, session = self.env['chorus.api'].chorus_post(
+        answer, session = self.env['res.company'].chorus_post(
             api_params, url_path, payload)
         invnum2chorus = {}
         # key = odoo invoice number, value = {} to write on odoo invoice
@@ -204,6 +203,6 @@ class ChorusFlow(models.Model):
             ('type', 'in', ('out_invoice', 'out_refund')),
             ('transmit_method_code', '=', 'fr-chorus'),
             ('chorus_identifier', '!=', False),
-            ('chorus_status', '!=', 'MANDATEE')])
+            ('chorus_status', 'not in', ('MANDATEE', 'MISE_EN_PAIEMENT'))])
         invoices_update_invoice_status.chorus_update_invoice_status()
         logger.info('End Chorus flow cron')
