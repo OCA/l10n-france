@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# Copyright 2018-2019 Akretion France ((http://www.akretion.com/)
+# Copyright 2018-2020 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import UserError, ValidationError
 import logging
 logger = logging.getLogger(__name__)
 
@@ -14,7 +14,6 @@ class ChorusPartnerService(models.Model):
     _name = 'chorus.partner.service'
     _description = 'Chorus Services attached to a partner'
     _order = 'partner_id, code'
-    _inherit = ['chorus.api']
 
     partner_id = fields.Many2one(
         'res.partner', string='Customer', ondelete='cascade',
@@ -48,10 +47,10 @@ class ChorusPartnerService(models.Model):
             res.append((partner.id, name))
         return res
 
-    _sql_constraints = [
-        ('partner_code_uniq',
-         'unique(partner_id, code)',
-         'This Chorus service code already exists for that partner!')]
+    _sql_constraints = [(
+        'partner_code_uniq',
+        'unique(partner_id, code)',
+        'This Chorus service code already exists for that partner!')]
 
     @api.model
     def name_search(
@@ -73,12 +72,12 @@ class ChorusPartnerService(models.Model):
 
     def api_consulter_service(self, api_params, session):
         assert self.chorus_identifier
-        url_path = 'structures/consulter/service'
+        url_path = 'structures/v1/consulter/service'
         payload = {
             'idStructure': self.partner_id.fr_chorus_identifier,
             'idService': self.chorus_identifier,
             }
-        answer, session = self.chorus_post(
+        answer, session = self.env['res.company'].chorus_post(
             api_params, url_path, payload, session=session)
         res = {}
         # from pprint import pprint
@@ -136,4 +135,5 @@ class ChorusPartnerService(models.Model):
             (res, session) = service.api_consulter_service(
                 api_params, session)
             if res:
-                service.engagement_required = res.get('engagement_required')
+                service.write(
+                    {'engagement_required': res.get('engagement_required')})

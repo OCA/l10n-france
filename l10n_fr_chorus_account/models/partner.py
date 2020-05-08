@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2017-2018 Akretion France
+# Copyright 2017-2020 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -11,8 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
-    _name = 'res.partner'
-    _inherit = ['res.partner', 'chorus.api']
+    _inherit = 'res.partner'
 
     # On commercial partner only
     fr_chorus_required = fields.Selection([
@@ -20,8 +19,8 @@ class ResPartner(models.Model):
         ('service', 'Service'),
         ('engagement', 'Engagement'),
         # better to use a bad English translation of the French word!
-        ('service_or_engagement', u'Service or Engagement'),
-        ('service_and_engagement', u'Service and Engagement'),
+        ('service_or_engagement', 'Service or Engagement'),
+        ('service_and_engagement', 'Service and Engagement'),
         ], string='Info Required for Chorus', track_visibility='onchange')
     fr_chorus_identifier = fields.Integer('Chorus Identifier', readonly=True)
     fr_chorus_service_count = fields.Integer(
@@ -70,14 +69,14 @@ class ResPartner(models.Model):
                         partner.fr_chorus_service_id.partner_id.display_name))
 
     def fr_chorus_api_structures_rechercher(self, api_params, session=None):
-        url_path = 'structures/rechercher'
+        url_path = 'structures/v1/rechercher'
         payload = {
             'structure': {
                 'identifiantStructure': self.siret,
                 'typeIdentifiantStructure': 'SIRET',
                 },
             }
-        answer, session = self.chorus_post(
+        answer, session = self.env['res.company'].chorus_post(
             api_params, url_path, payload, session=session)
         res = False
         # from pprint import pprint
@@ -138,17 +137,23 @@ class ResPartner(models.Model):
             (res, session) = partner.fr_chorus_api_structures_rechercher(
                 api_params, session)
             if res:
-                partner.fr_chorus_identifier = res
+                partner.write({'fr_chorus_identifier': res})
             else:
-                raise UserError(_(
-                    "No entity found in Chorus corresponding to SIRET %s. "
-                    "The detailed error is written in Odoo server logs.")
-                    % partner.siret)
+                if raise_if_ko:
+                    raise UserError(_(
+                        "No entity found in Chorus corresponding to SIRET %s. "
+                        "The detailed error is written in Odoo server logs.")
+                        % partner.siret)
+                else:
+                    logger.warning(
+                        'Skipping partner %s: No entity found in Chorus '
+                        'corresponding to SIRET %s.',
+                        partner.display_name, partner.siret)
 
     def fr_chorus_api_structures_consulter(self, api_params, session):
-        url_path = 'structures/consulter'
+        url_path = 'structures/v1/consulter'
         payload = {'idStructureCPP': self.fr_chorus_identifier}
-        answer, session = self.chorus_post(
+        answer, session = self.env['res.company'].chorus_post(
             api_params, url_path, payload, session=session)
         res = False
         # from pprint import pprint
@@ -199,16 +204,16 @@ class ResPartner(models.Model):
             (res, session) = partner.fr_chorus_api_structures_consulter(
                 api_params, session)
             if res:
-                partner.fr_chorus_required = res
+                partner.write({'fr_chorus_required': res})
 
     def fr_chorus_api_rechercher_services(self, api_params, session):
-        url_path = 'structures/rechercher/services'
+        url_path = 'structures/v1/rechercher/services'
         payload = {
             'idStructure': self.fr_chorus_identifier,
             'parametresRechercherServicesStructure':
                 {'nbResultatsParPage': 10000},
             }
-        answer, session = self.chorus_post(
+        answer, session = self.env['res.company'].chorus_post(
             api_params, url_path, payload, session=session)
         res = {}
         # from pprint import pprint
@@ -284,9 +289,8 @@ class ResPartner(models.Model):
         session = None
         cpso = self.env['chorus.partner.service']
         partner_existing_res = {}
-        existing_srvs = cpso.search_read(
-            ['|', ('active', '=', True), ('active', '=', False),
-             ('partner_id', 'in', partners.ids)],
+        existing_srvs = cpso.with_context(active_test=False).search_read(
+            [('partner_id', 'in', partners.ids)],
             ['partner_id', 'code', 'name', 'chorus_identifier', 'active'])
         for existing_srv in existing_srvs:
             partner_id = existing_srv['partner_id'][0]
@@ -362,16 +366,24 @@ class ResPartner(models.Model):
 
     @api.model
     def chorus_cron(self):
-        self = self.with_context(chorus_raise_if_ko=False)
         logger.info('Start Chorus partner cron')
         to_update_partners = self.search([
             ('parent_id', '=', False),
             ('customer_invoice_transmit_method_code', '=', 'fr-chorus'),
             ('siren', '!=', False),
             ('nic', '!=', False)])
-        to_update_partners.fr_chorus_identifier_get()
-        to_update_partners.fr_chorus_required_get()
-        to_update_partners.fr_chorus_services_get()
-        for to_update_partner in to_update_partners:
-            to_update_partner.fr_chorus_service_ids.service_update()
+        to_update_partners.with_context(
+            chorus_raise_if_ko=False).fr_chorus_identifier_and_required_button()
         logger.info('End Chorus partner cron')
+
+    def chorus_service_ok(self):
+        # Method used upon SO or invoice validation
+        self.ensure_one()
+        if (
+                self.parent_id and
+                self.name and
+                self.fr_chorus_service_id and
+                self.fr_chorus_service_id.active):
+            return True
+        else:
+            return False
