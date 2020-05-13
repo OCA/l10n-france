@@ -677,15 +677,15 @@ class L10nFrDas2Line(models.Model):
         'withholding_tax_amount')
     def _compute_total_amount(self):
         for line in self:
-            amount_total = 0
+            total_amount = 0
             for field_name in AMOUNT_FIELDS:
-                amount_total += line[field_name]
+                total_amount += line[field_name]
             to_declare = False
             if line.parent_id:
-                if amount_total >= line.parent_id.partner_declare_threshold:
+                if total_amount >= line.parent_id.partner_declare_threshold:
                     to_declare = True
             line.to_declare = to_declare
-            line.amount_total = amount_total
+            line.total_amount = total_amount
 
     @api.constrains('partner_siret')
     def check_siret(self):
