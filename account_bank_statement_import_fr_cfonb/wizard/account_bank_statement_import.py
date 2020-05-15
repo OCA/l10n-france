@@ -1,4 +1,4 @@
-# Copyright 2014-2019 Akretion (http://www.akretion.com)
+# Copyright 2014-2020 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -38,8 +38,7 @@ class AccountBankStatementImport(models.TransientModel):
         return amount_num
 
     def _check_journal_bank_account(self, journal, account_number):
-        res = super(AccountBankStatementImport, self).\
-            _check_journal_bank_account(journal, account_number)
+        res = super()._check_journal_bank_account(journal, account_number)
         if not res:
             # compare the bank account number only instead of the full IBAN
             jrnl_full_acc_number = journal.bank_account_id.sanitized_acc_number
@@ -56,8 +55,7 @@ class AccountBankStatementImport(models.TransientModel):
         """ Import a file in French CFONB format"""
         cfonb = self._check_cfonb(data_file)
         if not cfonb:
-            return super(AccountBankStatementImport, self)._parse_file(
-                data_file)
+            return super()._parse_file(data_file)
         transactions = []
         # The CFONB spec says you should only have digits, capital letters
         # and * - . /
