@@ -63,13 +63,13 @@ msgid ""
 msgstr ""
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:188
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:197
 #, python-format
 msgid "The file is empty."
 msgstr "Filen er tom."
 
 #. module: account_bank_statement_import_fr_cfonb
-#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:186
+#: code:addons/account_bank_statement_import_fr_cfonb/wizard/account_bank_statement_import.py:195
 #, python-format
 msgid "The file is not divisible in 120 char lines"
 msgstr ""
