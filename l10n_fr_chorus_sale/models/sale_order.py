@@ -64,18 +64,19 @@ class SaleOrder(models.Model):
                         "contain an engagement number.") % (
                             invpartner.display_name,
                             invpartner.fr_chorus_service_id.code))
-            if (
-                    cpartner.fr_chorus_required ==
-                    'service_or_engagement' and
-                    not order.client_order_ref and
-                    not invpartner.chorus_service_ok()):
-                raise UserError(_(
-                    "Partner '%s' is configured as "
-                    "Service or Engagement required for Chorus but "
-                    "there is no engagement number in the field "
-                    "'Customer Reference' of order %s and the invoice "
-                    "address is not a contact (Chorus Service can only be "
-                    "configured on contacts)") % (cpartner.display_name, order.name))
+            if cpartner.fr_chorus_required == 'service_or_engagement':
+                if not invpartner.chorus_service_ok():
+                    if not order.client_order_ref:
+                        raise UserError(_(
+                            "Partner '%s' is configured as "
+                            "Service or Engagement required for Chorus but "
+                            "there is no engagement number in the field "
+                            "'Customer Reference' of order %s and the invoice "
+                            "address is not a contact (Chorus Service can only be "
+                            "configured on contacts)")
+                            % (cpartner.display_name, order.name))
+                    else:
+                        order.chorus_order_check_commitment_number()
         return super(SaleOrder, self).action_confirm()
 
     def chorus_order_check_commitment_number(self, raise_if_not_found=True):
