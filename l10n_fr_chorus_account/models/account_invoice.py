@@ -245,7 +245,8 @@ class AccountInvoice(models.Model):
                 'l10n_fr_chorus_account.group_chorus_api'):
             return
         if not company.partner_id.fr_chorus_identifier:
-            company.partner_id.sudo().fr_chorus_identifier_get()
+            company.partner_id.sudo().with_context(
+                get_company_identifier=True).fr_chorus_identifier_get()
         company_identifier = company.partner_id.fr_chorus_identifier
         order_ref = order_ref.strip()
         if len(order_ref) > 10:

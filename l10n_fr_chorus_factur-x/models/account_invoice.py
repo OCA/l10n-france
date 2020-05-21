@@ -20,7 +20,7 @@ class AccountInvoice(models.Model):
     def _cii_trade_agreement_buyer_ref(self, partner):
         if partner.fr_chorus_service_id:
             return partner.fr_chorus_service_id.code
-        return super(AccountInvoice, self)._cii_trade_contact_department_name(
+        return super(AccountInvoice, self)._cii_trade_agreement_buyer_ref(
             partner)
 
     def chorus_get_invoice(self, chorus_invoice_format):
