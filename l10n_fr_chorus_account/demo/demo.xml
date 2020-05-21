@@ -155,7 +155,7 @@
     <field name="code">BCODE0042</field>
     <field name="name">Lecteurs code barre 2D</field>
     <field name="partner_id" ref="aphp"/>
-    <field name="agreement_type">sale</field>
+    <field name="domain">sale</field>
     <field name="signature_date">2017-08-22</field>
 </record>
 
@@ -163,7 +163,7 @@
     <field name="code">TEL0012</field>
     <field name="name">IPBX site de Necker</field>
     <field name="partner_id" ref="aphp"/>
-    <field name="agreement_type">sale</field>
+    <field name="domain">sale</field>
     <field name="signature_date">2017-07-21</field>
 </record>
 
@@ -171,7 +171,7 @@
     <field name="code">INFO007</field>
     <field name="name">Déploiement Odoo</field>
     <field name="partner_id" ref="national_education_ministry"/>
-    <field name="agreement_type">sale</field>
+    <field name="domain">sale</field>
     <field name="signature_date">2017-07-14</field>
 </record>
 
