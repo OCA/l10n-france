@@ -112,7 +112,9 @@ class ResPartner(models.Model):
                         'Skipping partner %s: missing SIRET',
                         partner.display_name)
                     continue
-            if partner.customer_invoice_transmit_method_code != 'fr-chorus':
+            if (
+                    partner.customer_invoice_transmit_method_code != 'fr-chorus' and
+                    not self.env.context.get('get_company_identifier')):
                 if raise_if_ko:
                     raise UserError(_(
                         "On partner %s, the invoice transmit method "

@@ -8,11 +8,15 @@ from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, timedelta
 import requests
-from requests_oauthlib import OAuth2Session
 import json
 import base64
 import logging
 logger = logging.getLogger(__name__)
+
+try:
+    from requests_oauthlib import OAuth2Session
+except ImportError:
+    logger.debug('Cannot import requests-oauthlib')
 
 API_URL = "https://api.aife.economie.gouv.fr"
 QUALIF_API_URL = "https://sandbox-api.aife.economie.gouv.fr"
