@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017-2020 Akretion France (http://www.akretion.com)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
@@ -7,6 +6,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import tarfile
 import time
+import base64
 from io import BytesIO
 import logging
 logger = logging.getLogger(__name__)
@@ -29,7 +29,6 @@ class AccountInvoice(models.Model):
     chorus_status_date = fields.Datetime(
         string='Last Chorus Invoice Status Date', readonly=True, copy=False)
 
-    @api.multi
     def action_move_create(self):
         '''Check validity of Chorus invoices'''
         for inv in self.filtered(
@@ -166,7 +165,7 @@ class AccountInvoice(models.Model):
             tarfileobj.seek(0)
             chorus_file_content = tarfileobj.read()
         payload = {
-            'fichierFlux': chorus_file_content.encode('base64'),
+            'fichierFlux': base64.b64encode(chorus_file_content).decode('ascii'),
             'nomFichier': filename,
             'syntaxeFlux': syntaxe_flux,
             'avecSignature': False,
@@ -245,7 +244,8 @@ class AccountInvoice(models.Model):
                 'l10n_fr_chorus_account.group_chorus_api'):
             return
         if not company.partner_id.fr_chorus_identifier:
-            company.partner_id.sudo().fr_chorus_identifier_get()
+            company.partner_id.sudo().with_context(
+                get_company_identifier=True).fr_chorus_identifier_get()
         company_identifier = company.partner_id.fr_chorus_identifier
         order_ref = order_ref.strip()
         if len(order_ref) > 10:
