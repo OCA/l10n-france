@@ -17,7 +17,7 @@
     <field name="email_to">${object.chorus_expiry_remind_user_list()}</field>
     <field name="subject">[${object.name}] Action needed to continue to use the Chorus Pro API</field>
     <field name="body_html"><![CDATA[
-<p>The Odoo server of company <em>${object.name}</em> is configured to access the Chorus Pro API. Accessing the Chorus Pro API requires a technical user login and password. The password of the technical user has an expiry date. The password of the technical user expires on ${format_date(object.fr_chorus_pwd_expiry_date)} (in <em>${ctx.get('pwd_days')})</em> days).</p>
+<p>The Odoo server of company <em>${object.name}</em> is configured to access the Chorus Pro API. Accessing the Chorus Pro API requires a technical user login and password. The password of the technical user has an expiry date. The password of the technical user expires on ${format_date(object.fr_chorus_pwd_expiry_date)} (in <em>${ctx.get('pwd_days')}</em> days).</p>
 
 <p>In order to continue to access the Chorus Pro API without problems, you should connect to Chorus Pro, generate a new password for the technical user and copy it in Odoo on the accounting configuration page.</p>
 
