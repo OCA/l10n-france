@@ -18,15 +18,7 @@
         <xpath expr="//field[@name='child_ids']/form//label[@for='street']" position="before">
             <field name="fr_chorus_service_id" attrs="{'invisible': ['|', ('type', 'not in', ('invoice', 'default')), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}" domain="[('partner_id', '=', parent.id)]" context="{'default_partner_id': parent.id}"/>
         </xpath>
-    </field>
-</record>
-
-<record id="view_partner_property_form" model="ir.ui.view">
-    <field name="name">chorus.account_tab.res.partner.form</field>
-    <field name="model">res.partner</field>
-    <field name="inherit_id" ref="account_invoice_transmit_method.view_partner_property_form"/>
-    <field name="arch" type="xml">
-        <group name="accounting_entries" position="after">
+        <xpath expr="//page[@name='sales_purchases']/group" position="inside">
             <group name="fr-chorus" string="Chorus Pro"
                     attrs="{'invisible': [('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}">
                 <button name="fr_chorus_identifier_and_required_button"
@@ -42,7 +34,7 @@
                     <field name="fr_chorus_service_count" string="Chorus Services" widget="statinfo"/>
                 </button>
             </group>
-        </group>
+        </xpath>
     </field>
 </record>
 
