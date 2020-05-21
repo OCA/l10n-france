@@ -11,7 +11,7 @@
 <record id="view_order_form" model="ir.ui.view">
     <field name="name">chorus.sale.order.form</field>
     <field name="model">sale.order</field>
-    <field name="inherit_id" ref="agreement_sale.view_order_form"/>
+    <field name="inherit_id" ref="agreement_sale.sale_order_agreement_form_view"/>
     <field name="arch" type="xml">
         <field name="agreement_id" position="after">
             <field name="invoice_transmit_method_id"/>

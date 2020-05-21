@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018-2020 Akretion France (http://www.akretion.com)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
@@ -47,7 +46,7 @@ class ChorusFlow(models.Model):
         for flow in self:
             name = flow.name
             if flow.status:
-                name = u'%s (%s)' % (name, flow.status)
+                name = '%s (%s)' % (name, flow.status)
             res.append((flow.id, name))
         return res
 
@@ -67,18 +66,18 @@ class ChorusFlow(models.Model):
             session=session)
         res = {}
         if answer:
-            notes = u''
+            notes = ''
             if (
                     answer.get('listeErreurDP') and
                     isinstance(answer['listeErreurDP'], list)):
                 i = 0
                 for error in answer['listeErreurDP']:
                     i += 1
-                    notes += u"Erreur %d :\n"\
-                        u"  Identifiant fournisseur : %s\n"\
-                        u"  Identifiant destinataire : %s\n"\
-                        u"  Ref facture : %s\n"\
-                        u"  Libellé erreur : %s\n" % (
+                    notes += "Erreur %d :\n"\
+                        "  Identifiant fournisseur : %s\n"\
+                        "  Identifiant destinataire : %s\n"\
+                        "  Ref facture : %s\n"\
+                        "  Libellé erreur : %s\n" % (
                             i,
                             error.get('identifiantFournisseur'),
                             error.get('identifiantDestinataire'),

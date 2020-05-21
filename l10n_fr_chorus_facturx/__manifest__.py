@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'L10n FR Chorus Sale',
-    'summary': "Set public market on sale orders",
+    'name': 'L10n FR Chorus Factur-X',
+    'summary': "Generate Chorus-compliant Factur-X invoices",
     'version': '12.0.1.0.0',
     'category': 'French Localization',
     'author': "Akretion,Odoo Community Association (OCA)",
@@ -12,11 +12,8 @@
     'website': 'https://github.com/OCA/l10n-france',
     'license': 'AGPL-3',
     'depends': [
-        'agreement_sale',
         'l10n_fr_chorus_account',
-        ],
-    'data': [
-        'views/sale_order.xml',
+        'l10n_fr_account_invoice_facturx',
         ],
     'installable': True,
     'auto_install': True,
