@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017-2020 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -112,7 +111,9 @@ class ResPartner(models.Model):
                         'Skipping partner %s: missing SIRET',
                         partner.display_name)
                     continue
-            if partner.customer_invoice_transmit_method_code != 'fr-chorus':
+            if (
+                    partner.customer_invoice_transmit_method_code != 'fr-chorus' and
+                    not self.env.context.get('get_company_identifier')):
                 if raise_if_ko:
                     raise UserError(_(
                         "On partner %s, the invoice transmit method "
@@ -323,7 +324,7 @@ class ResPartner(models.Model):
                 # I match on code instead of chorus_identifier
                 # because Services can be created manually at the beginning
                 # before we start using the API
-                for ccode, cdata in res.items():
+                for (ccode, cdata) in res.items():
                     if existing_res.get(ccode):
                         existing_p = existing_res[ccode]
                         if (

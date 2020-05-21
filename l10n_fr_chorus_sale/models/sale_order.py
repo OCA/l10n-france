@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017-2020 Akretion France (http://www.akretion.com)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models, _
+from odoo import fields, models, _
 from odoo.exceptions import UserError
 
 
@@ -17,7 +16,6 @@ class SaleOrder(models.Model):
         related='partner_invoice_id.customer_invoice_transmit_method_id.code',
         readonly=True)
 
-    @api.multi
     def action_confirm(self):
         '''Check validity of Chorus orders'''
         for order in self.filtered(
