@@ -82,19 +82,19 @@ class AccountInvoice(models.Model):
                             inv.partner_id.display_name,
                             inv.partner_id.fr_chorus_service_id.code))
 
-            if (
-                    cpartner.fr_chorus_required ==
-                    'service_or_engagement' and
-                    not inv.name and
-                    not inv.partner_id.chorus_service_ok()):
-                raise UserError(_(
-                    "Partner '%s' is configured as "
-                    "'Service or Engagement' required for Chorus but "
-                    "there is no engagement number in the field "
-                    "'Reference/Description' and the customer of the "
-                    "invoice is not correctly configured as a service "
-                    "(should be a contact with a Chorus service "
-                    "and a name).") % cpartner.display_name)
+            if cpartner.fr_chorus_required == 'service_or_engagement':
+                if not inv.partner_id.chorus_service_ok():
+                    if not inv.name:
+                        raise UserError(_(
+                            "Partner '%s' is configured as "
+                            "'Service or Engagement' required for Chorus but "
+                            "there is no engagement number in the field "
+                            "'Reference/Description' and the customer of the "
+                            "invoice is not correctly configured as a service "
+                            "(should be a contact with a Chorus service "
+                            "and a name).") % cpartner.display_name)
+                    else:
+                        inv.chorus_invoice_check_commitment_number()
             if not self.payment_mode_id:
                 raise UserError(_(
                     "Missing Payment Mode. This "
