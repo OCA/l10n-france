@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018-2020 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -43,7 +42,7 @@ class ChorusPartnerService(models.Model):
     def name_get(self):
         res = []
         for partner in self:
-            name = u'[%s] %s' % (partner.code, partner.name or '-')
+            name = '[%s] %s' % (partner.code, partner.name or '-')
             res.append((partner.id, name))
         return res
 
