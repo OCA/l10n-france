@@ -10,55 +10,55 @@
 
 <record id="res_country_department_ain" model="res.country.department">
     <field name="name">Ain</field>
-    <field name="code">1</field>
+    <field name="code">01</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_auvergne"/>
 </record>
 
 <record id="res_country_department_aisne" model="res.country.department">
     <field name="name">Aisne</field>
-    <field name="code">2</field>
+    <field name="code">02</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_nordpasdecalais"/>
 </record>
 
 <record id="res_country_department_allier" model="res.country.department">
     <field name="name">Allier</field>
-    <field name="code">3</field>
+    <field name="code">03</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_auvergne"/>
 </record>
 
 <record id="res_country_department_alpesdehauteprovence" model="res.country.department">
     <field name="name">Alpes-de-Haute-Provence</field>
-    <field name="code">4</field>
+    <field name="code">04</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_provencealpescotedazur"/>
 </record>
 
 <record id="res_country_department_hautesalpes" model="res.country.department">
     <field name="name">Hautes-Alpes</field>
-    <field name="code">5</field>
+    <field name="code">05</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_provencealpescotedazur"/>
 </record>
 
 <record id="res_country_department_alpesmaritimes" model="res.country.department">
     <field name="name">Alpes-Maritimes</field>
-    <field name="code">6</field>
+    <field name="code">06</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_provencealpescotedazur"/>
 </record>
 
 <record id="res_country_department_ardeche" model="res.country.department">
     <field name="name">Ardèche</field>
-    <field name="code">7</field>
+    <field name="code">07</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_auvergne"/>
 </record>
 
 <record id="res_country_department_ardennes" model="res.country.department">
     <field name="name">Ardennes</field>
-    <field name="code">8</field>
+    <field name="code">08</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_alsace"/>
 </record>
 
 <record id="res_country_department_ariege" model="res.country.department">
     <field name="name">Ariège</field>
-    <field name="code">9</field>
+    <field name="code">09</field>
     <field name="state_id" ref="l10n_fr_state.res_country_state_languedocroussillon"/>
 </record>
 
