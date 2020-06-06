@@ -167,7 +167,9 @@ class AccountBankStatementImport(models.TransientModel):
                     "date": date_str,
                     "name": name,
                     "ref": ref,
-                    "unique_import_id": "{}-{}-{:.2f}-{}".format(date_str, ref, amount, name),
+                    "unique_import_id": "{}-{}-{:.2f}-{}".format(
+                        date_str, ref, amount, name
+                    ),
                     "amount": amount,
                 }
                 seq += 1
