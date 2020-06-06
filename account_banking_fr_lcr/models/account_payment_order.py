@@ -1,4 +1,4 @@
-# Copyright 2014-2019 Akretion France (http://www.akretion.com/)
+# Copyright 2014-2020 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -188,14 +188,13 @@ class AccountPaymentOrder(models.Model):
         assert len(cfonb_line) == 160, 'LCR CFONB line must have 160 chars'
         return cfonb_line
 
-    @api.multi
     def generate_payment_file(self):
         '''Creates the LCR CFONB file.'''
         self.ensure_one()
         if (
                 self.payment_method_id.code !=
                 'fr_lcr'):
-            return super(AccountPaymentOrder, self).generate_payment_file()
+            return super().generate_payment_file()
 
         cfonb_string = self._prepare_first_cfonb_line()
         total_amount = 0.0
