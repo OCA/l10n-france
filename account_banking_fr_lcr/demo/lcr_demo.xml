@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
-
-<record id="payment_mode_lcr" model="account.payment.mode">
-    <field name="name">LCR</field>
-    <field name="company_id" ref="base.main_company"/>
-    <field name="bank_account_link">variable</field>
-    <field name="payment_method_id" ref="fr_lcr"/>
-    <field name="default_journal_ids" search="[('type', '=', 'sale')]"/>
-</record>
-
-
+    <record id="payment_mode_lcr" model="account.payment.mode">
+        <field name="name">LCR</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <field name="payment_method_id" ref="fr_lcr" />
+        <field name="default_journal_ids" search="[('type', '=', 'sale')]" />
+    </record>
 </odoo>

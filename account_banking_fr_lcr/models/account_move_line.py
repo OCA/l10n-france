@@ -6,17 +6,16 @@ from odoo import models
 
 
 class AccountMoveLine(models.Model):
-    _inherit = 'account.move.line'
+    _inherit = "account.move.line"
 
     def _prepare_payment_line_vals(self, payment_order):
-        vals = super()._prepare_payment_line_vals(
-            payment_order)
-        if payment_order.payment_mode_id.payment_method_id.code == 'fr_lcr':
+        vals = super()._prepare_payment_line_vals(payment_order)
+        if payment_order.payment_mode_id.payment_method_id.code == "fr_lcr":
             # Take the first IBAN account of the partner
-            bank_account = self.env['res.partner.bank'].search([
-                ('partner_id', '=', self.partner_id.id),
-                ('acc_type', '=', 'iban'),
-                ], limit=1)
+            bank_account = self.env["res.partner.bank"].search(
+                [("partner_id", "=", self.partner_id.id), ("acc_type", "=", "iban"),],
+                limit=1,
+            )
             if bank_account:
-                vals['partner_bank_id'] = bank_account.id
+                vals["partner_bank_id"] = bank_account.id
         return vals
