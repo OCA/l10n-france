@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
-
-<record id="fr_lcr" model="account.payment.method">
-    <field name="name">Lettre de Change Relevé</field>
-    <field name="code">fr_lcr</field>
-    <field name="payment_type">inbound</field>
-    <field name="bank_account_required" eval="True"/>
-    <field name="payment_order_only" eval="True"/>
-</record>
-
-
+    <record id="fr_lcr" model="account.payment.method">
+        <field name="name">Lettre de Change Relevé</field>
+        <field name="code">fr_lcr</field>
+        <field name="payment_type">inbound</field>
+        <field name="bank_account_required" eval="True" />
+        <field name="payment_order_only" eval="True" />
+    </record>
 </odoo>
