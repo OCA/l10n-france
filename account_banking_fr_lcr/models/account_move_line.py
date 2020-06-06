@@ -1,16 +1,15 @@
-# Copyright 2016-2019 Akretion France (http://www.akretion.com/)
+# Copyright 2016-2020 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, models
+from odoo import models
 
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    @api.multi
     def _prepare_payment_line_vals(self, payment_order):
-        vals = super(AccountMoveLine, self)._prepare_payment_line_vals(
+        vals = super()._prepare_payment_line_vals(
             payment_order)
         if payment_order.payment_mode_id.payment_method_id.code == 'fr_lcr':
             # Take the first IBAN account of the partner
