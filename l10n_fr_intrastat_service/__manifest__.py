@@ -3,21 +3,21 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'France Intrastat Service (DES)',
-    'version': '13.0.1.0.0',
-    'category': 'Localisation/Report Intrastat',
-    'license': 'AGPL-3',
-    'summary': 'Module for Intrastat service reporting (DES) for France',
-    'author': 'Akretion,Odoo Community Association (OCA)',
-    'maintainers': ['alexis-via'],
-    'website': 'https://github.com/OCA/l10n-france',
-    'depends': ['intrastat_base'],
-    'data': [
-        'security/ir.model.access.csv',
-        'views/intrastat_service_view.xml',
-        'data/intrastat_service_reminder.xml',
-        'security/intrastat_service_security.xml',
+    "name": "France Intrastat Service (DES)",
+    "version": "13.0.1.0.0",
+    "category": "Localisation/Report Intrastat",
+    "license": "AGPL-3",
+    "summary": "Module for Intrastat service reporting (DES) for France",
+    "author": "Akretion,Odoo Community Association (OCA)",
+    "maintainers": ["alexis-via"],
+    "website": "https://github.com/OCA/l10n-france",
+    "depends": ["intrastat_base"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/intrastat_service_view.xml",
+        "data/intrastat_service_reminder.xml",
+        "security/intrastat_service_security.xml",
     ],
-    'installable': True,
-    'application': True,
+    "installable": True,
+    "application": True,
 }
