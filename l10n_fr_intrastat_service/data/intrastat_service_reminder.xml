@@ -44,7 +44,7 @@
 <p>You should solve this error, then go to the menu <em>Invoicing > Reporting > Intrastat > DES</em>, open the declaration of month ${object.year_month} and click on the button <em>Re-generate lines</em>.</p>
 
 % else:
-% if object.num_lines and object.num_decl_lines > 0:
+% if object.num_decl_lines > 0:
 <p>This draft DES contains ${object.num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'} and the total amount is ${object.total_amount} ${object.currency_id.symbol}.</p>
 % else:
 <p>This draft DES generated automatically by Odoo doesn't contain any line.</p>
