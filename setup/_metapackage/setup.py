@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo13-addon-account_bank_statement_import_fr_cfonb',
+        'odoo13-addon-account_banking_fr_lcr',
         'odoo13-addon-l10n_fr_account_tax_unece',
     ],
     classifiers=[
