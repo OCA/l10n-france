@@ -11,6 +11,10 @@ setuptools.setup(
         'odoo13-addon-account_bank_statement_import_fr_cfonb',
         'odoo13-addon-account_banking_fr_lcr',
         'odoo13-addon-l10n_fr_account_tax_unece',
+        'odoo13-addon-l10n_fr_department',
+        'odoo13-addon-l10n_fr_department_oversea',
+        'odoo13-addon-l10n_fr_siret',
+        'odoo13-addon-l10n_fr_state',
     ],
     classifiers=[
         'Programming Language :: Python',
