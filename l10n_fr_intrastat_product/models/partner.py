@@ -18,14 +18,6 @@ class ResPartner(models.Model):
         "In this scenario, the VAT number of the fiscal representative "
         "will be used for the Intrastat Product report (DEB).")
 
-    # Copy field 'intrastat_fiscal_representative' from company partners
-    # to their contacts
-    @api.model
-    def _commercial_fields(self):
-        res = super(ResPartner, self)._commercial_fields()
-        res.append('intrastat_fiscal_representative_id')
-        return res
-
     @api.constrains('intrastat_fiscal_representative_id')
     def _check_fiscal_representative(self):
         """The Fiscal rep. must be based in the same country as our
