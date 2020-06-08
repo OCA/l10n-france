@@ -11,7 +11,7 @@
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
-    "depends": ["intrastat_base"],
+    "depends": ["intrastat_base", "report_xlsx_helper"],
     "data": [
         "security/ir.model.access.csv",
         "views/intrastat_service_view.xml",
