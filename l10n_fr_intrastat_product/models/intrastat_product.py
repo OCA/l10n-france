@@ -40,6 +40,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
     _inherit = [
         'intrastat.product.declaration',
         'mail.thread',
+        'mail.activity.mixin',
         'report.intrastat_product.product_declaration_xls']
 
     computation_line_ids = fields.One2many(
@@ -52,8 +53,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         states={'done': [('readonly', True)]})
 
     def _prepare_invoice_domain(self):
-        domain = super(L10nFrIntrastatProductDeclaration, self).\
-            _prepare_invoice_domain()
+        domain = super()._prepare_invoice_domain()
         if self.type == 'arrivals':
             domain.append(('type', '=', 'in_invoice'))
         elif self.type == 'dispatches':
@@ -72,14 +72,14 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 "Missing country of origin on product %s. "
                 "This product is present in invoice %s.") % (
                     inv_line.product_id.display_name,
-                    inv_line.invoice_id.number)
+                    inv_line.move_id.name)
             self._note += note
         return inv_line.product_id.origin_country_id
 
     @api.model
     def _get_fr_department(self, inv_line):
         dpt = False
-        inv_type = inv_line.invoice_id.type
+        inv_type = inv_line.move_id.type
         if inv_type in ('in_invoice', 'in_refund'):
             po_lines = self.env['purchase.order.line'].search(
                 [('invoice_lines', 'in', inv_line.id)])
@@ -102,19 +102,18 @@ class L10nFrIntrastatProductDeclaration(models.Model):
 
     @api.model
     def _update_computation_line_vals(self, inv_line, line_vals):
-        super(L10nFrIntrastatProductDeclaration, self).\
-            _update_computation_line_vals(
+        super()._update_computation_line_vals(
                 inv_line, line_vals)
-        inv = inv_line.invoice_id
+        inv = inv_line.move_id
         if not inv.partner_id.country_id.intrastat:
-            if not inv.partner_id.intrastat_fiscal_representative_id:
+            if not inv.commercial_partner_id.intrastat_fiscal_representative_id:
                 note = "\n" + _(
                     "Missing fiscal representative on partner '%s'"
-                    % inv.partner_id.display_name)
+                    % inv.commercial_partner_id.display_name)
                 self._note += note
             else:
                 line_vals['fr_partner_id'] =\
-                    inv.partner_id.intrastat_fiscal_representative_id.id
+                    inv.commercial_partner_id.intrastat_fiscal_representative_id.id
         else:
             line_vals['fr_partner_id'] = inv.partner_id.id
         dpt = self._get_fr_department(inv_line)
@@ -122,15 +121,13 @@ class L10nFrIntrastatProductDeclaration(models.Model):
 
     @api.model
     def _group_line_hashcode_fields(self, computation_line):
-        res = super(L10nFrIntrastatProductDeclaration, self)\
-            ._group_line_hashcode_fields(computation_line)
+        res = super()._group_line_hashcode_fields(computation_line)
         res['partner_id'] = computation_line.fr_partner_id.id or False
         return res
 
     @api.model
     def _prepare_grouped_fields(self, computation_line, fields_to_sum):
-        vals = super(L10nFrIntrastatProductDeclaration, self).\
-            _prepare_grouped_fields(computation_line, fields_to_sum)
+        vals = super()._prepare_grouped_fields(computation_line, fields_to_sum)
         vals['fr_partner_id'] = computation_line.fr_partner_id.id
         vals['fr_department_id'] = computation_line.fr_department_id.id
         return vals
@@ -141,7 +138,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
 
     @api.model
     def _xls_template(self):
-        res = super(L10nFrIntrastatProductDeclaration, self)._xls_template()
+        res = super()._xls_template()
         res.update({
             'fr_department': {
                 'header': {
@@ -179,15 +176,13 @@ class L10nFrIntrastatProductDeclaration(models.Model):
 
     @api.model
     def _xls_computation_line_fields(self):
-        field_list = super(L10nFrIntrastatProductDeclaration, self).\
-            _xls_computation_line_fields()
+        field_list = super()._xls_computation_line_fields()
         field_list += ['fr_partner', 'fr_partner_vat', 'fr_department']
         return field_list
 
     @api.model
     def _xls_declaration_line_fields(self):
-        field_list = super(L10nFrIntrastatProductDeclaration, self).\
-            _xls_declaration_line_fields()
+        field_list = super()._xls_declaration_line_fields()
         field_list += ['fr_partner', 'fr_partner_vat', 'fr_department']
         return field_list
 
@@ -456,18 +451,10 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                         'l10n_fr_intrastat_product_reminder_email_template')
         return True
 
-    def goto_prodouane_site(self):
-        return {
-            'name': "Prodou@ne",
-            'type': 'ir.actions.act_url',
-            'url': 'https://pro.douane.gouv.fr/debweb/html/aide/'
-                   'importerFichiers.htm',
-            'target': 'new',
-        }
-
 
 class L10nFrIntrastatProductComputationLine(models.Model):
     _name = 'l10n.fr.intrastat.product.computation.line'
+    _description = "DEB computation lines"
     _inherit = 'intrastat.product.computation.line'
 
     parent_id = fields.Many2one(
@@ -505,6 +492,7 @@ class L10nFrIntrastatProductComputationLine(models.Model):
 
 class L10nFrIntrastatProductDeclarationLine(models.Model):
     _name = 'l10n.fr.intrastat.product.declaration.line'
+    _description = "DEB declaration lines"
     _inherit = 'intrastat.product.declaration.line'
 
     parent_id = fields.Many2one(

@@ -14,7 +14,7 @@
     <field name="inherit_id" ref="account.view_partner_property_form"/>
     <field name="arch" type="xml">
         <field name="property_account_position_id" position="after">
-            <field name="intrastat_fiscal_representative_id"/>
+            <field name="intrastat_fiscal_representative_id" attrs="{'invisible': [('parent_id', '!=', False)]}"/>
         </field>
     </field>
 </record>
