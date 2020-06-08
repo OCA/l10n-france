@@ -16,10 +16,6 @@
         <form position="attributes">
             <attribute name="string">DEB</attribute>
         </form>
-        <header position="inside">
-            <button name="goto_prodouane_site" string="Goto Prodou@ne" type="object"
-                    help="You should first be connected on https://pro.douane.gouv.fr"/>
-        </header>
      </field>
 </record>
 
