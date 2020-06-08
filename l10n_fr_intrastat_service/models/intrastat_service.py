@@ -18,7 +18,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     _name = "l10n.fr.intrastat.service.declaration"
     _order = "year_month desc"
     _rec_name = "year_month"
-    _inherit = ["mail.thread", "intrastat.common"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "intrastat.common"]
     _description = "DES"
 
     company_id = fields.Many2one(
@@ -364,6 +364,16 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     "intrastat_service_reminder_email_template"
                 )
         return True
+
+    def create_xlsx(self):
+        action = {
+            "type": "ir.actions.report",
+            "report_type": "xlsx",
+            "report_name": "l10n.fr.intrastat.service.declaration.xlsx",
+            "context": dict(self.env.context),
+            "data": {"dynamic_report": True},
+        }
+        return action
 
 
 class L10nFrIntrastatServiceDeclarationLine(models.Model):
