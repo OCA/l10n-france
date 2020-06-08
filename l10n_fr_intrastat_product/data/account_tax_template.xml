@@ -1,167 +1,135 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2018 Akretion France
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
-
-
-<!-- 20.0 -->
-<record id="l10n_fr.tva_normale" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 20.0-TTC -->
-<record id="l10n_fr.tva_normale_ttc" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- TVA à l'encaissement 20% -->
-<record id="l10n_fr.tva_normale_encaissement" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- TVA à l'encaissement 20% TTC -->
-<record id="l10n_fr.tva_normale_encaissement_ttc" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 10.0 -->
-<record id="l10n_fr.tva_intermediaire" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 10.0-TTC -->
-<record id="l10n_fr.tva_intermediaire_ttc" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 8.5 -->
-<record id="l10n_fr.tva_specifique" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 8.5-TTC -->
-<record id="l10n_fr.tva_specifique_ttc" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 5.5 -->
-<record id="l10n_fr.tva_reduite" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 5.5-TTC -->
-<record id="l10n_fr.tva_reduite_ttc" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 5.5 encaissement -->
-<record id="l10n_fr.tva_reduite_encaissement" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 5.5 encaissement TTC -->
-<record id="l10n_fr.tva_reduite_encaissement_ttc" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 2.1 -->
-<record id="l10n_fr.tva_super_reduite" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 2.1-TTC -->
-<record id="l10n_fr.tva_super_reduite_ttc" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 2.1 encaissement -->
-<record id="l10n_fr.tva_super_reduite_encaissement" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- 2.1 encaissement TTC -->
-<record id="l10n_fr.tva_super_reduite_encaissement_ttc" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-20.0 -->
-<record id="l10n_fr.tva_acq_normale" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-20.0-TTC -->
-<record id="l10n_fr.tva_acq_normale_TTC" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-10.0 -->
-<record id="l10n_fr.tva_acq_intermediaire" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-10.0-TTC -->
-<record id="l10n_fr.tva_acq_intermediaire_TTC" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-8.5 -->
-<record id="l10n_fr.tva_acq_specifique" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-8.5-TTC -->
-<record id="l10n_fr.tva_acq_specifique_TTC" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-5.5 -->
-<record id="l10n_fr.tva_acq_reduite" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-5.5-TTC -->
-<record id="l10n_fr.tva_acq_reduite_TTC" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-2.1 -->
-<record id="l10n_fr.tva_acq_super_reduite" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- ACH-2.1-TTC -->
-<record id="l10n_fr.tva_acq_super_reduite_TTC" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- IMMO-20.0 -->
-<record id="l10n_fr.tva_imm_normale" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- IMMO-10.0 -->
-<record id="l10n_fr.tva_imm_intermediaire" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- IMMO-8.5 -->
-<record id="l10n_fr.tva_imm_specifique" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- IMMO-5.5 -->
-<record id="l10n_fr.tva_imm_reduite" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-<!-- IMMO-2.1 -->
-<record id="l10n_fr.tva_imm_super_reduite" model="account.tax.template">
-    <field name="exclude_from_intrastat_if_present" eval="True"/>
-</record>
-
-
+    <!-- 20.0 -->
+    <record id="l10n_fr.tva_normale" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 20.0-TTC -->
+    <record id="l10n_fr.tva_normale_ttc" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- TVA à l'encaissement 20% -->
+    <record id="l10n_fr.tva_normale_encaissement" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- TVA à l'encaissement 20% TTC -->
+    <record id="l10n_fr.tva_normale_encaissement_ttc" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 10.0 -->
+    <record id="l10n_fr.tva_intermediaire" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 10.0-TTC -->
+    <record id="l10n_fr.tva_intermediaire_ttc" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 8.5 -->
+    <record id="l10n_fr.tva_specifique" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 8.5-TTC -->
+    <record id="l10n_fr.tva_specifique_ttc" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 5.5 -->
+    <record id="l10n_fr.tva_reduite" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 5.5-TTC -->
+    <record id="l10n_fr.tva_reduite_ttc" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 5.5 encaissement -->
+    <record id="l10n_fr.tva_reduite_encaissement" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 5.5 encaissement TTC -->
+    <record id="l10n_fr.tva_reduite_encaissement_ttc" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 2.1 -->
+    <record id="l10n_fr.tva_super_reduite" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 2.1-TTC -->
+    <record id="l10n_fr.tva_super_reduite_ttc" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 2.1 encaissement -->
+    <record id="l10n_fr.tva_super_reduite_encaissement" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- 2.1 encaissement TTC -->
+    <record
+        id="l10n_fr.tva_super_reduite_encaissement_ttc"
+        model="account.tax.template"
+    >
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-20.0 -->
+    <record id="l10n_fr.tva_acq_normale" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-20.0-TTC -->
+    <record id="l10n_fr.tva_acq_normale_TTC" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-10.0 -->
+    <record id="l10n_fr.tva_acq_intermediaire" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-10.0-TTC -->
+    <record id="l10n_fr.tva_acq_intermediaire_TTC" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-8.5 -->
+    <record id="l10n_fr.tva_acq_specifique" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-8.5-TTC -->
+    <record id="l10n_fr.tva_acq_specifique_TTC" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-5.5 -->
+    <record id="l10n_fr.tva_acq_reduite" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-5.5-TTC -->
+    <record id="l10n_fr.tva_acq_reduite_TTC" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-2.1 -->
+    <record id="l10n_fr.tva_acq_super_reduite" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- ACH-2.1-TTC -->
+    <record id="l10n_fr.tva_acq_super_reduite_TTC" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- IMMO-20.0 -->
+    <record id="l10n_fr.tva_imm_normale" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- IMMO-10.0 -->
+    <record id="l10n_fr.tva_imm_intermediaire" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- IMMO-8.5 -->
+    <record id="l10n_fr.tva_imm_specifique" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- IMMO-5.5 -->
+    <record id="l10n_fr.tva_imm_reduite" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
+    <!-- IMMO-2.1 -->
+    <record id="l10n_fr.tva_imm_super_reduite" model="account.tax.template">
+        <field name="exclude_from_intrastat_if_present" eval="True" />
+    </record>
 </odoo>
