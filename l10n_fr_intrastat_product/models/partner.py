@@ -2,7 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -10,15 +10,17 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     intrastat_fiscal_representative_id = fields.Many2one(
-        'res.partner', string="EU fiscal representative",
-        domain=[('parent_id', '=', False)],
+        "res.partner",
+        string="EU fiscal representative",
+        domain=[("parent_id", "=", False)],
         help="If this partner is located outside the EU but you "
         "deliver the goods inside the UE, the partner needs to "
         "have a fiscal representative with a VAT number inside the EU. "
         "In this scenario, the VAT number of the fiscal representative "
-        "will be used for the Intrastat Product report (DEB).")
+        "will be used for the Intrastat Product report (DEB).",
+    )
 
-    @api.constrains('intrastat_fiscal_representative_id')
+    @api.constrains("intrastat_fiscal_representative_id")
     def _check_fiscal_representative(self):
         """The Fiscal rep. must be based in the same country as our
         company or in an intrastat country"""
@@ -26,17 +28,26 @@ class ResPartner(models.Model):
             rep = partner.intrastat_fiscal_representative_id
             if rep:
                 if not rep.country_id:
-                    raise ValidationError(_(
-                        "The fiscal representative '%s' of partner '%s' "
-                        "must have a country.")
-                        % (rep.name, partner.name))
+                    raise ValidationError(
+                        _(
+                            "The fiscal representative '%s' of partner '%s' "
+                            "must have a country."
+                        )
+                        % (rep.name, partner.name)
+                    )
                 if not rep.country_id.intrastat:
-                    raise ValidationError(_(
-                        "The fiscal representative '%s' of partner '%s' "
-                        "must be based in an EU country.")
-                        % (rep.name, partner.name))
+                    raise ValidationError(
+                        _(
+                            "The fiscal representative '%s' of partner '%s' "
+                            "must be based in an EU country."
+                        )
+                        % (rep.name, partner.name)
+                    )
                 if not rep.vat:
-                    raise ValidationError(_(
-                        "The fiscal representative '%s' of partner '%s' "
-                        "must have a VAT number.")
-                        % (rep.name, partner.name))
+                    raise ValidationError(
+                        _(
+                            "The fiscal representative '%s' of partner '%s' "
+                            "must have a VAT number."
+                        )
+                        % (rep.name, partner.name)
+                    )
