@@ -32,6 +32,7 @@
                         type="object"
                         attrs="{'invisible': ['|', ('attachment_id', '!=', False), ('declaration_line_ids', '=', [])]}"
                     />
+                    <button name="create_xlsx" type="object" string="Excel Export" />
                     <button
                         name="back2draft"
                         string="Back to Draft"
@@ -70,6 +71,7 @@
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
                     <field name="message_ids" widget="mail_thread" />
                 </div>
             </form>
