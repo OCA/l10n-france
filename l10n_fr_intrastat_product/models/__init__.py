@@ -1,4 +1,3 @@
-
 from . import intrastat_transaction
 from . import partner
 from . import intrastat_unit
