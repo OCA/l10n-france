@@ -6,7 +6,8 @@ from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+    _inherit = "res.config.settings"
 
     fr_intrastat_accreditation = fields.Char(
-        related='company_id.fr_intrastat_accreditation', readonly=False)
+        related="company_id.fr_intrastat_accreditation", readonly=False
+    )
