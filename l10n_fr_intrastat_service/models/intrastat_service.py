@@ -159,10 +159,9 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             amount_invoice_cur_accessory_cost = 0.0
             regular_product_in_invoice = False
 
-            for line in invoice.invoice_line_ids:
-                if not line.product_id:
-                    continue
-
+            for line in invoice.invoice_line_ids.filtered(
+                lambda x: not x.display_type and x.product_id
+            ):
                 # If we have a regular product/consu in the invoice, we
                 # don't take the is_accessory_cost in DES (it will be in DEB)
                 # If we don't, we declare the is_accessory_cost in DES as other
