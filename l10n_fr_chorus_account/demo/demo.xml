@@ -1,179 +1,159 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2017-2020 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo noupdate="1">
-
-
-<record id="national_education_ministry" model="res.partner">
-    <field name="name">Ministère de l'Education Nationale, de l'Enseignement supérieur et de la Recherche</field>
-    <field name="is_company" eval="True"/>
-    <field name="street">110 rue de Grenelle</field>
-    <field name="city">Paris</field>
-    <field name="zip">75007</field>
-    <field name="country_id" ref="base.fr"/>
-    <field name="website">http://www.education.gouv.fr/</field>
-    <field name="siren">110043015</field>
-    <field name="nic">00012</field>
-    <field name="customer_invoice_transmit_method_id" ref="chorus"/>
-    <field name="fr_chorus_required">engagement</field>
-</record>
-
-<record id="saam_d5_service" model="chorus.partner.service">
-    <field name="code">SAAM D5</field>
-    <field name="partner_id" ref="national_education_ministry"/>
-    <field name="name">MINISTERE EDUCATION NATIONALE</field>
-</record>
-
-<record id="national_education_ministry_service1" model="res.partner">
-    <field name="name">Ministère de l'Education Nationale</field>
-    <field name="parent_id" ref="national_education_ministry"/>
-    <field name="fr_chorus_service_id" ref="saam_d5_service"/>
-    <field name="type">invoice</field>
-    <field name="country_id" ref="base.fr"/>
-</record>
-
-<record id="saam_d4_service" model="chorus.partner.service">
-    <field name="code">SAAM D4</field>
-    <field name="partner_id" ref="national_education_ministry"/>
-    <field name="name">MINISTERE EDUCATION NATIONALE RECHERCHE</field>
-</record>
-
-<record id="national_education_ministry_service2" model="res.partner">
-    <field name="name">Ministère de l'Enseignement supérieur et de la Recherche</field>
-    <field name="parent_id" ref="national_education_ministry"/>
-    <field name="fr_chorus_service_id" ref="saam_d4_service"/>
-    <field name="type">invoice</field>
-    <field name="country_id" ref="base.fr"/>
-</record>
-
-<record id="aphp" model="res.partner">
-    <field name="name">AP-HP</field>
-    <field name="is_company" eval="True"/>
-    <field name="street">3 avenue Victoria</field>
-    <field name="city">Paris</field>
-    <field name="zip">75004</field>
-    <field name="country_id" ref="base.fr"/>
-    <field name="website">http://www.aphp.fr/</field>
-    <field name="siren">267500452</field>
-    <field name="nic">00011</field>
-    <field name="customer_invoice_transmit_method_id" ref="chorus"/>
-    <field name="fr_chorus_required">engagement</field>
-</record>
-
-<record id="necker_061_service" model="chorus.partner.service">
-    <field name="code">061</field>
-    <field name="partner_id" ref="aphp"/>
-    <field name="name">NECKER</field>
-</record>
-
-<record id="necker" model="res.partner">
-    <field name="name">Hôpital Necker</field>
-    <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_id" ref="necker_061_service"/>
-    <field name="type">invoice</field>
-    <field name="street">149 rue de Sèvres</field>
-    <field name="city">Paris</field>
-    <field name="zip">75015</field>
-    <field name="country_id" ref="base.fr"/>
-</record>
-
-<record id="lariboisiere_047_service" model="chorus.partner.service">
-    <field name="code">047</field>
-    <field name="partner_id" ref="aphp"/>
-    <field name="name">LARIBOISIERE</field>
-</record>
-
-<record id="lariboisiere" model="res.partner">
-    <field name="name">Hôpital Lariboisière</field>
-    <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_id" ref="lariboisiere_047_service"/>
-    <field name="type">invoice</field>
-    <field name="street">2, rue Ambroise-Paré</field>
-    <field name="city">Paris</field>
-    <field name="zip">75010</field>
-    <field name="country_id" ref="base.fr"/>
-</record>
-
-<record id="bicha_011_service" model="chorus.partner.service">
-    <field name="code">011</field>
-    <field name="partner_id" ref="aphp"/>
-    <field name="name">BICHAT-CLAUDE BERNAR</field>
-</record>
-
-<record id="bicha" model="res.partner">
-    <field name="name">Hôpital Bicha-Claude Bernard</field>
-    <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_id" ref="bicha_011_service"/>
-    <field name="type">invoice</field>
-    <field name="street">46 rue Henri Huchard</field>
-    <field name="city">Paris</field>
-    <field name="zip">75018</field>
-    <field name="country_id" ref="base.fr"/>
-</record>
-
-<record id="pitie_066_service" model="chorus.partner.service">
-    <field name="code">066</field>
-    <field name="partner_id" ref="aphp"/>
-    <field name="name">PITIE-SALPETRIERE</field>
-</record>
-
-<record id="pitie" model="res.partner">
-    <field name="name">Hôpital Pitié-Salpêtrière</field>
-    <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_id" ref="pitie_066_service"/>
-    <field name="type">invoice</field>
-    <field name="street">47-83 bd de l’hôpital</field>
-    <field name="city">Paris</field>
-    <field name="zip">75013</field>
-    <field name="country_id" ref="base.fr"/>
-</record>
-
-<record id="bicetre_010_service" model="chorus.partner.service">
-    <field name="code">010</field>
-    <field name="partner_id" ref="aphp"/>
-    <field name="name">BICETRE</field>
-</record>
-
-<record id="bicetre" model="res.partner">
-    <field name="name">Hôpital Bicêtre</field>
-    <field name="parent_id" ref="aphp"/>
-    <field name="fr_chorus_service_id" ref="bicetre_010_service"/>
-    <field name="type">invoice</field>
-    <field name="street">78 rue du Général-Leclerc</field>
-    <field name="city">Le Kremlin-Bicêtre</field>
-    <field name="zip">94270</field>
-    <field name="country_id" ref="base.fr"/>
-</record>
-
-
-<!-- PUBLIC MARKETS (agreement) -->
-<record id="market1" model="agreement">
-    <field name="code">BCODE0042</field>
-    <field name="name">Lecteurs code barre 2D</field>
-    <field name="partner_id" ref="aphp"/>
-    <field name="domain">sale</field>
-    <field name="signature_date">2017-08-22</field>
-</record>
-
-<record id="market2" model="agreement">
-    <field name="code">TEL0012</field>
-    <field name="name">IPBX site de Necker</field>
-    <field name="partner_id" ref="aphp"/>
-    <field name="domain">sale</field>
-    <field name="signature_date">2017-07-21</field>
-</record>
-
-<record id="market3" model="agreement">
-    <field name="code">INFO007</field>
-    <field name="name">Déploiement Odoo</field>
-    <field name="partner_id" ref="national_education_ministry"/>
-    <field name="domain">sale</field>
-    <field name="signature_date">2017-07-14</field>
-</record>
-
-
+    <record id="national_education_ministry" model="res.partner">
+        <field
+            name="name"
+        >Ministère de l'Education Nationale, de l'Enseignement supérieur et de la Recherche</field>
+        <field name="is_company" eval="True" />
+        <field name="street">110 rue de Grenelle</field>
+        <field name="city">Paris</field>
+        <field name="zip">75007</field>
+        <field name="country_id" ref="base.fr" />
+        <field name="website">http://www.education.gouv.fr/</field>
+        <field name="siren">110043015</field>
+        <field name="nic">00012</field>
+        <field name="customer_invoice_transmit_method_id" ref="chorus" />
+        <field name="fr_chorus_required">engagement</field>
+    </record>
+    <record id="saam_d5_service" model="chorus.partner.service">
+        <field name="code">SAAM D5</field>
+        <field name="partner_id" ref="national_education_ministry" />
+        <field name="name">MINISTERE EDUCATION NATIONALE</field>
+    </record>
+    <record id="national_education_ministry_service1" model="res.partner">
+        <field name="name">Ministère de l'Education Nationale</field>
+        <field name="parent_id" ref="national_education_ministry" />
+        <field name="fr_chorus_service_id" ref="saam_d5_service" />
+        <field name="type">invoice</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="saam_d4_service" model="chorus.partner.service">
+        <field name="code">SAAM D4</field>
+        <field name="partner_id" ref="national_education_ministry" />
+        <field name="name">MINISTERE EDUCATION NATIONALE RECHERCHE</field>
+    </record>
+    <record id="national_education_ministry_service2" model="res.partner">
+        <field
+            name="name"
+        >Ministère de l'Enseignement supérieur et de la Recherche</field>
+        <field name="parent_id" ref="national_education_ministry" />
+        <field name="fr_chorus_service_id" ref="saam_d4_service" />
+        <field name="type">invoice</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="aphp" model="res.partner">
+        <field name="name">AP-HP</field>
+        <field name="is_company" eval="True" />
+        <field name="street">3 avenue Victoria</field>
+        <field name="city">Paris</field>
+        <field name="zip">75004</field>
+        <field name="country_id" ref="base.fr" />
+        <field name="website">http://www.aphp.fr/</field>
+        <field name="siren">267500452</field>
+        <field name="nic">00011</field>
+        <field name="customer_invoice_transmit_method_id" ref="chorus" />
+        <field name="fr_chorus_required">engagement</field>
+    </record>
+    <record id="necker_061_service" model="chorus.partner.service">
+        <field name="code">061</field>
+        <field name="partner_id" ref="aphp" />
+        <field name="name">NECKER</field>
+    </record>
+    <record id="necker" model="res.partner">
+        <field name="name">Hôpital Necker</field>
+        <field name="parent_id" ref="aphp" />
+        <field name="fr_chorus_service_id" ref="necker_061_service" />
+        <field name="type">invoice</field>
+        <field name="street">149 rue de Sèvres</field>
+        <field name="city">Paris</field>
+        <field name="zip">75015</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="lariboisiere_047_service" model="chorus.partner.service">
+        <field name="code">047</field>
+        <field name="partner_id" ref="aphp" />
+        <field name="name">LARIBOISIERE</field>
+    </record>
+    <record id="lariboisiere" model="res.partner">
+        <field name="name">Hôpital Lariboisière</field>
+        <field name="parent_id" ref="aphp" />
+        <field name="fr_chorus_service_id" ref="lariboisiere_047_service" />
+        <field name="type">invoice</field>
+        <field name="street">2, rue Ambroise-Paré</field>
+        <field name="city">Paris</field>
+        <field name="zip">75010</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="bicha_011_service" model="chorus.partner.service">
+        <field name="code">011</field>
+        <field name="partner_id" ref="aphp" />
+        <field name="name">BICHAT-CLAUDE BERNAR</field>
+    </record>
+    <record id="bicha" model="res.partner">
+        <field name="name">Hôpital Bicha-Claude Bernard</field>
+        <field name="parent_id" ref="aphp" />
+        <field name="fr_chorus_service_id" ref="bicha_011_service" />
+        <field name="type">invoice</field>
+        <field name="street">46 rue Henri Huchard</field>
+        <field name="city">Paris</field>
+        <field name="zip">75018</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="pitie_066_service" model="chorus.partner.service">
+        <field name="code">066</field>
+        <field name="partner_id" ref="aphp" />
+        <field name="name">PITIE-SALPETRIERE</field>
+    </record>
+    <record id="pitie" model="res.partner">
+        <field name="name">Hôpital Pitié-Salpêtrière</field>
+        <field name="parent_id" ref="aphp" />
+        <field name="fr_chorus_service_id" ref="pitie_066_service" />
+        <field name="type">invoice</field>
+        <field name="street">47-83 bd de l’hôpital</field>
+        <field name="city">Paris</field>
+        <field name="zip">75013</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="bicetre_010_service" model="chorus.partner.service">
+        <field name="code">010</field>
+        <field name="partner_id" ref="aphp" />
+        <field name="name">BICETRE</field>
+    </record>
+    <record id="bicetre" model="res.partner">
+        <field name="name">Hôpital Bicêtre</field>
+        <field name="parent_id" ref="aphp" />
+        <field name="fr_chorus_service_id" ref="bicetre_010_service" />
+        <field name="type">invoice</field>
+        <field name="street">78 rue du Général-Leclerc</field>
+        <field name="city">Le Kremlin-Bicêtre</field>
+        <field name="zip">94270</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <!-- PUBLIC MARKETS (agreement) -->
+    <record id="market1" model="agreement">
+        <field name="code">BCODE0042</field>
+        <field name="name">Lecteurs code barre 2D</field>
+        <field name="partner_id" ref="aphp" />
+        <field name="domain">sale</field>
+        <field name="signature_date">2017-08-22</field>
+    </record>
+    <record id="market2" model="agreement">
+        <field name="code">TEL0012</field>
+        <field name="name">IPBX site de Necker</field>
+        <field name="partner_id" ref="aphp" />
+        <field name="domain">sale</field>
+        <field name="signature_date">2017-07-21</field>
+    </record>
+    <record id="market3" model="agreement">
+        <field name="code">INFO007</field>
+        <field name="name">Déploiement Odoo</field>
+        <field name="partner_id" ref="national_education_ministry" />
+        <field name="domain">sale</field>
+        <field name="signature_date">2017-07-14</field>
+    </record>
 </odoo>

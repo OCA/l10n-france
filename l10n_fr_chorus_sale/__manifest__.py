@@ -3,21 +3,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'L10n FR Chorus Sale',
-    'summary': "Set public market on sale orders",
-    'version': '13.0.1.0.0',
-    'category': 'French Localization',
-    'author': "Akretion,Odoo Community Association (OCA)",
-    'maintainers': ['alexis-via'],
-    'website': 'https://github.com/OCA/l10n-france',
-    'license': 'AGPL-3',
-    'depends': [
-        'agreement_sale',
-        'l10n_fr_chorus_account',
-        ],
-    'data': [
-        'views/sale_order.xml',
-        ],
-    'installable': True,
-    'auto_install': True,
+    "name": "L10n FR Chorus Sale",
+    "summary": "Set public market on sale orders",
+    "version": "13.0.1.0.0",
+    "category": "French Localization",
+    "author": "Akretion,Odoo Community Association (OCA)",
+    "maintainers": ["alexis-via"],
+    "website": "https://github.com/OCA/l10n-france",
+    "license": "AGPL-3",
+    "depends": ["agreement_sale", "l10n_fr_chorus_account",],
+    "data": ["views/sale_order.xml",],
+    "installable": True,
+    "auto_install": True,
 }
