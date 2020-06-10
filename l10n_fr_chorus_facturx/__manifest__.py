@@ -5,7 +5,7 @@
 {
     'name': 'L10n FR Chorus Factur-X',
     'summary': "Generate Chorus-compliant Factur-X invoices",
-    'version': '12.0.1.0.0',
+    'version': '13.0.1.0.0',
     'category': 'French Localization',
     'author': "Akretion,Odoo Community Association (OCA)",
     'maintainers': ['alexis-via'],
