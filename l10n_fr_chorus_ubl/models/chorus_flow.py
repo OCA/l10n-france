@@ -6,12 +6,12 @@ from odoo import api, fields, models
 
 
 class ChorusFlow(models.Model):
-    _inherit = 'chorus.flow'
+    _inherit = "chorus.flow"
 
-    syntax = fields.Selection(selection_add=[('xml_ubl', 'UBL XML')])
+    syntax = fields.Selection(selection_add=[("xml_ubl", "UBL XML")])
 
     @api.model
     def syntax_odoo2chorus(self):
         res = super().syntax_odoo2chorus()
-        res['xml_ubl'] = 'IN_DP_E1_UBL_INVOICE'
+        res["xml_ubl"] = "IN_DP_E1_UBL_INVOICE"
         return res

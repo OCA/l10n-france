@@ -6,7 +6,6 @@ from odoo import fields, models
 
 
 class ResCompany(models.Model):
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
-    fr_chorus_invoice_format = fields.Selection(
-        selection_add=[('xml_ubl', 'UBL XML')])
+    fr_chorus_invoice_format = fields.Selection(selection_add=[("xml_ubl", "UBL XML")])
