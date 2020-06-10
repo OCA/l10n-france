@@ -51,6 +51,16 @@ class ResCompany(models.Model):
         'res.users', 'fr_chorus_api_expiry_remind_user_rel',
         'company_id', 'user_id', string='Users Receiving the Expiry Reminder')
 
+    @property
+    def _server_env_fields(self):
+        env_fields = super()._server_env_fields
+        env_fields.update({
+            "fr_chorus_api_login": {},
+            "fr_chorus_api_password": {},
+            "fr_chorus_qualif": {},
+        })
+        return env_fields
+
     def chorus_get_piste_api_oauth_identifiers(self, raise_if_ko=False):
         """Inherit this method if you want to configure your Chorus certificates
         elsewhere or have per-company Chorus certificates"""
@@ -88,8 +98,8 @@ class ResCompany(models.Model):
                 self.fr_chorus_api_password and
                 oauth_identifiers):
             api_params = {
-                'login': self.fr_chorus_api_login.strip(),
-                'password': self.fr_chorus_api_password.strip(),
+                'login': self.fr_chorus_api_login,
+                'password': self.fr_chorus_api_password,
                 'qualif': self.fr_chorus_qualif,
                 'oauth_id': oauth_identifiers[0],
                 'oauth_secret': oauth_identifiers[1],
