@@ -34,6 +34,11 @@ class AccountInvoice(models.Model):
         for inv in self.filtered(
                 lambda x: x.type in ('out_invoice', 'out_refund') and
                 x.transmit_method_code == 'fr-chorus'):
+            company_partner = inv.company_id.partner_id
+            if not company_partner.siren or not company_partner.nic:
+                raise UserError(_(
+                    "Missing SIRET on partner '%s' linked to company '%s'.")
+                    % (company_partner.display_name, inv.company_id.display_name))
             for tline in inv.tax_line_ids:
                 if tline.tax_id and not tline.tax_id.unece_due_date_code:
                     raise UserError(_(
