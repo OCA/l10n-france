@@ -20,16 +20,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_fr_chorus_factur-x
-#: model:ir.model,name:l10n_fr_chorus_factur-x.model_chorus_flow
+#: model:ir.model,name:l10n_fr_chorus_facturx.model_chorus_flow
 msgid "Chorus Flow"
 msgstr ""
 
 #. module: l10n_fr_chorus_factur-x
-#: model:ir.model,name:l10n_fr_chorus_factur-x.model_res_company
+#: model:ir.model,name:l10n_fr_chorus_facturx.model_res_company
 msgid "Companies"
 msgstr "Firmaer"
-
-#. module: l10n_fr_chorus_factur-x
-#: model:ir.model,name:l10n_fr_chorus_factur-x.model_account_invoice
-msgid "Invoice"
-msgstr ""

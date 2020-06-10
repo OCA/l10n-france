@@ -19,7 +19,7 @@ class BaseUbl(models.AbstractModel):
 
     @api.model
     def _ubl_get_tax_scheme_dict_from_tax(self, tax):
-        res = super(BaseUbl, self)._ubl_get_tax_scheme_dict_from_tax(tax)
+        res = super()._ubl_get_tax_scheme_dict_from_tax(tax)
         if (
                 self._context.get('fr_chorus') and
                 tax.unece_type_code == 'VAT'):
@@ -28,31 +28,24 @@ class BaseUbl(models.AbstractModel):
 
     @api.model
     def _ubl_get_tax_scheme_dict_from_partner(self, commercial_partner):
-        res = super(BaseUbl, self)._ubl_get_tax_scheme_dict_from_partner(
+        res = super()._ubl_get_tax_scheme_dict_from_partner(
             commercial_partner)
         company = self.env['res.company'].search(
             [('partner_id', '=', commercial_partner.id)], limit=1)
         if company:
-            tax_ids = self.env['ir.values'].get_default(
-                'product.template', 'taxes_id', for_all_users=True,
-                company_id=company.id)
-            logger.debug(
-                'Using default sale tax %s of company %s for UBL TaxScheme',
-                tax_ids, company.name)
-            if tax_ids:
-                tax = self.env['account.tax'].browse(tax_ids[0])
-                logger.debug(
-                    'First default sale tax (ID %d) has '
-                    'unece_due_date_code=%s',
-                    tax_ids[0], tax.unece_due_date_code)
-                if tax.unece_due_date_code:
-                    code = UNECE2CHORUS_TAX_CATEG_CODE[tax.unece_due_date_code]
-                    res['type_code'] = code
+            tax = company.account_sale_tax_id
+            if tax.unece_due_date_code:
+                code = UNECE2CHORUS_TAX_CATEG_CODE[tax.unece_due_date_code]
+                res['type_code'] = code
+            else:
+                logger.warning(
+                    'Missing UNECE Due Date on tax %s of company %s',
+                    tax.display_name, company.display_name)
         return res
 
     @api.model
     def _ubl_get_party_identification(self, commercial_partner):
-        res = super(BaseUbl, self)._ubl_get_party_identification(
+        res = super()._ubl_get_party_identification(
             commercial_partner)
         # partner.siret has a value even if partner.nic == False
         if (
@@ -66,4 +59,4 @@ class BaseUbl(models.AbstractModel):
     def _ubl_get_contact_id(self, partner):
         if self._context.get('fr_chorus') and partner.fr_chorus_service_id:
             return partner.fr_chorus_service_id.code
-        return super(BaseUbl, self)._ubl_get_contact_id(partner)
+        return super()._ubl_get_contact_id(partner)

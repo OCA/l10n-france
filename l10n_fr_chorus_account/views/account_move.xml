@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2017-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
 <odoo>
 
 
-<record id="invoice_form" model="ir.ui.view">
+<record id="view_move_form" model="ir.ui.view">
     <field name="name">Chorus support on Customer Invoice form view</field>
-    <field name="model">account.invoice</field>
-    <field name="inherit_id" ref="account_invoice_transmit_method.invoice_form"/>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account_invoice_transmit_method.view_move_form"/>
     <field name="arch" type="xml">
         <button name="action_invoice_sent" position="after">
-            <button name="%(account_invoice_chorus_send_action)d" type="action" attrs="{'invisible': ['|', '|', ('chorus_flow_id', '!=', False), ('state', 'not in', ('open', 'paid')), ('transmit_method_code', '!=', 'fr-chorus')]}" string="Send to Chorus" class="btn-primary" groups="l10n_fr_chorus_account.group_chorus_api"/>
+            <button name="%(account_invoice_chorus_send_action)d" type="action" attrs="{'invisible': ['|', '|', ('chorus_flow_id', '!=', False), ('state', '!=', 'posted'), ('transmit_method_code', '!=', 'fr-chorus')]}" string="Send to Chorus" class="btn-primary" groups="l10n_fr_chorus_account.group_chorus_api"/>
         </button>
         <notebook position="inside">
             <page name="fr-chorus" string="Chorus Pro" attrs="{'invisible': [('transmit_method_code', '!=', 'fr-chorus')]}" groups="l10n_fr_chorus_account.group_chorus_api">
@@ -31,10 +32,10 @@
 
 <record id="view_account_invoice_filter" model="ir.ui.view">
     <field name="name">Chorus groupby on Invoice search view</field>
-    <field name="model">account.invoice</field>
+    <field name="model">account.move</field>
     <field name="inherit_id" ref="account.view_account_invoice_filter"/>
     <field name="arch" type="xml">
-        <filter context="{'group_by':'date_due'}" position="after">
+        <filter name="duedate" position="after">
             <filter string="Chorus Status" name="chorus_status_groupby" context="{'group_by': 'chorus_status'}" groups="l10n_fr_chorus_account.group_chorus_api"/>
         </filter>
     </field>

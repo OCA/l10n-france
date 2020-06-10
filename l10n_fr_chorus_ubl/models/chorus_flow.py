@@ -12,6 +12,6 @@ class ChorusFlow(models.Model):
 
     @api.model
     def syntax_odoo2chorus(self):
-        res = super(ChorusFlow, self).syntax_odoo2chorus()
+        res = super().syntax_odoo2chorus()
         res['xml_ubl'] = 'IN_DP_E1_UBL_INVOICE'
         return res

@@ -12,7 +12,7 @@
     <field name="model">res.config.settings</field>
     <field name="inherit_id" ref="account.res_config_settings_view_form" />
     <field name="arch" type="xml">
-        <div id="recommended_apps" position="after">
+        <div id="invoicing_settings" position="after">
             <h2>Chorus Pro</h2>
             <div class="row mt16 o_settings_container" id="fr-chorus">
                 <div class="col-xs-12 col-md-12 o_setting_box">
