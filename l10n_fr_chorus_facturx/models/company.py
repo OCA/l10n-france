@@ -14,14 +14,13 @@ class ResCompany(models.Model):
         ('pdf_factur-x', 'Factur-X PDF'),
         ])
 
-    @api.constrains('fr_chorus_invoice_format', 'xml_format_in_pdf_invoice')
-    def check_chorus_facturx_config(self):
-        for company in self:
-            if (
-                    company.fr_chorus_invoice_format == 'pdf_factur-x' and
-                    company.xml_format_in_pdf_invoice != 'factur-x'):
-                raise ValidationError(_(
-                    "For company %s, if you select Factur-X as Chorus "
-                    "Invoice Format, then you should also select Factur-X as "
-                    "Format in the section 'Electronic Invoices'.")
-                    % company.display_name)
+    def _check_chorus_invoice_format(self):
+        self.ensure_one()
+        if (
+                self.fr_chorus_invoice_format == 'pdf_factur-x' and
+                self.xml_format_in_pdf_invoice != 'factur-x'):
+            raise ValidationError(_(
+                "For company '%s', if you select 'Factur-X' as 'Chorus "
+                "Invoice Format', then you should also select 'Factur-X' as "
+                "'Format' in the section 'Electronic Invoices'.")
+                % self.display_name)
