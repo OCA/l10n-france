@@ -284,3 +284,8 @@ class ResCompany(models.Model):
                     'fr_chorus_expiry_remind_user_ids is empty!',
                     company.name)
         logger.info('End of the Chorus Pro API expiry reminder cron')
+
+    def _check_chorus_invoice_format(self):
+        """Inherited in some invoice-format-specific modules
+        e.g. l10n_fr_chorus_facturx"""
+        self.ensure_one()

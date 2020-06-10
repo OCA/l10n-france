@@ -51,6 +51,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
                         "company"))
             else:
                 company = invoice.company_id
+                company._check_chorus_invoice_format()
 
         res.update({
             'invoice_ids': [(6, 0, invoices.ids)],
