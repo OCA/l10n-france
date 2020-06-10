@@ -146,7 +146,13 @@ class ResCompany(models.Model):
             raise UserError(_(
                 "Technical failure when trying to get a new token "
                 "from PISTE.\n\nError details: %s") % e)
-        token = r.json()
+        try:
+            token = r.json()
+        except Exception:
+            logger.error("JSON decode failed. HTTP error code: %s." % r.status_code)
+            raise UserError(_(
+                "Error in the request to get a new token via PISTE. "
+                "HTTP error code: %s.") % r.status_code)
         if r.status_code != 200:
             logger.error(
                 'Error %s in the request to get a new token. '
