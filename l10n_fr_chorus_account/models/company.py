@@ -51,6 +51,16 @@ class ResCompany(models.Model):
         'res.users', 'fr_chorus_api_expiry_remind_user_rel',
         'company_id', 'user_id', string='Users Receiving the Expiry Reminder')
 
+    @property
+    def _server_env_fields(self):
+        env_fields = super()._server_env_fields
+        env_fields.update({
+            "fr_chorus_api_login": {},
+            "fr_chorus_api_password": {},
+            "fr_chorus_qualif": {},
+        })
+        return env_fields
+
     def chorus_get_piste_api_oauth_identifiers(self, raise_if_ko=False):
         """Inherit this method if you want to configure your Chorus certificates
         elsewhere or have per-company Chorus certificates"""
@@ -88,8 +98,8 @@ class ResCompany(models.Model):
                 self.fr_chorus_api_password and
                 oauth_identifiers):
             api_params = {
-                'login': self.fr_chorus_api_login.strip(),
-                'password': self.fr_chorus_api_password.strip(),
+                'login': self.fr_chorus_api_login,
+                'password': self.fr_chorus_api_password,
                 'qualif': self.fr_chorus_qualif,
                 'oauth_id': oauth_identifiers[0],
                 'oauth_secret': oauth_identifiers[1],
@@ -146,7 +156,13 @@ class ResCompany(models.Model):
             raise UserError(_(
                 "Technical failure when trying to get a new token "
                 "from PISTE.\n\nError details: %s") % e)
-        token = r.json()
+        try:
+            token = r.json()
+        except Exception:
+            logger.error("JSON decode failed. HTTP error code: %s." % r.status_code)
+            raise UserError(_(
+                "Error in the request to get a new token via PISTE. "
+                "HTTP error code: %s.") % r.status_code)
         if r.status_code != 200:
             logger.error(
                 'Error %s in the request to get a new token. '
@@ -268,3 +284,8 @@ class ResCompany(models.Model):
                     'fr_chorus_expiry_remind_user_ids is empty!',
                     company.name)
         logger.info('End of the Chorus Pro API expiry reminder cron')
+
+    def _check_chorus_invoice_format(self):
+        """Inherited in some invoice-format-specific modules
+        e.g. l10n_fr_chorus_facturx"""
+        self.ensure_one()
