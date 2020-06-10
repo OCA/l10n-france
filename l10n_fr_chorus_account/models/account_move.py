@@ -14,32 +14,37 @@ logger = logging.getLogger(__name__)
 CREDIT_TRF_CODES = ('30', '31', '42')
 
 
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+class AccountMove(models.Model):
+    _inherit = 'account.move'
 
     chorus_flow_id = fields.Many2one(
         'chorus.flow', string='Chorus Flow', readonly=True, copy=False,
-        track_visibility='onchange')
+        tracking=True)
     chorus_identifier = fields.Integer(
         string='Chorus Invoice Indentifier', readonly=True, copy=False,
-        track_visibility='onchange')
+        tracking=True)
     chorus_status = fields.Char(
         string='Chorus Invoice Status', readonly=True, copy=False,
-        track_visibility='onchange')
+        tracking=True)
     chorus_status_date = fields.Datetime(
         string='Last Chorus Invoice Status Date', readonly=True, copy=False)
 
-    def action_move_create(self):
+    def action_post(self):
         '''Check validity of Chorus invoices'''
         for inv in self.filtered(
                 lambda x: x.type in ('out_invoice', 'out_refund') and
                 x.transmit_method_code == 'fr-chorus'):
-            for tline in inv.tax_line_ids:
-                if tline.tax_id and not tline.tax_id.unece_due_date_code:
+            company_partner = inv.company_id.partner_id
+            if not company_partner.siren or not company_partner.nic:
+                raise UserError(_(
+                    "Missing SIRET on partner '%s' linked to company '%s'.")
+                    % (company_partner.display_name, inv.company_id.display_name))
+            for tline in inv.line_ids.filtered(lambda x: x.tax_line_id):
+                if not tline.tax_line_id.unece_due_date_code:
                     raise UserError(_(
                         "Unece Due Date not configured on tax '%s'. This "
                         "information is required for Chorus invoices.")
-                        % tline.tax_id.display_name)
+                        % tline.tax_line_id.display_name)
             cpartner = inv.commercial_partner_id
             if not cpartner.siren or not cpartner.nic:
                 raise UserError(_(
@@ -59,36 +64,35 @@ class AccountInvoice(models.Model):
             if (
                     cpartner.fr_chorus_required in
                     ('engagement', 'service_and_engagement')):
-                if inv.name:
+                if inv.ref:
                     inv.chorus_invoice_check_commitment_number()
                 else:
                     raise UserError(_(
-                        "Partner '%s' is configured as "
-                        "Engagement required for Chorus, so the "
-                        "field 'Reference/Description' of its invoices must "
+                        "Partner '%s' is configured as Engagement required for "
+                        "Chorus, so the field 'Reference' of its invoices must "
                         "contain an engagement number.") % cpartner.display_name)
             elif (
                     inv.partner_id.fr_chorus_service_id and
                     inv.partner_id.fr_chorus_service_id.engagement_required):
-                if inv.name:
+                if inv.ref:
                     inv.chorus_invoice_check_commitment_number()
                 else:
                     raise UserError(_(
                         "Partner '%s' is linked to Chorus service '%s' "
                         "which is marked as 'Engagement required', so the "
-                        "field 'Reference/Description' of its invoices must "
+                        "field 'Reference' of its invoices must "
                         "contain an engagement number.") % (
                             inv.partner_id.display_name,
                             inv.partner_id.fr_chorus_service_id.code))
 
             if cpartner.fr_chorus_required == 'service_or_engagement':
                 if not inv.partner_id.chorus_service_ok():
-                    if not inv.name:
+                    if not inv.ref:
                         raise UserError(_(
                             "Partner '%s' is configured as "
                             "'Service or Engagement' required for Chorus but "
                             "there is no engagement number in the field "
-                            "'Reference/Description' and the customer of the "
+                            "'Reference' and the customer of the "
                             "invoice is not correctly configured as a service "
                             "(should be a contact with a Chorus service "
                             "and a name).") % cpartner.display_name)
@@ -101,7 +105,7 @@ class AccountInvoice(models.Model):
             payment_means_code = self.payment_mode_id.payment_method_id.\
                 unece_code or '30'
             partner_bank_id =\
-                self.partner_bank_id or (
+                self.invoice_partner_bank_id or (
                     self.payment_mode_id.bank_account_link == 'fixed' and
                     self.payment_mode_id.fixed_journal_id.bank_account_id)
             if payment_means_code in CREDIT_TRF_CODES:
@@ -121,7 +125,7 @@ class AccountInvoice(models.Model):
                         "Chorus only accepts IBAN. But the bank account "
                         "'%s' is not an IBAN.")
                         % partner_bank_id.acc_number)
-        return super(AccountInvoice, self).action_move_create()
+        return super().action_post()
 
     def chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()
@@ -143,7 +147,7 @@ class AccountInvoice(models.Model):
                 chorus_invoice_format)
             filename = '%s_chorus_facture_%s.%s' % (
                 short_format,
-                self.number.replace('/', '-'),
+                self.name.replace('/', '-'),
                 file_extension)
         else:
             filename = '%s_chorus_lot_factures.tar.gz' % short_format
@@ -155,7 +159,7 @@ class AccountInvoice(models.Model):
                     invfilename =\
                         '%s_chorus_facture_%s.%s' % (
                             short_format,
-                            inv.number.replace('/', '-'),
+                            inv.name.replace('/', '-'),
                             file_extension)
                     tarinfo = tarfile.TarInfo(name=invfilename)
                     tarinfo.size = len(inv_file_data)
@@ -201,7 +205,7 @@ class AccountInvoice(models.Model):
                         % inv.display_name)
                 logger.warning(
                     'Skipping invoice %s: missing chorus invoice identifier',
-                    inv.number)
+                    inv.name)
                 continue
             company = inv.company_id
             if company not in company2api:
@@ -225,8 +229,13 @@ class AccountInvoice(models.Model):
 
     def chorus_invoice_check_commitment_number(self, raise_if_not_found=True):
         self.ensure_one()
-        return self.chorus_check_commitment_number(
-            self.company_id, self.name, raise_if_not_found=raise_if_not_found)
+        res = self.chorus_check_commitment_number(
+            self.company_id, self.ref, raise_if_not_found=raise_if_not_found)
+        if res is True:
+            self.message_post(body=_(
+                'Engagement juridique <b>%s</b> checked via Chorus Pro API.')
+                % self.ref)
+        return res
 
     # api.model because this method is called from invoice
     # but also from sale.order

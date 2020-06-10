@@ -26,13 +26,13 @@
 </record>
 
 <act_window id="account_invoice_chorus_send_action"
-            multi="True"
-            key2="client_action_multi"
+            binding_views="list"
             name="Send to Chorus Pro"
             res_model="account.invoice.chorus.send"
-            src_model="account.invoice"
+            binding_model="account.move"
             view_mode="form"
             target="new"
             groups="l10n_fr_chorus_account.group_chorus_api" />
+
 
 </odoo>
