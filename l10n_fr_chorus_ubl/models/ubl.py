@@ -33,21 +33,14 @@ class BaseUbl(models.AbstractModel):
         company = self.env['res.company'].search(
             [('partner_id', '=', commercial_partner.id)], limit=1)
         if company:
-            tax_ids = self.env['ir.values'].get_default(
-                'product.template', 'taxes_id', for_all_users=True,
-                company_id=company.id)
-            logger.debug(
-                'Using default sale tax %s of company %s for UBL TaxScheme',
-                tax_ids, company.name)
-            if tax_ids:
-                tax = self.env['account.tax'].browse(tax_ids[0])
-                logger.debug(
-                    'First default sale tax (ID %d) has '
-                    'unece_due_date_code=%s',
-                    tax_ids[0], tax.unece_due_date_code)
-                if tax.unece_due_date_code:
-                    code = UNECE2CHORUS_TAX_CATEG_CODE[tax.unece_due_date_code]
-                    res['type_code'] = code
+            tax = company.account_sale_tax_id
+            if tax.unece_due_date_code:
+                code = UNECE2CHORUS_TAX_CATEG_CODE[tax.unece_due_date_code]
+                res['type_code'] = code
+            else:
+                logger.warning(
+                    'Missing UNECE Due Date on tax %s of company %s',
+                    tax.display_name, company.display_name)
         return res
 
     @api.model
