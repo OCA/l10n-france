@@ -13,11 +13,11 @@ class AccountInvoiceChorusSend(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(AccountInvoiceChorusSend, self).default_get(fields_list)
-        assert self._context.get('active_model') == 'account.invoice', \
-            'Wrong active_model, should be account.invoice'
+        res = super().default_get(fields_list)
+        assert self._context.get('active_model') == 'account.move', \
+            'Wrong active_model, should be account.move'
         assert self._context.get('active_ids'), 'Missing active_ids in ctx'
-        invoices = self.env['account.invoice'].browse(
+        invoices = self.env['account.move'].browse(
             self._context.get('active_ids'))
         company = False
         for invoice in invoices:
@@ -26,10 +26,10 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     "Invoice '%s' is a supplier invoice. You can only send "
                     "customer invoices/refunds to Chorus.")
                     % invoice.display_name)
-            if invoice.state not in ('open', 'paid'):
+            if invoice.state != 'posted':
                 raise UserError(_(
                     "The state of invoice '%s' is '%s'. You can only send to "
-                    "Chorus invoices in open or paid state.")
+                    "Chorus invoices in posted state.")
                     % (invoice.display_name, invoice.state))
             if invoice.transmit_method_code != 'fr-chorus':
                 raise UserError(_(
@@ -51,6 +51,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
                         "company"))
             else:
                 company = invoice.company_id
+                company._check_chorus_invoice_format()
 
         res.update({
             'invoice_ids': [(6, 0, invoices.ids)],
@@ -60,7 +61,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
         return res
 
     invoice_ids = fields.Many2many(
-        'account.invoice', string='Invoices to Send', readonly=True)
+        'account.move', string='Invoices to Send', readonly=True)
     invoice_count = fields.Integer(
         string="Number of Invoices", readonly=True)
     company_id = fields.Many2one(
@@ -77,7 +78,6 @@ class AccountInvoiceChorusSend(models.TransientModel):
         payload = self.invoice_ids.prepare_chorus_deposer_flux_payload()
         attach = self.env['ir.attachment'].create({
             'name': payload.get('nomFichier'),
-            'datas_fname': payload.get('nomFichier'),
             'datas': payload.get('fichierFlux'),
             })
         logger.info(
@@ -95,7 +95,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
                 })
             self.invoice_ids.write({
                 'chorus_flow_id': flow.id,
-                'sent': True,
+                'invoice_sent': True,
                 })
             action = self.env['ir.actions.act_window'].for_xml_id(
                 'l10n_fr_chorus_account', 'chorus_flow_action')

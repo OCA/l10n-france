@@ -29,11 +29,11 @@ class ChorusFlow(models.Model):
     notes = fields.Text(string='Notes', readonly=True, copy=False)
     company_id = fields.Many2one(
         'res.company', string='Company', required=True, readonly=True,
-        default=lambda self: self.env['res.company']._company_default_get())
+        default=lambda self: self.env.company)
     invoice_identifiers = fields.Boolean(
         compute='_compute_invoice_identifiers', readonly=True, store=True)
     invoice_ids = fields.One2many(
-        'account.invoice', 'chorus_flow_id', string='Invoices', readonly=True)
+        'account.move', 'chorus_flow_id', string='Invoices', readonly=True)
 
     @api.depends('invoice_ids.chorus_identifier')
     def _compute_invoice_identifiers(self):
@@ -182,8 +182,8 @@ class ChorusFlow(models.Model):
                 api_params, session=session)
             if invnum2chorus:
                 for inv in flow.invoice_ids:
-                    if inv.number in invnum2chorus:
-                        inv.write(invnum2chorus[inv.number])
+                    if inv.name in invnum2chorus:
+                        inv.write(invnum2chorus[inv.name])
         logger.info('End of the retrieval of chorus invoice identifiers')
 
     @api.model
@@ -197,8 +197,8 @@ class ChorusFlow(models.Model):
             ('status', '=', 'IN_INTEGRE'),
             ('invoice_identifiers', '=', False)])
         get_identifiers_flows.get_invoice_identifiers()
-        invoices_update_invoice_status = self.env['account.invoice'].search([
-            ('state', 'in', ('open', 'paid')),
+        invoices_update_invoice_status = self.env['account.move'].search([
+            ('state', '=', 'posted'),
             ('type', 'in', ('out_invoice', 'out_refund')),
             ('transmit_method_code', '=', 'fr-chorus'),
             ('chorus_identifier', '!=', False),

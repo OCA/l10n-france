@@ -20,7 +20,7 @@ class ResPartner(models.Model):
         # better to use a bad English translation of the French word!
         ('service_or_engagement', 'Service or Engagement'),
         ('service_and_engagement', 'Service and Engagement'),
-        ], string='Info Required for Chorus', track_visibility='onchange')
+        ], string='Info Required for Chorus', tracking=True)
     fr_chorus_identifier = fields.Integer('Chorus Identifier', readonly=True)
     fr_chorus_service_count = fields.Integer(
         compute='_compute_fr_chorus_service_count', readonly=True,
@@ -28,17 +28,18 @@ class ResPartner(models.Model):
     # On contact partner only
     fr_chorus_service_id = fields.Many2one(
         'chorus.partner.service', string='Chorus Service',
-        ondelete='restrict', track_visibility='onchange')
+        ondelete='restrict', tracking=True)
     # On parent partner only
     fr_chorus_service_ids = fields.One2many(
         'chorus.partner.service', 'partner_id', string='Chorus Services')
 
     def _compute_fr_chorus_service_count(self):
-        res = self.env['chorus.partner.service'].read_group(
+        rg_res = self.env['chorus.partner.service'].read_group(
             [('partner_id', 'in', self.ids)], ['partner_id'], ['partner_id'])
-        for re in res:
-            partner = self.browse(re['partner_id'][0])
-            partner.fr_chorus_service_count = re['partner_id_count']
+        mapped_data = dict(
+            [(x['partner_id'][0], x['partner_id_count']) for x in rg_res])
+        for partner in self:
+            partner.fr_chorus_service_count = mapped_data.get(partner.id, 0)
 
     @api.constrains('fr_chorus_service_id', 'name', 'parent_id')
     def check_fr_chorus_service(self):
