@@ -6,21 +6,21 @@ from odoo import api, models, _
 from odoo.exceptions import UserError
 
 
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+class AccountMove(models.Model):
+    _inherit = 'account.move'
 
     @api.model
     def _cii_trade_contact_department_name(self, partner):
         if partner.fr_chorus_service_id:
             return partner.name
-        return super(AccountInvoice, self)._cii_trade_contact_department_name(
+        return super()._cii_trade_contact_department_name(
             partner)
 
     @api.model
     def _cii_trade_agreement_buyer_ref(self, partner):
         if partner.fr_chorus_service_id:
             return partner.fr_chorus_service_id.code
-        return super(AccountInvoice, self)._cii_trade_agreement_buyer_ref(
+        return super()._cii_trade_agreement_buyer_ref(
             partner)
 
     def chorus_get_invoice(self, chorus_invoice_format):
@@ -40,6 +40,5 @@ class AccountInvoice(models.Model):
                 chorus_file_content, filetype = res
             assert filetype == 'pdf', 'wrong filetype'
         else:
-            chorus_file_content = super(AccountInvoice, self).\
-                chorus_get_invoice(chorus_invoice_format)
+            chorus_file_content = super().chorus_get_invoice(chorus_invoice_format)
         return chorus_file_content

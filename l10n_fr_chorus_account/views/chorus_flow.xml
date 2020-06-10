@@ -33,15 +33,16 @@
             </group>
             <group name="invoices" string="Invoices">
                 <field name="invoice_ids" nolabel="1">
-                    <tree>
+                    <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'">
                         <field name="partner_id" string="Customer"/>
-                        <field name="date_invoice"/>
-                        <field name="number"/>
-                        <field name="date_due"/>
+                        <field name="invoice_date"/>
+                        <field name="name"/>
+                        <field name="invoice_date_due"/>
                         <field name="amount_untaxed"/>
-                        <field name="amount_total_signed"/>
+                        <field name="amount_total"/>
                         <field name="currency_id" invisible="1"/>
-                        <field name="state"/>
+                        <field name="state" invisible="1"/>
+                        <field name="invoice_payment_state"/>
                         <field name="chorus_identifier"/>
                         <field name="chorus_status"/>
                         <field name="chorus_status_date"/>

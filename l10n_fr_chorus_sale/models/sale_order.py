@@ -75,10 +75,15 @@ class SaleOrder(models.Model):
                             % (cpartner.display_name, order.name))
                     else:
                         order.chorus_order_check_commitment_number()
-        return super(SaleOrder, self).action_confirm()
+        return super().action_confirm()
 
     def chorus_order_check_commitment_number(self, raise_if_not_found=True):
         self.ensure_one()
-        return self.env['account.invoice'].chorus_check_commitment_number(
+        res = self.env['account.move'].chorus_check_commitment_number(
             self.company_id, self.client_order_ref,
             raise_if_not_found=raise_if_not_found)
+        if res is True:
+            self.message_post(body=_(
+                'Engagement juridique <b>%s</b> checked via Chorus Pro API.')
+                % self.client_order_ref)
+        return res
