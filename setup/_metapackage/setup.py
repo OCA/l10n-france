@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo13-addon-l10n_fr_account_tax_unece',
         'odoo13-addon-l10n_fr_department',
         'odoo13-addon-l10n_fr_department_oversea',
+        'odoo13-addon-l10n_fr_intrastat_product',
         'odoo13-addon-l10n_fr_intrastat_service',
         'odoo13-addon-l10n_fr_siret',
         'odoo13-addon-l10n_fr_state',
