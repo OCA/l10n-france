@@ -22,7 +22,7 @@
             <group name="fr-chorus" string="Chorus Pro"
                     attrs="{'invisible': [('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}">
                 <button name="fr_chorus_identifier_and_required_button"
-                    type="object" string="Update Info Required for Chorus"
+                    type="object" string="Update Chorus Info and Services"
                     colspan="2" class="btn-primary"
                     groups="l10n_fr_chorus_account.group_chorus_api"/>
                 <field name="fr_chorus_required"/>
