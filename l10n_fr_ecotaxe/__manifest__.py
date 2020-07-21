@@ -5,26 +5,23 @@
 {
     'name': 'France Custom Ecotaxe',
     'summary': 'Use Ecotaxe in French localisation contexte',
-    'version': '8.0.0.1.0',
+    'version': '12.0.0.1.0',
     'author': "Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.akretion.com',
     'category': 'Localization/Account Taxes',
     'license': 'AGPL-3',
     'depends': [
-        'account_accountant',
-        'sale',
-        'purchase'
+        'account',
     ],
     'data': [
         'data/account_data.xml',
         'security/ir_rule.xml',
         'security/ir_model_access.yml',
         'views/product_view.xml',
-        'views/sale_view.xml',
-        'views/purchase_view.xml',
-        'views/account_view.xml',
+        # 'views/sale_view.xml',
+        # 'views/purchase_view.xml',
+        'views/account_ecotaxe_classification_view.xml',
 
     ],
-    'application': False,
     'installable': True,
 }

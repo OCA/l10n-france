@@ -5,26 +5,9 @@
    The licence is in the file __openerp__.py
 -->
 
-<openerp>
-    <data>
-
-        <!-- Tax -->
-        <record id="tax_form" model="ir.ui.view">
-            <field name="name">l10n_fr_ecotaxe.account.tax.form</field>
-            <field name="model">account.tax</field>
-            <field name="inherit_id" ref="account.view_tax_form"/>
-            <field name="priority">300</field>
-            <field name="arch" type="xml">
-                <field name="description" position="after">
-                    <field name="is_ecotaxe"/>
-                </field>
-            </field>
-        </record>
-        
-        
+<odoo>
+    
         <!-- Define: account.ecotaxe.classification -->
-        
-         
         
         <record id="ecotaxe_classification_tree" model="ir.ui.view">
             <field name="model">account.ecotaxe.classification</field>
@@ -35,11 +18,10 @@
                     <field name="ecotaxe_type"/>
                     <field name="ecotaxe_coef"
                         attrs="{'invisible': [['ecotaxe_type', '!=', 'weight_based']]}"/>
-                    <field name="fixed_ecotaxe"
+                    <field name="default_fixed_ecotaxe"
                            attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
-                    <field name="sale_ecotaxe_id"/>
-                    <field name="purchase_ecotaxe_id"/>
-                    <field name="active"/>
+                    <field name="account_ecotaxe_categ_id"/>
+                    <field name="ecotaxe_product_status"/>
                 </tree>
             </field>
         </record>
@@ -57,9 +39,13 @@
                                 <field name="name" default_focus="1" placeholder="Name"/>
                             </h1>
                         </div>
-                        <group col="4">
+                        <group  name="Informations" col="4">
                             <field name="code"/>
-                            <field name="active"/>
+                            <field name="account_ecotaxe_categ_id"/>
+                            <field name="ecotaxe_product_status"/>
+                            <field name="ecotaxe_supplier_status"/>
+                            <field name="ecotaxe_deb_code"/>
+                            <field name="ecotaxe_scale_code"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <separator string="Ecotaxes settings"/>
@@ -70,11 +56,6 @@
                             <field name="fixed_ecotaxe"
                                 attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"/>
                          </group>
-                        <separator string="Ecotaxes"/>
-                        <group col="4">
-                            <field name="sale_ecotaxe_id" quick_create="false"/>
-                            <field name="purchase_ecotaxe_id" quick_create="false"/>
-                        </group>
                     </sheet>
                 </form>
             </field>
@@ -110,7 +91,68 @@
             action="action_ecotaxe_classification"
             sequence="15"/> 
 
+ 
+        <!-- Define: account.ecotaxe.category -->
         
+        <record id="ecotaxe_category_tree" model="ir.ui.view">
+            <field name="model">account.ecotaxe.category</field>
+            <field name="arch" type="xml">
+                <tree colors="gray:active == False;">
+                    <field name="code"/>
+                    <field name="name"/>
+               </tree>
+            </field>
+        </record>
+
+        <record id="ecotaxe_category_form" model="ir.ui.view">
+            <field name="model">account.ecotaxe.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title oe_left">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="code"/>
+                        </group>
+                   </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_account_fiscalyear_search" model="ir.ui.view">   
+            <field name="model">account.ecotaxe.category</field>
+            <field name="arch" type="xml">
+                <search string="Search Ecotaxe category">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="category"/>
+                 </search>
+            </field>
+        </record>
+        <record id="action_ecotaxe_category" model="ir.actions.act_window">
+            <field name="name">Ecotaxe category</field>
+            <field name="res_model">account.ecotaxe.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new Ecotaxe category.
+              </p>
+            </field>
+        </record>
+                
+        <menuitem id="menu_ecotaxe_category"
+            parent="account.next_id_27"
+            action="action_ecotaxe_category"
+            sequence="16"/> 
+
+        
+
+
         <!-- INVOICE -->
         <record id="invoice_form" model="ir.ui.view">
             <field name="name">l10n_fr_ecotaxe.customer.invoice.form</field>
@@ -159,5 +201,5 @@
             </field>
         </record>
 
-    </data>
-</openerp>
+    
+</odoo>
