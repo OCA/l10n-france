@@ -6,8 +6,8 @@
     The licence is in the file __openerp__.py
 -->
 
-<openerp>
-    <data>
+<odoo>
+    
 
         <record id="product_template_form_ecotaxe"
             model="ir.ui.view">
@@ -37,5 +37,5 @@
             </field>
         </record>
 
-    </data>
-</openerp>
+    
+</odoo>
