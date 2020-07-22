@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--# Copyright (C) 2020 Akretion (http://www.akretion.com/)-->
+<openerp>
+    <data>
+        <report
+            id="action_report_l10n_fr_rup"
+            string="Rapport RUP"
+            model="hr.contract"
+            report_type="qweb-pdf"
+            file="l10n_fr_rup.report_l10n_fr_rup"
+            name="l10n_fr_rup.report_l10n_fr_rup"
+        />
+
+        <record id="action_report_l10n_fr_rup" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="l10n_fr_rup.paperformat_a3_rup"/>
+        </record>
+    </data>
+</openerp>
