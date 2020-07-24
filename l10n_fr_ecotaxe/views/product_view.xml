@@ -1,41 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
-    Copyright (C) 2015 Akretion (http://www.akretion.com/)
-    @author Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+    Copyright (C) 2020 Akretion (http://www.akretion.com/)
+    @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 -->
-
 <odoo>
-    
-
-        <record id="product_template_form_ecotaxe"
-            model="ir.ui.view">
-            <field name="name">product.template.ecotaxe.form</field>
-            <field name="model">product.template</field>
-            <field name="inherit_id"
-                ref="product.product_template_form_view" />
-            <field name="arch" type="xml">
-                
-                <xpath expr="//field[@name='categ_id']/.."
-                    position="after">
-                    <label for="ecotaxe_classification_ids" string="Ecotaxe classification"/>
-                    <div><field name="ecotaxe_classification_ids" widget="many2many_tags" colspan="3" nolabel="1"/></div>
-                </xpath>
-            </field>
-        </record>
-
-        <record id="product_product_form_ecotaxe" model="ir.ui.view">
-            <field name="name">product.product.ecotaxe.form</field>
-            <field name="model">product.product</field>
-            <field name="inherit_id" ref="product.product_normal_form_view"/>
-            <field name="arch" type="xml">
-                <field name="taxes_id" position="after">
-                    <field name="fixed_ecotaxe"/>
-					<field name="computed_ecotaxe"/>
-                </field>
-            </field>
-        </record>
-
-    
+    <record id="product_template_form_ecotaxe" model="ir.ui.view">
+        <field name="name">product.template.ecotaxe.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']/.." position="after">
+                <label
+                    for="ecotaxe_classification_id"
+                    string="Ecotaxe classification"
+                />
+                <div>
+                    <field name="ecotaxe_classification_id" colspan="3" nolabel="1" />
+                </div>
+                <field name="ecotaxe_amount" />
+                <field name="manual_fixed_ecotaxe" />
+            </xpath>
+        </field>
+    </record>
 </odoo>
