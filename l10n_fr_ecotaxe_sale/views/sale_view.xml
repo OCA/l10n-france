@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+   Copyright (C) 2015-2020 Akretion (http://www.akretion.com/)
+   @author: Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
+-->
+<odoo>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">l10n_fr_ecotaxe.sale.line.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <field name="amount_untaxed" position="after">
+                <field name="amount_ecotaxe" />
+            </field>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='tax_id']"
+                position="after"
+            >
+                <field name="amount_ecotaxe" />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='tax_id']"
+                position="after"
+            >
+                <field name="amount_ecotaxe" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
