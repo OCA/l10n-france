@@ -77,6 +77,7 @@
             <thead>
                 <tr>
                     <th rowspan="2" style="width:50px;">N° de ligne</th>
+                    <th rowspan="2">Addresse de l'employeur</th>
                     <th rowspan="2">Nom et prénom</th>
                     <th rowspan="2">Date de naissance</th>
                     <th rowspan="2">Sexe</th>
