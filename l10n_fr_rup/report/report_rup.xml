@@ -117,6 +117,9 @@
                         <span t-esc="contract_index + 1"/>
                     </td>
                     <td>
+                        <span t-field="contract.work_location"/>
+                    </td>
+                    <td>
                         <span t-field="contract.employee_id.name"/>
                     </td>
                     <td>
