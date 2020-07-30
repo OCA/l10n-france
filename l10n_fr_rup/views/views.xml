@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--# Copyright (C) 2020 Akretion (http://www.akretion.com/)-->
+<openerp>
+    <data>
+
+        <record id="hr_contract_view_search" model="ir.ui.view">
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_search"/>
+            <field name="arch" type="xml">
+                <filter string="Job" position="after">
+                    <filter name="work_location" string="Localisation du Bureau"
+                            context="{'group_by': 'work_location'}"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="hr_contract_view_form" model="ir.ui.view">
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <field name="type_id" position="before">
+                    <field name="pcs_id"/>
+                    <field name="employer_address_id"/>
+                    <field name="qualification"/>
+                    <field name="work_location"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="hr_employee_view_form" model="ir.ui.view">
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="coach_id" position="after">
+                    <field name="pcs_id"/>
+                    <field name="qualification"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_pcs" model="ir.actions.act_window">
+            <field name="name">Professions et catégories socioprofessionelles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.pcs</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_pcs" name="PCS" parent="hr.menu_hr_configuration" action="action_pcs"/>
+
+    </data>
+</openerp>

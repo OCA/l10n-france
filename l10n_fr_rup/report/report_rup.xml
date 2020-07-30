@@ -81,7 +81,7 @@
                     <th rowspan="2">Date de naissance</th>
                     <th rowspan="2">Sexe</th>
                     <th rowspan="2">Nationalité</th>
-                    <th rowspan="2">Emploi et qualification</th>
+                    <th rowspan="2">Emploi</th>
                     <th rowspan="2">Addresse</th>
                     <th rowspan="2">N° de sécurité sociale</th>
                     <th colspan="5">Renseignements fournis par le titre du travailleur</th>
@@ -90,6 +90,8 @@
                         d'employeurs
                     </th>
                     <th rowspan="2">Type du contrat</th>
+                    <th rowspan="2">Profession et catégorie socioprofessionelle</th>
+                    <th rowspan="2">Qualification</th>
                     <th rowspan="2">Evènements postérieurs à l'embauche</th>
                     <th rowspan="2">Date de l'autorisation administrative d'embauche ou de
                         licenciement
@@ -130,12 +132,12 @@
                         <span t-field="contract.job_id"/>
                     </td>
                     <td>
-                        <span t-field="contract.employee_id.address_id.street"/>
-                        <span t-field="contract.employee_id.address_id.street2"/>
-                        <span t-field="contract.employee_id.address_id.city"/>
-                        <span t-field="contract.employee_id.address_id.state_id"/>
-                        <span t-field="contract.employee_id.address_id.zip"/>
-                        <span t-field="contract.employee_id.address_id.country_id.name"/>
+                        <span t-field="contract.employee_id.address_home_id.street"/>
+                        <span t-field="contract.employee_id.address_home_id.street2"/>
+                        <span t-field="contract.employee_id.address_home_id.city"/>
+                        <span t-field="contract.employee_id.address_home_id.state_id"/>
+                        <span t-field="contract.employee_id.address_home_id.zip"/>
+                        <span t-field="contract.employee_id.address_home_id.country_id.name"/>
                     </td>
                     <td>
                         <span t-field="contract.employee_id.identification_id"/>
@@ -148,6 +150,12 @@
                     <td/>
                     <td>
                         <span t-field="contract.type_id.name"/>
+                    </td>
+                    <td>
+                        <span t-field="contract.pcs_id.name"/>
+                    </td>
+                    <td>
+                        <span t-field="contract.qualification"/>
                     </td>
                     <td/>
                     <td/>
