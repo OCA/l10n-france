@@ -32,6 +32,7 @@
             <field name="pcs_id" ref="hr_employee_pcs_cadre"/>
             <field name="qualification">Partenaire</field>
             <field name="work_location">12 rue du Parc, Ville XYZ, 31000</field>
+            <field name="employer_address_id" ref="base.res_partner_4"/>
         </record>
         <record id="demo_contract_fp_2" model="hr.contract">
             <field name="name">Pieter Parker contrat antérieur</field>
@@ -44,6 +45,7 @@
             <field name="pcs_id" ref="hr_employee_pcs_cadre"/>
             <field name="qualification">Partenaire</field>
             <field name="work_location">12 rue du Parc, Ville XYZ, 31000</field>
+            <field name="employer_address_id" ref="base.res_partner_8"/>
         </record>
         <record id="demo_contract_al" model="hr.contract">
             <field name="name">Antoine Langlais contrat</field>
@@ -56,6 +58,7 @@
             <field name="pcs_id" ref="hr_employee_pcs_cadre"/>
             <field name="qualification">Médior</field>
             <field name="work_location">6 boulevard Chaise, Ville ABC, 87774</field>
+            <field name="employer_address_id" ref="base.res_partner_9"/>
         </record>
         <record id="demo_contract_mit" model="hr.contract">
             <field name="name">John Smith contrat</field>
@@ -67,6 +70,7 @@
             <field name="pcs_id" ref="hr_employee_pcs_intermediaires"/>
             <field name="qualification">Sénior</field>
             <field name="work_location">6 avenue Poule, Ville X, 45000</field>
+            <field name="employer_address_id" ref="base.res_partner_11"/>
         </record>
 
         <!--Complementary employee information-->

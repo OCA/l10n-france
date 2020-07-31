@@ -118,7 +118,12 @@
                         <span t-esc="contract_index + 1"/>
                     </td>
                     <td>
-                        <span t-field="contract.work_location"/>
+                        <span t-field="contract.employer_address_id.street"/>
+                        <span t-field="contract.employer_address_id.street2"/>
+                        <span t-field="contract.employer_address_id.city"/>
+                        <span t-field="contract.employer_address_id.state_id"/>
+                        <span t-field="contract.employer_address_id.zip"/>
+                        <span t-field="contract.employer_address_id.country_id.name"/>
                     </td>
                     <td>
                         <span t-field="contract.employee_id.name"/>
