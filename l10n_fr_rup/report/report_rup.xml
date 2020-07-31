@@ -77,13 +77,13 @@
             <thead>
                 <tr>
                     <th rowspan="2" style="width:50px;">N° de ligne</th>
-                    <th rowspan="2">Addresse de l'employeur</th>
+                    <th rowspan="2">Addresse de travail</th>
                     <th rowspan="2">Nom et prénom</th>
                     <th rowspan="2">Date de naissance</th>
                     <th rowspan="2">Sexe</th>
                     <th rowspan="2">Nationalité</th>
                     <th rowspan="2">Emploi</th>
-                    <th rowspan="2">Addresse</th>
+                    <th rowspan="2">Addresse personelle</th>
                     <th rowspan="2">N° de sécurité sociale</th>
                     <th colspan="5">Renseignements fournis par le titre du travailleur</th>
                     <th rowspan="2">Noms et addresses des entrepreneurs de travail temporaire ou
@@ -118,12 +118,7 @@
                         <span t-esc="contract_index + 1"/>
                     </td>
                     <td>
-                        <span t-field="contract.employer_address_id.street"/>
-                        <span t-field="contract.employer_address_id.street2"/>
-                        <span t-field="contract.employer_address_id.city"/>
-                        <span t-field="contract.employer_address_id.state_id"/>
-                        <span t-field="contract.employer_address_id.zip"/>
-                        <span t-field="contract.employer_address_id.country_id.name"/>
+                        <span t-field="contract.work_location"/>
                     </td>
                     <td>
                         <span t-field="contract.employee_id.name"/>
@@ -156,7 +151,15 @@
                     <td/>
                     <td/>
                     <td/>
-                    <td/>
+                    <td>
+                        <span t-field="contract.employer_address_id.name"/>,
+                        <span t-field="contract.employer_address_id.street"/>
+                        <span t-field="contract.employer_address_id.street2"/>
+                        <span t-field="contract.employer_address_id.city"/>
+                        <span t-field="contract.employer_address_id.state_id"/>
+                        <span t-field="contract.employer_address_id.zip"/>
+                        <span t-field="contract.employer_address_id.country_id.name"/>
+                    </td>
                     <td>
                         <span t-field="contract.type_id.name"/>
                     </td>
