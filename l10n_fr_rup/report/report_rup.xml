@@ -185,7 +185,8 @@
             <t t-call="report.html_container">
                 <div class="page">
                     <div class="oe_structure"/>
-                    <h2>REGISTRE UNIQUE DU PERSONNEL</h2>
+                    <h2 style="text-align: center">REGISTRE UNIQUE DU PERSONNEL</h2>
+                    <br/><br/>
                     <table class="pure-table">
                         <t t-call="l10n_fr_rup.rup_table_header"/>
                         <t t-call="l10n_fr_rup.rup_table_rows"/>
