@@ -136,12 +136,8 @@
                         <span t-field="contract.job_id"/>
                     </td>
                     <td>
-                        <span t-field="contract.employee_id.address_home_id.street"/>
-                        <span t-field="contract.employee_id.address_home_id.street2"/>
-                        <span t-field="contract.employee_id.address_home_id.city"/>
-                        <span t-field="contract.employee_id.address_home_id.state_id"/>
-                        <span t-field="contract.employee_id.address_home_id.zip"/>
-                        <span t-field="contract.employee_id.address_home_id.country_id.name"/>
+                        <span t-field="contract.employee_id.address_home_id"
+                              t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
                     </td>
                     <td>
                         <span t-field="contract.employee_id.identification_id"/>
@@ -152,13 +148,8 @@
                     <td/>
                     <td/>
                     <td>
-                        <span t-field="contract.employer_address_id.name"/>,
-                        <span t-field="contract.employer_address_id.street"/>
-                        <span t-field="contract.employer_address_id.street2"/>
-                        <span t-field="contract.employer_address_id.city"/>
-                        <span t-field="contract.employer_address_id.state_id"/>
-                        <span t-field="contract.employer_address_id.zip"/>
-                        <span t-field="contract.employer_address_id.country_id.name"/>
+                        <span t-field="contract.employer_address_id"
+                              t-field-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": true}'/>
                     </td>
                     <td>
                         <span t-field="contract.type_id.name"/>
