@@ -340,7 +340,6 @@ msgstr "Sociétés"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__company_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__company_id
 #, fuzzy
-#| msgid "Companies"
 msgid "Company"
 msgstr "Sociétés"
 
@@ -396,7 +395,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__src_dest_country_id
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__src_dest_country_id
 #, fuzzy
-#| msgid "Missing Country of Origin/Destination on line %d."
 msgid "Country of Origin/Destination"
 msgstr "Pays d'origine/destination manquant sur la ligne %d."
 
@@ -404,9 +402,6 @@ msgstr "Pays d'origine/destination manquant sur la ligne %d."
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__product_origin_country_id
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__product_origin_country_id
 #, fuzzy
-#| msgid ""
-#| "Missing country of origin on product %s. This product is present in "
-#| "invoice %s."
 msgid "Country of origin of the product i.e. product 'made in ____'"
 msgstr ""
 "Pays d'origine non renseigné sur l'article %s. Cet article est présent sur "
@@ -527,7 +522,6 @@ msgstr "Représentant fiscal dans l'UE"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__amount_company_currency
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__amount_company_currency
 #, fuzzy
-#| msgid "Fiscal value multiplier"
 msgid "Fiscal Value"
 msgstr "Multiplicateur de la valeur fiscale"
 
@@ -617,7 +611,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__hs_code_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__hs_code_id
 #, fuzzy
-#| msgid "Intrastat product type"
 msgid "Intrastat Code"
 msgstr "Type de DEB"
 
@@ -651,7 +644,6 @@ msgstr "DEB"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__region_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__region_id
 #, fuzzy
-#| msgid "Intrastat Transaction"
 msgid "Intrastat Region"
 msgstr "Transaction DEB"
 
@@ -659,7 +651,6 @@ msgstr "Transaction DEB"
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__intrastat_unit_id
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__intrastat_unit_id
 #, fuzzy
-#| msgid "Intrastat Supplementary Units"
 msgid "Intrastat Supplementary Unit"
 msgstr "Unités de mesure supplémentaire pour la DEB"
 
@@ -688,7 +679,6 @@ msgstr "Emplacement de stock"
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__invoice_id
 #, fuzzy
-#| msgid "Customer Invoice"
 msgid "Invoice"
 msgstr "Factures client"
 
@@ -876,7 +866,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_needaction_counter
 #, fuzzy
-#| msgid "Number of Declaration Lines"
 msgid "Number of Actions"
 msgstr "Nombre de lignes de déclaration"
 
@@ -889,7 +878,6 @@ msgstr "Nombre de lignes de déclaration"
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_has_error_counter
 #, fuzzy
-#| msgid "Number of Declaration Lines"
 msgid "Number of error"
 msgstr "Nombre de lignes de déclaration"
 
@@ -944,7 +932,6 @@ msgstr "Partenaire"
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:170
 #, fuzzy, python-format
-#| msgid "Partner"
 msgid "Partner VAT"
 msgstr "Partenaire"
 
@@ -1022,7 +1009,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__suppl_unit_qty
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__suppl_unit_qty
 #, fuzzy
-#| msgid "Intrastat Supplementary Units"
 msgid "Supplementary Units Quantity"
 msgstr "Unités de mesure supplémentaire pour la DEB"
 
@@ -1096,7 +1082,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__transport_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__transport_id
 #, fuzzy
-#| msgid "Transaction code"
 msgid "Transport Mode"
 msgstr "Nature de la transaction"
 
