@@ -845,7 +845,6 @@ msgstr "Empresa"
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:170
 #, fuzzy, python-format
-#| msgid "Partner"
 msgid "Partner VAT"
 msgstr "Empresa"
 
