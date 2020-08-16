@@ -209,7 +209,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:mail.template,subject:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 #, fuzzy
-#| msgid "Intrastat Service ${object.year_month} for ${object.company_id.name}"
 msgid "DES ${object.year_month} for ${object.company_id.name}"
 msgstr "DES ${object.year_month} pour ${object.company_id.name}"
 
