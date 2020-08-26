@@ -16,13 +16,13 @@
                 expr="//field[@name='order_line']/form//field[@name='tax_id']"
                 position="after"
             >
-                <field name="amount_ecotaxe" />
+                <field name="unit_ecotaxe_amount" />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='tax_id']"
                 position="after"
             >
-                <field name="amount_ecotaxe" />
+                <field name="unit_ecotaxe_amount" />
             </xpath>
         </field>
     </record>

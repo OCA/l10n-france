@@ -22,8 +22,8 @@ class PurchaseOrderLine(models.Model):
         for line in self:
             line.unit_ecotaxe_amount = line.product_id.ecotaxe_amount
 
-            if line.pricelist_id:
-                cur = line.pricelist_id.currency_id
+            if line.order_id:
+                cur = line.order_id.currency_id
                 line.unit_ecotaxe_amount = cur.round(line.unit_ecotaxe_amount)
             line.subtotal_ecotaxe = line.unit_ecotaxe_amount * line.product_uom_qty
 
@@ -41,6 +41,6 @@ class PurchaseOrder(models.Model):
     def _compute_ecotaxe(self):
         for order in self:
             val_ecotaxe = 0.0
-            for line in order.order_line_ids:
+            for line in order.order_line:
                 val_ecotaxe += line.subtotal_ecotaxe
             order.amount_ecotaxe = val_ecotaxe
