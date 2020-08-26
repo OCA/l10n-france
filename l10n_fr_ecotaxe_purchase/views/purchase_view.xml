@@ -16,7 +16,7 @@
                 expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
                 position="after"
             >
-                <field name="amount_ecotaxe" />
+                <field name="unit_ecotaxe_amount" />
             </xpath>
         </field>
     </record>
