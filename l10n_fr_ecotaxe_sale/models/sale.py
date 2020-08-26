@@ -41,6 +41,6 @@ class SaleOrder(models.Model):
     def _compute_ecotaxe(self):
         for order in self:
             val_ecotaxe = 0.0
-            for line in order.order_line_ids:
+            for line in order.order_line:
                 val_ecotaxe += line.subtotal_ecotaxe
             order.amount_ecotaxe = val_ecotaxe
