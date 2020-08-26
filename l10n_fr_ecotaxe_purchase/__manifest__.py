@@ -9,7 +9,7 @@
     "website": "http://www.akretion.com",
     "category": "Localization/Account Taxes",
     "license": "AGPL-3",
-    "depends": ["purchase"],
+    "depends": ["l10n_fr_ecotaxe", "purchase"],
     "data": ["views/purchase_view.xml"],
     "installable": True,
 }
