@@ -22,8 +22,8 @@ class SaleOrderLine(models.Model):
         for line in self:
             line.unit_ecotaxe_amount = line.product_id.ecotaxe_amount
 
-            if line.pricelist_id:
-                cur = line.pricelist_id.currency_id
+            if line.order_id.pricelist_id:
+                cur = line.order_id.pricelist_id.currency_id
                 line.unit_ecotaxe_amount = cur.round(line.unit_ecotaxe_amount)
             line.subtotal_ecotaxe = line.unit_ecotaxe_amount * line.product_uom_qty
 
