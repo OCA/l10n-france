@@ -1,23 +1,23 @@
-# Copyright 2017-2018 Akretion France
+# Copyright 2017-2020 Akretion France
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, SUPERUSER_ID
+from odoo import SUPERUSER_ID, api
 
 fr_states = {
-    44: 'res_country_state_alsace',
-    75: 'res_country_state_aquitaine',
-    84: 'res_country_state_auvergne',
-    27: 'res_country_state_bourgogne',
-    53: 'res_country_state_bretagne',
-    24: 'res_country_state_centre',
-    94: 'res_country_state_corse',
-    11: 'res_country_state_iledefrance',
-    76: 'res_country_state_languedocroussillon',
-    32: 'res_country_state_nordpasdecalais',
-    28: 'res_country_state_bassenormandie',
-    52: 'res_country_state_paysdelaloire',
-    93: 'res_country_state_provencealpescotedazur',
+    44: "res_country_state_alsace",
+    75: "res_country_state_aquitaine",
+    84: "res_country_state_auvergne",
+    27: "res_country_state_bourgogne",
+    53: "res_country_state_bretagne",
+    24: "res_country_state_centre",
+    94: "res_country_state_corse",
+    11: "res_country_state_iledefrance",
+    76: "res_country_state_languedocroussillon",
+    32: "res_country_state_nordpasdecalais",
+    28: "res_country_state_bassenormandie",
+    52: "res_country_state_paysdelaloire",
+    93: "res_country_state_provencealpescotedazur",
 }
 
 # This code is designed to avoid a problem in the following scenario:
@@ -34,16 +34,18 @@ fr_states = {
 def create_fr_state_xmlid(cr):
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
-        fr_country = env.ref('base.fr')
+        fr_country = env.ref("base.fr")
         for region_code, xmlid in fr_states.items():
-            regions = env['res.country.state'].search([
-                ('code', '=', region_code),
-                ('country_id', '=', fr_country.id)])
+            regions = env["res.country.state"].search(
+                [("code", "=", region_code), ("country_id", "=", fr_country.id)]
+            )
             if regions:
-                env['ir.model.data'].create({
-                    'name': xmlid,
-                    'res_id': regions[0].id,
-                    'module': 'l10n_fr_state',
-                    'model': 'res.country.state',
-                })
+                env["ir.model.data"].create(
+                    {
+                        "name": xmlid,
+                        "res_id": regions[0].id,
+                        "module": "l10n_fr_state",
+                        "model": "res.country.state",
+                    }
+                )
     return
