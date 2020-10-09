@@ -1,23 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
-
-
     <record id="view_res_partner_filter" model="ir.ui.view">
         <field name="name">l10n_fr_department.partner.search</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
         <field name="arch" type="xml">
             <filter name="group_country" position="before">
-                <filter name="department_groupby" string="Department"
-                        context="{'group_by': 'department_id'}"/>
+                <filter
+                    name="department_groupby"
+                    string="Department"
+                    context="{'group_by': 'department_id'}"
+                />
             </filter>
         </field>
     </record>
-
-
 </odoo>

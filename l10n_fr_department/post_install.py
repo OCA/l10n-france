@@ -1,8 +1,8 @@
-# Copyright 2014-2018 Akretion France
+# Copyright 2014-2020 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, SUPERUSER_ID
+from odoo import SUPERUSER_ID, api
 
 
 def set_department_on_partner(cr, registry):
@@ -14,12 +14,13 @@ def set_department_on_partner(cr, registry):
     on res.partner stays null. This post_install script fixes this."""
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
-        fr_countries = env['res.country'].search(
-            [('code', 'in', ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT'))])
-        partners = env['res.partner'].search(
-            [
-                '|', ('active', '=', False), ('active', '=', True),
-                ('country_id', 'in', fr_countries.ids),
-            ])
+        fr_countries = env["res.country"].search(
+            [("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT"))]
+        )
+        partners = (
+            env["res.partner"]
+            .with_context(active_test=False)
+            .search([("country_id", "in", fr_countries.ids)])
+        )
         partners._compute_department()
     return
