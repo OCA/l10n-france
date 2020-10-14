@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  Copyright 2013-2019 Akretion France (http://www.akretion.com/)
+  Copyright 2013-2020 Akretion France (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -29,13 +29,13 @@
                 ref="l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration"
             />
             <field name="auto_delete" eval="False" />
-            <field
-                name="email_from"
-            >${object.company_id.email or 'odoo@example.com'}</field>
+            <field name="email_from">
+                ${object.company_id.email or 'odoo@example.com'}
+            </field>
             <field name="email_to">${object.company_id.intrastat_email_list}</field>
-            <field
-                name="subject"
-            >DES ${object.year_month} for ${object.company_id.name}</field>
+            <field name="subject">
+                DES ${object.year_month} for ${object.company_id.name}
+            </field>
             <field
                 name="body_html"
             ><![CDATA[
