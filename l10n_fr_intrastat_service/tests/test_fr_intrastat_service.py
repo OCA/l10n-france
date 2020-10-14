@@ -23,7 +23,11 @@ class TestFrIntrastatService(TransactionCase):
         self.move_line_model = self.env["account.move.line"]
         self.account_account_model = self.env["account.account"]
         self.service_product = self.env["product.product"].create(
-            {"name": "Engineering services", "type": "service", "sale_ok": True,}
+            {
+                "name": "Engineering services",
+                "type": "service",
+                "sale_ok": True,
+            }
         )
         self.belgian_partner = self.env["res.partner"].create(
             {
@@ -34,7 +38,7 @@ class TestFrIntrastatService(TransactionCase):
             }
         )
         self.account_receivable = self.account_account_model.search(
-            [("code", "=", "411100")], limit=1
+            [("code", "=", "411100"), ("company_id", "=", self.company.id)], limit=1
         )
 
         if not self.account_receivable:
@@ -44,10 +48,11 @@ class TestFrIntrastatService(TransactionCase):
                     "name": "Debtors - (test)",
                     "reconcile": True,
                     "user_type_id": self.ref("account.data_account_type_receivable"),
+                    "company_id": self.company.id,
                 }
             )
         self.account_revenue = self.account_account_model.search(
-            [("code", "=", "706000")], limit=1
+            [("code", "=", "706000"), ("company_id", "=", self.company.id)], limit=1
         )
         if not self.account_revenue:
             self.account_revenue = self.account_account_model.create(
@@ -55,6 +60,7 @@ class TestFrIntrastatService(TransactionCase):
                     "code": "706000",
                     "name": "Service Sales - (test)",
                     "user_type_id": self.ref("account.data_account_type_revenue"),
+                    "company_id": self.company.id,
                 }
             )
 
@@ -62,9 +68,10 @@ class TestFrIntrastatService(TransactionCase):
         date = datetime.today() + relativedelta(day=5, months=-1)
         inv1 = self.move_model.create(
             {
+                "company_id": self.company.id,
                 "partner_id": self.belgian_partner.id,
                 "currency_id": self.env.ref("base.EUR").id,
-                "type": "out_invoice",
+                "move_type": "out_invoice",
                 "invoice_date": date,
                 "invoice_line_ids": [
                     (
@@ -97,9 +104,10 @@ class TestFrIntrastatService(TransactionCase):
         # create 2nd invoice
         inv2 = self.move_model.create(
             {
+                "company_id": self.company.id,
                 "partner_id": self.belgian_partner.id,
                 "currency_id": self.env.ref("base.EUR").id,
-                "type": "out_invoice",
+                "move_type": "out_invoice",
                 "invoice_date": date,
                 "invoice_line_ids": [
                     (
@@ -132,9 +140,10 @@ class TestFrIntrastatService(TransactionCase):
         # create refund
         inv3 = self.move_model.create(
             {
+                "company_id": self.company.id,
                 "partner_id": self.belgian_partner.id,
                 "currency_id": self.env.ref("base.EUR").id,
-                "type": "out_refund",
+                "move_type": "out_refund",
                 "invoice_date": date,
                 "invoice_line_ids": [
                     (
@@ -158,17 +167,17 @@ class TestFrIntrastatService(TransactionCase):
             {"company_id": self.company.id}
         )
         des.generate_service_lines()
-        self.assertEqual(float_compare(des.total_amount, 540.0, precision_digits=2), 0)
+        self.assertEqual(float_compare(des.total_amount, 540.0, precision_digits=0), 0)
         self.assertEqual(des.num_decl_lines, 3)
         des.done()
-        self.assertEquals(des.state, "done")
+        self.assertEqual(des.state, "done")
         des.generate_xml()
         xml_des_file = des.attachment_id
         self.assertTrue(xml_des_file)
-        self.assertEquals(xml_des_file.name[-4:], ".xml")
+        self.assertEqual(xml_des_file.name[-4:], ".xml")
         xml_str = base64.b64decode(xml_des_file.datas)
         xml_root = etree.fromstring(xml_str)
         company_vat_xpath = xml_root.xpath("/fichier_des/declaration_des/num_tvaFr")
-        self.assertEquals(company_vat_xpath[0].text, self.company.vat)
+        self.assertEqual(company_vat_xpath[0].text, self.company.vat)
         lines_xpath = xml_root.xpath("/fichier_des/declaration_des/ligne_des")
-        self.assertEquals(len(lines_xpath), des.num_decl_lines)
+        self.assertEqual(len(lines_xpath), des.num_decl_lines)
