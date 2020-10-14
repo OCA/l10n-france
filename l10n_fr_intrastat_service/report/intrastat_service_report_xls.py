@@ -13,12 +13,20 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
     def _get_ws_params(self, wb, data, declaration):
         template = {
             "partner_vat": {
-                "header": {"type": "string", "value": _("Partner VAT"),},
-                "line": {"value": self._render("line.partner_vat or ''"),},
+                "header": {
+                    "type": "string",
+                    "value": _("Partner VAT"),
+                },
+                "line": {
+                    "value": self._render("line.partner_vat or ''"),
+                },
                 "width": 20,
             },
             "amount": {
-                "header": {"type": "string", "value": _("Amount"),},
+                "header": {
+                    "type": "string",
+                    "value": _("Amount"),
+                },
                 "line": {
                     "type": "number",
                     "value": self._render("line.amount_company_currency"),
@@ -27,13 +35,23 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
                 "width": 16,
             },
             "partner": {
-                "header": {"type": "string", "value": _("Partner"),},
-                "line": {"value": self._render("line.partner_id.display_name or ''"),},
+                "header": {
+                    "type": "string",
+                    "value": _("Partner"),
+                },
+                "line": {
+                    "value": self._render("line.partner_id.display_name or ''"),
+                },
                 "width": 40,
             },
             "invoice": {
-                "header": {"type": "string", "value": _("Invoice"),},
-                "line": {"value": self._render("line.move_id.name or ''"),},
+                "header": {
+                    "type": "string",
+                    "value": _("Invoice"),
+                },
+                "line": {
+                    "value": self._render("line.move_id.name or ''"),
+                },
                 "width": 20,
             },
         }
