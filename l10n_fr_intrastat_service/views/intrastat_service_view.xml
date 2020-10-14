@@ -32,6 +32,12 @@
                         type="object"
                         attrs="{'invisible': ['|', ('attachment_id', '!=', False), ('declaration_line_ids', '=', [])]}"
                     />
+                    <button
+                        name="delete_xml"
+                        string="Delete XML Export"
+                        type="object"
+                        attrs="{'invisible': [('attachment_id', '=', False)]}"
+                    />
                     <button name="create_xlsx" type="object" string="Excel Export" />
                     <button
                         name="back2draft"
@@ -52,7 +58,9 @@
                         <group name="properties-1">
                             <field name="start_date" />
                             <field name="end_date" />
-                            <field name="attachment_id" />
+                            <field name="attachment_datas" filename="attachment_name" />
+                            <field name="attachment_name" invisible="1" />
+                            <field name="attachment_id" invisible="1" />
                         </group>
                         <group name="properties-2">
                             <field name="num_decl_lines" />
@@ -61,7 +69,6 @@
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
-                                widget="selection"
                             />
                         </group>
                     </group>
@@ -85,7 +92,7 @@
             <tree string="DES" decoration-info="state == 'draft'">
                 <field name="year_month" />
                 <field name="company_id" groups="base.group_multi_company" />
-                <field name="num_decl_lines" />
+                <field name="num_decl_lines" sum="1" />
                 <field name="total_amount" sum="1" />
                 <field name="currency_id" invisible="1" />
                 <field name="state" />
@@ -98,6 +105,7 @@
         <field name="model">l10n.fr.intrastat.service.declaration</field>
         <field name="arch" type="xml">
             <search string="Search DES">
+                <field name="year_month" />
                 <filter
                     name="draft"
                     string="Draft"
@@ -165,12 +173,13 @@
             <tree string="DES Lines">
                 <field name="partner_vat" />
                 <!-- amount_company_currency is an Integer field,
-            not a fields.Monetary, that's why I use explicitely
-            the widget and the options in the field below -->
+                     not a fields.Monetary, that's why I use explicitely
+                     the widget and the options in the field below -->
                 <field
                     name="amount_company_currency"
                     widget="monetary"
                     options="{'currency_field': 'company_currency_id'}"
+                    sum="1"
                 />
                 <field name="company_currency_id" invisible="1" />
                 <field name="partner_id" />
