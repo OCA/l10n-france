@@ -47,6 +47,11 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     num_decl_lines = fields.Integer(
         compute="_compute_numbers", string="Number of Lines", store=True, tracking=True
     )
+    # For the field 'total_amount', we could have used a fields.Integer
+    # like for the field 'amount_company_currency' on lines. But this field is not
+    # used in the DES, so it's not an important field, therefore it's simpler
+    # to use a fields.Monetary (no need to explicitly define the widget and
+    # currency in views)
     total_amount = fields.Monetary(
         compute="_compute_numbers",
         currency_field="currency_id",
@@ -58,14 +63,19 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         related="company_id.currency_id", string="Company Currency", store=True
     )
     state = fields.Selection(
-        [("draft", "Draft"), ("done", "Done"),],
+        [
+            ("draft", "Draft"),
+            ("done", "Done"),
+        ],
         string="State",
         readonly=True,
         tracking=True,
         default="draft",
         copy=False,
     )
-    attachment_id = fields.Many2one("ir.attachment", string="XML Export")
+    attachment_id = fields.Many2one("ir.attachment")
+    attachment_datas = fields.Binary(related="attachment_id.datas", string="XML Export")
+    attachment_name = fields.Char(related="attachment_id.name", string="XML Filename")
 
     _sql_constraints = [
         (
@@ -82,6 +92,24 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 raise ValidationError(
                     _("The start date must be the first day of a month.")
                 )
+
+    @api.depends("declaration_line_ids.amount_company_currency")
+    def _compute_numbers(self):
+        rg_res = self.env["l10n.fr.intrastat.service.declaration.line"].read_group(
+            [("parent_id", "in", self.ids)],
+            ["parent_id", "amount_company_currency"],
+            ["parent_id"],
+        )
+        data = {
+                    x["parent_id"][0]:
+                    {
+                        "total_amount": x["amount_company_currency"],
+                        "num_decl_lines": x["parent_id_count"],
+                    }
+                for x in rg_res
+        }
+        for rec in self:
+            rec.write(data.get(rec.id, {}))
 
     @api.depends("start_date")
     def _compute_dates(self):
@@ -112,7 +140,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     def _prepare_domain(self):
         self.ensure_one()
         domain = [
-            ("type", "in", ("out_invoice", "out_refund")),
+            ("move_type", "in", ("out_invoice", "out_refund")),
             ("invoice_date", "<=", self.end_date),
             ("invoice_date", ">=", self.start_date),
             ("state", "=", "posted"),
@@ -137,7 +165,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             [("move_id", "!=", False), ("parent_id", "=", self.id)]
         )
         lines_to_remove.unlink()
-
+        company_country = self.company_id.country_id
+        company_currency = self.company_id.currency_id
         invoices = amo.search(self._prepare_domain(), order="invoice_date")
         for invoice in invoices:
             if not invoice.commercial_partner_id.country_id:
@@ -147,10 +176,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 )
             elif not invoice.commercial_partner_id.country_id.intrastat:
                 continue
-            elif (
-                invoice.commercial_partner_id.country_id.id
-                == self.company_id.country_id.id
-            ):
+            elif invoice.commercial_partner_id.country_id == company_country:
                 continue
 
             amount_invoice_cur_to_write = 0.0
@@ -176,7 +202,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 # - some HW products with value = 0
                 # - some accessory costs
                 # => we want to have the accessory costs in DEB, not in DES
-                if not line.quantity or not line.price_subtotal:
+                if line.currency_id.is_zero(line.price_subtotal):
                     continue
 
                 if any([t.exclude_from_intrastat_if_present for t in line.tax_ids]):
@@ -196,22 +222,19 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     + amount_invoice_cur_accessory_cost
                 )
 
-            if invoice.currency_id != eur_cur:
-                amount_company_cur_to_write = int(
-                    round(
-                        invoice.currency_id._convert(
-                            amount_invoice_cur_to_write,
-                            self.company_id.currency_id,
-                            self.company_id,
-                            invoice.invoice_date,
-                        )
+            amount_company_cur_to_write = int(
+                round(
+                    invoice.currency_id._convert(
+                        amount_invoice_cur_to_write,
+                        company_currency,
+                        self.company_id,
+                        invoice.invoice_date,
                     )
                 )
-            else:
-                amount_company_cur_to_write = int(round(amount_invoice_cur_to_write))
+            )
 
             if amount_company_cur_to_write:
-                if invoice.type == "out_refund":
+                if invoice.move_type == "out_refund":
                     amount_invoice_cur_to_write *= -1
                     amount_company_cur_to_write *= -1
 
@@ -303,16 +326,19 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             )
         self._check_generate_xml()
         root = self._generate_des_xml_root()
-        xml_string = etree.tostring(
+        xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
 
         # We now validate the XML file against the official XSD
-        self._check_xml_schema(xml_string, "l10n_fr_intrastat_service/data/des.xsd")
+        self._check_xml_schema(xml_bytes, "l10n_fr_intrastat_service/data/des.xsd")
         # Attach the XML file
-        attach_id = self._attach_xml_file(xml_string, "des")
+        attach_id = self._attach_xml_file(xml_bytes, "des")
         self.write({"attachment_id": attach_id})
-        return self._open_attach_view(attach_id, title="DES XML file")
+
+    def delete_xml(self):
+        self.ensure_one()
+        self.attachment_id and self.attachment_id.unlink()
 
     @api.model
     def _scheduler_reminder(self):
@@ -321,15 +347,14 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         )
         # I can't search on [('country_id', '=', ...)]
         # because it is a fields.function not stored and without fnct_search
-        companies = self.env["res.company"].search([])
+        fr_countries = self.env["res.country"].search(
+            [("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT"))]
+        )
+        companies = self.env["res.company"].search(
+            [("partner_id.country_id", "in", fr_countries.ids)]
+        )
         logger.info("Starting the DES reminder")
         for company in companies:
-            if company.country_id.code != "FR":
-                logger.info(
-                    "Skipping company %s because it is not based in France",
-                    company.name,
-                )
-                continue
             # Check if a DES already exists for month N-1
             intrastats = self.search(
                 [("start_date", "=", previous_month), ("company_id", "=", company.id)]
@@ -343,7 +368,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     previous_month,
                     company.name,
                 )
-                continue
             else:
                 # If not, we create an intrastat.service for month N-1
                 intrastat = self.create({"company_id": company.id})
@@ -382,7 +406,10 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
     _order = "id"
 
     parent_id = fields.Many2one(
-        "l10n.fr.intrastat.service.declaration", string="DES", ondelete="cascade"
+        "l10n.fr.intrastat.service.declaration",
+        string="DES",
+        ondelete="cascade",
+        index=True,
     )
     company_id = fields.Many2one(
         "res.company", related="parent_id.company_id", string="Company", store=True
@@ -399,12 +426,16 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
     invoice_date = fields.Date(
         related="move_id.invoice_date", string="Invoice Date", store=True
     )
-    partner_vat = fields.Char(string="Customer VAT")
+    partner_vat = fields.Char(string="Customer VAT", required=True)
     partner_id = fields.Many2one(
-        "res.partner", string="Partner Name", ondelete="restrict"
+        "res.partner",
+        string="Partner Name",
+        ondelete="restrict",
+        domain=[("parent_id", "=", False)],
     )
     amount_company_currency = fields.Integer(
         string="Amount",
+        required=True,
         help="Amount in company currency to write in the declaration. "
         "Amount in company currency = amount in invoice currency "
         "converted to company currency with the rate of the invoice "
