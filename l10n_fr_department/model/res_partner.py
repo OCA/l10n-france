@@ -47,7 +47,7 @@ class ResPartner(models.Model):
 
     def _fr_zipcode_to_department_code(self, zipcode):
         code = zipcode[0:2]
-        # https://fr.wikipedia.org/wiki/Liste_des_communes_de_France_dont_le_code_postal_ne_correspond_pas_au_d%C3%A9partement
+        # https://fr.wikipedia.org/wiki/Liste_des_communes_de_France_dont_le_code_postal_ne_correspond_pas_au_d%C3%A9partement  # noqa
         special_zipcodes = {
             "42620": "03",
             "05110": "04",
