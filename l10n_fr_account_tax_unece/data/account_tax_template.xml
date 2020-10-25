@@ -259,53 +259,28 @@
     <record id="l10n_fr.tva_imm_super_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
     </record>
-    <!-- ACH_UE_due-20.0 -->
+    <!-- ACH_UE-20.0 -->
     <record id="l10n_fr.tva_intra_normale" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- ACH_UE_due-10.0 -->
+    <!-- ACH_UE-10.0 -->
     <record id="l10n_fr.tva_intra_intermediaire" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- ACH_UE_due-8.5 -->
+    <!-- ACH_UE-8.5 -->
     <record id="l10n_fr.tva_intra_specifique" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- ACH_UE_due-5.5 -->
+    <!-- ACH_UE-5.5 -->
     <record id="l10n_fr.tva_intra_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- ACH_UE_due-2.1 -->
+    <!-- ACH_UE-2.1 -->
     <record id="l10n_fr.tva_intra_super_reduite" model="account.tax.template">
-        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
-        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
-    </record>
-    <!-- ACH_UE_ded.-20.0 -->
-    <record id="l10n_fr.tva_acq_intra_normale" model="account.tax.template">
-        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
-        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
-    </record>
-    <!-- ACH_UE_ded.-10.0 -->
-    <record id="l10n_fr.tva_acq_intra_intermediaire" model="account.tax.template">
-        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
-        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
-    </record>
-    <!-- ACH_UE_ded.-8.5 -->
-    <record id="l10n_fr.tva_acq_intra_specifique" model="account.tax.template">
-        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
-        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
-    </record>
-    <!-- ACH_UE_ded.-5.5 -->
-    <record id="l10n_fr.tva_acq_intra_reduite" model="account.tax.template">
-        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
-        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
-    </record>
-    <!-- ACH_UE_ded.-2.1 -->
-    <record id="l10n_fr.tva_acq_intra_super_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
@@ -326,6 +301,31 @@
     </record>
     <!-- IMPORT-0 -->
     <record id="l10n_fr.tva_import_0" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+    </record>
+    <!-- IMPORT-hors-UE-20.0 -->
+    <record id="l10n_fr.tva_import_outside_eu_20" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+    </record>
+    <!-- IMPORT-hors-UE-10.0 -->
+    <record id="l10n_fr.tva_import_outside_eu_10" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+    </record>
+    <!-- IMPORT-hors-UE-8.5 -->
+    <record id="l10n_fr.tva_import_outside_eu_8_5" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+    </record>
+    <!-- IMPORT-hors-UE-5.5 -->
+    <record id="l10n_fr.tva_import_outside_eu_5_5" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+    </record>
+    <!-- IMPORT-hors-UE-2.1 -->
+    <record id="l10n_fr.tva_import_outside_eu_2_1" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
     </record>
