@@ -9,43 +9,36 @@
     <record id="l10n_fr.tva_normale" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 20.0-TTC -->
     <record id="l10n_fr.tva_normale_ttc" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 20.0-encaiss -->
     <record id="l10n_fr.tva_normale_encaissement" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- 20.0-TTC-encaiss -->
     <record id="l10n_fr.tva_normale_encaissement_ttc" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- 10.0 -->
     <record id="l10n_fr.tva_intermediaire" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 10.0-TTC -->
     <record id="l10n_fr.tva_intermediaire_ttc" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 10.0-encaiss -->
     <record id="l10n_fr.tva_intermediaire_encaissement" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- 10.0-TTC-encaiss -->
     <record
@@ -54,61 +47,51 @@
     >
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- 8.5 -->
     <record id="l10n_fr.tva_specifique" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 8.5-TTC -->
     <record id="l10n_fr.tva_specifique_ttc" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 5.5 -->
     <record id="l10n_fr.tva_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 5.5-TTC -->
     <record id="l10n_fr.tva_reduite_ttc" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 5.5-encaiss -->
     <record id="l10n_fr.tva_reduite_encaissement" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- 5.5-TTC-encaiss -->
     <record id="l10n_fr.tva_reduite_encaissement_ttc" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- 2.1 -->
     <record id="l10n_fr.tva_super_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 2.1-TTC -->
     <record id="l10n_fr.tva_super_reduite_ttc" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- 2.1-encaiss -->
     <record id="l10n_fr.tva_super_reduite_encaissement" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- 2.1-TTC-encaiss -->
     <record
@@ -117,43 +100,36 @@
     >
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- ACH-20.0 -->
     <record id="l10n_fr.tva_acq_normale" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-20.0-TTC -->
     <record id="l10n_fr.tva_acq_normale_TTC" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-20.0-encaiss -->
     <record id="l10n_fr.tva_acq_encaissement" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- ACH-20.0-TTC-encaiss -->
     <record id="l10n_fr.tva_acq_encaissement_TTC" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- ACH-10.0 -->
     <record id="l10n_fr.tva_acq_intermediaire" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-10.0-TTC -->
     <record id="l10n_fr.tva_acq_intermediaire_TTC" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-10.0-encaiss -->
     <record
@@ -162,7 +138,6 @@
     >
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- ACH-10.0-TTC-encaiss -->
     <record
@@ -171,55 +146,46 @@
     >
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- ACH-8.5 -->
     <record id="l10n_fr.tva_acq_specifique" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-8.5-TTC -->
     <record id="l10n_fr.tva_acq_specifique_TTC" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-5.5 -->
     <record id="l10n_fr.tva_acq_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-5.5-TTC -->
     <record id="l10n_fr.tva_acq_reduite_TTC" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-5.5-encaiss -->
     <record id="l10n_fr.tva_acq_encaissement_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- ACH-5.5-TTC-encaiss -->
     <record id="l10n_fr.tva_acq_encaissement_reduite_TTC" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- ACH-2.1 -->
     <record id="l10n_fr.tva_acq_super_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-2.1-TTC -->
     <record id="l10n_fr.tva_acq_super_reduite_TTC" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_5" />
     </record>
     <!-- ACH-2.1-encaiss -->
     <record
@@ -228,7 +194,6 @@
     >
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- ACH-2.1-TTC-encaiss -->
     <record
@@ -237,7 +202,6 @@
     >
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
-        <field name="unece_due_date_id" ref="account_tax_unece.date_72" />
     </record>
     <!-- IMMO-20.0 -->
     <record id="l10n_fr.tva_imm_normale" model="account.tax.template">
@@ -298,11 +262,6 @@
     <record id="l10n_fr.tva_intra_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
-    </record>
-    <!-- IMPORT-0 -->
-    <record id="l10n_fr.tva_import_0" model="account.tax.template">
-        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
-        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
     </record>
     <!-- IMPORT-hors-UE-20.0 -->
     <record id="l10n_fr.tva_import_outside_eu_20" model="account.tax.template">
