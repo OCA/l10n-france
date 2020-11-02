@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2015-2018 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -49,7 +48,7 @@ class BusinessDocumentImport(models.AbstractModel):
                         ])
                 if partners:
                     return partners[0]
-        return super(BusinessDocumentImport, self)._match_partner(
+        return super()._match_partner(
             partner_dict, chatter_msg, partner_type=partner_type)
 
     @api.model
@@ -80,5 +79,5 @@ class BusinessDocumentImport(models.AbstractModel):
                     chatter_msg.append(_(
                         "Missing SIRET on company '%s'")
                         % company.display_name)
-        return super(BusinessDocumentImport, self)._check_company(
+        return super()._check_company(
             company_dict, chatter_msg)
