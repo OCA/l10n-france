@@ -54,9 +54,8 @@ msgstr "SIREN"
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret
-#, fuzzy
 msgid "SIRET"
-msgstr "SIREN"
+msgstr "SIRET"
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/partner.py:42
