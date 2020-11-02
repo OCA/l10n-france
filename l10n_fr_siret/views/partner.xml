@@ -1,21 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!-- Add the SIREN and RC -->
     <record model="ir.ui.view" id="res_partner_form_l10n_fr">
         <field name="name">res.partner.form.siret</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="l10n_fr.res_partner_form_l10n_fr"/>
+        <field name="inherit_id" ref="l10n_fr.res_partner_form_l10n_fr" />
         <field name="arch" type="xml">
             <field name="siret" position="after">
                 <!-- oe_read_only hides the field in read mode in v8+ -->
-                <div class="oe_edit_only" attrs="{'invisible': [('is_company', '=', False)]}" colspan="2">
+                <div
+                    class="oe_edit_only"
+                    attrs="{'invisible': [('is_company', '=', False)]}"
+                    colspan="2"
+                >
                     <label for="siren" />
-                    <field name="siren" class="oe_inline"/>
-                    <label for="nic" class="oe_inline"/>
-                    <field name="nic" class="oe_inline"/>
+                    <field name="siren" class="oe_inline" />
+                    <label for="nic" class="oe_inline" />
+                    <field name="nic" class="oe_inline" />
                 </div>
-                <field name="company_registry" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                <field
+                    name="company_registry"
+                    attrs="{'invisible': [('is_company', '=', False)]}"
+                />
             </field>
         </field>
     </record>
