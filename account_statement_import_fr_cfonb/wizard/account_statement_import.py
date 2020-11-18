@@ -55,15 +55,6 @@ class AccountStatementImport(models.TransientModel):
             amount_num = float(amount_str[:-1] + credit_trans[amount_str[-1]])
         return amount_num
 
-    def _check_journal_bank_account(self, journal, account_number):
-        res = super()._check_journal_bank_account(journal, account_number)
-        if not res:
-            # compare the bank account number only instead of the full IBAN
-            jrnl_full_acc_number = journal.bank_account_id.sanitized_acc_number
-            jrnl_acc_number = jrnl_full_acc_number[-len(account_number) - 2 : -2]
-            res = jrnl_acc_number == account_number
-        return res
-
     @api.model
     def _check_cfonb(self, data_file):
         return data_file.decode("latin1").strip().startswith("01")
@@ -80,7 +71,7 @@ class AccountStatementImport(models.TransientModel):
         # And I found one (LCL) that even uses caracters with accents
         # So the best method is probably to decode with latin1
         data_file_decoded = data_file.decode("latin1")
-        lines = self.split_lines(data_file_decoded)
+        lines = self._split_lines(data_file_decoded)
         i = 0
         seq = 1
         bank_code = guichet_code = account_number = currency_code = False
@@ -178,7 +169,7 @@ class AccountStatementImport(models.TransientModel):
                 )
         return result
 
-    def split_lines(self, data_file):
+    def _split_lines(self, data_file):
         """Split the data file into lines.
 
         Returns a list of the lines in the file provided.
