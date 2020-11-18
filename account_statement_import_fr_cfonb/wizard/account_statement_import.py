@@ -92,7 +92,7 @@ class AccountStatementImport(models.TransientModel):
             _logger.debug("Line %d: %s" % (i, line))
             if not line:
                 continue
-            if len(line) != 120:
+            if len(line) != CFONB_WIDTH:
                 raise UserError(
                     _(
                         "Line %d is %d caracters long. All lines of a "
@@ -111,10 +111,10 @@ class AccountStatementImport(models.TransientModel):
             decimals = line[19:20] != " " and int(line[19:20]) or 2
             date_cfonb_str = line[34:40]
             date_dt = False
-            if line_account_number in self._excluded_accounts:
-                continue
             if date_cfonb_str != "      ":
                 date_dt = datetime.strptime(date_cfonb_str, "%d%m%y")
+            if line_account_number in self._excluded_accounts:
+                continue
             assert decimals == 2, "We use 2 decimals in France!"
 
             if rec_type == "01":
@@ -127,10 +127,9 @@ class AccountStatementImport(models.TransientModel):
 
             elif rec_type == "07":
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
-                end_date_dt = date_dt
                 vals_bank_statement = {
                     "name": account_number,
-                    "date": end_date_dt,
+                    "date": date_dt,
                     "balance_start": start_balance,
                     "balance_end_real": end_balance,
                     "transactions": transactions,
