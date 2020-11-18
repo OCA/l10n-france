@@ -13,7 +13,7 @@ class AccountMoveLine(models.Model):
         if payment_order.payment_mode_id.payment_method_id.code == "fr_lcr":
             # Take the first IBAN account of the partner
             bank_account = self.env["res.partner.bank"].search(
-                [("partner_id", "=", self.partner_id.id), ("acc_type", "=", "iban"),],
+                [("partner_id", "=", self.partner_id.id), ("acc_type", "=", "iban")],
                 limit=1,
             )
             if bank_account:
