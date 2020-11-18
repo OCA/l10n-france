@@ -13,8 +13,8 @@ _logger = logging.getLogger(__name__)
 CFONB_WIDTH = 120
 
 
-class AccountBankStatementImport(models.TransientModel):
-    _inherit = "account.bank.statement.import"
+class AccountStatementImport(models.TransientModel):
+    _inherit = "account.statement.import"
 
     _excluded_accounts = []
 
@@ -68,13 +68,12 @@ class AccountBankStatementImport(models.TransientModel):
     def _check_cfonb(self, data_file):
         return data_file.decode("latin1").strip().startswith("01")
 
-    @api.model
     def _parse_file(self, data_file):
         """ Import a file in French CFONB format"""
         cfonb = self._check_cfonb(data_file)
         if not cfonb:
             return super()._parse_file(data_file)
-        transactions = []
+        result = []
         # The CFONB spec says you should only have digits, capital letters
         # and * - . /
         # But many banks don't respect that and use regular letters for exemple
@@ -87,7 +86,7 @@ class AccountBankStatementImport(models.TransientModel):
         bank_code = guichet_code = account_number = currency_code = False
         decimals = start_balance = False
         start_balance = end_balance = False
-        vals_line = False
+        transactions = []
         for line in lines:
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
@@ -112,90 +111,73 @@ class AccountBankStatementImport(models.TransientModel):
             decimals = line[19:20] != " " and int(line[19:20]) or 2
             date_cfonb_str = line[34:40]
             date_dt = False
-            date_str = False
             if line_account_number in self._excluded_accounts:
                 continue
             if date_cfonb_str != "      ":
                 date_dt = datetime.strptime(date_cfonb_str, "%d%m%y")
-                date_str = fields.Date.to_string(date_dt)
             assert decimals == 2, "We use 2 decimals in France!"
 
-            if i == 1:
+            if rec_type == "01":
                 bank_code = line_bank_code
                 guichet_code = line_guichet_code
                 currency_code = line_currency_code
                 account_number = line_account_number
-                if rec_type != "01":
-                    raise UserError(
-                        _(
-                            "The 2 first letters of the first line are '%s'. "
-                            "A CFONB file should start with '01'"
-                        )
-                        % rec_type
-                    )
+                transactions = []
                 start_balance = self._parse_cfonb_amount(line[90:104], decimals)
 
-            if (
-                bank_code != line_bank_code
-                or guichet_code != line_guichet_code
-                or currency_code != line_currency_code
-                or account_number != line_account_number
-            ):
-                raise UserError(
-                    _(
-                        "Only single-account files and single-currency "
-                        "files are supported for the moment. It is not "
-                        "the case starting from line %d."
-                    )
-                    % i
-                )
-
-            if rec_type in ("04", "01", "07") and vals_line:
-                # I save the previous line
-                # This trick is needed for the 05 lines
-                transactions.append(vals_line)
-                vals_line = False
-            if rec_type == "07":
+            elif rec_type == "07":
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
-                end_date_str = date_str
+                end_date_dt = date_dt
+                vals_bank_statement = {
+                    "name": account_number,
+                    "date": end_date_dt,
+                    "balance_start": start_balance,
+                    "balance_end_real": end_balance,
+                    "transactions": transactions,
+                }
+                result.append((currency_code, account_number, [vals_bank_statement]))
+
             elif rec_type == "04":
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
                 ref = line[81:88].strip()  # This is not unique
                 name = line[48:79].strip()
-                vals_line = {
-                    "sequence": seq,
-                    "date": date_str,
-                    "name": name,
-                    "ref": ref,
-                    "unique_import_id": "{}-{}-{:.2f}-{}".format(
-                        date_str, ref, amount, name
-                    ),
-                    "amount": amount,
-                }
+                transactions.append(
+                    {
+                        "sequence": seq,
+                        "date": date_dt,
+                        "payment_ref": name,
+                        "unique_import_id": "{}-{}-{:.2f}-{}".format(
+                            fields.Date.to_string(date_dt), ref, amount, name
+                        ),
+                        "amount": amount,
+                    }
+                )
                 seq += 1
+
             elif rec_type == "05":
-                assert vals_line, "vals_line should have a value !"
                 complementary_info_type = line[45:48]
                 complementary_info = line[48:118].strip()
                 # Strategy:
                 # We use ALL complementary_info_types in unique_import_id
                 # because it lowers the risk to get the error
                 # caused by 2 different lines with same amount/date/label,
-                # but we add the complementary_info in 'name' only
+                # but we add the complementary_info in 'payment_ref' only
                 # when it's interesting for the user, in order to avoid
                 # too long labels with too much "pollution"
-                vals_line["unique_import_id"] += complementary_info
+                transactions[-1]["unique_import_id"] += complementary_info
                 if complementary_info_type in ("   ", "LIB") and complementary_info:
-                    vals_line["name"] += " " + complementary_info
+                    transactions[-1]["payment_ref"] += " " + complementary_info
 
-        vals_bank_statement = {
-            "name": account_number,
-            "date": end_date_str,
-            "balance_start": start_balance,
-            "balance_end_real": end_balance,
-            "transactions": transactions,
-        }
-        return currency_code, account_number, [vals_bank_statement]
+            if rec_type in ("04", "05", "07") and (
+                bank_code != line_bank_code
+                or guichet_code != line_guichet_code
+                or currency_code != line_currency_code
+                or account_number != line_account_number
+            ):
+                raise UserError(
+                    _("The CFONB file is inconsistent. Error on line %d.") % i
+                )
+        return result
 
     def split_lines(self, data_file):
         """Split the data file into lines.
