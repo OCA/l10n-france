@@ -76,7 +76,7 @@ class Partner(models.Model):
     siren = fields.Char(
         string="SIREN",
         size=9,
-        track_visibility="onchange",
+        tracking=50,
         help="The SIREN number is the official identity "
         "number of the company in France. It composes "
         "the first 9 digits of the SIRET number.",
@@ -84,7 +84,7 @@ class Partner(models.Model):
     nic = fields.Char(
         string="NIC",
         size=5,
-        track_visibility="onchange",
+        tracking=51,
         help="The NIC number is the official rank number "
         "of this office in the company in France. It "
         "composes the last 5 digits of the SIRET "
