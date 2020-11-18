@@ -168,7 +168,7 @@ class AccountPaymentOrder(models.Model):
         else:
             nom_banque = " " * 24
         code_acceptation = "0"
-        montant_centimes = str(line.amount_currency * 100).split(".")[0]
+        montant_centimes = str(round(line.amount_currency * 100))
         zero_montant_centimes = montant_centimes.zfill(12)
         today_str = fields.Date.context_today(self)
         today_dt = fields.Date.from_string(today_str)
@@ -208,7 +208,7 @@ class AccountPaymentOrder(models.Model):
         code_enregistrement = "08"
         code_operation = "60"
         numero_enregistrement = str(transactions_count + 2).zfill(8)
-        montant_total_centimes = str(total_amount * 100).split(".")[0]
+        montant_total_centimes = str(round(total_amount * 100))
         zero_montant_total_centimes = montant_total_centimes.zfill(12)
         cfonb_line = "".join(
             [
