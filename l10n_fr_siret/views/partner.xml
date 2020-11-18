@@ -7,14 +7,23 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_fr.res_partner_form_l10n_fr" />
         <field name="arch" type="xml">
+            <field name="siret" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}</attribute>
+            </field>
             <field name="siret" position="after">
                 <div
                     class="oe_edit_only"
-                    attrs="{'invisible': [('is_company', '=', False)]}"
+                    attrs="{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
                     colspan="2"
                 >
                     <label for="siren" />
-                    <field name="siren" class="oe_inline" />
+                    <field
+                        name="siren"
+                        class="oe_inline"
+                        attrs="{'readonly': [('parent_id', '!=', False)]}"
+                    />
                     <label for="nic" class="oe_inline" />
                     <field name="nic" class="oe_inline" />
                 </div>
@@ -22,7 +31,20 @@
                     name="company_registry"
                     attrs="{'invisible': [('is_company', '=', False)]}"
                 />
+                <field name="parent_is_company" invisible="1" />
             </field>
+            <xpath
+                expr="//field[@name='child_ids']/form//field[@name='comment']"
+                position="before"
+            >
+                <field
+                    name="nic"
+                    attrs="{'invisible': [('type','=', 'contact')]}"
+                    class="oe_edit_only"
+                />
+                <field name="siret" attrs="{'invisible': [('type','=', 'contact')]}" />
+            </xpath>
+            <!-- TODO When base_view_inheritance_extension will be ported to v14, add default_nic to context of child_ids -->
         </field>
     </record>
 
