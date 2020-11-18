@@ -69,8 +69,16 @@ class Partner(models.Model):
 
     @api.model
     def _commercial_fields(self):
-        res = super(Partner, self)._commercial_fields()
-        res += ["siren", "nic"]
+        # SIREN is the same for the whole company
+        # NIC is different for each address
+        res = super()._commercial_fields()
+        res.append("siren")
+        return res
+
+    @api.model
+    def _address_fields(self):
+        res = super()._address_fields()
+        res.append("nic")
         return res
 
     siren = fields.Char(
@@ -103,4 +111,8 @@ class Partner(models.Model):
         string="Company Registry",
         size=64,
         help="The name of official registry where this company was declared.",
+    )
+
+    parent_is_company = fields.Boolean(
+        related="parent_id.is_company", string="Parent is a Company"
     )
