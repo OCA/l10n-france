@@ -291,7 +291,6 @@ msgstr "Firmaer"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__company_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__company_id
 #, fuzzy
-#| msgid "Companies"
 msgid "Company"
 msgstr "Firmaer"
 
@@ -848,7 +847,6 @@ msgstr "Partner"
 #. module: l10n_fr_intrastat_product
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product.py:170
 #, fuzzy, python-format
-#| msgid "Partner"
 msgid "Partner VAT"
 msgstr "Partner"
 
