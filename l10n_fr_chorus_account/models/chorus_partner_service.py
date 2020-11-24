@@ -31,7 +31,8 @@ class ChorusPartnerService(models.Model):
     @api.constrains("code")
     def service_factures_publiques_dont_use(self):
         # As explained on
-        # https://communaute.chorus-pro.gouv.fr/documentation/guide-dutilisation-de-lannuaire-des-structures-publiques-dans-chorus-pro/
+        # https://communaute.chorus-pro.gouv.fr/documentation/
+        # guide-dutilisation-de-lannuaire-des-structures-publiques-dans-chorus-pro/
         # "Le Service des factures publiques est exclusivement dédié à la
         # facturation intra-sphère publique.
         # If we use this service, the flux will be rejected
