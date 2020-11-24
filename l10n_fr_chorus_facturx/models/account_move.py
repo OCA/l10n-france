@@ -1,4 +1,4 @@
-# Copyright 2017-2018 Akretion (http://www.akretion.com)
+# Copyright 2017-2020 Akretion (http://www.akretion.com)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -30,7 +30,7 @@ class AccountMove(models.Model):
         elif chorus_invoice_format == "pdf_factur-x":
             report = self.env.ref("account.account_invoices")
             if report.report_type in ["qweb-html", "qweb-pdf"]:
-                chorus_file_content, filetype = report.render_qweb_pdf([self.id])
+                chorus_file_content, filetype = report._render_qweb_pdf([self.id])
             else:
                 res = report.render([self.id])
                 if not res:
