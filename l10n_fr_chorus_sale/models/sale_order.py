@@ -12,11 +12,9 @@ class SaleOrder(models.Model):
     invoice_transmit_method_id = fields.Many2one(
         related="partner_invoice_id.customer_invoice_transmit_method_id",
         string="Invoice Transmission Method",
-        readonly=True,
     )
     invoice_transmit_method_code = fields.Char(
         related="partner_invoice_id.customer_invoice_transmit_method_id.code",
-        readonly=True,
     )
 
     def action_confirm(self):

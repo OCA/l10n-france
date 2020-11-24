@@ -48,7 +48,7 @@
                             <field name="amount_total" />
                             <field name="currency_id" invisible="1" />
                             <field name="state" invisible="1" />
-                            <field name="invoice_payment_state" />
+                            <field name="payment_state" />
                             <field name="chorus_identifier" />
                             <field name="chorus_status" />
                             <field name="chorus_status_date" />

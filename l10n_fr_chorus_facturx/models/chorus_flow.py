@@ -9,7 +9,8 @@ class ChorusFlow(models.Model):
     _inherit = "chorus.flow"
 
     syntax = fields.Selection(
-        selection_add=[("xml_cii", "CII 16B XML"), ("pdf_factur-x", "Factur-X PDF"),]
+        selection_add=[("xml_cii", "CII 16B XML"), ("pdf_factur-x", "Factur-X PDF")],
+        ondelete={"xml_cii": "set null", "pdf_factur-x": "set null"},
     )
 
     @api.model
