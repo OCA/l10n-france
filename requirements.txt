@@ -3,3 +3,4 @@ python-stdnum
 requests
 unicodecsv
 unidecode
+requests_oauthlib
