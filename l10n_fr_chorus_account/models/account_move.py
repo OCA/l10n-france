@@ -35,7 +35,7 @@ class AccountMove(models.Model):
     def action_post(self):
         """Check validity of Chorus invoices"""
         for inv in self.filtered(
-            lambda x: x.type in ("out_invoice", "out_refund")
+            lambda x: x.move_type in ("out_invoice", "out_refund")
             and x.transmit_method_code == "fr-chorus"
         ):
             company_partner = inv.company_id.partner_id
@@ -44,15 +44,6 @@ class AccountMove(models.Model):
                     _("Missing SIRET on partner '%s' linked to company '%s'.")
                     % (company_partner.display_name, inv.company_id.display_name)
                 )
-            for tline in inv.line_ids.filtered(lambda x: x.tax_line_id):
-                if not tline.tax_line_id.unece_due_date_code:
-                    raise UserError(
-                        _(
-                            "Unece Due Date not configured on tax '%s'. This "
-                            "information is required for Chorus invoices."
-                        )
-                        % tline.tax_line_id.display_name
-                    )
             cpartner = inv.commercial_partner_id
             if not cpartner.siren or not cpartner.nic:
                 raise UserError(
@@ -135,7 +126,7 @@ class AccountMove(models.Model):
             payment_means_code = (
                 self.payment_mode_id.payment_method_id.unece_code or "30"
             )
-            partner_bank_id = self.invoice_partner_bank_id or (
+            partner_bank_id = self.partner_bank_id or (
                 self.payment_mode_id.bank_account_link == "fixed"
                 and self.payment_mode_id.fixed_journal_id.bank_account_id
             )
