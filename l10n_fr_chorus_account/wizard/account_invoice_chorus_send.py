@@ -93,7 +93,10 @@ class AccountInvoiceChorusSend(models.TransientModel):
         url_path = "factures/v1/deposer/flux"
         payload = self.invoice_ids.prepare_chorus_deposer_flux_payload()
         attach = self.env["ir.attachment"].create(
-            {"name": payload.get("nomFichier"), "datas": payload.get("fichierFlux"),}
+            {
+                "name": payload.get("nomFichier"),
+                "datas": payload.get("fichierFlux"),
+            }
         )
         logger.info(
             "Start to send invoice IDs %s via Chorus %sWS",
@@ -111,16 +114,19 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     "company_id": company.id,
                 }
             )
-            self.invoice_ids.write({
-                "chorus_flow_id": flow.id,
-                "is_move_sent": True,
-                })
-            action = self.env.ref(
-                "l10n_fr_chorus_account.chorus_flow_action").read()[0]
-            action.update({
-                "view_mode": "form,tree",
-                "views": False,
-                "res_id": flow.id,
-                })
+            self.invoice_ids.write(
+                {
+                    "chorus_flow_id": flow.id,
+                    "is_move_sent": True,
+                }
+            )
+            action = self.env.ref("l10n_fr_chorus_account.chorus_flow_action").read()[0]
+            action.update(
+                {
+                    "view_mode": "form,tree",
+                    "views": False,
+                    "res_id": flow.id,
+                }
+            )
             return action
         return
