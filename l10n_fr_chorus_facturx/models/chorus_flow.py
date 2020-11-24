@@ -18,6 +18,4 @@ class ChorusFlow(models.Model):
         res = super().syntax_odoo2chorus()
         res["xml_cii"] = "IN_DP_E1_CII_16B"
         res["pdf_factur-x"] = "IN_DP_E2_CII_FACTURX"
-        # https://communaute.chorus-pro.gouv.fr/wp-content/uploads/2018/04/AIFE-Chorus-Pro-Qualification-Note-de-livraison-V1.3.3-IT3.pdf
-        # page 14
         return res
