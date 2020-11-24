@@ -4,3 +4,4 @@ access_chorus_flow_full,Full access on chorus.flow to system grp,model_chorus_fl
 access_chorus_partner_service_full,Full access on chorus.partner.service to system grp,model_chorus_partner_service,base.group_system,1,1,1,1
 access_chorus_partner_service_user,Read/Write/create access on chorus.partner.service to contact grp,model_chorus_partner_service,base.group_partner_manager,1,1,1,0
 access_chorus_partner_service_read,Read access on chorus.partner.service to employees,model_chorus_partner_service,base.group_user,1,0,0,0
+access_account_invoice_chorus_send,Full access on account.invoice.chorus.send wiz to invoicing grp,model_account_invoice_chorus_send,account.group_account_invoice,1,1,1,1

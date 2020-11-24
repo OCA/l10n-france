@@ -50,7 +50,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_account_invoice_filter" />
         <field name="arch" type="xml">
-            <filter name="duedate" position="after">
+            <filter name="status" position="after">
                 <filter
                     string="Chorus Status"
                     name="chorus_status_groupby"
