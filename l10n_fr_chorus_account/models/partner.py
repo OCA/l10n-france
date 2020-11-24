@@ -160,7 +160,7 @@ class ResPartner(models.Model):
                         partner.display_name,
                     )
                     continue
-            company = partner.company_id or self.env.user.company_id
+            company = partner.company_id or self.env.company
             if company not in company2api:
                 api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
@@ -169,7 +169,7 @@ class ResPartner(models.Model):
             partners.append(partner)
         session = None
         for partner in partners:
-            company = partner.company_id or self.env.user.company_id
+            company = partner.company_id or self.env.company
             api_params = company2api[company]
             (res, session) = partner.fr_chorus_api_structures_rechercher(
                 api_params, session
@@ -234,7 +234,7 @@ class ResPartner(models.Model):
                         partner.display_name,
                     )
                     continue
-            company = partner.company_id or self.env.user.company_id
+            company = partner.company_id or self.env.company
             if company not in company2api:
                 api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
@@ -243,7 +243,7 @@ class ResPartner(models.Model):
             partners.append(partner)
         session = None
         for partner in partners:
-            company = partner.company_id or self.env.user.company_id
+            company = partner.company_id or self.env.company
             api_params = company2api[company]
             (res, session) = partner.fr_chorus_api_structures_consulter(
                 api_params, session
@@ -328,7 +328,7 @@ class ResPartner(models.Model):
                         partner.display_name,
                     )
                     continue
-            company = partner.company_id or self.env.user.company_id
+            company = partner.company_id or self.env.company
             if company not in company2api:
                 api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
@@ -359,7 +359,7 @@ class ResPartner(models.Model):
         # because we can have Chorus partners that have services
         # but the service information is not required
         for partner in partners:
-            company = partner.company_id or self.env.user.company_id
+            company = partner.company_id or self.env.company
             api_params = company2api[company]
             (res, session) = partner.fr_chorus_api_rechercher_services(
                 api_params, session
