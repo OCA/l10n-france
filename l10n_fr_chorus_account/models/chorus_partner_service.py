@@ -138,7 +138,7 @@ class ChorusPartnerService(models.Model):
                         partner.display_name,
                     )
                     continue
-            company = partner.company_id or self.env.user.company_id
+            company = partner.company_id or self.env.company
             if company not in company2api:
                 api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
@@ -148,7 +148,7 @@ class ChorusPartnerService(models.Model):
         session = None
         for service in services:
             partner = service.partner_id
-            company = partner.company_id or self.env.user.company_id
+            company = partner.company_id or self.env.company
             api_params = company2api[company]
             (res, session) = service.api_consulter_service(api_params, session)
             if res:
