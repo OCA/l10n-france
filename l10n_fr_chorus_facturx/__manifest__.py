@@ -11,7 +11,10 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
-    "depends": ["l10n_fr_chorus_account", "l10n_fr_account_invoice_facturx",],
+    "depends": [
+        "l10n_fr_chorus_account",
+        "l10n_fr_account_invoice_facturx",
+    ],
     "installable": True,
     "auto_install": True,
 }

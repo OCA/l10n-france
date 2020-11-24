@@ -29,7 +29,10 @@
                     context="{'default_partner_id': parent.id}"
                 />
             </xpath>
-            <xpath expr="//page[@name='sales_purchases']/group[@name='container_row_2']" position="inside">
+            <xpath
+                expr="//page[@name='sales_purchases']/group[@name='container_row_2']"
+                position="inside"
+            >
                 <group
                     name="fr-chorus"
                     string="Chorus Pro"
