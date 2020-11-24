@@ -24,9 +24,7 @@ class ChorusFlow(models.Model):
     status_date = fields.Datetime(
         string="Last Status Update", readonly=True, copy=False
     )
-    syntax = fields.Selection(
-        [], string="Flow Syntax", readonly=True, copy=False, required=True
-    )
+    syntax = fields.Selection([], string="Flow Syntax", readonly=True, copy=False)
     notes = fields.Text(string="Notes", readonly=True, copy=False)
     company_id = fields.Many2one(
         "res.company",
@@ -219,7 +217,7 @@ class ChorusFlow(models.Model):
         invoices_update_invoice_status = self.env["account.move"].search(
             [
                 ("state", "=", "posted"),
-                ("type", "in", ("out_invoice", "out_refund")),
+                ("move_type", "in", ("out_invoice", "out_refund")),
                 ("transmit_method_code", "=", "fr-chorus"),
                 ("chorus_identifier", "!=", False),
                 ("chorus_status", "not in", ("MANDATEE", "MISE_EN_PAIEMENT")),

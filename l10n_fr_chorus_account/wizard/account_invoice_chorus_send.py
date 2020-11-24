@@ -23,10 +23,10 @@ class AccountInvoiceChorusSend(models.TransientModel):
         invoices = self.env["account.move"].browse(self._context.get("active_ids"))
         company = False
         for invoice in invoices:
-            if invoice.type in ("in_invoice", "in_refund"):
+            if invoice.move_type not in ("out_invoice", "out_refund"):
                 raise UserError(
                     _(
-                        "Invoice '%s' is a supplier invoice. You can only send "
+                        "Move '%s' is not a customer invoice. You can only send "
                         "customer invoices/refunds to Chorus."
                     )
                     % invoice.display_name
@@ -111,14 +111,16 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     "company_id": company.id,
                 }
             )
-            self.invoice_ids.write(
-                {"chorus_flow_id": flow.id, "invoice_sent": True,}
-            )
-            action = self.env["ir.actions.act_window"].for_xml_id(
-                "l10n_fr_chorus_account", "chorus_flow_action"
-            )
-            action.update(
-                {"view_mode": "form,tree", "views": False, "res_id": flow.id,}
-            )
+            self.invoice_ids.write({
+                "chorus_flow_id": flow.id,
+                "is_move_sent": True,
+                })
+            action = self.env.ref(
+                "l10n_fr_chorus_account.chorus_flow_action").read()[0]
+            action.update({
+                "view_mode": "form,tree",
+                "views": False,
+                "res_id": flow.id,
+                })
             return action
         return
