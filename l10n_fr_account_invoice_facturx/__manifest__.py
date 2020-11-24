@@ -10,7 +10,10 @@
     "summary": "France-specific module to generate Factur-X invoices",
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-france",
-    "depends": ["account_invoice_facturx", "l10n_fr_siret",],
+    "depends": [
+        "account_invoice_facturx",
+        "l10n_fr_siret",
+    ],
     "auto_install": True,
     "installable": True,
 }
