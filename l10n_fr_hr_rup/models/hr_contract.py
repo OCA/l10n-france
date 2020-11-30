@@ -14,7 +14,7 @@ class HrContract(models.Model):
 
     @api.onchange('employee_id')
     def _onchange_employee_id(self):
-        result = super()._onchange_employee_id()
+        super()._onchange_employee_id()
         self.pcs_id = self.employee_id.pcs_id
         self.qualification = self.employee_id.qualification
         self.work_location = self.employee_id.work_location
