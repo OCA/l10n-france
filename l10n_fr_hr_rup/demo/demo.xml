@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--# Copyright (C) 2020 Akretion (http://www.akretion.com/)-->
+<openerp>
+    <data noupdate="1">
+        <!--PCS-->
+        <record id="hr_employee_pcs_cadre" model="hr.employee.pcs">
+            <field name="name">Cadres et professions intellectuelles supérieures</field>
+        </record>
+        <record id="hr_employee_pcs_intermediaires" model="hr.employee.pcs">
+            <field name="name">Professions intermédiaires</field>
+        </record>
+        <record id="hr_employee_pcs_agriculteurs" model="hr.employee.pcs">
+            <field name="name">Agriculteurs exploitants</field>
+        </record>
+
+        <!--Contract types-->
+        <record id="hr_contract_type_cdi" model="hr.contract.type">
+            <field name="name">CDI</field>
+        </record>
+        <record id="hr_contract_type_cdd" model="hr.contract.type">
+            <field name="name">CDD</field>
+        </record>
+
+        <!--Contracts-->
+        <record id="demo_contract_fp_1" model="hr.contract">
+            <field name="name">Pieter Parker contract actuel</field>
+            <field name="employee_id" ref="hr.employee_fp"/>
+            <field name="type_id" ref="l10n_fr_rup.hr_contract_type_cdi"/>
+            <field name="date_start" eval="(DateTime.today() - relativedelta(days=100)).strftime('%Y-%m-%d')"/>
+            <field name="wage">2500.0</field>
+            <field name="job_id" ref="hr.job_ceo"/>
+            <field name="pcs_id" ref="hr_employee_pcs_cadre"/>
+            <field name="qualification">Partenaire</field>
+            <field name="work_location">12 rue du Parc, Ville XYZ, 31000</field>
+            <field name="employer_address_id" ref="base.res_partner_4"/>
+        </record>
+        <record id="demo_contract_fp_2" model="hr.contract">
+            <field name="name">Pieter Parker contrat antérieur</field>
+            <field name="employee_id" ref="hr.employee_fp"/>
+            <field name="type_id" ref="l10n_fr_rup.hr_contract_type_cdd"/>
+            <field name="date_start" eval="(DateTime.today() - relativedelta(days=200)).strftime('%Y-%m-%d')"/>
+            <field name="date_end" eval="(DateTime.today() - relativedelta(days=100)).strftime('%Y-%m-%d')"/>
+            <field name="wage">2500.0</field>
+            <field name="job_id" ref="hr.job_cto"/>
+            <field name="pcs_id" ref="hr_employee_pcs_cadre"/>
+            <field name="qualification">Partenaire</field>
+            <field name="work_location">12 rue du Parc, Ville XYZ, 31000</field>
+            <field name="employer_address_id" ref="base.res_partner_8"/>
+        </record>
+        <record id="demo_contract_al" model="hr.contract">
+            <field name="name">Antoine Langlais contrat</field>
+            <field name="employee_id" ref="hr.employee_al"/>
+            <field name="type_id" ref="l10n_fr_rup.hr_contract_type_cdd"/>
+            <field name="date_start" eval="(DateTime.today() - relativedelta(days=600)).strftime('%Y-%m-%d')"/>
+            <field name="date_end" eval="(DateTime.today() - relativedelta(days=100)).strftime('%Y-%m-%d')"/>
+            <field name="wage">2500.0</field>
+            <field name="job_id" ref="hr.job_developer"/>
+            <field name="pcs_id" ref="hr_employee_pcs_cadre"/>
+            <field name="qualification">Médior</field>
+            <field name="work_location">6 boulevard Chaise, Ville ABC, 87774</field>
+            <field name="employer_address_id" ref="base.res_partner_9"/>
+        </record>
+        <record id="demo_contract_mit" model="hr.contract">
+            <field name="name">John Smith contrat</field>
+            <field name="employee_id" ref="hr.employee_mit"/>
+            <field name="type_id" ref="l10n_fr_rup.hr_contract_type_cdi"/>
+            <field name="date_start" eval="(DateTime.today() - relativedelta(days=2000)).strftime('%Y-%m-%d')"/>
+            <field name="wage">2500.0</field>
+            <field name="job_id" ref="hr.job_consultant"/>
+            <field name="pcs_id" ref="hr_employee_pcs_intermediaires"/>
+            <field name="qualification">Sénior</field>
+            <field name="work_location">6 avenue Poule, Ville X, 45000</field>
+            <field name="employer_address_id" ref="base.res_partner_11"/>
+        </record>
+
+        <!--Complementary employee information-->
+        <record id="hr.employee_fp" model="hr.employee">
+            <field name="birthday" eval="(DateTime.today() - relativedelta(years=30)).strftime('%Y-%m-%d')"/>
+            <field name="gender">male</field>
+            <field name="country_id" ref="base.fr"/>
+            <field name="identification_id">121128687763</field>
+            <field name="address_home_id" ref="base.res_partner_2"/>
+            <field name="qualification">Partenaire</field>
+            <field name="pcs_id" ref="hr_employee_pcs_cadre"/>
+            <field name="work_location">12 rue du Parc, Rilleux, 69023</field>
+        </record>
+        <record id="hr.employee_al" model="hr.employee">
+            <field name="birthday" eval="(DateTime.today() - relativedelta(years=40)).strftime('%Y-%m-%d')"/>
+            <field name="gender">male</field>
+            <field name="country_id" ref="base.fr"/>
+            <field name="identification_id">65743242412</field>
+            <field name="address_home_id" ref="base.res_partner_3"/>
+            <field name="qualification">Médior</field>
+            <field name="pcs_id" ref="hr_employee_pcs_cadre"/>
+            <field name="work_location">6 boulevard Chaise, Ville ABC, 87774</field>
+        </record>
+        <record id="hr.employee_mit" model="hr.employee">
+            <field name="birthday" eval="(DateTime.today() - relativedelta(years=50)).strftime('%Y-%m-%d')"/>
+            <field name="gender">male</field>
+            <field name="country_id" ref="base.fr"/>
+            <field name="identification_id">8789432123</field>
+            <field name="address_home_id" ref="base.res_partner_4"/>
+            <field name="qualification">Sénior</field>
+            <field name="pcs_id" ref="hr_employee_pcs_intermediaires"/>
+            <field name="work_location">6 avenue Poule, Ville X, 45000</field>
+        </record>
+</odoo>
