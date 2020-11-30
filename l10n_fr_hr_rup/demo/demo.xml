@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--# Copyright (C) 2020 Akretion (http://www.akretion.com/)-->
-<openerp>
+<odoo>
     <data noupdate="1">
         <!--PCS-->
         <record id="hr_employee_pcs_cadre" model="hr.employee.pcs">
@@ -104,4 +104,5 @@
             <field name="pcs_id" ref="hr_employee_pcs_intermediaires"/>
             <field name="work_location">6 avenue Poule, Ville X, 45000</field>
         </record>
+    </data>
 </odoo>
