@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2016 Akretion (http://www.akretion.com/)
 
 {
     "name": "Rapport RUP",
-    "version": "8.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Akretion",
     "category": "French Localization",
     "description": """ French fields and report for Registre Unique du Personnel """,

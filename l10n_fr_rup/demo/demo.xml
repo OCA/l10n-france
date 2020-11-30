@@ -104,5 +104,4 @@
             <field name="pcs_id" ref="hr_employee_pcs_intermediaires"/>
             <field name="work_location">6 avenue Poule, Ville X, 45000</field>
         </record>
-    </data>
-</openerp>
+</odoo>

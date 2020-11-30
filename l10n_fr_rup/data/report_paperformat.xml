@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--# Copyright (C) 2020 Akretion (http://www.akretion.com/)-->
-<openerp>
-    <data>
+<odoo>
         <record id="paperformat_a3_rup" model="report.paperformat">
             <field name="name">RUP A3</field>
             <field name="format">A3</field>
@@ -16,5 +15,4 @@
             <field name="header_spacing">35</field>
             <field name="dpi">90</field>
         </record>
-    </data>
-</openerp>
+</odoo>
