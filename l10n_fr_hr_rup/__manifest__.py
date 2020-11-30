@@ -3,9 +3,8 @@
 {
     "name": "Rapport RUP",
     "version": "12.0.1.0.0",
-    "author": "Akretion",
     "category": "French Localization",
-    "description": """ French fields and report for Registre Unique du Personnel """,
+    "summary": """ French fields and report for Registre Unique du Personnel """,
     "depends": ["hr_contract"],
     "data": [
         "data/report_paperformat.xml",
