@@ -1,5 +1,6 @@
-# Copyright 2013-2019 Akretion France (http://www.akretion.com)
-# Copyright 2016-2019 Odoo SA (https://www.odoo.com/fr_FR/)
+# Copyright 2013-2020 Akretion France (http://www.akretion.com)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2016-2020 Odoo SA (https://www.odoo.com/fr_FR/)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 
@@ -40,9 +41,9 @@ class AccountFrFecOca(models.TransientModel):
         ('tab', 'Tab'),
         ], default='|', string='Field Delimiter', required=True)
     partner_option = fields.Selection([
-        ('all', 'All'),
         ('types', 'Selected Account Types'),
         ('accounts', 'Selected Accounts'),
+        ('all', 'All'),
         ], default='types', required=True, string='Partner Export Option')
     partner_account_type_ids = fields.Many2many(
         'account.account.type', string='Account Types',
@@ -50,7 +51,7 @@ class AccountFrFecOca(models.TransientModel):
     partner_account_ids = fields.Many2many(
         'account.account', string='Accounts',
         default=lambda self: self._default_partner_account_ids())
-    fec_data = fields.Binary('FEC File', readonly=True)
+    fec_data = fields.Binary('FEC File', readonly=True, attachment=False)
     filename = fields.Char(string='Filename', size=256, readonly=True)
     export_type = fields.Selection([
         ('official', 'Official FEC report (posted entries only)'),
@@ -72,9 +73,9 @@ class AccountFrFecOca(models.TransientModel):
 
     @api.model
     def _default_partner_account_ids(self):
-        pay = self.env['ir.property'].get(
+        pay = self.env['ir.property']._get(
             'property_account_payable_id', 'res.partner')
-        rec = self.env['ir.property'].get(
+        rec = self.env['ir.property']._get(
             'property_account_receivable_id', 'res.partner')
         return pay + rec
 
@@ -84,20 +85,20 @@ class AccountFrFecOca(models.TransientModel):
         This is needed because we have to display only one line for the initial
         balance of all expense/revenue accounts in the FEC.
         '''
-
+        # BENEFIT and LOSS
         sql_query = '''
         SELECT
             'OUV' AS JournalCode,
             'Balance initiale' AS JournalLib,
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
-            '120/129' AS CompteNum,
-            'Benefice (perte) reporte(e)' AS CompteLib,
+            '120000' AS CompteNum,
+            E'Résultat de l\\'exercice (Bénéfice)' AS CompteLib,
             '' AS CompAuxNum,
             '' AS CompAuxLib,
             '-' AS PieceRef,
             %(formatted_date_from)s AS PieceDate,
-            '/' AS EcritureLib,
+            'Report à nouveau' AS EcritureLib,
             replace(
                 CASE WHEN COALESCE(sum(aml.balance), 0) <= 0
                 THEN '0,00'
@@ -115,13 +116,13 @@ class AccountFrFecOca(models.TransientModel):
             '' AS Idevise
         FROM
             account_move_line aml
-            LEFT JOIN account_move am ON am.id=aml.move_id
+            LEFT JOIN account_move am ON am.id = aml.move_id
             JOIN account_account aa ON aa.id = aml.account_id
             LEFT JOIN account_account_type aat ON aa.user_type_id = aat.id
         WHERE
             am.date < %(date_from)s
             AND am.company_id = %(company_id)s
-            AND aat.include_initial_balance = 'f'
+            AND aat.include_initial_balance IS NOT true
             AND (aml.debit != 0 OR aml.credit != 0)
         '''
         # For official report: only use posted entries
@@ -129,7 +130,7 @@ class AccountFrFecOca(models.TransientModel):
             sql_query += '''
             AND am.state = 'posted'
             '''
-        company = self.env.user.company_id
+        company = self.env.company
         formatted_date_from = fields.Date.to_string(self.date_from).replace(
             '-', '')
         date_from = self.date_from
@@ -143,6 +144,10 @@ class AccountFrFecOca(models.TransientModel):
         listrow = []
         row = self._cr.fetchone()
         listrow = list(row)
+        # Hack to replace 120 by 129 when it's a loss
+        if listrow[11] != "0,00" and listrow[12] == "0,00" and listrow[4] == "120000":
+            listrow[4] = "129000"
+            listrow[5] = "Résultat de l'exercice (perte)"
         return listrow
 
     def _get_siren(self, company):
@@ -177,7 +182,10 @@ class AccountFrFecOca(models.TransientModel):
         # 2) CSV files are easier to read/use for a regular accountant.
         # So it will be easier for the accountant to check the file before
         # sending it to the fiscal administration
-        company = self.env.user.company_id
+        if self.date_from >= self.date_to:
+            raise UserError(_('The start date must be before the end date.'))
+
+        company = self.env.company
 
         header = [
             'JournalCode',    # 0
@@ -186,7 +194,7 @@ class AccountFrFecOca(models.TransientModel):
             'EcritureDate',   # 3
             'CompteNum',      # 4
             'CompteLib',      # 5
-            'CompAuxNum',     # 6  We use partner.id
+            'CompAuxNum',     # 6
             'CompAuxLib',     # 7
             'PieceRef',       # 8
             'PieceDate',      # 9
@@ -201,7 +209,6 @@ class AccountFrFecOca(models.TransientModel):
             ]
 
         rows_to_write = [header]
-        # INITIAL BALANCE
         unaffected_earnings_xml_ref = self.env.ref(
             'account.data_unaffected_earnings')
         # used to make sure that we add the unaffected earning initial balance
@@ -213,6 +220,7 @@ class AccountFrFecOca(models.TransientModel):
             unaffected_earnings_results = self.do_query_unaffected_earnings()
             unaffected_earnings_line = False
 
+        # INITIAL BALANCE other than payable/receivable
         sql_query = '''
         SELECT
             'OUV' AS JournalCode,
@@ -225,7 +233,7 @@ class AccountFrFecOca(models.TransientModel):
             '' AS CompAuxLib,
             '-' AS PieceRef,
             %(formatted_date_from)s AS PieceDate,
-            '/' AS EcritureLib,
+            'Report à nouveau' AS EcritureLib,
             replace(
                 CASE WHEN sum(aml.balance) <= 0
                 THEN '0,00'
@@ -244,13 +252,13 @@ class AccountFrFecOca(models.TransientModel):
             MIN(aa.id) AS CompteID
         FROM
             account_move_line aml
-            LEFT JOIN account_move am ON am.id=aml.move_id
+            LEFT JOIN account_move am ON am.id = aml.move_id
             JOIN account_account aa ON aa.id = aml.account_id
             LEFT JOIN account_account_type aat ON aa.user_type_id = aat.id
         WHERE
             am.date < %(date_from)s
             AND am.company_id = %(company_id)s
-            AND aat.include_initial_balance = 't'
+            AND aat.include_initial_balance IS true
             AND (aml.debit != 0 OR aml.credit != 0)
         '''
 
@@ -267,21 +275,20 @@ class AccountFrFecOca(models.TransientModel):
         '''
         formatted_date_from = fields.Date.to_string(self.date_from).replace(
             '-', '')
-        date_from = self.date_from
-        formatted_date_year = date_from.year
         currency_digits = 2
 
-        self._cr.execute(
-            sql_query, {
-                'formatted_date_year': formatted_date_year,
-                'formatted_date_from': formatted_date_from,
-                'date_from': self.date_from,
-                'company_id': company.id,
-                'currency_digits': currency_digits,
-                })
+        sql_args = {  # Use for the 2 INITIAL BALANCEs and for LINES
+            'formatted_date_year': self.date_from.year,
+            'formatted_date_from': formatted_date_from,
+            'date_from': self.date_from,
+            'date_to': self.date_to,
+            'company_id': company.id,
+            'currency_digits': currency_digits,
+            }
 
         unaffected_earnings_type_id = self.env.ref(
             'account.data_unaffected_earnings').id
+        self._cr.execute(sql_query, sql_args)
         for row in self._cr.fetchall():
             listrow = list(row)
             account_id = listrow.pop()
@@ -327,83 +334,6 @@ class AccountFrFecOca(models.TransientModel):
                     unaffected_earnings_account.name
             rows_to_write.append(unaffected_earnings_results)
 
-        # INITIAL BALANCE - receivable/payable
-        sql_query = '''
-        SELECT
-            'OUV' AS JournalCode,
-            'Balance initiale' AS JournalLib,
-            'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
-            %(formatted_date_from)s AS EcritureDate,
-            MIN(aa.code) AS CompteNum,
-            replace(MIN(aa.name), '|', '/') AS CompteLib,
-            CASE WHEN rp.ref IS null OR rp.ref = ''
-            THEN COALESCE('ID' || rp.id, '')
-            ELSE replace(rp.ref, '|', '/')
-            END
-            AS CompAuxNum,
-            COALESCE(replace(rp.name, '|', '/'), '') AS CompAuxLib,
-            '-' AS PieceRef,
-            %(formatted_date_from)s AS PieceDate,
-            '/' AS EcritureLib,
-            replace(
-                CASE WHEN sum(aml.balance) <= 0
-                THEN '0,00'
-                ELSE to_char(SUM(aml.balance), '000000000000000D99')
-                END, '.', ',') AS Debit,
-            replace(
-                CASE WHEN sum(aml.balance) >= 0
-                THEN '0,00'
-                ELSE to_char(-SUM(aml.balance), '000000000000000D99')
-                END, '.', ',') AS Credit,
-            '' AS EcritureLet,
-            '' AS DateLet,
-            %(formatted_date_from)s AS ValidDate,
-            '' AS Montantdevise,
-            '' AS Idevise,
-            MIN(aa.id) AS CompteID
-        FROM
-            account_move_line aml
-            LEFT JOIN account_move am ON am.id=aml.move_id
-            LEFT JOIN res_partner rp ON rp.id=aml.partner_id
-            JOIN account_account aa ON aa.id = aml.account_id
-            LEFT JOIN account_account_type aat ON aa.user_type_id = aat.id
-        WHERE
-            am.date < %(date_from)s
-            AND am.company_id = %(company_id)s
-            AND aat.include_initial_balance = 't'
-            AND (aml.debit != 0 OR aml.credit != 0)
-        '''
-
-        # For official report: only use posted entries
-        if self.export_type == "official":
-            sql_query += '''
-            AND am.state = 'posted'
-            '''
-
-        sql_query += '''
-        GROUP BY aml.account_id, aat.type, rp.ref, rp.id
-        HAVING round(sum(aml.balance), %(currency_digits)s) != 0
-        AND aat.type in ('receivable', 'payable')
-        '''
-        self._cr.execute(
-            sql_query, {
-                'formatted_date_year': formatted_date_year,
-                'formatted_date_from': formatted_date_from,
-                'date_from': self.date_from,
-                'company_id': company.id,
-                'currency_digits': currency_digits,
-                })
-
-        for row in self._cr.fetchall():
-            listrow = list(row)
-            account_id = listrow.pop()
-            rows_to_write.append(listrow)
-
-        sql_args = {
-            'date_from': self.date_from,
-            'date_to': self.date_to,
-            'company_id': company.id,
-            }
         sql_aux_num_base = '''
         CASE WHEN rp.ref IS null OR rp.ref = ''
         THEN COALESCE('ID' || rp.id, '')
@@ -446,6 +376,68 @@ class AccountFrFecOca(models.TransientModel):
         else:
             aux_fields = sql_aux_num_base + 'AS CompAuxNum, '\
                 + sql_aux_lib_base + 'AS CompAuxLib,'
+
+        aux_fields_ini_bal = aux_fields.replace('aa.id IN', 'MIN(aa.id) IN').replace(
+            'aat.id IN', 'MIN(aat.id) IN')
+        # INITIAL BALANCE - receivable/payable
+        sql_query = '''
+        SELECT
+            'OUV' AS JournalCode,
+            'Balance initiale' AS JournalLib,
+            'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
+            %(formatted_date_from)s AS EcritureDate,
+            MIN(aa.code) AS CompteNum,
+            replace(MIN(aa.name), '|', '/') AS CompteLib,
+        ''' + aux_fields_ini_bal + '''
+            '-' AS PieceRef,
+            %(formatted_date_from)s AS PieceDate,
+            'Report à nouveau' AS EcritureLib,
+            replace(
+                CASE WHEN sum(aml.balance) <= 0
+                THEN '0,00'
+                ELSE to_char(SUM(aml.balance), '000000000000000D99')
+                END, '.', ',') AS Debit,
+            replace(
+                CASE WHEN sum(aml.balance) >= 0
+                THEN '0,00'
+                ELSE to_char(-SUM(aml.balance), '000000000000000D99')
+                END, '.', ',') AS Credit,
+            '' AS EcritureLet,
+            '' AS DateLet,
+            %(formatted_date_from)s AS ValidDate,
+            '' AS Montantdevise,
+            '' AS Idevise,
+            MIN(aa.id) AS CompteID
+        FROM
+            account_move_line aml
+            LEFT JOIN account_move am ON am.id=aml.move_id
+            LEFT JOIN res_partner rp ON rp.id=aml.partner_id
+            JOIN account_account aa ON aa.id = aml.account_id
+            LEFT JOIN account_account_type aat ON aa.user_type_id = aat.id
+        WHERE
+            am.date < %(date_from)s
+            AND am.company_id = %(company_id)s
+            AND aat.include_initial_balance IS true
+            AND (aml.debit != 0 OR aml.credit != 0)
+        '''
+
+        # For official report: only use posted entries
+        if self.export_type == "official":
+            sql_query += '''
+            AND am.state = 'posted'
+            '''
+
+        sql_query += '''
+        GROUP BY aml.account_id, aat.type, rp.id
+        HAVING round(sum(aml.balance), %(currency_digits)s) != 0
+        AND aat.type in ('receivable', 'payable')
+        '''
+        self._cr.execute(sql_query, sql_args)
+
+        for row in self._cr.fetchall():
+            listrow = list(row)
+            account_id = listrow.pop()
+            rows_to_write.append(listrow)
 
         # LINES
         sql_query = '''
@@ -541,7 +533,7 @@ class AccountFrFecOca(models.TransientModel):
 
         siren = self._get_siren(company)
         self.write({
-            'fec_data': base64.encodestring(fecvalue),
+            'fec_data': base64.encodebytes(fecvalue),
             # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
             'filename': '%sFEC%s%s.txt' % (siren, end_date, suffix),
             })
