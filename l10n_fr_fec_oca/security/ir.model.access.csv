@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_fr_fec_oca_user,Access to wizard account.fr.fec.oca to accountant,model_account_fr_fec_oca,account.group_account_user,1,1,1,0
