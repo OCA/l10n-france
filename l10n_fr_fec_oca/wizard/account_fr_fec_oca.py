@@ -297,6 +297,12 @@ class AccountFrFecOca(models.TransientModel):
                 if account.user_type_id.id == unaffected_earnings_type_id:
                     # add the benefit/loss of previous fiscal year to
                     # the first unaffected earnings account found.
+                    # Alexis note: on a normal accounting DB, we should
+                    # never enter in the IF above because the account
+                    # 120000 is supposed to have a balance at 0 at the end
+                    # of each fiscal year, because benefit or loss
+                    # is supposed to be re-affected by the general assembly
+                    # during the year
                     unaffected_earnings_line = True
                     current_amount = float(listrow[11].replace(',', '.'))\
                         - float(listrow[12].replace(',', '.'))
@@ -324,14 +330,6 @@ class AccountFrFecOca(models.TransientModel):
             and unaffected_earnings_results
             and (unaffected_earnings_results[11] != '0,00'
                  or unaffected_earnings_results[12] != '0,00')):
-            # search an unaffected earnings account
-            unaffected_earnings_account = self.env['account.account'].search(
-                [('user_type_id', '=', unaffected_earnings_type_id)], limit=1)
-            if unaffected_earnings_account:
-                unaffected_earnings_results[4] =\
-                    unaffected_earnings_account.code
-                unaffected_earnings_results[5] =\
-                    unaffected_earnings_account.name
             rows_to_write.append(unaffected_earnings_results)
 
         sql_aux_num_base = '''
