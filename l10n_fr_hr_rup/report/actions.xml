@@ -6,11 +6,11 @@
             string="Rapport RUP"
             model="hr.contract"
             report_type="qweb-pdf"
-            file="l10n_fr_rup.report_l10n_fr_rup"
-            name="l10n_fr_rup.report_l10n_fr_rup"
+            file="report_l10n_fr_rup"
+            name="l10n_fr_hr_rup.report_l10n_fr_rup"
         />
 
         <record id="action_report_l10n_fr_rup" model="ir.actions.report">
-            <field name="paperformat_id" ref="l10n_fr_rup.paperformat_a3_rup"/>
+            <field name="paperformat_id" ref="paperformat_a3_rup"/>
         </record>
 </odoo>
