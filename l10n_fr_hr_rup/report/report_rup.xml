@@ -173,7 +173,7 @@
 
         <template id="report_l10n_fr_rup">
             <style type="text/css">
-                <t t-call="l10n_fr_rup.style_rup"/>
+                <t t-call="l10n_fr_hr_rup.style_rup"/>
             </style>
             <t t-call="web.html_container">
                 <div class="page">
@@ -181,8 +181,8 @@
                     <h2 style="text-align: center">REGISTRE UNIQUE DU PERSONNEL</h2>
                     <br/><br/>
                     <table class="pure-table">
-                        <t t-call="l10n_fr_rup.rup_table_header"/>
-                        <t t-call="l10n_fr_rup.rup_table_rows"/>
+                        <t t-call="l10n_fr_hr_rup.rup_table_header"/>
+                        <t t-call="l10n_fr_hr_rup.rup_table_rows"/>
                     </table>
                     <div class="oe_structure"/>
                 </div>
