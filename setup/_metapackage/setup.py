@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo14-addon-l10n_fr_department',
         'odoo14-addon-l10n_fr_department_oversea',
         'odoo14-addon-l10n_fr_hr_check_ssnid',
+        'odoo14-addon-l10n_fr_siret',
         'odoo14-addon-l10n_fr_state',
     ],
     classifiers=[
