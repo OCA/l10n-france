@@ -22,6 +22,7 @@ addon | version | summary
 [l10n_fr_department](l10n_fr_department/) | 14.0.1.0.0 | Populate Database with French Departments (Départements)
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 14.0.1.0.0 | Populate Database with overseas French Departments (Départements d'outre-mer)
 [l10n_fr_hr_check_ssnid](l10n_fr_hr_check_ssnid/) | 14.0.1.0.0 | Check validity of Social Security Numbers in French companies
+[l10n_fr_siret](l10n_fr_siret/) | 14.0.1.0.0 | French company identity numbers SIRET/SIREN/NIC
 [l10n_fr_state](l10n_fr_state/) | 14.0.1.0.0 | Populate Database with French States (Régions)
 
 [//]: # (end addons)
