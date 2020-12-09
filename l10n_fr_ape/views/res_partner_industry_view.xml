@@ -4,9 +4,9 @@
     <field name="model">res.partner.industry</field>
     <field name="inherit_id" ref="base.res_partner_industry_view_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//field[@name='name']" position="after">
+        <field name="name" position="after">
             <field name="code"/>
-        </xpath>
+        </field>
     </field>
 </record>
 
