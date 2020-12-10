@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# Copyright 2013-2019 Akretion France (http://www.akretion.com)
-# Copyright 2016-2019 Odoo SA (https://www.odoo.com/fr_FR/)
+# Copyright 2013-2020 Akretion France (http://www.akretion.com)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2016-2020 Odoo SA (https://www.odoo.com/fr_FR/)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 
@@ -41,9 +42,9 @@ class AccountFrFecOca(models.TransientModel):
         ('tab', 'Tab'),
         ], default='|', string='Field Delimiter', required=True)
     partner_option = fields.Selection([
-        ('all', 'All'),
         ('types', 'Selected Account Types'),
         ('accounts', 'Selected Accounts'),
+        ('all', 'All'),
         ], default='types', required=True, string='Partner Export Option')
     partner_account_type_ids = fields.Many2many(
         'account.account.type', string='Account Types',
@@ -53,28 +54,17 @@ class AccountFrFecOca(models.TransientModel):
         default=lambda self: self._default_partner_account_ids())
     fec_data = fields.Binary('FEC File', readonly=True)
     filename = fields.Char(string='Filename', size=256, readonly=True)
-    target_move = fields.Selection([
-        ('posted', 'All Posted Entries'),
-        ('all', 'All Entries'),
-        ], string='Target Moves', required=True, default='posted')
-    include_initial_balance = fields.Boolean(
-        string='Include Initial Balance', default=True)
-    official = fields.Boolean(
-        string='Official FEC', default=True,
-        help="An official FEC corresponds to a FEC with initial balance "
-        "and with posted entries only.")
+    export_type = fields.Selection([
+        ('official', 'Official FEC report (posted entries only)'),
+        ('nonofficial',
+         'Non-official FEC report (posted and unposted entries)'),
+        ], string='Export Type', required=True, default='official')
 
     @api.onchange('date_range_id')
     def date_range_change(self):
         if self.date_range_id:
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
-
-    @api.onchange('official')
-    def official_change(self):
-        if self.official:
-            self.target_move = 'posted'
-            self.include_initial_balance = True
 
     @api.model
     def _default_partner_account_type_ids(self):
@@ -96,20 +86,20 @@ class AccountFrFecOca(models.TransientModel):
         This is needed because we have to display only one line for the initial
         balance of all expense/revenue accounts in the FEC.
         '''
-
-        sql_query = '''
+        # BENEFIT and LOSS
+        sql_query = u'''
         SELECT
             'OUV' AS JournalCode,
             'Balance initiale' AS JournalLib,
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
-            '120/129' AS CompteNum,
-            'Benefice (perte) reporte(e)' AS CompteLib,
+            '120000' AS CompteNum,
+            E'Résultat de l\\'exercice (Bénéfice)' AS CompteLib,
             '' AS CompAuxNum,
             '' AS CompAuxLib,
             '-' AS PieceRef,
             %(formatted_date_from)s AS PieceDate,
-            '/' AS EcritureLib,
+            'Report à nouveau' AS EcritureLib,
             replace(
                 CASE WHEN COALESCE(sum(aml.balance), 0) <= 0
                 THEN '0,00'
@@ -127,18 +117,18 @@ class AccountFrFecOca(models.TransientModel):
             '' AS Idevise
         FROM
             account_move_line aml
-            LEFT JOIN account_move am ON am.id=aml.move_id
+            LEFT JOIN account_move am ON am.id = aml.move_id
             JOIN account_account aa ON aa.id = aml.account_id
             LEFT JOIN account_account_type aat ON aa.user_type_id = aat.id
         WHERE
             am.date < %(date_from)s
             AND am.company_id = %(company_id)s
-            AND aat.include_initial_balance = 'f'
+            AND aat.include_initial_balance IS NOT true
             AND (aml.debit != 0 OR aml.credit != 0)
         '''
         # For official report: only use posted entries
-        if self.target_move == "posted":
-            sql_query += '''
+        if self.export_type == "official":
+            sql_query += u'''
             AND am.state = 'posted'
             '''
         company = self.env.user.company_id
@@ -154,10 +144,61 @@ class AccountFrFecOca(models.TransientModel):
         listrow = []
         row = self._cr.fetchone()
         listrow = list(row)
+        # Hack to replace 120 by 129 when it's a loss
+        if listrow[11] != "0,00" and listrow[12] == "0,00" and listrow[4] == "120000":
+            listrow[4] = "129000"
+            listrow[5] = u"Résultat de l'exercice (perte)"
         return listrow
 
-    def generate_initial_balance(self, rows_to_write):
+    def _get_siren(self, company):
+        if not company.vat:
+            raise UserError(
+                _("Missing VAT number for company %s") % company.name)
+        vat = company.vat.upper().replace(' ', '')
+        if vat[0:2] != 'FR':
+            raise UserError(
+                _("FEC is for French companies only !"))
+
+        siren = vat[4:13]
+        return siren
+
+    def generate_fec(self):
+        self.ensure_one()
+        # We choose to implement the flat file instead of the XML
+        # file for 2 reasons :
+        # 1) the XSD file impose to have the label on the account.move
+        # but Odoo has the label on the account.move.line, so that's a
+        # problem !
+        # 2) CSV files are easier to read/use for a regular accountant.
+        # So it will be easier for the accountant to check the file before
+        # sending it to the fiscal administration
+        if self.date_from >= self.date_to:
+            raise UserError(_('The start date must be before the end date.'))
+
         company = self.env.user.company_id
+
+        header = [
+            'JournalCode',    # 0
+            'JournalLib',     # 1
+            'EcritureNum',    # 2
+            'EcritureDate',   # 3
+            'CompteNum',      # 4
+            'CompteLib',      # 5
+            'CompAuxNum',     # 6
+            'CompAuxLib',     # 7
+            'PieceRef',       # 8
+            'PieceDate',      # 9
+            'EcritureLib',    # 10
+            'Debit',          # 11
+            'Credit',         # 12
+            'EcritureLet',    # 13
+            'DateLet',        # 14
+            'ValidDate',      # 15
+            'Montantdevise',  # 16
+            'Idevise',        # 17
+            ]
+
+        rows_to_write = [header]
         unaffected_earnings_xml_ref = self.env.ref(
             'account.data_unaffected_earnings')
         # used to make sure that we add the unaffected earning initial balance
@@ -169,7 +210,8 @@ class AccountFrFecOca(models.TransientModel):
             unaffected_earnings_results = self.do_query_unaffected_earnings()
             unaffected_earnings_line = False
 
-        sql_query = '''
+        # INITIAL BALANCE other than payable/receivable
+        sql_query = u'''
         SELECT
             'OUV' AS JournalCode,
             'Balance initiale' AS JournalLib,
@@ -181,7 +223,7 @@ class AccountFrFecOca(models.TransientModel):
             '' AS CompAuxLib,
             '-' AS PieceRef,
             %(formatted_date_from)s AS PieceDate,
-            '/' AS EcritureLib,
+            'Report à nouveau' AS EcritureLib,
             replace(
                 CASE WHEN sum(aml.balance) <= 0
                 THEN '0,00'
@@ -200,43 +242,42 @@ class AccountFrFecOca(models.TransientModel):
             MIN(aa.id) AS CompteID
         FROM
             account_move_line aml
-            LEFT JOIN account_move am ON am.id=aml.move_id
+            LEFT JOIN account_move am ON am.id = aml.move_id
             JOIN account_account aa ON aa.id = aml.account_id
             LEFT JOIN account_account_type aat ON aa.user_type_id = aat.id
         WHERE
             am.date < %(date_from)s
             AND am.company_id = %(company_id)s
-            AND aat.include_initial_balance = 't'
+            AND aat.include_initial_balance IS true
             AND (aml.debit != 0 OR aml.credit != 0)
         '''
 
         # For official report: only use posted entries
-        if self.target_move == "posted":
-            sql_query += '''
+        if self.export_type == "official":
+            sql_query += u'''
             AND am.state = 'posted'
             '''
 
-        sql_query += '''
+        sql_query += u'''
         GROUP BY aml.account_id, aat.type
         HAVING round(sum(aml.balance), %(currency_digits)s) != 0
         AND aat.type not in ('receivable', 'payable')
         '''
         formatted_date_from = self.date_from.replace('-', '')
-        date_from = fields.Date.from_string(self.date_from)
-        formatted_date_year = date_from.year
         currency_digits = 2
 
-        self._cr.execute(
-            sql_query, {
-                'formatted_date_year': formatted_date_year,
-                'formatted_date_from': formatted_date_from,
-                'date_from': self.date_from,
-                'company_id': company.id,
-                'currency_digits': currency_digits,
-                })
+        sql_args = {  # Use for the 2 INITIAL BALANCEs and for LINES
+            'formatted_date_year': formatted_date_from[:4],
+            'formatted_date_from': formatted_date_from,
+            'date_from': self.date_from,
+            'date_to': self.date_to,
+            'company_id': company.id,
+            'currency_digits': currency_digits,
+            }
 
         unaffected_earnings_type_id = self.env.ref(
             'account.data_unaffected_earnings').id
+        self._cr.execute(sql_query, sql_args)
         for row in self._cr.fetchall():
             listrow = list(row)
             account_id = listrow.pop()
@@ -245,6 +286,12 @@ class AccountFrFecOca(models.TransientModel):
                 if account.user_type_id.id == unaffected_earnings_type_id:
                     # add the benefit/loss of previous fiscal year to
                     # the first unaffected earnings account found.
+                    # Alexis note: on a normal accounting DB, we should
+                    # never enter in the IF above because the account
+                    # 120000 is supposed to have a balance at 0 at the end
+                    # of each fiscal year, because benefit or loss
+                    # is supposed to be re-affected by the general assembly
+                    # during the year
                     unaffected_earnings_line = True
                     current_amount = float(listrow[11].replace(',', '.'))\
                         - float(listrow[12].replace(',', '.'))
@@ -272,18 +319,55 @@ class AccountFrFecOca(models.TransientModel):
             and unaffected_earnings_results
             and (unaffected_earnings_results[11] != '0,00'
                  or unaffected_earnings_results[12] != '0,00')):
-            # search an unaffected earnings account
-            unaffected_earnings_account = self.env['account.account'].search(
-                [('user_type_id', '=', unaffected_earnings_type_id)], limit=1)
-            if unaffected_earnings_account:
-                unaffected_earnings_results[4] =\
-                    unaffected_earnings_account.code
-                unaffected_earnings_results[5] =\
-                    unaffected_earnings_account.name
             rows_to_write.append(unaffected_earnings_results)
 
+        sql_aux_num_base = u'''
+        CASE WHEN rp.ref IS null OR rp.ref = ''
+        THEN COALESCE('ID' || rp.id, '')
+        ELSE replace(rp.ref, '|', '/')
+        END
+        '''
+        sql_aux_lib_base = u'''
+        COALESCE(replace(replace(rp.name, '|', '/'), '\t', ''), '')
+        '''
+        if self.partner_option == 'types':
+            aux_fields = u'''
+            CASE WHEN aat.id IN %(partner_account_type_ids)s
+            THEN ''' + sql_aux_num_base + u'''
+            ELSE ''
+            END
+            AS CompAuxNum,
+            CASE WHEN aat.id IN %(partner_account_type_ids)s
+            THEN ''' + sql_aux_lib_base + u'''
+            ELSE ''
+            END
+            AS CompAuxLib,
+            '''
+            sql_args['partner_account_type_ids'] =\
+                tuple(self.partner_account_type_ids.ids)
+        elif self.partner_option == 'accounts':
+            aux_fields = u'''
+            CASE WHEN aa.id IN %(partner_account_ids)s
+            THEN ''' + sql_aux_num_base + u'''
+            ELSE ''
+            END
+            AS CompAuxNum,
+            CASE WHEN aa.id IN %(partner_account_ids)s
+            THEN ''' + sql_aux_lib_base + u'''
+            ELSE ''
+            END
+            AS CompAuxLib,
+            '''
+            sql_args['partner_account_ids'] =\
+                tuple(self.partner_account_ids.ids)
+        else:
+            aux_fields = sql_aux_num_base + u'AS CompAuxNum, '\
+                + sql_aux_lib_base + u'AS CompAuxLib,'
+
+        aux_fields_ini_bal = aux_fields.replace('aa.id IN', 'MIN(aa.id) IN').replace(
+            'aat.id IN', 'MIN(aat.id) IN')
         # INITIAL BALANCE - receivable/payable
-        sql_query = '''
+        sql_query = u'''
         SELECT
             'OUV' AS JournalCode,
             'Balance initiale' AS JournalLib,
@@ -291,15 +375,10 @@ class AccountFrFecOca(models.TransientModel):
             %(formatted_date_from)s AS EcritureDate,
             MIN(aa.code) AS CompteNum,
             replace(MIN(aa.name), '|', '/') AS CompteLib,
-            CASE WHEN rp.ref IS null OR rp.ref = ''
-            THEN COALESCE('ID' || rp.id, '')
-            ELSE replace(rp.ref, '|', '/')
-            END
-            AS CompAuxNum,
-            COALESCE(replace(rp.name, '|', '/'), '') AS CompAuxLib,
+        ''' + aux_fields_ini_bal + u'''
             '-' AS PieceRef,
             %(formatted_date_from)s AS PieceDate,
-            '/' AS EcritureLib,
+            'Report à nouveau' AS EcritureLib,
             replace(
                 CASE WHEN sum(aml.balance) <= 0
                 THEN '0,00'
@@ -325,154 +404,30 @@ class AccountFrFecOca(models.TransientModel):
         WHERE
             am.date < %(date_from)s
             AND am.company_id = %(company_id)s
-            AND aat.include_initial_balance = 't'
+            AND aat.include_initial_balance IS true
             AND (aml.debit != 0 OR aml.credit != 0)
         '''
 
         # For official report: only use posted entries
-        if self.target_move == "posted":
-            sql_query += '''
+        if self.export_type == "official":
+            sql_query += u'''
             AND am.state = 'posted'
             '''
 
-        sql_query += '''
-        GROUP BY aml.account_id, aat.type, rp.ref, rp.id
+        sql_query += u'''
+        GROUP BY aml.account_id, aat.type, rp.id
         HAVING round(sum(aml.balance), %(currency_digits)s) != 0
         AND aat.type in ('receivable', 'payable')
         '''
-        self._cr.execute(
-            sql_query, {
-                'formatted_date_year': formatted_date_year,
-                'formatted_date_from': formatted_date_from,
-                'date_from': self.date_from,
-                'company_id': company.id,
-                'currency_digits': currency_digits,
-                })
+        self._cr.execute(sql_query, sql_args)
 
         for row in self._cr.fetchall():
             listrow = list(row)
             account_id = listrow.pop()
             rows_to_write.append(listrow)
 
-    def _get_siren(self, company):
-        """
-        Dom-Tom are excluded from the EU's fiscal territory
-        Those regions do not have SIREN
-        sources:
-            https://www.service-public.fr/professionnels-entreprises/vosdroits/F23570
-            http://www.douane.gouv.fr/articles/a11024-tva-dans-les-dom
-        """
-        is_dom_tom = company.country_id.code in [
-            'GP', 'MQ', 'GF', 'RE', 'YT', 'NC',
-            'PF', 'TF', 'MF', 'BL', 'PM', 'WF']
-        if not is_dom_tom and not company.vat:
-            raise UserError(
-                _("Missing VAT number for company %s") % company.name)
-        vat = company.vat.upper().replace(' ', '')
-        if not is_dom_tom and vat[0:2] != 'FR':
-            raise UserError(
-                _("FEC is for French companies only !"))
-
-        siren = vat[4:13] if not is_dom_tom else ''
-        return siren
-
-    def generate_fec(self):
-        """Method called by the button of the wizard"""
-        self.ensure_one()
-        if self.official:
-            # additional security, in case onchange hasn't been played
-            self.write({
-                'target_move': 'posted',
-                'include_initial_balance': True,
-                })
-
-        # We choose to implement the flat file instead of the XML
-        # file for 2 reasons :
-        # 1) the XSD file impose to have the label on the account.move
-        # but Odoo has the label on the account.move.line, so that's a
-        # problem !
-        # 2) CSV files are easier to read/use for a regular accountant.
-        # So it will be easier for the accountant to check the file before
-        # sending it to the fiscal administration
-        company = self.env.user.company_id
-
-        header = [
-            'JournalCode',    # 0
-            'JournalLib',     # 1
-            'EcritureNum',    # 2
-            'EcritureDate',   # 3
-            'CompteNum',      # 4
-            'CompteLib',      # 5
-            'CompAuxNum',     # 6  We use partner.id
-            'CompAuxLib',     # 7
-            'PieceRef',       # 8
-            'PieceDate',      # 9
-            'EcritureLib',    # 10
-            'Debit',          # 11
-            'Credit',         # 12
-            'EcritureLet',    # 13
-            'DateLet',        # 14
-            'ValidDate',      # 15
-            'Montantdevise',  # 16
-            'Idevise',        # 17
-            ]
-
-        rows_to_write = [header]
-
-        if self.include_initial_balance:
-            self.generate_initial_balance(rows_to_write)
-
-        # START processing of regular lines
-        sql_args = {
-            'date_from': self.date_from,
-            'date_to': self.date_to,
-            'company_id': company.id,
-            }
-        sql_aux_num_base = '''
-        CASE WHEN rp.ref IS null OR rp.ref = ''
-        THEN COALESCE('ID' || rp.id, '')
-        ELSE replace(rp.ref, '|', '/')
-        END
-        '''
-        sql_aux_lib_base = '''
-        COALESCE(replace(replace(rp.name, '|', '/'), '\t', ''), '')
-        '''
-        if self.partner_option == 'types':
-            aux_fields = '''
-            CASE WHEN aat.id IN %(partner_account_type_ids)s
-            THEN ''' + sql_aux_num_base + '''
-            ELSE ''
-            END
-            AS CompAuxNum,
-            CASE WHEN aat.id IN %(partner_account_type_ids)s
-            THEN ''' + sql_aux_lib_base + '''
-            ELSE ''
-            END
-            AS CompAuxLib,
-            '''
-            sql_args['partner_account_type_ids'] =\
-                tuple(self.partner_account_type_ids.ids)
-        elif self.partner_option == 'accounts':
-            aux_fields = '''
-            CASE WHEN aa.id IN %(partner_account_ids)s
-            THEN ''' + sql_aux_num_base + '''
-            ELSE ''
-            END
-            AS CompAuxNum,
-            CASE WHEN aa.id IN %(partner_account_ids)s
-            THEN ''' + sql_aux_lib_base + '''
-            ELSE ''
-            END
-            AS CompAuxLib,
-            '''
-            sql_args['partner_account_ids'] =\
-                tuple(self.partner_account_ids.ids)
-        else:
-            aux_fields = sql_aux_num_base + 'AS CompAuxNum, '\
-                + sql_aux_lib_base + 'AS CompAuxLib,'
-
         # LINES
-        sql_query = '''
+        sql_query = u'''
         SELECT
             replace(replace(aj.code, '|', '/'), '\t', '') AS JournalCode,
             replace(replace(aj.name, '|', '/'), '\t', '') AS JournalLib,
@@ -480,7 +435,7 @@ class AccountFrFecOca(models.TransientModel):
             TO_CHAR(am.date, 'YYYYMMDD') AS EcritureDate,
             aa.code AS CompteNum,
             replace(replace(aa.name, '|', '/'), '\t', '') AS CompteLib,
-        ''' + aux_fields + '''
+        ''' + aux_fields + u'''
             CASE
                 WHEN am.ref IS null OR am.ref = ''
                 THEN '-'
@@ -541,12 +496,12 @@ class AccountFrFecOca(models.TransientModel):
         '''
 
         # For official report: only use posted entries
-        if self.target_move == "posted":
-            sql_query += '''
+        if self.export_type == "official":
+            sql_query += u'''
             AND am.state = 'posted'
             '''
 
-        sql_query += '''
+        sql_query += u'''
         ORDER BY
             am.date,
             am.name,
@@ -560,8 +515,8 @@ class AccountFrFecOca(models.TransientModel):
         fecvalue = self._csv_write_rows(rows_to_write)
         end_date = self.date_to.replace('-', '')
         suffix = ''
-        if not self.official:
-            suffix = '-NOT_OFFICIAL'
+        if self.export_type == "nonofficial":
+            suffix = '-NONOFFICIAL'
 
         siren = self._get_siren(company)
         self.write({
