@@ -1,6 +1,6 @@
 # Copyright (C) 2020 Akretion (http://www.akretion.com/)
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class HrContract(models.Model):
@@ -12,7 +12,7 @@ class HrContract(models.Model):
     qualification = fields.Char("Qualification")
     work_location = fields.Char("Localisation du bureau")
 
-    @api.onchange('employee_id')
+    @api.onchange("employee_id")
     def _onchange_employee_id(self):
         super()._onchange_employee_id()
         self.pcs_id = self.employee_id.pcs_id
