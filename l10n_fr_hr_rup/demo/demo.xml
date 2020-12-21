@@ -14,18 +14,18 @@
         </record>
 
         <!--Contract types-->
-        <record id="hr_contract_type_cdi" model="hr.contract.type">
+        <record id="hr_contract_type_cdi" model="hr.payroll.structure.type">
             <field name="name">CDI</field>
         </record>
-        <record id="hr_contract_type_cdd" model="hr.contract.type">
+        <record id="hr_contract_type_cdd" model="hr.payroll.structure.type">
             <field name="name">CDD</field>
         </record>
 
         <!--Contracts-->
         <record id="demo_contract_fp_1" model="hr.contract">
             <field name="name">Pieter Parker contract actuel</field>
-            <field name="employee_id" ref="hr.employee_fp" />
-            <field name="type_id" ref="hr_contract_type_cdi" />
+            <field name="employee_id" ref="hr.employee_fpi" />
+            <field name="structure_type_id" ref="hr_contract_type_cdi" />
             <field
                 name="date_start"
                 eval="(DateTime.today() - relativedelta(days=100)).strftime('%Y-%m-%d')"
@@ -39,8 +39,8 @@
         </record>
         <record id="demo_contract_fp_2" model="hr.contract">
             <field name="name">Pieter Parker contrat antérieur</field>
-            <field name="employee_id" ref="hr.employee_fp" />
-            <field name="type_id" ref="hr_contract_type_cdd" />
+            <field name="employee_id" ref="hr.employee_fpi" />
+            <field name="structure_type_id" ref="hr_contract_type_cdd" />
             <field
                 name="date_start"
                 eval="(DateTime.today() - relativedelta(days=200)).strftime('%Y-%m-%d')"
@@ -54,12 +54,12 @@
             <field name="pcs_id" ref="hr_employee_pcs_cadre" />
             <field name="qualification">Partenaire</field>
             <field name="work_location">12 rue du Parc, Ville XYZ, 31000</field>
-            <field name="employer_address_id" ref="base.res_partner_8" />
+            <field name="employer_address_id" ref="base.res_partner_3" />
         </record>
         <record id="demo_contract_al" model="hr.contract">
             <field name="name">Antoine Langlais contrat</field>
             <field name="employee_id" ref="hr.employee_al" />
-            <field name="type_id" ref="hr_contract_type_cdd" />
+            <field name="structure_type_id" ref="hr_contract_type_cdd" />
             <field
                 name="date_start"
                 eval="(DateTime.today() - relativedelta(days=600)).strftime('%Y-%m-%d')"
@@ -73,12 +73,12 @@
             <field name="pcs_id" ref="hr_employee_pcs_cadre" />
             <field name="qualification">Médior</field>
             <field name="work_location">6 boulevard Chaise, Ville ABC, 87774</field>
-            <field name="employer_address_id" ref="base.res_partner_9" />
+            <field name="employer_address_id" ref="base.res_partner_4" />
         </record>
         <record id="demo_contract_mit" model="hr.contract">
             <field name="name">John Smith contrat</field>
             <field name="employee_id" ref="hr.employee_mit" />
-            <field name="type_id" ref="hr_contract_type_cdi" />
+            <field name="structure_type_id" ref="hr_contract_type_cdi" />
             <field
                 name="date_start"
                 eval="(DateTime.today() - relativedelta(days=2000)).strftime('%Y-%m-%d')"
@@ -88,11 +88,11 @@
             <field name="pcs_id" ref="hr_employee_pcs_intermediaires" />
             <field name="qualification">Sénior</field>
             <field name="work_location">6 avenue Poule, Ville X, 45000</field>
-            <field name="employer_address_id" ref="base.res_partner_11" />
+            <field name="employer_address_id" ref="base.res_partner_2" />
         </record>
 
         <!--Complementary employee information-->
-        <record id="hr.employee_fp" model="hr.employee">
+        <record id="hr.employee_fpi" model="hr.employee">
             <field
                 name="birthday"
                 eval="(DateTime.today() - relativedelta(years=30)).strftime('%Y-%m-%d')"

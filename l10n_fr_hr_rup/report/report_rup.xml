@@ -161,7 +161,7 @@
                     />
                     </td>
                     <td>
-                        <span t-field="contract.type_id.name" />
+                        <span t-field="contract.structure_type_id.name" />
                     </td>
                     <td>
                         <span t-field="contract.pcs_id.name" />

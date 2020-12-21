@@ -2,14 +2,15 @@
 
 {
     "name": "Rapport RUP",
-    "version": "12.0.1.0.0",
+    "version": "14.0.1.0.0",
     "category": "French Localization",
     "summary": """ French fields and report for Registre Unique du Personnel """,
+    "website": "https://github.com/OCA/l10n-france",
     "depends": ["hr_contract"],
     "data": [
         "data/report_paperformat.xml",
-        "report/actions.xml",
         "report/report_rup.xml",
+        "report/actions.xml",
         "views/views.xml",
         "security/ir.model.access.csv",
     ],
