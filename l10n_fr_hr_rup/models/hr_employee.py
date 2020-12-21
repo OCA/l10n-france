@@ -1,6 +1,6 @@
 # Copyright (C) 2020 Akretion (http://www.akretion.com/)
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class HrEmployee(models.Model):
