@@ -1,5 +1,5 @@
 To configure this module, you need to go to
-*Accounting > Reporting > MIS Reportings* and create a new MIS Report
+*Invoicing > Reporting > MIS Reporting > MIS Reports* and create a new MIS Report
 according to the desired time periods and using one of the following
 templates provided by this module:
 
