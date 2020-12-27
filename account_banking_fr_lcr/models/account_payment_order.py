@@ -105,8 +105,7 @@ class AccountPaymentOrder(models.Model):
         numero_enregistrement = "00000001"
         numero_emetteur = "000000"  # It is not needed for LCR
         # this number is only required for old national direct debits
-        today_str = fields.Date.context_today(self)
-        today_dt = fields.Date.from_string(today_str)
+        today_dt = fields.Date.context_today(self)
         date_remise = today_dt.strftime(LCR_DATE_FORMAT)
         raison_sociale_cedant = self._prepare_lcr_field(
             "Raison sociale du cédant", self.company_id.name, 24
@@ -170,10 +169,9 @@ class AccountPaymentOrder(models.Model):
         code_acceptation = "0"
         montant_centimes = str(round(line.amount_currency * 100))
         zero_montant_centimes = montant_centimes.zfill(12)
-        today_str = fields.Date.context_today(self)
-        today_dt = fields.Date.from_string(today_str)
+        today_dt = fields.Date.context_today(self)
         date_creation = today_dt.strftime(LCR_DATE_FORMAT)
-        requested_date_dt = fields.Date.from_string(line.date)
+        requested_date_dt = line.date
         date_echeance = requested_date_dt.strftime(LCR_DATE_FORMAT)
         reference_tireur = reference_tire
 
