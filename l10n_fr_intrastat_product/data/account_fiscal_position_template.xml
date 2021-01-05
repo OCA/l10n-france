@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020 Akretion France
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record
+        id="l10n_fr.fiscal_position_template_intraeub2b"
+        model="account.fiscal.position.template"
+    >
+        <field name="intrastat" eval="True" />
+    </record>
+</odoo>
