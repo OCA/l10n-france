@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Akretion France (http://www.akretion.com/)
+# Copyright 2010-2020 Akretion France (http://www.akretion.com/)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -71,7 +71,10 @@ class IntrastatTransaction(models.Model):
     )
     # TODO : see with Luc if we can move it to intrastat_product
     fr_intrastat_product_type = fields.Selection(
-        [("arrivals", "Arrivals"), ("dispatches", "Dispatches"),],
+        [
+            ("arrivals", "Arrivals"),
+            ("dispatches", "Dispatches"),
+        ],
         string="Intrastat product type",
         help="Decides on which kind of Intrastat product report "
         "('Import' or 'Export') this Intrastat type can be selected.",
@@ -89,10 +92,11 @@ class IntrastatTransaction(models.Model):
 
     @api.constrains("code", "fr_transaction_code")
     def _code_check(self):
+        fr_country = self.env.ref("base.fr")
         for trans in self:
             if (
                 trans.company_id.country_id
-                and trans.company_id.country_id == self.env.ref("base.fr")
+                and trans.company_id.country_id == fr_country
             ):
                 if (
                     trans.code not in fiscal_only_tuple

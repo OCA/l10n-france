@@ -1,4 +1,4 @@
-# Copyright 2011-2019 Akretion France (http://www.akretion.com)
+# Copyright 2011-2020 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -33,7 +33,7 @@ class ResPartner(models.Model):
                             "The fiscal representative '%s' of partner '%s' "
                             "must have a country."
                         )
-                        % (rep.name, partner.name)
+                        % (rep.display_name, partner.display_name)
                     )
                 if not rep.country_id.intrastat:
                     raise ValidationError(
@@ -41,7 +41,7 @@ class ResPartner(models.Model):
                             "The fiscal representative '%s' of partner '%s' "
                             "must be based in an EU country."
                         )
-                        % (rep.name, partner.name)
+                        % (rep.display_name, partner.display_name)
                     )
                 if not rep.vat:
                     raise ValidationError(
@@ -49,5 +49,5 @@ class ResPartner(models.Model):
                             "The fiscal representative '%s' of partner '%s' "
                             "must have a VAT number."
                         )
-                        % (rep.name, partner.name)
+                        % (rep.display_name, partner.display_name)
                     )
