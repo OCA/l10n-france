@@ -1,4 +1,4 @@
-# Copyright 2009-2019 Akretion France (http://www.akretion.com)
+# Copyright 2009-2020 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -63,73 +63,74 @@ class L10nFrIntrastatProductDeclaration(models.Model):
 
     def _prepare_invoice_domain(self):
         domain = super()._prepare_invoice_domain()
-        if self.type == "arrivals":
-            domain.append(("type", "=", "in_invoice"))
-        elif self.type == "dispatches":
-            domain.append(("type", "in", ("out_invoice", "out_refund")))
+        for index, entry in enumerate(domain):
+            if entry[0] == "move_type":
+                domain.pop(index)
+        if self.declaration_type == "arrivals":
+            domain.append(("move_type", "=", "in_invoice"))
+        elif self.declaration_type == "dispatches":
+            domain.append(("move_type", "in", ("out_invoice", "out_refund")))
         return domain
 
-    @api.model
-    def _get_product_origin_country(self, inv_line):
+    def _get_product_origin_country(self, inv_line, notedict):
         """Inherit to add warning when origin_country_id is missing
         for arrivals"""
         if (
-            self.type == "arrivals"
+            self.declaration_type == "arrivals"
             and self.reporting_level == "extended"
             and not inv_line.product_id.origin_country_id
         ):
-            note = "\n" + _(
-                "Missing country of origin on product %s. "
-                "This product is present in invoice %s."
-            ) % (inv_line.product_id.display_name, inv_line.move_id.name)
-            self._note += note
-        return inv_line.product_id.origin_country_id
+            line_notes = [
+                _("Missing country of origin on product '%s'.")
+                % inv_line.product_id.display_name
+            ]
+            self._format_line_note(inv_line, notedict, line_notes)
+        return super()._get_product_origin_country(inv_line, notedict)
 
-    @api.model
-    def _get_fr_department(self, inv_line):
+    def _get_fr_department(self, inv_line, notedict):
         dpt = False
-        inv_type = inv_line.move_id.type
-        if inv_type in ("in_invoice", "in_refund"):
-            po_lines = self.env["purchase.order.line"].search(
-                [("invoice_lines", "in", inv_line.id)]
+        move_type = inv_line.move_id.move_type
+        if move_type in ("in_invoice", "in_refund"):
+            po_line = self.env["purchase.order.line"].search(
+                [("invoice_lines", "in", inv_line.id)], limit=1
             )
-            if po_lines:
-                if po_lines[0].order_id.picking_type_id.warehouse_id:
-                    dpt = po_lines[
-                        0
-                    ].order_id.picking_type_id.warehouse_id.get_fr_department()
-                elif po_lines[0].move_ids:
-                    location = po_lines[0].move_ids[0].location_dest_id
+            if po_line:
+                wh = po_line.order_id.picking_type_id.warehouse_id
+                if wh:
+                    dpt = wh.get_fr_department()
+                elif po_line.move_ids:
+                    location = po_line.move_ids[0].location_dest_id
                     dpt = location.get_fr_department()
-        elif inv_type in ("out_invoice", "out_refund"):
-            so_lines = self.env["sale.order.line"].search(
-                [("invoice_lines", "in", inv_line.id)]
+        elif move_type in ("out_invoice", "out_refund"):
+            so_line = self.env["sale.order.line"].search(
+                [("invoice_lines", "in", inv_line.id)], limit=1
             )
-            if so_lines:
-                so = so_lines[0].order_id
+            if so_line:
+                so = so_line.order_id
                 dpt = so.warehouse_id.get_fr_department()
         if not dpt:
             dpt = self.company_id.partner_id.department_id
         return dpt
 
-    @api.model
-    def _update_computation_line_vals(self, inv_line, line_vals):
-        super()._update_computation_line_vals(inv_line, line_vals)
+    def _update_computation_line_vals(self, inv_line, line_vals, notedict):
+        super()._update_computation_line_vals(inv_line, line_vals, notedict)
         inv = inv_line.move_id
         if not inv.partner_id.country_id.intrastat:
             if not inv.commercial_partner_id.intrastat_fiscal_representative_id:
-                note = "\n" + _(
-                    "Missing fiscal representative on partner '%s'"
-                    % inv.commercial_partner_id.display_name
-                )
-                self._note += note
+                line_notes = [
+                    _(
+                        "Missing fiscal representative on partner '%s'"
+                        % inv.commercial_partner_id.display_name
+                    )
+                ]
+                self._format_line_note(inv_line, notedict, line_notes)
             else:
                 line_vals[
                     "fr_partner_id"
                 ] = inv.commercial_partner_id.intrastat_fiscal_representative_id.id
         else:
             line_vals["fr_partner_id"] = inv.partner_id.id
-        dpt = self._get_fr_department(inv_line)
+        dpt = self._get_fr_department(inv_line, notedict)
         line_vals["fr_department_id"] = dpt and dpt.id or False
 
     @api.model
@@ -145,7 +146,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         vals["fr_department_id"] = computation_line.fr_department_id.id
         return vals
 
-    def _get_region(self, inv_line):
+    def _get_region(self, inv_line, notedict):
         # TODO : modify only for country == FR
         return False
 
@@ -155,20 +156,33 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         res.update(
             {
                 "fr_department": {
-                    "header": {"type": "string", "value": self._("Department"),},
+                    "header": {
+                        "type": "string",
+                        "value": self._("Department"),
+                    },
                     "line": {
                         "value": self._render("line.fr_department_id.display_name"),
                     },
                     "width": 18,
                 },
                 "fr_partner": {
-                    "header": {"type": "string", "value": self._("Partner"),},
-                    "line": {"value": self._render("line.fr_partner_id.display_name"),},
+                    "header": {
+                        "type": "string",
+                        "value": self._("Partner"),
+                    },
+                    "line": {
+                        "value": self._render("line.fr_partner_id.display_name"),
+                    },
                     "width": 28,
                 },
                 "fr_partner_vat": {
-                    "header": {"type": "string", "value": self._("Partner VAT"),},
-                    "line": {"value": self._render("line.fr_partner_id.vat"),},
+                    "header": {
+                        "type": "string",
+                        "value": self._("Partner VAT"),
+                    },
+                    "line": {
+                        "value": self._render("line.fr_partner_id.vat"),
+                    },
                     "width": 18,
                 },
             }
@@ -195,7 +209,8 @@ class L10nFrIntrastatProductDeclaration(models.Model):
 
         if not self.company_id.siret:
             raise UserError(
-                _("The SIRET is not set on company '%s'.") % self.company_id.name
+                _("The SIRET is not set on company '%s'.")
+                % self.company_id.display_name
             )
         if self.action != "replace" or self.revision != 1:
             raise UserError(
@@ -217,7 +232,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     "The customs accreditation identifier is not set "
                     "for the company '%s'."
                 )
-                % self.company_id.name
+                % self.company_id.display_name
             )
         envelope_id.text = self.company_id.fr_intrastat_accreditation
         create_date_time = etree.SubElement(envelope, "DateTime")
@@ -244,24 +259,19 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         function_code = etree.SubElement(function, "functionCode")
         function_code.text = "O"
         declaration_type_code = etree.SubElement(declaration, "declarationTypeCode")
-        assert self.reporting_level in (
-            "standard",
-            "extended",
-        ), "Invalid reporting level"
-        if self.reporting_level == "extended":
-            declaration_type_code.text = "1"
-        elif self.reporting_level == "standard":
-            declaration_type_code.text = "4"
+        level2letter = {
+            "standard": "4",
+            "extended": "1",
+        }
+        assert self.reporting_level in level2letter
+        declaration_type_code.text = level2letter[self.reporting_level]
         flow_code = etree.SubElement(declaration, "flowCode")
-
-        assert self.type in (
-            "arrivals",
-            "dispatches",
-        ), "The DEB must be of type 'Arrivals' or 'Dispatches'"
-        if self.type == "dispatches":
-            flow_code.text = "D"
-        elif self.type == "arrivals":
-            flow_code.text = "A"
+        type2letter = {
+            "arrivals": "A",
+            "dispatches": "D",
+        }
+        assert self.declaration_type in type2letter
+        flow_code.text = type2letter[self.declaration_type]
         currency_code = etree.SubElement(declaration, "currencyCode")
         assert my_company_currency == "EUR", "Company currency must be 'EUR'"
         currency_code.text = my_company_currency
@@ -289,19 +299,12 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 # local_code is required=True, so no need to check it
                 cn8_code.text = pline.hs_code_id.local_code
                 # We fill SUCode only if the H.S. code requires it
-                if pline.intrastat_unit_id:
+                iunit_id = pline.intrastat_unit_id
+                if iunit_id:
                     su_code = etree.SubElement(cn8, "SUCode")
-                    if not pline.intrastat_unit_id.fr_xml_label:
-                        raise UserError(
-                            _(
-                                "Missing Label for DEB on Intrastat Unit "
-                                "of Measure '%s'."
-                            )
-                            % pline.intrastat_unit_id.name
-                        )
-                    su_code.text = pline.intrastat_unit_id.fr_xml_label
+                    su_code.text = iunit_id.fr_xml_label or iunit_id.name
                     destination_country = etree.SubElement(item, "MSConsDestCode")
-                    if self.type == "arrivals":
+                    if self.declaration_type == "arrivals":
                         country_origin = etree.SubElement(item, "countryOfOriginCode")
                     weight = etree.SubElement(item, "netMass")
                     quantity_in_SU = etree.SubElement(item, "quantityInSU")
@@ -311,7 +314,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     quantity_in_SU.text = str(pline.suppl_unit_qty)
                 else:
                     destination_country = etree.SubElement(item, "MSConsDestCode")
-                    if self.type == "arrivals":
+                    if self.declaration_type == "arrivals":
                         country_origin = etree.SubElement(item, "countryOfOriginCode")
                     weight = etree.SubElement(item, "netMass")
                 if not pline.src_dest_country_id:
@@ -319,7 +322,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                         _("Missing Country of Origin/Destination on line %d.") % line
                     )
                 destination_country.text = pline.src_dest_country_id.code
-                if self.type == "arrivals":
+                if self.declaration_type == "arrivals":
                     if not pline.product_origin_country_id:
                         raise UserError(
                             _("Missing product country of origin on line %d.") % line
@@ -335,7 +338,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 raise UserError(_("Missing fiscal value on line %d.") % line)
             invoiced_amount.text = str(pline.amount_company_currency)
             # Partner VAT is only declared for export when code régime != 29
-            if self.type == "dispatches" and transaction.fr_is_vat_required:
+            if self.declaration_type == "dispatches" and transaction.fr_is_vat_required:
                 partner_id = etree.SubElement(item, "partnerId")
                 if not pline.fr_partner_id:
                     raise UserError(_("Missing partner on line %d.") % line)
@@ -377,15 +380,15 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     raise UserError(_("Department is not set on line %d.") % line)
                 region_code.text = pline.fr_department_id.code
 
-        xml_string = etree.tostring(
+        xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
         # We validate the XML file against the official XML Schema Definition
         # Because we may catch some problems with the content
         # of the XML file this way
-        self._check_xml_schema(xml_string, "l10n_fr_intrastat_product/data/deb.xsd")
+        self._check_xml_schema(xml_bytes, "l10n_fr_intrastat_product/data/deb.xsd")
         # Attach the XML file to the current object
-        return xml_string
+        return xml_bytes
 
     @api.model
     def _scheduler_reminder(self):
@@ -399,12 +402,12 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         for company in companies:
             if company.country_id.code != "FR":
                 continue
-            for type_ in ["arrivals", "dispatches"]:
+            for declaration_type in ["arrivals", "dispatches"]:
                 # Check if a declaration already exists for month N-1
                 intrastats = self.search(
                     [
                         ("year_month", "=", previous_month),
-                        ("type", "=", type_),
+                        ("declaration_type", "=", declaration_type),
                         ("company_id", "=", company.id),
                     ]
                 )
@@ -412,39 +415,46 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     # if it already exists, we don't do anything
                     logger.info(
                         "An %s Intrastat Product for month %s already "
-                        "exists for company %s" % (type_, previous_month, company.name)
+                        "exists for company %s",
+                        declaration_type,
+                        previous_month,
+                        company.display_name,
                     )
                     continue
                 else:
                     # If not, we create one for month N-1
                     reporting_level = False
-                    if type_ == "arrivals":
+                    if declaration_type == "arrivals":
                         reporting_level = company.intrastat_arrivals
-                    elif type_ == "dispatches":
+                    elif declaration_type == "dispatches":
                         reporting_level = company.intrastat_dispatches
                     if not reporting_level:
                         logger.warning(
-                            "Missing reporting level for %s "
-                            "on company '%s'." % (type_, company.name)
+                            "Missing reporting level for %s on company '%s'.",
+                            declaration_type,
+                            company.display_name,
                         )
                         continue
                     if reporting_level == "exempt":
                         logger.info(
-                            "Reporting level is exempt for %s "
-                            "on company %s." % (type_, company.name)
+                            "Reporting level is exempt for %s on company %s.",
+                            declaration_type,
+                            company.display_name,
                         )
                         continue
                     intrastat = self.create(
                         {
                             "company_id": company.id,
-                            "type": type_,
+                            "declaration_type": declaration_type,
                             "reporting_level": reporting_level,
                         }
                     )
                     logger.info(
                         "An %s Intrastat Product for month %s "
-                        "has been created by Odoo for company %s"
-                        % (type_, previous_month, company.name)
+                        "has been created by Odoo for company %s",
+                        declaration_type,
+                        previous_month,
+                        company.display_name,
                     )
                     try:
                         intrastat.action_gather()
@@ -488,10 +498,10 @@ class L10nFrIntrastatProductComputationLine(models.Model):
     )
     # the 2 fields below are useful for reports
     amount_company_currency_sign = fields.Float(
-        compute="_compute_amount_company_currency_sign", readonly=True, store=True
+        compute="_compute_amount_company_currency_sign", store=True
     )
     amount_accessory_cost_company_currency_sign = fields.Float(
-        compute="_compute_amount_company_currency_sign", readonly=True, store=True
+        compute="_compute_amount_company_currency_sign", store=True
     )
 
     @api.depends(
@@ -536,7 +546,7 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
     )
     # the field below is useful for reports
     amount_company_currency_sign = fields.Float(
-        compute="_compute_amount_company_currency_sign", readonly=True, store=True
+        compute="_compute_amount_company_currency_sign", store=True
     )
 
     @api.depends("amount_company_currency", "transaction_id.fr_fiscal_value_multiplier")
