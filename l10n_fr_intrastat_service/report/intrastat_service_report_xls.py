@@ -4,6 +4,11 @@
 
 from odoo import _, models
 
+from odoo.addons.report_xlsx_helper.report.report_xlsx_format import (
+    FORMATS,
+    XLS_HEADERS,
+)
+
 
 class IntrastatServiceDeclarationXlsx(models.AbstractModel):
     _name = "report.l10n.fr.intrastat.service.declaration.xlsx"
@@ -30,7 +35,7 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
                 "line": {
                     "type": "number",
                     "value": self._render("line.amount_company_currency"),
-                    "format": self.format_tcell_amount_right,
+                    "format": FORMATS["format_tcell_amount_right"],
                 },
                 "width": 16,
             },
@@ -69,8 +74,8 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
     def _intrastat_service_report(self, workbook, ws, ws_params, data, decl):
         ws.set_portrait()
         ws.fit_to_pages(1, 0)
-        ws.set_header(self.xls_headers["standard"])
-        ws.set_footer(self.xls_footers["standard"])
+        ws.set_header(XLS_HEADERS["xls_headers"]["standard"])
+        ws.set_footer(XLS_HEADERS["xls_footers"]["standard"])
 
         self._set_column_width(ws, ws_params)
 
@@ -81,7 +86,7 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
             row_pos,
             ws_params,
             col_specs_section="header",
-            default_format=self.format_theader_yellow_left,
+            default_format=FORMATS["format_theader_yellow_left"],
         )
         ws.freeze_panes(row_pos, 0)
 
@@ -92,5 +97,5 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
                 ws_params,
                 col_specs_section="line",
                 render_space={"line": line},
-                default_format=self.format_tcell_left,
+                default_format=FORMATS["format_tcell_left"],
             )
