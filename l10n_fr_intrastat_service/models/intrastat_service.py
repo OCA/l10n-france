@@ -101,12 +101,11 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ["parent_id"],
         )
         data = {
-                    x["parent_id"][0]:
-                    {
-                        "total_amount": x["amount_company_currency"],
-                        "num_decl_lines": x["parent_id_count"],
-                    }
-                for x in rg_res
+            x["parent_id"][0]: {
+                "total_amount": x["amount_company_currency"],
+                "num_decl_lines": x["parent_id_count"],
+            }
+            for x in rg_res
         }
         for rec in self:
             rec.write(data.get(rec.id, {}))
@@ -144,6 +143,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ("invoice_date", "<=", self.end_date),
             ("invoice_date", ">=", self.start_date),
             ("state", "=", "posted"),
+            ("intrastat_fiscal_position", "=", True),
             ("company_id", "=", self.company_id.id),
         ]
         return domain
@@ -158,27 +158,15 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         self.ensure_one()
         line_obj = self.env["l10n.fr.intrastat.service.declaration.line"]
         amo = self.env["account.move"]
-        eur_cur = self.env.ref("base.EUR")
         self._check_generate_lines()
         # delete all DES lines generated from invoices
         lines_to_remove = line_obj.search(
             [("move_id", "!=", False), ("parent_id", "=", self.id)]
         )
         lines_to_remove.unlink()
-        company_country = self.company_id.country_id
         company_currency = self.company_id.currency_id
         invoices = amo.search(self._prepare_domain(), order="invoice_date")
         for invoice in invoices:
-            if not invoice.commercial_partner_id.country_id:
-                raise UserError(
-                    _("Missing country on partner '%s'.")
-                    % invoice.commercial_partner_id.display_name
-                )
-            elif not invoice.commercial_partner_id.country_id.intrastat:
-                continue
-            elif invoice.commercial_partner_id.country_id == company_country:
-                continue
-
             amount_invoice_cur_to_write = 0.0
             amount_company_cur_to_write = 0.0
             amount_invoice_cur_regular_service = 0.0
@@ -203,9 +191,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 # - some accessory costs
                 # => we want to have the accessory costs in DEB, not in DES
                 if line.currency_id.is_zero(line.price_subtotal):
-                    continue
-
-                if any([t.exclude_from_intrastat_if_present for t in line.tax_ids]):
                     continue
 
                 if line.product_id.is_accessory_cost:
@@ -283,7 +268,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         my_company_vat = self.company_id.partner_id.vat.replace(" ", "")
 
         # Tech spec of XML export are available here :
-        # https://pro.douane.gouv.fr/download/downloadUrl.asp?file=PubliwebBO/fichiers/DES_DTIPlus.pdf
+        # https://www.douane.gouv.fr/sites/default/files/uploads/files/2020-10/ManuelDesXML.pdf # noqa
         root = etree.Element("fichier_des")
         decl = etree.SubElement(root, "declaration_des")
         num_des = etree.SubElement(decl, "num_des")
