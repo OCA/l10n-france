@@ -171,6 +171,7 @@ class AccountBankStatementImport(models.TransientModel):
                         date_str, ref, amount, name
                     ),
                     "amount": amount,
+                    "note": name,
                 }
                 seq += 1
             elif rec_type == "05":
@@ -185,6 +186,7 @@ class AccountBankStatementImport(models.TransientModel):
                 # when it's interesting for the user, in order to avoid
                 # too long labels with too much "pollution"
                 vals_line["unique_import_id"] += complementary_info
+                vals_line["note"] += "\n" + complementary_info
                 if complementary_info_type in ("   ", "LIB") and complementary_info:
                     vals_line["name"] += " " + complementary_info
 
