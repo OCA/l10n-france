@@ -71,7 +71,7 @@ class AccountStatementImport(models.TransientModel):
         # And I found one (LCL) that even uses caracters with accents
         # So the best method is probably to decode with latin1
         data_file_decoded = data_file.decode("latin1")
-        lines = self._split_lines(data_file_decoded)
+        lines = self._cfonb_split_lines(data_file_decoded)
         i = 0
         seq = 1
         bank_code = guichet_code = account_number = currency_code = False
@@ -118,6 +118,7 @@ class AccountStatementImport(models.TransientModel):
 
             elif rec_type == "07":
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
+                self._cfonb_unique_import_id_postprocess(transactions)
                 vals_bank_statement = {
                     "name": account_number,
                     "date": date_dt,
@@ -169,7 +170,27 @@ class AccountStatementImport(models.TransientModel):
                 )
         return result
 
-    def _split_lines(self, data_file):
+    @api.model
+    def _cfonb_unique_import_id_postprocess(self, transactions):
+        """In the CFONB spec, there is no requirement for a unique identifier for
+        each statement line. The 'ref' (Numéro d'écriture) is often filled with
+        zeros. So it's possible to have the same unique_import_id for 2 statement
+        lines, for example if you buy a train ticket and then the return train ticket
+        on the same day. To avoid an error upon import in this scenario,
+        we postprocess the unique_import_id appending '-2', '-3', etc...
+        """
+        unique_import_ids = {}
+        for transaction in transactions:
+            unique_import_id = transaction["unique_import_id"]
+            if unique_import_id in unique_import_ids:
+                unique_import_ids[unique_import_id] += 1
+                transaction["unique_import_id"] += (
+                    "-%s" % unique_import_ids[unique_import_id]
+                )
+            else:
+                unique_import_ids[unique_import_id] = 1
+
+    def _cfonb_split_lines(self, data_file):
         """Split the data file into lines.
 
         Returns a list of the lines in the file provided.
