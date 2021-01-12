@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-france Odoo addons",
     version=version,
     install_requires=[
+        'odoo14-addon-account_statement_import_fr_cfonb',
         'odoo14-addon-l10n_fr_department',
         'odoo14-addon-l10n_fr_department_oversea',
         'odoo14-addon-l10n_fr_hr_check_ssnid',
