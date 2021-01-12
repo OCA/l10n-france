@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
 
-<report
-    id="action_report_trial_balance_ebp_csv"
-    model="report_trial_balance"
-    string="EBP CSV Balance"
-    report_type="qweb-text"
-    name="account_balance_ebp_csv_export.report_trial_balance_ebp_csv"
-    file="account_balance_ebp_csv_export.report_trial_balance_ebp_csv"
-    />
+<record id="action_report_trial_balance_ebp" model="ir.actions.report">
+    <field name="name">EBP CSV Balance</field>
+    <field name="model">trial.balance.report.wizard</field>
+    <field name="report_type">qweb-text</field>
+    <field name="report_name">account_balance_ebp_csv_export.trial_balance_ebp</field>
+    <field name="report_file">account_balance_ebp_csv_export.trial_balance_ebp</field>
+</record>
 
 
 </odoo>
