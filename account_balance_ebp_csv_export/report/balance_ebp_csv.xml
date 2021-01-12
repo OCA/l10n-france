@@ -1,9 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-<template id="report_trial_balance_ebp_csv">"Compte.Numero","Compte.Intitule","Balance.SldCptNDebit","Balance.SldCptNCredit","Balance.SldCptNSoldeD","Balance.SldCptNSoldeC"
-<t t-foreach="docs" t-as="o"><t t-foreach="o.account_ids.filtered(lambda x: not x.hide_line and not x.account_group_id)" t-as="line">"<t t-esc="line.code"/>","<t t-esc="line.name"/>",<t t-esc="round(line.debit, 2)"/>,<t t-esc="round(line.credit, 2)"/>,<t t-esc="line.final_balance &gt; 0 and round(line.final_balance, 2) or 0.00" />,<t t-esc="line.final_balance &lt; 0 and -round(line.final_balance, 2) or 0.00"/>
-</t></t>
+<template
+        id="trial_balance_ebp"
+    >"Compte.Numero","Compte.Intitule","Balance.SldCptNDebit","Balance.SldCptNCredit","Balance.SldCptNSoldeD","Balance.SldCptNSoldeC"
+<t t-foreach="docs" t-as="o"><t t-foreach="trial_balance" t-as="balance"><t
+                    t-if="balance['type'] == 'account_type'"
+                ><t t-esc="balance['code']" />","<t t-esc="balance['name']" />",<t
+                        t-esc="round(balance['debit'], 2)"
+                    />,<t t-esc="round(balance['credit'], 2)" />,<t
+                        t-esc="balance['ending_balance'] &gt; 0 and round(balance['ending_balance'], 2) or 0.00"
+                    />,<t
+                        t-esc="balance['ending_balance'] &lt; 0 and -round(balance['ending_balance'], 2) or 0.00"
+                    />
+</t></t></t>
 </template>
 
 </odoo>
