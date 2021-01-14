@@ -4,7 +4,7 @@
 {
     "name": "France sale Ecotaxe",
     "summary": "Sale Ecotaxe used in French localisation contexte",
-    "version": "12.0.0.1.0",
+    "version": "14.0.1.0.0",
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-france",
     "category": "Localization/Account Taxes",
