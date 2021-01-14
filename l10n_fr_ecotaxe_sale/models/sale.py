@@ -13,7 +13,9 @@ class SaleOrderLine(models.Model):
         store=True, compute="_compute_ecotaxe", oldname="amount_ecotaxe"
     )
     unit_ecotaxe_amount = fields.Float(
-        string="ecotaxe Unit.", store=True, compute="_compute_ecotaxe",
+        string="ecotaxe Unit.",
+        store=True,
+        compute="_compute_ecotaxe",
     )
 
     @api.multi
