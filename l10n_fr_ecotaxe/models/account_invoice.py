@@ -18,7 +18,6 @@ class AcountInvoiceLine(models.Model):
         compute="_compute_ecotaxe",
     )
 
-    @api.multi
     @api.depends("product_id", "quantity")
     def _compute_ecotaxe(self):
         for line in self:
@@ -38,7 +37,6 @@ class AccountInvoice(models.Model):
         string="Included Ecotaxe", store=True, compute="_compute_ecotaxe"
     )
 
-    @api.multi
     @api.depends("invoice_line_ids.subtotal_ecotaxe")
     def _compute_ecotaxe(self):
         for invoice in self:

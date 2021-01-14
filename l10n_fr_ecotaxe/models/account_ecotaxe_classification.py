@@ -2,7 +2,7 @@
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import openerp.addons.decimal_precision as dp
+import odoo.addons.decimal_precision as dp
 
 from odoo import api, fields, models
 

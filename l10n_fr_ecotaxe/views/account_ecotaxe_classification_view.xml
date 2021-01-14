@@ -98,7 +98,6 @@
     <record id="action_ecotaxe_classification" model="ir.actions.act_window">
         <field name="name">Ecotaxe Classification</field>
         <field name="res_model">account.ecotaxe.classification</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -157,7 +156,6 @@
     <record id="action_ecotaxe_category" model="ir.actions.act_window">
         <field name="name">Ecotaxe category</field>
         <field name="res_model">account.ecotaxe.category</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
