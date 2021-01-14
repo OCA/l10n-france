@@ -1,13 +1,13 @@
-# © 2014-2016 Akretion (http://www.akretion.com)
+# © 2021 Akretion (http://www.akretion.com)
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
 
 
-class AcountInvoiceLine(models.Model):
+class AccountMoveLine(models.Model):
 
-    _inherit = "account.invoice.line"
+    _inherit = "account.move.line"
 
     subtotal_ecotaxe = fields.Float(
         store=True, compute="_compute_ecotaxe", oldname="amount_ecotaxe"
@@ -23,15 +23,15 @@ class AcountInvoiceLine(models.Model):
         for line in self:
             line.unit_ecotaxe_amount = line.product_id.ecotaxe_amount
 
-            if line.invoice_id:
-                cur = line.invoice_id.currency_id
+            if line.move_id:
+                cur = line.move_id.currency_id
                 line.unit_ecotaxe_amount = cur.round(line.unit_ecotaxe_amount)
 
             line.subtotal_ecotaxe = line.unit_ecotaxe_amount * line.quantity
 
 
-class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
     amount_ecotaxe = fields.Float(
         string="Included Ecotaxe", store=True, compute="_compute_ecotaxe"
@@ -39,8 +39,8 @@ class AccountInvoice(models.Model):
 
     @api.depends("invoice_line_ids.subtotal_ecotaxe")
     def _compute_ecotaxe(self):
-        for invoice in self:
+        for move in self:
             val_ecotaxe = 0.0
-            for line in invoice.invoice_line_ids:
+            for line in move.invoice_line_ids:
                 val_ecotaxe += line.subtotal_ecotaxe
-            invoice.amount_ecotaxe = val_ecotaxe
+            move.amount_ecotaxe = val_ecotaxe

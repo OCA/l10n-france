@@ -2,9 +2,9 @@
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import odoo.addons.decimal_precision as dp
-
 from odoo import api, fields, models
+
+import odoo.addons.decimal_precision as dp
 
 
 class AccountEcotaxeClassification(models.Model):
@@ -12,7 +12,7 @@ class AccountEcotaxeClassification(models.Model):
 
     # Default Section
     def _default_company_id(self):
-        return self.env["res.users"]._get_company()
+        return self.env.company
 
     name = fields.Char(
         "Name",

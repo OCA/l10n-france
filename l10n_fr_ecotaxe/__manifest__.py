@@ -15,7 +15,7 @@
         "security/ir_rule.xml",
         "security/ir.model.access.csv",
         "views/product_view.xml",
-        "views/account_invoice_view.xml",
+        "views/account_move_view.xml",
         "views/account_ecotaxe_classification_view.xml",
     ],
     "installable": True,

@@ -1,40 +1,17 @@
-# Copyright 2016-2018 Akretion France
-# @author: Alexis de Lattre <alexis.delattre@akretion.com>
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# © 2021 Akretion (http://www.akretion.com)
+#   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import SavepointCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestSaleEcotaxe(SavepointCase):
+class TestsaleEcotaxe(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
-        super(TestSaleEcotaxe, cls).setUpClass()
-        cls.partner = cls.env["res.partner"].create({"name": "Test"})
-        cls.sale = cls.env["sale.order"].create(
-            {
-                "name": "Test Customer sale",
-                "partner_id": cls.partner.id,
-            }
-        )
-        cls.product = cls.env["product.template"].create(
-            {
-                "name": "Product Test",
-                "list_price": 100.00,
-                "weight": 100.00,
-            }
-        )
+        super(TestsaleEcotaxe, cls).setUpClass()
 
-        cls.sale_line = cls.env["sale.order.line"]
-        cls.sale_line1 = cls.sale_line.create(
-            {
-                "order_id": cls.sale.id,
-                "name": "Line 1",
-                "price_unit": 100,
-                "product_id": cls.product.product_variant_ids[:1].id,
-                "product_uom_qty": 1,
-                "tax_id": [],
-            }
-        )
         cls.ecotaxe_classification = cls.env["account.ecotaxe.classification"]
         cls.ecotaxe_classification1 = cls.ecotaxe_classification.create(
             {
@@ -54,21 +31,25 @@ class TestSaleEcotaxe(SavepointCase):
                 "ecotaxe_supplier_status": "FAB",
             }
         )
-        cls.product2 = cls.env["product.template"].create(
-            {
-                "name": "Product Test 2",
-                "list_price": 2000.00,
-                "weight": 400.00,
-                "ecotaxe_classification_id": cls.ecotaxe_classification2.id,
-            }
-        )
+        cls.product_a.weight = 100
+        cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classificationi1.id
+        cls.product_b.weight = 400
+        cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classification2.id
 
     def test_01_manual_fixed_ecotaxe(self):
         """ Tests multiple lines with fixed ecotaxes """
-        self.product.manual_fixed_ecotaxe = 1.5
+        # in order to test the correct assignment of fixed ecotaxe
+        # I create a customer sale.
+        partner12 = self.env.ref("base.res_partner_12")
+        sale = self.create_sale_partner(sale_amount=100.00, partner_id=partner12)
+        # I assign a product with fixed ecotaxte to sale line
+        sale_line1 = sale.sale_line_ids[0]
+        sale_line1.product_id = self.product_a
+        self.product_a.manual_fixed_ecotaxe = 1.5
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 1.5)
-        self.sale_line1.product_uom_qty = 4
+        sale_line1.quantity = 4
+        # self.sale._onchange_sale_line_ids()
         self.assertEqual(self.sale_line1.unit_ecotaxe_amount, 1.5)
         self.assertEqual(self.sale_line1.subtotal_ecotaxe, 6.0)
         self.assertEqual(self.sale.amount_total, 400.0)
@@ -76,32 +57,47 @@ class TestSaleEcotaxe(SavepointCase):
 
     def test_02_classification_weight_based_ecotaxe(self):
         """ Tests multiple lines with weight based ecotaxes """
-        self.product.ecotaxe_classification_id = self.ecotaxe_classification2
+        # in order to test the correct assignment of fixed ecotaxe
+        # I create a customer sale.
+        partner12 = self.env.ref("base.res_partner_12")
+        sale = self.create_sale_partner(sale_amount=100.00, partner_id=partner12)
+        # I assign a product with fixed ecotaxte to sale line
+        sale_line1 = sale.sale_line_ids[0]
+        sale_line1.product_id = self.product_b
+
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 4)
-        self.sale_line1.product_uom_qty = 3
+        self.sale_line1.quantity = 3
+        # sale._onchange_sale_line_ids()
         self.assertEqual(self.sale_line1.unit_ecotaxe_amount, 4)
         self.assertEqual(self.sale_line1.subtotal_ecotaxe, 12)
-        self.assertEqual(self.sale.amount_untaxed, 300.0)
         self.assertEqual(self.sale.amount_total, 300.0)
         self.assertEqual(self.sale.amount_ecotaxe, 12)
 
     def test_03_classification_ecotaxe(self):
         """ Tests multiple lines with mixed ecotaxes """
-        self.product.ecotaxe_classification_id = self.ecotaxe_classification1
+        # in order to test the correct assignment of fixed ecotaxe
+        # I create a customer sale.
+        partner12 = self.env.ref("base.res_partner_12")
+        sale = self.create_sale_partner(sale_amount=100.00, partner_id=partner12)
+        # I assign a product with fixed ecotaxte to sale line
+        sale_line1 = sale.sale_line_ids[0]
+        sale_line1.product_id = self.product_a
+
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 2.4)
-        self.sale_line1.product_uom_qty = 3
-        self.sale_line2 = self.sale_line.create(
+        sale_line1.quantity = 3
+        # sale._onchange_sale_line_ids()
+        sale_line2 = sale_line1.create(
             {
-                "order_id": self.sale.id,
+                "sale_id": sale.id,
                 "name": "Line 1",
                 "price_unit": 2000,
-                "product_id": self.product2.product_variant_ids[:1].id,
-                "product_uom_qty": 2,
-                "tax_id": [],
+                "product_id": self.product_b.id,
+                "quantity": 2,
             }
         )
+        sale._onchange_sale_line_ids()
         self.assertEqual(self.sale_line1.unit_ecotaxe_amount, 2.4)
         self.assertEqual(self.sale_line1.subtotal_ecotaxe, 7.2)
         self.assertEqual(self.sale_line2.unit_ecotaxe_amount, 16)

@@ -1,42 +1,17 @@
-# Copyright 2016-2018 Akretion France
-# @author: Alexis de Lattre <alexis.delattre@akretion.com>
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# © 2021 Akretion (http://www.akretion.com)
+#   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields
-from odoo.tests import SavepointCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestPurchaseEcotaxe(SavepointCase):
+class TestPurchaseEcotaxe(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super(TestPurchaseEcotaxe, cls).setUpClass()
-        cls.partner = cls.env["res.partner"].create({"name": "Test"})
-        cls.purchase = cls.env["purchase.order"].create(
-            {
-                "name": "Test Customer purchase",
-                "partner_id": cls.partner.id,
-            }
-        )
-        cls.product = cls.env["product.template"].create(
-            {
-                "name": "Product Test",
-                "list_price": 100.00,
-                "weight": 100.00,
-            }
-        )
 
-        cls.purchase_line = cls.env["purchase.order.line"]
-        cls.purchase_line1 = cls.purchase_line.create(
-            {
-                "order_id": cls.purchase.id,
-                "name": "Line 1",
-                "price_unit": 100,
-                "product_id": cls.product.product_variant_ids[:1].id,
-                "product_qty": 1,
-                "date_planned": fields.Datetime.now(),
-                "product_uom": cls.product.uom_id.id,
-            }
-        )
         cls.ecotaxe_classification = cls.env["account.ecotaxe.classification"]
         cls.ecotaxe_classification1 = cls.ecotaxe_classification.create(
             {
@@ -56,22 +31,27 @@ class TestPurchaseEcotaxe(SavepointCase):
                 "ecotaxe_supplier_status": "FAB",
             }
         )
-        cls.product2 = cls.env["product.template"].create(
-            {
-                "name": "Product Test 2",
-                "list_price": 2000.00,
-                "weight": 400.00,
-                "ecotaxe_classification_id": cls.ecotaxe_classification2.id,
-                "sale_line_warn": "no-message",
-            }
-        )
+        cls.product_a.weight = 100
+        cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classificationi1.id
+        cls.product_b.weight = 400
+        cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classification2.id
 
     def test_01_manual_fixed_ecotaxe(self):
         """ Tests multiple lines with fixed ecotaxes """
-        self.product.manual_fixed_ecotaxe = 1.5
+        # in order to test the correct assignment of fixed ecotaxe
+        # I create a customer purchase.
+        partner12 = self.env.ref("base.res_partner_12")
+        purchase = self.create_purchase_partner(
+            purchase_amount=100.00, partner_id=partner12
+        )
+        # I assign a product with fixed ecotaxte to purchase line
+        purchase_line1 = purchase.purchase_line_ids[0]
+        purchase_line1.product_id = self.product_a
+        self.product_a.manual_fixed_ecotaxe = 1.5
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 1.5)
-        self.purchase_line1.product_qty = 4
+        purchase_line1.quantity = 4
+        # self.purchase._onchange_purchase_line_ids()
         self.assertEqual(self.purchase_line1.unit_ecotaxe_amount, 1.5)
         self.assertEqual(self.purchase_line1.subtotal_ecotaxe, 6.0)
         self.assertEqual(self.purchase.amount_total, 400.0)
@@ -79,10 +59,20 @@ class TestPurchaseEcotaxe(SavepointCase):
 
     def test_02_classification_weight_based_ecotaxe(self):
         """ Tests multiple lines with weight based ecotaxes """
-        self.product.ecotaxe_classification_id = self.ecotaxe_classification2
+        # in order to test the correct assignment of fixed ecotaxe
+        # I create a customer purchase.
+        partner12 = self.env.ref("base.res_partner_12")
+        purchase = self.create_purchase_partner(
+            purchase_amount=100.00, partner_id=partner12
+        )
+        # I assign a product with fixed ecotaxte to purchase line
+        purchase_line1 = purchase.purchase_line_ids[0]
+        purchase_line1.product_id = self.product_b
+
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 4)
-        self.purchase_line1.product_qty = 3
+        self.purchase_line1.quantity = 3
+        # purchase._onchange_purchase_line_ids()
         self.assertEqual(self.purchase_line1.unit_ecotaxe_amount, 4)
         self.assertEqual(self.purchase_line1.subtotal_ecotaxe, 12)
         self.assertEqual(self.purchase.amount_total, 300.0)
@@ -90,21 +80,30 @@ class TestPurchaseEcotaxe(SavepointCase):
 
     def test_03_classification_ecotaxe(self):
         """ Tests multiple lines with mixed ecotaxes """
-        self.product.ecotaxe_classification_id = self.ecotaxe_classification1
+        # in order to test the correct assignment of fixed ecotaxe
+        # I create a customer purchase.
+        partner12 = self.env.ref("base.res_partner_12")
+        purchase = self.create_purchase_partner(
+            purchase_amount=100.00, partner_id=partner12
+        )
+        # I assign a product with fixed ecotaxte to purchase line
+        purchase_line1 = purchase.purchase_line_ids[0]
+        purchase_line1.product_id = self.product_a
+
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 2.4)
-        self.purchase_line1.product_qty = 3
-        self.purchase_line2 = self.purchase_line.create(
+        purchase_line1.quantity = 3
+        # purchase._onchange_purchase_line_ids()
+        purchase_line2 = purchase_line1.create(
             {
-                "order_id": self.purchase.id,
+                "purchase_id": purchase.id,
                 "name": "Line 1",
                 "price_unit": 2000,
-                "product_id": self.product2.product_variant_ids[:1].id,
-                "product_qty": 2,
-                "date_planned": fields.Datetime.now(),
-                "product_uom": self.product2.uom_id.id,
+                "product_id": self.product_b.id,
+                "quantity": 2,
             }
         )
+        purchase._onchange_purchase_line_ids()
         self.assertEqual(self.purchase_line1.unit_ecotaxe_amount, 2.4)
         self.assertEqual(self.purchase_line1.subtotal_ecotaxe, 7.2)
         self.assertEqual(self.purchase_line2.unit_ecotaxe_amount, 16)

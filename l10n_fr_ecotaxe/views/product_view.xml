@@ -4,12 +4,13 @@
     @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 -->
 <odoo>
-    <record id="product_template_form_ecotaxe" model="ir.ui.view">
-        <field name="name">product.template.ecotaxe.form</field>
+    <record id="product_template_form_ecotaxe_view" model="ir.ui.view">
+        <field name="name">product.template.form.ecotaxe.inherit</field>
         <field name="model">product.template</field>
+        <field name="priority">5</field>
         <field name="inherit_id" ref="product.product_template_form_view" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='list_price']" position="before">
+            <xpath expr="//div[@name='pricing']" position="after">
                 <field name="ecotaxe_classification_id" />
                 <field
                     name="ecotaxe_amount"
@@ -31,4 +32,5 @@
             </xpath>
         </field>
     </record>
+
 </odoo>
