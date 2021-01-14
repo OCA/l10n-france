@@ -6,7 +6,7 @@
     "summary": "Use Ecotaxe in French localisation contexte",
     "version": "12.0.0.1.0",
     "author": "Akretion,Odoo Community Association (OCA)",
-    "website": "http://www.akretion.com",
+    "website": "https://github.com/OCA/l10n-france",
     "category": "Localization/Account Taxes",
     "license": "AGPL-3",
     "depends": ["account"],

@@ -10,10 +10,24 @@
         <field name="inherit_id" ref="product.product_template_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='list_price']" position="before">
-                <field name="ecotaxe_classification_id"/>
-                <field name="ecotaxe_amount"  widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                <label for="manual_fixed_ecotaxe" string="Ecotaxe classification" class="oe_edit_only"/>
-                <field name="manual_fixed_ecotaxe" class="oe_edit_only" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                <field name="ecotaxe_classification_id" />
+                <field
+                    name="ecotaxe_amount"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}"
+                />
+                <label
+                    for="manual_fixed_ecotaxe"
+                    string="Ecotaxe classification"
+                    class="oe_edit_only"
+                />
+                <field
+                    name="manual_fixed_ecotaxe"
+                    class="oe_edit_only"
+                    nolabel="1"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}"
+                />
             </xpath>
         </field>
     </record>

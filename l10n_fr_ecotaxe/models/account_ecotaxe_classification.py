@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import openerp.addons.decimal_precision as dp
+
 from odoo import api, fields, models
 
 
@@ -13,7 +14,10 @@ class AccountEcotaxeClassification(models.Model):
     def _default_company_id(self):
         return self.env["res.users"]._get_company()
 
-    name = fields.Char("Name", required=True,)
+    name = fields.Char(
+        "Name",
+        required=True,
+    )
     code = fields.Char("Code")
     ecotaxe_type = fields.Selection(
         [("fixed", "Fixed"), ("weight_based", "Weight based")],
@@ -31,9 +35,12 @@ class AccountEcotaxeClassification(models.Model):
     )
 
     account_ecotaxe_categ_id = fields.Many2one(
-        comodel_name="account.ecotaxe.category", string="Ecotaxe category",
+        comodel_name="account.ecotaxe.category",
+        string="Ecotaxe category",
     )
-    active = fields.Boolean(default=True,)
+    active = fields.Boolean(
+        default=True,
+    )
     company_id = fields.Many2one(
         comodel_name="res.company",
         default=_default_company_id,
@@ -87,6 +94,10 @@ class AccountEcotaxeClassification(models.Model):
 class AccountEcotaxeClassificationCategory(models.Model):
     _name = "account.ecotaxe.category"
 
-    name = fields.Char(required=True,)
-    code = fields.Char(required=True,)
+    name = fields.Char(
+        required=True,
+    )
+    code = fields.Char(
+        required=True,
+    )
     description = fields.Char()
