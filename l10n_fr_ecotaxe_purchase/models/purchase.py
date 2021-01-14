@@ -18,7 +18,6 @@ class PurchaseOrderLine(models.Model):
         compute="_compute_ecotaxe",
     )
 
-    @api.multi
     @api.depends("product_id", "product_uom_qty")
     def _compute_ecotaxe(self):
         for line in self:
@@ -38,7 +37,6 @@ class PurchaseOrder(models.Model):
         string="Included Ecotaxe", store=True, compute="_compute_ecotaxe"
     )
 
-    @api.multi
     @api.depends("order_line.subtotal_ecotaxe")
     def _compute_ecotaxe(self):
         for order in self:
