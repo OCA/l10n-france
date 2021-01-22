@@ -24,6 +24,7 @@ class ResPartner(models.Model):
     def _check_fiscal_representative(self):
         """The Fiscal rep. must be based in the same country as our
         company or in an intrastat country"""
+        eu_countries = self.env.ref("base.europe").country_ids
         for partner in self:
             rep = partner.intrastat_fiscal_representative_id
             if rep:
@@ -35,7 +36,7 @@ class ResPartner(models.Model):
                         )
                         % (rep.display_name, partner.display_name)
                     )
-                if not rep.country_id.intrastat:
+                if rep.country_id not in eu_countries:
                     raise ValidationError(
                         _(
                             "The fiscal representative '%s' of partner '%s' "

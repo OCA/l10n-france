@@ -42,9 +42,6 @@
             ref="intrastat_product.intrastat_product_computation_line_view_form"
         />
         <field name="arch" type="xml">
-            <field name="invoice_id" position="before">
-                <field name="fr_partner_id" />
-            </field>
             <field name="product_origin_country_id" position="attributes">
                 <attribute name="invisible">0</attribute>
             </field>
@@ -62,9 +59,6 @@
             ref="intrastat_product.intrastat_product_computation_line_view_tree"
         />
         <field name="arch" type="xml">
-            <field name="invoice_id" position="before">
-                <field name="fr_partner_id" />
-            </field>
             <field name="product_origin_country_id" position="attributes">
                 <attribute name="invisible">0</attribute>
             </field>
@@ -82,9 +76,6 @@
             ref="intrastat_product.intrastat_product_declaration_line_view_form"
         />
         <field name="arch" type="xml">
-            <field name="product_origin_country_id" position="after">
-                <field name="fr_partner_id" />
-            </field>
             <field name="product_origin_country_id" position="attributes">
                 <attribute name="invisible">0</attribute>
             </field>
@@ -102,9 +93,6 @@
             ref="intrastat_product.intrastat_product_declaration_line_view_tree"
         />
         <field name="arch" type="xml">
-            <field name="product_origin_country_id" position="after">
-                <field name="fr_partner_id" />
-            </field>
             <field name="product_origin_country_id" position="attributes">
                 <attribute name="invisible">0</attribute>
             </field>
