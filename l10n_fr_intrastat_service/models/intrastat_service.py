@@ -7,6 +7,7 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 from lxml import etree
+from stdnum.vatin import is_valid
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -158,7 +159,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         self.ensure_one()
         line_obj = self.env["l10n.fr.intrastat.service.declaration.line"]
         amo = self.env["account.move"]
-        self._check_generate_lines()
         # delete all DES lines generated from invoices
         lines_to_remove = line_obj.search(
             [("move_id", "!=", False), ("parent_id", "=", self.id)]
@@ -167,6 +167,17 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         company_currency = self.company_id.currency_id
         invoices = amo.search(self._prepare_domain(), order="invoice_date")
         for invoice in invoices:
+            if (
+                invoice.commercial_partner_id.country_id.code == "GB"
+                and self.year_month >= "2021-01"
+            ):
+                logger.info(
+                    "Skipping invoice %s because of Brexit and the fact that "
+                    "services sold in Northern Ireland are not under the EU "
+                    "VAT regime",
+                    invoice.name,
+                )
+                continue
             amount_invoice_cur_to_write = 0.0
             amount_company_cur_to_write = 0.0
             amount_invoice_cur_regular_service = 0.0
@@ -257,11 +268,14 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
 
     def done(self):
         self.write({"state": "done"})
-        return
 
     def back2draft(self):
+        for decl in self:
+            if decl.attachment_id:
+                raise UserError(
+                    _("Before going back to draft, you must delete the XML export.")
+                )
         self.write({"state": "draft"})
-        return
 
     def _generate_des_xml_root(self):
         self.ensure_one()
@@ -290,13 +304,22 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             valeur = etree.SubElement(ligne_des, "valeur")
             valeur.text = str(sline.amount_company_currency)
             partner_des = etree.SubElement(ligne_des, "partner_des")
-            try:
-                partner_des.text = sline.partner_vat.replace(" ", "")
-            except AttributeError:
+            vat = sline.partner_vat.replace(" ", "")
+            if not vat:
                 raise UserError(
                     _("Missing VAT number on partner '%s'.")
                     % sline.partner_id.display_name
                 )
+            if vat.startswith("GB") and self.year_month >= "2021-01":
+                raise UserError(
+                    _(
+                        "VAT Number '%s' cannot be used because Brexit took "
+                        "place on January 1st 2021 and services sold "
+                        "in Northern Ireland are not under the EU VAT regime."
+                    )
+                    % vat
+                )
+            partner_des.text = vat
         return root
 
     def generate_xml(self):
@@ -439,3 +462,11 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
     def partner_on_change(self):
         if self.partner_id and self.partner_id.vat:
             self.partner_vat = self.partner_id.vat
+
+    @api.constrains("partner_vat")
+    def _check_partner_vat(self):
+        for line in self:
+            if line.partner_vat and not is_valid(line.partner_vat):
+                raise ValidationError(
+                    _("The VAT number '%s' is invalid.") % line.partner_vat
+                )
