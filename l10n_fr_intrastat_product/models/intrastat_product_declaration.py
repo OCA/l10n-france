@@ -114,35 +114,46 @@ class L10nFrIntrastatProductDeclaration(models.Model):
 
     def _update_computation_line_vals(self, inv_line, line_vals, notedict):
         super()._update_computation_line_vals(inv_line, line_vals, notedict)
-        inv = inv_line.move_id
-        if not inv.partner_id.country_id.intrastat:
-            if not inv.commercial_partner_id.intrastat_fiscal_representative_id:
+        if not line_vals.get("vat"):
+            inv = inv_line.move_id
+            commercial_partner = inv.commercial_partner_id
+            eu_countries = self.env.ref("base.europe").country_ids
+            if (
+                commercial_partner.country_id not in eu_countries
+                and not commercial_partner.intrastat_fiscal_representative_id
+            ):
                 line_notes = [
                     _(
-                        "Missing fiscal representative on partner '%s'"
-                        % inv.commercial_partner_id.display_name
+                        "Missing fiscal representative on partner '%s'."
+                        % commercial_partner.display_name
                     )
                 ]
                 self._format_line_note(inv_line, notedict, line_notes)
             else:
-                line_vals[
-                    "fr_partner_id"
-                ] = inv.commercial_partner_id.intrastat_fiscal_representative_id.id
-        else:
-            line_vals["fr_partner_id"] = inv.partner_id.id
+                fiscal_rep = commercial_partner.intrastat_fiscal_representative_id
+                if not fiscal_rep.vat:
+                    line_notes = [
+                        _(
+                            "Missing VAT number on partner '%s' which is the "
+                            "fiscal representative of partner '%s'."
+                            % (fiscal_rep.display_name, commercial_partner.display_name)
+                        )
+                    ]
+                    self._format_line_note(inv_line, notedict, line_notes)
+                else:
+                    line_vals["vat"] = fiscal_rep.vat
         dpt = self._get_fr_department(inv_line, notedict)
         line_vals["fr_department_id"] = dpt and dpt.id or False
 
     @api.model
     def _group_line_hashcode_fields(self, computation_line):
         res = super()._group_line_hashcode_fields(computation_line)
-        res["partner_id"] = computation_line.fr_partner_id.id or False
+        res["fr_department_id"] = computation_line.fr_department_id.id or False
         return res
 
     @api.model
     def _prepare_grouped_fields(self, computation_line, fields_to_sum):
         vals = super()._prepare_grouped_fields(computation_line, fields_to_sum)
-        vals["fr_partner_id"] = computation_line.fr_partner_id.id
         vals["fr_department_id"] = computation_line.fr_department_id.id
         return vals
 
@@ -164,27 +175,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                         "value": self._render("line.fr_department_id.display_name"),
                     },
                     "width": 18,
-                },
-                "fr_partner": {
-                    "header": {
-                        "type": "string",
-                        "value": self._("Partner"),
-                    },
-                    "line": {
-                        "value": self._render("line.fr_partner_id.display_name"),
-                    },
-                    "width": 28,
-                },
-                "fr_partner_vat": {
-                    "header": {
-                        "type": "string",
-                        "value": self._("Partner VAT"),
-                    },
-                    "line": {
-                        "value": self._render("line.fr_partner_id.vat"),
-                    },
-                    "width": 18,
-                },
+                }
             }
         )
         return res
@@ -192,13 +183,13 @@ class L10nFrIntrastatProductDeclaration(models.Model):
     @api.model
     def _xls_computation_line_fields(self):
         field_list = super()._xls_computation_line_fields()
-        field_list += ["fr_partner", "fr_partner_vat", "fr_department"]
+        field_list += ["fr_department"]
         return field_list
 
     @api.model
     def _xls_declaration_line_fields(self):
         field_list = super()._xls_declaration_line_fields()
-        field_list += ["fr_partner", "fr_partner_vat", "fr_department"]
+        field_list += ["fr_department"]
         return field_list
 
     def _generate_xml(self):
@@ -222,6 +213,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         my_company_identifier = my_company_vat + self.company_id.siret[9:]
 
         my_company_currency = self.company_id.currency_id.name
+        eu_countries = self.env.ref("base.europe").country_ids
 
         root = etree.Element("INSTAT")
         envelope = etree.SubElement(root, "Envelope")
@@ -303,34 +295,56 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 if iunit_id:
                     su_code = etree.SubElement(cn8, "SUCode")
                     su_code.text = iunit_id.fr_xml_label or iunit_id.name
-                    destination_country = etree.SubElement(item, "MSConsDestCode")
-                    if self.declaration_type == "arrivals":
-                        country_origin = etree.SubElement(item, "countryOfOriginCode")
-                    weight = etree.SubElement(item, "netMass")
-                    quantity_in_SU = etree.SubElement(item, "quantityInSU")
 
-                    if not pline.suppl_unit_qty:
-                        raise UserError(_("Missing quantity on line %d.") % line)
-                    quantity_in_SU.text = str(pline.suppl_unit_qty)
-                else:
-                    destination_country = etree.SubElement(item, "MSConsDestCode")
-                    if self.declaration_type == "arrivals":
-                        country_origin = etree.SubElement(item, "countryOfOriginCode")
-                    weight = etree.SubElement(item, "netMass")
+                src_dest_country = etree.SubElement(item, "MSConsDestCode")
                 if not pline.src_dest_country_id:
                     raise UserError(
                         _("Missing Country of Origin/Destination on line %d.") % line
                     )
-                destination_country.text = pline.src_dest_country_id.code
+                src_dest_country_code = pline.src_dest_country_id.code
+                if (
+                    pline.src_dest_country_id not in eu_countries
+                    and src_dest_country_code != "GB"
+                ):
+                    raise UserError(
+                        _(
+                            "On line %d, the source/destination country is '%s', "
+                            "which is not part of the European Union."
+                        )
+                        % (line, pline.src_dest_country_id.name)
+                    )
+                if src_dest_country_code == "GB" and self.year >= "2021":
+                    # all warnings are done during generation
+                    src_dest_country_code = "XI"
+                src_dest_country.text = src_dest_country_code
+
                 if self.declaration_type == "arrivals":
+                    country_origin = etree.SubElement(item, "countryOfOriginCode")
                     if not pline.product_origin_country_id:
                         raise UserError(
                             _("Missing product country of origin on line %d.") % line
                         )
-                    country_origin.text = pline.product_origin_country_id.code
+                    country_origin = pline.product_origin_country_id.code
+                    # BOD dated 5/1/2021 says:
+                    # Si, pour une marchandise produite au Royaume-Uni,
+                    # le déclarant ignore si le lieu de production de la
+                    # marchandise est situé en Irlande du Nord ou dans le
+                    # reste du Royaume-Uni, il utilise également le code XU.
+                    # => we always use XU
+                    if country_origin == "GB" and self.year >= "2021":
+                        country_origin = "XU"
+                    country_origin.text = country_origin
+
+                weight = etree.SubElement(item, "netMass")
                 if not pline.weight:
                     raise UserError(_("Missing weight on line %d.") % line)
                 weight.text = str(pline.weight)
+
+                if iunit_id:
+                    quantity_in_SU = etree.SubElement(item, "quantityInSU")
+                    if not pline.suppl_unit_qty:
+                        raise UserError(_("Missing quantity on line %d.") % line)
+                    quantity_in_SU.text = str(pline.suppl_unit_qty)
 
             # START of elements that are part of all DEBs
             invoiced_amount = etree.SubElement(item, "invoicedAmount")
@@ -339,15 +353,19 @@ class L10nFrIntrastatProductDeclaration(models.Model):
             invoiced_amount.text = str(pline.amount_company_currency)
             # Partner VAT is only declared for export when code régime != 29
             if self.declaration_type == "dispatches" and transaction.fr_is_vat_required:
-                partner_id = etree.SubElement(item, "partnerId")
-                if not pline.fr_partner_id:
-                    raise UserError(_("Missing partner on line %d.") % line)
-                if not pline.fr_partner_id.vat:
+                partner_vat = etree.SubElement(item, "partnerId")
+                if not pline.vat:
+                    raise UserError(_("Missing VAT number on line %d.") % line)
+                if pline.vat.startswith("GB") and self.year >= "2021":
                     raise UserError(
-                        _("Missing VAT number on partner '%s'.")
-                        % pline.fr_partner_id.name
+                        _(
+                            "Bad VAT number '%s' on line %d. Brexit took place "
+                            "on January 1st 2021 and companies in Northern Ireland "
+                            "have a new VAT number starting with 'XI'."
+                        )
+                        % (pline.vat, line)
                     )
-                partner_id.text = pline.fr_partner_id.vat.replace(" ", "")
+                partner_vat.text = pline.vat.replace(" ", "")
             # Code régime is on all DEBs
             statistical_procedure_code = etree.SubElement(
                 item, "statisticalProcedureCode"
@@ -486,13 +504,6 @@ class L10nFrIntrastatProductComputationLine(models.Model):
         string="Declaration Line",
         readonly=True,
     )
-    fr_partner_id = fields.Many2one(
-        "res.partner",
-        string="Partner",
-        ondelete="restrict",
-        help="Origin partner for arrivals. "
-        "Destination partner (or his fiscal representative) for dispatches.",
-    )
     fr_department_id = fields.Many2one(
         "res.country.department", string="Department", ondelete="restrict"
     )
@@ -534,12 +545,6 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
         "declaration_line_id",
         string="Computation Lines",
         readonly=True,
-    )
-    fr_partner_id = fields.Many2one(
-        "res.partner",
-        string="Partner",
-        help="Origin partner for arrivals. "
-        "Destination partner (or his fiscal representative) for dispatches",
     )
     fr_department_id = fields.Many2one(
         "res.country.department", string="Departement", ondelete="restrict"
