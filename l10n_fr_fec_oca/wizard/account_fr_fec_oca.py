@@ -71,7 +71,7 @@ class AccountFrFecOca(models.TransientModel):
         string="Accounts",
         default=lambda self: self._default_partner_account_ids(),
     )
-    fec_data = fields.Binary("FEC File", readonly=True, attachment=False)
+    fec_data = fields.Binary("FEC File", readonly=True, attachment=True)
     filename = fields.Char(string="Filename", size=256, readonly=True)
     export_type = fields.Selection(
         [
