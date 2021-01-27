@@ -1,2 +1,4 @@
 # generated from manifests external_dependencies
 python-stdnum
+unicodecsv
+unidecode
