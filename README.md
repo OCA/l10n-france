@@ -19,6 +19,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[account_balance_ebp_csv_export](account_balance_ebp_csv_export/) | 14.0.1.0.0 | Account Balance EBP CSV export
 [account_statement_import_fr_cfonb](account_statement_import_fr_cfonb/) | 14.0.1.0.0 | Import CFONB bank statements files in Odoo
 [l10n_fr_department](l10n_fr_department/) | 14.0.1.0.0 | Populate Database with French Departments (Départements)
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 14.0.1.0.0 | Populate Database with overseas French Departments (Départements d'outre-mer)
