@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo14-addon-account_statement_import_fr_cfonb',
         'odoo14-addon-l10n_fr_department',
         'odoo14-addon-l10n_fr_department_oversea',
+        'odoo14-addon-l10n_fr_fec_oca',
         'odoo14-addon-l10n_fr_hr_check_ssnid',
         'odoo14-addon-l10n_fr_siret',
         'odoo14-addon-l10n_fr_state',
