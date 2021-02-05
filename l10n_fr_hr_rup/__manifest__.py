@@ -6,7 +6,7 @@
     "category": "French Localization",
     "summary": """ French fields and report for Registre Unique du Personnel """,
     "website": "https://github.com/OCA/l10n-france",
-    "depends": ["hr_contract"],
+    "depends": ["hr_contract", "l10n_fr_hr_check_ssnid"],
     "data": [
         "data/report_paperformat.xml",
         "report/report_rup.xml",
