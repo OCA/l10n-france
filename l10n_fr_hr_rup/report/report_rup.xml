@@ -147,7 +147,7 @@
                     />
                     </td>
                     <td>
-                        <span t-field="contract.employee_id.identification_id" />
+                        <span t-field="contract.employee_id.ssnid" />
                     </td>
                     <td />
                     <td />
