@@ -1,1 +1,1 @@
-from . import country
+from . import res_country

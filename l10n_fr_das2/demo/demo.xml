@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2020 Akretion France (http://www.akretion.com/)
+  Copyright 2020-2021 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -22,8 +22,8 @@
 <!-- DEMO SUPPLIERS -->
 <record id="partner_das2_1" model="res.partner">
     <field name="name">Experts comptables du Rhône</field>
-    <field name="customer" eval="0"/>
-    <field name="supplier" eval="1"/>
+    <field name="customer_rank" eval="0"/>
+    <field name="supplier_rank" eval="1"/>
     <field name="street">12 rue du chiffre</field>
     <field name="zip">69100</field>
     <field name="city">Villeurbanne</field>
@@ -37,8 +37,8 @@
 
 <record id="partner_das2_2" model="res.partner">
     <field name="name">Cabinet d'avocats Juridon</field>
-    <field name="customer" eval="0"/>
-    <field name="supplier" eval="1"/>
+    <field name="customer_rank" eval="0"/>
+    <field name="supplier_rank" eval="1"/>
     <field name="street">42 rue du crime</field>
     <field name="zip">69100</field>
     <field name="city">Villeurbanne</field>
@@ -52,8 +52,8 @@
 
 <record id="partner_das2_3" model="res.partner">
     <field name="name">Cabinet CACtus</field>
-    <field name="customer" eval="0"/>
-    <field name="supplier" eval="1"/>
+    <field name="customer_rank" eval="0"/>
+    <field name="supplier_rank" eval="1"/>
     <field name="street">42 rue de l'audit</field>
     <field name="zip">69100</field>
     <field name="city">Villeurbanne</field>
