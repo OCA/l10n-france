@@ -3,18 +3,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Code Officiel Géographique',
-    'summary': 'Add Code Officiel Géographique (COG) on countries',
-    'version': '14.0.1.0.0',
-    'category': 'French Localization',
-    'author': "Akretion,Odoo Community Association (OCA)",
-    'website': 'https://github.com/OCA/l10n-france',
-    'license': 'AGPL-3',
-    'depends': ['base'],
-    'data': [
-        'data/country.xml',
-        'views/country.xml',
-        ],
-    'post_init_hook': 'set_fr_cog',
-    'installable': True,
+    "name": "Code Officiel Géographique",
+    "summary": "Add Code Officiel Géographique (COG) on countries",
+    "version": "14.0.1.0.0",
+    "category": "French Localization",
+    "author": "Akretion,Odoo Community Association (OCA)",
+    "maintainers": ["alexis-via"],
+    "website": "https://github.com/OCA/l10n-france",
+    "license": "AGPL-3",
+    "depends": ["base"],
+    "data": [
+        "data/country.xml",
+        "views/country.xml",
+    ],
+    "post_init_hook": "set_fr_cog",
+    "installable": True,
 }
