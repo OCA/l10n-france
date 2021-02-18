@@ -6,8 +6,8 @@ from odoo import fields, models
 
 
 class ResCountry(models.Model):
-    _inherit = 'res.country'
+    _inherit = "res.country"
 
     fr_cog = fields.Integer(
-        string='Code Officiel Géographique',
-        help="Code Officiel Géographique, by INSEE")
+        string="Code Officiel Géographique", help="Code Officiel Géographique, by INSEE"
+    )
