@@ -116,3 +116,32 @@ class Partner(models.Model):
     parent_is_company = fields.Boolean(
         related="parent_id.is_company", string="Parent is a Company"
     )
+    same_siren_partner_id = fields.Many2one(
+        "res.partner",
+        compute="_compute_same_siren_partner_id",
+        string="Partner with same SIREN",
+    )
+
+    @api.depends("siren", "company_id")
+    def _compute_same_siren_partner_id(self):
+        # Inspired by same_vat_partner_id from 'base' module
+        for partner in self:
+            same_siren_partner_id = False
+            if partner.siren and not partner.parent_id:
+                # use _origin to deal with onchange()
+                partner_id = partner._origin.id
+                domain = [
+                    ("siren", "=", partner.siren),
+                    ("company_id", "in", (False, partner.company_id.id)),
+                    ("parent_id", "=", False),
+                ]
+                if partner_id:
+                    domain += [
+                        ("id", "!=", partner_id),
+                        "!",
+                        ("id", "child_of", partner_id),
+                    ]
+                same_siren_partner_id = (
+                    self.with_context(active_test=False).sudo().search(domain, limit=1)
+                )
+            partner.same_siren_partner_id = same_siren_partner_id

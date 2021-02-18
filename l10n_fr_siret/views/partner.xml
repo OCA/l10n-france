@@ -44,6 +44,20 @@
                 />
                 <field name="siret" attrs="{'invisible': [('type','=', 'contact')]}" />
             </xpath>
+            <div
+                attrs="{'invisible': [('same_vat_partner_id', '=', False)]}"
+                position="after"
+            >
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('same_siren_partner_id', '=', False)]}"
+                >
+                  Duplicate warning: there is another partner with the same SIREN: <field
+                        name="same_siren_partner_id"
+                    />.
+                </div>
+            </div>
             <!-- TODO When base_view_inheritance_extension will be ported to v14, add default_nic to context of child_ids -->
         </field>
     </record>
