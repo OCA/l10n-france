@@ -1,4 +1,4 @@
-# Copyright 2020 Akretion France (http://www.akretion.com/)
+# Copyright 2020-2021 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -18,7 +18,7 @@ class ResPartner(models.Model):
         ('licence_royalties', "Droits d'inventeur"),
         ('other_income', 'Autre rémunérations'),
         ('allowance', 'Indemnités et remboursements'),
-        ], string='DAS2 Type', track_visibility='onchange')
+        ], string='DAS2 Type', tracking=100)
     fr_das2_job = fields.Char(
         string='DAS2 Job', size=30,
         help="Used in the field 'Profession' of DAS2.")
