@@ -6,7 +6,8 @@ from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+    _inherit = "res.config.settings"
 
     fr_das2_partner_declare_threshold = fields.Integer(
-        related='company_id.fr_das2_partner_declare_threshold', readonly=False)
+        related="company_id.fr_das2_partner_declare_threshold", readonly=False
+    )
