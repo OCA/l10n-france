@@ -1,12 +1,11 @@
-# Copyright 2020 Akretion France (http://www.akretion.com/)
+# Copyright 2020-2021 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from dateutil.relativedelta import relativedelta
 from datetime import datetime
-from odoo.addons.l10n_fr_siret.models.partner import _check_luhn
+from stdnum.fr.siret import is_valid
 import base64
 import logging
 
@@ -30,24 +29,24 @@ AMOUNT_FIELDS = [
 
 class L10nFrDas2(models.Model):
     _name = 'l10n.fr.das2'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'year desc'
     _description = 'DAS2'
 
     year = fields.Integer(
         string='Year', required=True, states={'done': [('readonly', True)]},
-        track_visibility='onchange',
+        tracking=True,
         default=lambda self: self._default_year())
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
         ], default='draft', readonly=True, string='State',
-        track_visibility='onchange')
+        tracking=True)
     company_id = fields.Many2one(
         'res.company', string='Company',
         ondelete='cascade', required=True,
         states={'done': [('readonly', True)]},
-        default=lambda self: self.env['res.company']._company_default_get())
+        default=lambda self: self.env.company)
     currency_id = fields.Many2one(
         related='company_id.currency_id', readonly=True, store=True,
         string='Company Currency')
@@ -55,6 +54,7 @@ class L10nFrDas2(models.Model):
         'account.journal',
         string='Payment Journals', required=True,
         default=lambda self: self._default_payment_journals(),
+        domain="[('company_id', '=', company_id)]",
         states={'done': [('readonly', True)]})
     line_ids = fields.One2many(
         'l10n.fr.das2.line', 'parent_id', string='Lines',
@@ -66,18 +66,25 @@ class L10nFrDas2(models.Model):
         ('1', "La société ne verse pas de salaires"),
         ], 'DADS Type', required=True,
         states={'done': [('readonly', True)]},
-        track_visibility='onchange',
+        tracking=True,
         default=lambda self: self._default_dads_type())
     # option for draft moves ?
     contact_id = fields.Many2one(
         'res.partner', string='Administrative Contact',
         states={'done': [('readonly', True)]},
         default=lambda self: self.env.user.partner_id.id,
-        track_visibility='onchange',
+        tracking=True,
         help='Contact in the company for the fiscal administration: the name, '
         'email and phone number of this partner will be used in the file.')
     attachment_id = fields.Many2one(
-        'ir.attachment', string='File Export', readonly=True)
+        'ir.attachment', string='Attachment', readonly=True)
+    attachment_datas = fields.Binary(
+        related="attachment_id.datas", string="File Export")
+    attachment_name = fields.Char(
+        related="attachment_id.name", string="Filename")
+    # The only drawback of the warning_msg solution is that I didn't find a way
+    # to put a link to partners inside it
+    warning_msg = fields.Html(readonly=True)
 
     _sql_constraints = [(
         'year_company_uniq',
@@ -98,16 +105,15 @@ class L10nFrDas2(models.Model):
         res = []
         pay_journals = self.env['account.journal'].search([
             ('type', 'in', ('bank', 'cash')),
-            ('company_id', '=', self.env.user.company_id.id)])
+            ('company_id', '=', self.env.company.id)])
         if pay_journals:
             res = pay_journals.ids
         return res
 
     @api.model
     def _default_year(self):
-        today = datetime.today()
-        prev_year = today - relativedelta(years=1)
-        return prev_year.year
+        last_year = datetime.today().year - 1
+        return last_year
 
     @api.depends('year')
     def name_get(self):
@@ -117,11 +123,11 @@ class L10nFrDas2(models.Model):
         return res
 
     def done(self):
-        self.state = 'done'
+        self.write({'state': 'done'})
         return
 
     def back2draft(self):
-        self.state = 'draft'
+        self.write({'state': 'draft'})
         return
 
     def unlink(self):
@@ -130,7 +136,7 @@ class L10nFrDas2(models.Model):
                 raise UserError(_(
                     "Cannot delete declaration %s in done state.")
                     % rec.display_name)
-        return super(L10nFrDas2, self).unlink()
+        return super().unlink()
 
     def generate_lines(self):
         self.ensure_one()
@@ -175,8 +181,7 @@ class L10nFrDas2(models.Model):
             vals = self._prepare_line(partner, base_domain)
             if vals:
                 lfdlo.create(vals)
-        self.message_post(body=_("DAS2 lines generated."))
-        self.add_warning_in_chatter(das2_partners)
+        self.generate_warning_msg(das2_partners)
 
     def _prepare_line(self, partner, base_domain):
         amlo = self.env['account.move.line']
@@ -209,7 +214,7 @@ class L10nFrDas2(models.Model):
                 res['partner_siret'] = partner.siret
         return res
 
-    def add_warning_in_chatter(self, das2_partners):
+    def generate_warning_msg(self, das2_partners):
         amlo = self.env['account.move.line']
         aao = self.env['account.account']
         ajo = self.env['account.journal']
@@ -238,17 +243,23 @@ class L10nFrDas2(models.Model):
             ('account_id', 'in', das2_accounts.ids),
             ('balance', '!=', 0),
             ], ['partner_id'], ['partner_id'])
+        msg = False
+        msg_post = _("DAS2 lines generated. ")
         if rg_res:
             msg = _(
-                "<p>The following partners are not configured for DAS2 but "
+                "The following partners are not configured for DAS2 but "
                 "they have expenses in some accounts that indicate "
-                "that maybe they should be configured for DAS2:</p><ul>")
+                "they should probably be configured for DAS2:<ul>")
+            msg_post += msg
             for rg_re in rg_res:
                 partner = rpo.browse(rg_re['partner_id'][0])
-                msg += '<li><a href=# data-oe-model=res.partner '\
-                    'data-oe-id=%d>%s</a>' % (partner.id, partner.display_name)
+                msg_post += '<li><a href="#" data-oe-model="res.partner" '\
+                    'data-oe-id="%d">%s</a></li>' % (partner.id, partner.display_name)
+                msg += "<li>%s</li>" % partner.display_name
+            msg_post += '</ul>'
             msg += '</ul>'
-            self.message_post(body=msg)
+        self.message_post(body=msg_post)
+        self.write({'warning_msg': msg})
 
     @api.model
     def _prepare_field(
@@ -503,43 +514,15 @@ class L10nFrDas2(models.Model):
             'name': filename,
             'res_id': self.id,
             'res_model': self._name,
-            'datas': base64.encodestring(file_content_encoded),
-            'datas_fname': filename,
+            'datas': base64.encodebytes(file_content_encoded),
             })
         self.attachment_id = attach.id
         self.message_post(body=_("DAS2 file generated."))
-        action = {
-            'type': 'ir.actions.act_window',
-            'name': _('DAS2 Export File'),
-            'view_mode': 'form',
-            'res_model': 'ir.attachment',
-            'target': 'current',
-            'res_id': attach.id,
-            }
-        try:
-            action['view_id'] = self.env.ref(
-                'account_payment_order.view_attachment_simplified_form').id
-        except Exception:
-            pass
-
-        # The code below works and triggers an immediate download, but
-        # the form view of DAS2 is frozen after that, so it's not usable
-        # in v10/v12... maybe it's only designed to be used in a wizard
-        # action = {
-        #    'name': 'DAS2',
-        #    'type': 'ir.actions.act_url',
-        #    'url': "web/content/?model=ir.attachment&id=%d"
-        #           "&filename_field=filename"
-        #           "&field=datas&download=true&filename=%s" % (
-        #               attach.id, filename),
-        #    'target': 'self',
-        #    }
-        return action
 
     def button_lines_fullscreen(self):
         self.ensure_one()
-        action = self.env['ir.actions.act_window'].for_xml_id(
-            'l10n_fr_das2', 'l10n_fr_das2_line_action')
+        action = self.env.ref(
+            'l10n_fr_das2.l10n_fr_das2_line_action').sudo().read()[0]
         action.update({
             'domain': [('parent_id', '=', self.id)],
             'views': False,
@@ -592,7 +575,8 @@ class L10nFrDas2Line(models.Model):
         compute='_compute_total_amount', string='Total Amount',
         store=True, readonly=True)
     to_declare = fields.Boolean(
-        compute='_compute_total_amount', string='To Declare', readonly=True)
+        compute='_compute_total_amount', string='To Declare', readonly=True,
+        store=True)
     allowance_fixed = fields.Boolean(
         'Allocation forfaitaire', states={'done': [('readonly', True)]})
     allowance_real = fields.Boolean(
@@ -690,15 +674,9 @@ class L10nFrDas2Line(models.Model):
     @api.constrains('partner_siret')
     def check_siret(self):
         for line in self:
-            if line.partner_siret:
-                if len(line.partner_siret) != 14:
-                    raise ValidationError(_(
-                        "SIRET %s is invalid: it must have 14 digits.")
-                        % line.partner_siret)
-                if not _check_luhn(line.partner_siret):
-                    raise ValidationError(_(
-                        "SIRET %s is invalid: the checksum is wrong.")
-                        % line.partner_siret)
+            if line.partner_siret and not is_valid(line.partner_siret):
+                raise ValidationError(_(
+                    "SIRET '%s' is invalid.") % line.partner_siret)
 
     @api.onchange('partner_id')
     def partner_id_change(self):

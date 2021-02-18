@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2020 Akretion France (http://www.akretion.com/)
+  Copyright 2020-2021 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -14,9 +14,10 @@
     <field name="inherit_id" ref="account.view_partner_property_form"/>
     <field name="arch" type="xml">
         <group name="accounting_entries" position="after">
-            <group name="fr_das2" string="DAS2" attrs="{'invisible': [('supplier', '!=', True)]}">
+            <group name="fr_das2" string="DAS2" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}">
                 <field name="fr_das2_type" string="Type"/>
                 <field name="fr_das2_job" string="Job"/>
+                <field name="supplier_rank" invisible="1"/>
             </group>
         </group>
     </field>

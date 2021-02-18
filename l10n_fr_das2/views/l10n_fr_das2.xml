@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2020 Akretion France (http://www.akretion.com/)
+  Copyright 2020-2021 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -20,6 +20,9 @@
                 <button name="done" string="Done" type="object" states="draft" class="btn-primary"/>
                 <field name="state" widget="statusbar"/>
             </header>
+            <div class="alert alert-warning" role="alert" attrs="{'invisible': [('warning_msg', '=', False)]}">
+                <field name="warning_msg"/>
+            </div>
             <sheet>
                 <div class="oe_button_box" name="button_box">
                     <button name="button_lines_fullscreen"
@@ -42,7 +45,9 @@
                     <group name="main-right">
                         <field name="currency_id" invisible="1"/>
                         <field name="partner_declare_threshold"/>
-                        <field name="attachment_id"/>
+                        <field name="attachment_datas" filename="attachment_name"/>
+                        <field name="attachment_id" invisible="1"/>
+                        <field name="attachment_name" invisible="1"/>
                         <field name="company_id" groups="base.group_multi_company" widget="selection" />
                     </group>
                 </group>
@@ -52,6 +57,7 @@
             </sheet>
             <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
                 <field name="message_ids" widget="mail_thread"/>
             </div>
         </form>
@@ -63,11 +69,11 @@
     <field name="name">l10n.fr.das2.tree</field>
     <field name="model">l10n.fr.das2</field>
     <field name="arch" type="xml">
-        <tree string="DAS2" colors="blue:state=='draft'">
+        <tree string="DAS2">
             <field name="year"/>
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="currency_id" invisible="1"/>
-            <field name="state"/>
+            <field name="state" decoration-success="state == 'done'" decoration-info="state == 'draft'" widget="badge"/>
         </tree>
     </field>
 </record>
@@ -77,6 +83,7 @@
     <field name="model">l10n.fr.das2</field>
     <field name="arch" type="xml">
         <search string="Search DAS2">
+            <field name="year"/>
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
             <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
         </search>
