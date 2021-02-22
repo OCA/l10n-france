@@ -253,10 +253,10 @@ class AccountInvoice(models.Model):
                 get_company_identifier=True).fr_chorus_identifier_get()
         company_identifier = company.partner_id.fr_chorus_identifier
         order_ref = order_ref.strip()
-        if len(order_ref) > 10:
+        if len(order_ref) > 50:
             raise UserError(_(
                 "The engagement juridique '%s' is %d caracters long. "
-                "The maximum is 10. Please update the customer order "
+                "The maximum is 50. Please update the customer order "
                 "reference.") % (order_ref, len(order_ref)))
         api_params = company.chorus_get_api_params()
         return self.chorus_api_check_commitment_number(
