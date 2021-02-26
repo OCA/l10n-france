@@ -22,6 +22,7 @@ addon | version | summary
 [account_balance_ebp_csv_export](account_balance_ebp_csv_export/) | 14.0.1.0.0 | Account Balance EBP CSV export
 [account_banking_fr_lcr](account_banking_fr_lcr/) | 14.0.1.0.0 | Create French LCR CFONB files
 [account_statement_import_fr_cfonb](account_statement_import_fr_cfonb/) | 14.0.1.0.0 | Import CFONB bank statements files in Odoo
+[l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 14.0.1.0.0 | Auto-configure UNECE params on French taxes
 [l10n_fr_department](l10n_fr_department/) | 14.0.1.0.0 | Populate Database with French Departments (Départements)
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 14.0.1.0.0 | Populate Database with overseas French Departments (Départements d'outre-mer)
 [l10n_fr_fec_oca](l10n_fr_fec_oca/) | 14.0.1.0.0 | Fichier d'Échange Informatisé (FEC) for France
