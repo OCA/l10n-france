@@ -20,7 +20,7 @@ class ChorusPartnerService(models.Model):
     code = fields.Char(string='Service Code', required=True)
     active = fields.Boolean(default=True)
     name = fields.Char(string='Service Name')
-    chorus_identifier = fields.Integer(readonly=True)
+    chorus_identifier = fields.Integer(string='Chorus Identifier', readonly=True)
     engagement_required = fields.Boolean(string='Engagement Required')
 
     @api.constrains('code')
