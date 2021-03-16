@@ -183,7 +183,7 @@ class ResPartner(models.Model):
             if not partner.fr_chorus_identifier:
                 if raise_if_ko:
                     raise UserError(_(
-                        "Missing Chorus Identifier on partner '%s'.")
+                        "Missing Chorus Identifier on partner %s.")
                         % partner.display_name)
                 else:
                     logger.warning(
