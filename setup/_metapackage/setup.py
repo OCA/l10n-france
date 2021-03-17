@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo12-addon-account_banking_fr_lcr',
         'odoo12-addon-l10n_fr_account_invoice_facturx',
         'odoo12-addon-l10n_fr_account_tax_unece',
+        'odoo12-addon-l10n_fr_business_document_import',
         'odoo12-addon-l10n_fr_chorus_account',
         'odoo12-addon-l10n_fr_chorus_facturx',
         'odoo12-addon-l10n_fr_chorus_sale',
