@@ -64,7 +64,7 @@ class AccountStatementImport(models.TransientModel):
         cfonb = self._check_cfonb(data_file)
         if not cfonb:
             return super()._parse_file(data_file)
-        result = []
+        result = {}
         # The CFONB spec says you should only have digits, capital letters
         # and * - . /
         # But many banks don't respect that and use regular letters for exemple
@@ -74,7 +74,7 @@ class AccountStatementImport(models.TransientModel):
         lines = self._cfonb_split_lines(data_file_decoded)
         i = 0
         seq = 1
-        bank_code = guichet_code = account_number = currency_code = False
+        account_key = False
         decimals = start_balance = False
         start_balance = end_balance = False
         transactions = []
@@ -92,41 +92,48 @@ class AccountStatementImport(models.TransientModel):
                     % (i, len(line))
                 )
             rec_type = line[0:2]
-            line_bank_code = line[2:7]
-            line_guichet_code = line[11:16]
-            line_account_number = line[21:32]
+            bank_code = line[2:7]
+            guichet_code = line[11:16]
+            account_number = line[21:32]
             # Some LCL files are invalid: they leave decimals and
             # currency fields empty on lines that start with '01' and '07',
             # so I give default values in the code for those fields
-            line_currency_code = line[16:19] != "   " and line[16:19] or "EUR"
+            currency_code = line[16:19] != "   " and line[16:19] or "EUR"
+            account_key = "{}-{}-{}-{}".format(
+                bank_code,
+                guichet_code,
+                account_number,
+                currency_code,
+            )
             decimals = line[19:20] != " " and int(line[19:20]) or 2
             date_cfonb_str = line[34:40]
             date_dt = False
             if date_cfonb_str != "      ":
                 date_dt = datetime.strptime(date_cfonb_str, "%d%m%y")
-            if line_account_number in self._excluded_accounts:
+            if account_number in self._excluded_accounts:
                 continue
             assert decimals == 2, "We use 2 decimals in France!"
 
             if rec_type == "01":
-                bank_code = line_bank_code
-                guichet_code = line_guichet_code
-                currency_code = line_currency_code
-                account_number = line_account_number
                 transactions = []
                 start_balance = self._parse_cfonb_amount(line[90:104], decimals)
+                if account_key not in result:
+                    result[account_key] = {
+                        "currency_code": currency_code,
+                        "account_number": account_number,
+                        "name": account_number,
+                        "date": False,
+                        "balance_start": start_balance,
+                        "balance_end_real": False,
+                        "transactions": [],
+                    }
 
             elif rec_type == "07":
                 end_balance = self._parse_cfonb_amount(line[90:104], decimals)
                 self._cfonb_unique_import_id_postprocess(transactions)
-                vals_bank_statement = {
-                    "name": account_number,
-                    "date": date_dt,
-                    "balance_start": start_balance,
-                    "balance_end_real": end_balance,
-                    "transactions": transactions,
-                }
-                result.append((currency_code, account_number, [vals_bank_statement]))
+                result[account_key]["balance_end_real"] = end_balance
+                result[account_key]["date"] = date_dt
+                result[account_key]["transactions"] += transactions
 
             elif rec_type == "04":
                 amount = self._parse_cfonb_amount(line[90:104], decimals)
@@ -159,16 +166,17 @@ class AccountStatementImport(models.TransientModel):
                 if complementary_info_type in ("   ", "LIB") and complementary_info:
                     transactions[-1]["payment_ref"] += " " + complementary_info
 
-            if rec_type in ("04", "05", "07") and (
-                bank_code != line_bank_code
-                or guichet_code != line_guichet_code
-                or currency_code != line_currency_code
-                or account_number != line_account_number
-            ):
+            if rec_type in ("04", "05", "07") and account_key not in result:
                 raise UserError(
                     _("The CFONB file is inconsistent. Error on line %d.") % i
                 )
-        return result
+        res = []
+        for rdict in result.values():
+            if rdict["transactions"]:
+                res.append(
+                    (rdict.pop("currency_code"), rdict.pop("account_number"), [rdict])
+                )
+        return res
 
     @api.model
     def _cfonb_unique_import_id_postprocess(self, transactions):
