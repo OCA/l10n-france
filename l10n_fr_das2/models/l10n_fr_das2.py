@@ -196,10 +196,11 @@ class L10nFrDas2(models.Model):
                     mline.balance,
                     mline.move_id.name))
         res = False
-        if note:
+        amount_int = int(round(amount))
+        if note and amount_int > 0:
             field_name = '%s_amount' % partner.fr_das2_type
             res = {
-                field_name: int(round(amount)),
+                field_name: amount_int,
                 'parent_id': self.id,
                 'partner_id': partner.id,
                 'job': partner.fr_das2_job,
