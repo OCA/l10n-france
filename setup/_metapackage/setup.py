@@ -18,6 +18,7 @@ setuptools.setup(
         'odoo14-addon-l10n_fr_department_oversea',
         'odoo14-addon-l10n_fr_fec_oca',
         'odoo14-addon-l10n_fr_hr_check_ssnid',
+        'odoo14-addon-l10n_fr_intrastat_product',
         'odoo14-addon-l10n_fr_intrastat_service',
         'odoo14-addon-l10n_fr_mis_reports',
         'odoo14-addon-l10n_fr_siret',
