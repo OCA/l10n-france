@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2021 Moka Tourisme
+@author: Iván Todorovich <ivan.todorovich@gmail.com>
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="payment_icon_sepa_direct_debit" model="payment.icon">
+        <field name="name">SEPA</field>
+        <field name="image" type="base64" file="payment_payfip/static/src/img/sepa-direct-debit-icon.png"/>
+    </record>
+
+</odoo>

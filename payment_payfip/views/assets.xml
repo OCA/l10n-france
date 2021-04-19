@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2021 Moka Tourisme
+@author: Iván Todorovich <ivan.todorovich@gmail.com>
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <template id="assets_frontend" inherit_id="web.assets_frontend">
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/payment_payfip/static/src/js/payment_form.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

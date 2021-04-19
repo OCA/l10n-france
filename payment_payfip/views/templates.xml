@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2021 Moka Tourisme
+@author: Iván Todorovich <ivan.todorovich@gmail.com>
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+        <template id="payfip_form">
+            <div>
+                <input type="hidden" name="data_set" t-att-data-action-url="tx_url" data-remove-me=""/>
+                <input type="hidden" name="numcli" t-att-value="numcli"/>
+                <input type="hidden" name="exer" t-att-value="exer"/>
+                <input type="hidden" name="refdet" t-att-value="refdet"/>
+                <input type="hidden" name="objet" t-att-value="objet"/>
+                <input type="hidden" name="montant" t-att-value="montant"/>
+                <input type="hidden" name="mel" t-att-value="mel"/>
+                <input type="hidden" name="saisie" t-att-value="saisie"/>
+                <input type="hidden" name="urlcl" t-att-value="urlcl"/>
+            </div>
+        </template>
+    </data>
+</odoo>
