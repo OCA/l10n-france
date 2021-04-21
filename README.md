@@ -23,6 +23,7 @@ addon | version | summary
 [account_banking_fr_lcr](account_banking_fr_lcr/) | 14.0.1.0.0 | Create French LCR CFONB files
 [account_statement_import_fr_cfonb](account_statement_import_fr_cfonb/) | 14.0.1.0.0 | Import CFONB bank statements files in Odoo
 [l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 14.0.1.0.0 | Auto-configure UNECE params on French taxes
+[l10n_fr_business_document_import](l10n_fr_business_document_import/) | 14.0.1.0.0 | Adapt the module base_business_document_import for France
 [l10n_fr_cog](l10n_fr_cog/) | 14.0.1.0.0 | Add Code Officiel Géographique (COG) on countries
 [l10n_fr_das2](l10n_fr_das2/) | 14.0.1.0.0 | DAS2 (France)
 [l10n_fr_department](l10n_fr_department/) | 14.0.1.0.0 | Populate Database with French Departments (Départements)
