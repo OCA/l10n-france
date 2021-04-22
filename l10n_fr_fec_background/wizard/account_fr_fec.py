@@ -109,7 +109,11 @@ class AccountFrFec(models.TransientModel):
         )
 
         rows_length = len(rows)
-        for i, row in enumerate(rows):
+        header_len = 0
+        if rows:
+            header_len = len(rows[0])
+        for i, raw_row in enumerate(rows):
+            row = raw_row[:header_len]
             if not i == rows_length - 1:
                 row[-1] = (row[-1] and row[-1] or '') + lineterminator
             writer.writerow(row)
