@@ -62,6 +62,7 @@ class AccountEcotaxeClassification(models.Model):
             ("INT", "Introducteur"),
             ("IMP", "Importateur"),
             ("DIS", "Vendeur à distance"),
+            ("VF", "Vendeur France"),
         ],
         string="Supplier Status",
         required=True,
@@ -78,7 +79,11 @@ class AccountEcotaxeClassification(models.Model):
         "des EEE provenant de pays hors Union Européenne"
         "DIS ==> Vendeur à distance : est établie dans un autre Etat\n"
         "membre ou dans un pays tiers et vend en France des EEE par\n"
-        "communication à distance",
+        "communication à distance\n"
+        "VF ==> Vendeur en France. Ce type d'ecotaxe ne doit pas être déclaré.\n"
+        "En effet c'est le fournisseur français qui se charge de la déclaration.\n"
+        "Par contre, l'ecotaxe doit être présente sur les commandes de vente\n"
+        " et les factures.",
     )
     ecotaxe_deb_code = fields.Char(string="Ecotaxe DEB Code")
     ecotaxe_scale_code = fields.Char(string="Ecotaxe Scale Code")

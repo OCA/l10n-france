@@ -2,8 +2,6 @@
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import Form, tagged
-
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
@@ -32,7 +30,7 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
             }
         )
         cls.product_a.weight = 100
-        cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classificationi1.id
+        cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classification1.id
         cls.product_b.weight = 400
         cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classification2.id
 
