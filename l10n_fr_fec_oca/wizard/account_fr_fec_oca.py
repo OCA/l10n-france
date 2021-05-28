@@ -177,22 +177,11 @@ class AccountFrFecOca(models.TransientModel):
         return listrow
 
     def _get_siren(self, company):
-        """
-        Dom-Tom are excluded from the EU's fiscal territory
-        Those regions do not have SIREN
-        sources:
-            https://www.service-public.fr/professionnels-entreprises/vosdroits/F23570
-            http://www.douane.gouv.fr/articles/a11024-tva-dans-les-dom
-        """
-        dom_tom_group = self.env.ref("l10n_fr.dom-tom")
-        is_dom_tom = company.country_id.code in dom_tom_group.country_ids.mapped("code")
-        if not is_dom_tom and not company.vat:
-            raise UserError(_("Missing VAT number for company %s") % company.name)
-        vat = company.vat.upper().replace(" ", "")
-        if not is_dom_tom and vat[0:2] != "FR":
-            raise UserError(_("FEC is for French companies only !"))
-
-        siren = vat[4:13] if not is_dom_tom else ""
+        # Get SIREN from SIRET and not from VAT
+        # so that it also work on companies that are not subject to VAT
+        if not company.siret:
+            raise UserError(_("Missing SIRET on company %s.") % company.display_name)
+        siren = company.siret[:9]
         return siren
 
     def generate_fec(self):
