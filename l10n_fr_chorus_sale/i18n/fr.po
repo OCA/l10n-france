@@ -6,60 +6,81 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2021-05-31 08:10+0000\n"
+"Last-Translator: Yann Papouin <y.papouin@dec-industrie.com>\n"
 "Language-Team: none\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_fr_chorus_sale
 #: model:ir.model.fields,field_description:l10n_fr_chorus_sale.field_sale_order_invoice_transmit_method_code
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #. module: l10n_fr_chorus_sale
 #: model:ir.model.fields,help:l10n_fr_chorus_sale.field_sale_order_invoice_transmit_method_code
 msgid "Do not modify the code of an existing Transmit Method because it may be used to identify a particular transmit method."
 msgstr ""
+"Ne modifiez pas le code d'une méthode de transmission existante car elle "
+"peut être utilisée pour identifier une méthode de transmission particulière."
 
 #. module: l10n_fr_chorus_sale
 #: model:ir.model.fields,field_description:l10n_fr_chorus_sale.field_sale_order_invoice_transmit_method_id
 msgid "Invoice Transmission Method"
-msgstr ""
+msgstr "Méthode de transmission des factures"
 
 #. module: l10n_fr_chorus_sale
 #: code:addons/l10n_fr_chorus_sale/models/sale_order.py:27
 #, python-format
 msgid "Missing SIRET on partner '%s'. This information is required for Chorus invoices."
 msgstr ""
+"SIRET manquant sur le partenaire \"%s\". Ces informations sont obligatoires "
+"pour les factures Chorus."
 
 #. module: l10n_fr_chorus_sale
 #: code:addons/l10n_fr_chorus_sale/models/sale_order.py:72
 #, python-format
 msgid "Partner '%s' is configured as Service or Engagement required for Chorus but there is no engagement number in the field 'Customer Reference' of order %s and the 'Chorus Service' is not configured on contact '%s'"
 msgstr ""
+"Le partenaire \"%s\" est configuré comme \"Service\" ou \"Engagement\" "
+"requis pour Chorus mais il n'y a pas de numéro d'engagement dans le champ "
+"\"Référence client\" de la commande %s et le \"Service Chorus\" n'est pas "
+"configuré sur le contact \"%s\""
 
 #. module: l10n_fr_chorus_sale
 #: code:addons/l10n_fr_chorus_sale/models/sale_order.py:60
 #, python-format
 msgid "Partner '%s' is configured as Service or Engagement required for Chorus but there is no engagement number in the field 'Customer Reference' of order %s and the invoice address is not a contact (Chorus Service can only be configured on contacts)"
 msgstr ""
+"Le partenaire \"%s\" est configuré comme \"Service\" ou \"Engagement\" "
+"requis pour Chorus mais il n'y a pas de numéro d'engagement dans le champ "
+"\"Référence client\" de la commande %s et l'adresse de facturation n'est pas "
+"un contact (le service Chorus ne peut être configuré que sur les contacts)"
 
 #. module: l10n_fr_chorus_sale
 #: code:addons/l10n_fr_chorus_sale/models/sale_order.py:39
 #, python-format
 msgid "Partner '%s' is configured as Service required for Chorus, so you must select a contact as invoicing address for the order %s and this contact should have a name and a Chorus service and the Chorus service must be active."
 msgstr ""
+"Le partenaire \"%s\" est configuré comme \"Service\" requis pour Chorus, "
+"vous devez donc sélectionner un contact comme adresse de facturation pour la "
+"commande %s et ce contact doit avoir un nom et un service Chorus, le service "
+"Chorus doit être actif."
 
 #. module: l10n_fr_chorus_sale
 #: model:ir.model,name:l10n_fr_chorus_sale.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Commandes clients"
 
 #. module: l10n_fr_chorus_sale
 #: code:addons/l10n_fr_chorus_sale/models/sale_order.py:50
 #, python-format
 msgid "The field 'Customer Reference' of order %s should contain the engagement number because customer '%s' is configured as Engagement required for Chorus."
 msgstr ""
+"Le champ \"Référence client\" de la commande %s doit contenir le numéro "
+"d'engagement car le client \"%s\" est configuré pour Chorus avec \"Engagement"
+"\" requis."
