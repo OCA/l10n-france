@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-30 10:45+0000\n"
-"PO-Revision-Date: 2017-11-30 10:45+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2021-05-31 08:10+0000\n"
+"Last-Translator: Yann Papouin <y.papouin@dec-industrie.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:42
@@ -57,7 +58,7 @@ msgstr ""
 #. module: account_banking_fr_lcr
 #: model:account.payment.method,name:account_banking_fr_lcr.fr_lcr
 msgid "Lettre de Change Relevé"
-msgstr ""
+msgstr "Lettre de Change Relevé"
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_account_payment_order
