@@ -11,3 +11,5 @@ class ResConfigSettings(models.TransientModel):
     fr_intrastat_accreditation = fields.Char(
         related="company_id.fr_intrastat_accreditation", readonly=False
     )
+    
+    deb_per_invoice = fields.Boolean(related='company_id.deb_per_invoice', readonly=False )

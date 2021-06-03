@@ -136,6 +136,8 @@ class L10nFrIntrastatProductDeclaration(models.Model):
     def _group_line_hashcode_fields(self, computation_line):
         res = super()._group_line_hashcode_fields(computation_line)
         res["partner_id"] = computation_line.fr_partner_id.id or False
+        if computation_line.company_id.deb_per_invoice:
+            res.update({'invoice': computation_line.invoice_id.id})
         return res
 
     @api.model

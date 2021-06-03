@@ -18,6 +18,8 @@ class ResCompany(models.Model):
         size=4,
         help="Company identifier for Intrastat file export. " "Size : 4 characters.",
     )
+    
+    deb_per_invoice = fields.Boolean('Generate DEB line per invoice')
 
     @api.constrains("intrastat_arrivals", "country_id")
     def check_fr_intrastat(self):
