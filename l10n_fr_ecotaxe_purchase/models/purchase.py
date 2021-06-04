@@ -1,4 +1,5 @@
-# © 2015 -2020 Akretion (http://www.akretion.com)
+# -*- coding: utf-8 -*-
+# © 2015 -2021 Akretion (http://www.akretion.com)
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -19,7 +20,7 @@ class PurchaseOrderLine(models.Model):
     )
 
     @api.multi
-    @api.depends("product_id", "product_uom_qty")
+    @api.depends("product_id", "product_qty")
     def _compute_ecotaxe(self):
         for line in self:
             line.unit_ecotaxe_amount = line.product_id.ecotaxe_amount
@@ -28,7 +29,7 @@ class PurchaseOrderLine(models.Model):
                 cur = line.order_id.currency_id
                 line.unit_ecotaxe_amount = cur.round(line.unit_ecotaxe_amount)
             line.subtotal_ecotaxe = (
-                line.unit_ecotaxe_amount * line.product_uom_qty
+                line.unit_ecotaxe_amount * line.product_qty
             )
 
 

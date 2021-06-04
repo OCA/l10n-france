@@ -6,7 +6,8 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<odoo>
+<openerp>
+    <data>
     <record id="ir_rule_tax_group" model="ir.rule">
         <field name="name">Ecotaxe Classification</field>
         <field name="model_id" ref="model_account_ecotaxe_classification" />
@@ -15,4 +16,5 @@
             name="domain_force"
         >['|', ('company_id', '=', user.company_id.id), ('company_id', '=', False)]</field>
     </record>
-</odoo>
+    </data>
+</openerp>

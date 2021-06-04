@@ -3,7 +3,8 @@
    Copyright (C) 2015-2020 Akretion (http://www.akretion.com/)
    @author: Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 -->
-<odoo>
+<openerp>
+    <data>
     <record id="view_purchase_order_form" model="ir.ui.view">
         <field name="name">l10n_fr_ecotaxe.purchase.line.form</field>
         <field name="model">purchase.order</field>
@@ -20,4 +21,5 @@
             </xpath>
         </field>
     </record>
-</odoo>
+    </data>
+</openerp>

@@ -3,7 +3,8 @@
    Copyright (C) 2015 Akretion (http://www.akretion.com/)
    @author: Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 -->
-<odoo>
+<openerp>
+    <data>
     <!-- Define: account.ecotaxe.classification -->
     <record id="ecotaxe_classification_tree" model="ir.ui.view">
         <field name="model">account.ecotaxe.classification</field>
@@ -171,4 +172,5 @@
         action="action_ecotaxe_category"
         sequence="16"
     />
-</odoo>
+    </data>
+</openerp>

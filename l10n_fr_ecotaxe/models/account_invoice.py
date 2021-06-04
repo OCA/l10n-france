@@ -1,4 +1,5 @@
-# © 2014-2016 Akretion (http://www.akretion.com)
+# -*- coding: utf-8 -*-
+# © 2014-2021 Akretion (http://www.akretion.com)
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -39,10 +40,10 @@ class AccountInvoice(models.Model):
     )
 
     @api.multi
-    @api.depends("invoice_line_ids.subtotal_ecotaxe")
+    @api.depends("invoice_line.subtotal_ecotaxe")
     def _compute_ecotaxe(self):
         for invoice in self:
             val_ecotaxe = 0.0
-            for line in invoice.invoice_line_ids:
+            for line in invoice.invoice_line:
                 val_ecotaxe += line.subtotal_ecotaxe
             invoice.amount_ecotaxe = val_ecotaxe

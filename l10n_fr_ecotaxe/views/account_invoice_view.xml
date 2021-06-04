@@ -3,7 +3,8 @@
    Copyright (C) 2015 Akretion (http://www.akretion.com/)
    @author: Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 -->
-<odoo>
+<openerp>
+    <data>
     <!-- INVOICE -->
     <record id="invoice_form" model="ir.ui.view">
         <field name="name">l10n_fr_ecotaxe.customer.invoice.form</field>
@@ -11,7 +12,7 @@
         <field name="inherit_id" ref="account.invoice_form" />
         <field name="arch" type="xml">
             <xpath
-                expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']"
+                expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']"
                 position="after"
             >
                 <field name="unit_ecotaxe_amount" />
@@ -27,7 +28,7 @@
         <field name="inherit_id" ref="account.invoice_supplier_form" />
         <field name="arch" type="xml">
             <xpath
-                expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']"
+                expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']"
                 position="after"
             >
                 <field name="unit_ecotaxe_amount" />
@@ -37,4 +38,5 @@
             </field>
         </field>
     </record>
-</odoo>
+    </data>
+</openerp>

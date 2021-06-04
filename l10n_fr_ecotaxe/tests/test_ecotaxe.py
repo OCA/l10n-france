@@ -1,4 +1,5 @@
-# Copyright 2016-2018 Akretion France
+# -*- coding: utf-8 -*-
+# Copyright 2016-2021 Akretion France
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
@@ -87,7 +88,7 @@ class TestInvoiceEcotaxe(SavepointCase):
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 1.5)
         self.invoice_line1.quantity = 4
-        self.invoice._onchange_invoice_line_ids()
+        self.invoice._onchange_invoice_line()
         self.assertEqual(self.invoice_line1.unit_ecotaxe_amount, 1.5)
         self.assertEqual(self.invoice_line1.subtotal_ecotaxe, 6.0)
         self.assertEqual(self.invoice.amount_total, 400.0)
@@ -99,7 +100,7 @@ class TestInvoiceEcotaxe(SavepointCase):
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 4)
         self.invoice_line1.quantity = 3
-        self.invoice._onchange_invoice_line_ids()
+        self.invoice._onchange_invoice_line()
         self.assertEqual(self.invoice_line1.unit_ecotaxe_amount, 4)
         self.assertEqual(self.invoice_line1.subtotal_ecotaxe, 12)
         self.assertEqual(self.invoice.amount_total, 300.0)
@@ -111,7 +112,7 @@ class TestInvoiceEcotaxe(SavepointCase):
         self.product._compute_ecotaxe()
         self.assertEqual(self.product.ecotaxe_amount, 2.4)
         self.invoice_line1.quantity = 3
-        self.invoice._onchange_invoice_line_ids()
+        self.invoice._onchange_invoice_line()
         self.invoice_line2 = self.invoice_line.create(
             {
                 "invoice_id": self.invoice.id,
@@ -122,7 +123,7 @@ class TestInvoiceEcotaxe(SavepointCase):
                 "quantity": 2,
             }
         )
-        self.invoice._onchange_invoice_line_ids()
+        self.invoice._onchange_invoice_line()
         self.assertEqual(self.invoice_line1.unit_ecotaxe_amount, 2.4)
         self.assertEqual(self.invoice_line1.subtotal_ecotaxe, 7.2)
         self.assertEqual(self.invoice_line2.unit_ecotaxe_amount, 16)
