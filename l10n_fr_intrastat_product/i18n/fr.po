@@ -854,6 +854,12 @@ msgstr ""
 "Aucune ligne de déclaration. Vous avez probablement oublié de les générer !"
 
 #. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_company__deb_per_invoice
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_config_settings__deb_per_invoice
+msgid "Generate DEB line per invoice"
+msgstr "Générer une ligne de DEB par facture"
+
+#. module: l10n_fr_intrastat_product
 #: selection:intrastat.transaction,fr_object_type:0
 msgid "None"
 msgstr "Aucun"

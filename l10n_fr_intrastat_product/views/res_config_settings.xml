@@ -10,13 +10,9 @@
                     <label for="fr_intrastat_accreditation" class="col-md-5 o_light_label" />
                     <field name="fr_intrastat_accreditation" />
                 </div>
-                <div class="o_setting_left_pane">
+                <div class="row">
+                    <label for="deb_per_invoice" class="col-md-5 o_light_label" />
                     <field name="deb_per_invoice" />
-                </div>
-                <div class="o_setting_right_pane">
-                    <div class="row">
-                        <label for="deb_per_invoice" class="col-md-12 o_light_label" />
-                    </div>
                 </div>
             </div>
         </field>
