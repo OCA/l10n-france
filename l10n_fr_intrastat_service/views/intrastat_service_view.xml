@@ -89,13 +89,18 @@
         <field name="name">fr.intrastat.service.declaration.tree</field>
         <field name="model">l10n.fr.intrastat.service.declaration</field>
         <field name="arch" type="xml">
-            <tree string="DES" decoration-info="state == 'draft'">
-                <field name="year_month" />
+            <tree string="DES">
+                <field name="year_month" decoration-bf="1" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="num_decl_lines" sum="1" />
                 <field name="total_amount" sum="1" />
                 <field name="currency_id" invisible="1" />
-                <field name="state" />
+                <field
+                    name="state"
+                    decoration-success="state == 'done'"
+                    decoration-info="state == 'draft'"
+                    widget="badge"
+                />
             </tree>
         </field>
     </record>
