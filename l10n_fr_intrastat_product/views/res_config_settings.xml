@@ -10,25 +10,18 @@
                     <label for="fr_intrastat_accreditation" class="col-md-5 o_light_label" />
                     <field name="fr_intrastat_accreditation" />
                 </div>
-            </div>
-        </field>
-    </record>
 
-    <record id="view_res_config_settings" model="ir.ui.view">
-        <field name="name">intrastat.account.config.settings.form</field>
-        <field name="model">res.config.settings</field>
-        <field name="inherit_id" ref="intrastat_base.view_intrastat_res_config_settings" />
-        <field name="arch" type="xml">
-            <div id="intrastat-settings" position="inside">
+            </div>
+            <xpath expr="//div[@id='intrastat-product']/div/div[hasclass('o_setting_left_pane')]" position="before">
                 <div class="o_setting_left_pane">
                     <field name="deb_per_invoice" />
                 </div>
                 <div class="o_setting_right_pane">
                     <div class="row">
-                        <label for="deb_per_invoice" class="col-12" />
+                        <label for="deb_per_invoice" class="col-md-12 o_light_label" />
                     </div>
                 </div>
-            </div>
+            </xpath>
         </field>
     </record>
 </odoo>
