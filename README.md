@@ -22,6 +22,7 @@ addon | version | summary
 [account_balance_ebp_csv_export](account_balance_ebp_csv_export/) | 14.0.1.0.0 | Account Balance EBP CSV export
 [account_banking_fr_lcr](account_banking_fr_lcr/) | 14.0.1.0.0 | Create French LCR CFONB files
 [account_statement_import_fr_cfonb](account_statement_import_fr_cfonb/) | 14.0.1.0.0 | Import CFONB bank statements files in Odoo
+[l10n_fr_account_invoice_import_facturx](l10n_fr_account_invoice_import_facturx/) | 14.0.1.0.0 | France-specific module to import Factur-X invoices
 [l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 14.0.1.0.0 | Auto-configure UNECE params on French taxes
 [l10n_fr_business_document_import](l10n_fr_business_document_import/) | 14.0.1.0.0 | Adapt the module base_business_document_import for France
 [l10n_fr_cog](l10n_fr_cog/) | 14.0.1.0.0 | Add Code Officiel Géographique (COG) on countries
