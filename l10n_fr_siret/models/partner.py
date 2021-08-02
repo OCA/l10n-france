@@ -1,5 +1,5 @@
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 
 
 # XXX: this is used for checking various codes such as credit card
@@ -38,23 +38,23 @@ class Partner(models.Model):
             if rec.nic:
                 # Check the NIC type and length
                 if not rec.nic.isdecimal() or len(rec.nic) != 5:
-                    raise UserError(
+                    raise ValidationError(
                         _("The NIC '%s' is incorrect: it must have "
                             "exactly 5 digits.")
                         % rec.nic)
             if rec.siren:
                 # Check the SIREN type, length and key
                 if not rec.siren.isdecimal() or len(rec.siren) != 9:
-                    raise UserError(
+                    raise ValidationError(
                         _("The SIREN '%s' is incorrect: it must have "
                             "exactly 9 digits.") % rec.siren)
                 if not _check_luhn(rec.siren):
-                    raise UserError(
+                    raise ValidationError(
                         _("The SIREN '%s' is invalid: the checksum is wrong.")
                         % rec.siren)
                 # Check the NIC key (you need both SIREN and NIC to check it)
                 if rec.nic and not _check_luhn(rec.siren + rec.nic):
-                    raise UserError(
+                    raise ValidationError(
                         _("The SIRET '%s%s' is invalid: "
                           "the checksum is wrong.")
                         % (rec.siren, rec.nic))
