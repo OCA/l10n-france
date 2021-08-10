@@ -7,9 +7,9 @@ DES
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -30,6 +30,11 @@ This module adds support for the **Déclaration Européenne des Services** (DES)
 The DES declaration has been introduced on January 1st 2010 in France. All French companies must send this declaration each month to France's Customs administration if they sell services without VAT to other EU companies.
 
 More information about the DES is available on this `official web page <http://www.douane.gouv.fr/articles/a10899-la-declaration-europeenne-de-services-des>`_.
+
+.. IMPORTANT::
+   This is an alpha version, the data model and design can change at any time without warning.
+   Only for development or testing purpose, do not use in production.
+   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 
