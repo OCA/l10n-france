@@ -12,6 +12,7 @@
     "Akretion, "
     "Nicolas JEUDY, "
     "Odoo Community Association (OCA)",
+    "maintainers": ["legalsylvain"],
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
     "depends": [
