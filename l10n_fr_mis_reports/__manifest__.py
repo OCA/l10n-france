@@ -10,6 +10,7 @@
     "summary": "MIS Report templates for the French P&L and Balance Sheets",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
+    "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["mis_builder", "l10n_fr"],
     "data": [
