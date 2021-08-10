@@ -11,7 +11,6 @@ setuptools.setup(
         'odoo14-addon-account_balance_ebp_csv_export',
         'odoo14-addon-account_banking_fr_lcr',
         'odoo14-addon-account_statement_import_fr_cfonb',
-        'odoo14-addon-l10n_fr_account_invoice_import_facturx',
         'odoo14-addon-l10n_fr_account_tax_unece',
         'odoo14-addon-l10n_fr_business_document_import',
         'odoo14-addon-l10n_fr_cog',
