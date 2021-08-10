@@ -9,6 +9,7 @@
     'category': 'French Localization',
     'author': "Akretion,Odoo Community Association (OCA)",
     'maintainers': ['alexis-via'],
+    'development_status': 'Alpha',
     'website': 'https://github.com/OCA/l10n-france',
     'license': 'AGPL-3',
     'depends': [
