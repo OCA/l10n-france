@@ -7,9 +7,9 @@ L10n FR Chorus
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -28,6 +28,11 @@ L10n FR Chorus
 This is the base module for the support of `Chorus Pro <https://chorus-pro.gouv.fr/>`_, the electronic invoicing plateform of the French administration. Chorus Pro specifications are available on `Chorus Pro Community website <https://communaute-chorus-pro.finances.gouv.fr/>`_. All the suppliers of the French administration must send their invoices through Chorus Pro. To know more about Chorus and the obligation to send electronic invoices to the French administration, read `the dedicated page <https://www.economie.gouv.fr/entreprises/marches-publics-facture-electronique>`_ on the website of the Ministry of Economic Affairs.
 
 To be able to generate an electronic invoice for Chorus, you need the module *l10n_fr_chorus_factur-x* or *l10n_fr_chorus_ubl*.
+
+.. IMPORTANT::
+   This is an alpha version, the data model and design can change at any time without warning.
+   Only for development or testing purpose, do not use in production.
+   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 
