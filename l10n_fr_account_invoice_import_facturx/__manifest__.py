@@ -10,6 +10,7 @@
     "summary": "France-specific module to import Factur-X invoices",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
+    "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-france",
     "depends": [
         "account_invoice_import_facturx",
