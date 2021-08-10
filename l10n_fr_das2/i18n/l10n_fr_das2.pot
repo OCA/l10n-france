@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:242
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:243
 #, python-format
 msgid "<p>The following partners are not configured for DAS2 but they have expenses in some accounts that indicate that maybe they should be configured for DAS2:</p><ul>"
 msgstr ""
@@ -30,7 +30,7 @@ msgid "A DAS2 already exists for that year!"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:496
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:497
 #, python-format
 msgid "A special character in the DAS2 file is not in the latin1 table. Please locate this special character and replace it by a standard character and try again."
 msgstr ""
@@ -51,7 +51,7 @@ msgid "Allocation forfaitaire"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:488
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:489
 #, python-format
 msgid "An export file already exists. First, delete it via the attachments and then re-generate it."
 msgstr ""
@@ -173,13 +173,14 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_fr_das2.l10n_fr_das2_menu
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_tree
+#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
 msgid "DAS2"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:513
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:514
 #, python-format
 msgid "DAS2 Export File"
 msgstr ""
@@ -219,7 +220,7 @@ msgid "DAS2 Type"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:510
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:511
 #, python-format
 msgid "DAS2 file generated."
 msgstr ""
@@ -267,13 +268,13 @@ msgid "Droits d'inventeur"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:265
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:266
 #, python-format
 msgid "Failed to convert field '%s' (partner %s) to integer."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:270
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:271
 #, python-format
 msgid "Field %s (partner %s) has value %s: it is bigger than the maximum size (%d characters)"
 msgstr ""
@@ -339,11 +340,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_amount
 #: selection:res.partner,fr_das2_type:0
 msgid "Indemnités et remboursements"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
-msgid "Intrastat"
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -421,43 +417,43 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:471
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:472
 #, python-format
 msgid "Missing APE on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:307
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:308
 #, python-format
 msgid "Missing Code Officiel Géographique on country '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:375
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:376
 #, python-format
 msgid "Missing SIRET for french partner %s."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:468
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:469
 #, python-format
 msgid "Missing SIRET on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:474
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:475
 #, python-format
 msgid "Missing Street on company '%s'"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:478
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:479
 #, python-format
 msgid "Missing administrative contact."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:303
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:304
 #, python-format
 msgid "Missing city on partner '%s'."
 msgstr ""
@@ -508,7 +504,7 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:455
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:456
 #, python-format
 msgid "One of the lines has a length of %d. All lines should have a length of 672. Line: %s."
 msgstr ""
@@ -561,13 +557,13 @@ msgid "SIRET"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:695
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:696
 #, python-format
 msgid "SIRET %s is invalid: it must have 14 digits."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:699
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:700
 #, python-format
 msgid "SIRET %s is invalid: the checksum is wrong."
 msgstr ""
@@ -604,7 +600,7 @@ msgid "Sur frais réels"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:466
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:467
 #, python-format
 msgid "The DAS2 has no lines."
 msgstr ""
@@ -621,19 +617,19 @@ msgid "The DAS2 partner declaration threshold must be positive!"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:480
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:481
 #, python-format
 msgid "The email is not set on the administrative contact partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:279
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:280
 #, python-format
 msgid "The field '%s' (partner %s) is empty or 0. It should have a non-null value."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:484
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:485
 #, python-format
 msgid "The phone number is not set on the administrative contact partner '%s'."
 msgstr ""
