@@ -10,6 +10,7 @@
     "summary": "DEB (Déclaration d'Échange de Biens) for France",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
+    "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-france",
     "depends": [
         "l10n_fr",
