@@ -7,9 +7,9 @@ DAS2
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -28,6 +28,11 @@ DAS2
 This module adds support for `DAS2 <https://www.impots.gouv.fr/portail/formulaire/das2/etat-des-honoraires-vacations-commissions-courtages-ristournes-et-jetons>_`, which is an annual fiscal declaration also called *Déclaration d'honoraires*. It will allow you to auto-generate the lines of DAS2 from the accounting entries, check the result, manually update lines if needed and eventually generate a declaration file. This declaration file can be uploaded on the dedicated website `https://teletd.impots.gouv.fr/teletd/connexionEFI.do <https://teletd.impots.gouv.fr/teletd/connexionEFI.do>`_; that way, you won't have to manually type the declaration.
 
 The specifications of the file are available on `this page <https://www.impots.gouv.fr/portail/les-cahiers-des-charges-tdbilateral>`_ (select *Salaires, honoraires et actionnariat salarié*).
+
+.. IMPORTANT::
+   This is an alpha version, the data model and design can change at any time without warning.
+   Only for development or testing purpose, do not use in production.
+   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 
