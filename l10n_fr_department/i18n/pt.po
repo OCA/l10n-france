@@ -52,7 +52,6 @@ msgstr "Criado em"
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__department_id
-#: model:ir.model.fields,field_description:l10n_fr_department.field_res_users__department_id
 #: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
 msgstr ""
@@ -84,12 +83,9 @@ msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__display_name
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state__display_name
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
-
-#. module: l10n_fr_department
-#: model_terms:ir.actions.act_window,help:l10n_fr_department.action_view_country_department_tree
-msgid "Display and manage the list of all departments."
 msgstr ""
 
 #. module: l10n_fr_department
@@ -99,11 +95,15 @@ msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state__id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department____last_update
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state____last_update
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -139,6 +139,6 @@ msgid "The department code (ISO 3166-2 codification)"
 msgstr ""
 
 #. module: l10n_fr_department
-#: sql_constraint:res.country.department:0
+#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_uniq
 msgid "You cannot have two departments with the same code!"
 msgstr ""
