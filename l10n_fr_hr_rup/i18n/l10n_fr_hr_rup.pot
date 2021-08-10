@@ -1,0 +1,312 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_hr_rup
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.style_rup
+msgid ""
+".pure-table {\n"
+"            /* Remove spacing between table cells (from Normalize.css) */\n"
+"            border-collapse: collapse;\n"
+"            border-spacing: 0;\n"
+"            empty-cells: show;\n"
+"            border: 1px solid #cbcbcb;\n"
+"            }\n"
+"\n"
+"            .pure-table caption {\n"
+"            color: #000;\n"
+"            font: italic 85%/1 arial, sans-serif;\n"
+"            padding: 1em 0;\n"
+"            text-align: center;\n"
+"            }\n"
+"\n"
+"            .pure-table td,\n"
+"            .pure-table th {\n"
+"            border-left: 1px solid #cbcbcb;/* inner column border */\n"
+"            border-width: 0 0 0 1px;\n"
+"            font-size: 8px;\n"
+"            margin: 0;\n"
+"            overflow: visible; /*to make ths where the title is really long work*/\n"
+"            padding: 0.5em 1em; /* cell padding */\n"
+"            }\n"
+"\n"
+"            .pure-table thead {\n"
+"            background-color: #e0e0e0;\n"
+"            color: #000;\n"
+"            text-align: center;\n"
+"            vertical-align: middle;\n"
+"            }\n"
+"\n"
+"            /*\n"
+"            striping:\n"
+"            even - #fff (white)\n"
+"            odd - #f2f2f2 (light gray)\n"
+"            */\n"
+"            .pure-table td {\n"
+"            background-color: transparent;\n"
+"            }\n"
+"            .pure-table-odd td {\n"
+"            background-color: #f2f2f2;\n"
+"            }\n"
+"\n"
+"            /* nth-child selector for modern browsers */\n"
+"            .pure-table-striped tr:nth-child(2n-1) td {\n"
+"            background-color: #f2f2f2;\n"
+"            }\n"
+"\n"
+"            /* BORDERED TABLES */\n"
+"            .pure-table-bordered td {\n"
+"            border-bottom: 1px solid #cbcbcb;\n"
+"            }\n"
+"            .pure-table-bordered tbody &gt; tr:last-child &gt; td {\n"
+"            border-bottom-width: 0;\n"
+"            }\n"
+"\n"
+"\n"
+"            /* HORIZONTAL BORDERED TABLES */\n"
+"\n"
+"            .pure-table-horizontal td,\n"
+"            .pure-table-horizontal th {\n"
+"            border-width: 0 0 1px 0;\n"
+"            border-bottom: 1px solid #cbcbcb;\n"
+"            }\n"
+"            .pure-table-horizontal tbody &gt; tr:last-child &gt; td {\n"
+"            border-bottom-width: 0;\n"
+"            }"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_contract__employer_address_id
+msgid "Addresse de l'employeur"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Addresse de travail"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Addresse personelle"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Autorité qui a délivré ce document"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model,name:l10n_fr_hr_rup.model_hr_contract
+msgid "Contract"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee_pcs__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee_pcs__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Date de délivrance du document"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid ""
+"Date de l'autorisation administrative d'embauche ou de\n"
+"                        licenciement"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Date de naissance"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Dates"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_contract__display_name
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee_pcs__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Durée de validité du document"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Emploi"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model,name:l10n_fr_hr_rup.model_hr_employee
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Entrée"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Evènements postérieurs à l'embauche"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model,name:l10n_fr_hr_rup.model_hr_employee_pcs
+msgid "Hr Employee PCS"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_contract__id
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee__id
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee_pcs__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_contract____last_update
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee____last_update
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee_pcs____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee_pcs__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee_pcs__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.hr_contract_view_search
+msgid "Localisation du Bureau"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_contract__work_location
+msgid "Localisation du bureau"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Nationalité"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee_pcs__name
+msgid "Nom"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Nom et prénom"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid ""
+"Noms et addresses des entrepreneurs de travail temporaire ou\n"
+"                        groupements\n"
+"                        d'employeurs"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "N° d'ordre du document"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "N° de ligne"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "N° de sécurité sociale"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_contract__pcs_id
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee__pcs_id
+#: model:ir.ui.menu,name:l10n_fr_hr_rup.menu_pcs
+msgid "PCS"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Profession et catégorie socioprofessionelle"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.actions.act_window,name:l10n_fr_hr_rup.action_pcs
+msgid "Professions et catégories socioprofessionelles"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_contract__qualification
+#: model:ir.model.fields,field_description:l10n_fr_hr_rup.field_hr_employee__qualification
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Qualification"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.report_l10n_fr_rup
+msgid "REGISTRE UNIQUE DU PERSONNEL"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model:ir.actions.report,name:l10n_fr_hr_rup.action_report_l10n_fr_rup
+msgid "Rapport RUP"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Renseignements fournis par le titre du travailleur"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Sexe"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Sortie"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Type du contrat"
+msgstr ""
+
+#. module: l10n_fr_hr_rup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_hr_rup.rup_table_header
+msgid "Type du document"
+msgstr ""
