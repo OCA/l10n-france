@@ -9,10 +9,10 @@
     "license": "AGPL-3",
     "summary": "Adapt the module base_business_document_import for France",
     "author": "Akretion,Odoo Community Association (OCA)",
-    "development_status": "Alpha",
+    "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["l10n_fr_siret", "base_business_document_import"],
-    "external_dependencies": {"python": ["python-stdnum"]},
+    "external_dependencies": {"python": ["stdnum"]},
     "installable": True,
     "auto_install": True,
 }
