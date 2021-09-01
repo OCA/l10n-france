@@ -10,7 +10,6 @@
     "license": "AGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
-    "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-france",
     "category": "French localisation",
     "depends": ["account_payment_order"],
