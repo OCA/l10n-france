@@ -27,7 +27,7 @@ addon | version | maintainers | summary
 [l10n_fr_business_document_import](l10n_fr_business_document_import/) | 14.0.1.0.1 |  | Adapt the module base_business_document_import for France
 [l10n_fr_cog](l10n_fr_cog/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Add Code Officiel Géographique (COG) on countries
 [l10n_fr_das2](l10n_fr_das2/) | 14.0.1.0.1 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | DAS2 (France)
-[l10n_fr_department](l10n_fr_department/) | 14.0.1.0.0 |  | Populate Database with French Departments (Départements)
+[l10n_fr_department](l10n_fr_department/) | 14.0.1.0.0 | [![legalsylvain](https://github.com/legalsylvain.png?size=30px)](https://github.com/legalsylvain) | Populate Database with French Departments (Départements)
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 14.0.1.0.0 |  | Populate Database with overseas French Departments (Départements d'outre-mer)
 [l10n_fr_fec_oca](l10n_fr_fec_oca/) | 14.0.1.0.1 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Fichier d'Échange Informatisé (FEC) for France
 [l10n_fr_hr_check_ssnid](l10n_fr_hr_check_ssnid/) | 14.0.1.0.0 |  | Check validity of Social Security Numbers in French companies
@@ -36,7 +36,7 @@ addon | version | maintainers | summary
 [l10n_fr_intrastat_service](l10n_fr_intrastat_service/) | 14.0.1.0.1 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Module for Intrastat service reporting (DES) for France
 [l10n_fr_mis_reports](l10n_fr_mis_reports/) | 14.0.1.0.1 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | MIS Report templates for the French P&L and Balance Sheets
 [l10n_fr_siret](l10n_fr_siret/) | 14.0.1.0.0 |  | French company identity numbers SIRET/SIREN/NIC
-[l10n_fr_state](l10n_fr_state/) | 14.0.1.0.0 |  | Populate Database with French States (Régions)
+[l10n_fr_state](l10n_fr_state/) | 14.0.1.0.0 | [![legalsylvain](https://github.com/legalsylvain.png?size=30px)](https://github.com/legalsylvain) | Populate Database with French States (Régions)
 
 [//]: # (end addons)
 
