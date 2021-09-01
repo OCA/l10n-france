@@ -9,6 +9,7 @@
     "license": "AGPL-3",
     "summary": "Check validity of Social Security Numbers in French companies",
     "author": "Akretion,Odoo Community Association (OCA)",
+    "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["hr"],
     "external_dependencies": {"python": ["stdnum"]},

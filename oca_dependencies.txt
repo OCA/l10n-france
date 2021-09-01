@@ -1,1 +1,11 @@
 # See https://github.com/OCA/odoo-community.org/blob/master/website/Contribution/CONTRIBUTING.rst#oca_dependencies-txt
+server-ux
+bank-statement-import
+bank-payment
+community-data-files
+edi
+account-invoicing
+intrastat
+mis-builder
+account-financial-reporting
+reporting-engine

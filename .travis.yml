@@ -27,7 +27,6 @@ jobs:
 env:
   global:
     - VERSION="14.0" TESTS="0" LINT_CHECK="0" MAKEPOT="0"
-    - EXCLUDE=l10n_fr_account_invoice_import_facturx,l10n_fr_business_document_import,l10n_fr_intrastat_product,l10n_fr_intrastat_service,account_balance_ebp_csv_export,account_banking_fr_lcr,account_statement_import_fr_cfonb,l10n_fr_account_tax_unece,l10n_fr_fec_oca,l10n_fr_mis_reports
 
 install:
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git
