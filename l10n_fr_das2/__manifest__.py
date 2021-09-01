@@ -10,14 +10,13 @@
     "summary": "DAS2 (France)",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
-    "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-france",
     "depends": [
         "l10n_fr_siret",
         "l10n_fr_cog",
     ],
     "external_dependencies": {
-        "python": ["unidecode", "python-stdnum"],
+        "python": ["unidecode", "stdnum"],
     },
     "data": [
         "security/das2_security.xml",
