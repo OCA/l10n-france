@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.addons.account_payment_unece.tests.test_account_invoice import \
+from odoo.addons.account_tax_unece.tests.test_account_invoice import \
     TestAccountInvoice
 
 
