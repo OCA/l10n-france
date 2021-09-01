@@ -6,7 +6,7 @@
 {
     "name": "French Departments (Départements)",
     "summary": "Populate Database with French Departments (Départements)",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "category": "French Localization",
     "author": "GRAP, "
     "Akretion, "
