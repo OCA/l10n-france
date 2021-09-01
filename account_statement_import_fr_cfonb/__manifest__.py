@@ -8,7 +8,6 @@
     "license": "AGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
-    "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-france",
     "summary": "Import CFONB bank statements files in Odoo",
     "depends": ["account_statement_import"],
