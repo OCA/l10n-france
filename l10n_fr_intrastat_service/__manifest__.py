@@ -10,7 +10,6 @@
     "summary": "Module for Intrastat service reporting (DES) for France",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
-    "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["intrastat_base", "report_xlsx_helper"],
     "external_dependencies": {"python": ["stdnum"]},

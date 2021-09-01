@@ -16,9 +16,28 @@ class TestFrIntrastatService(TransactionCase):
     def setUp(self):
         super(TestFrIntrastatService, self).setUp()
         # Set company country to France
-        self.company = self.env.ref("base.main_company")
-        self.company.country_id = self.env.ref("base.fr")
-        self.company.currency_id = self.env.ref("base.EUR")
+        # Using base.main_company is more difficult now because
+        # its currency is USD
+        # So I decided to create another company from scratch
+        self.company = self.env["res.company"].create(
+            {
+                "name": "Akretion France",
+                "street": "27 rue Henri Rolland",
+                "zip": "69100",
+                "city": "Villeurbanne",
+                "country_id": self.env.ref("base.fr").id,
+                "vat": "FR86792377731",
+            }
+        )
+        self.env.company.chart_template_id.try_loading(company=self.company)
+        self.env.user.write({"company_ids": [(4, self.company.id)]})
+        self.env.user.write({"company_id": self.company.id})
+        self.fp_eu_b2b = self.env["account.fiscal.position"].create(
+            {
+                "name": "EU B2B",
+                "intrastat": True,
+            }
+        )
         self.move_model = self.env["account.move"]
         self.move_line_model = self.env["account.move.line"]
         self.account_account_model = self.env["account.account"]
@@ -26,21 +45,29 @@ class TestFrIntrastatService(TransactionCase):
             {
                 "name": "Engineering services",
                 "type": "service",
-                "sale_ok": True,
+                "company_id": self.company.id,
             }
         )
+        self.hw_product = self.env["product.product"].create(
+            {
+                "name": "Hardware product",
+                "type": "consu",
+                "company_id": self.company.id,
+            }
+        )
+
         self.belgian_partner = self.env["res.partner"].create(
             {
                 "name": "Odoo SA",
                 "is_company": True,
                 "vat": "BE0477472701",
                 "country_id": self.env.ref("base.be").id,
+                "company_id": False,
             }
         )
         self.account_receivable = self.account_account_model.search(
             [("code", "=", "411100"), ("company_id", "=", self.company.id)], limit=1
         )
-
         if not self.account_receivable:
             self.account_receivable = self.account_account_model.create(
                 {
@@ -51,6 +78,7 @@ class TestFrIntrastatService(TransactionCase):
                     "company_id": self.company.id,
                 }
             )
+        assert self.account_receivable
         self.account_revenue = self.account_account_model.search(
             [("code", "=", "706000"), ("company_id", "=", self.company.id)], limit=1
         )
@@ -70,6 +98,7 @@ class TestFrIntrastatService(TransactionCase):
             {
                 "company_id": self.company.id,
                 "partner_id": self.belgian_partner.id,
+                "fiscal_position_id": self.fp_eu_b2b.id,
                 "currency_id": self.env.ref("base.EUR").id,
                 "move_type": "out_invoice",
                 "invoice_date": date,
@@ -90,7 +119,7 @@ class TestFrIntrastatService(TransactionCase):
                         0,
                         {
                             # product
-                            "product_id": self.env.ref("product.product_product_25").id,
+                            "product_id": self.hw_product.id,
                             "quantity": 1,
                             "price_unit": 1950,
                             "name": "Laptop",
@@ -106,6 +135,7 @@ class TestFrIntrastatService(TransactionCase):
             {
                 "company_id": self.company.id,
                 "partner_id": self.belgian_partner.id,
+                "fiscal_position_id": self.fp_eu_b2b.id,
                 "currency_id": self.env.ref("base.EUR").id,
                 "move_type": "out_invoice",
                 "invoice_date": date,
@@ -142,6 +172,7 @@ class TestFrIntrastatService(TransactionCase):
             {
                 "company_id": self.company.id,
                 "partner_id": self.belgian_partner.id,
+                "fiscal_position_id": self.fp_eu_b2b.id,
                 "currency_id": self.env.ref("base.EUR").id,
                 "move_type": "out_refund",
                 "invoice_date": date,
