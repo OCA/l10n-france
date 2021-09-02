@@ -18,17 +18,60 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#. module: l10n_fr_chorus_factur-x
-#: model:ir.model,name:l10n_fr_chorus_factur-x.model_chorus_flow
+#. module: l10n_fr_chorus_facturx
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "CII 16B XML"
+msgstr ""
+
+#. module: l10n_fr_chorus_facturx
+#: model:ir.model,name:l10n_fr_chorus_facturx.model_chorus_flow
 msgid "Chorus Flow"
 msgstr ""
 
-#. module: l10n_fr_chorus_factur-x
-#: model:ir.model,name:l10n_fr_chorus_factur-x.model_res_company
+#. module: l10n_fr_chorus_facturx
+#: model:ir.model.fields,field_description:l10n_fr_chorus_facturx.field_res_company__fr_chorus_invoice_format
+msgid "Chorus Invoice Format"
+msgstr ""
+
+#. module: l10n_fr_chorus_facturx
+#: model:ir.model,name:l10n_fr_chorus_facturx.model_res_company
 msgid "Companies"
 msgstr "Sociétés"
 
-#. module: l10n_fr_chorus_factur-x
-#: model:ir.model,name:l10n_fr_chorus_factur-x.model_account_invoice
+#. module: l10n_fr_chorus_facturx
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "Factur-X PDF"
+msgstr ""
+
+#. module: l10n_fr_chorus_facturx
+#: model:ir.model.fields,field_description:l10n_fr_chorus_facturx.field_chorus_flow__syntax
+msgid "Flow Syntax"
+msgstr ""
+
+#. module: l10n_fr_chorus_facturx
+#: code:addons/l10n_fr_chorus_facturx/models/company.py:22
+#, python-format
+msgid ""
+"For company '%s', if you select 'Factur-X' as 'Chorus Invoice Format', then "
+"you should also select 'Factur-X' as 'Format' in the section 'Electronic "
+"Invoices'."
+msgstr ""
+
+#. module: l10n_fr_chorus_facturx
+#: model:ir.model,name:l10n_fr_chorus_facturx.model_account_invoice
 msgid "Invoice"
+msgstr ""
+
+#. module: l10n_fr_chorus_facturx
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "UBL XML"
+msgstr ""
+
+#. module: l10n_fr_chorus_facturx
+#: code:addons/l10n_fr_chorus_facturx/models/account_invoice.py:38
+#, python-format
+msgid "Unsupported report type %s found."
 msgstr ""
