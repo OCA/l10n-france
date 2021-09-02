@@ -7,9 +7,9 @@ L10n FR Business Document Import
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Alpha
+    :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -30,11 +30,6 @@ This small module adds support for partner matching based on SIRET or SIREN when
 * *account_invoice_import* which imports supplier invoices as PDF or XML files (this module also requires some additionnal modules such as *account_invoice_import_invoice2data*, *account_invoice_import_ubl*, etc... to support specific invoice formats),
 
 * *sale_invoice_import* which imports sale orders as CSV, XML or PDF files (this module also requires some additionnal modules such as *sale_invoice_import_csv* or *sale_invoice_import_ubl* to support specific order formats)
-
-.. IMPORTANT::
-   This is an alpha version, the data model and design can change at any time without warning.
-   Only for development or testing purpose, do not use in production.
-   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 
@@ -76,6 +71,14 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-alexis-via| image:: https://github.com/alexis-via.png?size=40px
+    :target: https://github.com/alexis-via
+    :alt: alexis-via
+
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-alexis-via| 
 
 This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/12.0/l10n_fr_business_document_import>`_ project on GitHub.
 
