@@ -42,8 +42,8 @@ msgstr ""
 "identifiant utilisateur technique et un mot de passe. Le mot de passe de "
 "l'utilisateur technique a une date d'expiration. Le mot de passe de "
 "l'utilisateur technique expire le ${format_date(object."
-"fr_chorus_pwd_expiry_date)} (dans <em>${ctx.get('pwd_days')}</em> jours).</p>"
-"\n"
+"fr_chorus_pwd_expiry_date)} (dans <em>${ctx.get('pwd_days')}</em> jours).</"
+"p>\n"
 "\n"
 "<p>Pour continuer à accéder à l'API Chorus Pro sans problème, vous devez "
 "vous connecter à Chorus Pro, générer un nouveau mot de passe pour "
@@ -70,6 +70,12 @@ msgstr "Toutes les factures choisies doivent être de la même société"
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Archived"
 msgstr "Archivé"
+
+#. module: l10n_fr_chorus_account
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "CII 16B XML"
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
@@ -378,6 +384,12 @@ msgid "Error in the request to get a new token via PISTE. HTTP error code: %s."
 msgstr ""
 "Erreur dans la demande d'obtention d'un nouveau token via PISTE. Code "
 "d'erreur HTTP : %s."
+
+#. module: l10n_fr_chorus_account
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "Factur-X PDF"
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__attachment_id
@@ -844,7 +856,8 @@ msgstr ""
 #: code:addons/l10n_fr_chorus_account/models/chorus_flow.py:163
 #, python-format
 msgid "The Chorus Invoice Identifiers are already set for flow %s"
-msgstr "Les identificateurs de facture Chorus sont déjà définis pour le flux %s"
+msgstr ""
+"Les identificateurs de facture Chorus sont déjà définis pour le flux %s"
 
 #. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/models/partner.py:63
@@ -907,6 +920,12 @@ msgid ""
 msgstr ""
 "Cet assistant enverra des factures électroniques à Chorus Pro via l'API "
 "Chorus."
+
+#. module: l10n_fr_chorus_account
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "UBL XML"
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/models/account_invoice.py:44
