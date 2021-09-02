@@ -19,13 +19,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:42
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid "Cannot convert the field '%s' to ASCII"
 msgstr "Impossible de convertir le champ '%s' en ASCII"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:56
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
 "For the bank account '%s' of partner '%s', the Bank Account Type should be "
@@ -33,6 +39,12 @@ msgid ""
 msgstr ""
 "Pour le compte bancaire '%s' du partenaire '%s', le type de compte bancaire "
 "devrait être 'IBAN'."
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line__id
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__id
+msgid "ID"
+msgstr ""
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_account_move_line
@@ -45,7 +57,7 @@ msgid "LCR"
 msgstr "LCR"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:62
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
 "LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not "
@@ -53,6 +65,12 @@ msgid ""
 msgstr ""
 "Les LCR ne fonctionnent qu'avec des comptes bancaires français. L'IBAN '%s' "
 "du partenaire '%s' n'est pas un IBAN français."
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order____last_update
+msgid "Last Modified on"
+msgstr ""
 
 #. module: account_banking_fr_lcr
 #: model:account.payment.method,name:account_banking_fr_lcr.fr_lcr
@@ -65,7 +83,7 @@ msgid "Payment Order"
 msgstr "Ordre de paiement"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:207
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
 "The currency of payment line '%s' is '%s'. To be included in a French LCR, "
@@ -75,7 +93,7 @@ msgstr ""
 "une LCR, la monnaie doit être EUR."
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:28
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid "The field '%s' is empty or 0. It should have a non-null value."
 msgstr ""
