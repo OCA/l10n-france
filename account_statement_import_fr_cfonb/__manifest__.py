@@ -4,7 +4,7 @@
 
 {
     "name": "Import French CFONB Bank Statements",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "license": "AGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
