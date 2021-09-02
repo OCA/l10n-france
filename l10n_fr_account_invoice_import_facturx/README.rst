@@ -7,9 +7,9 @@ Factur-X Invoices Import for France
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Alpha
+    :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -30,11 +30,6 @@ This module implements the France-specific part of the Factur-X standard to impo
 Factur-X is the e-invoicing standard for France and Germany. The Factur-X specifications are available on the website of `FNFE-MPE <http://fnfe-mpe.org/factur-x/>`_.
 
 This module will be installed automatically when the modules *account_invoice_import_facturx* and *l10n_fr_siret* are installed.
-
-.. IMPORTANT::
-   This is an alpha version, the data model and design can change at any time without warning.
-   Only for development or testing purpose, do not use in production.
-   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 
