@@ -276,127 +276,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         line = 0
         for pline in self.declaration_line_ids:
             line += 1  # increment line number
-            # print "line =", line
-            assert pline.transaction_id, "Missing Intrastat Type"
-            transaction = pline.transaction_id
-            item = etree.SubElement(declaration, "Item")
-            item_number = etree.SubElement(item, "itemNumber")
-            item_number.text = str(line)
-            # START of elements which are only required in "detailed" level
-            if self.reporting_level == "extended" and not transaction.fr_is_fiscal_only:
-                cn8 = etree.SubElement(item, "CN8")
-                cn8_code = etree.SubElement(cn8, "CN8Code")
-                if not pline.hs_code_id:
-                    raise UserError(_("Missing H.S. code on line %d.") % line)
-                # local_code is required=True, so no need to check it
-                cn8_code.text = pline.hs_code_id.local_code
-                # We fill SUCode only if the H.S. code requires it
-                iunit_id = pline.intrastat_unit_id
-                if iunit_id:
-                    su_code = etree.SubElement(cn8, "SUCode")
-                    su_code.text = iunit_id.fr_xml_label or iunit_id.name
-
-                src_dest_country = etree.SubElement(item, "MSConsDestCode")
-                if not pline.src_dest_country_id:
-                    raise UserError(
-                        _("Missing Country of Origin/Destination on line %d.") % line
-                    )
-                src_dest_country_code = pline.src_dest_country_id.code
-                if (
-                    pline.src_dest_country_id not in eu_countries
-                    and src_dest_country_code != "GB"
-                ):
-                    raise UserError(
-                        _(
-                            "On line %d, the source/destination country is '%s', "
-                            "which is not part of the European Union."
-                        )
-                        % (line, pline.src_dest_country_id.name)
-                    )
-                if src_dest_country_code == "GB" and self.year >= "2021":
-                    # all warnings are done during generation
-                    src_dest_country_code = "XI"
-                src_dest_country.text = src_dest_country_code
-
-                if self.declaration_type == "arrivals":
-                    country_origin = etree.SubElement(item, "countryOfOriginCode")
-                    if not pline.product_origin_country_id:
-                        raise UserError(
-                            _("Missing product country of origin on line %d.") % line
-                        )
-                    country_origin = pline.product_origin_country_id.code
-                    # BOD dated 5/1/2021 says:
-                    # Si, pour une marchandise produite au Royaume-Uni,
-                    # le déclarant ignore si le lieu de production de la
-                    # marchandise est situé en Irlande du Nord ou dans le
-                    # reste du Royaume-Uni, il utilise également le code XU.
-                    # => we always use XU
-                    if country_origin == "GB" and self.year >= "2021":
-                        country_origin = "XU"
-                    country_origin.text = country_origin
-
-                weight = etree.SubElement(item, "netMass")
-                if not pline.weight:
-                    raise UserError(_("Missing weight on line %d.") % line)
-                weight.text = str(pline.weight)
-
-                if iunit_id:
-                    quantity_in_SU = etree.SubElement(item, "quantityInSU")
-                    if not pline.suppl_unit_qty:
-                        raise UserError(_("Missing quantity on line %d.") % line)
-                    quantity_in_SU.text = str(pline.suppl_unit_qty)
-
-            # START of elements that are part of all DEBs
-            invoiced_amount = etree.SubElement(item, "invoicedAmount")
-            if not pline.amount_company_currency:
-                raise UserError(_("Missing fiscal value on line %d.") % line)
-            invoiced_amount.text = str(pline.amount_company_currency)
-            # Partner VAT is only declared for export when code régime != 29
-            if self.declaration_type == "dispatches" and transaction.fr_is_vat_required:
-                partner_vat = etree.SubElement(item, "partnerId")
-                if not pline.vat:
-                    raise UserError(_("Missing VAT number on line %d.") % line)
-                if pline.vat.startswith("GB") and self.year >= "2021":
-                    raise UserError(
-                        _(
-                            "Bad VAT number '%s' on line %d. Brexit took place "
-                            "on January 1st 2021 and companies in Northern Ireland "
-                            "have a new VAT number starting with 'XI'."
-                        )
-                        % (pline.vat, line)
-                    )
-                partner_vat.text = pline.vat.replace(" ", "")
-            # Code régime is on all DEBs
-            statistical_procedure_code = etree.SubElement(
-                item, "statisticalProcedureCode"
-            )
-            statistical_procedure_code.text = transaction.code
-
-            # START of elements which are only required in "detailed" level
-            if self.reporting_level == "extended" and not transaction.fr_is_fiscal_only:
-                transaction_nature = etree.SubElement(item, "NatureOfTransaction")
-                transaction_nature_a = etree.SubElement(
-                    transaction_nature, "natureOfTransactionACode"
-                )
-                transaction_nature_a.text = transaction.fr_transaction_code[0]
-                transaction_nature_b = etree.SubElement(
-                    transaction_nature, "natureOfTransactionBCode"
-                )
-                if len(transaction.fr_transaction_code) != 2:
-                    raise UserError(
-                        _("Transaction code on line %d should have 2 digits.") % line
-                    )
-                transaction_nature_b.text = transaction.fr_transaction_code[1]
-                mode_of_transport_code = etree.SubElement(item, "modeOfTransportCode")
-                if not pline.transport_id:
-                    raise UserError(
-                        _("Mode of transport is not set on line %d.") % line
-                    )
-                mode_of_transport_code.text = str(pline.transport_id.code)
-                region_code = etree.SubElement(item, "regionCode")
-                if not pline.fr_department_id:
-                    raise UserError(_("Department is not set on line %d.") % line)
-                region_code.text = pline.fr_department_id.code
+            pline._generate_xml_line(declaration, eu_countries, line)
 
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
@@ -559,3 +439,126 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
         for line in self:
             sign = line.transaction_id.fr_fiscal_value_multiplier or 1
             line.amount_company_currency_sign = sign * line.amount_company_currency
+
+    # flake8: noqa: C901
+    def _generate_xml_line(self, parent_node, eu_countries, line_number):
+        self.ensure_one()
+        decl = self.parent_id
+        assert self.transaction_id, "Missing Intrastat Type"
+        transaction = self.transaction_id
+        item = etree.SubElement(parent_node, "Item")
+        item_number = etree.SubElement(item, "itemNumber")
+        item_number.text = str(line_number)
+        # START of elements which are only required in "detailed" level
+        if decl.reporting_level == "extended" and not transaction.fr_is_fiscal_only:
+            cn8 = etree.SubElement(item, "CN8")
+            cn8_code = etree.SubElement(cn8, "CN8Code")
+            if not self.hs_code_id:
+                raise UserError(_("Missing H.S. code on line %d.") % line_number)
+            # local_code is required=True, so no need to check it
+            cn8_code.text = self.hs_code_id.local_code
+            # We fill SUCode only if the H.S. code requires it
+            iunit_id = self.intrastat_unit_id
+            if iunit_id:
+                su_code = etree.SubElement(cn8, "SUCode")
+                su_code.text = iunit_id.fr_xml_label or iunit_id.name
+
+            src_dest_country = etree.SubElement(item, "MSConsDestCode")
+            if not self.src_dest_country_id:
+                raise UserError(
+                    _("Missing Country of Origin/Destination on line %d.") % line_number
+                )
+            src_dest_country_code = self.src_dest_country_id.code
+            if (
+                self.src_dest_country_id not in eu_countries
+                and src_dest_country_code != "GB"
+            ):
+                raise UserError(
+                    _(
+                        "On line %d, the source/destination country is '%s', "
+                        "which is not part of the European Union."
+                    )
+                    % (line_number, self.src_dest_country_id.name)
+                )
+            if src_dest_country_code == "GB" and decl.year >= "2021":
+                # all warnings are done during generation
+                src_dest_country_code = "XI"
+            src_dest_country.text = src_dest_country_code
+
+            if decl.declaration_type == "arrivals":
+                country_origin = etree.SubElement(item, "countryOfOriginCode")
+                if not self.product_origin_country_id:
+                    raise UserError(
+                        _("Missing product country of origin on line %d.") % line_number
+                    )
+                country_origin = self.product_origin_country_id.code
+                # BOD dated 5/1/2021 says:
+                # Si, pour une marchandise produite au Royaume-Uni,
+                # le déclarant ignore si le lieu de production de la
+                # marchandise est situé en Irlande du Nord ou dans le
+                # reste du Royaume-Uni, il utilise également le code XU.
+                # => we always use XU
+                if country_origin == "GB" and decl.year >= "2021":
+                    country_origin = "XU"
+                country_origin.text = country_origin
+
+            weight = etree.SubElement(item, "netMass")
+            if not self.weight:
+                raise UserError(_("Missing weight on line %d.") % line_number)
+            weight.text = str(self.weight)
+
+            if iunit_id:
+                quantity_in_SU = etree.SubElement(item, "quantityInSU")
+                if not self.suppl_unit_qty:
+                    raise UserError(_("Missing quantity on line %d.") % line_number)
+                quantity_in_SU.text = str(self.suppl_unit_qty)
+
+        # START of elements that are part of all DEBs
+        invoiced_amount = etree.SubElement(item, "invoicedAmount")
+        if not self.amount_company_currency:
+            raise UserError(_("Missing fiscal value on line %d.") % line_number)
+        invoiced_amount.text = str(self.amount_company_currency)
+        # Partner VAT is only declared for export when code régime != 29
+        if decl.declaration_type == "dispatches" and transaction.fr_is_vat_required:
+            partner_vat = etree.SubElement(item, "partnerId")
+            if not self.vat:
+                raise UserError(_("Missing VAT number on line %d.") % line_number)
+            if self.vat.startswith("GB") and decl.year >= "2021":
+                raise UserError(
+                    _(
+                        "Bad VAT number '%s' on line %d. Brexit took place "
+                        "on January 1st 2021 and companies in Northern Ireland "
+                        "have a new VAT number starting with 'XI'."
+                    )
+                    % (self.vat, line_number)
+                )
+            partner_vat.text = self.vat.replace(" ", "")
+        # Code régime is on all DEBs
+        statistical_procedure_code = etree.SubElement(item, "statisticalProcedureCode")
+        statistical_procedure_code.text = transaction.code
+
+        # START of elements which are only required in "detailed" level
+        if decl.reporting_level == "extended" and not transaction.fr_is_fiscal_only:
+            transaction_nature = etree.SubElement(item, "NatureOfTransaction")
+            transaction_nature_a = etree.SubElement(
+                transaction_nature, "natureOfTransactionACode"
+            )
+            transaction_nature_a.text = transaction.fr_transaction_code[0]
+            transaction_nature_b = etree.SubElement(
+                transaction_nature, "natureOfTransactionBCode"
+            )
+            if len(transaction.fr_transaction_code) != 2:
+                raise UserError(
+                    _("Transaction code on line %d should have 2 digits.") % line_number
+                )
+            transaction_nature_b.text = transaction.fr_transaction_code[1]
+            mode_of_transport_code = etree.SubElement(item, "modeOfTransportCode")
+            if not self.transport_id:
+                raise UserError(
+                    _("Mode of transport is not set on line %d.") % line_number
+                )
+            mode_of_transport_code.text = str(self.transport_id.code)
+            region_code = etree.SubElement(item, "regionCode")
+            if not self.fr_department_id:
+                raise UserError(_("Department is not set on line %d.") % line_number)
+            region_code.text = self.fr_department_id.code
