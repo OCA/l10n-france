@@ -4,7 +4,7 @@
 
 {
     "name": "French Localization - Check Social Security Number",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "category": "Human Resources",
     "license": "AGPL-3",
     "summary": "Check validity of Social Security Numbers in French companies",
