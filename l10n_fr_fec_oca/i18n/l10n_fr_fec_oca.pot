@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_fr_fec_oca
+# 	* l10n_fr_fec_oca
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +54,7 @@ msgid "# 17"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,encoding:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__ascii
 msgid "ASCII"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgid "Accounts"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,partner_option:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__all
 msgid "All"
 msgstr ""
 
@@ -195,12 +195,6 @@ msgid "FEC File Generation by OCA"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:165
-#, python-format
-msgid "FEC is for French companies only !"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
 #: model:ir.model,name:l10n_fr_fec_oca.model_account_fr_fec_oca
 msgid "Ficher Echange Informatise"
 msgstr ""
@@ -226,7 +220,7 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,encoding:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__iso8859_15
 msgid "ISO-8859-15"
 msgstr ""
 
@@ -261,9 +255,9 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:161
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:0
 #, python-format
-msgid "Missing VAT number for company %s"
+msgid "Missing SIRET on company %s."
 msgstr ""
 
 #. module: l10n_fr_fec_oca
@@ -272,12 +266,12 @@ msgid "Montantdevise"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,export_type:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__nonofficial
 msgid "Non-official FEC report (posted and unposted entries)"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,export_type:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__official
 msgid "Official FEC report (posted entries only)"
 msgstr ""
 
@@ -302,12 +296,12 @@ msgid "PieceRef"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,partner_option:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__types
 msgid "Selected Account Types"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,partner_option:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__accounts
 msgid "Selected Accounts"
 msgstr ""
 
@@ -317,7 +311,7 @@ msgid "Start Date"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,delimiter:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__delimiter__tab
 msgid "Tab"
 msgstr ""
 
@@ -332,7 +326,13 @@ msgid "Technical Name"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,encoding:0
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:0
+#, python-format
+msgid "The start date must be before the end date."
+msgstr ""
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__utf-8
 msgid "UTF-8"
 msgstr ""
 
@@ -345,4 +345,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
 msgid "We use partner.ref (w/ fallback on 'ID' + partner.id)"
 msgstr ""
-
