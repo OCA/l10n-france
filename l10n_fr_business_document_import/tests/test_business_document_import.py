@@ -20,7 +20,7 @@ class TestL10nFRBusinessDocumentImport(TransactionCase):
             'supplier': True,
             'is_company': True,
             'siren': '380129866',
-            'nic': '00010',
+            'nic': '00014',
             })
         bdio = self.env['business.document.import']
         partner_dict = {'siren': '380 129 866'}

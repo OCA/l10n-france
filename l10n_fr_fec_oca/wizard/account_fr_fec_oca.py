@@ -3,6 +3,14 @@
 # Copyright 2016-2020 Odoo SA (https://www.odoo.com/fr_FR/)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+# This module is a fork of l10n_fr_fec from official addons
+# (which itself was copied from OCA with my authorisation)
+# The construction of SQL requests don't respect pylint E8103
+# The problem is that fixing this would require large changes in the code
+# which would make this module a deeper fork of l10n_fr_fec
+# and would make it more difficult to compare the 2 modules and port
+# changes/improvements between each other
+# pylint: skip-file
 
 import base64
 import io
