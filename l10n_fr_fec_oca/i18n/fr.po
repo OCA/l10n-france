@@ -58,7 +58,7 @@ msgid "# 17"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,encoding:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__ascii
 msgid "ASCII"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgid "Accounts"
 msgstr "Comptes"
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,partner_option:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__all
 msgid "All"
 msgstr "Tout"
 
@@ -199,12 +199,6 @@ msgid "FEC File Generation by OCA"
 msgstr "Génération Fichier FEC (OCA)"
 
 #. module: l10n_fr_fec_oca
-#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:165
-#, python-format
-msgid "FEC is for French companies only !"
-msgstr "Le FEC est uniquement pour les sociétés françaises !"
-
-#. module: l10n_fr_fec_oca
 #: model:ir.model,name:l10n_fr_fec_oca.model_account_fr_fec_oca
 msgid "Ficher Echange Informatise"
 msgstr "Fichier Echange Informatise"
@@ -230,7 +224,7 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,encoding:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__iso8859_15
 msgid "ISO-8859-15"
 msgstr ""
 
@@ -265,10 +259,10 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:161
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:0
 #, python-format
-msgid "Missing VAT number for company %s"
-msgstr "Numéro de TVA manquant sur la société %s"
+msgid "Missing SIRET on company %s."
+msgstr ""
 
 #. module: l10n_fr_fec_oca
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
@@ -276,12 +270,12 @@ msgid "Montantdevise"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,export_type:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__nonofficial
 msgid "Non-official FEC report (posted and unposted entries)"
 msgstr "Rapport FEC non-officiel (entrées postées et non-postées)"
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,export_type:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__official
 msgid "Official FEC report (posted entries only)"
 msgstr "Rapport FEC officiel (entrées postées uniquement)"
 
@@ -306,12 +300,12 @@ msgid "PieceRef"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,partner_option:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__types
 msgid "Selected Account Types"
 msgstr "Types de comptes sélectionnés"
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,partner_option:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__accounts
 msgid "Selected Accounts"
 msgstr "Comptes sélectionnés"
 
@@ -321,7 +315,7 @@ msgid "Start Date"
 msgstr "Date de début"
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,delimiter:0
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__delimiter__tab
 msgid "Tab"
 msgstr ""
 
@@ -336,7 +330,13 @@ msgid "Technical Name"
 msgstr "Nom technique"
 
 #. module: l10n_fr_fec_oca
-#: selection:account.fr.fec.oca,encoding:0
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:0
+#, python-format
+msgid "The start date must be before the end date."
+msgstr ""
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__utf-8
 msgid "UTF-8"
 msgstr ""
 
@@ -349,6 +349,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
 msgid "We use partner.ref (w/ fallback on 'ID' + partner.id)"
 msgstr ""
+
+#~ msgid "FEC is for French companies only !"
+#~ msgstr "Le FEC est uniquement pour les sociétés françaises !"
+
+#~ msgid "Missing VAT number for company %s"
+#~ msgstr "Numéro de TVA manquant sur la société %s"
 
 #~ msgid ""
 #~ "The encoding of this text file is UTF-8. The structure of file is CSV "
