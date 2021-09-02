@@ -19,20 +19,43 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: account_balance_ebp_csv_export
-#: model_terms:ir.ui.view,arch_db:account_balance_ebp_csv_export.report_trial_balance_ebp_csv
+#: model_terms:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_ebp
 msgid ""
 "\"Compte.Numero\",\"Compte.Intitule\",\"Balance.SldCptNDebit\",\"Balance."
 "SldCptNCredit\",\"Balance.SldCptNSoldeD\",\"Balance.SldCptNSoldeC\""
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
-#: model:ir.actions.report,name:account_balance_ebp_csv_export.action_report_trial_balance_ebp_csv
+#: model:ir.model.fields,field_description:account_balance_ebp_csv_export.field_report_account_balance_ebp_csv_export_trial_balance_ebp__display_name
+#: model:ir.model.fields,field_description:account_balance_ebp_csv_export.field_trial_balance_report_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_balance_ebp_csv_export
+#: model:ir.actions.report,name:account_balance_ebp_csv_export.action_report_trial_balance_ebp
 msgid "EBP CSV Balance"
+msgstr ""
+
+#. module: account_balance_ebp_csv_export
+#: model:ir.model,name:account_balance_ebp_csv_export.model_report_account_balance_ebp_csv_export_trial_balance_ebp
+msgid "EBP CSV Trial Balance"
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
 #: model_terms:ir.ui.view,arch_db:account_balance_ebp_csv_export.trial_balance_wizard
 msgid "Export EBP CSV"
+msgstr ""
+
+#. module: account_balance_ebp_csv_export
+#: model:ir.model.fields,field_description:account_balance_ebp_csv_export.field_report_account_balance_ebp_csv_export_trial_balance_ebp__id
+#: model:ir.model.fields,field_description:account_balance_ebp_csv_export.field_trial_balance_report_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: account_balance_ebp_csv_export
+#: model:ir.model.fields,field_description:account_balance_ebp_csv_export.field_report_account_balance_ebp_csv_export_trial_balance_ebp____last_update
+#: model:ir.model.fields,field_description:account_balance_ebp_csv_export.field_trial_balance_report_wizard____last_update
+msgid "Last Modified on"
 msgstr ""
 
 #. module: account_balance_ebp_csv_export
