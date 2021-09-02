@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_banking_fr_lcr
+# 	* account_banking_fr_lcr
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,15 +14,29 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:42
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid "Cannot convert the field '%s' to ASCII"
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:56
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
-msgid "For the bank account '%s' of partner '%s', the Bank Account Type should be 'IBAN'."
+msgid ""
+"For the bank account '%s' of partner '%s', the Bank Account Type should be "
+"'IBAN'."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line__id
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__id
+msgid "ID"
 msgstr ""
 
 #. module: account_banking_fr_lcr
@@ -36,9 +50,17 @@ msgid "LCR"
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:62
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
-msgid "LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not a French IBAN."
+msgid ""
+"LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not "
+"a French IBAN."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order____last_update
+msgid "Last Modified on"
 msgstr ""
 
 #. module: account_banking_fr_lcr
@@ -52,14 +74,15 @@ msgid "Payment Order"
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:207
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
-msgid "The currency of payment line '%s' is '%s'. To be included in a French LCR, the currency must be EUR."
+msgid ""
+"The currency of payment line '%s' is '%s'. To be included in a French LCR, "
+"the currency must be EUR."
 msgstr ""
 
 #. module: account_banking_fr_lcr
-#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:28
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid "The field '%s' is empty or 0. It should have a non-null value."
 msgstr ""
-
