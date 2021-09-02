@@ -55,6 +55,12 @@ msgid "Archived"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "CII 16B XML"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 msgid "Cancel"
 msgstr ""
@@ -339,6 +345,12 @@ msgstr ""
 #: code:addons/l10n_fr_chorus_account/models/company.py:163
 #, python-format
 msgid "Error in the request to get a new token via PISTE. HTTP error code: %s."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "Factur-X PDF"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -802,6 +814,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 msgid ""
 "This wizard will send electronic invoices to Chorus Pro via the Chorus API."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "UBL XML"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
