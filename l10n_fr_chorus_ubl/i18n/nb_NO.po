@@ -20,8 +20,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_fr_chorus_ubl
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "CII 16B XML"
+msgstr ""
+
+#. module: l10n_fr_chorus_ubl
 #: model:ir.model,name:l10n_fr_chorus_ubl.model_chorus_flow
 msgid "Chorus Flow"
+msgstr ""
+
+#. module: l10n_fr_chorus_ubl
+#: model:ir.model.fields,field_description:l10n_fr_chorus_ubl.field_res_company__fr_chorus_invoice_format
+msgid "Chorus Invoice Format"
 msgstr ""
 
 #. module: l10n_fr_chorus_ubl
@@ -35,6 +46,23 @@ msgid "Companies"
 msgstr "Firmaer"
 
 #. module: l10n_fr_chorus_ubl
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "Factur-X PDF"
+msgstr ""
+
+#. module: l10n_fr_chorus_ubl
+#: model:ir.model.fields,field_description:l10n_fr_chorus_ubl.field_chorus_flow__syntax
+msgid "Flow Syntax"
+msgstr ""
+
+#. module: l10n_fr_chorus_ubl
 #: model:ir.model,name:l10n_fr_chorus_ubl.model_account_invoice
 msgid "Invoice"
+msgstr ""
+
+#. module: l10n_fr_chorus_ubl
+#: selection:chorus.flow,syntax:0
+#: selection:res.company,fr_chorus_invoice_format:0
+msgid "UBL XML"
 msgstr ""
