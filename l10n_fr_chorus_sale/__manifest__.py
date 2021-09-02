@@ -5,7 +5,7 @@
 {
     'name': 'L10n FR Chorus Sale',
     'summary': "Set public market on sale orders",
-    'version': '12.0.1.0.1',
+    'version': '12.0.1.0.2',
     'category': 'French Localization',
     'author': "Akretion,Odoo Community Association (OCA)",
     'maintainers': ['alexis-via'],
