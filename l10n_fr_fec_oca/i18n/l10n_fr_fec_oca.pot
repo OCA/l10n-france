@@ -195,7 +195,7 @@ msgid "FEC File Generation by OCA"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:165
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:178
 #, python-format
 msgid "FEC is for French companies only !"
 msgstr ""
@@ -261,7 +261,7 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
-#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:161
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:174
 #, python-format
 msgid "Missing VAT number for company %s"
 msgstr ""
@@ -329,6 +329,12 @@ msgstr ""
 #. module: l10n_fr_fec_oca
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
 msgid "Technical Name"
+msgstr ""
+
+#. module: l10n_fr_fec_oca
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:194
+#, python-format
+msgid "The start date must be before the end date."
 msgstr ""
 
 #. module: l10n_fr_fec_oca
