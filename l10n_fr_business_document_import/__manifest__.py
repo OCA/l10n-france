@@ -4,7 +4,7 @@
 
 {
     "name": "L10n FR Business Document Import",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "category": "French Localization",
     "license": "AGPL-3",
     "summary": "Adapt the module base_business_document_import for France",
