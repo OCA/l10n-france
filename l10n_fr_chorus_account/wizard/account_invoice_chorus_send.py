@@ -120,7 +120,11 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     "is_move_sent": True,
                 }
             )
-            action = self.env.ref("l10n_fr_chorus_account.chorus_flow_action").read()[0]
+            action = (
+                self.env.ref("l10n_fr_chorus_account.chorus_flow_action")
+                .sudo()
+                .read()[0]
+            )
             action.update(
                 {
                     "view_mode": "form,tree",
