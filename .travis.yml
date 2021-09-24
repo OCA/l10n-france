@@ -27,7 +27,7 @@ install:
   - travis_install_nightly
   # what we have here is not compatible with Odoo's account_facturx which is autoinstall
   - rm -fr ${HOME}/{odoo,OCB}-12.0/addons/account_facturx
-  - pip install unicodecsv unidecode ofxparse PyPDF2 factur-x
+  
 
 script:
   - travis_run_tests
