@@ -20,9 +20,8 @@
 
 <!-- DEMO SUPPLIERS -->
 <record id="partner_das2_1" model="res.partner">
+    <field name="is_company" eval="1" />
     <field name="name">Experts comptables du Rhône</field>
-    <field name="customer_rank" eval="0" />
-    <field name="supplier_rank" eval="1" />
     <field name="street">12 rue du chiffre</field>
     <field name="zip">69100</field>
     <field name="city">Villeurbanne</field>
@@ -35,9 +34,8 @@
 </record>
 
 <record id="partner_das2_2" model="res.partner">
+    <field name="is_company" eval="1" />
     <field name="name">Cabinet d'avocats Juridon</field>
-    <field name="customer_rank" eval="0" />
-    <field name="supplier_rank" eval="1" />
     <field name="street">42 rue du crime</field>
     <field name="zip">69100</field>
     <field name="city">Villeurbanne</field>
@@ -50,9 +48,8 @@
 </record>
 
 <record id="partner_das2_3" model="res.partner">
+    <field name="is_company" eval="1" />
     <field name="name">Cabinet CACtus</field>
-    <field name="customer_rank" eval="0" />
-    <field name="supplier_rank" eval="1" />
     <field name="street">42 rue de l'audit</field>
     <field name="zip">69100</field>
     <field name="city">Villeurbanne</field>
