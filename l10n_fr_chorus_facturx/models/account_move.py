@@ -42,3 +42,13 @@ class AccountMove(models.Model):
         else:
             chorus_file_content = super().chorus_get_invoice(chorus_invoice_format)
         return chorus_file_content
+
+    def _prepare_facturx_attachments(self):
+        res = super()._prepare_facturx_attachments()
+        for attach in self.chorus_attachment_ids:
+            res[attach.name] = {
+                "filedata": attach.raw,
+                "modification_datetime": attach.write_date,
+                "creation_datetime": attach.create_date,
+            }
+        return res
