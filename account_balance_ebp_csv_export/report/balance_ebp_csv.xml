@@ -6,7 +6,7 @@
     >"Compte.Numero","Compte.Intitule","Balance.SldCptNDebit","Balance.SldCptNCredit","Balance.SldCptNSoldeD","Balance.SldCptNSoldeC"
 <t t-foreach="docs" t-as="o"><t t-foreach="trial_balance" t-as="balance"><t
                     t-if="balance['type'] == 'account_type'"
-                ><t t-esc="balance['code']" />","<t t-esc="balance['name']" />",<t
+                >"<t t-esc="balance['code']" />","<t t-esc="balance['name']" />",<t
                         t-esc="round(balance['debit'], 2)"
                     />,<t t-esc="round(balance['credit'], 2)" />,<t
                         t-esc="balance['ending_balance'] &gt; 0 and round(balance['ending_balance'], 2) or 0.00"
