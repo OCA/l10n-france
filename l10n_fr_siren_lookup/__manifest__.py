@@ -3,7 +3,7 @@
 {
     "name": "SIREN Lookup",
     "summary": "Lookup partner company in French SIREN database",
-    "version": "12.0.1.0.0",
+    "version": "12.0.2.0.0",
     "category": "Partner",
     "website": "https://github.com/OCA/l10n-france",
     "author": "Le Filament, Odoo Community Association (OCA)",
