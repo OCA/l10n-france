@@ -6,7 +6,7 @@ import requests
 from odoo import api, fields, models
 
 URL = "https://data.opendatasoft.com/api/records/1.0/"\
-    "search/?dataset=sirene_v3%40public&q={request}&rows=100"
+    "search/?dataset=economicref-france-sirene-v3%40public&q={request}&rows=100"
 
 
 class SirenWizard(models.TransientModel):
