@@ -1,21 +1,14 @@
 import logging
 
-import requests
-
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
-
-
-def _check_luhn(string):
-    """Luhn test to check control keys
-
-    Credits:
-        http://rosettacode.org/wiki/Luhn_test_of_credit_card_numbers#Python
-    """
-    r = [int(ch) for ch in string][::-1]
-    return (sum(r[0::2]) + sum(sum(divmod(d * 2, 10)) for d in r[1::2])) % 10 == 0
+try:
+    from stdnum.fr.siren import is_valid as siren_is_valid
+    from stdnum.fr.siret import is_valid as siret_is_valid
+except ImportError:
+    logger.debug("Cannot import stdnum")
 
 
 class Partner(models.Model):
@@ -69,13 +62,13 @@ class Partner(models.Model):
                         )
                         % rec.siren
                     )
-                if not _check_luhn(rec.siren):
+                if not siren_is_valid(rec.siren):
                     raise ValidationError(
                         _("The SIREN '%s' is invalid: the checksum is wrong.")
                         % rec.siren
                     )
                 # Check the NIC key (you need both SIREN and NIC to check it)
-                if rec.nic and not _check_luhn(rec.siren + rec.nic):
+                if rec.nic and not siret_is_valid(rec.siren + rec.nic):
                     raise ValidationError(
                         _("The SIRET '%s%s' is invalid: " "the checksum is wrong.")
                         % (rec.siren, rec.nic)
@@ -163,226 +156,3 @@ class Partner(models.Model):
                     self.with_context(active_test=False).sudo().search(domain, limit=1)
                 )
             partner.same_siren_partner_id = same_siren_partner_id
-
-    @api.model
-    def _opendatasoft_fields_list(self):
-        return [
-            "datefermetureunitelegale",
-            "datefermetureetablissement",
-            "denominationunitelegale",
-            "adresseetablissement",
-            "codepostaletablissement",
-            "libellecommuneetablissement",
-            "siren",
-            "nic",
-            "codedepartementetablissement",
-        ]
-
-    @api.model
-    def _opendatasoft_get_raw_data(
-        self, query, raise_if_fail=False, exclude_dead=True, rows=10
-    ):
-        assert isinstance(query, str)
-        assert isinstance(rows, int) and rows > 0
-        url = "https://data.opendatasoft.com/api/records/1.0/search/"
-        params = {
-            "dataset": "economicref-france-sirene-v3@public",
-            "q": query,
-            "rows": rows,
-            "fields": ",".join(self._opendatasoft_fields_list()),
-        }
-        if exclude_dead:
-            params[
-                "q"
-            ] += " AND #null(datefermetureetablissement) AND #null(datefermetureunitelegale)"
-        try:
-            logger.info("Sending query to https://data.opendatasoft.com/api")
-            logger.debug("url=%s params=%s", url, params)
-            res = requests.get(url, params=params)
-            if res.status_code in (200, 201):
-                res_json = res.json()
-                from pprint import pprint
-
-                pprint(res_json)
-                return res_json
-            else:
-                logger.warning(
-                    "HTTP error %s returned by GET on data.opendatasoft.com/api",
-                    res.status_code,
-                )
-                if raise_if_fail:
-                    raise UserError(
-                        _(
-                            "The webservice data.opendatasoft.com "
-                            "returned an HTTP error code %s."
-                        )
-                        % res.status_code
-                    )
-        except Exception as e:
-            logger.warning("Failure in the GET request on data.opendatasoft.com: %s", e)
-            if raise_if_fail:
-                raise UserError(
-                    _(
-                        "Failure in the request on data.opendatasoft.com "
-                        "to create or update partner from SIREN or SIRET. "
-                        "Technical error: %s."
-                    )
-                    % e
-                )
-        return False
-
-    @api.model
-    def _opendatasoft_parse_record(self, raw_record):
-        res = False
-        if raw_record and isinstance(raw_record, dict):
-            if raw_record.get("datefermetureunitelegale"):
-                return res
-            if raw_record.get("datefermetureetablissement"):
-                return res
-            res = {
-                "name": raw_record.get("denominationunitelegale"),
-                "street": raw_record.get("adresseetablissement"),
-                "zip": raw_record.get("codepostaletablissement"),
-                "city": raw_record.get("libellecommuneetablissement"),
-                "siren": raw_record.get("siren"),
-                "nic": raw_record.get("nic"),
-            }
-            if raw_record.get("codedepartementetablissement"):
-                dpt_code = raw_record["codedepartementetablissement"]
-                domtom2xmlid = {
-                    "971": "gp",
-                    "972": "mq",
-                    "973": "gf",
-                    "974": "re",
-                    "975": "pm",  # Saint Pierre and Miquelon
-                    "976": "yt",  # Mayotte
-                    "977": "bl",  # Saint-Barthélemy
-                    "978": "mf",  # Saint-Martin
-                    "986": "wf",  # Wallis-et-Futuna
-                    "987": "pf",  # Polynésie française
-                    "988": "nc",  # Nouvelle calédonie
-                }
-                if len(dpt_code) == 2:
-                    res["country_id"] = self.env.ref("base.fr").id
-                elif dpt_code in domtom2xmlid:
-                    country_xmlid = "base.%s" % domtom2xmlid[dpt_code]
-                    res["country_id"] = self.env.ref(country_xmlid).id
-            # set lang to French if installed
-            fr_lang = self.env["res.lang"].search([("code", "=", "fr_FR")])
-            if fr_lang:
-                res["lang"] = "fr_FR"
-        return res
-
-    @api.model
-    def _opendatasoft_get_first_result(self, query, raise_if_fail=False):
-        res_json = self._opendatasoft_get_raw_data(query, raise_if_fail=raise_if_fail)
-        if res_json and "records" in res_json:
-            if len(res_json["records"]) > 0:
-                raw_record = res_json["records"][0].get("fields")
-                if raw_record:
-                    return self._opendatasoft_parse_record(raw_record)
-            else:
-                logger.warning("The query on opendatasoft.com returned 0 records")
-        return False
-
-    @api.model
-    def _opendatasoft_get_from_siren(self, siren):
-        if siren and len(siren) == 9 and siren.isdigit() and _check_luhn(siren):
-            vals = self._opendatasoft_get_first_result("siren:%s" % siren)
-            if vals and vals.get("siren") == siren:
-                return vals
-        return False
-
-    @api.model
-    def _opendatasoft_get_from_siret(self, siret):
-        if siret and len(siret) == 14 and siret.isdigit() and _check_luhn(siret):
-            vals = self._opendatasoft_get_first_result("siret:%s" % siret)
-            if vals and vals.get("siren") and vals.get("nic"):
-                vals_siret = vals["siren"] + vals["nic"]
-                if vals_siret == siret:
-                    return vals
-        return False
-
-    @api.onchange("siren")
-    def siren_onchange(self):
-        if (
-            self.siren
-            and len(self.siren) == 9
-            and self.siren.isdigit()
-            and _check_luhn(self.siren)
-            and not self.name
-            and self.is_company
-            and not self.parent_id
-        ):
-            if self.nic:
-                # We only execute the query if the full SIRET is OK
-                vals = False
-                if (
-                    len(self.nic) == 5
-                    and self.nic.isdigit()
-                    and _check_luhn(self.siren + self.nic)
-                ):
-                    siret = self.siren + self.nic
-                    vals = self._opendatasoft_get_from_siret(siret)
-            else:
-                vals = self._opendatasoft_get_from_siren(self.siren)
-            if vals:
-                self.name = vals.get("name")
-                self.street = vals.get("street")
-                self.zip = vals.get("zip")
-                self.city = vals.get("city")
-                self.country_id = vals.get("country_id")
-                if not self.nic:
-                    self.nic = vals.get("nic")
-
-    @api.onchange("siret")
-    def siret_onchange(self):
-        if (
-            self.siret
-            and len(self.siret) == 14
-            and self.siret.isdigit()
-            and _check_luhn(self.siret)
-            and not self.name
-            and self.is_company
-            and not self.parent_id
-        ):
-            vals = self._opendatasoft_get_from_siret(self.siret)
-            if vals:
-                self.name = vals.get("name")
-                self.street = vals.get("street")
-                self.zip = vals.get("zip")
-                self.city = vals.get("city")
-                self.country_id = vals.get("country_id")
-                if vals.get("lang"):
-                    self.lang = vals["lang"]
-
-    @api.onchange("name")
-    def siret_or_siren_name_onchange(self):
-        if (
-            self.name
-            and self.is_company
-            and not self.parent_id
-            and not self.siren
-            and not self.nic
-            and not self.siret
-            and not self.street
-            and not self.city
-            and not self.zip
-        ):
-            name = self.name.replace(" ", "")
-            if name and name.isdigit():
-                vals = False
-                if len(name) == 9 and _check_luhn(name):
-                    vals = self._opendatasoft_get_from_siren(name)
-                elif len(name) == 14 and _check_luhn(name):
-                    vals = self._opendatasoft_get_from_siret(name)
-                if vals:
-                    self.name = vals.get("name")
-                    self.street = vals.get("street")
-                    self.zip = vals.get("zip")
-                    self.city = vals.get("city")
-                    self.country_id = vals.get("country_id")
-                    self.siren = vals.get("siren")
-                    self.nic = vals.get("nic")
-                    if vals.get("lang"):
-                        self.lang = vals["lang"]
