@@ -1,67 +1,71 @@
-# © 2018 Le Filament (<http://www.le-filament.com>)
+# Copyright 2018-2021 Le Filament (<http://www.le-filament.com>)
+# Copyright 2021 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import requests
-
-from odoo import api, fields, models
-
-URL = "https://data.opendatasoft.com/api/records/1.0/"\
-    "search/?dataset=economicref-france-sirene-v3%40public&q={request}&rows=100"
+from odoo.exceptions import UserError
+from odoo import _, api, fields, models
 
 
 class SirenWizard(models.TransientModel):
     _name = 'siren.wizard'
     _description = 'Get values from companies'
 
-    # Default functions
-    @api.model
-    def _default_name(self):
-        return self.env['res.partner'].browse(
-            self.env.context.get('active_id')).name
-
-    @api.model
-    def _default_partner(self):
-        return self.env.context.get('active_id')
-
-    # Fields
-    name = fields.Char(string='Company', default=_default_name)
+    name = fields.Char(string='Name to Search', required=True)
     line_ids = fields.One2many('siren.wizard.line', 'wizard_id',
-                               string="Results")
-    partner_id = fields.Integer('Partner', default=_default_partner)
+                               string="Results", readonly=True)
+    partner_id = fields.Many2one(
+        'res.partner', 'Partner', readonly=True, required=True)
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if self.env.context.get('active_id') and self.env.context.get('active_model') == 'res.partner':
+            partner = self.env['res.partner'].browse(self.env.context['active_id'])
+            if not partner.is_company:
+                raise UserError(_("Partner '%s' is not a company. This action is not relevant.") % partner.display_name)
+            res.update({
+                'name': partner.name,
+                'partner_id': partner.id,
+            })
+        return res
 
     # Action
     @api.model
     def _prepare_partner_from_data(self, data):
+        country_id = False
+        if data.get('codedepartementetablissement'):
+            country_id = self.env['res.partner']._opendatasoft_dpt2country(data['codedepartementetablissement'])
         return {
-            'name': data.get('denominationunitelegale'),
-            'street': data.get('adresseetablissement', False),
-            'zip': data.get('codepostaletablissement', False),
-            'city': data.get('libellecommuneetablissement', False),
-            'siren': data.get('siren', False),
-            'siret': data.get('siret', False),
-            'category': data.get('categorieentreprise', False),
-            'creation_date': data.get('datecreationunitelegale', False),
-            'ape': data.get('activiteprincipaleunitelegale', False),
-            'ape_label': data.get('divisionunitelegale', False),
-            'legal_type': data.get('naturejuridiqueunitelegale', False),
+            'name': data.get('denominationunitelegale') or data.get('l1_adressage_unitelegale'),
+            'street': data.get('adresseetablissement'),
+            'zip': data.get('codepostaletablissement'),
+            'city': data.get('libellecommuneetablissement'),
+            'country_id': country_id,
+            'siren': data.get('siren') and str(data["siren"]) or False,
+            'siret': data.get('siret') and str(data["siret"]) or False,
+            'category': data.get('categorieentreprise'),
+            'creation_date': data.get('datecreationunitelegale'),
+            'ape': data.get('activiteprincipaleunitelegale'),
+            'ape_label': data.get('divisionunitelegale'),
+            'legal_type': data.get('naturejuridiqueunitelegale'),
             'staff': data.get('trancheeffectifsunitelegale', 0),
         }
 
     def get_lines(self):
+        self.ensure_one()
+        self.line_ids.unlink()
         # Get request
-        r = requests.get(URL.format(request=self.name))
-        # Serialization request to JSON
-        companies = r.json()
+        res_json = self.env['res.partner']._opendatasoft_get_raw_data(
+            self.name, raise_if_fail=True, rows=30)
         # Fill new company lines
         companies_vals = []
-        for company in companies['records']:
+        for company in res_json['records']:
             res = self._prepare_partner_from_data(company['fields'])
             companies_vals.append((0, 0, res))
-        self.line_ids.unlink()
         self.line_ids = companies_vals
         return {
             'context': self.env.context,
-            'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'siren.wizard',
             'res_id': self.id,
@@ -69,3 +73,43 @@ class SirenWizard(models.TransientModel):
             'type': 'ir.actions.act_window',
             'target': 'new',
         }
+
+
+class SirenWizardLine(models.TransientModel):
+    _name = 'siren.wizard.line'
+    _description = 'Company Selection'
+
+    wizard_id = fields.Many2one('siren.wizard', string='Wizard', ondelete='cascade')
+    name = fields.Char(string='Name')
+    street = fields.Char(string='Street')
+    zip = fields.Char(string='Zip')
+    city = fields.Char(string='City')
+    country_id = fields.Many2one('res.country', string="Country")
+    legal_type = fields.Char("Legal Type")
+    siren = fields.Char("SIREN")
+    siret = fields.Char("SIRET")
+    ape = fields.Char("APE Code")
+    ape_label = fields.Char("APE Label")
+    creation_date = fields.Date("Creation date")
+    staff = fields.Char("# Staff")
+    category = fields.Char("Category")
+
+    def _prepare_partner_values(self):
+        self.ensure_one()
+        vat = self.env['res.partner']._siren2vat_vies(self.siren, raise_if_fail=True)
+        vals = {
+            'name': self.name,
+            'street': self.street,
+            'zip': self.zip,
+            'city': self.city,
+            'country_id': self.country_id.id or False,
+            'siret': self.siret,
+            'vat': vat,
+        }
+        return vals
+
+    def update_partner(self):
+        self.ensure_one()
+        partner = self.wizard_id.partner_id
+        partner.write(self._prepare_partner_values())
+        partner.message_post(body=_("Partner updated via the opendatasoft.com API."))
