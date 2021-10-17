@@ -32,11 +32,15 @@ class Partner(models.Model):
         for rec in self:
             siret = rec.siret and rec.siret.replace(" ", "") or False
             if siret and len(siret) == 14 and siret.isdigit():
-                rec.siren = siret[:9]
-                rec.nic = siret[9:]
+                rec.write({
+                    'siren': siret[:9],
+                    'nic': siret[9:],
+                    })
             else:
-                rec.siren = False
-                rec.nic = False
+                rec.write({
+                    'siren': False,
+                    'nic': False,
+                    })
 
     @api.constrains("siren", "nic")
     def _check_siret(self):
