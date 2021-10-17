@@ -20,6 +20,9 @@ class TestL10nFrSiret(TransactionCase):
             }
         )
         self.assertEqual(partner1.siret, "79237773100023")
+        # Try to update SIRET
+        partner1.write({'siret': "81862078300048"})
+        partner1.write({'siren': "792377731", "nic": "00023"})
         partner2 = self.env["res.partner"].create(
             {
                 "name": "Akretion FR",
