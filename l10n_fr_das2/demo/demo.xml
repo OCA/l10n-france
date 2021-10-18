@@ -12,6 +12,10 @@
     <field name="ape">6201Z</field>
 </record>
 
+<!-- Use the same SIRET as in l10n_fr_intrastat_product otherwise it break tests!
+    Reason: when l10n_fr_siret is installed, due to the fact that base.main_partner
+    has child contacts, it will sync the siren with the childs
+    while keeping the nic, so the SIRET will become invalid on the childs -->
 <record id="base.main_partner" model="res.partner">
     <field name="siren">999999998</field>
     <field name="nic">00019</field>
