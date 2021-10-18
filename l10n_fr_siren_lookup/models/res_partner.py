@@ -3,22 +3,24 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
+
+import requests
+
 from odoo import _, api, models
 from odoo.exceptions import UserError
-import requests
-import logging
 
 logger = logging.getLogger(__name__)
 try:
+    from stdnum.eu.vat import check_vies
     from stdnum.fr.siren import is_valid as siren_is_valid, to_tva as siren_to_vat
     from stdnum.fr.siret import is_valid as siret_is_valid
-    from stdnum.eu.vat import check_vies
 except ImportError:
     logger.debug("Cannot import stdnum")
 
 
 class ResPartner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
     @api.model
     def _opendatasoft_fields_list(self):
@@ -97,7 +99,9 @@ class ResPartner(models.Model):
         return False
 
     @api.model
-    def _opendatasoft_parse_record(self, raw_record, exclude_dead=False, vat_vies_query=True):
+    def _opendatasoft_parse_record(
+        self, raw_record, exclude_dead=False, vat_vies_query=True
+    ):
         res = False
         if raw_record and isinstance(raw_record, dict):
             if exclude_dead and raw_record.get("datefermetureunitelegale"):
@@ -105,7 +109,8 @@ class ResPartner(models.Model):
             if exclude_dead and raw_record.get("datefermetureetablissement"):
                 return res
             res = {
-                "name": raw_record.get("denominationunitelegale") or raw_record.get("l1_adressage_unitelegale"),
+                "name": raw_record.get("denominationunitelegale")
+                or raw_record.get("l1_adressage_unitelegale"),
                 "street": raw_record.get("adresseetablissement"),
                 "zip": raw_record.get("codepostaletablissement"),
                 "city": raw_record.get("libellecommuneetablissement"),
@@ -119,8 +124,8 @@ class ResPartner(models.Model):
             fr_lang = self.env["res.lang"].search([("code", "=", "fr_FR")])
             if fr_lang:
                 res["lang"] = "fr_FR"
-            if res.get('siren') and vat_vies_query:
-                vat = self._siren2vat_vies(res['siren'])
+            if res.get("siren") and vat_vies_query:
+                vat = self._siren2vat_vies(res["siren"])
                 if vat is not None:
                     res["vat"] = vat
         return res
@@ -150,32 +155,34 @@ class ResPartner(models.Model):
 
     @api.model
     def _siren2vat_vies(self, siren, raise_if_fail=False):
-        vat = 'FR%s' % siren_to_vat(siren)
-        logger.info('VIES check of VAT %s' % vat)
+        vat = "FR%s" % siren_to_vat(siren)
+        logger.info("VIES check of VAT %s" % vat)
         vies_res = False
         res = False
         try:
             vies_res = check_vies(vat, timeout=5)
-            logger.debug('VIES answer vies_res.valid=%s', vies_res.valid)
+            logger.debug("VIES answer vies_res.valid=%s", vies_res.valid)
         except Exception as e:
-            logger.error('VIES query failed: %s', e)
+            logger.error("VIES query failed: %s", e)
             if raise_if_fail:
-                raise UserError(_(
-                    "Failed to query VIES.\nTechnical error: %s.") % e)
+                raise UserError(_("Failed to query VIES.\nTechnical error: %s.") % e)
             return None
         if vies_res and vies_res.valid:
             res = vat
         return res
 
     @api.model
-    def _opendatasoft_get_first_result(self, query, raise_if_fail=False, vat_vies_query=True):
+    def _opendatasoft_get_first_result(
+        self, query, raise_if_fail=False, vat_vies_query=True
+    ):
         res_json = self._opendatasoft_get_raw_data(query, raise_if_fail=raise_if_fail)
         if res_json and "records" in res_json:
             if len(res_json["records"]) > 0:
                 raw_record = res_json["records"][0].get("fields")
                 if raw_record:
                     return self._opendatasoft_parse_record(
-                        raw_record, vat_vies_query=vat_vies_query)
+                        raw_record, vat_vies_query=vat_vies_query
+                    )
             else:
                 logger.warning("The query on opendatasoft.com returned 0 records")
         return False
@@ -183,7 +190,9 @@ class ResPartner(models.Model):
     @api.model
     def _opendatasoft_get_from_siren(self, siren, vat_vies_query=True):
         if siren and siren_is_valid(siren):
-            vals = self._opendatasoft_get_first_result("siren:%s" % siren, vat_vies_query=vat_vies_query)
+            vals = self._opendatasoft_get_first_result(
+                "siren:%s" % siren, vat_vies_query=vat_vies_query
+            )
             if vals and vals.get("siren") == siren:
                 return vals
         return False
@@ -191,7 +200,9 @@ class ResPartner(models.Model):
     @api.model
     def _opendatasoft_get_from_siret(self, siret, vat_vies_query=True):
         if siret and siret_is_valid(siret):
-            vals = self._opendatasoft_get_first_result("siret:%s" % siret, vat_vies_query=vat_vies_query)
+            vals = self._opendatasoft_get_first_result(
+                "siret:%s" % siret, vat_vies_query=vat_vies_query
+            )
             if vals and vals.get("siren") and vals.get("nic"):
                 vals_siret = vals["siren"] + vals["nic"]
                 if vals_siret == siret:
@@ -241,8 +252,8 @@ class ResPartner(models.Model):
             and self.is_company
             and not self.parent_id
         ):
-            vat = self.vat.replace(' ', '').upper()
-            if vat and vat.startswith('FR') and len(vat) == 13:
+            vat = self.vat.replace(" ", "").upper()
+            if vat and vat.startswith("FR") and len(vat) == 13:
                 siren = vat[4:]
                 if siren_is_valid(siren):
                     vals = self._opendatasoft_get_from_siren(siren)
