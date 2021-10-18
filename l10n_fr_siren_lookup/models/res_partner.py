@@ -47,7 +47,7 @@ class ResPartner(models.Model):
 
     @api.model
     def _opendatasoft_get_raw_data(
-        self, query, raise_if_fail=False, exclude_dead=True, rows=10
+        self, query, raise_if_fail=False, exclude_dead=False, rows=10
     ):
         assert isinstance(query, str)
         assert isinstance(rows, int) and rows > 0
@@ -58,6 +58,12 @@ class ResPartner(models.Model):
             "rows": rows,
             "fields": ",".join(self._opendatasoft_fields_list()),
         }
+        # It seems that datefermetureetablissement and datefermetureunitelegale
+        # often have a value for a SIRET that is still open
+        # For example, SIRET 55208131766522 (siège social d'EDF)
+        # has datefermetureetablissement=2009-02-22
+        # and datefermetureunitelegale=2018-12-01 !!!
+        # So I now set exclude_dead=False by default
         if exclude_dead:
             params[
                 "q"
@@ -191,7 +197,8 @@ class ResPartner(models.Model):
     def _opendatasoft_get_from_siren(self, siren, vat_vies_query=True):
         if siren and siren_is_valid(siren):
             vals = self._opendatasoft_get_first_result(
-                "siren:%s" % siren, vat_vies_query=vat_vies_query
+                "siren:%s AND etablissementsiege:oui" % siren,
+                vat_vies_query=vat_vies_query,
             )
             if vals and vals.get("siren") == siren:
                 return vals
