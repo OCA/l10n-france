@@ -32,15 +32,19 @@ class Partner(models.Model):
         for rec in self:
             siret = rec.siret and rec.siret.replace(" ", "") or False
             if siret and len(siret) == 14 and siret.isdigit():
-                rec.write({
-                    'siren': siret[:9],
-                    'nic': siret[9:],
-                    })
+                rec.write(
+                    {
+                        "siren": siret[:9],
+                        "nic": siret[9:],
+                    }
+                )
             else:
-                rec.write({
-                    'siren': False,
-                    'nic': False,
-                    })
+                rec.write(
+                    {
+                        "siren": False,
+                        "nic": False,
+                    }
+                )
 
     @api.constrains("siren", "nic")
     def _check_siret(self):
@@ -48,7 +52,7 @@ class Partner(models.Model):
         for rec in self:
             if rec.nic:
                 # Check the NIC type and length
-                if not rec.nic.isdecimal() or len(rec.nic) != 5:
+                if not rec.nic.isdigit() or len(rec.nic) != 5:
                     raise ValidationError(
                         _(
                             "The NIC '%s' is incorrect: it must have "
@@ -58,7 +62,7 @@ class Partner(models.Model):
                     )
             if rec.siren:
                 # Check the SIREN type, length and key
-                if not rec.siren.isdecimal() or len(rec.siren) != 9:
+                if not rec.siren.isdigit() or len(rec.siren) != 9:
                     raise ValidationError(
                         _(
                             "The SIREN '%s' is incorrect: it must have "
