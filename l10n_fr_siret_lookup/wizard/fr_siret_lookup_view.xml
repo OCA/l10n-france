@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- WIZARD FORM -->
-    <record id="siren_wizard_view_form" model="ir.ui.view">
-        <field name="name">siren.wizard.form</field>
-        <field name="model">siren.wizard</field>
+    <record id="fr_siret_lookup_form" model="ir.ui.view">
+        <field name="model">fr.siret.lookup</field>
         <field name="arch" type="xml">
             <form string="SIREN Lookup via opendatasoft.com">
             <group name="company">
@@ -50,9 +49,8 @@
     </record>
 
     <!-- COMPANY FORM -->
-    <record id="siren_wizard_line_view_form" model="ir.ui.view">
-        <field name="name">siren.wizard.line.form</field>
-        <field name="model">siren.wizard.line</field>
+    <record id="fr_siret_lookup_line_form" model="ir.ui.view">
+        <field name="model">fr.siret.lookup.line</field>
         <field name="arch" type="xml">
             <form string="Company">
                 <h3><field name="name" /></h3>
@@ -89,9 +87,9 @@
         </field>
     </record>
 
-    <record id="siren_wizard_action" model="ir.actions.act_window">
+    <record id="fr_siret_lookup_action" model="ir.actions.act_window">
         <field name="name">SIREN lookup via opendatasoft.com</field>
-        <field name="res_model">siren.wizard</field>
+        <field name="res_model">fr.siret.lookup</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

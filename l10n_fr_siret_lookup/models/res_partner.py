@@ -12,6 +12,7 @@ from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
 try:
+    from stdnum import __version__ as stdnum_version
     from stdnum.eu.vat import check_vies
     from stdnum.fr.siren import is_valid as siren_is_valid, to_tva as siren_to_vat
     from stdnum.fr.siret import is_valid as siret_is_valid
@@ -166,7 +167,14 @@ class ResPartner(models.Model):
         vies_res = False
         res = False
         try:
-            vies_res = check_vies(vat, timeout=5)
+            stdnum_version_float = float(stdnum_version)
+        except Exception:
+            stdnum_version_float = 1.8
+        try:
+            if stdnum_version_float < 1.9:
+                vies_res = check_vies(vat)
+            else:
+                vies_res = check_vies(vat, timeout=5)
             logger.debug("VIES answer vies_res.valid=%s", vies_res.valid)
         except Exception as e:
             logger.error("VIES query failed: %s", e)
@@ -268,7 +276,7 @@ class ResPartner(models.Model):
                         self.update(vals)
 
     @api.onchange("name")
-    def siret_or_siren_name_onchange(self):
+    def siren_siret_vat_in_name_onchange(self):
         if (
             self.name
             and self.is_company
@@ -281,11 +289,18 @@ class ResPartner(models.Model):
             and not self.zip
         ):
             name = self.name.replace(" ", "")
-            if name and name.isdigit():
+            if name:
                 vals = False
-                if len(name) == 9 and siren_is_valid(name):
+                if len(name) == 9 and name.isdigit() and siren_is_valid(name):
                     vals = self._opendatasoft_get_from_siren(name)
-                elif len(name) == 14 and siret_is_valid(name):
+                elif len(name) == 14 and name.isdigit() and siret_is_valid(name):
                     vals = self._opendatasoft_get_from_siret(name)
+                elif (
+                    len(name) == 13
+                    and name[:2] == "FR"
+                    and name[2:].isdigit()
+                    and siren_is_valid(name[4:])
+                ):
+                    vals = self._opendatasoft_get_from_siren(name[4:])
                 if vals:
                     self.update(vals)

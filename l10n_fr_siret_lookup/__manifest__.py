@@ -3,8 +3,8 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
-    "name": "SIREN Lookup",
-    "summary": "Lookup partner in French SIREN database",
+    "name": "SIRET Lookup",
+    "summary": "Lookup partner via an API on the SIRENE directory",
     "version": "14.0.1.0.0",
     "category": "Partner",
     "website": "https://github.com/OCA/l10n-france",
@@ -14,9 +14,9 @@
     "depends": [
         "l10n_fr_siret",
     ],
-    "external_dependencies": {"python": ["requests", "stdnum"]},
+    "external_dependencies": {"python": ["requests", "python-stdnum"]},
     "data": [
-        "wizard/siren_wizard.xml",
+        "wizard/fr_siret_lookup_view.xml",
         "views/res_partner.xml",
         "security/ir.model.access.csv",
     ],

@@ -7,13 +7,13 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class SirenWizard(models.TransientModel):
-    _name = "siren.wizard"
+class FrSiretLookup(models.TransientModel):
+    _name = "fr.siret.lookup"
     _description = "Get values from companies"
 
     name = fields.Char(string="Name to Search", required=True)
     line_ids = fields.One2many(
-        "siren.wizard.line", "wizard_id", string="Results", readonly=True
+        "fr.siret.lookup.line", "wizard_id", string="Results", readonly=True
     )
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True, required=True)
 
@@ -79,7 +79,7 @@ class SirenWizard(models.TransientModel):
         return {
             "context": self.env.context,
             "view_mode": "form",
-            "res_model": "siren.wizard",
+            "res_model": self._name,
             "res_id": self.id,
             "view_id": False,
             "type": "ir.actions.act_window",
@@ -87,11 +87,11 @@ class SirenWizard(models.TransientModel):
         }
 
 
-class SirenWizardLine(models.TransientModel):
-    _name = "siren.wizard.line"
+class FrSiretLookupLine(models.TransientModel):
+    _name = "fr.siret.lookup.line"
     _description = "Company Selection"
 
-    wizard_id = fields.Many2one("siren.wizard", string="Wizard", ondelete="cascade")
+    wizard_id = fields.Many2one("fr.siret.lookup", string="Wizard", ondelete="cascade")
     name = fields.Char(string="Name")
     street = fields.Char(string="Street")
     zip = fields.Char(string="Zip")
