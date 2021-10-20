@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- WIZARD FORM -->
+    <record id="fr_siret_lookup_form" model="ir.ui.view">
+        <field name="model">fr.siret.lookup</field>
+        <field name="arch" type="xml">
+            <form string="SIREN Lookup via opendatasoft.com">
+            <group name="company">
+                <field name="partner_id" />
+                <field name="name" />
+                <button
+                        class="btn-primary"
+                        name="get_lines"
+                        string="Lookup"
+                        type="object"
+                        colspan="2"
+                    />
+                </group><group string="Search Results" name="lines">
+                <field name="line_ids" nolabel="1">
+                    <tree>
+                        <field name="name" />
+                        <field name="street" optional="show" />
+                        <field name="zip" optional="show" />
+                        <field name="city" optional="show" />
+                        <field name="country_id" optional="hide" />
+                        <field name="legal_type" optional="show" />
+                        <field name="siren" optional="hide" />
+                        <field name="siret" optional="hide" />
+                        <field name="ape" optional="hide" />
+                        <field name="ape_label" optional="hide" />
+                        <field name="category" optional="hide" />
+                        <field name="creation_date" optional="hide" />
+                        <field name="staff" optional="hide" />
+                        <button
+                                class="btn-primary"
+                                name="update_partner"
+                                string="Select"
+                                type="object"
+                                confirm="Confirm selected company ?"
+                            />
+                    </tree>
+                </field>
+                </group>
+                <footer>
+                    <button special="cancel" string="Close" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- COMPANY FORM -->
+    <record id="fr_siret_lookup_line_form" model="ir.ui.view">
+        <field name="model">fr.siret.lookup.line</field>
+        <field name="arch" type="xml">
+            <form string="Company">
+                <h3><field name="name" /></h3>
+                <group>
+                    <group string="Address">
+                        <field name="street" />
+                        <field name="zip" />
+                        <field name="city" />
+                        <field name="country_id" />
+                    </group>
+                    <group string="Legal Infos">
+                        <field name="legal_type" />
+                        <field name="siren" />
+                        <field name="siret" />
+                        <field name="ape" />
+                        <field name="ape_label" />
+                    </group>
+                    <group string="Company Infos">
+                        <field name="category" />
+                        <field name="creation_date" />
+                        <field name="staff" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        class="btn-primary"
+                        name="update_partner"
+                        string="Select"
+                        type="object"
+                        confirm="Confirm selected company ?"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="fr_siret_lookup_action" model="ir.actions.act_window">
+        <field name="name">SIREN lookup via opendatasoft.com</field>
+        <field name="res_model">fr.siret.lookup</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
