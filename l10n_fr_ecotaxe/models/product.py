@@ -14,15 +14,31 @@ class ProductTemplate(models.Model):
         string="Ecotaxe Classification",
         oldname="ecotaxe_classification_ids",
     )
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
     ecotaxe_amount = fields.Float(
         compute="_compute_ecotaxe",
         help="Ecotaxe Amount" "computed form Classification\n",
     )
-
     manual_fixed_ecotaxe = fields.Float(
         help="Manual Fixed ecotaxe.\n"
         "Allow to subtite default Ecotaxe Classification\n"
     )
+
+    @api.model
+    def _get_product_weight(self):
+        """
+        Overide this method to get the product wieight used to compute ecotaxe.
+        net_weight or cross_weight
+        Returns:
+        """
+        self.ensure_one()
+        if 'weight_net' in self._fields:
+            return self.weight_net
+        else:
+            return self.weight
 
     @api.depends(
         "ecotaxe_classification_id",
@@ -36,7 +52,7 @@ class ProductTemplate(models.Model):
             prod.ecotaxe_amount = 0.0
             ecotaxe_classif_id = prod.ecotaxe_classification_id
             if ecotaxe_classif_id.ecotaxe_type == "weight_based":
-                weight = prod.weight or 0.0
+                weight = prod._get_product_weight() or 0.0
                 prod.ecotaxe_amount = ecotaxe_classif_id.ecotaxe_coef * weight
             else:
                 prod.ecotaxe_amount = (

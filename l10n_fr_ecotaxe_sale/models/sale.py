@@ -32,6 +32,16 @@ class SaleOrderLine(models.Model):
                 line.unit_ecotaxe_amount * line.product_uom_qty
             )
 
+    @api.model
+    def _calc_line_base_price(self, line):
+        res = super(SaleOrderLine, self)._calc_line_base_price(line)
+        if line.unit_ecotaxe_amount:
+            res +=  line.unit_ecotaxe_amount
+        return res
+
+    @api.depends('unit_ecotaxe_amount')
+    def _get_price_reduce(self):
+         super(SaleOrderLine, self)._get_price_reduce()
 
 class SaleOrder(models.Model):
 

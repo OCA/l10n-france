@@ -32,6 +32,15 @@ class PurchaseOrderLine(models.Model):
                 line.unit_ecotaxe_amount * line.product_qty
             )
 
+    @api.model
+    def _calc_line_base_price(self, line):
+        res = super(PurchaseOrderLine, self)._calc_line_base_price(line)
+        return res + (line.unit_ecotaxe_amount or 0.0)
+
+    @api.depends('unit_ecotaxe_amount')
+    def _compute_amount(self):
+        super(PurchaseOrderLine, self)._compute_amount()
+
 
 class PurchaseOrder(models.Model):
 
@@ -49,3 +58,21 @@ class PurchaseOrder(models.Model):
             for line in order.order_line:
                 val_ecotaxe += line.subtotal_ecotaxe
             order.amount_ecotaxe = val_ecotaxe
+
+    @api.model
+    def _prepare_inv_line(self, account_id, line):
+        res = super(PurchaseOrder, self)._prepare_inv_line(account_id, line)
+        res.update({
+            'unit_ecotaxe_amount': line.unit_ecotaxe_amount,
+        })
+        return res
+
+    @api.model
+    def _prepare_order_line_move(
+            self, order, order_line, picking_id, group_id):
+        res = super(PurchaseOrder, self)._prepare_order_line_move(
+            order, order_line, picking_id, group_id)
+        for vals in res:
+            vals['price_unit'] = (vals.get('price_unit', 0.0) +
+                                  order_line.unit_ecotaxe_amount)
+        return res
