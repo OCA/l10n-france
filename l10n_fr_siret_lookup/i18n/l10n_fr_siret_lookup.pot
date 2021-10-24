@@ -1,16 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* l10n_fr_siren_lookup
+# 	* l10n_fr_siret_lookup
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 14:28+0000\n"
-"PO-Revision-Date: 2018-12-04 14:28+0000\n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -19,58 +16,58 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__staff
 msgid "# Staff"
-msgstr "Effectifs"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__ape
 msgid "APE Code"
-msgstr "Code APE"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__ape_label
 msgid "APE Label"
-msgstr "Libellé APE"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Address"
-msgstr "Adresse"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__category
 msgid "Category"
-msgstr "Catégorie"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__city
 msgid "City"
-msgstr "Ville"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "Close"
-msgstr "Fermer"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Company"
-msgstr "Société"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Company Infos"
-msgstr "Infos Entreprise"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_fr_siret_lookup_line
 msgid "Company Selection"
-msgstr "Sélection Entreprise"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Confirm selected company ?"
-msgstr "Valider l'entreprise sélectionnée ?"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_res_partner
@@ -86,25 +83,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__create_uid
 msgid "Created by"
-msgstr "Créé par"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__create_date
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__create_date
 msgid "Created on"
-msgstr "Créé le"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__creation_date
 msgid "Creation date"
-msgstr "Date de création"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__display_name
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__display_name
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_res_partner__display_name
 msgid "Display Name"
-msgstr "Nom affiché"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
@@ -125,64 +122,63 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_fr_siret_lookup
 msgid "Get values from companies"
-msgstr "Obtenir les informations sur les entreprises"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__id
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__id
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_res_partner__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup____last_update
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line____last_update
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr "Dernière Modification le"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__write_uid
 msgid "Last Updated by"
-msgstr "Dernière mise à jour par"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__write_date
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__write_date
 msgid "Last Updated on"
-msgstr "Dernière mise à jour le"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Legal Infos"
-msgstr "Infos Légales"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__legal_type
 msgid "Legal Type"
-msgstr "Forme Juridique"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "Lookup"
-msgstr "Recherche"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__name
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__name
-#, fuzzy
 msgid "Name to Search"
-msgstr "Rechercher"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__partner_id
 msgid "Partner"
-msgstr "Partenaire"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: code:addons/l10n_fr_siret_lookup/wizard/fr_siret_lookup.py:0
@@ -199,18 +195,17 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__line_ids
 msgid "Results"
-msgstr "Résultats"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__siren
 msgid "SIREN"
-msgstr "SIREN"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.actions.act_window,name:l10n_fr_siret_lookup.fr_siret_lookup_partner_action
-#, fuzzy
 msgid "SIREN Lookup"
-msgstr "Recherche"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
@@ -225,24 +220,23 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__siret
 msgid "SIRET"
-msgstr "SIRET"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
-#, fuzzy
 msgid "Search Results"
-msgstr "Résultats"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Select"
-msgstr "Sélectionner"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__street
 msgid "Street"
-msgstr "Rue"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
@@ -253,24 +247,9 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__wizard_id
 msgid "Wizard"
-msgstr "Assistant"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__zip
 msgid "Zip"
 msgstr ""
-
-#~ msgid "CP"
-#~ msgstr "CP"
-
-#~ msgid "Companies Selection"
-#~ msgstr "Sélection d'Entreprises"
-
-#~ msgid "Informations base Siren"
-#~ msgstr "Informations base Siren"
-
-#~ msgid "Lookup Company"
-#~ msgstr "Rechercher une Entreprise"
-
-#~ msgid "Pre-Fill / Update"
-#~ msgstr "Pré-Remplir / Mettre à jour"
