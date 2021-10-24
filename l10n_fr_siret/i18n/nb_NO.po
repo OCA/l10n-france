@@ -99,7 +99,7 @@ msgid "SIRET"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
 msgstr ""
@@ -114,13 +114,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIREN '%s' is incorrect: it must have exactly 9 digits."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIREN '%s' is invalid: the checksum is wrong."
 msgstr "SIREN-koden '%s' er ugyldig: Sjekksummen er feil."
@@ -135,7 +135,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIRET '%s%s' is invalid: the checksum is wrong."
 msgstr ""
