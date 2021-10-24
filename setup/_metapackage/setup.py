@@ -25,6 +25,7 @@ setuptools.setup(
         'odoo14-addon-l10n_fr_intrastat_service',
         'odoo14-addon-l10n_fr_mis_reports',
         'odoo14-addon-l10n_fr_siret',
+        'odoo14-addon-l10n_fr_siret_lookup',
         'odoo14-addon-l10n_fr_state',
     ],
     classifiers=[
