@@ -1,17 +1,14 @@
+import logging
+
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 
-
-# XXX: this is used for checking various codes such as credit card
-# numbers: should it be moved to tools.py?
-def _check_luhn(string):
-    """Luhn test to check control keys
-
-    Credits:
-        http://rosettacode.org/wiki/Luhn_test_of_credit_card_numbers#Python
-    """
-    r = [int(ch) for ch in string][::-1]
-    return (sum(r[0::2]) + sum(sum(divmod(d * 2, 10)) for d in r[1::2])) % 10 == 0
+logger = logging.getLogger(__name__)
+try:
+    from stdnum.fr.siren import is_valid as siren_is_valid
+    from stdnum.fr.siret import is_valid as siret_is_valid
+except ImportError:
+    logger.debug("Cannot import stdnum")
 
 
 class Partner(models.Model):
@@ -31,14 +28,32 @@ class Partner(models.Model):
             else:
                 rec.siret = ""
 
+    def _inverse_siret(self):
+        for rec in self:
+            siret = rec.siret and rec.siret.replace(" ", "") or False
+            if siret and len(siret) == 14 and siret.isdigit():
+                rec.write(
+                    {
+                        "siren": siret[:9],
+                        "nic": siret[9:],
+                    }
+                )
+            else:
+                rec.write(
+                    {
+                        "siren": False,
+                        "nic": False,
+                    }
+                )
+
     @api.constrains("siren", "nic")
     def _check_siret(self):
         """Check the SIREN's and NIC's keys (last digits)"""
         for rec in self:
             if rec.nic:
                 # Check the NIC type and length
-                if not rec.nic.isdecimal() or len(rec.nic) != 5:
-                    raise UserError(
+                if not rec.nic.isdigit() or len(rec.nic) != 5:
+                    raise ValidationError(
                         _(
                             "The NIC '%s' is incorrect: it must have "
                             "exactly 5 digits."
@@ -47,22 +62,22 @@ class Partner(models.Model):
                     )
             if rec.siren:
                 # Check the SIREN type, length and key
-                if not rec.siren.isdecimal() or len(rec.siren) != 9:
-                    raise UserError(
+                if not rec.siren.isdigit() or len(rec.siren) != 9:
+                    raise ValidationError(
                         _(
                             "The SIREN '%s' is incorrect: it must have "
                             "exactly 9 digits."
                         )
                         % rec.siren
                     )
-                if not _check_luhn(rec.siren):
-                    raise UserError(
+                if not siren_is_valid(rec.siren):
+                    raise ValidationError(
                         _("The SIREN '%s' is invalid: the checksum is wrong.")
                         % rec.siren
                     )
                 # Check the NIC key (you need both SIREN and NIC to check it)
-                if rec.nic and not _check_luhn(rec.siren + rec.nic):
-                    raise UserError(
+                if rec.nic and not siret_is_valid(rec.siren + rec.nic):
+                    raise ValidationError(
                         _("The SIRET '%s%s' is invalid: " "the checksum is wrong.")
                         % (rec.siren, rec.nic)
                     )
@@ -99,9 +114,13 @@ class Partner(models.Model):
         "number.",
     )
     # the original SIRET field is definied in l10n_fr
+    # We add an inverse method to make it easier to copy/paste a SIRET
+    # from an external source to the partner form view of Odoo
     siret = fields.Char(
         compute="_compute_siret",
+        inverse="_inverse_siret",
         store=True,
+        readonly=False,
         help="The SIRET number is the official identity number of this "
         "company's office in France. It is composed of the 9 digits "
         "of the SIREN number and the 5 digits of the NIC number, ie. "
