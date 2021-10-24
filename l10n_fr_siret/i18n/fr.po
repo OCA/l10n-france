@@ -99,7 +99,7 @@ msgid "SIRET"
 msgstr "SIRET"
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
 msgstr "Le NIC '%s' est incorrect. Il doit contenir exactement 5 numéros."
@@ -116,13 +116,13 @@ msgstr ""
 "société en France. Il compose les 5 derniers numéros du numéro de SIRET."
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIREN '%s' is incorrect: it must have exactly 9 digits."
 msgstr "Le SIREN '%s' est incorrect : il doit avoir exactement 9 chiffres."
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIREN '%s' is invalid: the checksum is wrong."
 msgstr "Le SIREN '%s' est invalide : la clé de contrôle est fausse."
@@ -139,7 +139,7 @@ msgstr ""
 "France. Il compose les 9 premiers chiffres du numéro de SIRET."
 
 #. module: l10n_fr_siret
-#: code:addons/l10n_fr_siret/models/partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIRET '%s%s' is invalid: the checksum is wrong."
 msgstr "Le SIRET '%s%s' est invalide : la clé de contrôle est fausse."
