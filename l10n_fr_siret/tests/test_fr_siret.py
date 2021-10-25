@@ -39,11 +39,23 @@ class TestL10nFrSiret(TransactionCase):
             }
         )
         self.assertEqual(partner3.siret, "792377731*****")
+        partner4 = self.env["res.partner"].create(
+            {
+                "name": "Akretion FR SIREN only",
+                "siret": "792377731*****",
+            }
+        )
+        self.assertEqual(partner4.siren, "792377731")
+        self.assertFalse(partner4.nic)
+        self.assertEqual(partner4.siret, "792377731*****")
 
     def test_wrong_siret(self):
         vals = {"name": "Wrong Akretion France"}
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(dict(vals, siret="79237773100022"))
+
+        with self.assertRaises(ValidationError):
+            self.env["res.partner"].create(dict(vals, siret="792377731"))
 
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(dict(vals, siret="78237773100023"))
