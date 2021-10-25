@@ -10,20 +10,21 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-09 03:39+0000\n"
-"PO-Revision-Date: 2018-02-09 03:39+0000\n"
-"Last-Translator: Quentin THEURET <odoo@kerpeo.com>, 2018\n"
+"PO-Revision-Date: 2021-10-25 20:13+0000\n"
+"Last-Translator: Rémi <remi@le-filament.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__parent_is_company
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_users__parent_is_company
 msgid "Check if the contact is a company, otherwise it is a person"
-msgstr ""
+msgstr "Vérifier si le contact est une société, sinon c'est une personne"
 
 #. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_company
@@ -46,12 +47,12 @@ msgstr "Contact"
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom Affiché"
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "Duplicate warning: there is another partner with the same SIREN:"
-msgstr ""
+msgstr "Avertissement de doublon : il y a un autre contact avec le même SIREN :"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__id
@@ -63,7 +64,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Dernière modification le"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
@@ -76,13 +77,13 @@ msgstr "NIC"
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__parent_is_company
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__parent_is_company
 msgid "Parent is a Company"
-msgstr ""
+msgstr "Le contact parent est une Société"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__same_siren_partner_id
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__same_siren_partner_id
 msgid "Partner with same SIREN"
-msgstr ""
+msgstr "Contact avec le même SIREN"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siren
@@ -148,14 +149,14 @@ msgstr "Le SIRET '%s%s' est invalide : la clé de contrôle est fausse."
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_users__siret
-#, fuzzy
 msgid ""
 "The SIRET number is the official identity number of this company's office in "
 "France. It is composed of the 9 digits of the SIREN number and the 5 digits "
 "of the NIC number, ie. 14 digits."
 msgstr ""
-"Le numéro de SIREN est le numéro d'identité officiel de la société en "
-"France. Il compose les 9 premiers chiffres du numéro de SIRET."
+"Le numéro de SIREN est le numéro d'identité officiel des bureaux de la "
+"société en France. Il est composé des 9 chiffres du numéro de SIREN et de 5 "
+"chiffres du numéro NIC, soit 14 chiffres au total."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__company_registry
