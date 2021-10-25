@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-04 14:28+0000\n"
-"PO-Revision-Date: 2018-12-04 14:28+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2021-10-25 20:10+0000\n"
+"Last-Translator: Rémi <remi@le-filament.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__staff
@@ -24,12 +25,12 @@ msgstr "Effectifs"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__ape
 msgid "APE Code"
-msgstr "Code APE"
+msgstr "Code NAF"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__ape_label
 msgid "APE Label"
-msgstr "Libellé APE"
+msgstr "Libellé NAF"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
@@ -80,7 +81,7 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__country_id
 msgid "Country"
-msgstr ""
+msgstr "Pays"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__create_uid
@@ -113,6 +114,8 @@ msgid ""
 "Failed to query VIES.\n"
 "Technical error: %s."
 msgstr ""
+"Erreur pendant l'interrogation du VIES.\n"
+"Erreur technique : %s."
 
 #. module: l10n_fr_siret_lookup
 #: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
@@ -121,6 +124,8 @@ msgid ""
 "Failure in the request on data.opendatasoft.com to create or update partner "
 "from SIREN or SIRET. Technical error: %s."
 msgstr ""
+"Échec de la requêtes à l'API data.opendatasoft.com pour créer ou mettre à "
+"jour le contact à partir du SIREN ou SIRET. Erreur technique : %s."
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_fr_siret_lookup
@@ -175,9 +180,8 @@ msgstr "Nom"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__name
-#, fuzzy
 msgid "Name to Search"
-msgstr "Rechercher"
+msgstr "Nom à Chercher"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__partner_id
@@ -189,12 +193,13 @@ msgstr "Partenaire"
 #, python-format
 msgid "Partner '%s' is not a company. This action is not relevant."
 msgstr ""
+"Le contact '%s' n'est pas une société. Cette action n'est pas applicable."
 
 #. module: l10n_fr_siret_lookup
 #: code:addons/l10n_fr_siret_lookup/wizard/fr_siret_lookup.py:0
 #, python-format
 msgid "Partner updated via the opendatasoft.com API."
-msgstr ""
+msgstr "Contact mis à jour à partir de l'API opendatasoft.com."
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__line_ids
@@ -208,19 +213,18 @@ msgstr "SIREN"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.actions.act_window,name:l10n_fr_siret_lookup.fr_siret_lookup_partner_action
-#, fuzzy
 msgid "SIREN Lookup"
-msgstr "Recherche"
+msgstr "Recherche API SIRENE"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "SIREN Lookup via opendatasoft.com"
-msgstr ""
+msgstr "Recherche SIREN via opendatasoft.com"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.actions.act_window,name:l10n_fr_siret_lookup.fr_siret_lookup_action
 msgid "SIREN lookup via opendatasoft.com"
-msgstr ""
+msgstr "Recherche SIREN via opendatasoft.com"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__siret
@@ -229,9 +233,8 @@ msgstr "SIRET"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
-#, fuzzy
 msgid "Search Results"
-msgstr "Résultats"
+msgstr "Résultats de Recherche"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
@@ -248,7 +251,7 @@ msgstr "Rue"
 #: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
 #, python-format
 msgid "The webservice data.opendatasoft.com returned an HTTP error code %s."
-msgstr ""
+msgstr "L'API data.opendatasoft.com a renvoyé le code d'erreur HTTP %s."
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__wizard_id
@@ -258,7 +261,7 @@ msgstr "Assistant"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__zip
 msgid "Zip"
-msgstr ""
+msgstr "Code Postal"
 
 #~ msgid "CP"
 #~ msgstr "CP"
