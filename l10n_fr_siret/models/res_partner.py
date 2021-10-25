@@ -26,25 +26,19 @@ class Partner(models.Model):
                 else:
                     rec.siret = rec.siren + "*****"
             else:
-                rec.siret = ""
+                rec.siret = False
 
     def _inverse_siret(self):
         for rec in self:
-            siret = rec.siret and rec.siret.replace(" ", "") or False
-            if siret and len(siret) == 14 and siret.isdigit():
-                rec.write(
-                    {
-                        "siren": siret[:9],
-                        "nic": siret[9:],
-                    }
-                )
+            if rec.siret:
+                if siret_is_valid(rec.siret):
+                    rec.write({"siren": rec.siret[:9], "nic": rec.siret[9:]})
+                elif siren_is_valid(rec.siret[:9]) and rec.siret[9:] == "*****":
+                    rec.write({"siren": rec.siret[:9], "nic": False})
+                else:
+                    raise ValidationError(_("SIRET '%s' is invalid.") % rec.siret)
             else:
-                rec.write(
-                    {
-                        "siren": False,
-                        "nic": False,
-                    }
-                )
+                rec.write({"siren": False, "nic": False})
 
     @api.constrains("siren", "nic")
     def _check_siret(self):
