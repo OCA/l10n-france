@@ -52,7 +52,8 @@ msgstr "Nom Affiché"
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "Duplicate warning: there is another partner with the same SIREN:"
-msgstr "Avertissement de doublon : il y a un autre contact avec le même SIREN :"
+msgstr ""
+"Avertissement de doublon : il y a un autre contact avec le même SIREN :"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__id
@@ -98,6 +99,12 @@ msgstr "SIREN"
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret
 msgid "SIRET"
 msgstr "SIRET"
+
+#. module: l10n_fr_siret
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+#, python-format
+msgid "SIRET '%s' is invalid."
+msgstr ""
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0

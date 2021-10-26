@@ -102,6 +102,12 @@ msgstr "SIRÉNA"
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
+msgid "SIRET '%s' is invalid."
+msgstr ""
+
+#. module: l10n_fr_siret
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+#, python-format
 msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
 msgstr "NIC '%s' je nesprávné: musí mít přesně pět číslic."
 
