@@ -108,3 +108,32 @@ class TestL10nFrSiret(TransactionCase):
         self.assertFalse(partner_company2.same_siren_partner_id)
         partner_company2.write({"company_id": False})
         self.assertEqual(partner_company2.same_siren_partner_id, partner_company1)
+
+    def test_change_parent_id(self):
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Akretion France",
+                "siren": "792377731",
+                "nic": "00023",
+            }
+        )
+
+        partner2 = self.env["res.partner"].create(
+            {
+                "name": "Akretion Fr",
+                "siren": "784671695",
+                "nic": "00087",
+            }
+        )
+
+        contact = self.env["res.partner"].create(
+            {"name": "Test contact", "parent_id": partner.id}
+        )
+
+        self.assertEqual(partner.siren, contact.siren)
+        self.assertEqual(partner.nic, contact.nic)
+
+        contact.write({"parent_id": partner2.id})
+
+        self.assertEqual(partner2.siren, contact.siren)
+        self.assertEqual(partner2.nic, contact.nic)
