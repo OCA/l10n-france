@@ -35,7 +35,7 @@ addon | version | maintainers | summary
 [l10n_fr_intrastat_product](l10n_fr_intrastat_product/) | 14.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | DEB (Déclaration d'Échange de Biens) for France
 [l10n_fr_intrastat_service](l10n_fr_intrastat_service/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Module for Intrastat service reporting (DES) for France
 [l10n_fr_mis_reports](l10n_fr_mis_reports/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | MIS Report templates for the French P&L and Balance Sheets
-[l10n_fr_siret](l10n_fr_siret/) | 14.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | French company identity numbers SIRET/SIREN/NIC
+[l10n_fr_siret](l10n_fr_siret/) | 14.0.1.2.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | French company identity numbers SIRET/SIREN/NIC
 [l10n_fr_siret_lookup](l10n_fr_siret_lookup/) | 14.0.1.0.0 | [![remi-filament](https://github.com/remi-filament.png?size=30px)](https://github.com/remi-filament) | Lookup partner via an API on the SIRENE directory
 [l10n_fr_state](l10n_fr_state/) | 14.0.1.0.1 | [![legalsylvain](https://github.com/legalsylvain.png?size=30px)](https://github.com/legalsylvain) | Populate Database with French States (Régions)
 
