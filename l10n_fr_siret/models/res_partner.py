@@ -44,6 +44,8 @@ class Partner(models.Model):
     def _check_siret(self):
         """Check the SIREN's and NIC's keys (last digits)"""
         for rec in self:
+            if rec.type == "contact" and rec.parent_id:
+                continue
             if rec.nic:
                 # Check the NIC type and length
                 if not rec.nic.isdigit() or len(rec.nic) != 5:
