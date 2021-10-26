@@ -12,7 +12,7 @@
               'Akretion, '
               'Nicolas JEUDY, '
               'Odoo Community Association (OCA)',
-    'website': 'http://www.grap.coop',
+    'website': 'https://github.com/OCA/l10n-france',
     'license': 'AGPL-3',
     'depends': ['base'],
     'pre_init_hook': 'create_fr_state_xmlid',
