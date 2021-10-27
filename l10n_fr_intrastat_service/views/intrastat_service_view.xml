@@ -18,6 +18,7 @@
                 <button name="back2draft" string="Back to Draft" type="object" states="done" />
                 <button name="generate_service_lines" string="Generate Lines from Invoices" type="object" states="draft" class="oe_highlight"/>
                 <button name="generate_xml" string="Attach XML File" type="object"/>
+                <button name="create_xlsx" type="object" string="Excel Export"/>
                 <button name="goto_prodouane_site" string="Goto Prodou@ne" type="object"
                         help="Vous devez être connecté au préalable sur le site https://pro.douane.gouv.fr pour bénéficier des services"/>
                 <field name="state" widget="statusbar" />

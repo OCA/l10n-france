@@ -22,8 +22,8 @@ msgstr ""
 #. module: account_balance_ebp_csv_export
 #: model:ir.ui.view,arch_db:account_balance_ebp_csv_export.report_trial_balance_ebp_csv
 msgid ""
-"Compte.Numero,Compte.Intitule,Balance.SldCptNDebit,Balance.SldCptNCredit,"
-"Balance.SldCptNSoldeD,Balance.SldCptNSoldeC"
+"\"Compte.Numero\",\"Compte.Intitule\",\"Balance.SldCptNDebit\",\"Balance."
+"SldCptNCredit\",\"Balance.SldCptNSoldeD\",\"Balance.SldCptNSoldeC\""
 msgstr ""
 
 #. module: account_balance_ebp_csv_export

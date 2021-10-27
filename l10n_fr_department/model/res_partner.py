@@ -17,15 +17,18 @@ class ResPartner(models.Model):
             ('code', 'in', ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT'))]).ids
         for partner in self:
             dpt_id = False
-            zip = partner.zip
+            zipcode = partner.zip
             if (
                     partner.country_id and
                     partner.country_id.id in fr_country_ids and
-                    zip and
-                    len(zip) == 5):
-                code = zip[0:2]
+                    zipcode and
+                    len(zipcode) == 5):
+                zipcode = partner.zip.strip().replace(' ', '').rjust(5, '0')
+                code = zipcode[0:2]
                 if code == '97':
-                    code = zip[0:3]
+                    code = zipcode[0:3]
+                if code == '20':
+                    code = self._compute_department_corsica(zipcode)
                 dpts = rcdo.search([
                     ('code', '=', code),
                     ('country_id', 'in', fr_country_ids),
@@ -37,3 +40,17 @@ class ResPartner(models.Model):
     department_id = fields.Many2one(
         'res.country.department', compute='_compute_department',
         string='Department', readonly=True, store=True)
+
+    def _compute_department_corsica(self, zipcode):
+        try:
+            zipcode = int(zipcode)
+        except ValueError:
+            return '20'
+        if 20000 <= zipcode < 20200:
+            # Corse du Sud / 2A
+            code = '2A'
+        elif 20200 <= zipcode <= 20620:
+            code = '2B'
+        else:
+            code = '20'
+        return code

@@ -351,10 +351,6 @@ class L10nFrIntrastatProductDeclaration(models.Model):
             if company.country_id.code != 'FR':
                 continue
             for type in ['arrivals', 'dispatches']:
-                if (
-                        type == 'arrivals' and
-                        company.intrastat_arrivals == 'exempt'):
-                    continue
                 # Check if a declaration already exists for month N-1
                 intrastats = self.search([
                     ('year_month', '=', previous_month),
@@ -379,6 +375,11 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                         logger.warning(
                             "Missing reporting level for %s "
                             "on company '%s'." % (type, company.name))
+                        continue
+                    if reporting_level == 'exempt':
+                        logger.info(
+                            'Reporting level is exempt for %s '
+                            'on company %s.' % (type, company.name))
                         continue
                     intrastat = self.create({
                         'company_id': company.id,

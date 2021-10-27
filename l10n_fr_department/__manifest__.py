@@ -6,7 +6,7 @@
 {
     'name': u'French Departments (Départements)',
     'summary': u'Populate Database with French Departments (Départements)',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.1.0',
     'category': 'French Localization',
     'author': "GRAP,Akretion,Odoo Community Association (OCA)",
     'website': 'http://www.grap.coop',

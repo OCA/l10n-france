@@ -11,26 +11,24 @@ class AccountInvoice(models.Model):
 
     @api.model
     def _cii_trade_contact_department_name(self, partner):
-        if partner.fr_chorus_service_code:
+        if partner.fr_chorus_service_id:
             return partner.name
         return super(AccountInvoice, self)._cii_trade_contact_department_name(
             partner)
 
     @api.model
     def _cii_trade_agreement_buyer_ref(self, partner):
-        if partner.fr_chorus_service_code:
-            return partner.fr_chorus_service_code
-        return super(AccountInvoice, self)._cii_trade_contact_department_name(
+        if partner.fr_chorus_service_id:
+            return partner.fr_chorus_service_id.code
+        return super(AccountInvoice, self)._cii_trade_agreement_buyer_ref(
             partner)
 
     def chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()
         if chorus_invoice_format == 'xml_cii':
-            # Our syntax doesn't comply to what Chorus expects for CII 16B
-            chorus_file_content = self.generate_facturx_xml()[0]
+            chorus_file_content = self.with_context(
+                fr_chorus_cii16b=True).generate_facturx_xml()[0]
         elif chorus_invoice_format == 'pdf_factur-x':
-            # deposerFlux works in Factur-X for single invoice,
-            # but not in multi-invoice with tarball
             chorus_file_content, filetype = self.env['ir.actions.report.xml'].\
                 render_report(self.ids, 'account.report_invoice', {})
             assert filetype == 'pdf', 'wrong filetype'

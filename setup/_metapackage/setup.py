@@ -21,9 +21,12 @@ setuptools.setup(
         'odoo10-addon-l10n_fr_chorus_factur-x',
         'odoo10-addon-l10n_fr_chorus_sale',
         'odoo10-addon-l10n_fr_chorus_ubl',
+        'odoo10-addon-l10n_fr_cog',
+        'odoo10-addon-l10n_fr_das2',
         'odoo10-addon-l10n_fr_department',
         'odoo10-addon-l10n_fr_department_delivery',
         'odoo10-addon-l10n_fr_department_oversea',
+        'odoo10-addon-l10n_fr_fec_oca',
         'odoo10-addon-l10n_fr_hr_check_ssnid',
         'odoo10-addon-l10n_fr_intrastat_product',
         'odoo10-addon-l10n_fr_intrastat_service',
@@ -35,5 +38,6 @@ setuptools.setup(
     classifiers=[
         'Programming Language :: Python',
         'Framework :: Odoo',
+        'Framework :: Odoo :: 10.0',
     ]
 )

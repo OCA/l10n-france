@@ -18,7 +18,6 @@ class HolidaysComputeCommon(TransactionCase):
             'groups_id': [(6, 0, [self.env.ref('base.group_user').id])],
         })
 
-        self.contract_model = self.env["hr.contract"]
         self.employee_model = self.env['hr.employee']
         self.holiday_status_model = self.env['hr.holidays.status']
         self.public_holiday_model = self.env["hr.holidays.public"]
@@ -45,17 +44,6 @@ class HolidaysComputeCommon(TransactionCase):
         self.calendar = self.calendar_model.create({
             'name': 'Calendar'
         })
-
-        # Create contract
-        self.contract = self.contract_model.create(
-            {
-                'employee_id': self.employee.id,
-                'name': 'Contract 1',
-                'date_start': '1990-10-14',
-                'wage': 5000,
-                'working_hours': self.calendar.id
-            }
-        )
 
         # Create some public holidays:
         public_holiday = self.public_holiday_model.create({

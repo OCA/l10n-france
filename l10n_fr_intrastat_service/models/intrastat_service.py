@@ -338,6 +338,15 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             'target': 'new',
         }
 
+    def create_xlsx(self):
+        action = {
+            'type': 'ir.actions.report.xml',
+            'report_type': 'xlsx',
+            'report_name': 'l10n.fr.intrastat.service.declaration.xlsx',
+            'context': dict(self._context, xlsx_export=True),
+            }
+        return action
+
 
 class L10nFrIntrastatServiceDeclarationLine(models.Model):
     _name = "l10n.fr.intrastat.service.declaration.line"

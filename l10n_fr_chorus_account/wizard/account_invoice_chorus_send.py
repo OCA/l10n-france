@@ -2,7 +2,7 @@
 # Copyright 2018 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import logging
 logger = logging.getLogger(__name__)
@@ -74,7 +74,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
             'Starting to send invoices IDs %s to Chorus', self.invoice_ids.ids)
         company = self.company_id
         api_params = company.chorus_get_api_params(raise_if_ko=True)
-        url_path = 'factures/deposer/flux'
+        url_path = 'factures/v1/deposer/flux'
         payload = self.invoice_ids.prepare_chorus_deposer_flux_payload()
         attach = self.env['ir.attachment'].create({
             'name': payload.get('nomFichier'),
@@ -84,7 +84,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
         logger.info(
             'Start to send invoice IDs %s via Chorus %sWS',
             self.invoice_ids.ids, api_params['qualif'] and 'QUALIF. ' or '')
-        answer, session = self.env['chorus.api'].chorus_post(
+        answer, session = company.chorus_post(
             api_params, url_path, payload)
         if answer and answer.get('numeroFluxDepot'):
             flow = self.env['chorus.flow'].create({
