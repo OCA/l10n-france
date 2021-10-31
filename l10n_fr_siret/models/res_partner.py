@@ -133,6 +133,7 @@ class Partner(models.Model):
         "res.partner",
         compute="_compute_same_siren_partner_id",
         string="Partner with same SIREN",
+        compute_sudo=True,
     )
 
     @api.depends("siren", "company_id")
@@ -141,20 +142,21 @@ class Partner(models.Model):
         for partner in self:
             same_siren_partner_id = False
             if partner.siren and not partner.parent_id:
-                # use _origin to deal with onchange()
-                partner_id = partner._origin.id
                 domain = [
                     ("siren", "=", partner.siren),
-                    ("company_id", "in", (False, partner.company_id.id)),
                     ("parent_id", "=", False),
                 ]
-                if partner_id:
+                if partner.company_id:
                     domain += [
-                        ("id", "!=", partner_id),
-                        "!",
-                        ("id", "child_of", partner_id),
+                        "|",
+                        ("company_id", "=", False),
+                        ("company_id", "=", partner.company_id.id),
                     ]
+                # use _origin to deal with onchange()
+                partner_id = partner._origin.id
+                if partner_id:
+                    domain.append(("id", "!=", partner_id))
                 same_siren_partner_id = (
-                    self.with_context(active_test=False).sudo().search(domain, limit=1)
-                )
+                    self.with_context(active_test=False).search(domain, limit=1)
+                ).id or False
             partner.same_siren_partner_id = same_siren_partner_id

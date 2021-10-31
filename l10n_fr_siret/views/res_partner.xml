@@ -53,9 +53,9 @@
                     role="alert"
                     attrs="{'invisible': [('same_siren_partner_id', '=', False)]}"
                 >
-                  Duplicate warning: there is another partner with the same SIREN: <field
+                        Duplicate warning: partner <field
                         name="same_siren_partner_id"
-                    />.
+                    /> has the same <b>SIREN</b>.
                 </div>
             </div>
             <!-- TODO When base_view_inheritance_extension will be ported to v14, add default_nic to context of child_ids -->
