@@ -18,6 +18,7 @@
         "views/res_company.xml",
     ],
     "demo": ["demo/partner_demo.xml"],
+    "post_init_hook": "set_siren_nic",
     "installable": True,
     "development_status": "Mature",
 }
