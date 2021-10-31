@@ -25,13 +25,15 @@ French company identity numbers SIRET/SIREN/NIC
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This can help any company doing business with French companies
-by letting users track the partners' unique identification
-numbers from the official SIRENE registry in France: SIRET, SIREN and
-NIC.
+The **l10n_fr** module from the official addons adds a *SIRET* field on partners, but it doesn't verify its validity. This module **l10n_fr_siret** adds several features:
 
-These numbers identify each company and their subsidiaries, and are
-often required for administrative tasks.
+* the validity of the SIRET is checked using its checksum.
+* it adds **SIREN** and **NIC** fields (reminder: SIREN + NIC = SIRET). If you enter the SIRET, these 2 fields are automatically computed from SIRET.
+* multi-site companies have a single SIREN and one SIRET per site i.e. one NIC per site. This module allows to enter a specific NIC on child partners.
+* it adds a warning banner on the partner form view if another partner has the same SIREN.
+
+.. figure:: https://raw.githubusercontent.com/OCA/l10n-france/14.0/l10n_fr_siret/static/description/partner_duplicate_warning.png
+   :alt: Warning banner on partner form
 
 **Table of contents**
 
@@ -41,11 +43,16 @@ often required for administrative tasks.
 Usage
 =====
 
-On the Partner form, users will be able to enter the SIREN
-and NIC numbers, and the SIRET number will be calculated automatically.
+On the Partner form, users will be able to enter:
+* the SIREN and NIC numbers: the SIRET number will be computed automatically.
+* the SIRET number: the SIREN and NIC will be computed automatically.
 
-The last digits of the SIREN and NIC are control keys:
-Odoo will check their validity when partners are recorded.
+The last digits of the SIREN and NIC are control keys: Odoo will check their validity.
+
+The warning banner is displayed on the partner form view if another partner:
+- has the same SIREN,
+- if the partner is attached to a specific company: is in the same company or is not attached to a specific company,
+- if the partner is not attached to a specific company: is in any company or not attached to a specific company.
 
 Bug Tracker
 ===========
