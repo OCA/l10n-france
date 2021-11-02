@@ -49,7 +49,7 @@ msgstr ""
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
-msgid "Duplicate warning: there is another partner with the same SIREN:"
+msgid "Duplicate warning: partner"
 msgstr ""
 
 #. module: l10n_fr_siret
@@ -160,6 +160,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__company_registry
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_users__company_registry
 msgid "The name of official registry where this company was declared."
+msgstr ""
+
+#. module: l10n_fr_siret
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
+msgid "has the same <b>SIREN</b>."
 msgstr ""
 
 #~ msgid "Partner"
