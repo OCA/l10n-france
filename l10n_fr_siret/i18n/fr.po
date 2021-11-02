@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2021-10-31 09:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -114,8 +115,8 @@ msgid ""
 "The NIC number is the official rank number of this office in the company in "
 "France. It composes the last 5 digits of the SIRET number."
 msgstr ""
-"Le NIC est le numéro de classement officiel de cet établissement au sein "
-"de cette société en France. Il est composé des 5 derniers numéros du SIRET."
+"Le NIC est le numéro de classement officiel de cet établissement au sein de "
+"cette société en France. Il est composé des 5 derniers numéros du SIRET."
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
@@ -137,8 +138,8 @@ msgid ""
 "The SIREN number is the official identity number of the company in France. "
 "It composes the first 9 digits of the SIRET number."
 msgstr ""
-"Le SIREN est le numéro d'identité officiel de la société en "
-"France. Il est composé des 9 premiers chiffres du SIRET."
+"Le SIREN est le numéro d'identité officiel de la société en France. Il est "
+"composé des 9 premiers chiffres du SIRET."
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
@@ -151,13 +152,13 @@ msgstr "Le SIRET '%s%s' est invalide : la clé de contrôle n'est pas bonne."
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_users__siret
 msgid ""
-"The SIRET number is the official identity number of this company's office in"
-" France. It is composed of the 9 digits of the SIREN number and the 5 digits"
-" of the NIC number, ie. 14 digits."
+"The SIRET number is the official identity number of this company's office in "
+"France. It is composed of the 9 digits of the SIREN number and the 5 digits "
+"of the NIC number, ie. 14 digits."
 msgstr ""
-"Le SIRET est le numéro d'identité officiel d'un établissement d'une société en "
-"France. Il est composé des 9 chiffres du SIREN suivi des 5 chiffres du NIC, "
-"soit un total de 14 chiffres."
+"Le SIRET est le numéro d'identité officiel d'un établissement d'une société "
+"en France. Il est composé des 9 chiffres du SIREN suivi des 5 chiffres du "
+"NIC, soit un total de 14 chiffres."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__company_registry
