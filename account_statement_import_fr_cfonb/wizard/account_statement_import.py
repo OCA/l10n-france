@@ -20,7 +20,8 @@ class AccountStatementImport(models.TransientModel):
 
     def _parse_cfonb_amount(self, amount_str, nb_of_dec):
         """Taken from the cfonb lib"""
-        amount_str = amount_str[:-nb_of_dec] + "." + amount_str[-nb_of_dec:]
+        if nb_of_dec:
+            amount_str = amount_str[:-nb_of_dec] + "." + amount_str[-nb_of_dec:]
         # translate the last char and set the sign
         credit_trans = {
             "A": "1",
@@ -105,14 +106,14 @@ class AccountStatementImport(models.TransientModel):
                 account_number,
                 currency_code,
             )
-            decimals = line[19:20] != " " and int(line[19:20]) or 2
+            decimals = line[19:20] == " " and 2 or int(line[19:20])
+            # decimals=2 for EUR, 0 for XPF
             date_cfonb_str = line[34:40]
             date_dt = False
             if date_cfonb_str != "      ":
                 date_dt = datetime.strptime(date_cfonb_str, "%d%m%y")
             if account_number in self._excluded_accounts:
                 continue
-            assert decimals == 2, "We use 2 decimals in France!"
 
             if rec_type == "01":
                 transactions = []
