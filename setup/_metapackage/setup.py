@@ -28,6 +28,7 @@ setuptools.setup(
         'odoo14-addon-l10n_fr_intrastat_product',
         'odoo14-addon-l10n_fr_intrastat_service',
         'odoo14-addon-l10n_fr_mis_reports',
+        'odoo14-addon-l10n_fr_pos_cert_allow_change_qty',
         'odoo14-addon-l10n_fr_siret',
         'odoo14-addon-l10n_fr_siret_lookup',
         'odoo14-addon-l10n_fr_state',
