@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+                <record id="l10n_fr_account_vat_return_form" model="ir.ui.view">
+                        <field name="model">l10n.fr.account.vat.return</field>
+                        <field
+            name="inherit_id"
+            ref="l10n_fr_account_vat_return.l10n_fr_account_vat_return_form"
+        />
+                        <field name="arch" type="xml">
+                                <button name="auto2sent" position="before">
+                                        <button
+                    name="send_ca3_via_teledec"
+                    type="object"
+                    string="Transmit via Teledec.fr"
+                    attrs="{'invisible': ['|', ('state', '!=', 'auto'), ('vat_periodicity', '=', '12')]}"
+                    class="btn-primary"
+                />
+                                </button>
+                                <button name="auto2sent" position="attributes">
+                                        <attribute name="class">btn-default</attribute>
+                                </button>
+                                <field name="move_id" position="after">
+                                        <field
+                    name="teledec_sent_datetime"
+                    attrs="{'invisible': [('teledec_sent_datetime', '=', False)]}"
+                />
+                            </field>
+                            </field>
+                    </record>
+
+                    <!--
+                <record id="l10n_fr_account_vat_return_tree" model="ir.ui.view">
+                        <field name="model">l10n.fr.account.vat.return</field>
+                        <field name="inherit_id" ref="l10n_fr_account_vat_return.l10n_fr_account_vat_return_tree"/>
+                        <field name="arch" type="xml">
+                                <field name="company_id" position="before">
+                                        <field name="teledec_sent_datetime" optional="show"/>
+                                </field>
+                        </field>
+                    </record> -->
+
+                    <!--
+                <record id="l10n_fr_account_vat_return_search" model="ir.ui.view">
+                        <field name="model">l10n.fr.account.vat.return</field>
+                        <field name="inherit_id" ref="l10n_fr_account_vat_return.l10n_fr_account_vat_return_search"/>
+                        <field name="arch" type="xml">
+                        <filter name="done" position="after">
+                                <separator/>
+                                <filter name="teledec-not-sent" string="Not Sent via Teledec" domain="[('teledec_sent_datetime', '=', False)]"/>
+                                <filter name="teledec-sent" string="Sent via Teledec" domain="[('teledec_sent_datetime', '!=', False)]"/>
+                        </filter>
+                        </field>
+                            </record>
+                    -->
+
+
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_fr_account_vat_box_read,Read access on l10n.fr.account.vat.box,model_l10n_fr_account_vat_box,base.group_user,1,0,0,0
+access_l10n_fr_account_vat_box_full,Full access on l10n.fr.account.vat.box,model_l10n_fr_account_vat_box,account.group_account_manager,1,1,1,1
+access_l10n_fr_account_vat_return_full,Full access on l10n.fr.account.vat.return,model_l10n_fr_account_vat_return,account.group_account_user,1,1,1,1
+access_l10n_fr_account_vat_return_line_full,Full access on l10n.fr.account.vat.return.line,model_l10n_fr_account_vat_return_line,account.group_account_user,1,1,1,1
+access_l10n_fr_account_vat_return_line_log_full,Full access on l10n.fr.account.vat.return.line.log,model_l10n_fr_account_vat_return_line_log,account.group_account_user,1,1,1,1
+access_l10n_fr_account_vat_return_reimbursement_full,Full access on l10n.fr.account.vat.return.reimbursement wizard,model_l10n_fr_account_vat_return_reimbursement,account.group_account_user,1,1,1,1
