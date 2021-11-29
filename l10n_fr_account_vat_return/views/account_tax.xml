@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+<record id="view_tax_form" model="ir.ui.view">
+    <field name="model">account.tax</field>
+    <field name="inherit_id" ref="account.view_tax_form" />
+    <field name="arch" type="xml">
+            <xpath expr="//field[@name='tax_scope']/.." position="inside">
+                        <field name="fr_vat_autoliquidation" />
+        </xpath>
+    </field>
+</record>
+
+<record id="view_tax_tree" model="ir.ui.view">
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_tree" />
+        <field name="arch" type="xml">
+                <field name="company_id" position="before">
+                        <field name="fr_vat_autoliquidation" optional="hide" />
+                </field>
+            </field>
+            </record>
+
+</odoo>
