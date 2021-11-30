@@ -8,6 +8,7 @@ from odoo import api, fields, models
 
 class AccountEcotaxeClassification(models.Model):
     _name = "account.ecotaxe.classification"
+    _description = "Account ecotaxe classification"
 
     # Default Section
     def _default_company_id(self):
@@ -86,6 +87,7 @@ class AccountEcotaxeClassification(models.Model):
 
 class AccountEcotaxeClassificationCategory(models.Model):
     _name = "account.ecotaxe.category"
+    _description = "Account ecotaxe category"
 
     name = fields.Char(required=True,)
     code = fields.Char(required=True,)
