@@ -5,6 +5,7 @@
 import io
 import json
 import logging
+import textwrap
 import uuid
 from collections import defaultdict
 
@@ -124,7 +125,10 @@ class L10nFrAccountVatReturn(models.Model):
         compute="_compute_reimbursement_show_button",
         string="Show VAT Credit Reimbursement Button",
     )
-    reimbursement_comment_dgfip = fields.Text(string="Reimbursement Comment for DGFIP")
+    reimbursement_comment_dgfip = fields.Text(
+        string="Reimbursement Comment for DGFIP",
+        states={"sent": [("readonly", True)], "posted": [("readonly", True)]},
+    )
     selenium_attachment_id = fields.Many2one("ir.attachment")
     selenium_attachment_datas = fields.Binary(
         related="selenium_attachment_id.datas", string="Selenium File"
@@ -139,7 +143,10 @@ class L10nFrAccountVatReturn(models.Model):
     ca3_attachment_name = fields.Char(
         related="ca3_attachment_id.name", string="CA3 Filename"
     )
-    comment_dgfip = fields.Text(string="Comment for DGFIP")
+    comment_dgfip = fields.Text(
+        string="Comment for DGFIP",
+        states={"sent": [("readonly", True)], "posted": [("readonly", True)]},
+    )
     line_ids = fields.One2many(
         "l10n.fr.account.vat.return.line",
         "parent_id",
@@ -405,6 +412,8 @@ class L10nFrAccountVatReturn(models.Model):
     def auto2sent(self):
         self.ensure_one()
         assert self.state == "auto"
+        if not self.ca3_attachment_id:  # for archive
+            self.generate_ca3_attachment()
         self.write(
             {
                 "state": "sent",
@@ -1784,7 +1793,7 @@ class L10nFrAccountVatReturn(models.Model):
             )
         # TODO: move Selenium file generation to a python lib ?
         siren = self.company_id.siret[:9]
-        # siren_with_spaces = " ".join([siren[:3], siren[3:6], siren[6:9]])
+        siren_with_spaces = " ".join([siren[:3], siren[3:6], siren[6:9]])
         test_uuid = str(uuid.uuid4())
         side_dict = {
             "id": str(uuid.uuid4()),
@@ -1862,19 +1871,21 @@ class L10nFrAccountVatReturn(models.Model):
                             "comment": "Higher speed for VAT form",
                             "command": "setSpeed",
                             "target": "0",
-                        },  # {
-                        # "id": str(uuid.uuid4()),
-                        # "comment": "Check SIREN %s" % siren,
-                        # "command": "assertText",
-                        # "target": "xpath=//div[@id='siren']",
-                        # "value": "SIREN : %s" % siren_with_spaces,
-                        # }, {
-                        # "id": str(uuid.uuid4()),
-                        # "comment": "Check period %s" % period_name,
-                        # "command": "assertText",
-                        # "target": "xpath=//div[@id='titreMessage']/b[2]",
-                        # "value": period_name,
-                        # },
+                        },
+                        {
+                            "id": str(uuid.uuid4()),
+                            "comment": "Check SIREN %s" % siren,
+                            "command": "assertText",
+                            "target": "xpath=//div[contains(.,'SIREN')]/span",
+                            "value": siren_with_spaces,
+                        },
+                        {
+                            "id": str(uuid.uuid4()),
+                            "comment": "Check period %s" % period_name,
+                            "command": "assertText",
+                            "target": "xpath=//div[contains(.,'imposition')]/following::div",
+                            "value": period_name,
+                        },
                     ],
                 }
             ],
@@ -1970,6 +1981,10 @@ class L10nFrAccountVatReturn(models.Model):
 
     def print_ca3(self):
         self.ensure_one()
+        # In manu/auto, we re-generate it every time because comment_dgfip
+        # may have changed
+        if self.ca3_attachment_id and self.state in ("manual", "auto"):
+            self.ca3_attachment_id.unlink()
         if not self.ca3_attachment_id:
             self.generate_ca3_attachment()
         action = {
@@ -2069,6 +2084,16 @@ class L10nFrAccountVatReturn(models.Model):
         for pvals in static_prints.values():
             if pvals["value"]:
                 page2canvas["1"].drawString(pvals["x"], pvals["y"], pvals["value"])
+        # Comment => block of text
+        if self.comment_dgfip:
+            text_object = page2canvas["1"].beginText(21, 290)
+            for line in self.comment_dgfip.splitlines():
+                line_wrapped = textwrap.wrap(
+                    line, width=120, break_long_words=False, replace_whitespace=False
+                )
+                for wline in line_wrapped:
+                    text_object.textLine(wline.rstrip())
+            page2canvas["1"].drawText(text_object)
         # Address => use flowable because it is multiline
         addr = self.company_id.partner_id._display_address(without_company=True)
         if addr:
