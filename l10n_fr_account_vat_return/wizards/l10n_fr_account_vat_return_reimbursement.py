@@ -22,6 +22,7 @@ class L10nFrAccountVatReturnReimbursement(models.TransientModel):
     )
     first_creation_date = fields.Date(string="Creation Date")
     end_date = fields.Date(string="Event Date")
+    reimbursement_comment_dgfip = fields.Text(string="Comment for DGFIP")
 
     def validate(self):
         self.ensure_one()
@@ -64,6 +65,7 @@ class L10nFrAccountVatReturnReimbursement(models.TransientModel):
         vals = {
             "reimbursement_type": self.reimbursement_type,
             "move_id": move_id,
+            "reimbursement_comment_dgfip": self.reimbursement_comment_dgfip,
         }
         if self.reimbursement_type == "first":
             vals["reimbursement_first_creation_date"] = self.first_creation_date
