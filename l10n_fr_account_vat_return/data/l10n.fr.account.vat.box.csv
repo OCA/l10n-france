@@ -31,9 +31,9 @@ ca3_fr,3310CA3,380,,9B-base,FR,MOA,904069,due_vat_base,,,,,,,,France métropolit
 ca3_jc,3310CA3,890,,27,JC,MOA,100098,end_total_credit,,,,,,debit,44567,Crédit à reporter (lignes 25 - 26 - AA),Crédit à reporter sur déclaration suivante,2,287,56
 ca3_ja,3310CA3,810,,25,JA,MOA,100096,no_push_total_credit,100,l10n_fr_account_vat_return.ca3_jc,,,,,,Crédit de TVA (lignes 23 - 16),Crédit de TVA,2,287,131
 ca3_jb,3310CA3,820,,26,JB,MOA,100097,vat_reimbursement,100,l10n_fr_account_vat_return.ca3_jc,-100,,,debit,44583,Remboursement de crédit demandé sur formulaire n° 3519 joint,Remboursement de crédit demandé sur formulaire n° 3519 joint,2,287,110
-ca3_ke,3310CA3,990,,32,KE,MOA,100103,end_total_debit,,,,,,credit,44551,Total à payer (lignes 28 + 29 - AB),Total à payer,2,571,38
-ca3_ka,3310CA3,910,,28,KA,MOA,100099,no_push_total_debit,100,l10n_fr_account_vat_return.ca3_ke,,,,,,TVA nette due (lignes 16 - 23),TVA nette due,2,580,131
-ca3_kb,3310CA3,920,,29,KB,MOA,100100,,100,l10n_fr_account_vat_return.ca3_ke,,,,,,Report du montant de taxes assimilées calculées sur annexe 3310A,Report du montant de taxes assimilées calculées sur annexe 3310A,2,580,110
+ca3_ke,3310CA3,990,,32,KE,MOA,100103,end_total_debit,,,,,,,,Total à payer (lignes 28 + 29 - AB),Total à payer,2,571,38
+ca3_ka,3310CA3,910,,28,KA,MOA,100099,no_push_total_debit,100,l10n_fr_account_vat_return.ca3_ke,,,,credit,44551,TVA nette due (lignes 16 - 23),TVA nette due,2,580,131
+ca3_kb,3310CA3,920,,29,KB,MOA,100100,,100,l10n_fr_account_vat_return.ca3_ke,,,,credit,4470,Report du montant de taxes assimilées calculées sur annexe 3310A,Report du montant de taxes assimilées calculées sur annexe 3310A,2,580,110
 ca3_gh,3310CA3,530,,16,GH,MOA,,due_vat_total,,,,,,,,Total de la TVA brute due (lignes 08 à 5B),Total général de la TVA brute due,2,580,374
 ca3_ga,3310CA3,510,,15A,GA,MOA,910761,,,,,,,,,Dont TVA sur les produits pétroliers,"TVA antérieurement déduite à reverser, part de la TVA sur les produits pétroliers",2,330,400
 ca3_gb,3310CA3,370,,09-taxe,GB,MOA,,due_vat,40,l10n_fr_account_vat_return.ca3_gh,,550,l10n_fr_account_vat_return.ca3_fb,debit,,"France métropolitaine - Taux réduit 5,5 % : taxe due","Taux réduit 5,5 % France métropolitaine : taxe due",2,580,538
