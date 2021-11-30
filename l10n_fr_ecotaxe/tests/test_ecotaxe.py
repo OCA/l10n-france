@@ -50,7 +50,6 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         move_line1 = invoice.invoice_line_ids[0]
         move_line1.product_id = self.product_a
         self.product_a.manual_fixed_ecotaxe = 1.5
-        # self.product_a._compute_ecotaxe()
         self.assertEqual(self.product_a.ecotaxe_amount, 1.5)
         move_line1.quantity = 4
         invoice._onchange_invoice_line_ids()
@@ -75,7 +74,6 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         move_line1 = invoice.invoice_line_ids[0]
         move_line1.product_id = self.product_b
 
-        # self.product_b._compute_ecotaxe()
         self.assertEqual(self.product_b.ecotaxe_amount, 16)
         move_line1.quantity = 3
         invoice._onchange_invoice_line_ids()
@@ -100,11 +98,10 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         move_line1 = invoice.invoice_line_ids[0]
         move_line1.product_id = self.product_a
 
-        # self.product_a._compute_ecotaxe()
         self.assertEqual(self.product_a.ecotaxe_amount, 2.4)
         move_line1.quantity = 3
         invoice._onchange_invoice_line_ids()
-        move_line2 = move_linei1.create(
+        move_line2 = move_line1.create(
             {
                 "move_id": invoice.id,
                 "name": "Line 1",

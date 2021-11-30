@@ -63,7 +63,7 @@
             </form>
         </field>
     </record>
-    <record id="view_account_fiscalyear_search" model="ir.ui.view">
+    <record id="view_account_fecotaxe_classification_search" model="ir.ui.view">
         <field name="model">account.ecotaxe.classification</field>
         <field name="arch" type="xml">
             <search string="Search Ecotaxe Classification">
@@ -141,7 +141,7 @@
             </form>
         </field>
     </record>
-    <record id="view_account_fiscalyear_search" model="ir.ui.view">
+    <record id="view_account_ecotaxe_category_search" model="ir.ui.view">
         <field name="model">account.ecotaxe.category</field>
         <field name="arch" type="xml">
             <search string="Search Ecotaxe category">
