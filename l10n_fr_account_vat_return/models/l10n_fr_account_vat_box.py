@@ -252,8 +252,7 @@ class L10nFrAccountVatBox(models.Model):
                             )
                             % (box.display_name, box.due_vat_base_box_id.display_name)
                         )
-                    # TODO update this hack
-                    if box.accounting_method != "debit" and box.edi_code != "GD":
+                    if box.accounting_method != "debit":
                         raise ValidationError(
                             _(
                                 "Wrong accounting method on Due VAT box '%s': "
