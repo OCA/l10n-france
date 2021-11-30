@@ -36,6 +36,7 @@
                         attrs="{'invisible': [('reimbursement_type', '!=', 'end')], 'required': [('reimbursement_type', '=', 'end')]}"
                         options="{'datepicker': {'warn_future': true}}"
                     />
+                                <field name="reimbursement_comment_dgfip" />
                         </group>
                         <footer>
                                 <button
