@@ -23,7 +23,7 @@ ca3_section_tva_a_payer,3310CA3,300,section,B,,,,,,,,,,,,DÉCOMPTE DE LA TVA À 
 ca3_sub_section_tva_brute,3310CA3,310,sub_section,,,,,,,,,,,,,TVA BRUTE,TVA BRUTE,,,
 ca3_fb,3310CA3,360,,09-base,FB,MOA,100078,due_vat_base,,,,,,,,"France métropolitaine - Taux réduit 5,5 % : base HT","Taux réduit 5,5 % France métropolitaine : base HT",2,518,538
 ca3_fc,3310CA3,460,,13-base,FC,MOA,100080,due_vat_base,,,,,,,,Anciens taux : base HT,Opérations imposables aux anciens taux : base HT,2,518,428
-ca3_fd,3310CA3,480,,14-base,FD,MOA,100082,due_vat_base,,,,,,,,Autres taux  (décompte effectué sur annexe N° 3310-A) : base HT,Opérations imposables à un taux particulier (décompte effectué sur annexe N° 3310-A) : base HT,2,518,415
+ca3_fd,3310CA3,480,,14-base,FD,MOA,100082,,,,,,,,,Autres taux  (décompte effectué sur annexe N° 3310-A) : base HT,Opérations imposables à un taux particulier (décompte effectué sur annexe N° 3310-A) : base HT,2,518,415
 ca3_fm,3310CA3,420,,10-base,FM,MOA,100113,due_vat_base,,,,,,,,"DOM - Taux normal 8,5 % : base HT",Opérations réalisées dans les DOM imposables au taux normal : base HT,2,518,482
 ca3_fn,3310CA3,440,,11-base,FN,MOA,100115,due_vat_base,,,,,,,,"DOM - Taux réduit 2,1 % : base HT",Opérations imposables réalisées dans les DOM au taux réduit base HT,2,518,469
 ca3_fp,3310CA3,320,,08-base,FP,MOA,904065,due_vat_base,,,,,,,,France métropolitaine - Taux normal 20 % : base HT,Opérations imposables au taux normal de 20% en France métropolitaine : base HT,2,518,575
@@ -38,7 +38,7 @@ ca3_gh,3310CA3,530,,16,GH,MOA,,due_vat_total,,,,,,,,Total de la TVA brute due (l
 ca3_ga,3310CA3,510,,15A,GA,MOA,910761,,,,,,,,,Dont TVA sur les produits pétroliers,"TVA antérieurement déduite à reverser, part de la TVA sur les produits pétroliers",2,330,400
 ca3_gb,3310CA3,370,,09-taxe,GB,MOA,,due_vat,40,l10n_fr_account_vat_return.ca3_gh,,550,l10n_fr_account_vat_return.ca3_fb,debit,,"France métropolitaine - Taux réduit 5,5 % : taxe due","Taux réduit 5,5 % France métropolitaine : taxe due",2,580,538
 ca3_gc,3310CA3,470,,13-taxe,GC,MOA,,due_vat,40,l10n_fr_account_vat_return.ca3_gh,,,l10n_fr_account_vat_return.ca3_fc,debit,,Anciens taux : taxe due,Opérations imposables aux anciens taux : taxe due,2,580,428
-ca3_gd,3310CA3,490,,14-taxe,GD,MOA,,due_vat,40,l10n_fr_account_vat_return.ca3_gh,,,l10n_fr_account_vat_return.ca3_fd,,,Autres taux  (décompte effectué sur annexe N° 3310-A) : taxe due,Opérations imposables à un taux particulier (décompte effectué sur annexe N° 3310-A) : taxe due,2,580,415
+ca3_gd,3310CA3,490,,14-taxe,GD,MOA,,,40,l10n_fr_account_vat_return.ca3_gh,,,,,,Autres taux  (décompte effectué sur annexe N° 3310-A) : taxe due,Opérations imposables à un taux particulier (décompte effectué sur annexe N° 3310-A) : taxe due,2,580,415
 ca3_gg,3310CA3,500,,15,GG,MOA,100087,,40,l10n_fr_account_vat_return.ca3_gh,,,,,,TVA antérieurement déduite à reverser,"TVA antérieurement déduite à reverser, taxe due",2,580,400
 ca3_gj,3310CA3,540,,17,GJ,MOA,100089,due_vat_intracom_product,,,,,,,,Dont TVA sur acquisitions intra-communautaires,TVA brute sur acquisitions intra-communautaires,2,580,359
 ca3_gk,3310CA3,560,,18,GK,MOA,100105,due_vat_monaco,,,,,,,,Dont TVA sur opérations à destination de Monaco,TVA brute due sur opérations à destination de Monaco.,2,580,322
