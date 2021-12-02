@@ -97,7 +97,6 @@
                                     options="{'datepicker': {'warn_future': true}}"
                                 />
                                                 <field name="vat_periodicity" />
-                                                <field name="bank_account_id" />
                                                 <field
                                     name="reimbursement_type"
                                     attrs="{'invisible': [('reimbursement_type', '=', False)]}"
@@ -151,6 +150,7 @@
                                     name="company_id"
                                     groups="base.group_multi_company"
                                 />
+                                                <field name="bank_account_id" />
                                                     <field name="move_id" />
                                             </group>
                                             </group>
@@ -201,6 +201,10 @@
                                         <field name="name" />
                                         <field name="start_date" optional="hide" />
                                         <field name="end_date" optional="hide" />
+                                        <field
+                        name="reimbursement_type"
+                        optional="hide"
+                    />
                                        <field
                         name="company_id"
                         groups="base.group_multi_company"

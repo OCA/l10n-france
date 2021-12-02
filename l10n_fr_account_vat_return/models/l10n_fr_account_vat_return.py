@@ -1970,12 +1970,12 @@ class L10nFrAccountVatReturn(models.Model):
         )
         self.write({"selenium_attachment_id": attach.id})
         action = {
-            "name": "FEC",
+            "name": _("Selenium IDE File"),
             "type": "ir.actions.act_url",
             "url": "web/content/?model=%s&id=%d&filename_field=selenium_attachment_name&"
             "field=selenium_attachment_datas&download=true&filename=%s"
             % (self._name, self.id, filename),
-            "target": "self",
+            "target": "new",
         }
         return action
 
