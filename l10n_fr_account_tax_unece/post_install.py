@@ -1,4 +1,4 @@
-# Copyright 2016-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2016-2021 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -23,42 +23,39 @@ def set_unece_on_taxes(cr, registry):
             xfield_dict = xfield.attrib
             data[xmlid][xfield_dict["name"]] = xfield_dict.get("ref")
     logger.debug("set_unece_on_taxes data=%s", data)
-    with api.Environment.manage():
-        env = api.Environment(cr, SUPERUSER_ID, {})
-        companies = env["res.company"].search([])
-        ato = env["account.tax"]
-        imdo = env["ir.model.data"]
-        for company in companies:
-            logger.debug(
-                "set_unece_on_taxes working on company %s ID %d",
-                company.display_name,
-                company.id,
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    companies = env["res.company"].search([])
+    ato = env["account.tax"]
+    imdo = env["ir.model.data"]
+    for company in companies:
+        logger.debug(
+            "set_unece_on_taxes working on company %s ID %d",
+            company.display_name,
+            company.id,
+        )
+        if company.country_id and company.country_id != env.ref("base.fr"):
+            continue
+        taxes = ato.search([("company_id", "=", company.id)])
+        for tax in taxes:
+            xmlid_obj = imdo.search(
+                [
+                    ("model", "=", "account.tax"),
+                    ("module", "=", "l10n_fr"),
+                    ("res_id", "=", tax.id),
+                ],
+                limit=1,
             )
-            if company.country_id and company.country_id != env.ref("base.fr"):
-                continue
-            taxes = ato.search([("company_id", "=", company.id)])
-            for tax in taxes:
-                xmlid_obj = imdo.search(
-                    [
-                        ("model", "=", "account.tax"),
-                        ("module", "=", "l10n_fr"),
-                        ("res_id", "=", tax.id),
-                    ],
-                    limit=1,
-                )
-                if xmlid_obj and xmlid_obj.name and len(xmlid_obj.name.split("_")) > 1:
-                    # Remove the 'companyID_' prefix from XMLID of tax
-                    xmlid_ori_end = "_".join(xmlid_obj.name.split("_")[1:])
-                    xmlid_ori = "l10n_fr.%s" % xmlid_ori_end
-                    if data.get(xmlid_ori):
-                        vals = {}
-                        for rfield, rxmlid in data[xmlid_ori].items():
-                            if rxmlid:
-                                vals[rfield] = env.ref(rxmlid).id
-                        logger.debug(
-                            "set_unece_on_taxes writing vals=%s on tax ID %d",
-                            vals,
-                            tax.id,
-                        )
-                        tax.write(vals)
+            if xmlid_obj and xmlid_obj.name and len(xmlid_obj.name.split("_")) > 1:
+                # Remove the 'companyID_' prefix from XMLID of tax
+                xmlid_ori_end = "_".join(xmlid_obj.name.split("_")[1:])
+                xmlid_ori = "l10n_fr.%s" % xmlid_ori_end
+                if data.get(xmlid_ori):
+                    vals = {}
+                    for rfield, rxmlid in data[xmlid_ori].items():
+                        if rxmlid:
+                            vals[rfield] = env.ref(rxmlid).id
+                    logger.debug(
+                        "set_unece_on_taxes writing vals=%s on tax ID %d", vals, tax.id
+                    )
+                    tax.write(vals)
     return
