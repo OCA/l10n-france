@@ -29,7 +29,7 @@ class Partner(models.Model):
     _inherit = "res.partner"
 
     ape_id = fields.Many2one(
-        "res.partner.category",
+        "res.partner.nace",
         string="APE",
         help="If the partner is a French company, enter its official "
         "main activity in this field. The APE is chosen among the "

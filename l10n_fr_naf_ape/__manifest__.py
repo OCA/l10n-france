@@ -7,8 +7,9 @@
     "author": u"Numérigraphe SARL,Odoo Community Association (OCA)",
     "category": "French Localization",
     "depends": ["l10n_eu_nace"],
+    "website": "https://github.com/OCA/l10n-france",
     "data": [
-        "data/res.partner.category.csv",
+        "data/res.partner.nace.csv",
         "views/partner.xml",
     ],
     "license": "AGPL-3",
