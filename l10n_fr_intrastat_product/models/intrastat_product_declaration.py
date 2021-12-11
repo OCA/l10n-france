@@ -491,7 +491,7 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
                     raise UserError(
                         _("Missing product country of origin on line %d.") % line_number
                     )
-                country_origin = self.product_origin_country_id.code
+                country_origin_code = self.product_origin_country_id.code
                 # BOD dated 5/1/2021 says:
                 # Si, pour une marchandise produite au Royaume-Uni,
                 # le déclarant ignore si le lieu de production de la
@@ -499,8 +499,8 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
                 # reste du Royaume-Uni, il utilise également le code XU.
                 # => we always use XU
                 if country_origin == "GB" and decl.year >= "2021":
-                    country_origin = "XU"
-                country_origin.text = country_origin
+                    country_origin_code = "XU"
+                country_origin.text = country_origin_code
 
             weight = etree.SubElement(item, "netMass")
             if not self.weight:
