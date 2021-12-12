@@ -60,16 +60,14 @@ class L10nFrIntrastatProductDeclaration(models.Model):
 
     @api.model
     def _get_product_origin_country(self, inv_line):
-        """Inherit to add warning when origin_country_id is missing
-        for arrivals"""
+        """Inherit to add warning when origin_country_id is missing"""
         if (
-                self.type == 'arrivals' and
                 self.reporting_level == 'extended' and
                 not inv_line.product_id.origin_country_id):
             note = "\n" + _(
                 "Missing country of origin on product %s. "
                 "This product is present in invoice %s.") % (
-                    inv_line.product_id.name_get()[0][1],
+                    inv_line.product_id.display_name,
                     inv_line.invoice_id.number)
             self._note += note
         return inv_line.product_id.origin_country_id
@@ -193,7 +191,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         assert self.reporting_level in ('standard', 'extended'),\
             "Invalid reporting level"
         if self.reporting_level == 'extended':
-            declaration_type_code.text = '1'
+            declaration_type_code.text = '5'  # DEB 2022: stat + fisc, 2 in 1 combo
         elif self.reporting_level == 'standard':
             declaration_type_code.text = '4'
         flow_code = etree.SubElement(declaration, 'flowCode')
@@ -244,9 +242,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     su_code.text = pline.intrastat_unit_id.fr_xml_label
                     destination_country = etree.SubElement(
                         item, 'MSConsDestCode')
-                    if self.type == 'arrivals':
-                        country_origin = etree.SubElement(
-                            item, 'countryOfOriginCode')
+                    country_origin = etree.SubElement(item, 'countryOfOriginCode')
                     weight = etree.SubElement(item, 'netMass')
                     quantity_in_SU = etree.SubElement(item, 'quantityInSU')
 
@@ -257,21 +253,18 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 else:
                     destination_country = etree.SubElement(
                         item, 'MSConsDestCode')
-                    if self.type == 'arrivals':
-                        country_origin = etree.SubElement(
-                            item, 'countryOfOriginCode')
+                    country_origin = etree.SubElement(item, 'countryOfOriginCode')
                     weight = etree.SubElement(item, 'netMass')
                 if not pline.src_dest_country_id:
                     raise UserError(_(
                         'Missing Country of Origin/Destination on line %d.')
                         % line)
                 destination_country.text = pline.src_dest_country_id.code
-                if self.type == 'arrivals':
-                    if not pline.product_origin_country_id:
-                        raise UserError(_(
-                            'Missing product country of origin on line %d.')
-                            % line)
-                    country_origin.text = pline.product_origin_country_id.code
+                # DEB 2022 : origin country is now for arrival AND dispatches
+                if not pline.product_origin_country_id:
+                    raise UserError(_(
+                        'Missing product country of origin on line %d.') % line)
+                country_origin.text = pline.product_origin_country_id.code
                 if not pline.weight:
                     raise UserError(
                         _('Missing weight on line %d.') % line)
@@ -283,10 +276,8 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 raise UserError(
                     _('Missing fiscal value on line %d.') % line)
             invoiced_amount.text = str(pline.amount_company_currency)
-            # Partner VAT is only declared for export when code régime != 29
-            if (
-                    self.type == 'dispatches' and
-                    transaction.fr_is_vat_required):
+            # DEB 2022 : Partner VAT now required for all dispatches
+            if self.type == 'dispatches':
                 partner_id = etree.SubElement(item, 'partnerId')
                 if not pline.fr_partner_id:
                     raise UserError(_(
