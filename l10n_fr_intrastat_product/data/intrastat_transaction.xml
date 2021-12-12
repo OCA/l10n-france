@@ -13,7 +13,6 @@
     <field name="fr_object_type">in_invoice</field>
     <field name="fr_transaction_code">11</field>
     <field name="fr_is_fiscal_only" eval="False"/>
-    <field name="fr_is_vat_required" eval="False"/>
     <field name="fr_fiscal_value_multiplier">1</field>
     <field name="fr_intrastat_product_type">arrivals</field>
 </record>
@@ -24,7 +23,6 @@
     <field name="fr_object_type">out_invoice</field>
     <field name="fr_transaction_code">11</field>
     <field name="fr_is_fiscal_only" eval="False"/>
-    <field name="fr_is_vat_required" eval="True"/>
     <field name="fr_fiscal_value_multiplier">1</field>
     <field name="fr_intrastat_product_type">dispatches</field>
 </record>
@@ -34,7 +32,6 @@
     <field name="code">25</field>
     <field name="fr_object_type">out_refund</field>
     <field name="fr_is_fiscal_only" eval="True"/>
-    <field name="fr_is_vat_required" eval="True"/>
     <field name="fr_fiscal_value_multiplier">-1</field>
     <field name="fr_intrastat_product_type">dispatches</field>
 </record>
