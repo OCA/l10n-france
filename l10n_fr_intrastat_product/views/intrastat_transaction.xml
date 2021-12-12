@@ -15,7 +15,6 @@
                 <field name="fr_object_type" />
                 <field name="fr_is_fiscal_only" />
                 <field name="fr_fiscal_value_multiplier" />
-                <field name="fr_is_vat_required" />
                 <field name="fr_intrastat_product_type" />
             </field>
         </field>
@@ -30,7 +29,6 @@
                 <field name="fr_object_type" />
                 <field name="fr_is_fiscal_only" />
                 <field name="fr_fiscal_value_multiplier" />
-                <field name="fr_is_vat_required" />
                 <field name="fr_intrastat_product_type" />
             </field>
         </field>
