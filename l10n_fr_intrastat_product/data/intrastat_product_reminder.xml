@@ -23,7 +23,7 @@
             id="l10n_fr_intrastat_product_reminder_email_template"
             model="mail.template"
         >
-            <field name="name">Intrastat Product Reminder</field>
+            <field name="name">DEB Reminder</field>
             <field
                 name="model_id"
                 ref="l10n_fr_intrastat_product.model_l10n_fr_intrastat_product_declaration"
@@ -35,7 +35,7 @@
             <field name="email_to">${object.company_id.intrastat_email_list}</field>
             <field
                 name="subject"
-            >${object.type} DEB ${object.year_month} for ${object.company_id.name}</field>
+            >${object.declaration_type} DEB ${object.year_month} for ${object.company_id.name}</field>
             <field
                 name="body_html"
             ><![CDATA[
@@ -43,7 +43,7 @@
 
 <p>I would like to remind you that we are approaching the deadline for the DEB for month ${object.year_month}.</p>
 
-<p>As there were no ${object.type} DEB for that month in Odoo, a draft DEB has been generated automatically by Odoo.</p>
+<p>As there were no ${object.declaration_type} DEB for that month in Odoo, a draft ${object.declaration_type} DEB has been generated automatically by Odoo.</p>
 
 % if ctx.get('exception'):
 <p>When trying to generate the lines of the ${object.declaration_type} DEB, the following error was encountered:</p>
@@ -54,9 +54,9 @@
 
 % else:
 % if object.num_lines and object.num_lines > 0:
-<p>This draft ${object.type} DEB contains ${object.num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'}.</p>
+<p>This draft ${object.declaration_type} DEB contains ${object.num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'}.</p>
 % else:
-<p>This draft ${object.type} DEB generated automatically by Odoo doesn't contain any line.</p>
+<p>This draft ${object.declaration_type} DEB generated automatically by Odoo doesn't contain any line.</p>
 % endif
 
 <p>Go and check this declaration in Odoo in the menu "Invoicing > Reporting > Intrastat > DEB".</p>
