@@ -2,44 +2,36 @@
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import openerp.addons.decimal_precision as dp
-
 from odoo import api, fields, models
 
 
 class AccountEcotaxeClassification(models.Model):
     _name = "account.ecotaxe.classification"
-    _description = "Account ecotaxe classification"
+    _description = "Account Ecotaxe Classification"
 
-    # Default Section
+    @api.model
     def _default_company_id(self):
-        return self.env["res.users"]._get_company()
+        return self.env.company
 
-    name = fields.Char("Name", required=True,)
-    code = fields.Char("Code")
+    name = fields.Char(required=True)
+    code = fields.Char()
     ecotaxe_type = fields.Selection(
         [("fixed", "Fixed"), ("weight_based", "Weight based")],
-        string="Ecotaxe Type",
         required=True,
         help="If ecotaxe is weight based,"
         "the ecotaxe coef must take into account\n"
         "the weight unit of measure (kg by default)",
     )
-    ecotaxe_coef = fields.Float(
-        string="Ecotaxe Coef", digits=dp.get_precision("Ecotaxe")
-    )
-    default_fixed_ecotaxe = fields.Float(
-        help="Default fixed ecotaxe amount.\n", oldname="fixed_ecotaxe"
-    )
-
+    ecotaxe_coef = fields.Float(digits="Ecotaxe")
+    default_fixed_ecotaxe = fields.Float(help="Default fixed ecotaxe amount.")
     account_ecotaxe_categ_id = fields.Many2one(
-        comodel_name="account.ecotaxe.category", string="Ecotaxe category",
+        comodel_name="account.ecotaxe.category",
+        string="Ecotaxe category",
     )
-    active = fields.Boolean(default=True,)
+    active = fields.Boolean(default=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
         default=_default_company_id,
-        string="Company",
         help="Specify a company"
         " if you want to define this Ecotaxe Classification only for specific"
         " company. Otherwise, this Fiscal Classification will be available"
@@ -75,21 +67,12 @@ class AccountEcotaxeClassification(models.Model):
         "membre ou dans un pays tiers et vend en France des EEE par\n"
         "communication à distance",
     )
-    ecotaxe_deb_code = fields.Char(string="Ecotaxe DEB Code")
-    ecotaxe_scale_code = fields.Char(string="Ecotaxe Scale Code")
+    ecotaxe_deb_code = fields.Char()
+    ecotaxe_scale_code = fields.Char()
 
     @api.onchange("ecotaxe_type")
     def onchange_ecotaxe_type(self):
         if self.ecotaxe_type == "weight_based":
-            self.defaul_fixed_ecotaxe = 0
+            self.default_fixed_ecotaxe = 0
         if self.ecotaxe_type == "fixed":
             self.ecotaxe_coef = 0
-
-
-class AccountEcotaxeClassificationCategory(models.Model):
-    _name = "account.ecotaxe.category"
-    _description = "Account ecotaxe category"
-
-    name = fields.Char(required=True,)
-    code = fields.Char(required=True,)
-    description = fields.Char()

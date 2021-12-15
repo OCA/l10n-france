@@ -11,13 +11,12 @@ class ProductTemplate(models.Model):
     ecotaxe_classification_id = fields.Many2one(
         "account.ecotaxe.classification",
         string="Ecotaxe Classification",
-        oldname="ecotaxe_classification_ids",
     )
     ecotaxe_amount = fields.Float(
         compute="_compute_ecotaxe",
-        help="Ecotaxe Amount" "computed form Classification\n",
+        help="Ecotaxe Amount computed form Classification",
+        store=True,
     )
-
     manual_fixed_ecotaxe = fields.Float(
         help="Manual Fixed ecotaxe.\n"
         "Allow to subtite default Ecotaxe Classification\n"
@@ -31,14 +30,12 @@ class ProductTemplate(models.Model):
         "manual_fixed_ecotaxe",
     )
     def _compute_ecotaxe(self):
-        for prod in self:
-            prod.ecotaxe_amount = 0.0
-            ecotaxe_classif_id = prod.ecotaxe_classification_id
-            if ecotaxe_classif_id.ecotaxe_type == "weight_based":
-                weight = prod.weight or 0.0
-                prod.ecotaxe_amount = ecotaxe_classif_id.ecotaxe_coef * weight
+        for tmpl in self:
+            ecotax_cls = tmpl.ecotaxe_classification_id
+            if ecotax_cls.ecotaxe_type == "weight_based":
+                amt = ecotax_cls.ecotaxe_coef * (tmpl.weight or 0.0)
+            elif tmpl.manual_fixed_ecotaxe:
+                amt = tmpl.manual_fixed_ecotaxe
             else:
-                prod.ecotaxe_amount = (
-                    prod.manual_fixed_ecotaxe
-                    or ecotaxe_classif_id.default_fixed_ecotaxe
-                )
+                amt = ecotax_cls.default_fixed_ecotaxe
+            tmpl.ecotaxe_amount = amt
