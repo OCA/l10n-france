@@ -21,220 +21,266 @@ msgstr ""
 "2:1));\n"
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.actions.act_window,help:l10n_fr_ecotaxe.action_ecotaxe_classification
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                Click to start a new Ecotaxe Classification.\n"
-"              </p>\n"
-"            "
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_ecotaxe_category
+msgid "Account Ecotaxe Category"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,active:0
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_ecotaxe_classification
+msgid "Account Ecotaxe Classification"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__active
 msgid "Active"
 msgstr "Activ(a)"
 
 #. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_search
 msgid "Classification"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,code:0
+#: model_terms:ir.actions.act_window,help:l10n_fr_ecotaxe.action_ecotaxe_classification
+msgid "Click to start a new Ecotaxe Classification."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.actions.act_window,help:l10n_fr_ecotaxe.action_ecotaxe_category
+msgid "Click to start a new Ecotaxe category."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__code
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__code
 msgid "Code"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,company_id:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__company_id
 msgid "Company"
 msgstr "Companie"
 
 #. module: l10n_fr_ecotaxe
-#: field:product.product,computed_ecotaxe:0
-msgid "Coputed Ecotaxe"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,create_uid:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__create_uid
 msgid "Created by"
 msgstr "Creat de"
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,create_date:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__create_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__create_date
 msgid "Created on"
 msgstr "Creat la"
 
 #. module: l10n_fr_ecotaxe
-#: help:product.category,default_fixed_ecotaxe:0
-msgid ""
-"Default value of fixed ecotaxe.\n"
-"This value is set when you choise the category \n"
-"on creating a new product (triged by on change product category)\n"
-"Set this field to 0 if you want not default value"
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__default_fixed_ecotaxe
+msgid "Default Fixed Ecotaxe"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,display_name:0
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_ecotaxe_classification__default_fixed_ecotaxe
+msgid "Default fixed ecotaxe amount."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__description
+msgid "Description"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__display_name
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__display_name
 msgid "Display Name"
 msgstr "Nume Afişat"
 
 #. module: l10n_fr_ecotaxe
-#: field:account.invoice.line,amount_ecotaxe:0 field:account.tax,is_ecotaxe:0
-#: field:purchase.order.line,amount_ecotaxe:0
-#: field:sale.order.line,amount_ecotaxe:0
-msgid "Ecotaxe"
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_product__ecotaxe_amount
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_template__ecotaxe_amount
+msgid "Ecotaxe Amount"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_product__ecotaxe_amount
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_template__ecotaxe_amount
+msgid "Ecotaxe Amount computed form Classification"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.actions.act_window,name:l10n_fr_ecotaxe.action_ecotaxe_classification
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_product__ecotaxe_classification_id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_template__ecotaxe_classification_id
 #: model:ir.ui.menu,name:l10n_fr_ecotaxe.menu_ecotaxe_classification
-#: field:product.product,ecotaxe_classification_ids:0
-#: field:product.template,ecotaxe_classification_ids:0
 msgid "Ecotaxe Classification"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,ecotaxe_coef:0
-#: field:product.category,ecotaxe_coef:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_coef
 msgid "Ecotaxe Coef"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,ecotaxe_type:0
-#: field:product.category,ecotaxe_type:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_deb_code
+msgid "Ecotaxe Deb Code"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_scale_code
+msgid "Ecotaxe Scale Code"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_type
 msgid "Ecotaxe Type"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: view:product.template:l10n_fr_ecotaxe.product_template_form_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line__unit_ecotaxe_amount
+msgid "Ecotaxe Unit."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.actions.act_window,name:l10n_fr_ecotaxe.action_ecotaxe_category
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__account_ecotaxe_categ_id
+#: model:ir.ui.menu,name:l10n_fr_ecotaxe.menu_ecotaxe_category
+msgid "Ecotaxe category"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.product_template_form_ecotaxe
 msgid "Ecotaxe classification"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: help:product.product,computed_ecotaxe:0
-msgid ""
-"Ecotaxe value :\n"
-"product weight * ecotaxe coef of Ecotaxe Classification\n"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
-msgid "Ecotaxes"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_form
 msgid "Ecotaxes settings"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
-#: selection:account.ecotaxe.classification,ecotaxe_type:0
-#: selection:product.category,ecotaxe_type:0
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_supplier_status
+msgid ""
+"FAB ==> Fabricant : est établi en France et fabrique des EEE\n"
+"sous son propre nom ou sa propre marque, ou fait concevoir ou\n"
+" fabriquer des EEE et les commercialise sous\n"
+" son propre nom et sa propre marque\n"
+"REV ==> Revendeur sous sa marque : est établi en France et vend,\n"
+" sous son propre nom ou sa propre marque des EEE produits\n"
+" par d'autres fournisseursINT ==> Introducteur : est établi en France et met "
+"sur le marché\n"
+"des EEE provenant d'un autre Etat membreIMP ==> Importateur : est établi en "
+"France et met sur marché\n"
+"des EEE provenant de pays hors Union EuropéenneDIS ==> Vendeur à distance : "
+"est établie dans un autre Etat\n"
+"membre ou dans un pays tiers et vend en France des EEE par\n"
+"communication à distance"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__fab
+msgid "Fabricant"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_type__fixed
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_search
 msgid "Fixed"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,fixed_ecotaxe:0
-#: field:product.category,default_fixed_ecotaxe:0
-#: field:product.product,fixed_ecotaxe:0
-msgid "Fixed Ecotaxe"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: help:product.product,fixed_ecotaxe:0
-msgid "Fixed ecotaxe of the Ecotaxe Classification\n"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: field:account.invoice.tax,generic_base:0
-msgid "Generic base"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: help:account.invoice.tax,generic_base:0
-msgid ""
-"Generic base is used to get different base depending on ecotaxe type. For "
-"fixed taxe generic base is the qty sum of all product liable to this taxe. "
-"For wight base ecotaxe the geneic base is the weight sum of all product "
-"liable to this taxe"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_search
 msgid "Group By"
 msgstr "Grupează după"
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,id:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_fr_ecotaxe
-#: help:account.ecotaxe.classification,ecotaxe_type:0
-#: help:product.category,ecotaxe_type:0
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_type
 msgid ""
 "If ecotaxe is weight based,the ecotaxe coef must take into account\n"
 "the weight unit of measure (kg by default)"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.invoice,amount_ecotaxe:0
-#: field:purchase.order,amount_ecotaxe:0 field:sale.order,amount_ecotaxe:0
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__imp
+msgid "Importateur"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: code:addons/l10n_fr_ecotaxe/models/account_move.py:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_bank_statement_line__amount_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move__amount_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_payment__amount_ecotaxe
+#, python-format
 msgid "Included Ecotaxe"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
-
-#. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_line
-msgid "Invoice Line"
-msgstr "Linie factura"
-
-#. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_tax
-msgid "Invoice Tax"
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__int
+msgid "Introducteur"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,__last_update:0
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category____last_update
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification____last_update
 msgid "Last Modified on"
 msgstr "Ultima actualizare în"
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,write_uid:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__write_uid
 msgid "Last Updated by"
 msgstr "Ultima actualizare făcută de"
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,write_date:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__write_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare la"
 
 #. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
-#: field:account.ecotaxe.classification,name:0
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_product__manual_fixed_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_template__manual_fixed_ecotaxe
+msgid "Manual Fixed Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_product__manual_fixed_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_template__manual_fixed_ecotaxe
+msgid ""
+"Manual Fixed ecotaxe.\n"
+"Allow to subtite default Ecotaxe Classification\n"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_product_status__m
+msgid "Menager"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__name
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__name
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_category_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_form
 msgid "Name"
 msgstr "Nume"
 
 #. module: l10n_fr_ecotaxe
-#: field:account.invoice,amount_tax_without_ecotaxe:0
-#: field:purchase.order,amount_tax_without_ecotaxe:0
-#: field:sale.order,amount_tax_without_ecotaxe:0
-msgid "Other Taxes"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_product_product
-msgid "Product"
-msgstr "Produs"
-
-#. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_product_category
-msgid "Product Category"
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_product_status
+msgid "Product Status"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
@@ -243,42 +289,27 @@ msgid "Product Template"
 msgstr "Produs șablon"
 
 #. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,purchase_ecotaxe_id:0
-msgid "Purchase EcoTaxe"
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_product_status__p
+msgid "Professionnel"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order
-msgid "Purchase Order"
-msgstr "Comandă achiziție"
-
-#. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order_line
-msgid "Purchase Order Line"
-msgstr "Linie comandă achiziție"
-
-#. module: l10n_fr_ecotaxe
-#: field:account.ecotaxe.classification,sale_ecotaxe_id:0
-msgid "Sale EcoTaxe"
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__rev
+msgid "Revendeur sous sa marque"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order
-msgid "Sales Order"
-msgstr "Comandă vânzare"
-
-#. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order_line
-msgid "Sales Order Line"
-msgstr "Linie comandă vânzare"
-
-#. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_search
 msgid "Search Ecotaxe Classification"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: help:account.ecotaxe.classification,company_id:0
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_category_search
+msgid "Search Ecotaxe category"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_ecotaxe_classification__company_id
 msgid ""
 "Specify a company if you want to define this Ecotaxe Classification only for "
 "specific company. Otherwise, this Fiscal Classification will be available "
@@ -286,46 +317,59 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model,name:l10n_fr_ecotaxe.model_account_tax
-msgid "Tax"
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line__subtotal_ecotaxe
+msgid "Subtotal Ecotaxe"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: view:account.invoice:l10n_fr_ecotaxe.invoice_form
-#: view:account.invoice:l10n_fr_ecotaxe.invoice_supplier_form
-#: view:purchase.order:l10n_fr_ecotaxe.view_purchase_order_form
-#: view:sale.order:l10n_fr_ecotaxe.view_order_form
-msgid "True"
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_supplier_status
+msgid "Supplier Status"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_search
 msgid "Type"
 msgstr "Tip"
 
 #. module: l10n_fr_ecotaxe
-#: field:account.invoice,amount_untaxed_with_ecotaxe:0
-#: field:purchase.order,amount_untaxed_with_ecotaxe:0
-#: field:sale.order,amount_untaxed_with_ecotaxe:0
-msgid "Untaxed Amount with Ecotaxe"
+#: code:addons/l10n_fr_ecotaxe/models/account_move.py:0
+#, python-format
+msgid "Untaxed Amount"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: help:account.tax,is_ecotaxe:0
-msgid ""
-"Warning : To include Ecotaxe in the VAT tax check this :\n"
-"1: check  \"included in base amount \"\n"
-"2: The Ecotaxe sequence must be less then VAT tax (in sale and purchase)"
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__dis
+msgid "Vendeur à distance"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
-#: selection:account.ecotaxe.classification,ecotaxe_type:0
-#: selection:product.category,ecotaxe_type:0
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_type__weight_based
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_search
 msgid "Weight based"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: help:account.ecotaxe.classification,fixed_ecotaxe:0
-msgid "fixed ecotaxe amount.\n"
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_category_search
+msgid "category"
 msgstr ""
+
+#~ msgid "Invoice"
+#~ msgstr "Factura"
+
+#~ msgid "Invoice Line"
+#~ msgstr "Linie factura"
+
+#~ msgid "Product"
+#~ msgstr "Produs"
+
+#~ msgid "Purchase Order"
+#~ msgstr "Comandă achiziție"
+
+#~ msgid "Purchase Order Line"
+#~ msgstr "Linie comandă achiziție"
+
+#~ msgid "Sales Order"
+#~ msgstr "Comandă vânzare"
+
+#~ msgid "Sales Order Line"
+#~ msgstr "Linie comandă vânzare"
