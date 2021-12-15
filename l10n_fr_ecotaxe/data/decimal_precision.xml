@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="ecotaxe_decimal" model="decimal.precision">
+        <field name="name">Ecotaxe</field>
+        <field name="digits">3</field>
+    </record>
+</odoo>

@@ -1,7 +1,5 @@
-from . import product
+from . import account_ecotaxe_category
 from . import account_ecotaxe_classification
-
-# from . import sale
-from . import account_invoice
-
-# from . import purchase
+from . import account_move
+from . import account_move_line
+from . import product_template
