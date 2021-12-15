@@ -20,10 +20,12 @@
         "views/l10n_fr_account_vat_box.xml",
         "views/l10n_fr_account_vat_return.xml",
         "views/account_fiscal_position.xml",
+        "views/account_fiscal_position_template.xml",
         "views/res_partner.xml",
         "views/account_tax.xml",
         "views/account_move.xml",
         "data/l10n.fr.account.vat.box.csv",
+        "data/account_fiscal_position_template.xml",
     ],
     "installable": True,
 }
