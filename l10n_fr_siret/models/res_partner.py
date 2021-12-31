@@ -51,31 +51,35 @@ class Partner(models.Model):
                 if not rec.nic.isdigit() or len(rec.nic) != 5:
                     raise ValidationError(
                         _(
-                            "The NIC '%s' is incorrect: it must have "
-                            "exactly 5 digits."
-                        )
-                        % rec.nic
+                            "The NIC '{nic}' of partner '{partner_name}' is "
+                            "incorrect: it must have exactly 5 digits."
+                        ).format(nic=rec.nic, partner_name=rec.display_name)
                     )
             if rec.siren:
                 # Check the SIREN type, length and key
                 if not rec.siren.isdigit() or len(rec.siren) != 9:
                     raise ValidationError(
                         _(
-                            "The SIREN '%s' is incorrect: it must have "
-                            "exactly 9 digits."
-                        )
-                        % rec.siren
+                            "The SIREN '{siren}' of partner '{partner_name}' is "
+                            "incorrect: it must have exactly 9 digits."
+                        ).format(siren=rec.siren, partner_name=rec.display_name)
                     )
                 if not siren_is_valid(rec.siren):
                     raise ValidationError(
-                        _("The SIREN '%s' is invalid: the checksum is wrong.")
-                        % rec.siren
+                        _(
+                            "The SIREN '{siren}' of partner '{partner_name}' is "
+                            "invalid: the checksum is wrong."
+                        ).format(siren=rec.siren, partner_name=rec.display_name)
                     )
                 # Check the NIC key (you need both SIREN and NIC to check it)
                 if rec.nic and not siret_is_valid(rec.siren + rec.nic):
                     raise ValidationError(
-                        _("The SIRET '%s%s' is invalid: " "the checksum is wrong.")
-                        % (rec.siren, rec.nic)
+                        _(
+                            "The SIRET '{siret}' of partner '{partner_name}' is "
+                            "invalid: the checksum is wrong."
+                        ).format(
+                            siret=(rec.siren + rec.nic), partner_name=rec.display_name
+                        )
                     )
 
     @api.model
@@ -123,8 +127,6 @@ class Partner(models.Model):
         "14 digits.",
     )
     company_registry = fields.Char(
-        string="Company Registry",
-        size=64,
         help="The name of official registry where this company was declared.",
     )
 
