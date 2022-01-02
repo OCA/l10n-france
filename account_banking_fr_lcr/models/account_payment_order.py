@@ -1,4 +1,4 @@
-# Copyright 2014-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2014-2022 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -60,7 +60,9 @@ class AccountPaymentOrder(models.Model):
         except Exception:
             # seems that unidecode doesn't raise exception so might
             # be useless
-            raise UserError(_("Cannot convert the field '%s' to ASCII") % field_name)
+            raise UserError(
+                _("Cannot convert the field '%s' to ASCII") % field_name
+            ) from None
         value = value.upper()
         # Cut if too long
         value = value[0:size]
@@ -75,19 +77,23 @@ class AccountPaymentOrder(models.Model):
         if partner_bank.acc_type != "iban":
             raise UserError(
                 _(
-                    "For the bank account '%s' of partner '%s', the Bank "
-                    "Account Type should be 'IBAN'."
+                    "For the bank account '{acc_number}' of partner '{partner}', "
+                    "the Bank Account Type should be 'IBAN'."
+                ).format(
+                    acc_number=partner_bank.acc_number,
+                    partner=partner_bank.partner_id.display_name,
                 )
-                % (partner_bank.acc_number, partner_bank.partner_id.name)
             )
         iban = partner_bank.sanitized_acc_number
         if iban[0:2] != "FR":
             raise UserError(
                 _(
-                    "LCR are only for French bank accounts. The IBAN '%s' "
-                    "of partner '%s' is not a French IBAN."
+                    "LCR are only for French bank accounts. The IBAN '{acc_number}' "
+                    "of partner '{partner}' is not a French IBAN."
+                ).format(
+                    acc_number=partner_bank.acc_number,
+                    partner=partner_bank.partner_id.display_name,
                 )
-                % (partner_bank.acc_number, partner_bank.partner_id.name)
             )
         assert len(iban) == 27, "French IBANs must have 27 caracters"
         return {
@@ -236,10 +242,10 @@ class AccountPaymentOrder(models.Model):
             if line.currency_id != eur_currency:
                 raise UserError(
                     _(
-                        "The currency of payment line '%s' is '%s'. To be "
-                        "included in a French LCR, the currency must be EUR."
-                    )
-                    % (line.name, line.currency_id.name)
+                        "The currency of payment line '{payment_line}' is "
+                        "'{currency}'. To be included in a French LCR, "
+                        "the currency must be EUR."
+                    ).format(payment_line=line.name, currency=line.currency_id.name)
                 )
             transactions_count += 1
             cfonb_string += self._prepare_cfonb_line(line, transactions_count)
