@@ -1,4 +1,4 @@
-# Copyright 2017-2020 Akretion France (http://www.akretion.com)
+# Copyright 2017-2021 Akretion France (http://www.akretion.com)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -96,11 +96,14 @@ class AccountMove(models.Model):
                     if len(attach.name) > CHORUS_FILENAME_MAX:
                         raise ValidationError(
                             _(
-                                "On Chorus Pro, the attachment filename is %d "
+                                "On Chorus Pro, the attachment filename is {filename_max} "
                                 "caracters maximum (extension included). The "
-                                "filename '%s' has %d caracters."
+                                "filename '{filename}' has {filename_size} caracters."
+                            ).format(
+                                filename_max=CHORUS_FILENAME_MAX,
+                                filename=attach.name,
+                                filename_size=len(attach.name),
                             )
-                            % (CHORUS_FILENAME_MAX, attach.name, len(attach.name))
                         )
                     filename, file_extension = os.path.splitext(attach.name)
                     if not file_extension:
@@ -116,10 +119,12 @@ class AccountMove(models.Model):
                         raise ValidationError(
                             _(
                                 "On Chorus Pro, the allowed formats for the "
-                                "attachments are the following: %s.\n"
-                                "The attachment '%s' is not part of this list."
+                                "attachments are the following: {extension_list}.\n"
+                                "The attachment '{filename}' is not part of this list."
+                            ).format(
+                                extension_list=", ".join(CHORUS_ALLOWED_FORMATS),
+                                filename=attach.name,
                             )
-                            % (", ".join(CHORUS_ALLOWED_FORMATS), attach.name)
                         )
                     if not attach.file_size:
                         raise ValidationError(
@@ -130,13 +135,12 @@ class AccountMove(models.Model):
                     if filesize_mo >= CHORUS_FILESIZE_MAX_MO:
                         raise ValidationError(
                             _(
-                                "On Chorus Pro, each attachment cannot exceed %s Mb. "
-                                "The attachment '%s' weights %s Mb."
-                            )
-                            % (
-                                CHORUS_FILESIZE_MAX_MO,
-                                attach.name,
-                                formatLang(self.env, filesize_mo),
+                                "On Chorus Pro, each attachment cannot exceed {size_max} Mb. "
+                                "The attachment '{filename}' weights {size} Mb."
+                            ).format(
+                                size_max=CHORUS_FILESIZE_MAX_MO,
+                                filename=attach.name,
+                                size=formatLang(self.env, filesize_mo),
                             )
                         )
                 if total_size:
@@ -145,14 +149,13 @@ class AccountMove(models.Model):
                         raise ValidationError(
                             _(
                                 "On Chorus Pro, an invoice with its attachments "
-                                "cannot exceed %s Mb, so we set a limit of %s Mb "
-                                "for the attachments. The attachments have a "
-                                "total size of %s Mb."
-                            )
-                            % (
-                                CHORUS_TOTAL_FILESIZE_MAX_MO,
-                                CHORUS_TOTAL_ATTACHMENTS_MAX_MO,
-                                formatLang(self.env, total_size_mo),
+                                "cannot exceed {size_max} Mb, so we set a limit of "
+                                "{attach_size_max} Mb for the attachments. "
+                                "The attachments have a total size of {size} Mb."
+                            ).format(
+                                size_max=CHORUS_TOTAL_FILESIZE_MAX_MO,
+                                attach_size_max=CHORUS_TOTAL_ATTACHMENTS_MAX_MO,
+                                size=formatLang(self.env, total_size_mo),
                             )
                         )
 
@@ -165,8 +168,12 @@ class AccountMove(models.Model):
             company_partner = inv.company_id.partner_id
             if not company_partner.siren or not company_partner.nic:
                 raise UserError(
-                    _("Missing SIRET on partner '%s' linked to company '%s'.")
-                    % (company_partner.display_name, inv.company_id.display_name)
+                    _(
+                        "Missing SIRET on partner '{partner}' linked to company '{company}'."
+                    ).format(
+                        partner=company_partner.display_name,
+                        company=inv.company_id.display_name,
+                    )
                 )
             cpartner = inv.commercial_partner_id
             if not cpartner.siren or not cpartner.nic:
@@ -212,14 +219,13 @@ class AccountMove(models.Model):
                 else:
                     raise UserError(
                         _(
-                            "Partner '%s' is linked to Chorus service '%s' "
+                            "Partner '{partner}' is linked to Chorus service '{service}' "
                             "which is marked as 'Engagement required', so the "
                             "field 'Reference' of its invoices must "
                             "contain an engagement number."
-                        )
-                        % (
-                            inv.partner_id.display_name,
-                            inv.partner_id.fr_chorus_service_id.code,
+                        ).format(
+                            partner=inv.partner_id.display_name,
+                            service=inv.partner_id.fr_chorus_service_id.code,
                         )
                     )
 
@@ -424,11 +430,10 @@ class AccountMove(models.Model):
         if len(order_ref) > 50:
             raise UserError(
                 _(
-                    "The engagement juridique '%s' is %d caracters long. "
+                    "The engagement juridique '{order_ref}' is {size} caracters long. "
                     "The maximum is 50. Please update the customer order "
                     "reference."
-                )
-                % (order_ref, len(order_ref))
+                ).format(order_ref=order_ref, size=len(order_ref))
             )
         api_params = company.chorus_get_api_params()
         return self.chorus_api_check_commitment_number(

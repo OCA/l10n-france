@@ -9,7 +9,7 @@
         <field name="name">chorus.partner.service.form</field>
         <field name="model">chorus.partner.service</field>
         <field name="arch" type="xml">
-            <form string="Chorus Partner Service">
+            <form>
                 <group name="main">
                     <field
                         name="partner_id"
@@ -31,7 +31,7 @@
         <field name="name">chorus.partner.service.tree</field>
         <field name="model">chorus.partner.service</field>
         <field name="arch" type="xml">
-            <tree string="Chorus Partner Services">
+            <tree>
                 <field
                     name="partner_id"
                     invisible="not context.get('chorus_partner_service_main_view')"
@@ -50,7 +50,7 @@
         <field name="name">chorus.partner.service.search</field>
         <field name="model">chorus.partner.service</field>
         <field name="arch" type="xml">
-            <search string="Search Partner Services">
+            <search>
                 <field
                     name="name"
                     string="Code, Name or Identifier"
