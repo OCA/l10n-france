@@ -1,4 +1,4 @@
-# Copyright 2017-2020 Akretion France
+# Copyright 2017-2021 Akretion France
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -32,20 +32,19 @@ fr_states = {
 
 
 def create_fr_state_xmlid(cr):
-    with api.Environment.manage():
-        env = api.Environment(cr, SUPERUSER_ID, {})
-        fr_country = env.ref("base.fr")
-        for region_code, xmlid in fr_states.items():
-            regions = env["res.country.state"].search(
-                [("code", "=", region_code), ("country_id", "=", fr_country.id)]
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    fr_country = env.ref("base.fr")
+    for region_code, xmlid in fr_states.items():
+        regions = env["res.country.state"].search(
+            [("code", "=", region_code), ("country_id", "=", fr_country.id)]
+        )
+        if regions:
+            env["ir.model.data"].create(
+                {
+                    "name": xmlid,
+                    "res_id": regions[0].id,
+                    "module": "l10n_fr_state",
+                    "model": "res.country.state",
+                }
             )
-            if regions:
-                env["ir.model.data"].create(
-                    {
-                        "name": xmlid,
-                        "res_id": regions[0].id,
-                        "module": "l10n_fr_state",
-                        "model": "res.country.state",
-                    }
-                )
     return
