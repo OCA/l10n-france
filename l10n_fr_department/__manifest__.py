@@ -1,12 +1,12 @@
-# Copyright 2013-2020 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
-# Copyright 2015-2020 Akretion France
+# Copyright 2013-2022 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
+# Copyright 2015-2022 Akretion France
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
     "name": "French Departments (Départements)",
     "summary": "Populate Database with French Departments (Départements)",
-    "version": "14.0.1.0.1",
+    "version": "15.0.1.0.0",
     "category": "French Localization",
     "author": "GRAP, "
     "Akretion, "
