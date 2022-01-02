@@ -1,4 +1,5 @@
-# Copyright 2018 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2018-2021 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
@@ -34,35 +35,43 @@ class AccountInvoiceChorusSend(models.TransientModel):
             if invoice.state != "posted":
                 raise UserError(
                     _(
-                        "The state of invoice '%s' is '%s'. You can only send to "
-                        "Chorus invoices in posted state."
+                        "The state of invoice '{invoice_display_name}' is "
+                        "'{invoice_state}'. You can only send to Chorus invoices "
+                        "in posted state."
+                    ).format(
+                        invoice_display_name=invoice.display_name,
+                        invoice_state=invoice._fields["state"].convert_to_export(
+                            invoice.state, invoice
+                        ),
                     )
-                    % (invoice.display_name, invoice.state)
                 )
             if invoice.transmit_method_code != "fr-chorus":
                 raise UserError(
                     _(
-                        "On invoice '%s', the transmit method is '%s'. To be able "
+                        "On invoice '{invoice_display_name}', the transmit method is "
+                        "'{transmit_method_name}'. To be able "
                         "to send it to Chorus, the transmit method must be "
                         "'Chorus'."
-                    )
-                    % (
-                        invoice.display_name,
-                        invoice.transmit_method_id.name or _("None"),
+                    ).format(
+                        invoice_display_name=invoice.display_name,
+                        transmit_method_name=invoice.transmit_method_id.name
+                        or _("None"),
                     )
                 )
             if invoice.chorus_flow_id:
                 raise UserError(
                     _(
-                        "The invoice '%s' has already been sent: it is linked to "
-                        "Chorus Flow %s."
+                        "The invoice '{invoice_display_name}' has already been sent: "
+                        "it is linked to Chorus Flow {flow}."
+                    ).format(
+                        invoice_display_name=invoice.display_name,
+                        flow=invoice.chorus_flow_id.display_name,
                     )
-                    % (invoice.display_name, invoice.chorus_flow_id.display_name)
                 )
             if company:
                 if company != invoice.company_id:
                     raise UserError(
-                        _("All the selected invoices must be in the same " "company")
+                        _("All the selected invoices must be in the same company")
                     )
             else:
                 company = invoice.company_id

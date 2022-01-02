@@ -1,4 +1,4 @@
-# Copyright 2017-2020 Akretion France (http://www.akretion.com)
+# Copyright 2017-2021 Akretion France (http://www.akretion.com)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -38,13 +38,12 @@ class SaleOrder(models.Model):
             ):
                 raise UserError(
                     _(
-                        "Partner '%s' is configured as "
+                        "Partner '{partner_name}' is configured as "
                         "Service required for Chorus, so you must "
-                        "select a contact as invoicing address for the order %s "
+                        "select a contact as invoicing address for the order {order_name} "
                         "and this contact should have a name and a Chorus service "
                         "and the Chorus service must be active."
-                    )
-                    % (cpartner.display_name, order.name)
+                    ).format(partner_name=cpartner.display_name, order_name=order.name)
                 )
             if cpartner.fr_chorus_required in ("engagement", "service_and_engagement"):
                 if order.client_order_ref:
@@ -52,11 +51,13 @@ class SaleOrder(models.Model):
                 else:
                     raise UserError(
                         _(
-                            "The field 'Customer Reference' of order %s should "
-                            "contain the engagement number because customer '%s' is "
-                            "configured as Engagement required for Chorus."
+                            "The field 'Customer Reference' of order {order_name} should "
+                            "contain the engagement number because customer "
+                            "'{partner_name}' is configured as Engagement required "
+                            "for Chorus."
+                        ).format(
+                            order_name=order.name, partner_name=cpartner.display_name
                         )
-                        % (order.name, cpartner.display_name)
                     )
             elif (
                 invpartner.fr_chorus_service_id
@@ -67,14 +68,13 @@ class SaleOrder(models.Model):
                 else:
                     raise UserError(
                         _(
-                            "Partner '%s' is linked to Chorus service '%s' "
-                            "which is marked as 'Engagement required', so the "
-                            "field 'Customer Reference' of its orders must "
-                            "contain an engagement number."
-                        )
-                        % (
-                            invpartner.display_name,
-                            invpartner.fr_chorus_service_id.code,
+                            "Partner '{partner_name}' is linked to Chorus service "
+                            "'{service_code}' which is marked as "
+                            "'Engagement required', so the field 'Customer Reference' "
+                            "of its orders must contain an engagement number."
+                        ).format(
+                            partner_name=invpartner.display_name,
+                            service_code=invpartner.fr_chorus_service_id.code,
                         )
                     )
             if cpartner.fr_chorus_required == "service_or_engagement":
@@ -82,14 +82,16 @@ class SaleOrder(models.Model):
                     if not order.client_order_ref:
                         raise UserError(
                             _(
-                                "Partner '%s' is configured as "
+                                "Partner '{partner_name}' is configured as "
                                 "Service or Engagement required for Chorus but "
                                 "there is no engagement number in the field "
-                                "'Customer Reference' of order %s and the invoice "
+                                "'Customer Reference' of order {order_name} and the invoice "
                                 "address is not a contact (Chorus Service can only be "
                                 "configured on contacts)"
+                            ).format(
+                                partner_name=cpartner.display_name,
+                                order_name=order.name,
                             )
-                            % (cpartner.display_name, order.name)
                         )
                     else:
                         order.chorus_order_check_commitment_number()
