@@ -8,7 +8,7 @@
         <field name="name">chorus.flow.form</field>
         <field name="model">chorus.flow</field>
         <field name="arch" type="xml">
-            <form string="Chorus Flow">
+            <form>
                 <header>
                     <button
                         name="update_flow_status"
@@ -62,7 +62,7 @@
         <field name="name">chorus.flow.tree</field>
         <field name="model">chorus.flow</field>
         <field name="arch" type="xml">
-            <tree string="Chorus Flows">
+            <tree>
                 <field name="name" />
                 <field name="date" />
                 <field name="syntax" />
@@ -76,7 +76,7 @@
         <field name="name">chorus.flow.search</field>
         <field name="model">chorus.flow</field>
         <field name="arch" type="xml">
-            <search string="Search Chorus Flows">
+            <search>
                 <field name="name" />
                 <group string="Group By" name="groupby">
                     <filter
