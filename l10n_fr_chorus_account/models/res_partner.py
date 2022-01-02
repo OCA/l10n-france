@@ -61,10 +61,12 @@ class ResPartner(models.Model):
                     raise ValidationError(
                         _(
                             "Chorus service codes can only be set on contacts, "
-                            "not on parent partners. Chorus service code '%s' has "
-                            "been set on partner %s that has no parent."
+                            "not on parent partners. Chorus service code '{service_code}' has "
+                            "been set on partner {partner_name} that has no parent."
+                        ).format(
+                            service_code=partner.fr_chorus_service_id.code,
+                            partner_name=partner.display_name,
                         )
-                        % (partner.fr_chorus_service_id.code, partner.display_name)
                     )
                 if not partner.name:
                     raise ValidationError(
@@ -75,19 +77,17 @@ class ResPartner(models.Model):
                         )
                         % partner.fr_chorus_service_id.code
                     )
-                if (
-                    partner.fr_chorus_service_id.partner_id
-                    != partner.commercial_partner_id
-                ):
+                chorus_service_partner = partner.fr_chorus_service_id.partner_id
+                if chorus_service_partner != partner.commercial_partner_id:
                     raise ValidationError(
                         _(
-                            "The Chorus Service '%s' configured on contact '%s' "
-                            "is attached to another partner (%s)."
-                        )
-                        % (
-                            partner.fr_chorus_service_id.display_name,
-                            partner.display_name,
-                            partner.fr_chorus_service_id.partner_id.display_name,
+                            "The Chorus Service '{service_name}' configured on "
+                            "contact '{partner_name}' is attached to another partner "
+                            "({other_partner_name})."
+                        ).format(
+                            service_name=partner.fr_chorus_service_id.display_name,
+                            partner_name=partner.display_name,
+                            other_partner_name=chorus_service_partner.display_name,
                         )
                     )
 

@@ -1,4 +1,4 @@
-# Copyright 2018-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2018-2021 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -26,7 +26,7 @@ class ChorusPartnerService(models.Model):
     active = fields.Boolean(default=True)
     name = fields.Char(string="Service Name")
     chorus_identifier = fields.Integer(readonly=True)
-    engagement_required = fields.Boolean(string="Engagement Required")
+    engagement_required = fields.Boolean()
 
     @api.constrains("code")
     def service_factures_publiques_dont_use(self):
@@ -77,9 +77,7 @@ class ChorusPartnerService(models.Model):
             )
             if srvs:
                 return srvs.name_get()
-        return super(ChorusPartnerService, self).name_search(
-            name=name, args=args, operator=operator, limit=limit
-        )
+        return super().name_search(name=name, args=args, operator=operator, limit=limit)
 
     def api_consulter_service(self, api_params, session):
         assert self.chorus_identifier
@@ -112,10 +110,12 @@ class ChorusPartnerService(models.Model):
                 if raise_if_ko:
                     raise UserError(
                         _(
-                            "Missing Chorus Identifier on service '%s' of partner "
-                            "'%s'."
+                            "Missing Chorus Identifier on service '{service_name}' of partner "
+                            "'{partner_name}'."
+                        ).format(
+                            service_name=service.display_name,
+                            partner_name=partner.display_name,
                         )
-                        % (service.display_name, partner.display_name)
                     )
                 else:
                     logger.warning(

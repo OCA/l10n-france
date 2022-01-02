@@ -1,4 +1,4 @@
-# Copyright 2017-2020 Akretion France (http://www.akretion.com)
+# Copyright 2017-2021 Akretion France (http://www.akretion.com)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -165,12 +165,11 @@ class ResCompany(models.Model):
             logger.error("Connection to %s failed. Error: %s", url, e)
             raise UserError(
                 _(
-                    "Connection to PISTE (URL %s) failed. "
+                    "Connection to PISTE (URL {url}) failed. "
                     "Check the internet connection of the Odoo server.\n\n"
-                    "Error details: %s"
-                )
-                % (url, e)
-            )
+                    "Error details: {error}"
+                ).format(url=url, error=e)
+            ) from e
         except requests.exceptions.RequestException as e:
             logger.error("PISTE request for new token failed. Error: %s", e)
             raise UserError(
@@ -179,7 +178,7 @@ class ResCompany(models.Model):
                     "from PISTE.\n\nError details: %s"
                 )
                 % e
-            )
+            ) from e
         try:
             token = r.json()
         except Exception:
@@ -190,7 +189,7 @@ class ResCompany(models.Model):
                     "HTTP error code: %s."
                 )
                 % r.status_code
-            )
+            ) from None
         if r.status_code != 200:
             logger.error(
                 "Error %s in the request to get a new token. "
@@ -202,11 +201,14 @@ class ResCompany(models.Model):
             raise UserError(
                 _(
                     "Error in the request to get a new token via PISTE.\n\n"
-                    "HTTP error code: %s. Error type: %s. "
-                    "Error description: %s."
+                    "HTTP error code: {status_code}. Error type: {error_type}. "
+                    "Error description: {error_description}."
+                ).format(
+                    status_code=r.status_code,
+                    error_type=token.get("error"),
+                    error_description=token.get("error_description"),
                 )
-                % (r.status_code, token.get("error"), token.get("error_description"))
-            )
+            ) from None
         # {'access_token': 'xxxxxxxxxxxxxxxxx',
         # 'token_type': 'Bearer', 'expires_in': 3600, 'scope': 'openid'}
         logger.info(
@@ -263,12 +265,11 @@ class ResCompany(models.Model):
             logger.error("Connection to %s failed. Error: %s", url, e)
             raise UserError(
                 _(
-                    "Connection to Chorus API (URL %s) failed. "
+                    "Connection to Chorus API (URL {url}) failed. "
                     "Check the Internet connection of the Odoo server.\n\n"
-                    "Error details: %s"
-                )
-                % (url, e)
-            )
+                    "Error details: {error}"
+                ).format(url=url, error=e)
+            ) from e
         except requests.exceptions.RequestException as e:
             logger.error("Chorus POST request failed. Error: %s", e)
             raise UserError(
@@ -277,16 +278,18 @@ class ResCompany(models.Model):
                     "Error details: %s"
                 )
                 % e
-            )
+            ) from e
         if r.status_code != 200:
             logger.error(
                 "Chorus API webservice answered with HTTP status code=%s and "
                 "content=%s" % (r.status_code, r.text)
             )
             raise UserError(
-                _("Wrong request on %s. HTTP error code received from " "Chorus: %s")
-                % (url, r.status_code)
-            )
+                _(
+                    "Wrong request on {url}. HTTP error code received from "
+                    "Chorus: {status_code}."
+                ).format(url=url, status_code=r.status_code)
+            ) from None
 
         answer = r.json()
         logger.info("Chorus WS answer payload: %s", answer)
