@@ -1,5 +1,5 @@
-# Copyright 2013-2020 GRAP (http://www.grap.coop)
-# Copyright 2015-2020 Akretion France (http://www.akretion.com)
+# Copyright 2013-2022 GRAP (http://www.grap.coop)
+# Copyright 2015-2022 Akretion France (http://www.akretion.com)
 # @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 # @author Alexis de Lattre (alexis.delattre@akretion.com)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
@@ -22,7 +22,6 @@ class ResCountryDepartment(models.Model):
         "res.country",
         related="state_id.country_id",
         string="Country",
-        readonly=True,
         store=True,
         help="Country of the related state",
     )
