@@ -9,7 +9,7 @@
         <field name="name">res.country.department.search</field>
         <field name="model">res.country.department</field>
         <field name="arch" type="xml">
-            <search string="Departments">
+            <search>
                 <field
                     name="name"
                     string="Name or Code"
@@ -36,7 +36,7 @@
         <field name="name">res.country.department.tree</field>
         <field name="model">res.country.department</field>
         <field name="arch" type="xml">
-            <tree string="Departments">
+            <tree>
                 <field name="name" />
                 <field name="code" />
                 <field name="state_id" />
@@ -48,7 +48,7 @@
         <field name="name">res.country.department.form</field>
         <field name="model">res.country.department</field>
         <field name="arch" type="xml">
-            <form string="Departments">
+            <form>
                 <group name="main">
                     <field name="name" />
                     <field name="code" />
