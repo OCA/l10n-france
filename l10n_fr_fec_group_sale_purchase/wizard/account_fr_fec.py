@@ -59,7 +59,7 @@ class AccountFrFec(models.TransientModel):
         if unaffected_earnings_xml_ref:
             # compute the benefit/loss of last year to add in the initial
             # balance of the current year earnings account
-            unaffected_earnings_results = self.do_query_unaffected_earnings()
+            unaffected_earnings_results = self._do_query_unaffected_earnings()
             unaffected_earnings_line = False
 
         sql_query = '''
