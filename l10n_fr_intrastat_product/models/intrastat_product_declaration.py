@@ -73,11 +73,9 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         return domain
 
     def _get_product_origin_country(self, inv_line, notedict):
-        """Inherit to add warning when origin_country_id is missing
-        for arrivals"""
+        """Inherit to add warning when origin_country_id is missing"""
         if (
-            self.declaration_type == "arrivals"
-            and self.reporting_level == "extended"
+            self.reporting_level == "extended"
             and not inv_line.product_id.origin_country_id
         ):
             line_notes = [
@@ -251,7 +249,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         declaration_type_code = etree.SubElement(declaration, "declarationTypeCode")
         level2letter = {
             "standard": "4",
-            "extended": "1",
+            "extended": "5",  # DEB 2022: stat + fisc, 2 in 1 combo
         }
         assert self.reporting_level in level2letter
         declaration_type_code.text = level2letter[self.reporting_level]
@@ -504,22 +502,22 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
                 src_dest_country_code = "XI"
             src_dest_country.text = src_dest_country_code
 
-            if decl.declaration_type == "arrivals":
-                country_origin = etree.SubElement(item, "countryOfOriginCode")
-                if not self.product_origin_country_id:
-                    raise UserError(
-                        _("Missing product country of origin on line %d.") % line_number
-                    )
-                country_origin_code = self.product_origin_country_id.code
-                # BOD dated 5/1/2021 says:
-                # Si, pour une marchandise produite au Royaume-Uni,
-                # le déclarant ignore si le lieu de production de la
-                # marchandise est situé en Irlande du Nord ou dans le
-                # reste du Royaume-Uni, il utilise également le code XU.
-                # => we always use XU
-                if country_origin == "GB" and decl.year >= "2021":
-                    country_origin_code = "XU"
-                country_origin.text = country_origin_code
+            # DEB 2022 : origin country is now for arrival AND dispatches
+            country_origin = etree.SubElement(item, "countryOfOriginCode")
+            if not self.product_origin_country_id:
+                raise UserError(
+                    _("Missing product country of origin on line %d.") % line_number
+                )
+            country_origin_code = self.product_origin_country_id.code
+            # BOD dated 5/1/2021 says:
+            # Si, pour une marchandise produite au Royaume-Uni,
+            # le déclarant ignore si le lieu de production de la
+            # marchandise est situé en Irlande du Nord ou dans le
+            # reste du Royaume-Uni, il utilise également le code XU.
+            # => we always use XU
+            if country_origin == "GB" and decl.year >= "2021":
+                country_origin_code = "XU"
+            country_origin.text = country_origin_code
 
             weight = etree.SubElement(item, "netMass")
             if not self.weight:
@@ -537,8 +535,8 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
         if not self.amount_company_currency:
             raise UserError(_("Missing fiscal value on line %d.") % line_number)
         invoiced_amount.text = str(self.amount_company_currency)
-        # Partner VAT is only declared for export when code régime != 29
-        if decl.declaration_type == "dispatches" and transaction.fr_is_vat_required:
+        # DEB 2022 : Partner VAT now required for all dispatches
+        if decl.declaration_type == "dispatches":
             partner_vat = etree.SubElement(item, "partnerId")
             if not self.vat:
                 raise UserError(_("Missing VAT number on line %d.") % line_number)
