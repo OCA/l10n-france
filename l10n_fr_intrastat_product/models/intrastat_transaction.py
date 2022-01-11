@@ -44,11 +44,6 @@ class IntrastatTransaction(models.Model):
         "'-1' for procedure code 25, '1' for all the others. "
         "This multiplier is used to compute the total fiscal value of "
         "the declaration.")
-    fr_is_vat_required = fields.Boolean(
-        string='Is partner VAT required?',
-        help="True for all procedure codes except 11, 19 and 29. "
-        "When False, the VAT number should not be filled in the "
-        "Intrastat product line.")
     # TODO : see with Luc if we can move it to intrastat_product
     fr_intrastat_product_type = fields.Selection([
         ('arrivals', 'Arrivals'),
