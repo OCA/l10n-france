@@ -4,7 +4,7 @@
 
 {
     'name': 'DEB',
-    'version': '12.0.1.0.1',
+    'version': '12.0.2.0.0',
     'category': 'Localisation/Report Intrastat',
     'license': 'AGPL-3',
     'summary': "DEB (Déclaration d'Échange de Biens) for France",
