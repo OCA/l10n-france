@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  Copyright 2010-2019 Akretion France (http://www.akretion.com/)
+  Copyright 2010-2022 Akretion France (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -10,7 +10,7 @@
         <field name="name">fr.intrastat.service.declaration.form</field>
         <field name="model">l10n.fr.intrastat.service.declaration</field>
         <field name="arch" type="xml">
-            <form string="DES">
+            <form>
                 <header>
                     <button
                         name="generate_service_lines"
@@ -89,7 +89,7 @@
         <field name="name">fr.intrastat.service.declaration.tree</field>
         <field name="model">l10n.fr.intrastat.service.declaration</field>
         <field name="arch" type="xml">
-            <tree string="DES">
+            <tree>
                 <field name="year_month" decoration-bf="1" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="num_decl_lines" sum="1" />
@@ -109,7 +109,7 @@
         <field name="name">fr.intrastat.service.declaration.search</field>
         <field name="model">l10n.fr.intrastat.service.declaration</field>
         <field name="arch" type="xml">
-            <search string="Search DES">
+            <search>
                 <field name="year_month" />
                 <filter
                     name="draft"
@@ -132,7 +132,7 @@
         <field name="name">fr.intrastat.service.declaration.graph</field>
         <field name="model">l10n.fr.intrastat.service.declaration</field>
         <field name="arch" type="xml">
-            <graph string="DES Graph">
+            <graph>
                 <field name="year_month" type="row" />
                 <field name="total_amount" type="measure" />
             </graph>
@@ -143,7 +143,7 @@
         <field name="name">fr.intrastat.service.declaration.pivot</field>
         <field name="model">l10n.fr.intrastat.service.declaration</field>
         <field name="arch" type="xml">
-            <pivot string="DES">
+            <pivot>
                 <field name="year_month" type="row" />
                 <field name="total_amount" type="measure" />
             </pivot>
@@ -154,7 +154,7 @@
         <field name="name">fr.intrastat.service.declaration.line.form</field>
         <field name="model">l10n.fr.intrastat.service.declaration.line</field>
         <field name="arch" type="xml">
-            <form string="DES Lines">
+            <form>
                 <group string="Information to Declare" name="to-declare">
                     <field name="partner_id" />
                     <field name="partner_vat" />
@@ -175,7 +175,7 @@
         <field name="name">fr.intrastat.service.declaration.line.tree</field>
         <field name="model">l10n.fr.intrastat.service.declaration.line</field>
         <field name="arch" type="xml">
-            <tree string="DES Lines">
+            <tree>
                 <field name="partner_vat" />
                 <!-- amount_company_currency is an Integer field,
                      not a fields.Monetary, that's why I use explicitely

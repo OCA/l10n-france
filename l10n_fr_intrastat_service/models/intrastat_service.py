@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2010-2022 Akretion France (http://www.akretion.com/)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -56,7 +56,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     total_amount = fields.Monetary(
         compute="_compute_numbers",
         currency_field="currency_id",
-        string="Total Amount",
         store=True,
         tracking=True,
     )
@@ -68,7 +67,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ("draft", "Draft"),
             ("done", "Done"),
         ],
-        string="State",
         readonly=True,
         tracking=True,
         default="draft",
@@ -421,13 +419,17 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     company.name,
                 )
                 # we try to generate the lines
+                exception = error_msg = False
                 try:
                     intrastat.generate_service_lines()
                 except UserError as e:
-                    intrastat = intrastat.with_context(exception=True, error_msg=e)
+                    exception = True
+                    error_msg = e
                 # send the reminder email
                 if company.intrastat_remind_user_ids:
-                    mail_template.send_mail(intrastat.id)
+                    mail_template.with_context(
+                        exception=exception, error_msg=error_msg
+                    ).send_mail(intrastat.id)
                     logger.info(
                         "DES Reminder email has been sent to %s",
                         company.intrastat_email_list,
