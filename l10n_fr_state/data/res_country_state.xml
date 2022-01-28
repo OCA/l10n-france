@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2013-2021 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
+  Copyright 2016-2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+    <!-- ex Alsace-Champagne-Ardenne-Lorraine -->
+    <record id="res_country_state_alsace" model="res.country.state">
+        <field name="name">Grand Est</field>
+        <field name="code">44</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <!-- ex Aquitaine-Limousin-Poitou-Charentes -->
+    <record id="res_country_state_aquitaine" model="res.country.state">
+        <field name="name">Nouvelle Aquitaine</field>
+        <field name="code">75</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_auvergne" model="res.country.state">
+        <field name="name">Auvergne-Rhône-Alpes</field>
+        <field name="code">84</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_bourgogne" model="res.country.state">
+        <field name="name">Bourgogne-Franche-Comté</field>
+        <field name="code">27</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_bretagne" model="res.country.state">
+        <field name="name">Bretagne</field>
+        <field name="code">53</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_centre" model="res.country.state">
+        <field name="name">Centre-Val de Loire</field>
+        <field name="code">24</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_corse" model="res.country.state">
+        <field name="name">Corse</field>
+        <field name="code">94</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_iledefrance" model="res.country.state">
+        <field name="name">Île-de-France</field>
+        <field name="code">11</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <!-- ex Languedoc-Roussillon-Midi-Pyrénées -->
+    <record id="res_country_state_languedocroussillon" model="res.country.state">
+        <field name="name">Occitanie</field>
+        <field name="code">76</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <!-- ex Nord-Pas-de-Calais-Picardie  -->
+    <record id="res_country_state_nordpasdecalais" model="res.country.state">
+        <field name="name">Hauts-de-France</field>
+        <field name="code">32</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_bassenormandie" model="res.country.state">
+        <field name="name">Normandie</field>
+        <field name="code">28</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_paysdelaloire" model="res.country.state">
+        <field name="name">Pays de la Loire</field>
+        <field name="code">52</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+    <record id="res_country_state_provencealpescotedazur" model="res.country.state">
+        <field name="name">Provence-Alpes-Côte d'Azur</field>
+        <field name="code">93</field>
+        <field name="country_id" ref="base.fr" />
+    </record>
+</odoo>
