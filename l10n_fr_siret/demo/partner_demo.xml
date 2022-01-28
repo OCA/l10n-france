@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2014-2021 Akretion France
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <record id="base.res_partner_12" model="res.partner">  <!-- C2C -->
+        <field name="siren">433698578</field>
+        <field name="nic">00039</field>
+        <field name="company_registry">Chambery</field>
+    </record>
+
+</odoo>
