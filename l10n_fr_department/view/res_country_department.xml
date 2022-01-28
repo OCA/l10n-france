@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2013-2020 GRAP (http://www.grap.coop)
+  @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_country_department_search" model="ir.ui.view">
+        <field name="name">res.country.department.search</field>
+        <field name="model">res.country.department</field>
+        <field name="arch" type="xml">
+            <search>
+                <field
+                    name="name"
+                    string="Name or Code"
+                    filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
+                />
+                <field name="state_id" />
+                <field name="country_id" />
+                <group string="Group By" name="groupby">
+                    <filter
+                        name="state_groupby"
+                        string="State"
+                        context="{'group_by': 'state_id'}"
+                    />
+                    <filter
+                        name="country_groupby"
+                        string="Country"
+                        context="{'group_by': 'country_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_country_department_tree" model="ir.ui.view">
+        <field name="name">res.country.department.tree</field>
+        <field name="model">res.country.department</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="code" />
+                <field name="state_id" />
+                <field name="country_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_country_department_form" model="ir.ui.view">
+        <field name="name">res.country.department.form</field>
+        <field name="model">res.country.department</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="state_id" />
+                    <field name="country_id" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_view_country_department_tree" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">res.country.department</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        id="menu_res_country_department"
+        parent="contacts.menu_localisation"
+        action="action_view_country_department_tree"
+        sequence="2"
+    />
+</odoo>

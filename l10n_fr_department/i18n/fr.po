@@ -1,0 +1,148 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_fr_department
+#
+# Translators:
+# Quentin THEURET <odoo@kerpeo.com>, 2018
+# OCA Transbot <transbot@odoo-community.org>, 2018
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-02-22 03:41+0000\n"
+"PO-Revision-Date: 2018-02-22 03:41+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2018\n"
+"Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__country_id
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "Country"
+msgstr "Pays"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__country_id
+msgid "Country of the related state"
+msgstr "Pays associé à la région"
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_country_state
+msgid "Country state"
+msgstr "État"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_country_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__department_id
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
+msgid "Department"
+msgstr "Département"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__code
+msgid "Department Code"
+msgstr "Code du département"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__name
+msgid "Department Name"
+msgstr "Nom du département"
+
+#. module: l10n_fr_department
+#: model:ir.actions.act_window,name:l10n_fr_department.action_view_country_department_tree
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state__department_ids
+#: model:ir.ui.menu,name:l10n_fr_department.menu_res_country_department
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_tree
+msgid "Departments"
+msgstr "Départements"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_state__department_ids
+msgid "Departments related to this state"
+msgstr "Départements associés à cette région"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__display_name
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state__display_name
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Afficher le nom"
+
+#. module: l10n_fr_department
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "Group By"
+msgstr "Grouper par"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state__id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department____last_update
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state____last_update
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Dernière Modification le"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: l10n_fr_department
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "Name or Code"
+msgstr "Nom ou code"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__state_id
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "State"
+msgstr "État"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__state_id
+msgid "State related to the current department"
+msgstr "Région associée au département courrant"
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__code
+msgid "The department code (ISO 3166-2 codification)"
+msgstr "Code du département (codification ISO 3166-2)"
+
+#. module: l10n_fr_department
+#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_uniq
+msgid "You cannot have two departments with the same code!"
+msgstr "Vous ne pouvez pas avoir deux départements avec le même code !"
+
+#~ msgid "Display and manage the list of all departments."
+#~ msgstr "Afficher et gérer la liste de tous les départements."
