@@ -421,13 +421,17 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     company.name,
                 )
                 # we try to generate the lines
+                exception = error_msg = False
                 try:
                     intrastat.generate_service_lines()
                 except UserError as e:
-                    intrastat = intrastat.with_context(exception=True, error_msg=e)
+                    exception = True
+                    error_msg = e
                 # send the reminder email
                 if company.intrastat_remind_user_ids:
-                    mail_template.send_mail(intrastat.id)
+                    mail_template.with_context(
+                        exception=exception, error_msg=error_msg
+                    ).send_mail(intrastat.id)
                     logger.info(
                         "DES Reminder email has been sent to %s",
                         company.intrastat_email_list,
