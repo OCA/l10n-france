@@ -8,6 +8,8 @@ setuptools.setup(
     description="Meta package for oca-l10n-france Odoo addons",
     version=version,
     install_requires=[
+        'odoo-addon-l10n_fr_department>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_department_oversea>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_siret>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_state>=15.0dev,<15.1dev',
     ],
