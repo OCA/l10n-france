@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Akretion France (http://www.akretion.com)
+# Copyright 2010-2022 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -25,5 +25,5 @@ class ResCompany(models.Model):
             if company.country_id and company.country_id.code == "FR":
                 if company.intrastat_arrivals == "standard":
                     raise ValidationError(
-                        _("In France, Arrival DEB can only be Exempt " "or Extended.")
+                        _("In France, Arrival DEB can only be Exempt or Extended.")
                     )

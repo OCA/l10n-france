@@ -1,4 +1,4 @@
-# Copyright 2011-2020 Akretion France (http://www.akretion.com)
+# Copyright 2011-2022 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -31,24 +31,27 @@ class ResPartner(models.Model):
                 if not rep.country_id:
                     raise ValidationError(
                         _(
-                            "The fiscal representative '%s' of partner '%s' "
+                            "The fiscal representative '{fiscal_rep}' of partner '{partner}' "
                             "must have a country."
+                        ).format(
+                            fiscal_rep=rep.display_name, partner=partner.display_name
                         )
-                        % (rep.display_name, partner.display_name)
                     )
                 if rep.country_id not in eu_countries:
                     raise ValidationError(
                         _(
-                            "The fiscal representative '%s' of partner '%s' "
+                            "The fiscal representative '{fiscal_rep}' of partner '{partner}' "
                             "must be based in an EU country."
+                        ).format(
+                            fiscal_rep=rep.display_name, partner=partner.display_name
                         )
-                        % (rep.display_name, partner.display_name)
                     )
                 if not rep.vat:
                     raise ValidationError(
                         _(
-                            "The fiscal representative '%s' of partner '%s' "
+                            "The fiscal representative '{fiscal_rep}' of partner '{partner}' "
                             "must have a VAT number."
+                        ).format(
+                            fiscal_rep=rep.display_name, partner=partner.display_name
                         )
-                        % (rep.display_name, partner.display_name)
                     )
