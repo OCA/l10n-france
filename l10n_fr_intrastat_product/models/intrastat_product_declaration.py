@@ -1,4 +1,4 @@
-# Copyright 2009-2020 Akretion France (http://www.akretion.com)
+# Copyright 2009-2022 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -111,7 +111,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         return dpt
 
     def _update_computation_line_vals(self, inv_line, line_vals, notedict):
-        super()._update_computation_line_vals(inv_line, line_vals, notedict)
+        res = super()._update_computation_line_vals(inv_line, line_vals, notedict)
         if not line_vals.get("vat"):
             inv = inv_line.move_id
             commercial_partner = inv.commercial_partner_id
@@ -121,10 +121,8 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 and not commercial_partner.intrastat_fiscal_representative_id
             ):
                 line_notes = [
-                    _(
-                        "Missing fiscal representative on partner '%s'."
-                        % commercial_partner.display_name
-                    )
+                    _("Missing fiscal representative on partner '%s'.")
+                    % commercial_partner.display_name
                 ]
                 self._format_line_note(inv_line, notedict, line_notes)
             else:
@@ -132,9 +130,11 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 if not fiscal_rep.vat:
                     line_notes = [
                         _(
-                            "Missing VAT number on partner '%s' which is the "
-                            "fiscal representative of partner '%s'."
-                            % (fiscal_rep.display_name, commercial_partner.display_name)
+                            "Missing VAT number on partner '{fiscal_rep}' which is the "
+                            "fiscal representative of partner '{partner}'."
+                        ).format(
+                            fiscal_rep=fiscal_rep.display_name,
+                            partner=commercial_partner.display_name,
                         )
                     ]
                     self._format_line_note(inv_line, notedict, line_notes)
@@ -142,6 +142,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     line_vals["vat"] = fiscal_rep.vat
         dpt = self._get_fr_department(inv_line, notedict)
         line_vals["fr_department_id"] = dpt and dpt.id or False
+        return res
 
     @api.model
     def _group_line_hashcode_fields(self, computation_line):
@@ -290,7 +291,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
     def _scheduler_reminder(self):
         logger.info("Start DEB reminder")
         previous_month = datetime.strftime(
-            datetime.today() + relativedelta(day=1, months=-1), "%Y-%m"
+            fields.Date.context_today(self) + relativedelta(day=1, months=-1), "%Y-%m"
         )
         # I can't search on [('country_id', '=', ..)]
         # because it is a fields.function not stored and without fnct_search
@@ -362,15 +363,21 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                             "scheduled action."
                         )
                     )
+                    exception = error_msg = False
                     try:
                         intrastat.action_gather()
+                        if intrastat.computation_line_ids:
+                            intrastat.generate_declaration()
                     except Warning as e:
-                        intrastat = intrastat.with_context(exception=True, error_msg=e)
+                        exception = True
+                        error_msg = e
                     # send the reminder e-mail
                     # TODO : how could we translate ${object.type}
                     # in the mail tpl ?
                     if company.intrastat_remind_user_ids:
-                        mail_template.send_mail(intrastat.id)
+                        mail_template.with_context(
+                            exception=exception, error_msg=error_msg
+                        ).send_mail(intrastat.id)
                         logger.info(
                             "DEB Reminder email has been sent to %s",
                             company.intrastat_email_list,
@@ -492,10 +499,12 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
             ):
                 raise UserError(
                     _(
-                        "On line %d, the source/destination country is '%s', "
+                        "On line {line_number}, the source/destination country is '{country}', "
                         "which is not part of the European Union."
+                    ).format(
+                        line_number=line_number,
+                        country=self.src_dest_country_id.display_name,
                     )
-                    % (line_number, self.src_dest_country_id.name)
                 )
             if src_dest_country_code == "GB" and decl.year >= "2021":
                 # all warnings are done during generation
@@ -543,11 +552,11 @@ class L10nFrIntrastatProductDeclarationLine(models.Model):
             if self.vat.startswith("GB") and decl.year >= "2021":
                 raise UserError(
                     _(
-                        "Bad VAT number '%s' on line %d. Brexit took place "
-                        "on January 1st 2021 and companies in Northern Ireland "
+                        "Bad VAT number '{vat}' on line {line_number}. "
+                        "Brexit took place on January 1st 2021 and companies "
+                        "in Northern Ireland "
                         "have a new VAT number starting with 'XI'."
-                    )
-                    % (self.vat, line_number)
+                    ).format(vat=self.vat, line_number=line_number)
                 )
             partner_vat.text = self.vat.replace(" ", "")
         # Code régime is on all DEBs
