@@ -985,7 +985,8 @@ class L10nFrAccountVatReturn(models.Model):
         taxedop_type2logs,
     ):
         # Taxable operations - Autoliquidation Extra EU
-        # Box 02: Autres opérations imposables
+        # Box 3B: Achats de biens ou presta de services réalisés auprès d'un
+        # assujetti non établi en France (art 283-1 du CGI)
         for account in autoliq_taxedop_type2accounts["extracom"]:
             vat_amount = account._fr_vat_get_balance("base_domain_period", speedy) * -1
             if not speedy["currency"].is_zero(vat_amount):
