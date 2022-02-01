@@ -2,12 +2,12 @@ id,form_code,sequence,display_type,code,edi_code,edi_type,nref_code,box_type,pus
 ca3_section_operations_realisees,3310CA3,95,section,A,,,,,,,,,,,,OPÉRATIONS RÉALISÉES,OPÉRATIONS RÉALISÉES,,,
 ca3_sub_section_operations_imposables,3310CA3,100,sub_section,,,,,,,,,,,,,OPÉRATIONS IMPOSABLES (H.T.),OPÉRATIONS IMPOSABLES (H.T.),,,
 ca3_ca,3310CA3,110,,01,CA,MOA,100071,taxed_op_france,,,,,,,,"Ventes, prestations de services","Opérations imposables HT - Ventes, prestations de services",2,287,791
-ca3_cb,3310CA3,120,,02,CB,MOA,100072,taxed_op_autoliq_extracom,,,,,,,,Autres opérations imposables,Opérations imposables HT - Autres opérations imposables,2,287,777
+ca3_cb,3310CA3,120,,02,CB,MOA,100072,,,,,,,,,Autres opérations imposables,Opérations imposables HT - Autres opérations imposables,2,287,777
 ca3_cc,3310CA3,160,,03,CC,MOA,100073,taxed_op_autoliq_intracom_product,,,,,,,,Acquisitions intra-communautaires,"Opérations imposables - acquisitions intra-communautaires, base hors taxe",2,287,697
 ca3_cd,3310CA3,170,,03-dont-dist,CD,MOA,100074,,,,,,,,,Dont ventes à distance et/ou opérations de montage,Opérations imposables HT - dont ventes à distance et/ou opérations de montage,2,200,687
 ca3_ce,3310CA3,195,,3C,CE,MOA,100118,,,,,,,,,Régularisations,Opérations imposables HT - régularisation,2,287,629
 ca3_cf,3310CA3,180,,3A,CF,MOA,100121,,,,,,,,,"Livraisons d'électricité, de gaz naturel, de chaleur ou de froid imposables en France","Livraisons d'electricité, de gaz naturel, de chaleur ou de froid imposables en France, base hors taxe",2,287,676
-ca3_cg,3310CA3,190,,3B,CG,MOA,100505,,,,,,,,,Achats de biens ou de prestations de services réalisés auprès d'un assujetti non établi en France (art 283-1 du CGI),"Opérations imposables HT - achats de biens ou de prestations de services réalisés auprès d'un assujetti non établi en France, art 283-1 du CGI",2,287,650
+ca3_cg,3310CA3,190,,3B,CG,MOA,100505,taxed_op_autoliq_extracom,,,,,,,,Achats de biens ou de prestations de services réalisés auprès d'un assujetti non établi en France (art 283-1 du CGI),"Opérations imposables HT - achats de biens ou de prestations de services réalisés auprès d'un assujetti non établi en France, art 283-1 du CGI",2,287,650
 ca3_ch,3310CA3,150,,2D,CH,MOA,910758,,,,,,,,,Mises à la consommation de produits pétroliers,"Opérations imposables - Mises à la consommation de produits pétroliers, base hors taxe",2,287,716
 ca3_sub_section_operations_non_imposables,3310CA3,200,sub_section,,,,,,,,,,,,,OPÉRATIONS NON IMPOSABLES,OPÉRATIONS NON IMPOSABLES,,,
 ca3_da,3310CA3,210,,04,DA,MOA,100075,untaxed_op_extracom,,,,,,,,Exportations hors UE,Montant des exportations hors communauté européenne non imposables,2,580,791
