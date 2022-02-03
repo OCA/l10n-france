@@ -8,5 +8,5 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    supplier_vat_on_payment = fields.Boolean(string="VAT on Payment")
+    supplier_vat_on_payment = fields.Boolean(string="VAT on Payment", tracking=True)
     # This field should NOT be company_dependent=True
