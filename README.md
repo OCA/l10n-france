@@ -7,5 +7,3 @@ French localization for Odoo
 
 Write Me. 
 Ou pas. 
-
-
