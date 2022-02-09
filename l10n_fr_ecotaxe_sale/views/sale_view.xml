@@ -9,7 +9,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-            <field name="amount_untaxed" position="after">
+            <field name="tax_totals_json" position="after">
                 <field name="amount_ecotaxe" />
             </field>
             <xpath
