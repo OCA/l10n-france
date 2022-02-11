@@ -41,16 +41,18 @@ class FrSiretLookup(models.TransientModel):
     # Action
     @api.model
     def _prepare_partner_from_data(self, data):
-        country_id = False
-        if data.get("codedepartementetablissement"):
-            country_id = self.env["res.partner"]._opendatasoft_dpt2country(
-                data["codedepartementetablissement"]
-            )
+        country_id = zipcode = False
+        zipcode = data.get("codepostaletablissement")
+        if isinstance(zipcode, int):
+            zipcode = str(zipcode)
+        if zipcode:
+            zipcode = zipcode.zfill(5)
+            country_id = self.env["res.partner"]._opendatasoft_compute_country(zipcode)
         return {
             "name": data.get("denominationunitelegale")
             or data.get("l1_adressage_unitelegale"),
             "street": data.get("adresseetablissement"),
-            "zip": data.get("codepostaletablissement"),
+            "zip": zipcode,
             "city": data.get("libellecommuneetablissement"),
             "country_id": country_id,
             "siren": data.get("siren") and str(data["siren"]) or False,
