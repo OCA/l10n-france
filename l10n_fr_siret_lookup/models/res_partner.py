@@ -76,7 +76,6 @@ class ResPartner(models.Model):
             if res.status_code in (200, 201):
                 res_json = res.json()
                 # from pprint import pprint
-
                 # pprint(res_json)
                 return res_json
             else:
@@ -119,14 +118,24 @@ class ResPartner(models.Model):
                 "name": raw_record.get("denominationunitelegale")
                 or raw_record.get("l1_adressage_unitelegale"),
                 "street": raw_record.get("adresseetablissement"),
-                "zip": raw_record.get("codepostaletablissement"),
                 "city": raw_record.get("libellecommuneetablissement"),
                 "siren": raw_record.get("siren") and str(raw_record["siren"]) or False,
                 "nic": raw_record.get("nic"),
             }
-            if raw_record.get("codedepartementetablissement"):
-                dpt_code = raw_record["codedepartementetablissement"]
-                res["country_id"] = self._opendatasoft_dpt2country(dpt_code)
+            # In feb 2022, they changed codepostaletablissement and
+            # codedepartementetablissement from string to integer
+            # So I now want to support both, it case they change it back !
+            if raw_record.get("codepostaletablissement"):
+                res["zip"] = raw_record["codepostaletablissement"]
+                if isinstance(res["zip"], int):
+                    res["zip"] = str(res["zip"])
+                res["zip"] = res["zip"].zfill(5)
+
+            # I don't use "codedepartementetablissement" to compute
+            # the country, because it is not always set, in particular
+            # for partners in Corsica
+            if res.get("zip"):
+                res["country_id"] = self._opendatasoft_compute_country(res["zip"])
             # set lang to French if installed
             fr_lang = self.env["res.lang"].search([("code", "=", "fr_FR")])
             if fr_lang:
@@ -138,7 +147,7 @@ class ResPartner(models.Model):
         return res
 
     @api.model
-    def _opendatasoft_dpt2country(self, dpt_code):
+    def _opendatasoft_compute_country(self, zipcode):
         domtom2xmlid = {
             "971": "gp",
             "972": "mq",
@@ -152,11 +161,13 @@ class ResPartner(models.Model):
             "987": "pf",  # Polynésie française
             "988": "nc",  # Nouvelle calédonie
         }
-        country_id = False
-        if dpt_code and len(dpt_code) == 2:
-            country_id = self.env.ref("base.fr").id
-        elif dpt_code in domtom2xmlid:
-            country_xmlid = "base.%s" % domtom2xmlid[dpt_code]
+        country_id = self.env.ref("base.fr").id
+        if (
+            isinstance(zipcode, str)
+            and len(zipcode) == 5
+            and zipcode[:3] in domtom2xmlid
+        ):
+            country_xmlid = "base.%s" % domtom2xmlid[zipcode[:3]]
             country_id = self.env.ref(country_xmlid).id
         return country_id
 
