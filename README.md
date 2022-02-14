@@ -41,7 +41,7 @@ addon | version | maintainers | summary
 [l10n_fr_mis_reports](l10n_fr_mis_reports/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | MIS Report templates for the French P&L and Balance Sheets
 [l10n_fr_pos_cert_allow_change_qty](l10n_fr_pos_cert_allow_change_qty/) | 14.0.1.0.1 |  | Remove restriction on change quantity
 [l10n_fr_siret](l10n_fr_siret/) | 14.0.1.3.1 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | French company identity numbers SIRET/SIREN/NIC
-[l10n_fr_siret_lookup](l10n_fr_siret_lookup/) | 14.0.1.0.0 | [![remi-filament](https://github.com/remi-filament.png?size=30px)](https://github.com/remi-filament) | Lookup partner via an API on the SIRENE directory
+[l10n_fr_siret_lookup](l10n_fr_siret_lookup/) | 14.0.1.1.0 | [![remi-filament](https://github.com/remi-filament.png?size=30px)](https://github.com/remi-filament) | Lookup partner via an API on the SIRENE directory
 [l10n_fr_state](l10n_fr_state/) | 14.0.1.0.1 | [![legalsylvain](https://github.com/legalsylvain.png?size=30px)](https://github.com/legalsylvain) | Populate Database with French States (Régions)
 
 [//]: # (end addons)
