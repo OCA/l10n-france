@@ -950,23 +950,23 @@ class L10nFrAccountVatReturn(models.Model):
         # Check that these autoliq due accounts 4452xx are empty at start of period
         for account, rate_int in autoliq_vat_account2rate.items():
             # check start balance is empty at start of period
-            balance_end_previous_period = account._fr_vat_get_balance(
-                "base_domain_end_previous", speedy
-            )
-            if not speedy["currency"].is_zero(balance_end_previous_period):
-                raise UserError(
-                    _(
-                        "Account '%s' is a due VAT auto-liquidation account. "
-                        "So it should be empty at the start of the VAT period, "
-                        "but the balance on the last day of the previous period is %s."
-                    )
-                    % (
-                        account.display_name,
-                        format_amount(
-                            self.env, balance_end_previous_period, speedy["currency"]
-                        ),
-                    )
-                )
+            # balance_end_previous_period = account._fr_vat_get_balance(
+            #    "base_domain_end_previous", speedy
+            # )
+            # if not speedy["currency"].is_zero(balance_end_previous_period):
+            #    raise UserError(
+            #        _(
+            #            "Account '%s' is a due VAT auto-liquidation account. "
+            #            "So it should be empty at the start of the VAT period, "
+            #            "but the balance on the last day of the previous period is %s."
+            #        )
+            #        % (
+            #            account.display_name,
+            #            format_amount(
+            #                self.env, balance_end_previous_period, speedy["currency"]
+            #            ),
+            #        )
+            #    )
             balance = account._fr_vat_get_balance("base_domain_end", speedy) * -1
             if not speedy["currency"].is_zero(balance):
                 rate2logs[rate_int].append(
