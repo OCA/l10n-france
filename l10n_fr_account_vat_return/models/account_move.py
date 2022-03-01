@@ -66,3 +66,6 @@ class AccountMove(models.Model):
             ):
                 vat_on_payment = True
             move.in_vat_on_payment = vat_on_payment
+
+    def _collect_tax_cash_basis_values(self):
+        return None
