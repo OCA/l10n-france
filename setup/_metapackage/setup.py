@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo-addon-l10n_fr_account_tax_unece>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_department>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_department_oversea>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_ecotaxe>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_siret>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_state>=15.0dev,<15.1dev',
     ],
