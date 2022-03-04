@@ -1,0 +1,331 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_fr_ecotaxe
+#
+# Translators:
+# Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2017
+# OCA Transbot <transbot@odoo-community.org>, 2017
+# Timo Talvitie <timo.talvitie@vizucom.com>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-19 02:52+0000\n"
+"PO-Revision-Date: 2017-05-19 02:52+0000\n"
+"Last-Translator: Timo Talvitie <timo.talvitie@vizucom.com>, 2017\n"
+"Language-Team: Finnish (https://www.transifex.com/oca/teams/23907/fi/)\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.actions.act_window,help:l10n_fr_ecotaxe.action_ecotaxe_classification
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new Ecotaxe Classification.\n"
+"              </p>\n"
+"            "
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,active:0
+msgid "Active"
+msgstr "Aktiivinen"
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+msgid "Classification"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,code:0
+msgid "Code"
+msgstr "Koodi"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,company_id:0
+msgid "Company"
+msgstr "Yritys"
+
+#. module: l10n_fr_ecotaxe
+#: field:product.product,computed_ecotaxe:0
+msgid "Coputed Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,create_uid:0
+msgid "Created by"
+msgstr "Luonut"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,create_date:0
+msgid "Created on"
+msgstr "Luotu"
+
+#. module: l10n_fr_ecotaxe
+#: help:product.category,default_fixed_ecotaxe:0
+msgid ""
+"Default value of fixed ecotaxe.\n"
+"This value is set when you choise the category \n"
+"on creating a new product (triged by on change product category)\n"
+"Set this field to 0 if you want not default value"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,display_name:0
+msgid "Display Name"
+msgstr "Nimi"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice.line,amount_ecotaxe:0 field:account.tax,is_ecotaxe:0
+#: field:purchase.order.line,amount_ecotaxe:0
+#: field:sale.order.line,amount_ecotaxe:0
+msgid "Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.actions.act_window,name:l10n_fr_ecotaxe.action_ecotaxe_classification
+#: model:ir.ui.menu,name:l10n_fr_ecotaxe.menu_ecotaxe_classification
+#: field:product.product,ecotaxe_classification_ids:0
+#: field:product.template,ecotaxe_classification_ids:0
+msgid "Ecotaxe Classification"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,ecotaxe_coef:0
+#: field:product.category,ecotaxe_coef:0
+msgid "Ecotaxe Coef"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,ecotaxe_type:0
+#: field:product.category,ecotaxe_type:0
+msgid "Ecotaxe Type"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: view:product.template:l10n_fr_ecotaxe.product_template_form_ecotaxe
+msgid "Ecotaxe classification"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: help:product.product,computed_ecotaxe:0
+msgid ""
+"Ecotaxe value :\n"
+"product weight * ecotaxe coef of Ecotaxe Classification\n"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
+msgid "Ecotaxes"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
+msgid "Ecotaxes settings"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+#: selection:account.ecotaxe.classification,ecotaxe_type:0
+#: selection:product.category,ecotaxe_type:0
+msgid "Fixed"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,fixed_ecotaxe:0
+#: field:product.category,default_fixed_ecotaxe:0
+#: field:product.product,fixed_ecotaxe:0
+msgid "Fixed Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: help:product.product,fixed_ecotaxe:0
+msgid "Fixed ecotaxe of the Ecotaxe Classification\n"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice.tax,generic_base:0
+msgid "Generic base"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: help:account.invoice.tax,generic_base:0
+msgid ""
+"Generic base is used to get different base depending on ecotaxe type. For "
+"fixed taxe generic base is the qty sum of all product liable to this taxe. "
+"For wight base ecotaxe the geneic base is the weight sum of all product "
+"liable to this taxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+msgid "Group By"
+msgstr "Ryhmittele"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_fr_ecotaxe
+#: help:account.ecotaxe.classification,ecotaxe_type:0
+#: help:product.category,ecotaxe_type:0
+msgid ""
+"If ecotaxe is weight based,the ecotaxe coef must take into account\n"
+"the weight unit of measure (kg by default)"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice,amount_ecotaxe:0
+#: field:purchase.order,amount_ecotaxe:0 field:sale.order,amount_ecotaxe:0
+msgid "Included Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice
+msgid "Invoice"
+msgstr "Lasku"
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_invoice_tax
+msgid "Invoice Tax"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,__last_update:0
+msgid "Last Modified on"
+msgstr "Viimeksi muokattu"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,write_uid:0
+msgid "Last Updated by"
+msgstr "Viimeksi päivittänyt"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,write_date:0
+msgid "Last Updated on"
+msgstr "Viimeksi päivitetty"
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.ecotaxe_classification_form
+#: field:account.ecotaxe.classification,name:0
+msgid "Name"
+msgstr "Nimi"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice,amount_tax_without_ecotaxe:0
+#: field:purchase.order,amount_tax_without_ecotaxe:0
+#: field:sale.order,amount_tax_without_ecotaxe:0
+msgid "Other Taxes"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_product_product
+msgid "Product"
+msgstr "Tuote"
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_product_template
+msgid "Product Template"
+msgstr "Tuotteen malli"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,purchase_ecotaxe_id:0
+msgid "Purchase EcoTaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order
+msgid "Purchase Order"
+msgstr "Ostotilaus"
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Ostotilausrivi"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.ecotaxe.classification,sale_ecotaxe_id:0
+msgid "Sale EcoTaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order
+msgid "Sales Order"
+msgstr "Myyntitilaus"
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Myyntitilausrivi"
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+msgid "Search Ecotaxe Classification"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: help:account.ecotaxe.classification,company_id:0
+msgid ""
+"Specify a company if you want to define this Ecotaxe Classification only for "
+"specific company. Otherwise, this Fiscal Classification will be available "
+"for all companies."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: view:account.invoice:l10n_fr_ecotaxe.invoice_form
+#: view:account.invoice:l10n_fr_ecotaxe.invoice_supplier_form
+#: view:purchase.order:l10n_fr_ecotaxe.view_purchase_order_form
+#: view:sale.order:l10n_fr_ecotaxe.view_order_form
+msgid "True"
+msgstr "Tosi"
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+msgid "Type"
+msgstr "Tyyppi"
+
+#. module: l10n_fr_ecotaxe
+#: field:account.invoice,amount_untaxed_with_ecotaxe:0
+#: field:purchase.order,amount_untaxed_with_ecotaxe:0
+#: field:sale.order,amount_untaxed_with_ecotaxe:0
+msgid "Untaxed Amount with Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: help:account.tax,is_ecotaxe:0
+msgid ""
+"Warning : To include Ecotaxe in the VAT tax check this :\n"
+"1: check  \"included in base amount \"\n"
+"2: The Ecotaxe sequence must be less then VAT tax (in sale and purchase)"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: view:account.ecotaxe.classification:l10n_fr_ecotaxe.view_account_fiscalyear_search
+#: selection:account.ecotaxe.classification,ecotaxe_type:0
+#: selection:product.category,ecotaxe_type:0
+msgid "Weight based"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: help:account.ecotaxe.classification,fixed_ecotaxe:0
+msgid "fixed ecotaxe amount.\n"
+msgstr ""

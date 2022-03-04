@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ir_model_access_account_ecotaxe_classification_manager,Full access account_ecotaxe_classification to accountant,model_account_ecotaxe_classification,account.group_account_manager,1,1,1,1
+ir_model_access_account_ecotaxe_category_manager,Full access to account.ecotaxe.category to accoutant,model_account_ecotaxe_category,account.group_account_manager,1,1,1,1
