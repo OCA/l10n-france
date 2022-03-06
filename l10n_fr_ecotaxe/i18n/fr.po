@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-24 05:39+0000\n"
-"PO-Revision-Date: 2018-03-24 05:39+0000\n"
-"Last-Translator: Quentin THEURET <odoo@kerpeo.com>, 2017\n"
+"PO-Revision-Date: 2022-03-06 18:24+0000\n"
+"Last-Translator: ajaniszewska-dev <anna.janiszewska@camptocamp.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.actions.act_window,help:l10n_fr_ecotaxe.action_ecotaxe_classification
@@ -94,7 +95,7 @@ msgstr "Ecotaxe"
 #: field:product.product,ecotaxe_classification_ids:0
 #: field:product.template,ecotaxe_classification_ids:0
 msgid "Ecotaxe Classification"
-msgstr ""
+msgstr "Classification des Ecotaxes"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,ecotaxe_coef:0
@@ -111,7 +112,7 @@ msgstr "Type Ecotaxe"
 #. module: l10n_fr_ecotaxe
 #: view:product.template:l10n_fr_ecotaxe.product_template_form_ecotaxe
 msgid "Ecotaxe classification"
-msgstr ""
+msgstr "Classification des Ecotaxes"
 
 #. module: l10n_fr_ecotaxe
 #: help:product.product,computed_ecotaxe:0
