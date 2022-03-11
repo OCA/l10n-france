@@ -988,7 +988,7 @@ class L10nFrAccountVatReturn(models.Model):
         # Box 3B: Achats de biens ou presta de services réalisés auprès d'un
         # assujetti non établi en France (art 283-1 du CGI)
         for account in autoliq_taxedop_type2accounts["extracom"]:
-            vat_amount = account._fr_vat_get_balance("base_domain_period", speedy) * -1
+            vat_amount = account._fr_vat_get_balance("base_domain_end", speedy) * -1
             if not speedy["currency"].is_zero(vat_amount):
                 rate_int = autoliq_vat_account2rate[account]
                 base = speedy["currency"].round(vat_amount * 10000 / rate_int)
