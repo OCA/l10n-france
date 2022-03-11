@@ -9,7 +9,7 @@ class AccountPartialReconcile(models.Model):
     _inherit = "account.partial.reconcile"
 
     def _create_tax_cash_basis_moves(self):
-        return self.env['account.move']
+        return self.env["account.move"]
 
     def _collect_tax_cash_basis_values(self):
         return {}
