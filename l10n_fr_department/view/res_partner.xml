@@ -18,4 +18,20 @@
             </filter>
         </field>
     </record>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">l10n_fr_department.partner.address</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="state_id" position="before">
+                <field name="department_id" class="o_address_state" />
+            </field>
+            <xpath
+                expr="//field[@name='child_ids']/form//field[@name='state_id']"
+                position="before"
+            >
+                <field name="department_id" class="o_address_state" />
+            </xpath>
+        </field>
+    </record>
 </odoo>
