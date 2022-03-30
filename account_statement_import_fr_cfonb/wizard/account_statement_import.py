@@ -61,7 +61,7 @@ class AccountStatementImport(models.TransientModel):
         return data_file.decode("latin1").strip().startswith("01")
 
     def _parse_file(self, data_file):
-        """ Import a file in French CFONB format"""
+        """Import a file in French CFONB format"""
         cfonb = self._check_cfonb(data_file)
         if not cfonb:
             return super()._parse_file(data_file)
