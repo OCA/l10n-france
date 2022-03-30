@@ -9,7 +9,7 @@ class TestL10nFRBusinessDocumentImport(TransactionCase):
     def test_match_partner_siren_siret(self):
         partner1 = self.env["res.partner"].create(
             {
-                "name": u"France Telecom (siège)",
+                "name": "France Telecom (siège)",
                 "supplier_rank": 1,
                 "is_company": True,
                 "siren": "380129866",
