@@ -17,6 +17,6 @@
     "demo": ["demo/demo.xml"],
     "auto_install": False,
     "installable": True,
-    "author": u"Akretion, Odoo Community Association (OCA)",
+    "author": "Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
 }
