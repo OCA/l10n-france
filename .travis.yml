@@ -12,6 +12,7 @@ addons:
   apt:
     packages:
       - expect-dev # provides unbuffer utility
+      - swig # needed for pykcs11
 
 stages:
   - test
