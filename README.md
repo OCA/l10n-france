@@ -38,7 +38,7 @@ addon | version | maintainers | summary
 [l10n_fr_hr_check_ssnid](l10n_fr_hr_check_ssnid/) | 14.0.1.0.1 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Check validity of Social Security Numbers in French companies
 [l10n_fr_hr_rup](l10n_fr_hr_rup/) | 14.0.1.0.2 |  | French fields and report for Registre Unique du Personnel
 [l10n_fr_intrastat_product](l10n_fr_intrastat_product/) | 14.0.2.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | DEB (Déclaration d'Échange de Biens) for France
-[l10n_fr_intrastat_service](l10n_fr_intrastat_service/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Module for Intrastat service reporting (DES) for France
+[l10n_fr_intrastat_service](l10n_fr_intrastat_service/) | 14.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Module for Intrastat service reporting (DES) for France
 [l10n_fr_mis_reports](l10n_fr_mis_reports/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | MIS Report templates for the French P&L and Balance Sheets
 [l10n_fr_pos_cert_allow_change_qty](l10n_fr_pos_cert_allow_change_qty/) | 14.0.1.0.1 |  | Remove restriction on change quantity
 [l10n_fr_siret](l10n_fr_siret/) | 14.0.1.3.1 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | French company identity numbers SIRET/SIREN/NIC
