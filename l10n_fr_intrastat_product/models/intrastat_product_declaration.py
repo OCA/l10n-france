@@ -128,7 +128,10 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 ]
                 self._format_line_note(inv_line, notedict, line_notes)
             else:
-                fiscal_rep = commercial_partner.intrastat_fiscal_representative_id
+                fiscal_rep = (
+                    commercial_partner.intrastat_fiscal_representative_id
+                    or commercial_partner
+                )
                 if not fiscal_rep.vat:
                     line_notes = [
                         _(
