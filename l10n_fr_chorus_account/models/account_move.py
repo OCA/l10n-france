@@ -240,6 +240,12 @@ class AccountMove(models.Model):
                         )
                     else:
                         inv.chorus_invoice_check_commitment_number()
+            inv._chorus_check_payment_data()
+        return super().action_post()
+
+    def _chorus_check_payment_data(self):
+        self.ensure_one()
+        if self.move_type == "out_invoice":
             if not self.payment_mode_id:
                 raise UserError(
                     _(
@@ -276,7 +282,14 @@ class AccountMove(models.Model):
                         )
                         % partner_bank_id.acc_number
                     )
-        return super().action_post()
+        elif self.move_type == "out_refund":
+            if self.payment_mode_id:
+                raise UserError(
+                    _(
+                        "The Payment Mode must be empty "
+                        "for customer refunds sent to Chorus."
+                    )
+                )
 
     def chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()
