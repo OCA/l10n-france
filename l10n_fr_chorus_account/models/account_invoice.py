@@ -95,33 +95,39 @@ class AccountInvoice(models.Model):
                             "and a name).") % cpartner.display_name)
                     else:
                         inv.chorus_invoice_check_commitment_number()
-            if not self.payment_mode_id:
-                raise UserError(_(
-                    "Missing Payment Mode. This "
-                    "information is required for Chorus."))
-            payment_means_code = self.payment_mode_id.payment_method_id.\
-                unece_code or '30'
-            partner_bank_id =\
-                self.partner_bank_id or (
-                    self.payment_mode_id.bank_account_link == 'fixed' and
-                    self.payment_mode_id.fixed_journal_id.bank_account_id)
-            if payment_means_code in CREDIT_TRF_CODES:
-                if not partner_bank_id:
+            if inv.type == 'out_invoice':
+                if not inv.payment_mode_id:
                     raise UserError(_(
-                        "Missing bank account information for payment. "
-                        "For that, you have two options: either the "
-                        "payment mode of the invoice should have "
-                        "'Link to Bank Account' = "
-                        "'fixed' and the related bank journal should have "
-                        "a 'Bank Account' set, or the field "
-                        "'Bank Account' should be set on the customer "
-                        "invoice."
-                        ))
-                if partner_bank_id.acc_type != 'iban':
+                        "Missing Payment Mode. This "
+                        "information is required for Chorus."))
+                payment_means_code = inv.payment_mode_id.payment_method_id.\
+                    unece_code or '30'
+                partner_bank_id =\
+                    inv.partner_bank_id or (
+                        inv.payment_mode_id.bank_account_link == 'fixed' and
+                        inv.payment_mode_id.fixed_journal_id.bank_account_id)
+                if payment_means_code in CREDIT_TRF_CODES:
+                    if not partner_bank_id:
+                        raise UserError(_(
+                            "Missing bank account information for payment. "
+                            "For that, you have two options: either the "
+                            "payment mode of the invoice should have "
+                            "'Link to Bank Account' = "
+                            "'fixed' and the related bank journal should have "
+                            "a 'Bank Account' set, or the field "
+                            "'Bank Account' should be set on the customer "
+                            "invoice."
+                            ))
+                    if partner_bank_id.acc_type != 'iban':
+                        raise UserError(_(
+                            "Chorus only accepts IBAN. But the bank account "
+                            "'%s' is not an IBAN.")
+                            % partner_bank_id.acc_number)
+            elif inv.type == 'out_refund':
+                if inv.payment_mode_id:
                     raise UserError(_(
-                        "Chorus only accepts IBAN. But the bank account "
-                        "'%s' is not an IBAN.")
-                        % partner_bank_id.acc_number)
+                        "The Payment Mode must be empty "
+                        "for customer refunds sent to Chorus."))
         return super(AccountInvoice, self).action_move_create()
 
     def chorus_get_invoice(self, chorus_invoice_format):
