@@ -123,7 +123,7 @@ class AccountMove(models.Model):
                         )
                     if not attach.file_size:
                         raise ValidationError(
-                            _("The size of the attachment '%s' is 0.")
+                            _("The size of the attachment '%s' is 0.") % attach.name
                         )
                     total_size += attach.file_size
                     filesize_mo = round(attach.file_size / (1024 * 1024), 1)
