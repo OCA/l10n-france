@@ -66,7 +66,7 @@ class AccountMove(models.Model):
         "chorus.flow", string="Chorus Flow", readonly=True, copy=False, tracking=True
     )
     chorus_identifier = fields.Integer(
-        string="Chorus Invoice Indentifier", readonly=True, copy=False, tracking=True
+        string="Chorus Invoice Identifier", readonly=True, copy=False, tracking=True
     )
     chorus_status = fields.Char(
         string="Chorus Invoice Status", readonly=True, copy=False, tracking=True
