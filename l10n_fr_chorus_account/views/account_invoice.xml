@@ -17,12 +17,18 @@
         </button>
         <notebook position="inside">
             <page name="fr-chorus" string="Chorus Pro" attrs="{'invisible': [('transmit_method_code', '!=', 'fr-chorus')]}" groups="l10n_fr_chorus_account.group_chorus_api">
-                <group name="chorus-main">
-                    <field name="chorus_flow_id"/>
-                    <field name="chorus_identifier"/>
-                    <field name="chorus_status"/>
-                    <field name="chorus_status_date"/>
-                    <button name="chorus_update_invoice_status" type="object" string="Update Chorus Invoice Status" attrs="{'invisible': [('chorus_identifier', 'in', (False, 0))]}" colspan="2" class="btn-default"/>
+                <group name="chorus-tab">
+                    <group name="chorus-main">
+                        <field name="chorus_flow_id"/>
+                        <field name="chorus_identifier"/>
+                        <field name="chorus_status"/>
+                        <field name="chorus_status_date"/>
+                        <button name="chorus_update_invoice_status" type="object" string="Update Chorus Invoice Status" attrs="{'invisible': [('chorus_identifier', 'in', (False, 0))]}" colspan="2" class="btn-default"/>
+                    </group>
+                    <group name="chorus-attachments" string="Attachments">
+                        <field name="chorus_attachment_ids"
+                            widget="many2many_binary" nolabel="1" colspan="2" />
+                    </group>
                 </group>
             </page>
         </notebook>

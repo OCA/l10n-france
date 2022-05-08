@@ -4,6 +4,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+import os.path
 import tarfile
 import time
 import base64
@@ -12,6 +13,47 @@ import logging
 logger = logging.getLogger(__name__)
 
 CREDIT_TRF_CODES = ('30', '31', '42')
+CHORUS_FILENAME_MAX = 50
+CHORUS_FILESIZE_MAX_MO = 10
+CHORUS_TOTAL_FILESIZE_MAX_MO = 120
+CHORUS_TOTAL_ATTACHMENTS_MAX_MO = 118
+CHORUS_ALLOWED_FORMATS = [
+    ".BMP",
+    ".GIF",
+    ".FAX",
+    ".ODT",
+    ".PPT",
+    ".TIFF",
+    ".XLS",
+    ".BZ2",
+    ".GZ",
+    ".JPEG",
+    ".P7S",
+    ".RTF",
+    ".TXT",
+    ".XML",
+    ".CSV",
+    ".GZIP",
+    ".JPG",
+    ".PDF",
+    ".SVG",
+    ".XHTML",
+    ".XLSX",
+    ".DOC",
+    ".HTM",
+    ".ODP",
+    ".PNG",
+    ".TGZ",
+    ".XLC",
+    ".ZIP",
+    ".DOCX",
+    ".HTML",
+    ".ODS",
+    ".PPS",
+    ".TIF",
+    ".XLM",
+    ".PPTX",
+]
 
 
 class AccountInvoice(models.Model):
@@ -21,13 +63,94 @@ class AccountInvoice(models.Model):
         'chorus.flow', string='Chorus Flow', readonly=True, copy=False,
         track_visibility='onchange')
     chorus_identifier = fields.Integer(
-        string='Chorus Invoice Indentifier', readonly=True, copy=False,
+        string='Chorus Invoice Identifier', readonly=True, copy=False,
         track_visibility='onchange')
     chorus_status = fields.Char(
         string='Chorus Invoice Status', readonly=True, copy=False,
         track_visibility='onchange')
     chorus_status_date = fields.Datetime(
         string='Last Chorus Invoice Status Date', readonly=True, copy=False)
+    chorus_attachment_ids = fields.Many2many(
+        "ir.attachment",
+        "account_move_chorus_ir_attachment_rel",
+        string="Chorus Attachments",
+        copy=False,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    @api.constrains("chorus_attachment_ids", "transmit_method_id")
+    def _check_chorus_attachments(self):
+        # https://communaute.chorus-pro.gouv.fr/pieces-jointes-dans-chorus-pro-quelques-regles-a-respecter/  # noqa: B950
+        for inv in self:
+            if (
+                inv.type in ("out_invoice", "out_refund")
+                and inv.transmit_method_code == "fr-chorus"
+            ):
+                total_size = 0
+                for attach in inv.chorus_attachment_ids:
+                    if len(attach.name) > CHORUS_FILENAME_MAX:
+                        raise ValidationError(
+                            _(
+                                "On Chorus Pro, the attachment filename is %d "
+                                "caracters maximum (extension included). The "
+                                "filename '%s' has %d caracters."
+                            )
+                            % (CHORUS_FILENAME_MAX, attach.name, len(attach.name))
+                        )
+                    filename, file_extension = os.path.splitext(attach.name)
+                    if not file_extension:
+                        raise ValidationError(
+                            _(
+                                "On Chorus Pro, the attachment filenames must "
+                                "have an extension. The filename '%s' doesn't "
+                                "have any extension."
+                            )
+                            % attach.name
+                        )
+                    if file_extension.upper() not in CHORUS_ALLOWED_FORMATS:
+                        raise ValidationError(
+                            _(
+                                "On Chorus Pro, the allowed formats for the "
+                                "attachments are the following: %s.\n"
+                                "The attachment '%s' is not part of this list."
+                            )
+                            % (", ".join(CHORUS_ALLOWED_FORMATS), attach.name)
+                        )
+                    if not attach.file_size:
+                        raise ValidationError(
+                            _("The size of the attachment '%s' is 0.") % attach.name
+                        )
+                    total_size += attach.file_size
+                    filesize_mo = round(attach.file_size / (1024 * 1024), 1)
+                    if filesize_mo >= CHORUS_FILESIZE_MAX_MO:
+                        raise ValidationError(
+                            _(
+                                "On Chorus Pro, each attachment cannot exceed %s Mb. "
+                                "The attachment '%s' weights %s Mb."
+                            )
+                            % (
+                                CHORUS_FILESIZE_MAX_MO,
+                                attach.name,
+                                formatLang(self.env, filesize_mo),
+                            )
+                        )
+                if total_size:
+                    total_size_mo = round(total_size / (1024 * 1024), 1)
+                    if total_size_mo > CHORUS_TOTAL_ATTACHMENTS_MAX_MO:
+                        raise ValidationError(
+                            _(
+                                "On Chorus Pro, an invoice with its attachments "
+                                "cannot exceed %s Mb, so we set a limit of %s Mb "
+                                "for the attachments. The attachments have a "
+                                "total size of %s Mb."
+                            )
+                            % (
+                                CHORUS_TOTAL_FILESIZE_MAX_MO,
+                                CHORUS_TOTAL_ATTACHMENTS_MAX_MO,
+                                formatLang(self.env, total_size_mo),
+                            )
+                        )
 
     def action_move_create(self):
         '''Check validity of Chorus invoices'''
@@ -39,12 +162,6 @@ class AccountInvoice(models.Model):
                 raise UserError(_(
                     "Missing SIRET on partner '%s' linked to company '%s'.")
                     % (company_partner.display_name, inv.company_id.display_name))
-            for tline in inv.tax_line_ids:
-                if tline.tax_id and not tline.tax_id.unece_due_date_code:
-                    raise UserError(_(
-                        "Unece Due Date not configured on tax '%s'. This "
-                        "information is required for Chorus invoices.")
-                        % tline.tax_id.display_name)
             cpartner = inv.commercial_partner_id
             if not cpartner.siren or not cpartner.nic:
                 raise UserError(_(

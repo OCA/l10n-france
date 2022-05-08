@@ -4,6 +4,7 @@
 
 from odoo import api, models, _
 from odoo.exceptions import UserError
+import base64
 
 
 class AccountInvoice(models.Model):
@@ -43,3 +44,13 @@ class AccountInvoice(models.Model):
             chorus_file_content = super(AccountInvoice, self).\
                 chorus_get_invoice(chorus_invoice_format)
         return chorus_file_content
+
+    def _prepare_facturx_attachments(self):
+        res = super()._prepare_facturx_attachments()
+        for attach in self.chorus_attachment_ids:
+            res[attach.name] = {
+                "filedata": base64.decodebytes(attach.datas),
+                "modification_datetime": attach.write_date,
+                "creation_datetime": attach.create_date,
+            }
+        return res
