@@ -82,16 +82,7 @@ class AccountStatementImport(models.TransientModel):
         for line in lines:
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
-            if not line:
-                continue
-            if len(line) != CFONB_WIDTH:
-                raise UserError(
-                    _(
-                        "Line %d is %d caracters long. All lines of a "
-                        "CFONB bank statement file must be 120 caracters long."
-                    )
-                    % (i, len(line))
-                )
+            assert len(line) == CFONB_WIDTH
             rec_type = line[0:2]
             bank_code = line[2:7]
             guichet_code = line[11:16]
