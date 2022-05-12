@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [l10n_fr_department](l10n_fr_department/) | 15.0.1.1.1 | [![legalsylvain](https://github.com/legalsylvain.png?size=30px)](https://github.com/legalsylvain) | Populate Database with French Departments (Départements)
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 15.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Populate Database with overseas French Departments (Départements d'outre-mer)
 [l10n_fr_ecotaxe](l10n_fr_ecotaxe/) | 15.0.1.0.0 |  | Use Ecotaxe in French localisation contexte
+[l10n_fr_ecotaxe_sale](l10n_fr_ecotaxe_sale/) | 15.0.1.0.0 |  | Sale Ecotaxe used in French localisation contexte
 [l10n_fr_siret](l10n_fr_siret/) | 15.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | French company identity numbers SIRET/SIREN/NIC
 [l10n_fr_state](l10n_fr_state/) | 15.0.1.0.0 | [![legalsylvain](https://github.com/legalsylvain.png?size=30px)](https://github.com/legalsylvain) | Populate Database with French States (Régions)
 
