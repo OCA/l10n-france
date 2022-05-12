@@ -6,11 +6,12 @@
 
 from random import choice
 
-from odoo.tests.common import Form
+from odoo.tests.common import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
+@tagged("-at_install", "post_install")
 class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
