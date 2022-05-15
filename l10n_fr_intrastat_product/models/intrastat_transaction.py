@@ -23,6 +23,7 @@ class IntrastatTransaction(models.Model):
         string="Possible on",
         index=True,
         required=True,
+        default="none",
     )
     # procedure_code => field 'code' from intrastat_product
     fr_transaction_code = fields.Selection(
