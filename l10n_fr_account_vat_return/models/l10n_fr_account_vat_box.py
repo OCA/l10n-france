@@ -44,6 +44,7 @@ class L10nFrAccountVatBox(models.Model):
             ("untaxed_op_intracom_b2b", "Untaxed Operations - Intracom B2B"),
             ("untaxed_op_intracom_b2c", "Untaxed Operations - Intracom B2C"),
             ("untaxed_op_extracom", "Untaxed Operations - Extracom"),
+            ("untaxed_op_france_exo", "Untaxed Operations - France Exonerated"),
             ("due_vat", "Due VAT Amount"),
             ("due_vat_base", "Due VAT Base"),
             ("due_vat_intracom_product", "Due VAT Intracom Products"),
@@ -100,6 +101,7 @@ class L10nFrAccountVatBox(models.Model):
         [
             ("1", "First Page"),
             ("2", "Second Page"),
+            ("3", "Third Page"),
         ],
         string="Page",
     )

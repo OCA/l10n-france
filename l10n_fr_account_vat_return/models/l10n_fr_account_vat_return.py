@@ -463,8 +463,9 @@ class L10nFrAccountVatReturn(models.Model):
         if unposted_move_count:
             raise UserError(
                 _(
-                    "There is/are %d unposted move(s) dated before '%s'. "
-                    "You should post this/these move(s) or delete it/them."
+                    "There is/are %d unposted journal entry/entries dated before '%s'. "
+                    "You should post this/these journal entry/entries or "
+                    "delete it/them."
                 )
                 % (unposted_move_count, format_date(self.env, self.end_date))
             )
@@ -550,6 +551,10 @@ class L10nFrAccountVatReturn(models.Model):
             for log in logs:
                 log["amount"] *= -1
             self.write({"vat_credit_total": sub_total * -1})
+        if box.accounting_method:  # True for no_push_total_debit
+            account_id = self._get_box_account(box).id
+            for log in logs:
+                log["account_id"] = account_id
         speedy["line_obj"].create(
             {
                 "parent_id": self.id,
@@ -1503,7 +1508,7 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _generate_operation_untaxed(self, speedy):
         self.ensure_one()
-        fp_types = ["intracom_b2b", "intracom_b2c", "extracom"]
+        fp_types = ["intracom_b2b", "intracom_b2c", "extracom", "france_exo"]
         fpositions2boxtype = {}
         for fp_type in fp_types:
             box_type = "untaxed_op_%s" % fp_type
@@ -1616,6 +1621,8 @@ class L10nFrAccountVatReturn(models.Model):
                 % self.company_id.display_name
             )
         self._get_adjust_accounts(speedy)
+        lvals_list = []
+        total = 0.0
         account2amount = defaultdict(float)
         for line in self.line_ids.filtered(lambda x: x.box_accounting_method):
             method = line.box_accounting_method
@@ -1628,11 +1635,30 @@ class L10nFrAccountVatReturn(models.Model):
             else:
                 for log in line.log_ids:
                     assert log.account_id  # there is a python constrain on this
-                    account2amount[(log.account_id, log.analytic_account_id)] += (
-                        log.amount * sign
-                    )
-        lvals_list = []
-        total = 0.0
+                    amount = log.amount * sign
+                    # Special case for for VAT credit account 44567:
+                    # we don't want to group
+                    if log.account_id.code.startswith("44567"):
+                        lvals = {
+                            "account_id": log.account_id.id,
+                            "analytic_account_id": log.analytic_account_id.id or False,
+                        }
+                        amount = speedy["currency"].round(amount)
+                        total += amount
+                        compare = speedy["currency"].compare_amounts(amount, 0)
+                        if compare > 0:
+                            lvals["credit"] = amount
+                            lvals_list.append(lvals)
+                        elif compare < 0:
+                            lvals["debit"] = -amount
+                            lvals_list.append(lvals)
+                        logger.debug(
+                            "VAT move account %s: %s", log.account_id.code, lvals
+                        )
+                    else:
+                        account2amount[
+                            (log.account_id, log.analytic_account_id)
+                        ] += amount
         for (account, analytic_account), amount in account2amount.items():
             amount = speedy["currency"].round(amount)
             total += amount
@@ -1688,7 +1714,9 @@ class L10nFrAccountVatReturn(models.Model):
                 ("full_reconcile_id", "=", False),
             ]
             rg_res = speedy["aml_obj"].read_group(domain, ["balance"], [])
-            if rg_res and speedy["currency"].is_zero(rg_res[0]["balance"]):
+            # or 0 is need to avoid a crash: rg_res[0]["balance"] = None
+            # when the moves are already reconciled
+            if rg_res and speedy["currency"].is_zero(rg_res[0]["balance"] or 0):
                 moves_to_reconcile = speedy["aml_obj"].search(domain)
                 moves_to_reconcile.reconcile()
 
@@ -2005,13 +2033,16 @@ class L10nFrAccountVatReturn(models.Model):
     def generate_ca3_attachment(self):
         packet1 = io.BytesIO()
         packet2 = io.BytesIO()
+        packet3 = io.BytesIO()
         # create a new PDF that contains the additional text with Reportlab
         page2canvas = {
             "1": canvas.Canvas(packet1, pagesize=A4),
             "2": canvas.Canvas(packet2, pagesize=A4),
+            "3": canvas.Canvas(packet3, pagesize=A4),
         }
         page2canvas["1"].setFont("Helvetica", 10)
         page2canvas["2"].setFont("Helvetica", 8)
+        page2canvas["3"].setFont("Helvetica", 8)
 
         for line in self.line_ids.filtered(
             lambda x: not x.box_display_type and not x.box_form_code == "3310A"
@@ -2054,32 +2085,32 @@ class L10nFrAccountVatReturn(models.Model):
             "start_day": {
                 "value": "%02d" % self.start_date.day,
                 "x": 151,
-                "y": 740,
+                "y": 741,
             },
             "start_month": {
                 "value": "%02d" % self.start_date.month,
                 "x": 169,
-                "y": 740,
+                "y": 741,
             },
             "start_year": {
                 "value": str(self.start_date.year),
                 "x": 186,
-                "y": 740,
+                "y": 741,
             },
             "end_day": {
                 "value": "%02d" % self.end_date.day,
                 "x": 220,
-                "y": 740,
+                "y": 741,
             },
             "end_month": {
                 "value": "%02d" % self.end_date.month,
                 "x": 239,
-                "y": 740,
+                "y": 741,
             },
             "end_year": {
                 "value": str(self.end_date.year),
                 "x": 258,
-                "y": 740,
+                "y": 741,
             },
         }
         for pvals in static_prints.values():
@@ -2111,8 +2142,10 @@ class L10nFrAccountVatReturn(models.Model):
         # move to the beginning of the StringIO buffer
         packet1.seek(0)
         packet2.seek(0)
+        packet3.seek(0)
         watermark_pdf_reader_p1 = PdfFileReader(packet1)
         watermark_pdf_reader_p2 = PdfFileReader(packet2)
+        watermark_pdf_reader_p3 = PdfFileReader(packet3)
         # read your existing PDF
         ca3_original_fd = tools.file_open(
             "l10n_fr_account_vat_return/report/CA3_cerfa.pdf", "rb"
@@ -2122,10 +2155,13 @@ class L10nFrAccountVatReturn(models.Model):
         # add the "watermark" (which is the new pdf) on the existing page
         page1 = ca3_original_reader.getPage(0)
         page2 = ca3_original_reader.getPage(1)
+        page3 = ca3_original_reader.getPage(2)
         page1.mergePage(watermark_pdf_reader_p1.getPage(0))
         page2.mergePage(watermark_pdf_reader_p2.getPage(0))
+        page3.mergePage(watermark_pdf_reader_p3.getPage(0))
         ca3_writer.addPage(page1)
         ca3_writer.addPage(page2)
+        ca3_writer.addPage(page3)
         # finally, write "output" to a real file
         out_ca3_io = io.BytesIO()
         ca3_writer.write(out_ca3_io)
