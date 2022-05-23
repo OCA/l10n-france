@@ -14,6 +14,7 @@ class AccountFiscalPosition(models.Model):
             ("intracom_b2b", "Intra-EU B2B"),
             ("intracom_b2c", "Intra-EU B2C over 10k€ limit"),
             ("extracom", "Extra-EU"),
+            ("france_exo", "France Exonerated"),
         ],
         string="Type",
         help="This field is used by the French VAT return module",

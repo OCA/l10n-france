@@ -61,7 +61,7 @@ class AccountMove(models.Model):
                 and move.commercial_partner_id.supplier_vat_on_payment
                 and (
                     not move.fiscal_position_id
-                    or move.fiscal_position_id.fr_vat_type == "france"
+                    or move.fiscal_position_id.fr_vat_type in ("france", "france_exo")
                 )
             ):
                 vat_on_payment = True
