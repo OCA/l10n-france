@@ -656,6 +656,7 @@ class ResCompany(models.Model):
             product_dict = self._test_prepare_product_dict()
         if partner_dict is None:
             partner_dict = self._test_prepare_partner_dict()
+        after_end_date = start_date + relativedelta(months=1)
         # OUT INVOICE/REFUND
         self._test_create_invoice_with_payment(
             "out_invoice",
@@ -668,7 +669,7 @@ class ResCompany(models.Model):
                 {"product_id": product_dict["product"][21].id, "price_unit": 220},
                 {"product_id": product_dict["product"][0].id, "price_unit": 50},
             ],
-            {start_date: "residual"},
+            {after_end_date: "residual"},
         )
         self._test_create_invoice_with_payment(
             "out_invoice",
@@ -688,7 +689,7 @@ class ResCompany(models.Model):
                 {"product_id": product_dict["product"][21].id, "price_unit": 20},
                 {"product_id": product_dict["product"][0].id, "price_unit": 10},
             ],
-            {start_date: "residual"},
+            {},
         )
         self._test_create_invoice_with_payment(
             "out_invoice",
@@ -706,16 +707,27 @@ class ResCompany(models.Model):
         )
 
         # IN INVOICE/PAYMENT
-        after_end_date = start_date + relativedelta(months=1)
         self._test_create_invoice_with_payment(
             "in_invoice",
             start_date,
             partner_dict["france"],
             [
-                {"product_id": product_dict["product"][200].id, "price_unit": 100},
-                {"product_id": product_dict["product"][100].id, "price_unit": 100},
-                {"product_id": product_dict["product"][55].id, "price_unit": 100},
-                {"product_id": product_dict["product"][21].id, "price_unit": 100},
+                {"product_id": product_dict["product"][200].id, "price_unit": 110},
+                {"product_id": product_dict["product"][100].id, "price_unit": 110},
+                {"product_id": product_dict["product"][55].id, "price_unit": 110},
+                {"product_id": product_dict["product"][21].id, "price_unit": 110},
+            ],
+            {start_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(
+            "in_refund",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 10},
+                {"product_id": product_dict["product"][100].id, "price_unit": 10},
+                {"product_id": product_dict["product"][55].id, "price_unit": 10},
+                {"product_id": product_dict["product"][21].id, "price_unit": 10},
             ],
             {start_date: "residual"},
         )
@@ -724,7 +736,7 @@ class ResCompany(models.Model):
             start_date,
             partner_dict["france"],
             [
-                {"product_id": product_dict["asset"][200].id, "price_unit": 100},
+                {"product_id": product_dict["asset"][200].id, "price_unit": 5000},
                 {"product_id": product_dict["asset"][100].id, "price_unit": 100},
                 {"product_id": product_dict["asset"][55].id, "price_unit": 1000},
             ],
@@ -738,6 +750,13 @@ class ResCompany(models.Model):
             {},
         )
         self._test_create_invoice_with_payment(  # No impact
+            "in_refund",
+            start_date,
+            partner_dict["france-supplier_vat_on_payment"],
+            [{"product_id": product_dict["asset"][200].id, "price_unit": 1234}],
+            {},
+        )
+        self._test_create_invoice_with_payment(  # No impact
             "in_invoice",
             start_date,
             partner_dict["france-supplier_vat_on_payment"],
@@ -745,6 +764,13 @@ class ResCompany(models.Model):
             {after_end_date: "residual"},
         )
         # VAT on payment with partial payment
+        self._test_create_invoice_with_payment(  # No impact
+            "in_invoice",
+            start_date,
+            partner_dict["france-supplier_vat_on_payment"],
+            [{"product_id": product_dict["product"][200].id, "price_unit": 10000}],
+            {after_end_date: 25},
+        )
         self._test_create_invoice_with_payment(
             "in_invoice",
             start_date,
