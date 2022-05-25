@@ -17,8 +17,12 @@ class AccountTax(models.Model):
         "type_tax_use",
         "amount_type",
         "amount",
-        "invoice_repartition_line_ids",
-        "refund_repartition_line_ids",
+        "invoice_repartition_line_ids.repartition_type",
+        "invoice_repartition_line_ids.account_id",
+        "invoice_repartition_line_ids.factor_percent",
+        "refund_repartition_line_ids.repartition_type",
+        "refund_repartition_line_ids.account_id",
+        "refund_repartition_line_ids.factor_percent",
     )
     def _compute_fr_vat_autoliquidation(self):
         atrlo = self.env["account.tax.repartition.line"]
