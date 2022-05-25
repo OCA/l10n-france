@@ -798,6 +798,7 @@ class L10nFrAccountVatReturn(models.Model):
             sale_vat_accounts,
             sale_vat_account2rate,
         ) = self._generate_due_vat_prepare_sale_struct(speedy)
+        logger.debug("sale_vat_account2rate=%s", sale_vat_account2rate)
         vat_on_payment_account2logs = self._vat_on_payment(
             "out", sale_vat_accounts.ids, speedy
         )
@@ -806,6 +807,12 @@ class L10nFrAccountVatReturn(models.Model):
             # Start from balance of VAT account, then compute base
             balance = (
                 sale_vat_account._fr_vat_get_balance("base_domain_end", speedy) * -1
+            )
+            logger.debug(
+                "sale VAT account %s (rate %s), balance %s",
+                sale_vat_account.code,
+                rate_int,
+                balance,
             )
             if not speedy["currency"].is_zero(balance):
                 rate2logs[rate_int].append(
