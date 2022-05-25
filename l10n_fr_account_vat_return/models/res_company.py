@@ -2,7 +2,10 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
+from odoo.tools import float_compare
 
 
 class ResCompany(models.Model):
@@ -56,7 +59,9 @@ class ResCompany(models.Model):
     )
 
     @api.model
-    def _test_fr_vat_create_company(self, company_name=None):  # noqa: C901
+    def _test_fr_vat_create_company(  # noqa: C901
+        self, company_name=None, fr_vat_exigibility="on_invoice"
+    ):
         # I write this method here and not in the test,
         # because it can be very useful for demos too
         self = self.sudo()
@@ -69,7 +74,7 @@ class ResCompany(models.Model):
         company = self.create(
             {
                 "name": company_name or "FR Company VAT",
-                "fr_vat_exigibility": "on_payment",
+                "fr_vat_exigibility": fr_vat_exigibility,
                 "street": "42 rue du logiciel libre",
                 "zip": "69009",
                 "city": "Lyon",
@@ -123,6 +128,7 @@ class ResCompany(models.Model):
                     "name": acc_name,
                     "user_type_id": revenue_type_id,
                     "reconcile": False,
+                    "tax_ids": False,
                 }
             )
         fr_account_codes = ["701100", "706000", "707100", "708500"]
@@ -170,12 +176,13 @@ class ResCompany(models.Model):
         for fp_xmlid_suffix, fp_type in fp2type.items():
             xmlid = "l10n_fr.%d_%s" % (company.id, fp_xmlid_suffix)
             fp = self.env.ref(xmlid)
-            fp.write(
-                {
-                    "fr_vat_type": fp_type,
-                    "auto_apply": False,
-                }
-            )
+            fpvals = {
+                "fr_vat_type": fp_type,
+                "auto_apply": False,
+            }
+            if fp_type == "france":
+                fpvals["vat_required"] = False
+            fp.write(fpvals)
             fptype2fp[fp_type] = fp
             if type2map.get(fp_type):
                 for (src_acc_code, dest_acc_code) in type2map[fp_type]:
@@ -405,3 +412,369 @@ class ResCompany(models.Model):
                         )
                         due_lines.write({"account_id": due_tax_account_id})
         return company
+
+    def _test_create_invoice_with_payment(
+        self, move_type, date, partner, lines, payments, force_in_vat_on_payment=False
+    ):
+        self.ensure_one()
+        amo = self.env["account.move"].with_company(self.id)
+        amlo = self.env["account.move.line"].with_company(self.id)
+        apro = self.env["account.payment.register"]
+        journal_id = (
+            amo.with_context(default_move_type=move_type, company_id=self.id)
+            ._get_default_journal()
+            .id
+        )
+        vals = {
+            "company_id": self.id,
+            "journal_id": journal_id,
+            "move_type": move_type,
+            "invoice_date": date,
+            "partner_id": partner.id,
+            "currency_id": self.currency_id.id,
+            "invoice_line_ids": [],
+        }
+        vals = amo.play_onchanges(vals, ["partner_id"])
+        for line in lines:
+            il_vals = dict(line, move_id=vals)
+            if "quantity" not in il_vals:
+                il_vals["quantity"] = 1
+            il_vals = amlo.play_onchanges(il_vals, ["product_id"])
+            il_vals.pop("move_id")
+            vals["invoice_line_ids"].append((0, 0, il_vals))
+        move = amo.create(vals)
+        if move_type in ("in_invoice", "in_refund") and force_in_vat_on_payment:
+            move.write({"in_vat_on_payment": True})
+        move.action_post()
+
+        bank_journal = self.env["account.journal"].search(
+            [("type", "=", "bank"), ("company_id", "=", self.id)], limit=1
+        )
+        if move_type in ("out_invoice", "in_refund"):
+            payment_method_id = self.env.ref(
+                "account.account_payment_method_manual_in"
+            ).id
+        else:
+            payment_method_id = self.env.ref(
+                "account.account_payment_method_manual_out"
+            ).id
+        assert bank_journal
+        ctx = {"active_model": "account.move", "active_ids": [move.id]}
+        for (pay_date, payment_ratio) in payments.items():
+            vals = {
+                "journal_id": bank_journal.id,
+                "payment_method_id": payment_method_id,
+                #                    "group_payment": True,
+                "payment_date": pay_date,
+            }
+            if payment_ratio != "residual":
+                assert payment_ratio > 0 and payment_ratio < 100
+                vals["amount"] = self.currency_id.round(
+                    move.amount_total * payment_ratio / 100
+                )
+            payment_wiz = apro.with_context(ctx).create(vals)
+            payment_wiz.action_create_payments()
+        return move
+
+    def _test_get_account(self, code):
+        self.ensure_one()
+        account = self.env["account.account"].search(
+            [
+                ("code", "=", code),
+                ("company_id", "=", self.id),
+            ],
+            limit=1,
+        )
+        assert account
+        return account
+
+    def _test_get_tax(self, type_tax_use, vat_rate, asset=False):
+        self.ensure_one()
+        taxes = self.env["account.tax"].search(
+            [
+                ("company_id", "=", self.id),
+                ("type_tax_use", "=", type_tax_use),
+                ("amount_type", "=", "percent"),
+                ("price_include", "=", False),
+                ("fr_vat_autoliquidation", "=", False),
+            ]
+        )
+        for tax in taxes:
+            if not asset and "immobilisation" in tax.name:
+                continue
+            if asset and "immobilisation" not in tax.name:
+                continue
+            if not float_compare(vat_rate, tax.amount, precision_digits=4):
+                return tax
+        return False
+
+    def _test_common_product_dict(
+        self, product_dict, asset=False, product_type="product"
+    ):
+        ppo = self.env["product.product"].with_company(self.id)
+        for vat_rate in product_dict.keys():
+            if vat_rate:
+                real_vat_rate = vat_rate / 10
+                sale_tax = self._test_get_tax("sale", real_vat_rate)
+                assert sale_tax
+                sale_tax_ids = [(6, 0, [sale_tax.id])]
+                purchase_tax = self._test_get_tax(
+                    "purchase", real_vat_rate, asset=asset
+                )
+                assert purchase_tax
+                purchase_tax_ids = [(6, 0, [purchase_tax.id])]
+                account_income_id = False
+            else:
+                sale_tax = self.env.ref("l10n_fr.%d_tva_0" % self.id)
+                sale_tax_ids = [(6, 0, [sale_tax.id])]
+                purchase_tax_ids = False
+                account_income_id = self._test_get_account("707500")
+            product = ppo.create(
+                {
+                    "name": "Test-demo TVA %s %%" % real_vat_rate,
+                    "type": product_type,
+                    "sale_ok": True,
+                    "purchase_ok": True,
+                    "taxes_id": sale_tax_ids,
+                    "supplier_taxes_id": purchase_tax_ids,
+                    "categ_id": self.env.ref("product.product_category_all").id,
+                    "property_account_income_id": account_income_id,
+                    "company_id": self.id,
+                }
+            )
+            product_dict[vat_rate] = product
+
+    def _test_prepare_product_dict(self):
+        rate2product = {
+            200: False,
+            100: False,
+            55: False,
+            21: False,
+            0: False,
+        }
+
+        product_dict = {
+            "product": dict(rate2product),
+            "service": dict(rate2product),
+            "asset": dict(rate2product),
+        }
+        self._test_common_product_dict(product_dict["product"])
+        self._test_common_product_dict(product_dict["asset"], asset=True)
+        self._test_common_product_dict(product_dict["service"], product_type="service")
+        return product_dict
+
+    def _test_prepare_partner_dict(self):
+        self.ensure_one()
+        partner_dict = {
+            "france": False,
+            "intracom_b2b": False,
+            #            "intracom_b2c": False,
+            "extracom": False,
+            "france_exo": False,
+        }
+        afpo = self.env["account.fiscal.position"]
+        rpo = self.env["res.partner"].with_company(self.id)
+        for fr_vat_type in partner_dict.keys():
+            fiscal_position = afpo.search(
+                [("company_id", "=", self.id), ("fr_vat_type", "=", fr_vat_type)],
+                limit=1,
+            )
+            if fiscal_position:
+                # to avoid error on invoice validation
+                if fr_vat_type == "intracom_b2b":
+                    fiscal_position.write({"vat_required": False})
+                partner = rpo.create(
+                    {
+                        "is_company": True,
+                        "name": "Test-demo %s" % fr_vat_type,
+                        "property_account_position_id": fiscal_position.id,
+                        "company_id": self.id,
+                    }
+                )
+                partner_dict[fr_vat_type] = partner
+        france_fiscal_position = afpo.search(
+            [("company_id", "=", self.id), ("fr_vat_type", "=", "france")], limit=1
+        )
+        partner_dict["monaco"] = rpo.create(
+            {
+                "name": "Monaco Partner",
+                "is_company": True,
+                "company_id": self.id,
+                "country_id": self.env.ref("base.mc").id,
+                "property_account_position_id": france_fiscal_position.id,
+            }
+        )
+        partner_dict["france-supplier_vat_on_payment"] = rpo.create(
+            {
+                "name": "Fournisseur TVA sur encaissement",
+                "is_company": True,
+                "company_id": self.id,
+                "country_id": self.env.ref("base.fr").id,
+                "property_account_position_id": france_fiscal_position.id,
+                "supplier_vat_on_payment": True,
+            }
+        )
+
+        return partner_dict
+
+    def _test_create_move_init_vat_credit(self, amount, start_date):
+        self.ensure_one()
+        credit_acc = self._test_get_account("445670")
+        wait_acc = self._test_get_account("471000")
+        date = start_date + relativedelta(months=-3)
+        move = self.env["account.move"].create(
+            {
+                "company_id": self.id,
+                "date": date,
+                "journal_id": self.fr_vat_journal_id.id,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "account_id": credit_acc.id,
+                            "debit": amount,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "account_id": wait_acc.id,
+                            "credit": amount,
+                        },
+                    ),
+                ],
+            }
+        )
+        move.action_post()
+
+    def _test_create_invoice_data(
+        self, start_date, product_dict=None, partner_dict=None
+    ):
+        if product_dict is None:
+            product_dict = self._test_prepare_product_dict()
+        if partner_dict is None:
+            partner_dict = self._test_prepare_partner_dict()
+        # OUT INVOICE/REFUND
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 1200},
+                {"product_id": product_dict["product"][100].id, "price_unit": 650},
+                {"product_id": product_dict["product"][55].id, "price_unit": 150},
+                {"product_id": product_dict["product"][21].id, "price_unit": 220},
+                {"product_id": product_dict["product"][0].id, "price_unit": 50},
+            ],
+            {start_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["monaco"],
+            [{"product_id": product_dict["product"][200].id, "price_unit": 10}],
+            {start_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(
+            "out_refund",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 200},
+                {"product_id": product_dict["product"][100].id, "price_unit": 150},
+                {"product_id": product_dict["product"][55].id, "price_unit": 50},
+                {"product_id": product_dict["product"][21].id, "price_unit": 20},
+                {"product_id": product_dict["product"][0].id, "price_unit": 10},
+            ],
+            {start_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["intracom_b2b"],
+            [{"product_id": product_dict["product"][100].id, "price_unit": 1250}],
+            {start_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["extracom"],
+            [{"product_id": product_dict["product"][200].id, "price_unit": 1300}],
+            {start_date: "residual"},
+        )
+
+        # IN INVOICE/PAYMENT
+        after_end_date = start_date + relativedelta(months=1)
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 100},
+                {"product_id": product_dict["product"][100].id, "price_unit": 100},
+                {"product_id": product_dict["product"][55].id, "price_unit": 100},
+                {"product_id": product_dict["product"][21].id, "price_unit": 100},
+            ],
+            {start_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["asset"][200].id, "price_unit": 100},
+                {"product_id": product_dict["asset"][100].id, "price_unit": 100},
+                {"product_id": product_dict["asset"][55].id, "price_unit": 1000},
+            ],
+            {start_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(  # No impact
+            "in_invoice",
+            start_date,
+            partner_dict["france-supplier_vat_on_payment"],
+            [{"product_id": product_dict["asset"][200].id, "price_unit": 10000}],
+            {},
+        )
+        self._test_create_invoice_with_payment(  # No impact
+            "in_invoice",
+            start_date,
+            partner_dict["france-supplier_vat_on_payment"],
+            [{"product_id": product_dict["product"][200].id, "price_unit": 10000}],
+            {after_end_date: "residual"},
+        )
+        # VAT on payment with partial payment
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["france-supplier_vat_on_payment"],
+            [{"product_id": product_dict["product"][200].id, "price_unit": 1000}],
+            {start_date: 25},
+        )
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["france-supplier_vat_on_payment"],
+            [{"product_id": product_dict["product"][100].id, "price_unit": 100}],
+            {start_date: 70, after_end_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["intracom_b2b"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 500},
+                {"product_id": product_dict["service"][200].id, "price_unit": 200},
+            ],
+            {start_date: "residual"},
+        )
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["extracom"],
+            [
+                {"product_id": product_dict["service"][200].id, "price_unit": 2000},
+            ],
+            {start_date: "residual"},
+        )
