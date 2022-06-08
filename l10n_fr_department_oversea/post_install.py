@@ -16,8 +16,8 @@ def set_oversea_department_on_partner(cr, registry):
     fr_countries = env["res.country"].search(
         [
             (
-                "code", 
-                "in", 
+                "code",
+                "in",
                 (
                     "FR",
                     "GP",
@@ -31,7 +31,7 @@ def set_oversea_department_on_partner(cr, registry):
                     "WF",
                     "PF",
                     "NC",
-                    "MC"
+                    "MC",
                 ),
             )
         ]

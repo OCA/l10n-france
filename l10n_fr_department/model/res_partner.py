@@ -25,7 +25,7 @@ class ResPartner(models.Model):
                 [
                     (
                         "code",
-                        "in", 
+                        "in",
                         (
                             "FR",
                             "GP",
@@ -38,8 +38,8 @@ class ResPartner(models.Model):
                             "SM",
                             "WF",
                             "PF",
-                            "NC", 
-                            "MC"
+                            "NC",
+                            "MC",
                         ),
                     )
                 ]
