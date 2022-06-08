@@ -25,7 +25,7 @@
         <field name="state_id" ref="res_country_state_reunion" />
     </record>
     <!-- ### ADD AUNEOR-CONSEIL ### -->
-    <record 
+    <record
         id="res_country_department_sait_pierre_miquelon"
         model="res.country.department"
     >
@@ -50,12 +50,12 @@
         <field name="code">978</field>
         <field name="state_id" ref="res_country_state_saint_martin" />
     </record>
-        <record id="res_country_department_wallis_futuna" model="res.country.department">
+    <record id="res_country_department_wallis_futuna" model="res.country.department">
         <field name="name">Wallis-et-Futuna</field>
         <field name="code">986</field>
         <field name="state_id" ref="res_country_state_wallis_futuna" />
     </record>
-    <record 
+    <record
         id="res_country_department_polynesie_francaise"
         model="res.country.department"
     >
