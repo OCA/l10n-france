@@ -25,7 +25,10 @@
         <field name="state_id" ref="res_country_state_reunion" />
     </record>
     <!-- ### ADD AUNEOR-CONSEIL ### -->
-    <record id="res_country_department_sait_pierre_miquelon" model="res.country.department">
+    <record 
+        id="res_country_department_sait_pierre_miquelon" 
+        model="res.country.department"
+    >
         <field name="name">Saint-Pierre-et-Miquelon</field>
         <field name="code">975</field>
         <field name="state_id" ref="res_country_state_saint_pierre_miquelon" />
@@ -42,7 +45,10 @@
         <field name="code">977</field>
         <field name="state_id" ref="res_country_state_saint_barthelemy" />
     </record>
-    <record id="res_country_department_saint_martin" model="res.country.department">
+    <record 
+    id="res_country_department_saint_martin"
+    model="res.country.department"
+    >
         <field name="name">Saint Martin</field>
         <field name="code">978</field>
         <field name="state_id" ref="res_country_state_saint_martin" />
@@ -52,7 +58,10 @@
         <field name="code">986</field>
         <field name="state_id" ref="res_country_state_wallis_futuna" />
     </record>
-    <record id="res_country_department_polynesie_francaise" model="res.country.department">
+    <record 
+        id="res_country_department_polynesie_francaise" 
+        model="res.country.department"
+    >
         <field name="name">Polynésie Française</field>
         <field name="code">987</field>
         <field name="state_id" ref="res_country_state_polynesie_francaise" />

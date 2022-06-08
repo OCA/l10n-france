@@ -21,7 +21,29 @@ class ResPartner(models.Model):
         rcdo = self.env["res.country.department"]
         fr_country_ids = (
             self.env["res.country"]
-            .search([("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT", "SB", "PM", "SM", "WF", "PF", "NC", "MC"))])
+            .search(
+                [
+                    (
+                        "code",
+                        "in", 
+                        (
+                            "FR",
+                            "GP",
+                            "MQ",
+                            "GF",
+                            "RE",
+                            "YT",
+                            "SB",
+                            "PM",
+                            "SM",
+                            "WF",
+                            "PF",
+                            "NC", 
+                            "MC"
+                        ),
+                    )
+                ]
+            )
             .ids
         )
         for partner in self:
