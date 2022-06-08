@@ -29,4 +29,41 @@
         <field name="country_id" ref="base.yt" />
         <field name="name">Mayotte</field>
     </record>
+     <!-- ### ADD AUNEOR-CONSEIL ### -->
+    <record id="res_country_state_saint_barthelemy" model="res.country.state">
+        <field name="code">SB</field>
+        <field name="country_id" ref="base.sb" />
+        <field name="name">Saint-Barthélemy</field>
+    </record>
+    <record id="res_country_state_saint_pierre_miquelon" model="res.country.state">
+        <field name="code">PM</field>
+        <field name="country_id" ref="base.pm" />
+        <field name="name">Saint-Pierre-et-Miquelon</field>
+    </record>
+    <record id="res_country_state_saint_martin" model="res.country.state">
+        <field name="code">SM</field>
+        <field name="country_id" ref="base.sm" />
+        <field name="name">Saint-Martin</field>
+    </record>
+    <record id="res_country_state_wallis_futuna" model="res.country.state">
+        <field name="code">WF</field>
+        <field name="country_id" ref="base.wf" />
+        <field name="name">Wallis-et-Futuna</field>
+    </record>
+    <record id="res_country_state_polynesie_francaise" model="res.country.state">
+        <field name="code">PF</field>
+        <field name="country_id" ref="base.pf" />
+        <field name="name">Polynésie Française</field>
+    </record>
+    <record id="res_country_state_nouvelle_caledonie" model="res.country.state">
+        <field name="code">NC</field>
+        <field name="country_id" ref="base.nc" />
+        <field name="name">Nouvelle Calédonie</field>
+    </record>
+    <record id="res_country_state_monaco" model="res.country.state">
+        <field name="code">MC</field>
+        <field name="country_id" ref="base.mc" />
+        <field name="name">Monaco</field>
+    </record>
+    <!-- ### END AUNEOR-CONSEIL ### -->
 </odoo>

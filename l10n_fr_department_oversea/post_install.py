@@ -14,7 +14,7 @@ def set_oversea_department_on_partner(cr, registry):
     on res.partner stays null. This post_install script fixes this."""
     env = api.Environment(cr, SUPERUSER_ID, {})
     fr_countries = env["res.country"].search(
-        [("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT"))]
+        [("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT", "SB", "PM", "SM", "WF", "PF", "NC", "MC"))]
     )
     partners = (
         env["res.partner"]

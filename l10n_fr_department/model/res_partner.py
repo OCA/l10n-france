@@ -21,7 +21,7 @@ class ResPartner(models.Model):
         rcdo = self.env["res.country.department"]
         fr_country_ids = (
             self.env["res.country"]
-            .search([("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT"))])
+            .search([("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT", "SB", "PM", "SM", "WF", "PF", "NC", "MC"))])
             .ids
         )
         for partner in self:
@@ -71,7 +71,7 @@ class ResPartner(models.Model):
         }
         if zipcode in special_zipcodes:
             return special_zipcodes[zipcode]
-        if code == "97":
+        if code >= "97":
             code = zipcode[0:3]
         elif code == "20":
             try:
