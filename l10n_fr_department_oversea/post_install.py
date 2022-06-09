@@ -31,7 +31,6 @@ def set_oversea_department_on_partner(cr, registry):
                     "WF",
                     "PF",
                     "NC",
-                    "MC",
                 ),
             )
         ]

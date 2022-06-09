@@ -24,7 +24,6 @@
         <field name="code">974</field>
         <field name="state_id" ref="res_country_state_reunion" />
     </record>
-    <!-- ### ADD AUNEOR-CONSEIL ### -->
     <record
         id="res_country_department_sait_pierre_miquelon"
         model="res.country.department"
@@ -33,13 +32,11 @@
         <field name="code">975</field>
         <field name="state_id" ref="res_country_state_saint_pierre_miquelon" />
     </record>
-    <!-- ### END AUNEOR-CONSEIL ### -->
     <record id="res_country_department_mayotte" model="res.country.department">
         <field name="name">Mayotte</field>
         <field name="code">976</field>
         <field name="state_id" ref="res_country_state_mayotte" />
     </record>
-    <!-- ### ADD AUNEOR-CONSEIL ### -->
     <record id="res_country_department_saint_barthelemy" model="res.country.department">
         <field name="name">Saint Barthélemy</field>
         <field name="code">977</field>
@@ -68,10 +65,4 @@
         <field name="code">988</field>
         <field name="state_id" ref="res_country_state_nouvelle_caledonie" />
     </record>
-    <record id="res_country_department_monaco" model="res.country.department">
-        <field name="name">Monaco</field>
-        <field name="code">980</field>
-        <field name="state_id" ref="res_country_state_monaco" />
-    </record>
-    <!-- ### END AUNEOR-CONSEIL ### -->
 </odoo>

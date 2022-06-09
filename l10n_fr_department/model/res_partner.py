@@ -39,7 +39,6 @@ class ResPartner(models.Model):
                             "WF",
                             "PF",
                             "NC",
-                            "MC",
                         ),
                     )
                 ]
