@@ -3,5 +3,5 @@ requests_oauthlib
 unicodecsv
 unidecode   
 ofxparse
-PyPDF2
+PyPDF2<2.0
 factur-x
