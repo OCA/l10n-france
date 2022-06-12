@@ -59,18 +59,12 @@ class ResCompany(models.Model):
     )
 
     @api.model
-    def _test_fr_vat_create_company(  # noqa: C901
+    def _test_fr_vat_create_company(
         self, company_name=None, fr_vat_exigibility="on_invoice"
     ):
         # I write this method here and not in the test,
         # because it can be very useful for demos too
         self = self.sudo()
-        afpo = self.env["account.fiscal.position"]
-        afpao = self.env["account.fiscal.position.account"]
-        afpto = self.env["account.fiscal.position.tax"]
-        aao = self.env["account.account"]
-        ato = self.env["account.tax"]
-        atrlo = self.env["account.tax.repartition.line"]
         company = self.create(
             {
                 "name": company_name or "FR Company VAT",
@@ -86,15 +80,26 @@ class ResCompany(models.Model):
         self.env.user.write({"company_ids": [(4, company.id)]})
         fr_chart_template = self.env.ref("l10n_fr.l10n_fr_pcg_chart_template")
         fr_chart_template._load(20.0, 20.0, company)
+        company._setup_l10n_fr_coa_vat_company()
+        return company
+
+    def _setup_l10n_fr_coa_vat_company(self):  # noqa: C901
+        self.ensure_one()
+        afpo = self.env["account.fiscal.position"]
+        afpao = self.env["account.fiscal.position.account"]
+        afpto = self.env["account.fiscal.position.tax"]
+        aao = self.env["account.account"]
+        ato = self.env["account.tax"]
+        atrlo = self.env["account.tax.repartition.line"]
         od_journal = self.env["account.journal"].search(
-            [("company_id", "=", company.id), ("type", "=", "general")], limit=1
+            [("company_id", "=", self.id), ("type", "=", "general")], limit=1
         )
-        company.write({"fr_vat_journal_id": od_journal.id})
+        self.write({"fr_vat_journal_id": od_journal.id})
         # Update PCG
         # delete some accounts
         accounts_to_del = aao.search(
             [
-                ("company_id", "=", company.id),
+                ("company_id", "=", self.id),
                 ("code", "in", ("701200", "707200", "445710")),
             ]
         )
@@ -123,7 +128,7 @@ class ResCompany(models.Model):
         for acc_code, acc_name in revenue_accounts:
             aao.create(
                 {
-                    "company_id": company.id,
+                    "company_id": self.id,
                     "code": acc_code,
                     "name": acc_name,
                     "user_type_id": revenue_type_id,
@@ -134,7 +139,7 @@ class ResCompany(models.Model):
         fr_account_codes = ["701100", "706000", "707100", "708500"]
         for fr_account_code in fr_account_codes:
             account = aao.search(
-                [("company_id", "=", company.id), ("code", "=", fr_account_code)]
+                [("company_id", "=", self.id), ("code", "=", fr_account_code)]
             )
             new_name = "%s France" % account.name
             account.write({"name": new_name})
@@ -174,7 +179,7 @@ class ResCompany(models.Model):
         }
         fptype2fp = {}
         for fp_xmlid_suffix, fp_type in fp2type.items():
-            xmlid = "l10n_fr.%d_%s" % (company.id, fp_xmlid_suffix)
+            xmlid = "l10n_fr.%d_%s" % (self.id, fp_xmlid_suffix)
             fp = self.env.ref(xmlid)
             fpvals = {
                 "fr_vat_type": fp_type,
@@ -191,13 +196,13 @@ class ResCompany(models.Model):
                             "position_id": fp.id,
                             "account_src_id": aao.search(
                                 [
-                                    ("company_id", "=", company.id),
+                                    ("company_id", "=", self.id),
                                     ("code", "=", src_acc_code),
                                 ]
                             ).id,
                             "account_dest_id": aao.search(
                                 [
-                                    ("company_id", "=", company.id),
+                                    ("company_id", "=", self.id),
                                     ("code", "=", dest_acc_code),
                                 ]
                             ).id,
@@ -205,10 +210,10 @@ class ResCompany(models.Model):
                     )
         # delete on_payment taxes
         taxes_to_del = ato.search(
-            [("company_id", "=", company.id), ("tax_exigibility", "=", "on_payment")]
+            [("company_id", "=", self.id), ("tax_exigibility", "=", "on_payment")]
         )
         tax_map_to_del = afpto.search(
-            [("company_id", "=", company.id), ("tax_src_id", "in", taxes_to_del.ids)]
+            [("company_id", "=", self.id), ("tax_src_id", "in", taxes_to_del.ids)]
         )
         tax_map_to_del.unlink()
         taxes_to_del.unlink()
@@ -218,7 +223,7 @@ class ResCompany(models.Model):
                 "name": "France exonéré",
                 "fr_vat_type": "france_exo",
                 "auto_apply": False,
-                "company_id": company.id,
+                "company_id": self.id,
             }
         )
         fptype2fp["france_exo"] = france_exo_fp
@@ -228,13 +233,13 @@ class ResCompany(models.Model):
                     "position_id": france_exo_fp.id,
                     "account_src_id": aao.search(
                         [
-                            ("company_id", "=", company.id),
+                            ("company_id", "=", self.id),
                             ("code", "=", src_acc_code),
                         ]
                     ).id,
                     "account_dest_id": aao.search(
                         [
-                            ("company_id", "=", company.id),
+                            ("company_id", "=", self.id),
                             ("code", "=", dest_acc_code),
                         ]
                     ).id,
@@ -242,12 +247,12 @@ class ResCompany(models.Model):
             )
         # I use extracom FP to get the list of source taxes
         extracom_fp = fptype2fp["extracom"]
-        sale_tax_dest_xmlid = "l10n_fr.%d_tva_0" % company.id
+        sale_tax_dest_xmlid = "l10n_fr.%d_tva_0" % self.id
         sale_tax_dest_id = self.env.ref(sale_tax_dest_xmlid).id
         # There is no puchase 0% tax provided in l10n_fr
         purchase_tax_dest_id = ato.create(
             {
-                "company_id": company.id,
+                "company_id": self.id,
                 "name": "TVA 0% (achat)",
                 "description": "TVA 0%",
                 "amount": 0,
@@ -321,7 +326,7 @@ class ResCompany(models.Model):
                 {
                     "code": acc_code,
                     "name": "TVA collectée %s" % rate_label,
-                    "company_id": company.id,
+                    "company_id": self.id,
                     "reconcile": True,
                     "user_type_id": tax_type_id,
                 }
@@ -370,7 +375,7 @@ class ResCompany(models.Model):
                 {
                     "code": wdict["deduc"],
                     "name": "TVA déductible %s" % wdict["label"],
-                    "company_id": company.id,
+                    "company_id": self.id,
                     "reconcile": True,
                     "user_type_id": tax_type_id,
                 }
@@ -386,7 +391,7 @@ class ResCompany(models.Model):
                             {
                                 "code": acc_code,
                                 "name": "TVA due %s %s" % (wdict["label"], rate_label),
-                                "company_id": company.id,
+                                "company_id": self.id,
                                 "reconcile": True,
                                 "user_type_id": tax_type_id,
                             }
@@ -411,7 +416,6 @@ class ResCompany(models.Model):
                             ]
                         )
                         due_lines.write({"account_id": due_tax_account_id})
-        return company
 
     def _test_create_invoice_with_payment(
         self, move_type, date, partner, lines, payments, force_in_vat_on_payment=False
