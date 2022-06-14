@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  Copyright 2021 Akretion France (http://www.akretion.com/)
+  Copyright 2021-2022 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -19,12 +19,6 @@
                         attrs="{'invisible': ['|', ('move_type', 'not in', ('out_invoice', 'out_refund')), ('fiscal_position_fr_vat_type', 'not in', (False, 'france'))]}"
                         string="VAT on Payment"
                     />
-                            <field
-                        name="in_vat_on_payment"
-                        optional="hide"
-                        attrs="{'invisible': ['|', ('move_type', 'not in', ('in_invoice', 'in_refund')), ('fiscal_position_fr_vat_type', 'not in', (False, 'france'))]}"
-                        string="VAT on Payment"
-                    />
                 </field>
             </field>
         </record>
@@ -38,12 +32,6 @@
                         name="out_vat_on_payment"
                         optional="hide"
                         invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
-                        string="VAT on Payment"
-                    />
-                        <field
-                        name="in_vat_on_payment"
-                        optional="hide"
-                        invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund')"
                         string="VAT on Payment"
                     />
                 </field>
