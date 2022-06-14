@@ -157,6 +157,10 @@ class ResCompany(models.Model):
                 ("706000", "706200"),
                 ("707100", "707200"),
                 ("708500", "708520"),
+                ("701500", "701200"),
+                ("706500", "706200"),
+                ("707500", "707200"),
+                ("708550", "708520"),
             ],
             "intracom_b2c": [
                 ("701100", "701300"),
@@ -169,6 +173,10 @@ class ResCompany(models.Model):
                 ("706000", "706400"),
                 ("707100", "707400"),
                 ("708500", "708540"),
+                ("701500", "701400"),
+                ("706500", "706400"),
+                ("707500", "707400"),
+                ("708550", "708540"),
             ],
             "france_exo": [
                 ("701100", "701500"),
@@ -468,7 +476,6 @@ class ResCompany(models.Model):
             vals = {
                 "journal_id": bank_journal.id,
                 "payment_method_id": payment_method_id,
-                #                    "group_payment": True,
                 "payment_date": pay_date,
             }
             if payment_ratio != "residual":
@@ -661,52 +668,132 @@ class ResCompany(models.Model):
         if partner_dict is None:
             partner_dict = self._test_prepare_partner_dict()
         after_end_date = start_date + relativedelta(months=1)
+        mid_date = start_date + relativedelta(days=12)
         # OUT INVOICE/REFUND
+        # regular unpaid
         self._test_create_invoice_with_payment(
             "out_invoice",
             start_date,
             partner_dict["france"],
             [
-                {"product_id": product_dict["product"][200].id, "price_unit": 1200},
-                {"product_id": product_dict["product"][100].id, "price_unit": 650},
-                {"product_id": product_dict["product"][55].id, "price_unit": 150},
-                {"product_id": product_dict["product"][21].id, "price_unit": 220},
-                {"product_id": product_dict["product"][0].id, "price_unit": 50},
+                {"product_id": product_dict["product"][200].id, "price_unit": 10},
+                {"product_id": product_dict["product"][100].id, "price_unit": 20},
+                {"product_id": product_dict["product"][55].id, "price_unit": 1000},
+                {"product_id": product_dict["product"][21].id, "price_unit": 2000},
+                {"product_id": product_dict["product"][0].id, "price_unit": 100},
+            ],
+            {},
+        )
+        # regular partially paid before end date
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 30},
+                {"product_id": product_dict["product"][100].id, "price_unit": 40},
+                {"product_id": product_dict["product"][55].id, "price_unit": 3000},
+                {"product_id": product_dict["product"][21].id, "price_unit": 4000},
+                {"product_id": product_dict["product"][0].id, "price_unit": 200},
+            ],
+            {start_date: 25},
+        )
+        # regular partially paid after end date
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 50},
+                {"product_id": product_dict["product"][100].id, "price_unit": 60},
+                {"product_id": product_dict["product"][55].id, "price_unit": 5000},
+                {"product_id": product_dict["product"][21].id, "price_unit": 6000},
+                {"product_id": product_dict["product"][0].id, "price_unit": 300},
+            ],
+            {after_end_date: 40},
+        )
+        # regular paid before end date
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 70},
+                {"product_id": product_dict["product"][100].id, "price_unit": 80},
+                {"product_id": product_dict["product"][55].id, "price_unit": 7000},
+                {"product_id": product_dict["product"][21].id, "price_unit": 8000},
+                {"product_id": product_dict["product"][0].id, "price_unit": 400},
+            ],
+            {mid_date: "residual"},
+        )
+        # regular paid after end date
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 90},
+                {"product_id": product_dict["product"][100].id, "price_unit": 100},
+                {"product_id": product_dict["product"][55].id, "price_unit": 9000},
+                {"product_id": product_dict["product"][21].id, "price_unit": 10000},
+                {"product_id": product_dict["product"][0].id, "price_unit": 500},
             ],
             {after_end_date: "residual"},
         )
+        # monaco
         self._test_create_invoice_with_payment(
             "out_invoice",
             start_date,
             partner_dict["monaco"],
-            [{"product_id": product_dict["product"][200].id, "price_unit": 10}],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 110},
+                {"product_id": product_dict["product"][100].id, "price_unit": 120},
+                {"product_id": product_dict["product"][55].id, "price_unit": 11000},
+                {"product_id": product_dict["product"][21].id, "price_unit": 12000},
+                {"product_id": product_dict["product"][0].id, "price_unit": 600},
+            ],
             {start_date: "residual"},
         )
+        # refund unpaid
         self._test_create_invoice_with_payment(
             "out_refund",
             start_date,
             partner_dict["france"],
             [
-                {"product_id": product_dict["product"][200].id, "price_unit": 200},
-                {"product_id": product_dict["product"][100].id, "price_unit": 150},
-                {"product_id": product_dict["product"][55].id, "price_unit": 50},
-                {"product_id": product_dict["product"][21].id, "price_unit": 20},
-                {"product_id": product_dict["product"][0].id, "price_unit": 10},
+                {"product_id": product_dict["product"][200].id, "price_unit": 130},
+                {"product_id": product_dict["product"][100].id, "price_unit": 140},
+                {"product_id": product_dict["product"][55].id, "price_unit": 13000},
+                {"product_id": product_dict["product"][21].id, "price_unit": 14000},
+                {"product_id": product_dict["product"][0].id, "price_unit": 700},
             ],
             {},
         )
+        # intracom B2B
         self._test_create_invoice_with_payment(
             "out_invoice",
             start_date,
             partner_dict["intracom_b2b"],
-            [{"product_id": product_dict["product"][100].id, "price_unit": 1250}],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 10},
+                {"product_id": product_dict["product"][100].id, "price_unit": 20},
+                {"product_id": product_dict["product"][55].id, "price_unit": 30},
+                {"product_id": product_dict["product"][21].id, "price_unit": 40},
+                {"product_id": product_dict["product"][0].id, "price_unit": 50},
+            ],
             {start_date: "residual"},
         )
+        # extracom
         self._test_create_invoice_with_payment(
             "out_invoice",
             start_date,
             partner_dict["extracom"],
-            [{"product_id": product_dict["product"][200].id, "price_unit": 1300}],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 100},
+                {"product_id": product_dict["product"][100].id, "price_unit": 200},
+                {"product_id": product_dict["product"][55].id, "price_unit": 300},
+                {"product_id": product_dict["product"][21].id, "price_unit": 400},
+                {"product_id": product_dict["product"][0].id, "price_unit": 500},
+            ],
             {start_date: "residual"},
         )
 
@@ -789,22 +876,33 @@ class ResCompany(models.Model):
             [{"product_id": product_dict["product"][100].id, "price_unit": 100}],
             {start_date: 70, after_end_date: "residual"},
         )
+        # HA intracom
         self._test_create_invoice_with_payment(
             "in_invoice",
             start_date,
             partner_dict["intracom_b2b"],
             [
-                {"product_id": product_dict["product"][200].id, "price_unit": 500},
-                {"product_id": product_dict["service"][200].id, "price_unit": 200},
+                {"product_id": product_dict["product"][200].id, "price_unit": 150},
+                {"product_id": product_dict["service"][200].id, "price_unit": 50},
+                {"product_id": product_dict["product"][100].id, "price_unit": 160},
+                {"product_id": product_dict["service"][100].id, "price_unit": 60},
+                {"product_id": product_dict["product"][55].id, "price_unit": 1500},
+                {"product_id": product_dict["service"][55].id, "price_unit": 500},
+                {"product_id": product_dict["product"][21].id, "price_unit": 600},
+                {"product_id": product_dict["service"][21].id, "price_unit": 1600},
             ],
             {start_date: "residual"},
         )
+        # HA extracom
         self._test_create_invoice_with_payment(
             "in_invoice",
             start_date,
             partner_dict["extracom"],
             [
-                {"product_id": product_dict["service"][200].id, "price_unit": 2000},
+                {"product_id": product_dict["service"][200].id, "price_unit": 300},
+                {"product_id": product_dict["service"][100].id, "price_unit": 310},
+                {"product_id": product_dict["service"][55].id, "price_unit": 3000},
+                {"product_id": product_dict["service"][21].id, "price_unit": 3100},
             ],
             {start_date: "residual"},
         )
