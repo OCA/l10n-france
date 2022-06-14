@@ -8,6 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -197,6 +198,8 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertFalse(vat_return.reimbursement_type)
         self.assertFalse(vat_return.reimbursement_first_creation_date)
         vat_return.print_ca3()
+        with self.assertRaises(UserError):
+            vat_return.generate_selenium_file()
         vat_return.auto2sent()
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
@@ -277,7 +280,8 @@ class TestFrAccountVatReturn(TransactionCase):
             currency.compare_amounts(move_dict["445670"], initial_credit_vat * -1)
         )
         vat_return.print_ca3()
-        vat_return.generate_selenium_file()
+        with self.assertRaises(UserError):
+            vat_return.generate_selenium_file()
         vat_return.auto2sent()
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
