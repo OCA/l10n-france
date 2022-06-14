@@ -665,7 +665,17 @@ class L10nFrAccountVatReturn(models.Model):
                     format_amount(self.env, balance, speedy["currency"]),
                 )
             )
-        if not speedy["currency"].is_zero(balance):
+        # Check that the balance of 445670 is the right sign
+        compare_bal = speedy["currency"].compare_amounts(balance, 0)
+        if compare_bal < 0:
+            raise UserError(
+                _("The balance of account '%s' is %s. It should always " "be positive.")
+                % (
+                    account.display_name,
+                    format_amount(self.env, balance, speedy["currency"]),
+                )
+            )
+        elif compare_bal > 0:
             speedy["line_obj"].create(
                 {
                     "parent_id": self.id,
@@ -854,6 +864,7 @@ class L10nFrAccountVatReturn(models.Model):
             autoliq_taxedop_type2accounts,
             autoliq_vat_accounts,
             autoliq_vat_account2rate,
+            autoliq_tax2rate,
         ) = self._generate_due_vat_prepare_autoliq_struct(speedy)
         # compute bloc "B décompte de la TVA à payer"
         self._generate_due_vat_autoliq_vat_to_pay(
@@ -876,15 +887,17 @@ class L10nFrAccountVatReturn(models.Model):
             ]
             + speedy["base_domain_period"]
         )
-        invoice2productratio = self._generate_due_vat_intracom_invoice2productratio(
-            speedy, autoliq_vat_move_lines
+        invoice_rate2productratio = (
+            self._generate_due_vat_intracom_invoice_rate2productratio(
+                speedy, autoliq_vat_move_lines, autoliq_tax2rate
+            )
         )
 
         autoliq_intracom_product_logs = self._generate_due_vat_intracom_taxed_op(
             speedy,
             autoliq_vat_move_lines,
             autoliq_vat_account2rate,
-            invoice2productratio,
+            invoice_rate2productratio,
             taxedop_type2logs,
         )
         return autoliq_intracom_product_logs
@@ -895,16 +908,18 @@ class L10nFrAccountVatReturn(models.Model):
             "extracom": speedy["aa_obj"],
         }
         autoliq_vat_account2rate = {}
+        autoliq_tax2rate = {}
         autoliq_vat_accounts = speedy["aa_obj"]
-        autoliq_due_vat_taxes = speedy["at_obj"].search(
+        autoliq_vat_taxes = speedy["at_obj"].search(
             [
+                ("type_tax_use", "=", "purchase"),
                 ("amount_type", "=", "percent"),
                 ("amount", ">", 0),
                 ("fr_vat_autoliquidation", "=", True),
                 ("company_id", "=", speedy["company_id"]),
             ]
         )
-        for tax in autoliq_due_vat_taxes:
+        for tax in autoliq_vat_taxes:
             lines = tax.invoice_repartition_line_ids.filtered(
                 lambda x: x.repartition_type == "tax"
                 and x.account_id
@@ -914,6 +929,7 @@ class L10nFrAccountVatReturn(models.Model):
                 raise UserError(_("A regular sale "))
             account = lines.account_id
             rate_int = int(tax.amount * 100)
+            autoliq_tax2rate[tax] = rate_int
             if (
                 account in autoliq_vat_account2rate
                 and autoliq_vat_account2rate[account] != rate_int
@@ -952,6 +968,7 @@ class L10nFrAccountVatReturn(models.Model):
             autoliq_taxedop_type2accounts,
             autoliq_vat_accounts,
             autoliq_vat_account2rate,
+            autoliq_tax2rate,
         )
 
     def _generate_due_vat_autoliq_vat_to_pay(
@@ -1023,7 +1040,7 @@ class L10nFrAccountVatReturn(models.Model):
         speedy,
         autoliq_vat_move_lines,
         autoliq_vat_account2rate,
-        invoice2productratio,
+        invoice_rate2productratio,
         taxedop_type2logs,
     ):
         # Compute boxes 2A, 03 and 17
@@ -1034,7 +1051,7 @@ class L10nFrAccountVatReturn(models.Model):
             rate_int = autoliq_vat_account2rate[account]
             vat_amount = mline.balance * -1
             base = speedy["currency"].round(vat_amount * 10000 / rate_int)
-            product_ratio = invoice2productratio[move]
+            product_ratio = invoice_rate2productratio[move][rate_int]
             product_base = speedy["currency"].round(base * product_ratio / 100)
             product_vat_amount = speedy["currency"].round(
                 vat_amount * product_ratio / 100
@@ -1102,10 +1119,10 @@ class L10nFrAccountVatReturn(models.Model):
                 )
         return autoliq_intracom_product_logs
 
-    def _generate_due_vat_intracom_invoice2productratio(
-        self, speedy, autoliq_vat_move_lines
+    def _generate_due_vat_intracom_invoice_rate2productratio(
+        self, speedy, autoliq_vat_move_lines, autoliq_tax2rate
     ):
-        invoice2productratio = {}
+        invoice_rate2productratio = {}
         autoliq_vat_moves = autoliq_vat_move_lines.move_id
         for move in autoliq_vat_moves:
             if move.move_type not in ("in_invoice", "in_refund"):
@@ -1117,23 +1134,28 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                     % move.display_name
                 )
-            product_amount = 0.0
-            total_amount = 0.0
-            for line in move.invoice_line_ids:
-                if not line.display_type:
-                    total_amount += line.price_subtotal
+            rate2total = defaultdict(float)
+            rate2product = defaultdict(float)
+            for line in move.invoice_line_ids.filtered(lambda x: not x.display_type):
+                rate_int = 0
+                for tax in line.tax_ids:
+                    if tax in autoliq_tax2rate:
+                        rate_int = autoliq_tax2rate[tax]
+                if rate_int:
+                    rate2total[rate_int] += line.price_subtotal
                     if line.product_id and (
                         line.product_id.type in ("product", "consu")
                         or line.product_id.is_accessory_cost
                     ):
-                        product_amount += line.price_subtotal
-            if not move.currency_id.is_zero(total_amount):
-                invoice2productratio[move] = round(
-                    100 * product_amount / total_amount, 2
-                )
-            else:
-                invoice2productratio[move] = 0
-        return invoice2productratio
+                        rate2product[rate_int] += line.price_subtotal
+
+            invoice_rate2productratio[move] = {}
+            for rate_int, total in rate2total.items():
+                productratio = 0
+                if not move.currency_id.is_zero(total):
+                    productratio = round(100 * rate2product[rate_int] / total, 2)
+                invoice_rate2productratio[move][rate_int] = productratio
+        return invoice_rate2productratio
 
     def _generate_due_vat_create_vat_to_pay_lines(self, speedy, rate2logs):
         # Create boxes 08, 09, 9B (columns base HT et Taxe due)
