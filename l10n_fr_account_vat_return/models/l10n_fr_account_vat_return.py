@@ -1264,32 +1264,37 @@ class L10nFrAccountVatReturn(models.Model):
     def _vat_on_payment(self, in_or_out, vat_account_ids, speedy):
         assert in_or_out in ("in", "out")
         account2logs = defaultdict(list)
+        common_move_domain = speedy["company_domain"] + [
+            ("date", "<=", self.end_date),
+            ("amount_total", ">", 0),
+        ]
         if in_or_out == "in":
-            move_types = ("in_invoice", "in_refund")
             journal_type = "purchase"
-            vat_on_payment_field = "in_vat_on_payment"
             vat_sign = -1
             account_type = "payable"
+            common_move_domain += [
+                ("move_type", "in", ("in_invoice", "in_refund")),
+                ("fiscal_position_fr_vat_type", "=", "france_vendor_vat_on_payment"),
+            ]
         elif in_or_out == "out":
-            move_types = ("out_invoice", "out_refund")
             journal_type = "sale"
-            vat_on_payment_field = "out_vat_on_payment"
             vat_sign = 1
             account_type = "receivable"
+            common_move_domain += [
+                ("out_vat_on_payment", "=", True),
+                ("move_type", "in", ("out_invoice", "out_refund")),
+                (
+                    "fiscal_position_fr_vat_type",
+                    "in",
+                    (False, "france", "france_vendor_vat_on_payment"),
+                ),
+            ]
         move_type2label = {
             "in_invoice": _("vendor bill"),
             "in_refund": _("vendor refund"),
             "out_invoice": _("customer invoice"),
             "out_refund": _("customer refund"),
         }
-        common_move_domain = speedy["company_domain"] + [
-            ("move_type", "in", move_types),
-            ("date", "<=", self.end_date),
-            (vat_on_payment_field, "=", True),
-            ("amount_total", ">", 0),
-            ("fiscal_position_fr_vat_type", "in", (False, "france")),
-        ]
-
         # The goal of this method is to "remove" on_payment invoices that were unpaid
         # on self.end_date
         # Several cases :

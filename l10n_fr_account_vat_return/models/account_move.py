@@ -15,12 +15,6 @@ class AccountMove(models.Model):
         compute="_compute_out_vat_on_payment",
         store=True,
     )
-    in_vat_on_payment = fields.Boolean(
-        compute="_compute_in_vat_on_payment",
-        store=True,
-        string="VAT on Payment for Vendor Bills",
-        states={"draft": [("readonly", False)]},
-    )
     fiscal_position_fr_vat_type = fields.Selection(
         related="fiscal_position_id.fr_vat_type",
         store=True,
@@ -51,21 +45,6 @@ class AccountMove(models.Model):
                     ):
                         vat_on_payment = True
             move.out_vat_on_payment = vat_on_payment
-
-    @api.depends("move_type", "commercial_partner_id", "fiscal_position_id")
-    def _compute_in_vat_on_payment(self):
-        for move in self:
-            vat_on_payment = False
-            if (
-                move.move_type in ("in_invoice", "in_refund")
-                and move.commercial_partner_id.supplier_vat_on_payment
-                and (
-                    not move.fiscal_position_id
-                    or move.fiscal_position_id.fr_vat_type in ("france", "france_exo")
-                )
-            ):
-                vat_on_payment = True
-            move.in_vat_on_payment = vat_on_payment
 
     def _collect_tax_cash_basis_values(self):
         return None
