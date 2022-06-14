@@ -225,6 +225,13 @@ class ResCompany(models.Model):
         )
         tax_map_to_del.unlink()
         taxes_to_del.unlink()
+        # Create supplier VAT on payment
+        supplier_vat_on_payment_fp = afpo.create({
+            "name": "France - Fournisseur TVA encaissement",
+            "fr_vat_type": "france_vendor_vat_on_payment",
+            "auto_apply": False,
+            "company_id": self.id,
+            })
         # Create France exo FP
         france_exo_fp = afpo.create(
             {
@@ -578,8 +585,9 @@ class ResCompany(models.Model):
         self.ensure_one()
         partner_dict = {
             "france": False,
+            "france_vendor_vat_on_payment": False,
             "intracom_b2b": False,
-            #            "intracom_b2c": False,
+            #  "intracom_b2c": False,
             "extracom": False,
             "france_exo": False,
         }
@@ -615,17 +623,6 @@ class ResCompany(models.Model):
                 "property_account_position_id": france_fiscal_position.id,
             }
         )
-        partner_dict["france-supplier_vat_on_payment"] = rpo.create(
-            {
-                "name": "Fournisseur TVA sur encaissement",
-                "is_company": True,
-                "company_id": self.id,
-                "country_id": self.env.ref("base.fr").id,
-                "property_account_position_id": france_fiscal_position.id,
-                "supplier_vat_on_payment": True,
-            }
-        )
-
         return partner_dict
 
     def _test_create_move_init_vat_credit(self, amount, start_date):
@@ -836,21 +833,21 @@ class ResCompany(models.Model):
         self._test_create_invoice_with_payment(  # No impact
             "in_invoice",
             start_date,
-            partner_dict["france-supplier_vat_on_payment"],
+            partner_dict["france_vendor_vat_on_payment"],
             [{"product_id": product_dict["asset"][200].id, "price_unit": 10000}],
             {},
         )
         self._test_create_invoice_with_payment(  # No impact
             "in_refund",
             start_date,
-            partner_dict["france-supplier_vat_on_payment"],
+            partner_dict["france_vendor_vat_on_payment"],
             [{"product_id": product_dict["asset"][200].id, "price_unit": 1234}],
             {},
         )
         self._test_create_invoice_with_payment(  # No impact
             "in_invoice",
             start_date,
-            partner_dict["france-supplier_vat_on_payment"],
+            partner_dict["france_vendor_vat_on_payment"],
             [{"product_id": product_dict["product"][200].id, "price_unit": 10000}],
             {after_end_date: "residual"},
         )
@@ -858,21 +855,21 @@ class ResCompany(models.Model):
         self._test_create_invoice_with_payment(  # No impact
             "in_invoice",
             start_date,
-            partner_dict["france-supplier_vat_on_payment"],
+            partner_dict["france_vendor_vat_on_payment"],
             [{"product_id": product_dict["product"][200].id, "price_unit": 10000}],
             {after_end_date: 25},
         )
         self._test_create_invoice_with_payment(
             "in_invoice",
             start_date,
-            partner_dict["france-supplier_vat_on_payment"],
+            partner_dict["france_vendor_vat_on_payment"],
             [{"product_id": product_dict["product"][200].id, "price_unit": 1000}],
             {start_date: 25},
         )
         self._test_create_invoice_with_payment(
             "in_invoice",
             start_date,
-            partner_dict["france-supplier_vat_on_payment"],
+            partner_dict["france_vendor_vat_on_payment"],
             [{"product_id": product_dict["product"][100].id, "price_unit": 100}],
             {start_date: 70, after_end_date: "residual"},
         )
