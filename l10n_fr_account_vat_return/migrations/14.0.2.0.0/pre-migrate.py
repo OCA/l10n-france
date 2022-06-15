@@ -6,13 +6,13 @@
 from openupgradelib import openupgrade
 
 column_renames = {
-    'res_partner': [
-        ('supplier_vat_on_payment', None),
+    "res_partner": [
+        ("supplier_vat_on_payment", None),
     ],
-    'account_move': [
-        ('in_vat_on_payment', None),
+    "account_move": [
+        ("in_vat_on_payment", None),
     ],
-    }
+}
 
 
 @openupgrade.migrate()
