@@ -144,6 +144,19 @@ class ResCompany(models.Model):
             new_name = "%s France" % account.name
             account.write({"name": new_name})
 
+        # update accounts
+        mark_as_reconcile = ["445620", "445660"]
+        for acc_code in mark_as_reconcile:
+            account = aao.search(
+                [
+                    ("company_id", "=", self.id),
+                    ("code", "=", acc_code),
+                    ("reconcile", "=", False),
+                ],
+                limit=1,
+            )
+            if account:
+                account.write({"reconcile": True})
         # update fiscal positions
         fp2type = {
             "fiscal_position_template_intraeub2b": "intracom_b2b",
@@ -226,12 +239,14 @@ class ResCompany(models.Model):
         tax_map_to_del.unlink()
         taxes_to_del.unlink()
         # Create supplier VAT on payment
-        supplier_vat_on_payment_fp = afpo.create({
-            "name": "France - Fournisseur TVA encaissement",
-            "fr_vat_type": "france_vendor_vat_on_payment",
-            "auto_apply": False,
-            "company_id": self.id,
-            })
+        afpo.create(
+            {
+                "name": "France - Fournisseur TVA encaissement",
+                "fr_vat_type": "france_vendor_vat_on_payment",
+                "auto_apply": False,
+                "company_id": self.id,
+            }
+        )
         # Create France exo FP
         france_exo_fp = afpo.create(
             {
@@ -852,6 +867,8 @@ class ResCompany(models.Model):
             {after_end_date: "residual"},
         )
         # VAT on payment with partial payment
+        # I don't put partial payment in asset supplier invoices in order
+        # to allow 445620 to be reconciled and test that it works
         self._test_create_invoice_with_payment(  # No impact
             "in_invoice",
             start_date,

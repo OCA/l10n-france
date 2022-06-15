@@ -1333,6 +1333,7 @@ class L10nFrAccountVatReturn(models.Model):
                         "amount": amount,
                         "account_id": line.account_id.id,
                         "compute_type": "unpaid_vat_on_payment",
+                        "unpaid_vat_on_payment_move_id": unpaid_inv.id,
                     }
                 )
         # Case 2: partially paid invoices
@@ -1425,6 +1426,7 @@ class L10nFrAccountVatReturn(models.Model):
                             "amount": amount,
                             "account_id": line.account_id.id,
                             "compute_type": "unpaid_vat_on_payment",
+                            "unpaid_vat_on_payment_move_id": move.id,
                         }
                     )
         return account2logs
@@ -1741,11 +1743,22 @@ class L10nFrAccountVatReturn(models.Model):
         return vals
 
     def _reconcile_account_move(self, move, speedy):
+        excluded_lines = speedy["log_obj"].search_read(
+            [
+                ("parent_parent_id", "=", self.id),
+                ("unpaid_vat_on_payment_move_id", "!=", False),
+            ],
+            ["unpaid_vat_on_payment_move_id"],
+        )
+        excluded_line_ids = [
+            x["unpaid_vat_on_payment_move_id"][0] for x in excluded_lines
+        ]
         for line in move.line_ids.filtered(lambda x: x.account_id.reconcile):
             account = line.account_id
             domain = speedy["base_domain_end"] + [
                 ("account_id", "=", account.id),
                 ("full_reconcile_id", "=", False),
+                ("move_id", "not in", excluded_line_ids),
             ]
             rg_res = speedy["aml_obj"].read_group(domain, ["balance"], [])
             # or 0 is need to avoid a crash: rg_res[0]["balance"] = None
@@ -2345,6 +2358,7 @@ class L10nFrAccountVatReturnLineLog(models.Model):
         ondelete="cascade",
         readonly=True,
     )
+    parent_parent_id = fields.Many2one(related="parent_id.parent_id", store=True)
     # account_id is used for the generation of the account.move
     # when box_accounting_method != False, and it is just informative
     # when box_accounting_method = False
@@ -2361,7 +2375,7 @@ class L10nFrAccountVatReturnLineLog(models.Model):
         [
             ("period_balance", "Period Balance"),  # used for untaxed operations
             ("balance", "Ending Balance"),  # used for VAT boxes
-            ("unpaid_vat_on_payment", "Unpaid VAT on payment"),  # used for VAT boxes
+            ("unpaid_vat_on_payment", "Unpaid VAT on Payment"),  # used for VAT boxes
             ("computed_base", "Computed Base"),  # used for base VAT boxes
             ("computed_vat_amount", "Computed VAT Amount"),
             ("rate", "VAT Amount / VAT Rate"),
@@ -2372,6 +2386,9 @@ class L10nFrAccountVatReturnLineLog(models.Model):
         readonly=True,
     )
     amount = fields.Float(readonly=True)
+    unpaid_vat_on_payment_move_id = fields.Many2one(
+        "account.move", string="VAT on Payment Invoice", readonly=True
+    )
     note = fields.Char()
 
     @api.constrains("parent_id", "account_id")
