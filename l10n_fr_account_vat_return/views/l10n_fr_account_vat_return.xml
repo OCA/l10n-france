@@ -395,6 +395,10 @@
                                                 <field name="account_id" />
                                                 <field name="amount" sum="1" />
                                                 <field name="compute_type" />
+                                                <field
+                        name="unpaid_vat_on_payment_move_id"
+                        optional="hide"
+                    />
                                                 <field name="note" optional="show" />
                                                 <field
                         name="analytic_account_id"
@@ -424,6 +428,10 @@
                         />
                                                 <field name="amount" />
                                                 <field name="compute_type" />
+                                                <field
+                            name="unpaid_vat_on_payment_move_id"
+                            attrs="{'invisible': [('compute_type', '!=', 'unpaid_vat_on_payment')]}"
+                        />
                                             </group>
                                             <group string="Notes">
                                                     <field name="note" nolabel="1" />
