@@ -24,13 +24,17 @@ class AccountInvoice(models.Model):
         return super(AccountInvoice, self)._cii_trade_agreement_buyer_ref(
             partner)
 
+    def _chorus_get_report(self):
+        self.ensure_one()
+        return self.env.ref('account.account_invoices')
+
     def chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()
         if chorus_invoice_format == 'xml_cii':
             chorus_file_content = self.with_context(
                 fr_chorus_cii16b=True).generate_facturx_xml()[0]
         elif chorus_invoice_format == 'pdf_factur-x':
-            report = self.env.ref('account.account_invoices')
+            report = self._chorus_get_report()
             if report.report_type in ['qweb-html', 'qweb-pdf']:
                 chorus_file_content, filetype = report.render_qweb_pdf([self.id])
             else:
