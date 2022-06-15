@@ -221,7 +221,7 @@ class ResCompany(models.Model):
         logger.info(
             'Chorus API POST request to %s with login %s',
             url, api_params['login'])
-        logger.info('Payload of the Chorus POST request: %s', payload)
+        logger.debug('Payload of the Chorus POST request: %s', payload)
         try:
             r = session.post(
                 url, verify=True, data=json.dumps(payload),
@@ -246,7 +246,7 @@ class ResCompany(models.Model):
                 "Chorus: %s") % (url, r.status_code))
 
         answer = r.json()
-        logger.info('Chorus WS answer payload: %s', answer)
+        logger.debug('Chorus WS answer payload: %s', answer)
         return (answer, session)
 
     def chorus_expiry_remind_user_list(self):
