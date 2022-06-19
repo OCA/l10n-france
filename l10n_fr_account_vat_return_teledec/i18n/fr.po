@@ -1,0 +1,377 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_account_vat_return_teledec
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-19 09:57+0000\n"
+"PO-Revision-Date: 2022-06-19 09:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
+msgid ""
+"<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
+"                        <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ass
+msgid "Association"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "BIC is missing on the company bank account %s."
+msgstr "Le BIC est manquant sur le compte bancaire %s de la société."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Cannot teletransmit box '%s': box types '%s' are not supported for the "
+"moment."
+msgstr ""
+"Impossible de télétransmettre la case '%s' : les types de case '%s' ne sont "
+"pas supportés actuellement."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_legal_form
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_legal_form
+msgid "Company Legal Form"
+msgstr "Forme juridique de la société"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Company Legal Form is not set on company '%s'."
+msgstr ""
+"La forme juridique de la société n'est pas défini sur la société '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_res_config_settings
+msgid "Config Settings"
+msgstr "Page de configuration"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_email
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_email
+msgid "E-mail for Teledec.fr"
+msgstr "E-mail pour Teledec.fr"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "E-mail for Teledec.fr is not set on company '%s'."
+msgstr "L'e-mail pour Teledec.fr n'est pas renseigné sur la société '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "E-mail missing on partner '%s'."
+msgstr "E-mail manquant sur le partenaire '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__arl
+msgid "EARL"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ei
+msgid "EI"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__eir
+msgid "EIRL"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__erl
+msgid "EURL"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Failed to send the request to Teledec.fr. Technical error: %s."
+msgstr "Échec d'envoi de la requête à Teledec.fr. Erreur technique : %s."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_l10n_fr_account_vat_return
+msgid "France VAT Return (CA3)"
+msgstr "Déclaration de TVA française (CA3)"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__gec
+msgid "GAEC"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__gie
+msgid "GIE"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Go to configuration page"
+msgstr "Aller à la page de configuration"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_test_mode
+#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_test_mode
+msgid ""
+"If active, the request will be sent to the test serveur of Teledec.fr and "
+"nothing will be retransmitted to DGFIP."
+msgstr "Si activé, la requête sera envoyée au serveur de test de Teledec.fr et rien ne sera retransmis à la DGFIP."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Job position missing on partner '%s'."
+msgstr "Fonction manquante sur le partenaire '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_legal_representative_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_legal_representative_id
+msgid "Legal Representative"
+msgstr "Représentant légal"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Legal Representative is not set on company '%s'."
+msgstr "Le représentant légal n'est pas renseigné sur la société '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Missing 'teledec_private_key' in the Odoo server configuration file."
+msgstr ""
+"Clé 'teledec_private_key' manquante sur le fichier de configuration du "
+"serveur Odoo."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_email
+#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_email
+msgid "Must correspond to your login on the Teledec.fr website"
+msgstr "Doit correspondre à votre login sur le site web de Teledec.fr"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "None"
+msgstr "Aucun"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__zzz
+msgid "Other"
+msgstr "Autre"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
+msgid "Parameters required for the teletransmission of CA3"
+msgstr "Paramètres requis pour la télétransmission de la CA3"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sa
+msgid "SA"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__srl
+msgid "SARL"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sas
+msgid "SAS"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sasu
+msgid "SASU"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sea
+msgid "SCEA"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sci
+msgid "SCI"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__scm
+msgid "SCM"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__slr
+msgid "SELARL"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "SIRET not set on company '%s'."
+msgstr "Le SIRET n'est pas renseigné sur la société '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__snc
+msgid "SNC"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return__teledec_sent_datetime
+msgid "Teledec.fr Dispatch Date"
+msgstr "Date d'envoi à Teledec.fr"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_test_mode
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_test_mode
+msgid "Teledec.fr Test Mode"
+msgstr "Mode de test pour Teledec.fr"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Teletransmission via Teledec.fr is not yet supported for CA12 (yearly VAT "
+"returns). At the moment, it only works for CA3 (monthly or quarterly)."
+msgstr ""
+"La télétransmission via Teledec.fr n'est pas supportée pour le moment pour "
+"la CA12 (déclaration de TVA annuelle). Pour le moment, cela ne fonctionne "
+"qu'avec la CA3 (mensuelle et trimestrielle)."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The VAT declaration '%s' has already been sent on %s."
+msgstr "La déclaration de TVA '%s' a déjà été envoyée le %s."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The address of partner '%s' is incomplete: it must have at least the street,"
+" zip, city and country."
+msgstr ""
+"L'adresse du partenaire '%s' est incomplète : elle doit comporter au moins "
+"la première ligne d'adresse, le code postal, la ville et le pays."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The company bank account %s is not an IBAN."
+msgstr "Le compte bancaire %s de la société n'est pas un IBAN."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The company bank account is not set on VAT return %s."
+msgstr ""
+"Le compte bancaire de la société n'est pas renseigné sur la déclaration de "
+"TVA %s."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The query to the Teledec.fr webservice was successful, but the answer of the"
+" webservice was not in the expected format. You should contact Teledec.fr "
+"and request them to setup your account with a JSON answer."
+msgstr "La requête vers le webservice de Teledec.fr a bien fonctionné, mais la réponse du webservice n'était pas dans le format attendu. Vous devez contacter Teledec.fr et leur demander de configurer votre compte avec une réponse au format JSON."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The request sent to Teledec.fr got an HTTP error code %s."
+msgstr ""
+"La requête envoyée à Teledec.fr a reçu en retour un code d'erreur HTTP %s."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The request sent to Teledec.fr got an answer '%s' (it should have received "
+"'ok'). Error message: '%s'."
+msgstr ""
+"La requête envoyée à Teledec.fr a reçu une réponse '%s' (la réponse aurait "
+"dû être 'ok'). Message d'erreur : '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The title of partner '%s' must be Mister or Madam."
+msgstr "Le titre du partenaire '%s' doit être Monsieur ou Madame."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "There are no lines on VAT return %s."
+msgstr "Il n'y a aucune ligne sur la déclaration de TVA %s."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Title (Mister or Madam) missing on partner '%s'."
+msgstr "Titre (Monsieur ou Madame) manquant sur le partenaire '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.l10n_fr_account_vat_return_form
+msgid "Transmit via Teledec.fr"
+msgstr "Envoyer via Teledec.fr"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "VAT number not set on company '%s'."
+msgstr "Numéro de TVA non renseigné sur la société '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"VAT return successfully sent to <a "
+"href=\"https://teledec.fr/\">Teledec.fr</a>."
+msgstr ""
+"Déclaration de TVA envoyée avec succès à <a "
+"href=\"https://teledec.fr/\">Teledec.fr</a>."
