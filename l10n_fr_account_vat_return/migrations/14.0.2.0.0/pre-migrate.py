@@ -20,3 +20,8 @@ def migrate(env, version):
     if not version:
         return
     openupgrade.rename_columns(env.cr, column_renames)
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE l10n_fr_account_vat_box "
+        "SET sequence=null, print_page=null, print_x=null, print_y=null",
+    )
