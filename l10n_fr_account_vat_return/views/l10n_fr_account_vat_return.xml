@@ -172,7 +172,7 @@
                                                 </page>
                                                 <page
                                 name="reimbursement_comment"
-                                string="Reimbursement comment for DGFIP"
+                                string="Reimbursement Comment for DGFIP"
                                 attrs="{'invisible': [('reimbursement_type', '=', False)]}"
                             >
                                                         <field
@@ -392,18 +392,22 @@
                         name="parent_id"
                         invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
                     />
-                                                <field name="account_id" />
+                                                <field
+                        name="account_id"
+                        attrs="{'column_invisible': [('parent.box_accounting_method', '=', False)]}"
+                    />
                                                 <field name="amount" sum="1" />
                                                 <field name="compute_type" />
                                                 <field
-                        name="unpaid_vat_on_payment_move_id"
-                        optional="hide"
+                        name="origin_move_id"
+                        optional="show"
                     />
                                                 <field name="note" optional="show" />
                                                 <field
                         name="analytic_account_id"
                         groups="analytic.group_analytic_accounting"
                         optional="show"
+                        attrs="{'column_invisible': [('parent.box_accounting_method', '=', False)]}"
                     />
                                 </tree>
                         </field>
@@ -429,8 +433,8 @@
                                                 <field name="amount" />
                                                 <field name="compute_type" />
                                                 <field
-                            name="unpaid_vat_on_payment_move_id"
-                            attrs="{'invisible': [('compute_type', '!=', 'unpaid_vat_on_payment')]}"
+                            name="origin_move_id"
+                            attrs="{'invisible': [('origin_move_id', '=', False)]}"
                         />
                                             </group>
                                             <group string="Notes">
