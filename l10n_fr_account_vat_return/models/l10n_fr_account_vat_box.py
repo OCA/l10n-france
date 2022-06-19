@@ -105,8 +105,8 @@ class L10nFrAccountVatBox(models.Model):
         ],
         string="Page",
     )
-    print_x = fields.Integer()
-    print_y = fields.Integer()
+    print_x = fields.Integer("Print Position X")
+    print_y = fields.Integer("Print Position Y")
     account_code = fields.Char(string="Generic Account Code")
     account_id = fields.Many2one(
         "account.account",
@@ -258,7 +258,7 @@ class L10nFrAccountVatBox(models.Model):
                         raise ValidationError(
                             _(
                                 "Wrong accounting method on Due VAT box '%s': "
-                                "it should be Debit."
+                                "it should be 'Debit'."
                             )
                             % box.display_name
                         )
