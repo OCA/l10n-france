@@ -75,7 +75,7 @@ class L10nFrAccountVatReturn(models.Model):
         tracking=True,
     )
     company_partner_id = fields.Many2one(
-        related="company_id.partner_id", string="Account Holder"
+        related="company_id.partner_id", string="Company Partner"
     )
     bank_account_id = fields.Many2one(
         "res.partner.bank",
@@ -180,15 +180,12 @@ class L10nFrAccountVatReturn(models.Model):
         for rec in self:
             if rec.start_date.day != 1:
                 raise ValidationError(
-                    _("The start date (%s) must be the first day " "of the month.")
+                    _("The start date (%s) must be the first day of the month.")
                     % format_date(self.env, rec.start_date)
                 )
             if rec.vat_periodicity == "3" and rec.start_date.month not in MONTH2QUARTER:
                 raise ValidationError(
-                    _(
-                        "The start date (%s) must be the first day of "
-                        "the first month of a quarter."
-                    )
+                    _("The start date (%s) must be the first day of a quarter.")
                     % format_date(self.env, rec.start_date)
                 )
 
@@ -293,6 +290,11 @@ class L10nFrAccountVatReturn(models.Model):
         ]
         base_domain_end = base_domain + [("date", "<=", self.end_date)]
         base_domain_end_previous = base_domain + [("date", "<", self.start_date)]
+        movetype2label = dict(
+            self.env["account.move"].fields_get("move_type", "selection")["move_type"][
+                "selection"
+            ]
+        )
         speedy = {
             "company_id": self.company_id.id,
             "currency": self.company_id.currency_id,
@@ -302,6 +304,7 @@ class L10nFrAccountVatReturn(models.Model):
             "base_domain_end_previous": base_domain_end_previous,
             "end_date_formatted": format_date(self.env, self.end_date),
             "start_date_formatted": format_date(self.env, self.start_date),
+            "movetype2label": movetype2label,
             "line_obj": self.env["l10n.fr.account.vat.return.line"],
             "log_obj": self.env["l10n.fr.account.vat.return.line.log"],
             "box_obj": self.env["l10n.fr.account.vat.box"],
@@ -463,7 +466,7 @@ class L10nFrAccountVatReturn(models.Model):
         if unposted_move_count:
             raise UserError(
                 _(
-                    "There is/are %d unposted journal entry/entries dated before '%s'. "
+                    "There is/are %d unposted journal entry/entries dated before %s. "
                     "You should post this/these journal entry/entries or "
                     "delete it/them."
                 )
@@ -487,8 +490,8 @@ class L10nFrAccountVatReturn(models.Model):
             raise UserError(
                 _(
                     "There are still On Payment taxes in company '%s'. "
-                    "This module uses a different implementation to handle "
-                    "on payment VAT than the native solution based on a "
+                    "To handle on payment VAT, this module uses a different "
+                    "implementation than the native solution based on a "
                     "configuration parameter on taxes."
                 )
                 % self.company_id.display_name
@@ -614,8 +617,9 @@ class L10nFrAccountVatReturn(models.Model):
                             / 100
                         )
                     )
-                    note = "%s %% x %s" % (
+                    note = "%s %% x %s €, %s" % (
                         to_push_line.box_id.push_rate,
+                        cur_amounts[to_push_line.box_id.id],
                         to_push_line.box_id.display_name,
                     )
                 push_box = to_push_line.box_id.push_box_id
@@ -669,7 +673,7 @@ class L10nFrAccountVatReturn(models.Model):
         compare_bal = speedy["currency"].compare_amounts(balance, 0)
         if compare_bal < 0:
             raise UserError(
-                _("The balance of account '%s' is %s. It should always " "be positive.")
+                _("The balance of account '%s' is %s. It should always be positive.")
                 % (
                     account.display_name,
                     format_amount(self.env, balance, speedy["currency"]),
@@ -751,8 +755,9 @@ class L10nFrAccountVatReturn(models.Model):
                 raise UserError(
                     _(
                         "Tax '%s' should have only one distribution line for "
-                        "invoices configured with an account and with '100% of tax'."
+                        "invoices configured with an account and with '100%% of tax'."
                     )
+                    % tax.display_name
                 )
             sale_vat_account = invoice_lines.account_id
             refund_lines = tax.refund_repartition_line_ids.filtered(
@@ -764,8 +769,9 @@ class L10nFrAccountVatReturn(models.Model):
                 raise UserError(
                     _(
                         "Tax '%s' should have only one distribution line for "
-                        "credit notes configured with an account and with '100% of tax'."
+                        "credit notes configured with an account and with '100%% of tax'."
                     )
+                    % tax.display_name
                 )
             refund_vat_account = refund_lines.account_id
             if refund_vat_account != sale_vat_account:
@@ -789,7 +795,7 @@ class L10nFrAccountVatReturn(models.Model):
                 raise UserError(
                     _(
                         "Account '%s' is used on several sale VAT taxes "
-                        "for different rates (%.2f %% and %.2f %%)."
+                        "for different rates (%.2f%% and %.2f%%)."
                     )
                     % (
                         sale_vat_account.display_name,
@@ -838,7 +844,7 @@ class L10nFrAccountVatReturn(models.Model):
                         "account_id": sale_vat_account.id,
                         "compute_type": "balance",
                         "amount": base,
-                        "note": _("VAT amount: %s, VAT rate: %.2f %%, Base: %s")
+                        "note": _("VAT amount %s, Rate %.2f%%, Base %s")
                         % (
                             format_amount(self.env, balance, speedy["currency"]),
                             rate_int / 100,
@@ -936,8 +942,9 @@ class L10nFrAccountVatReturn(models.Model):
             ):
                 raise UserError(
                     _(
-                        "Account '%s' is used on several auto-liquidation taxes "
-                        "for different rates (%.2f %% and %.2f %%)."
+                        "Account '%s' is used as due VAT account on several "
+                        "auto-liquidation taxes for different rates "
+                        "(%.2f%% and %.2f%%)."
                     )
                     % (
                         account.display_name,
@@ -957,7 +964,7 @@ class L10nFrAccountVatReturn(models.Model):
             if not tax_map:
                 raise UserError(
                     _(
-                        "Autoliq tax '%s' is not present in the tax mapping "
+                        "Auto-liquidation tax '%s' is not present in the tax mapping "
                         "of any fiscal position."
                     )
                     % tax.display_name
@@ -1026,7 +1033,7 @@ class L10nFrAccountVatReturn(models.Model):
                         "account_id": account.id,
                         "compute_type": "computed_base",
                         "amount": base,
-                        "note": _("VAT Amount: %s, VAT rate: %.2f%%, Base: %s")
+                        "note": _("VAT Amount %s, Rate %.2f%%, Base %s")
                         % (
                             format_amount(self.env, vat_amount, speedy["currency"]),
                             rate_int / 100,
@@ -1062,12 +1069,12 @@ class L10nFrAccountVatReturn(models.Model):
                         "account_id": account.id,
                         "compute_type": "computed_base",
                         "amount": product_base,
+                        "origin_move_id": move.id,
                         "note": _(
-                            "On vendor bill %s: VAT amount: %s, VAT rate: %.2f%%, "
-                            "Base: %s, Product Ratio %.2f%%, Product Base: %s"
+                            "VAT amount %s, Rate %.2f%%, "
+                            "Base %s, Product Ratio %.2f%%, Product Base %s"
                         )
                         % (
-                            move.name,
                             format_amount(self.env, vat_amount, speedy["currency"]),
                             rate_int / 100,
                             format_amount(self.env, base, speedy["currency"]),
@@ -1081,12 +1088,12 @@ class L10nFrAccountVatReturn(models.Model):
                         "account_id": account.id,
                         "compute_type": "computed_vat_amount",
                         "amount": product_vat_amount,
+                        "origin_move_id": move.id,
                         "note": _(
-                            "On vendor bill %s: VAT amount: %s, Product Ratio %.2f%%, "
-                            "VAT Product Base: %s"
+                            "VAT amount %s, Product Ratio %.2f%%, "
+                            "VAT Product Amount %s"
                         )
                         % (
-                            move.name,
                             format_amount(self.env, vat_amount, speedy["currency"]),
                             product_ratio,
                             format_amount(
@@ -1103,12 +1110,12 @@ class L10nFrAccountVatReturn(models.Model):
                         "account_id": account.id,
                         "compute_type": "computed_base",
                         "amount": service_base,
+                        "origin_move_id": move.id,
                         "note": _(
-                            "On vendor bill %s: VAT amount: %s, VAT rate: %.2f%%, "
-                            "Base: %s, Service Ratio %.2f%%, Service Base: %s"
+                            "VAT amount %s, Rate %.2f%%, "
+                            "Base %s, Service Ratio %.2f%%, Service Base %s"
                         )
                         % (
-                            move.name,
                             format_amount(self.env, vat_amount, speedy["currency"]),
                             rate_int / 100,
                             format_amount(self.env, base, speedy["currency"]),
@@ -1181,7 +1188,7 @@ class L10nFrAccountVatReturn(models.Model):
             if logs:
                 if rate_int not in rate2box:
                     raise UserError(
-                        _("No Due VAT box found for VAT rate %.2f %%.") % rate_int / 100
+                        _("No Due VAT box found for VAT rate %.2f%%.") % rate_int / 100
                     )
                 box = rate2box[rate_int]
                 vals = {
@@ -1202,13 +1209,13 @@ class L10nFrAccountVatReturn(models.Model):
                             {
                                 "compute_type": "rate",
                                 "amount": line.value_float * 100 / rate,
-                                "note": "Rate: %.2f %%, VAT Amount: %s, "
+                                "note": "VAT Amount %s, Rate %.2f%%, "
                                 "Base = VAT Amount / Rate"
                                 % (
-                                    rate,
                                     format_amount(
                                         self.env, line.value_float, speedy["currency"]
                                     ),
+                                    rate,
                                 ),
                             },
                         )
@@ -1242,9 +1249,9 @@ class L10nFrAccountVatReturn(models.Model):
                     "account_id": mline.account_id.id,
                     "compute_type": "computed_vat_amount",
                     "amount": vat_amount,
-                    "note": _("On customer invoice %s for '%s': VAT amount: %s")
+                    "origin_move_id": mline.move_id.id,
+                    "note": _("Monaco customer '%s', VAT amount %s")
                     % (
-                        mline.move_id.name,
                         mline.partner_id.display_name,
                         format_amount(self.env, vat_amount, speedy["currency"]),
                     ),
@@ -1289,12 +1296,6 @@ class L10nFrAccountVatReturn(models.Model):
                     (False, "france", "france_vendor_vat_on_payment"),
                 ),
             ]
-        move_type2label = {
-            "in_invoice": _("vendor bill"),
-            "in_refund": _("vendor refund"),
-            "out_invoice": _("customer invoice"),
-            "out_refund": _("customer refund"),
-        }
         # The goal of this method is to "remove" on_payment invoices that were unpaid
         # on self.end_date
         # Several cases :
@@ -1320,20 +1321,15 @@ class L10nFrAccountVatReturn(models.Model):
             ):
                 amount = speedy["currency"].round(line.balance) * vat_sign
                 note = _(
-                    "VAT on payment %s %s dated %s is unpaid. Unpaid VAT amount: %s"
-                ) % (
-                    move_type2label[unpaid_inv.move_type],
-                    unpaid_inv.name,
-                    format_date(self.env, unpaid_inv.date),
-                    format_amount(self.env, amount, speedy["currency"]),
-                )
+                    "Invoice/refund is unpaid, Unpaid VAT amount %s"
+                ) % format_amount(self.env, amount, speedy["currency"])
                 account2logs[line.account_id].append(
                     {
                         "note": note,
                         "amount": amount,
                         "account_id": line.account_id.id,
                         "compute_type": "unpaid_vat_on_payment",
-                        "unpaid_vat_on_payment_move_id": unpaid_inv.id,
+                        "origin_move_id": unpaid_inv.id,
                     }
                 )
         # Case 2: partially paid invoices
@@ -1396,24 +1392,17 @@ class L10nFrAccountVatReturn(models.Model):
                     if fully_unpaid:
                         amount = speedy["currency"].round(balance)
                         note = _(
-                            "VAT on payment %s %s dated %s was unpaid on %s. "
-                            "Unpaid VAT amount: %s"
+                            "Invoice/refund was unpaid on %s, Unpaid VAT amount %s"
                         ) % (
-                            move_type2label[move.move_type],
-                            move.name,
-                            format_date(self.env, move.date),
                             speedy["end_date_formatted"],
                             format_amount(self.env, amount, speedy["currency"]),
                         )
                     else:
                         amount = speedy["currency"].round(balance * unpaid_ratio)
                         note = _(
-                            "VAT on payment %s %s dated %s: %d%% unpaid on %s. "
-                            "VAT amount: %s => Unpaid VAT amount: %s"
+                            "%d%% of the invoice/refund was unpaid on %s, "
+                            "VAT amount %s => Unpaid VAT amount %s"
                         ) % (
-                            move_type2label[move.move_type],
-                            move.name,
-                            format_date(self.env, move.date),
                             int(round(unpaid_ratio * 100)),
                             speedy["end_date_formatted"],
                             format_amount(self.env, balance, speedy["currency"]),
@@ -1426,7 +1415,7 @@ class L10nFrAccountVatReturn(models.Model):
                             "amount": amount,
                             "account_id": line.account_id.id,
                             "compute_type": "unpaid_vat_on_payment",
-                            "unpaid_vat_on_payment_move_id": move.id,
+                            "origin_move_id": move.id,
                         }
                     )
         return account2logs
@@ -1501,7 +1490,7 @@ class L10nFrAccountVatReturn(models.Model):
             )
             if len(line) != 1:
                 raise UserError(
-                    _("Bad configuration on regular purchase tax %s.")
+                    _("Bad configuration on regular purchase tax '%s'.")
                     % tax.display_name
                 )
             vat_account = line.account_id
@@ -1524,8 +1513,8 @@ class L10nFrAccountVatReturn(models.Model):
             ):
                 raise UserError(
                     _(
-                        "Account '%s' is used for several different kinds of "
-                        "deductible VAT accounts (%s and %s)."
+                        "Account '%s' is used for several kinds of "
+                        "deductible VAT taxes (%s and %s)."
                     )
                     % (vat_account.display_name, vtype, vat_account2type[vat_account])
                 )
@@ -1574,8 +1563,8 @@ class L10nFrAccountVatReturn(models.Model):
                     if acc.id in account_unicity:
                         raise UserError(
                             _(
-                                "Account '%s' is present in the mapping of at least "
-                                "2 different fiscal positions."
+                                "Account '%s' is present in the mapping of several "
+                                "fiscal positions."
                             )
                             % acc.display_name
                         )
@@ -1746,13 +1735,12 @@ class L10nFrAccountVatReturn(models.Model):
         excluded_lines = speedy["log_obj"].search_read(
             [
                 ("parent_parent_id", "=", self.id),
-                ("unpaid_vat_on_payment_move_id", "!=", False),
+                ("origin_move_id", "!=", False),
+                ("compute_type", "=", "unpaid_vat_on_payment"),
             ],
-            ["unpaid_vat_on_payment_move_id"],
+            ["origin_move_id"],
         )
-        excluded_line_ids = [
-            x["unpaid_vat_on_payment_move_id"][0] for x in excluded_lines
-        ]
+        excluded_line_ids = [x["origin_move_id"][0] for x in excluded_lines]
         for line in move.line_ids.filtered(lambda x: x.account_id.reconcile):
             account = line.account_id
             domain = speedy["base_domain_end"] + [
@@ -2386,8 +2374,8 @@ class L10nFrAccountVatReturnLineLog(models.Model):
         readonly=True,
     )
     amount = fields.Float(readonly=True)
-    unpaid_vat_on_payment_move_id = fields.Many2one(
-        "account.move", string="VAT on Payment Invoice", readonly=True
+    origin_move_id = fields.Many2one(
+        "account.move", string="Source Invoice", readonly=True
     )
     note = fields.Char()
 
