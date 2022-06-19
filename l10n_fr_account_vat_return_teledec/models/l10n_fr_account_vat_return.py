@@ -24,7 +24,7 @@ class L10nFrAccountVatReturn(models.Model):
     _inherit = "l10n.fr.account.vat.return"
 
     teledec_sent_datetime = fields.Datetime(
-        string="Sent to Teledec.fr on", readonly=True
+        string="Teledec.fr Dispatch Date", readonly=True
     )
 
     def _prepare_json_teledec_headers(self, teledec_dict, title_id2code):
@@ -324,7 +324,7 @@ class L10nFrAccountVatReturn(models.Model):
             except Exception:
                 raise UserError(
                     _(
-                        "The query to The Teledec.fr webservice was successful, "
+                        "The query to the Teledec.fr webservice was successful, "
                         "but the answer of the webservice was not in the "
                         "expected format. You should contact Teledec.fr and "
                         "request them to setup your account with a "
