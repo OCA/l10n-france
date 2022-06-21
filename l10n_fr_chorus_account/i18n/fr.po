@@ -129,8 +129,8 @@ msgstr "Format de facture Chorus"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice__chorus_identifier
-msgid "Chorus Invoice Indentifier"
-msgstr "Identifiant de facture Chorus"
+msgid "Chorus Invoice Identifier"
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice__chorus_status
@@ -231,7 +231,7 @@ msgid "Chorus Test Mode"
 msgstr "Mode de Test Chorus"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:125
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:126
 #, python-format
 msgid "Chorus only accepts IBAN. But the bank account '%s' is not an IBAN."
 msgstr ""
@@ -254,7 +254,7 @@ msgid "Code, Name or Identifier"
 msgstr "Code, nom ou identifiant"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:286
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:292
 #, python-format
 msgid ""
 "Commitment number '%s' not found in Chorus Pro. Please check the customer "
@@ -547,7 +547,7 @@ msgstr ""
 "Identificateur de Chorus manquant sur le service '%s' du partenaire '%s'."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:204
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:210
 #, python-format
 msgid "Missing Chorus Invoice Identifier on invoice '%s'"
 msgstr "Identifiant de facture Chorus manquant sur la facture '%s'"
@@ -559,7 +559,7 @@ msgid "Missing Info Required for Chorus on partner %s."
 msgstr "Informations manquantes requises pour Chorus sur le partenaire %s."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:103
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:104
 #, python-format
 msgid "Missing Payment Mode. This information is required for Chorus."
 msgstr "Mode de paiement manquant. Cette information est requise pour Chorus."
@@ -587,7 +587,7 @@ msgstr ""
 "pour les factures Chorus."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:114
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:115
 #, python-format
 msgid ""
 "Missing bank account information for payment. For that, you have two "
@@ -602,7 +602,7 @@ msgstr ""
 "défini sur la facture client."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:242
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:248
 #, python-format
 msgid "Missing commitment number."
 msgstr "Numéro d'engagement manquant."
@@ -843,7 +843,7 @@ msgstr ""
 "facture sera rejetée."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:137
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:143
 #, python-format
 msgid ""
 "The Chorus Invoice Format is not configured on the Accounting Configuration "
@@ -870,7 +870,13 @@ msgstr ""
 "partenaire (%s)."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:257
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:132
+#, python-format
+msgid "The Payment Mode must be empty for customer refunds sent to Chorus."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:263
 #, python-format
 msgid ""
 "The engagement juridique '%s' is %d caracters long. The maximum is 50. "
@@ -981,3 +987,6 @@ msgid "[${object.name}] Action needed to continue to use the Chorus Pro API"
 msgstr ""
 "[$ {object.name}] Action nécessaire pour continuer à utiliser l'API Chorus "
 "Pro"
+
+#~ msgid "Chorus Invoice Indentifier"
+#~ msgstr "Identifiant de facture Chorus"
