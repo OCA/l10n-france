@@ -394,7 +394,6 @@
                     />
                                                 <field
                         name="account_id"
-                        attrs="{'column_invisible': [('parent.box_accounting_method', '=', False)]}"
                     />
                                                 <field name="amount" sum="1" />
                                                 <field name="compute_type" />
