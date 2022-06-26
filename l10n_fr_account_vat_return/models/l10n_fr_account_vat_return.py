@@ -721,7 +721,7 @@ class L10nFrAccountVatReturn(models.Model):
         # CREATE LINES
         # Boxes 08, 09, 9A
         self._generate_due_vat_create_vat_to_pay_lines(speedy, rate2logs)
-        # Boxes for taxed operations: 01, 02, 2A, 03
+        # Boxes for taxed operations: A1, B3, A3, B2
         for taxedop_type, logs in taxedop_type2logs.items():
             box_type = "taxed_op_%s" % taxedop_type
             self._create_line(speedy, logs, box_type)
@@ -886,24 +886,20 @@ class L10nFrAccountVatReturn(models.Model):
         )
 
         # Intracom
-        autoliq_vat_move_lines = speedy["aml_obj"].search(
-            [
-                ("account_id", "in", autoliq_taxedop_type2accounts["intracom_b2b"].ids),
-                ("balance", "!=", 0),
-            ]
-            + speedy["base_domain_period"]
-        )
-        invoice_rate2productratio = (
-            self._generate_due_vat_intracom_invoice_rate2productratio(
-                speedy, autoliq_vat_move_lines, autoliq_tax2rate
-            )
+        # In theory, the balance of intracom VAT accounts should only contain
+        # invoices of the VAT return period. But, in real life, we may have
+        # some older invoices which were not autoliquidated.
+        # So we use the balance of the VAT intracom accounts and we compute
+        # a product/service ratio on the VAT return period
+        rate2product_ratio = self._compute_rate2product_ratio(
+            speedy, autoliq_taxedop_type2accounts, autoliq_tax2rate
         )
 
         autoliq_intracom_product_logs = self._generate_due_vat_intracom_taxed_op(
             speedy,
-            autoliq_vat_move_lines,
             autoliq_vat_account2rate,
-            invoice_rate2productratio,
+            autoliq_taxedop_type2accounts,
+            rate2product_ratio,
             taxedop_type2logs,
         )
         return autoliq_intracom_product_logs
@@ -1045,91 +1041,97 @@ class L10nFrAccountVatReturn(models.Model):
     def _generate_due_vat_intracom_taxed_op(
         self,
         speedy,
-        autoliq_vat_move_lines,
         autoliq_vat_account2rate,
-        invoice_rate2productratio,
+        autoliq_taxedop_type2accounts,
+        rate2product_ratio,
         taxedop_type2logs,
     ):
-        # Compute boxes 2A, 03 and 17
+        # Compute boxes A3, B2 and 17
         autoliq_intracom_product_logs = []  # for box 17
-        for mline in autoliq_vat_move_lines:
-            account = mline.account_id
-            move = mline.move_id
-            rate_int = autoliq_vat_account2rate[account]
-            vat_amount = mline.balance * -1
-            base = speedy["currency"].round(vat_amount * 10000 / rate_int)
-            product_ratio = invoice_rate2productratio[move][rate_int]
-            product_base = speedy["currency"].round(base * product_ratio / 100)
-            product_vat_amount = speedy["currency"].round(
-                vat_amount * product_ratio / 100
-            )
-            if not speedy["currency"].is_zero(product_base):
-                taxedop_type2logs["autoliq_intracom_product"].append(
-                    {
-                        "account_id": account.id,
-                        "compute_type": "computed_base",
-                        "amount": product_base,
-                        "origin_move_id": move.id,
-                        "note": _(
-                            "VAT amount %s, Rate %.2f%%, "
-                            "Base %s, Product Ratio %.2f%%, Product Base %s"
-                        )
-                        % (
-                            format_amount(self.env, vat_amount, speedy["currency"]),
-                            rate_int / 100,
-                            format_amount(self.env, base, speedy["currency"]),
-                            product_ratio,
-                            format_amount(self.env, product_base, speedy["currency"]),
-                        ),
-                    }
-                )
-                autoliq_intracom_product_logs.append(
-                    {
-                        "account_id": account.id,
-                        "compute_type": "computed_vat_amount",
-                        "amount": product_vat_amount,
-                        "origin_move_id": move.id,
-                        "note": _(
-                            "VAT amount %s, Product Ratio %.2f%%, "
-                            "VAT Product Amount %s"
-                        )
-                        % (
-                            format_amount(self.env, vat_amount, speedy["currency"]),
-                            product_ratio,
-                            format_amount(
-                                self.env, product_vat_amount, speedy["currency"]
+
+        for account in autoliq_taxedop_type2accounts["intracom_b2b"]:
+            vat_amount = account._fr_vat_get_balance("base_domain_end", speedy) * -1
+            if not speedy["currency"].is_zero(vat_amount):
+                rate_int = autoliq_vat_account2rate[account]
+                product_ratio = rate2product_ratio[rate_int]
+                service_ratio = 100 - product_ratio
+                base = speedy["currency"].round(vat_amount * 10000 / rate_int)
+                product_base = 0
+                if not float_is_zero(product_ratio, precision_digits=2):
+                    product_base = round(base * product_ratio / 100, 2)
+                    taxedop_type2logs["autoliq_intracom_product"].append(
+                        {
+                            "account_id": account.id,
+                            "compute_type": "computed_base",
+                            "amount": product_base,
+                            "note": _(
+                                "VAT Amount %s, Rate %.2f%%, Base %s, "
+                                "Product Ratio %.2f%%, Product Base %s"
+                            )
+                            % (
+                                format_amount(self.env, vat_amount, speedy["currency"]),
+                                rate_int / 100,
+                                format_amount(self.env, base, speedy["currency"]),
+                                product_ratio,
+                                product_base,
                             ),
-                        ),
-                    }
-                )
-            service_ratio = round(100 - product_ratio, 2)
-            service_base = speedy["currency"].round(base - product_base)
-            if not speedy["currency"].is_zero(service_base):
-                taxedop_type2logs["autoliq_intracom_service"].append(
-                    {
-                        "account_id": account.id,
-                        "compute_type": "computed_base",
-                        "amount": service_base,
-                        "origin_move_id": move.id,
-                        "note": _(
-                            "VAT amount %s, Rate %.2f%%, "
-                            "Base %s, Service Ratio %.2f%%, Service Base %s"
-                        )
-                        % (
-                            format_amount(self.env, vat_amount, speedy["currency"]),
-                            rate_int / 100,
-                            format_amount(self.env, base, speedy["currency"]),
-                            service_ratio,
-                            format_amount(self.env, service_base, speedy["currency"]),
-                        ),
-                    }
-                )
+                        }
+                    )
+                    product_vat_amount = round(vat_amount * product_ratio / 100, 2)
+                    autoliq_intracom_product_logs.append(
+                        {
+                            "account_id": account.id,
+                            "compute_type": "computed_vat_amount",
+                            "amount": product_vat_amount,
+                            "note": _(
+                                "VAT amount %s, Product Ratio %.2f%%, "
+                                "VAT Product Amount %s"
+                            )
+                            % (
+                                format_amount(self.env, vat_amount, speedy["currency"]),
+                                product_ratio,
+                                format_amount(
+                                    self.env, product_vat_amount, speedy["currency"]
+                                ),
+                            ),
+                        }
+                    )
+
+                service_base = round(base - product_base, 2)
+                if not float_is_zero(service_base, precision_digits=2):
+                    taxedop_type2logs["autoliq_intracom_service"].append(
+                        {
+                            "account_id": account.id,
+                            "compute_type": "computed_base",
+                            "amount": service_base,
+                            "note": _(
+                                "VAT Amount %s, Rate %.2f%%, Base %s, "
+                                "Service Ratio %.2f%%, Service Base %s"
+                            )
+                            % (
+                                format_amount(self.env, vat_amount, speedy["currency"]),
+                                rate_int / 100,
+                                format_amount(self.env, base, speedy["currency"]),
+                                service_ratio,
+                                service_base,
+                            ),
+                        }
+                    )
         return autoliq_intracom_product_logs
 
-    def _generate_due_vat_intracom_invoice_rate2productratio(
-        self, speedy, autoliq_vat_move_lines, autoliq_tax2rate
+    def _compute_rate2product_ratio(
+        self, speedy, autoliq_taxedop_type2accounts, autoliq_tax2rate
     ):
-        invoice_rate2productratio = {}
+        rate2total = defaultdict(float)
+        rate2product = defaultdict(float)
+        autoliq_vat_move_lines = speedy["aml_obj"].search(
+            [
+                ("account_id", "in", autoliq_taxedop_type2accounts["intracom_b2b"].ids),
+                ("balance", "!=", 0),
+            ]
+            + speedy["base_domain_period"]
+        )
+
         autoliq_vat_moves = autoliq_vat_move_lines.move_id
         for move in autoliq_vat_moves:
             if move.move_type not in ("in_invoice", "in_refund"):
@@ -1141,28 +1143,27 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                     % move.display_name
                 )
-            rate2total = defaultdict(float)
-            rate2product = defaultdict(float)
             for line in move.invoice_line_ids.filtered(lambda x: not x.display_type):
                 rate_int = 0
                 for tax in line.tax_ids:
                     if tax in autoliq_tax2rate:
                         rate_int = autoliq_tax2rate[tax]
                 if rate_int:
-                    rate2total[rate_int] += line.price_subtotal
+                    rate2total[rate_int] += line.balance
                     if line.product_id and (
                         line.product_id.type in ("product", "consu")
                         or line.product_id.is_accessory_cost
                     ):
-                        rate2product[rate_int] += line.price_subtotal
+                        rate2product[rate_int] += line.balance
 
-            invoice_rate2productratio[move] = {}
-            for rate_int, total in rate2total.items():
-                productratio = 0
-                if not move.currency_id.is_zero(total):
-                    productratio = round(100 * rate2product[rate_int] / total, 2)
-                invoice_rate2productratio[move][rate_int] = productratio
-        return invoice_rate2productratio
+        rate2product_ratio = {}
+        for rate_int, total in rate2total.items():
+            productratio = 0
+            if not speedy["currency"].is_zero(total):
+                productratio = round(100 * rate2product[rate_int] / total, 2)
+            rate2product_ratio[rate_int] = productratio
+
+        return rate2product_ratio
 
     def _generate_due_vat_create_vat_to_pay_lines(self, speedy, rate2logs):
         # Create boxes 08, 09, 9B (columns base HT et Taxe due)
