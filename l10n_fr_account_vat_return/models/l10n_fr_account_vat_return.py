@@ -1058,6 +1058,7 @@ class L10nFrAccountVatReturn(models.Model):
                 base = speedy["currency"].round(vat_amount * 10000 / rate_int)
                 product_base = 0
                 if not float_is_zero(product_ratio, precision_digits=2):
+                    # Box B2
                     product_base = round(base * product_ratio / 100, 2)
                     taxedop_type2logs["autoliq_intracom_product"].append(
                         {
@@ -1073,10 +1074,11 @@ class L10nFrAccountVatReturn(models.Model):
                                 rate_int / 100,
                                 format_amount(self.env, base, speedy["currency"]),
                                 product_ratio,
-                                product_base,
+                                format_amount(self.env, product_base, speedy["currency"])
                             ),
                         }
                     )
+                    # Box 17
                     product_vat_amount = round(vat_amount * product_ratio / 100, 2)
                     autoliq_intracom_product_logs.append(
                         {
@@ -1097,6 +1099,7 @@ class L10nFrAccountVatReturn(models.Model):
                         }
                     )
 
+                # Box A3
                 service_base = round(base - product_base, 2)
                 if not float_is_zero(service_base, precision_digits=2):
                     taxedop_type2logs["autoliq_intracom_service"].append(
@@ -1113,7 +1116,7 @@ class L10nFrAccountVatReturn(models.Model):
                                 rate_int / 100,
                                 format_amount(self.env, base, speedy["currency"]),
                                 service_ratio,
-                                service_base,
+                                format_amount(self.env, service_base, speedy["currency"])
                             ),
                         }
                     )
