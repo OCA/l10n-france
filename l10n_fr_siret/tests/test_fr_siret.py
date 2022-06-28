@@ -4,27 +4,29 @@
 
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestL10nFrSiret(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.company1_id = self.env.ref("base.main_company").id
-        partner_company = self.env["res.partner"].create(
+class TestL10nFrSiret(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.company1_id = cls.env.ref("base.main_company").id
+        partner_company = cls.env["res.partner"].create(
             {
                 "name": "Test Company",
                 "is_company": True,
-                "country_id": self.env.ref("base.fr").id,
+                "country_id": cls.env.ref("base.fr").id,
             }
         )
-        self.company2_id = (
-            self.env["res.company"]
+        cls.company2_id = (
+            cls.env["res.company"]
             .create(
                 {
                     "name": "Test Company",
                     "partner_id": partner_company.id,
-                    "currency_id": self.env.ref("base.EUR").id,
+                    "currency_id": cls.env.ref("base.EUR").id,
                 }
             )
             .id
@@ -70,6 +72,18 @@ class TestL10nFrSiret(TransactionCase):
         self.assertEqual(partner4.siren, "555555556")
         self.assertFalse(partner4.nic)
         self.assertEqual(partner4.siret, "555555556*****")
+
+    def test_la_poste_siret(self):
+        """Test siret validation exception for La Poste
+
+        La Poste siret numbers don't use Luhn algorithm to validate siret numbers.
+        More information here:
+
+        - https://github.com/arthurdejong/python-stdnum/commit/73f5e3a86
+        """
+        vals = {"name": "La Poste"}
+        self.env["res.partner"].create(dict(vals, siret="35600000048888"))
+        self.env["res.partner"].create(dict(vals, siret="35600000009075"))
 
     def test_wrong_siret(self):
         vals = {"name": "Wrong Akretion France"}

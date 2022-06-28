@@ -1,20 +1,46 @@
-import logging
+from stdnum.fr.siren import is_valid as siren_is_valid
+from stdnum.fr.siret import is_valid as siret_is_valid
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
-logger = logging.getLogger(__name__)
-try:
-    from stdnum.fr.siren import is_valid as siren_is_valid
-    from stdnum.fr.siret import is_valid as siret_is_valid
-except ImportError:
-    logger.debug("Cannot import stdnum")
 
 
 class Partner(models.Model):
     """Add the French official company identity numbers SIREN, NIC and SIRET"""
 
     _inherit = "res.partner"
+
+    @api.model
+    def _validate_siren(self, number, raise_if_not_valid=False) -> bool:
+        valid = siren_is_valid(number)
+        if raise_if_not_valid and not valid:
+            raise ValidationError(_("SIREN '%s' is invalid.", number))
+        return valid
+
+    @api.model
+    def _validate_nic(self, number, raise_if_not_valid=False) -> bool:
+        valid = number.isdigit() and len(number) == 5
+        if raise_if_not_valid and not valid:
+            raise ValidationError(_("NIC '%s' is invalid.", number))
+        return valid
+
+    @api.model
+    def _validate_siret(self, number, raise_if_not_valid=False) -> bool:
+        # La Poste SIRET (except the head office) do not use the Luhn checksum
+        # but the sum of digits must be  a multiple of 5
+        #
+        # This will not be necessary with python-stdnum > 1.17, but it's at the
+        # moment unreleased.
+        #
+        # https://github.com/arthurdejong/python-stdnum/commit/73f5e3a86
+        valid = False
+        if number.startswith("356000000") and number != "35600000000048":
+            valid = sum(map(int, number)) % 5 == 0
+        else:
+            valid = siret_is_valid(number)
+        if raise_if_not_valid and not valid:
+            raise ValidationError(_("SIRET '%s' is invalid.", number))
+        return valid
 
     @api.depends("siren", "nic")
     def _compute_siret(self):
@@ -31,9 +57,9 @@ class Partner(models.Model):
     def _inverse_siret(self):
         for rec in self:
             if rec.siret:
-                if siret_is_valid(rec.siret):
+                if self._validate_siret(rec.siret):
                     rec.write({"siren": rec.siret[:9], "nic": rec.siret[9:]})
-                elif siren_is_valid(rec.siret[:9]) and rec.siret[9:] == "*****":
+                elif self._validate_siren(rec.siret[:9]) and rec.siret[9:] == "*****":
                     rec.write({"siren": rec.siret[:9], "nic": False})
                 else:
                     raise ValidationError(_("SIRET '%s' is invalid.") % rec.siret)
@@ -47,36 +73,12 @@ class Partner(models.Model):
             if rec.type == "contact" and rec.parent_id:
                 continue
             if rec.nic:
-                # Check the NIC type and length
-                if not rec.nic.isdigit() or len(rec.nic) != 5:
-                    raise ValidationError(
-                        _(
-                            "The NIC '%s' is incorrect: it must have "
-                            "exactly 5 digits."
-                        )
-                        % rec.nic
-                    )
+                self._validate_nic(rec.nic, raise_if_not_valid=True)
             if rec.siren:
-                # Check the SIREN type, length and key
-                if not rec.siren.isdigit() or len(rec.siren) != 9:
-                    raise ValidationError(
-                        _(
-                            "The SIREN '%s' is incorrect: it must have "
-                            "exactly 9 digits."
-                        )
-                        % rec.siren
-                    )
-                if not siren_is_valid(rec.siren):
-                    raise ValidationError(
-                        _("The SIREN '%s' is invalid: the checksum is wrong.")
-                        % rec.siren
-                    )
-                # Check the NIC key (you need both SIREN and NIC to check it)
-                if rec.nic and not siret_is_valid(rec.siren + rec.nic):
-                    raise ValidationError(
-                        _("The SIRET '%s%s' is invalid: " "the checksum is wrong.")
-                        % (rec.siren, rec.nic)
-                    )
+                self._validate_siren(rec.siren, raise_if_not_valid=True)
+            # Check the NIC key (you need both SIREN and NIC to check it)
+            if rec.siren and rec.nic:
+                self._validate_siret(rec.siren + rec.nic, raise_if_not_valid=True)
 
     @api.model
     def _commercial_fields(self):
