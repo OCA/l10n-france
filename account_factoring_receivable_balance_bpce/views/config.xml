@@ -1,0 +1,33 @@
+<odoo>
+
+    <record id="res_config_settings_factor" model="ir.ui.view">
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_factoring.res_config_settings_factor" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='factor']" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_left_pane" id="bpce_left">
+                        <div class="row" id="bpce">
+                            <label
+                                for="bpce_factor_code"
+                                class="col-md-3"
+                            />
+                            <field name="bpce_factor_code" />
+                            <label
+                                for="bpce_start_date"
+                                class="col-md-3"
+                            />
+                            <field name="bpce_start_date" />
+                        </div>
+                    </div>
+                    <div class="o_setting_right_pane" id="bpce_right"/>
+
+<!--  
+                -->
+<!--                     <button type="object" name="ui_configure_bpce_factoring_balance" string="Configure BPCE journals and accounts"/> -->
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
