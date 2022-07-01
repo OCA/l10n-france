@@ -1,0 +1,43 @@
+<odoo>
+
+    <record id="view_account_journal_form" model="ir.ui.view">
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="base_factoring.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='factor']" position="inside">
+                <group name="receivable_balance" string="Receiveable Balance">
+                    <group name="balance_left"> 
+                        <field name="factoring_receivable_account_id"/>
+                        <field name="factoring_current_account_id"/>
+                        <field name="factoring_holdback_account_id"/>
+                    </group>
+                    <group name="balance_right"> 
+                        <field name="factoring_pending_recharging_account_id"/>
+                        <field name="factoring_expense_account_id"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_journal_search" model="ir.ui.view">
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <filter name="factor" string="Factor" domain="[('factor_type', '!=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_journal_tree" model="ir.ui.view">
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_tree"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="factor_type"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

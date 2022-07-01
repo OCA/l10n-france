@@ -1,0 +1,115 @@
+<odoo>
+
+<record id="subrogation_receipt_form" model="ir.ui.view">
+    <field name="model">subrogation.receipt</field>
+    <field name="arch" type="xml">
+        <form>
+            <header>
+                <button name="action_confirm" type="object" string="Confirm" attrs="{'invisible': [('state', '!=', 'draft')]}" class="oe_highlight" />
+                <button name="action_post" type="object" string="Post" attrs="{'invisible': [('state', '!=', 'confirmed')]}" class="oe_highlight" />
+                <button name="action_goto_moves" type="object" string="See account moves" />
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet>
+                <widget
+                    name="web_ribbon"
+                    title="Archived"
+                    bg_color="bg-danger"
+                    attrs="{'invisible': [('active', '=', True)]}"
+                        />
+                <field name="active" invisible="1" />
+                <h1>
+                    <!-- <label string=""/> -->
+                </h1>
+                <group name="main">
+                    <group name="left">
+                        <field name="factor_journal_id"/>
+                        <field name="factor_type"/>
+                        <field name="date"/>
+                        <field name="statement_date"/>
+                        <field name="balance" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group name="right">
+                        <field name="holdback_amount"/>
+                        <separator string="Expenses" colspan="2"/>
+                        <field name="expense_untaxed_amount" string="Untaxed Amount"/>
+                        <field name="expense_tax_amount" string="Tax Amount"/>
+                    </group>
+                </group>
+                <group name="o2m" col="1">
+                    <separator string="Moves Lines" />
+                    <field name="line_ids" nolabel="1">
+                        <tree>
+                            <field name="date" optional="show"/>
+                            <field name="journal_id" options="{&quot;no_open&quot;:True}"/>
+                            <field name="partner_id" optional="show"/>
+                            <field name="statement_id" invisible="1"/>
+                            <field name="ref" optional="show"/>
+                            <field name="name" optional="show"/>
+                            <field name="tax_ids" widget="many2many_tags" width="0.5" optional="hide"/>
+                            <field name="debit" sum="Total Debit"/>
+                            <field name="credit" sum="Total Credit"/>
+                            <field name="amount_currency" groups="base.group_multi_currency" optional="hide" string="In currency"/>
+                            <field name="move_id" optional="show"/>
+                            <field name="account_id" optional="hide" groups="account.group_account_readonly"/>
+                            <field name="currency_id" readonly="1" groups="base.group_multi_currency" optional="hide" string="Original Currency"/>
+                            <field name="tax_tag_ids" widget="many2many_tags" width="0.5" optional="hide"/>
+                            <field name="date_maturity" optional="hide"/>
+                            <field name="company_currency_id" invisible="1"/>
+                            <field name="parent_state" invisible="1"/>
+                        </tree>
+                    </field>
+                </group>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"
+                    options="{'post_refresh': 'recipients'}"/>
+            </div>
+        </form>
+    </field>
+</record>
+
+
+<record id='subrogation_receipt_tree' model='ir.ui.view'>
+    <field name='model'>subrogation.receipt</field>
+    <field name='arch' type='xml'>
+        <tree>
+            <field name="factor_journal_id"/>
+            <field name="date"/>
+            <field name="expense_untaxed_amount"/>
+            <field name="expense_tax_amount"/>
+            <field name="holdback_amount"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+<record id="subrogation_receipt_search" model="ir.ui.view">
+    <field name="model">subrogation.receipt</field>
+    <field name="arch" type="xml">
+        <search>
+            <filter name="factor_journal_id"/>
+            <filter name="expense_untaxed_amount"/>
+            <filter name="expense_tax_amount"/>
+            <filter name="holdback_amount"/>
+            <filter name="state"/>
+        </search>
+    </field>
+</record>
+
+<record id="subrogation_receipt_action" model="ir.actions.act_window">
+    <field name="name">Subrogation Receipts</field>
+    <field name="res_model">subrogation.receipt</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+
+<menuitem
+    id="subrogation_receipt_menu"
+    parent="base_factoring.factoring_menu"
+    action="subrogation_receipt_action"/>
+
+</odoo>
