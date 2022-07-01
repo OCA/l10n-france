@@ -4,18 +4,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
+"POT-Creation-Date: 2022-07-01 09:48+0000\n"
+"PO-Revision-Date: 2022-07-01 12:08+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.1\n"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_needaction
@@ -48,11 +48,6 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.view_company_form_demo
-msgid "Add data to send to factor"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
 msgid "Archived"
 msgstr "Archivé"
@@ -63,9 +58,9 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model.fields.selection,name:account_factoring_receivable_balance.selection__account_journal__factor_type__bpce
-msgid "BPCE"
-msgstr ""
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__balance
+msgid "Balance"
+msgstr "Balance"
 
 #. module: account_factoring_receivable_balance
 #: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
@@ -121,6 +116,7 @@ msgid "Currency"
 msgstr "Devise"
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_current_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_current_account_id
 msgid "Current Account"
 msgstr "Compte courant"
@@ -129,6 +125,11 @@ msgstr "Compte courant"
 #: model:ir.model.fields,help:account_factoring_receivable_balance.field_subrogation_receipt__statement_date
 msgid "Date of the last bank statement taken account in accounting"
 msgstr "Date du dernier relevé bancaire pris en compte en comptabilité"
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_res_company__factor_config_currency_id
+msgid "Devise"
+msgstr ""
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__display_name
@@ -141,6 +142,7 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_expense_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_expense_account_id
 msgid "Expense Account"
 msgstr "Compte de dépense"
@@ -161,23 +163,18 @@ msgid "Expenses"
 msgstr "Dépenses"
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factor_type
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factor_type
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__factor_type
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.view_account_journal_search
-#, fuzzy
-#| msgid "Factor Type"
 msgid "Factor"
 msgstr "Type de factor"
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_res_company__factor_config_currency_id
-msgid "Factor Config Currency"
-msgstr "Configuration de la devise du factor"
-
-#. module: account_factoring_receivable_balance
-#: model:ir.model.constraint,message:account_factoring_receivable_balance.constraint_account_journal_currency_factor_company_unique
-msgid "Field currency must be unique by factor_type and company"
-msgstr "Le champ devise doit etre unique factor and société"
+#: model:ir.model.constraint,message:account_factoring_receivable_balance.constraint_account_journal_currency_factor_curr_type_cpny_unique
+msgid ""
+"Field Factor type must be unique by Currency, Journal type, and Company"
+msgstr ""
+"Le champ factor doit être unique par Devise, Type de journal, et Société"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_follower_ids
@@ -206,14 +203,15 @@ msgid "Has Message"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_holdback_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_holdback_account_id
 msgid "Holdback Account"
-msgstr ""
+msgstr "Compte de retenue"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__holdback_amount
 msgid "Holdback Amount"
-msgstr ""
+msgstr "Montant retenue"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__id
@@ -243,20 +241,24 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "In currency"
+msgstr "En devise"
+
+#. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_is_follower
 msgid "Is Follower"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model,name:account_factoring_receivable_balance.model_account_journal
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__factor_journal_id
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model,name:account_factoring_receivable_balance.model_account_move
-msgid "Journal Entry"
-msgstr "Ecriture comptable"
+#: model:ir.model,name:account_factoring_receivable_balance.model_account_move_line
+msgid "Journal Item"
+msgstr "Écriture comptable"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt____last_update
@@ -274,6 +276,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__line_ids
+msgid "Line"
+msgstr "Ligne"
+
+#. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
@@ -289,14 +296,9 @@ msgid "Messages"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__move_ids
-msgid "Move"
-msgstr "Ecriture"
-
-#. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
-msgid "Moves"
-msgstr "Ecritures"
+msgid "Moves Lines"
+msgstr ""
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__my_activity_date_deadline
@@ -344,9 +346,21 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
+#, python-format
+msgid "Only subrogation in draft state can be deleted"
+msgstr "Seul les quittances en brouillon peuvent etre effacées"
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "Original Currency"
+msgstr "Devise d'origine"
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_pending_recharging_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_pending_recharging_account_id
 msgid "Pending Recharging Account"
-msgstr ""
+msgstr "Compte d'attente de rechargement"
 
 #. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
@@ -359,6 +373,7 @@ msgid "Posted"
 msgstr "Comptabilisé"
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_receivable_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_receivable_account_id
 msgid "Receivable Account"
 msgstr ""
@@ -366,7 +381,7 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.view_account_journal_form
 msgid "Receiveable Balance"
-msgstr ""
+msgstr "Balance à recevoir"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__activity_user_id
@@ -377,6 +392,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "See account moves"
+msgstr "Voir les écritures comptables"
+
+#. module: account_factoring_receivable_balance
+#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
+#, python-format
+msgid "See created subrogations"
+msgstr "Voir les quittances créés"
 
 #. module: account_factoring_receivable_balance
 #: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
@@ -404,13 +430,27 @@ msgid ""
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.actions.act_window,name:account_factoring_receivable_balance.subrogation_receipt_action
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_line__subrogation_id
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_move__subrogation_id
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_payment__subrogation_id
-#: model:ir.ui.menu,name:account_factoring_receivable_balance.subrogation_receipt_menu
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_move_line__subrogation_id
 msgid "Subrogation Receipt"
-msgstr ""
+msgstr "Quittance subrogative"
+
+#. module: account_factoring_receivable_balance
+#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
+#, python-format
+msgid "Subrogation Receipt %s"
+msgstr "Quittance subrogative %s"
+
+#. module: account_factoring_receivable_balance
+#: model:ir.actions.act_window,name:account_factoring_receivable_balance.subrogation_receipt_action
+#: model:ir.ui.menu,name:account_factoring_receivable_balance.subrogation_receipt_menu
+msgid "Subrogation Receipts"
+msgstr "Quittances subrogative"
+
+#. module: account_factoring_receivable_balance
+#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
+#, python-format
+msgid "Subrogation Receipts have been created"
+msgstr "La quittance subrogative a été créée"
 
 #. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
@@ -421,6 +461,16 @@ msgstr "Montant de la taxe"
 #: model:ir.model.fields,help:account_factoring_receivable_balance.field_subrogation_receipt__currency_id
 msgid "The currency used to enter statement"
 msgstr "La devide utilisé pour le relevé"
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "Total Credit"
+msgstr "Total Credit"
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "Total Debit"
+msgstr "Total Debit"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,help:account_factoring_receivable_balance.field_subrogation_receipt__activity_exception_decoration
@@ -440,6 +490,11 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
 msgid "Untaxed Amount"
+msgstr "Montant non taxé"
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,help:account_factoring_receivable_balance.field_res_company__factor_config_currency_id
+msgid "Use to configure account and journal"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -458,4 +513,7 @@ msgstr ""
 msgid ""
 "You must configure journal according to factor and currency.\n"
 "Click on 'Configure journals and accounts' in company page, 'Factor' tab"
-msgstr "Vous devez configurer le journal selon le factor et la devise."
+msgstr ""
+"Vous devez configurer le journal selon le factor et la devise.\n"
+"Cliquez sur 'Configurer les comptes et les journaux' dans la page Société, "
+"onglet 'Factor'"
