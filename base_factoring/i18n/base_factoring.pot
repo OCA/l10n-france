@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,6 +20,7 @@ msgstr ""
 
 #. module: base_factoring
 #: model:ir.model.fields,field_description:base_factoring.field_account_journal__factor_type
+#: model_terms:ir.ui.view,arch_db:base_factoring.res_config_settings_factor
 #: model_terms:ir.ui.view,arch_db:base_factoring.view_account_journal_form
 #: model_terms:ir.ui.view,arch_db:base_factoring.view_company_form
 msgid "Factor"
@@ -34,9 +35,4 @@ msgstr ""
 #. module: base_factoring
 #: model:ir.model,name:base_factoring.model_account_journal
 msgid "Journal"
-msgstr ""
-
-#. module: base_factoring
-#: model_terms:ir.ui.view,arch_db:base_factoring.view_company_form
-msgid "Run"
 msgstr ""

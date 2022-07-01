@@ -38,9 +38,5 @@ msgstr "Factoring"
 #. module: base_factoring
 #: model:ir.model,name:base_factoring.model_account_journal
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
-#. module: base_factoring
-#: model_terms:ir.ui.view,arch_db:base_factoring.view_company_form
-msgid "Run"
-msgstr "Lancer"

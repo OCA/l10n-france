@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -44,11 +44,6 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.view_company_form_demo
-msgid "Add data to send to factor"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
 msgid "Archived"
 msgstr ""
@@ -59,8 +54,8 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model.fields.selection,name:account_factoring_receivable_balance.selection__account_journal__factor_type__bpce
-msgid "BPCE"
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__balance
+msgid "Balance"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -117,6 +112,7 @@ msgid "Currency"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_current_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_current_account_id
 msgid "Current Account"
 msgstr ""
@@ -124,6 +120,11 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,help:account_factoring_receivable_balance.field_subrogation_receipt__statement_date
 msgid "Date of the last bank statement taken account in accounting"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_res_company__factor_config_currency_id
+msgid "Devise"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -137,6 +138,7 @@ msgid "Draft"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_expense_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_expense_account_id
 msgid "Expense Account"
 msgstr ""
@@ -157,6 +159,7 @@ msgid "Expenses"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factor_type
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factor_type
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__factor_type
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.view_account_journal_search
@@ -164,13 +167,9 @@ msgid "Factor"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_res_company__factor_config_currency_id
-msgid "Factor Config Currency"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
-#: model:ir.model.constraint,message:account_factoring_receivable_balance.constraint_account_journal_currency_factor_company_unique
-msgid "Field currency must be unique by factor_type and company"
+#: model:ir.model.constraint,message:account_factoring_receivable_balance.constraint_account_journal_currency_factor_curr_type_cpny_unique
+msgid ""
+"Field Factor type must be unique by Currency, Journal type, and Company"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -200,6 +199,7 @@ msgid "Has Message"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_holdback_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_holdback_account_id
 msgid "Holdback Account"
 msgstr ""
@@ -237,6 +237,11 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "In currency"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_is_follower
 msgid "Is Follower"
 msgstr ""
@@ -248,8 +253,8 @@ msgid "Journal"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model,name:account_factoring_receivable_balance.model_account_move
-msgid "Journal Entry"
+#: model:ir.model,name:account_factoring_receivable_balance.model_account_move_line
+msgid "Journal Item"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -268,6 +273,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__line_ids
+msgid "Line"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
@@ -283,13 +293,8 @@ msgid "Messages"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__move_ids
-msgid "Move"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
-msgid "Moves"
+msgid "Moves Lines"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -338,6 +343,18 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
+#, python-format
+msgid "Only subrogation in draft state can be deleted"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "Original Currency"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_pending_recharging_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_pending_recharging_account_id
 msgid "Pending Recharging Account"
 msgstr ""
@@ -353,6 +370,7 @@ msgid "Posted"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_receivable_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_receivable_account_id
 msgid "Receivable Account"
 msgstr ""
@@ -370,6 +388,17 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_has_sms_error
 msgid "SMS Delivery error"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "See account moves"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
+#, python-format
+msgid "See created subrogations"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -398,12 +427,26 @@ msgid ""
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.actions.act_window,name:account_factoring_receivable_balance.subrogation_receipt_action
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_line__subrogation_id
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_move__subrogation_id
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_payment__subrogation_id
-#: model:ir.ui.menu,name:account_factoring_receivable_balance.subrogation_receipt_menu
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_move_line__subrogation_id
 msgid "Subrogation Receipt"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
+#, python-format
+msgid "Subrogation Receipt %s"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model:ir.actions.act_window,name:account_factoring_receivable_balance.subrogation_receipt_action
+#: model:ir.ui.menu,name:account_factoring_receivable_balance.subrogation_receipt_menu
+msgid "Subrogation Receipts"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
+#, python-format
+msgid "Subrogation Receipts have been created"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -414,6 +457,16 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,help:account_factoring_receivable_balance.field_subrogation_receipt__currency_id
 msgid "The currency used to enter statement"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "Total Credit"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "Total Debit"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -434,6 +487,11 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
 msgid "Untaxed Amount"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,help:account_factoring_receivable_balance.field_res_company__factor_config_currency_id
+msgid "Use to configure account and journal"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
