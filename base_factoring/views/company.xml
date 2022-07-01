@@ -1,0 +1,17 @@
+<odoo>
+
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[last()]" position="after">
+                <page name="factor" string="Factor">
+                    <group name="factoring" groups="account.group_account_invoice">
+                        <group name="config_facto" string="Configuration"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
