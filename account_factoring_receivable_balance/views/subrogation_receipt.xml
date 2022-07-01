@@ -19,7 +19,6 @@
                         />
                 <field name="active" invisible="1" />
                 <h1>
-                    <!-- <label string=""/> -->
                 </h1>
                 <group name="main">
                     <group name="left">
@@ -102,6 +101,12 @@
 
 <record id="subrogation_receipt_action" model="ir.actions.act_window">
     <field name="name">Subrogation Receipts</field>
+    <field name="res_model">subrogation.receipt</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<record id="subrogation_receipt_action_redirection" model="ir.actions.act_window">
+    <field name="name">Created Subrogation Receipts</field>
     <field name="res_model">subrogation.receipt</field>
     <field name="view_mode">tree,form</field>
 </record>

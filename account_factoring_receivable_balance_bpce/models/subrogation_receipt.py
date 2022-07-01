@@ -40,7 +40,7 @@ class SubrogationReceipt(models.Model):
         if not self.statement_date:
             raise UserError("Vous devez spécifier la date du dernier relevé")
         body, max_row, balance = self._get_bpce_body()
-        header = self._get_bpce_header(max_row)
+        header = self._get_bpce_header()
         check_column_size(header)
         ender = self._get_bpce_ender(max_row, balance)
         check_column_size(ender)
@@ -59,8 +59,10 @@ class SubrogationReceipt(models.Model):
             raise UserError("See files /odoo/subrog*.txt")
         total_in_erp = sum(self.line_ids.mapped("amount_currency"))
         if round(balance, 2) != round(total_in_erp, 2):
-            raise UserError("Erreur dans le calul de la balance :"
-                "\n - erp : %s\n - fichier : %s" % (total_in_erp, balance))
+            raise UserError(
+                "Erreur dans le calul de la balance :"
+                "\n - erp : %s\n - fichier : %s" % (total_in_erp, balance)
+            )
         self.write({"balance": balance})
         # non ascii chars are replaced
         data = bytes(data, "ascii", "replace").replace(b"?", b" ")
@@ -79,10 +81,9 @@ class SubrogationReceipt(models.Model):
         domain = [("date", ">=", self.env.user.company_id.bpce_start_date)] + domain
         return domain
 
-    def _get_bpce_header(self, max_row):
+    def _get_bpce_header(self):
         self = self.sudo()
         info = {
-            "seq": pad(max_row, 6, 0),
             "code": pad(self.company_id.bpce_factor_code, 6, 0),
             "devise": self.factor_journal_id.currency_id.name,
             "name": pad(self.company_id.partner_id.name, 25),
@@ -92,14 +93,14 @@ class SubrogationReceipt(models.Model):
             "reserved": pad(" ", 208),
             "format": FORMAT_VERSION,
         }
-        string = "01{seq}138{code}{devise}{name}{statem_date}{date}"
+        string = "01000001138{code}{devise}{name}{statem_date}{date}"
         string += "{idfile}{format}{reserved}"
         return string.format(**info)
 
     def _get_bpce_ender(self, max_row, balance):
         self = self.sudo()
         info = {
-            "seq": pad(max_row, 6, 0),
+            "seq": pad(max_row + 2, 6, 0),
             "code": pad(self.company_id.bpce_factor_code, 6, 0),
             "name": pad(self.company_id.partner_id.name[:25], 25),
             "balance": pad(round(balance * 100), 13, 0),

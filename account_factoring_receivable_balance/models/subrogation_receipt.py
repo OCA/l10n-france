@@ -45,7 +45,7 @@ class SubrogationReceipt(models.Model):
     expense_untaxed_amount = fields.Float(tracking=True, help="")
     expense_tax_amount = fields.Float(tracking=True, help="")
     holdback_amount = fields.Float(tracking=True, help="")
-    balance = fields.Monetary(currency_field="currency_id",readonly=True)
+    balance = fields.Monetary(currency_field="currency_id", readonly=True)
     company_id = fields.Many2one(
         comodel_name="res.company", string="Company", readonly=True, required=True
     )
@@ -95,7 +95,7 @@ class SubrogationReceipt(models.Model):
         """We may also us:
         res = self.env["res.partner"].default_get(['property_account_receivable_id'])
         self.env["account.account"].browse(res["property_account_receivable_id"])
-        
+
         but we are not sure that the user default one is the same
         """
         property_ = self.env["ir.property"].search(
@@ -161,25 +161,13 @@ class SubrogationReceipt(models.Model):
             subr_ids.append(subrog.id)
             lines.write({"subrogation_id": subrog.id})
         if subr_ids:
-            action = {
-                "name": _("Generated Subrogation"),
-                "view_mode": "tree,form",
-                "res_model": "subrogation.receipt",
-                "type": "ir.actions.act_window",
-                "target": "current",
-                "views": [
-                    (
-                        self.env.ref(
-                            "account_factoring_receivable_balance."
-                            "subrogation_receipt_tree"
-                        ).id,
-                        "tree",
-                    )
-                ],
-                "domain": "[('id', 'in', %s)]" % subr_ids,
-            }
-
-            action = self.env[action["type"]].create(action)
+            action = self.env.ref(
+                "account_factoring_receivable_balance"
+                ".subrogation_receipt_action_redirection"
+            )
+            active_ids = ",".join([str(x) for x in subr_ids])
+            action.write({"domain": [("id", "in", subr_ids)]})
+            action_id = action.id
             if missing_journals:
                 message = (
                     "Missing bank journal for %s and currency %s to finish process"
@@ -189,7 +177,7 @@ class SubrogationReceipt(models.Model):
                     )
                 )
                 raise RedirectWarning(
-                    _(message), action.id, _("See created subrogations")
+                    _(message), action_id, _("See created subrogations")
                 )
             return {
                 "type": "ir.actions.client",
@@ -200,8 +188,14 @@ class SubrogationReceipt(models.Model):
                     "message": _(
                         "Subrogation Receipts have been created",
                     ),
+                    "links": [
+                        {
+                            "label": "See Subrogations",
+                            "url": f"#action={action_id}&model=account.journal&active_ids={active_ids}",
+                        }
+                    ],
                     "sticky": True,
-                    "next": action.id,
+                    "next": action_id,
                 },
             }
         else:
@@ -277,8 +271,8 @@ class SubrogationReceipt(models.Model):
 
     def unlink(self):
         for rec in self:
-            if rec.state != "draft":
-                raise UserError(_("Only subrogation in draft state can be deleted"))
+            if rec.state == "posted":
+                raise UserError(_("Subrogations in Posted state can't be deleted"))
         return super().unlink()
 
     def _get_company_id(self):
