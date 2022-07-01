@@ -1,0 +1,97 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_factoring_receivable_balance_bpce
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_factoring_receivable_balance_bpce
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance_bpce.view_company_form
+msgid "001234"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: code:addons/account_factoring_receivable_balance_bpce/models/company.py:0
+#, python-format
+msgid "BPCE Journal with currency '%s' already exist. Configuration aborted"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_company__bpce_factor_code
+msgid "Bpce Factor Code"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model,name:account_factoring_receivable_balance_bpce.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance_bpce.view_company_form
+msgid "Configure BPCE journals and accounts"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model,name:account_factoring_receivable_balance_bpce.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model,name:account_factoring_receivable_balance_bpce.model_subrogation_receipt
+msgid "Contains data relative to sent balance to factoring"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: code:addons/account_factoring_receivable_balance_bpce/models/company.py:0
+#, python-format
+msgid "Go to accounting chart configuration"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model,name:account_factoring_receivable_balance_bpce.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_company__bpce_factor_code
+msgid "N° de compte chez PBCE"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance_bpce.view_company_form
+msgid "Run BPCE factor"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: code:addons/account_factoring_receivable_balance_bpce/models/company.py:0
+#, python-format
+msgid ""
+"The accounting chart installed in this company is not the french one. "
+"Install it first"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_partner__bpce_factoring_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_users__bpce_factoring_balance
+msgid "Use BPCE factoring balance"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_partner__bpce_factoring_balance
+#: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_users__bpce_factoring_balance
+msgid "Use BPCE factoring receivable balance external service"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
+#: code:addons/account_factoring_receivable_balance_bpce/models/company.py:0
+#, python-format
+msgid "You must select a currency to begin configuration"
+msgstr ""
