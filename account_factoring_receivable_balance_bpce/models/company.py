@@ -29,29 +29,6 @@ class ResCompany(models.Model):
         bpce_journals = self.env["account.journal"].search(
             [("factor_type", "=", "bpce"), ("company_id", "=", self.id)]
         )
-        action = {
-            k: v
-            for k, v in self.env.ref("account.action_account_journal_form")
-            .read()[0]
-            .items()
-            if k
-            not in (
-                "view_ids",
-                "view_id",
-                "xml_id",
-                "id",
-                "help",
-                "res_id",
-                "arch",
-                "search_view",
-                "binding_view_types",
-            )
-            # if k in ("type", "res_model", "target", "view_mode")
-        }
-        action["domain"] = "[('id', 'in', %s)]" % bpce_journals.ids
-        action["context"] = "{'search_factor': 1}"
-        action["view_mode"] = "tree,form"
-        action["name"] = "Journaux BPCE configurés"
         action_id=self.env.ref("account.action_account_journal_form").id
         active_ids = ",".join([str(x) for x in bpce_journals.ids])
 
@@ -63,7 +40,7 @@ class ResCompany(models.Model):
                 "type": "success",  # warning/success
                 "message": "Consulter les journaux et comptes configurés",
                 "links": [{
-                    "label": "bla",
+                    "label": "Voir les journaux",
                     "url": f"#action={action_id}&model=account.journal&active_ids={active_ids}",
                 }],
                 "sticky": True,  #True/False will display for few seconds if false
