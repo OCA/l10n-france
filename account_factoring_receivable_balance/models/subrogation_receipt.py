@@ -85,7 +85,7 @@ class SubrogationReceipt(models.Model):
                 True,
             ),
             "|",
-            ("move_id.partner_bank_id", "!=", bank_journal.bank_account_id.id),
+            ("move_id.partner_bank_id", "=", bank_journal.bank_account_id.id),
             ("move_id.partner_bank_id", "=", False),
         ]
         return domain
@@ -107,11 +107,11 @@ class SubrogationReceipt(models.Model):
         )
         id_ = property_.value_reference[property_.value_reference.find(",") + 1 :]
         account = self.env["account.account"].browse(int(id_))
-        return [
+        return (
             "account_id.code",
             "like",
             "%s%s" % (account.code.replace("0", ""), "%"),
-        ]
+        )
 
     @api.model
     def _create_or_update_subrogation_receipt(self, factor_type, partner_field=None):
@@ -217,7 +217,13 @@ class SubrogationReceipt(models.Model):
         domain = [("type", "=", "bank"), ("factor_type", "=", factor_type)]
         if currency:
             domain += [("currency_id", "=", currency.id)]
-        return self.env["account.journal"].search(domain, limit=1)
+        res = self.env["account.journal"].search(domain, limit=1)
+        if not res:
+            raise UserError(
+                "Missing bank journal with factor '%s' currency %s"
+                % (factor_type, currency and currency.name or "")
+            )
+        return res
 
     def _prepare_factor_file(self, factor_type):
         self.ensure_one
