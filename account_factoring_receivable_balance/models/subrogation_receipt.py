@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, RedirectWarning
+from odoo.exceptions import UserError
 
 
 class SubrogationReceipt(models.Model):
@@ -11,12 +11,12 @@ class SubrogationReceipt(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _check_company_auto = True
     _rec_name = "factor_type"
-    _description = "Contains data relative to sent balance to factoring"
+    _description = "Customer balance data for factoring"
 
     factor_journal_id = fields.Many2one(
         comodel_name="account.journal",
         string="Journal",
-        domain="[('factor_type', '!=', False)]",
+        domain="[('factor_type', '!=', False), ('type', '=', 'general')]",
         check_company=True,
         required=True,
     )
@@ -28,10 +28,14 @@ class SubrogationReceipt(models.Model):
         readonly=True,
         tracking=True,
     )
+    target_date = fields.Date(
+        help="All account moves line dates are lower or equal to this date",
+        required=True,
+        tracking=True,
+    )
     statement_date = fields.Date(
         help="Date of the last bank statement taken account in accounting"
     )
-    active = fields.Boolean(default=True)
     state = fields.Selection(
         [
             ("draft", "Draft"),
@@ -47,13 +51,37 @@ class SubrogationReceipt(models.Model):
     holdback_amount = fields.Float(tracking=True, help="")
     balance = fields.Monetary(currency_field="currency_id", readonly=True)
     company_id = fields.Many2one(
-        comodel_name="res.company", string="Company", readonly=True, required=True
+        comodel_name="res.company",
+        string="Company",
+        default=lambda s: s._get_company_id(),
+        readonly=True,
+        required=True,
     )
     line_ids = fields.One2many(
         comodel_name="account.move.line",
         inverse_name="subrogation_id",
         readonly=True,
     )
+
+    @api.constrains("factor_journal_id", "state", "company_id")
+    def _check_draft_per_journal(self):
+        for rec in self:
+            if (
+                self.search_count(
+                    [
+                        ("factor_journal_id", "=", rec.factor_journal_id.id),
+                        ("state", "=", "draft"),
+                        ("company_id", "=", rec._get_company_id()),
+                    ]
+                )
+                > 1
+            ):
+                raise UserError(
+                    _(
+                        "You already have a Draft Subrogation with "
+                        "this journal and company."
+                    )
+                )
 
     @api.depends("factor_journal_id", "date")
     def _compute_display_name(self):
@@ -74,6 +102,7 @@ class SubrogationReceipt(models.Model):
         """
         bank_journal = self._get_bank_journal(factor_type, currency=currency)
         domain = [
+            ("date", "<=", self.target_date),
             ("company_id", "=", self._get_company_id()),
             ("parent_state", "=", "posted"),
             ("subrogation_id", "=", False),
@@ -113,103 +142,24 @@ class SubrogationReceipt(models.Model):
             "%s%s" % (account.code.replace("0", ""), "%"),
         )
 
-    @api.model
-    def _create_or_update_subrogation_receipt(self, factor_type, partner_field=None):
-        journals = self.env["account.journal"].search(
-            [
-                ("factor_type", "=", factor_type),
-                ("type", "=", "general"),
-                ("company_id", "=", self._get_company_id()),
-            ]
+    def _get_partner_field(self):
+        "Inherit to define your own fields depending of your factor module"
+        self.ensure_one()
+        return None
+
+    def action_compute_lines(self):
+        self.ensure_one()
+        journal = self.factor_journal_id
+        domain = self._get_domain_for_factor(
+            self.factor_type,
+            partner_selection_field=self._get_partner_field(),
+            currency=journal.currency_id,
         )
-        if not journals:
-            raise UserError(
-                _(
-                    "You must configure journal according to factor and currency.\n"
-                    "Click on 'Configure journals and accounts' "
-                    "in company page, 'Factor' tab"
-                )
-            )
-        subr_ids = []
-        missing_journals = []
-        for journal in journals:
-            self.search(
-                [
-                    ("factor_journal_id", "=", journal.id),
-                    ("state", "=", "draft"),
-                ]
-            ).sudo().unlink()
-            domain = self._get_domain_for_factor(
-                factor_type,
-                partner_selection_field=partner_field,
-                currency=journal.currency_id,
-            )
-            if not domain:
-                missing_journals.append(journal)
-                continue
-            lines = self.env["account.move.line"].search(
-                domain + [("move_id.currency_id", "=", journal.currency_id.id)]
-            )
-            if not lines:
-                continue
-            subrog = self.sudo().create(
-                {
-                    "factor_journal_id": journal.id,
-                    "company_id": journal.company_id.id,
-                }
-            )
-            subr_ids.append(subrog.id)
-            lines.write({"subrogation_id": subrog.id})
-        if subr_ids:
-            action = self.env.ref(
-                "account_factoring_receivable_balance"
-                ".subrogation_receipt_action_redirection"
-            )
-            active_ids = ",".join([str(x) for x in subr_ids])
-            action.write({"domain": [("id", "in", subr_ids)]})
-            action_id = action.id
-            if missing_journals:
-                message = (
-                    "Missing bank journal for %s and currency %s to finish process"
-                    % (
-                        factor_type,
-                        missing_journals[0].currency_id.name,
-                    )
-                )
-                raise RedirectWarning(
-                    _(message), action_id, _("See created subrogations")
-                )
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "type": "success",
-                    "title": "Subrogation Receipts",
-                    "message": _(
-                        "Subrogation Receipts have been created",
-                    ),
-                    "links": [
-                        {
-                            "label": "See Subrogations",
-                            "url": f"#action={action_id}&model=account.journal&active_ids={active_ids}",
-                        }
-                    ],
-                    "sticky": True,
-                    "next": action_id,
-                },
-            }
-        else:
-            message = (
-                "No invoice needs to be linked to %s factor.\n"
-                "Check matching settings on: "
-                "\n - customers"
-                "\n - company \n\n\n domain\n%s" % (factor_type.upper(), domain)
-            )
-            raise RedirectWarning(
-                _(message),
-                self.env.ref("account.action_move_out_invoice_type").id,
-                _("See invoices and customers"),
-            )
+        self.line_ids.write({"subrogation_id": False})
+        lines = self.env["account.move.line"].search(
+            domain + [("move_id.currency_id", "=", journal.currency_id.id)]
+        )
+        lines.write({"subrogation_id": self.id})
 
     def _get_bank_journal(self, factor_type, currency=None):
         """Get matching bank journal

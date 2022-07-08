@@ -68,6 +68,12 @@ class SubrogationReceipt(models.Model):
         data = bytes(data, "ascii", "replace").replace(b"?", b" ")
         return base64.b64encode(data)
 
+    def _get_partner_field(self):
+        res = super()._get_partner_field()
+        if self.factor_type == "bpce":
+            return "bpce_factoring_balance"
+        return res
+
     @api.model
     def _get_domain_for_factor(
         self, factor_type, partner_selection_field=None, currency=None

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"POT-Creation-Date: 2022-07-08 17:21+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,6 +23,11 @@ msgid "001234"
 msgstr ""
 
 #. module: account_factoring_receivable_balance_bpce
+#: model:ir.model.fields.selection,name:account_factoring_receivable_balance_bpce.selection__account_journal__factor_type__bpce
+msgid "BPCE"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
 #: code:addons/account_factoring_receivable_balance_bpce/models/company.py:0
 #, python-format
 msgid "BPCE Journal with currency '%s' already exist. Configuration aborted"
@@ -30,8 +35,9 @@ msgstr ""
 
 #. module: account_factoring_receivable_balance_bpce
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_company__bpce_factor_code
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_config_settings__bpce_factor_code
 msgid "Bpce Factor Code"
-msgstr ""
+msgstr "Code Factor Bpce"
 
 #. module: account_factoring_receivable_balance_bpce
 #: model:ir.model,name:account_factoring_receivable_balance_bpce.model_res_company
@@ -39,25 +45,36 @@ msgid "Companies"
 msgstr "Sociétés"
 
 #. module: account_factoring_receivable_balance_bpce
+#: model:ir.model,name:account_factoring_receivable_balance_bpce.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: account_factoring_receivable_balance_bpce
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance_bpce.view_company_form
 msgid "Configure BPCE journals and accounts"
-msgstr ""
+msgstr "Configure journaux et comptes BPCE"
 
 #. module: account_factoring_receivable_balance_bpce
 #: model:ir.model,name:account_factoring_receivable_balance_bpce.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: account_factoring_receivable_balance_bpce
 #: model:ir.model,name:account_factoring_receivable_balance_bpce.model_subrogation_receipt
-msgid "Contains data relative to sent balance to factoring"
+msgid "Customer balance data for factoring"
+msgstr "Customer balance data for factoring"
+
+#. module: account_factoring_receivable_balance_bpce
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_account_bank_statement_import_journal_creation__factor_type
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_account_journal__factor_type
+msgid "Factor"
 msgstr ""
 
 #. module: account_factoring_receivable_balance_bpce
 #: code:addons/account_factoring_receivable_balance_bpce/models/company.py:0
 #, python-format
-msgid "Currency '%s' is unknown"
-msgstr ""
+msgid "Go to accounting chart configuration"
+msgstr "Aller à la configuration du plan comptable"
 
 #. module: account_factoring_receivable_balance_bpce
 #: model:ir.model,name:account_factoring_receivable_balance_bpce.model_account_journal
@@ -65,34 +82,44 @@ msgid "Journal"
 msgstr ""
 
 #. module: account_factoring_receivable_balance_bpce
+#: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_company__bpce_start_date
+#: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_config_settings__bpce_start_date
+msgid "No account move will be selected before this date"
+msgstr "Aucune écriture comptable ne sera sélectionné après cette date"
+
+#. module: account_factoring_receivable_balance_bpce
 #: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_company__bpce_factor_code
+#: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_config_settings__bpce_factor_code
 msgid "N° de compte chez PBCE"
 msgstr ""
 
 #. module: account_factoring_receivable_balance_bpce
-#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance_bpce.view_company_form
-msgid "Run BPCE factor"
-msgstr ""
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_company__bpce_start_date
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_config_settings__bpce_start_date
+msgid "Start Date"
+msgstr "Date de début"
 
 #. module: account_factoring_receivable_balance_bpce
 #: code:addons/account_factoring_receivable_balance_bpce/models/company.py:0
 #, python-format
 msgid ""
 "The accounting chart installed in this company is not the french one. "
-"Configuration aborted !"
+"Install it first"
 msgstr ""
+"Le plan comptable installé dans cette société n'est pas celui de la "
+"France. Installez le d'abord."
 
 #. module: account_factoring_receivable_balance_bpce
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_partner__bpce_factoring_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance_bpce.field_res_users__bpce_factoring_balance
 msgid "Use BPCE factoring balance"
-msgstr ""
+msgstr "Utiliser le factoring de balance BPCE"
 
 #. module: account_factoring_receivable_balance_bpce
 #: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_partner__bpce_factoring_balance
 #: model:ir.model.fields,help:account_factoring_receivable_balance_bpce.field_res_users__bpce_factoring_balance
 msgid "Use BPCE factoring receivable balance external service"
-msgstr ""
+msgstr "Utiliser le service externe factoring de balance BPCE"
 
 #. module: account_factoring_receivable_balance_bpce
 #: code:addons/account_factoring_receivable_balance_bpce/models/company.py:0
