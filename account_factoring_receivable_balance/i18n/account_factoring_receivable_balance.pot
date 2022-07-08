@@ -6,6 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-08 17:20+0000\n"
+"PO-Revision-Date: 2022-07-08 17:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,11 +18,6 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_needaction
 msgid "Action Needed"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
-#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__active
-msgid "Active"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -44,8 +41,8 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
-msgid "Archived"
+#: model:ir.model.fields,help:account_factoring_receivable_balance.field_subrogation_receipt__target_date
+msgid "All account moves line dates are lower or equal to this date"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -78,6 +75,11 @@ msgstr ""
 
 #. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "Compute"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
 msgid "Confirm"
 msgstr ""
 
@@ -92,8 +94,8 @@ msgid "Confirmed Date"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model:ir.model,name:account_factoring_receivable_balance.model_subrogation_receipt
-msgid "Contains data relative to sent balance to factoring"
+#: model:ir.actions.act_window,name:account_factoring_receivable_balance.subrogation_receipt_action_redirection
+msgid "Created Subrogation Receipts"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -115,6 +117,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_current_account_id
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_journal__factoring_current_account_id
 msgid "Current Account"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model,name:account_factoring_receivable_balance.model_subrogation_receipt
+msgid "Customer balance data for factoring"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -185,12 +192,6 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,help:account_factoring_receivable_balance.field_subrogation_receipt__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
-#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
-#, python-format
-msgid "Generated Subrogation"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -293,11 +294,6 @@ msgid "Messages"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
-msgid "Moves Lines"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
@@ -343,12 +339,6 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
-#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
-#, python-format
-msgid "Only subrogation in draft state can be deleted"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
 msgid "Original Currency"
 msgstr ""
@@ -381,6 +371,11 @@ msgid "Receiveable Balance"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_move_line__partner_bank_id
+msgid "Recipient Bank"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__activity_user_id
 msgid "Responsible User"
 msgstr ""
@@ -393,18 +388,6 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
 msgid "See account moves"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
-#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
-#, python-format
-msgid "See created subrogations"
-msgstr ""
-
-#. module: account_factoring_receivable_balance
-#: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
-#, python-format
-msgid "See invoices and customers"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -446,7 +429,12 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
 #, python-format
-msgid "Subrogation Receipts have been created"
+msgid "Subrogations in Posted state can't be deleted"
+msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__target_date
+msgid "Target Date"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
@@ -507,7 +495,5 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0
 #, python-format
-msgid ""
-"You must configure journal according to factor and currency.\n"
-"Click on 'Configure journals and accounts' in company page, 'Factor' tab"
+msgid "You already have a Draft Subrogation with this journal and company."
 msgstr ""

@@ -5,39 +5,36 @@
     <field name="arch" type="xml">
         <form>
             <header>
-                <button name="action_confirm" type="object" string="Confirm" attrs="{'invisible': [('state', '!=', 'draft')]}" class="oe_highlight" />
+                <button name="action_compute_lines" type="object" string="Compute" attrs="{'invisible': [('state', '!=', 'draft')]}" class="oe_highlight" />
+                <button name="action_confirm" type="object" string="Confirm" attrs="{'invisible': ['|', ('line_ids', '=', False), ('state', '!=', 'draft')]}" />
                 <button name="action_post" type="object" string="Post" attrs="{'invisible': [('state', '!=', 'confirmed')]}" class="oe_highlight" />
-                <button name="action_goto_moves" type="object" string="See account moves" />
+                <button name="action_goto_moves" type="object"  attrs="{'invisible': [('line_ids', '=', False)]}" string="See account moves" />
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet>
-                <widget
-                    name="web_ribbon"
-                    title="Archived"
-                    bg_color="bg-danger"
-                    attrs="{'invisible': [('active', '=', True)]}"
-                        />
-                <field name="active" invisible="1" />
-                <h1>
-                </h1>
-                <group name="main">
-                    <group name="left">
+                <group name="journal" col="2">
+                    <h2>
+                        <label name="Journal" for="factor_journal_id"/>
                         <field name="factor_journal_id"/>
+                    </h2>
+                </group>
+                <group name="main" col="4">
+                    <group name="left" colspan="2" attrs="{'invisible': [('factor_journal_id', '=', False)]}">
                         <field name="factor_type"/>
-                        <field name="date"/>
-                        <field name="statement_date"/>
+                        <field name="target_date"/>
+                        <field name="date" attrs="{'invisible': [('date', '=', False)]}"/>
+                        <field name="statement_date" />
                         <field name="balance" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                         <field name="company_id" groups="base.group_multi_company"/>
                     </group>
-                    <group name="right">
+                    <group name="right" colspan="2" attrs="{'invisible': [('balance', '=', 0)]}">
                         <field name="holdback_amount"/>
                         <separator string="Expenses" colspan="2"/>
                         <field name="expense_untaxed_amount" string="Untaxed Amount"/>
                         <field name="expense_tax_amount" string="Tax Amount"/>
                     </group>
                 </group>
-                <group name="o2m" col="1">
-                    <separator string="Moves Lines" />
+                <group name="o2m" col="1" attrs="{'invisible': [('factor_journal_id', '=', False)]}">
                     <field name="line_ids" nolabel="1">
                         <tree>
                             <field name="date" optional="show"/>
@@ -49,7 +46,7 @@
                             <field name="tax_ids" widget="many2many_tags" width="0.5" optional="hide"/>
                             <field name="debit" sum="Total Debit"/>
                             <field name="credit" sum="Total Credit"/>
-                            <field name="amount_currency" groups="base.group_multi_currency" optional="hide" string="In currency"/>
+                            <field name="amount_currency" groups="base.group_multi_currency" optional="show" string="In currency"/>
                             <field name="move_id" optional="show"/>
                             <field name="partner_bank_id" optional="show"/>
                             <field name="account_id" optional="hide" groups="account.group_account_readonly"/>
