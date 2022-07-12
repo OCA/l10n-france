@@ -105,7 +105,6 @@ class SubrogationReceipt(models.Model):
             ("date", "<=", self.target_date),
             ("company_id", "=", self._get_company_id()),
             ("parent_state", "=", "posted"),
-            ("subrogation_id", "=", False),
             self._get_customer_accounts(),
             ("full_reconcile_id", "=", False),
             (
