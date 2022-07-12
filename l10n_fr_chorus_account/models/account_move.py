@@ -83,6 +83,10 @@ class AccountMove(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    def _get_commitment_number(self):
+        self.ensure_one()
+        return self.ref
+
     @api.constrains("chorus_attachment_ids", "transmit_method_id")
     def _check_chorus_attachments(self):
         # https://communaute.chorus-pro.gouv.fr/pieces-jointes-dans-chorus-pro-quelques-regles-a-respecter/  # noqa: B950
@@ -162,6 +166,7 @@ class AccountMove(models.Model):
             lambda x: x.move_type in ("out_invoice", "out_refund")
             and x.transmit_method_code == "fr-chorus"
         ):
+            commitment_number = self._get_commitment_number()
             company_partner = inv.company_id.partner_id
             if not company_partner.siren or not company_partner.nic:
                 raise UserError(
@@ -192,8 +197,8 @@ class AccountMove(models.Model):
                     % cpartner.display_name
                 )
             if cpartner.fr_chorus_required in ("engagement", "service_and_engagement"):
-                if inv.ref:
-                    inv.chorus_invoice_check_commitment_number()
+                if commitment_number:
+                    inv.chorus_invoice_check_commitment_number(commitment_number)
                 else:
                     raise UserError(
                         _(
@@ -207,8 +212,8 @@ class AccountMove(models.Model):
                 inv.partner_id.fr_chorus_service_id
                 and inv.partner_id.fr_chorus_service_id.engagement_required
             ):
-                if inv.ref:
-                    inv.chorus_invoice_check_commitment_number()
+                if commitment_number:
+                    inv.chorus_invoice_check_commitment_number(commitment_number)
                 else:
                     raise UserError(
                         _(
@@ -225,7 +230,7 @@ class AccountMove(models.Model):
 
             if cpartner.fr_chorus_required == "service_or_engagement":
                 if not inv.partner_id.chorus_service_ok():
-                    if not inv.ref:
+                    if not commitment_number:
                         raise UserError(
                             _(
                                 "Partner '%s' is configured as "
@@ -400,15 +405,17 @@ class AccountMove(models.Model):
                 )
         logger.info("End of the update of chorus invoice status")
 
-    def chorus_invoice_check_commitment_number(self, raise_if_not_found=True):
+    def chorus_invoice_check_commitment_number(
+        self, commitment_number, raise_if_not_found=True
+    ):
         self.ensure_one()
         res = self.chorus_check_commitment_number(
-            self.company_id, self.ref, raise_if_not_found=raise_if_not_found
+            self.company_id, commitment_number, raise_if_not_found=raise_if_not_found
         )
         if res is True:
             self.message_post(
                 body=_("Engagement juridique <b>%s</b> checked via Chorus Pro API.")
-                % self.ref
+                % commitment_number
             )
         return res
 
