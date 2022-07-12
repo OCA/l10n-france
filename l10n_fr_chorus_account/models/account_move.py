@@ -162,6 +162,7 @@ class AccountMove(models.Model):
             lambda x: x.move_type in ("out_invoice", "out_refund")
             and x.transmit_method_code == "fr-chorus"
         ):
+            ref = self._get_buyer_order_ref()
             company_partner = inv.company_id.partner_id
             if not company_partner.siren or not company_partner.nic:
                 raise UserError(
@@ -192,7 +193,7 @@ class AccountMove(models.Model):
                     % cpartner.display_name
                 )
             if cpartner.fr_chorus_required in ("engagement", "service_and_engagement"):
-                if inv.ref:
+                if ref:
                     inv.chorus_invoice_check_commitment_number()
                 else:
                     raise UserError(
@@ -207,7 +208,7 @@ class AccountMove(models.Model):
                 inv.partner_id.fr_chorus_service_id
                 and inv.partner_id.fr_chorus_service_id.engagement_required
             ):
-                if inv.ref:
+                if ref:
                     inv.chorus_invoice_check_commitment_number()
                 else:
                     raise UserError(
@@ -225,7 +226,7 @@ class AccountMove(models.Model):
 
             if cpartner.fr_chorus_required == "service_or_engagement":
                 if not inv.partner_id.chorus_service_ok():
-                    if not inv.ref:
+                    if not ref:
                         raise UserError(
                             _(
                                 "Partner '%s' is configured as "
@@ -402,13 +403,14 @@ class AccountMove(models.Model):
 
     def chorus_invoice_check_commitment_number(self, raise_if_not_found=True):
         self.ensure_one()
+        ref = self._get_buyer_order_ref()
         res = self.chorus_check_commitment_number(
-            self.company_id, self.ref, raise_if_not_found=raise_if_not_found
+            self.company_id, ref, raise_if_not_found=raise_if_not_found
         )
         if res is True:
             self.message_post(
                 body=_("Engagement juridique <b>%s</b> checked via Chorus Pro API.")
-                % self.ref
+                % ref
             )
         return res
 
