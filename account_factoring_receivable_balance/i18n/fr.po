@@ -426,7 +426,7 @@ msgstr "Quittance subrogative %s"
 #: model:ir.actions.act_window,name:account_factoring_receivable_balance.subrogation_receipt_action
 #: model:ir.ui.menu,name:account_factoring_receivable_balance.subrogation_receipt_menu
 msgid "Subrogation Receipts"
-msgstr "Quittances subrogative"
+msgstr "Quittances subrogatives"
 
 #. module: account_factoring_receivable_balance
 #: code:addons/account_factoring_receivable_balance/models/subrogation_receipt.py:0

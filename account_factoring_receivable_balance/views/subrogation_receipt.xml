@@ -24,6 +24,7 @@
                         <field name="target_date"/>
                         <field name="date" attrs="{'invisible': [('date', '=', False)]}"/>
                         <field name="statement_date" />
+                        <field name="currency_id" invisible="1"/>
                         <field name="balance" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                         <field name="company_id" groups="base.group_multi_company"/>
                     </group>
@@ -35,6 +36,29 @@
                     </group>
                 </group>
                 <group name="o2m" col="1" attrs="{'invisible': [('factor_journal_id', '=', False)]}">
+                    <field name="item_ids" nolabel="1">
+                        <tree>
+                            <field name="date" optional="show"/>
+                            <field name="journal_id" options="{&quot;no_open&quot;:True}"/>
+                            <field name="partner_id" optional="show"/>
+                            <field name="statement_id" invisible="1"/>
+                            <field name="ref" optional="show"/>
+                            <field name="name" optional="show"/>
+                            <field name="tax_ids" widget="many2many_tags" width="0.5" optional="hide"/>
+                            <field name="debit" sum="Total Debit"/>
+                            <field name="credit" sum="Total Credit"/>
+                            <field name="amount_currency" groups="base.group_multi_currency" optional="show" string="In currency"/>
+                            <field name="move_id" optional="show"/>
+                            <field name="partner_bank_id" optional="show"/>
+                            <field name="account_id" optional="hide" groups="account.group_account_readonly"/>
+                            <field name="currency_id" readonly="1" groups="base.group_multi_currency" optional="hide" string="Original Currency"/>
+                            <field name="tax_tag_ids" widget="many2many_tags" width="0.5" optional="hide"/>
+                            <field name="date_maturity" optional="hide"/>
+                            <field name="company_currency_id" invisible="1"/>
+                            <field name="parent_state" invisible="1"/>
+                        </tree>
+                    </field>
+                    <separat-or string="Les lignes ci-desoous ne seront pas conservées à terme (modification transitoire du modele de données)"/>
                     <field name="line_ids" nolabel="1">
                         <tree>
                             <field name="date" optional="show"/>
@@ -75,7 +99,9 @@
     <field name='arch' type='xml'>
         <tree>
             <field name="factor_journal_id"/>
+            <field name="target_date"/>
             <field name="date"/>
+            <field name="balance"/>
             <field name="expense_untaxed_amount"/>
             <field name="expense_tax_amount"/>
             <field name="holdback_amount"/>
