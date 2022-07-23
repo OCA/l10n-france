@@ -46,9 +46,9 @@ class SubrogationReceipt(models.Model):
         required=True,
         tracking=True,
     )
-    expense_untaxed_amount = fields.Float(tracking=True, help="")
-    expense_tax_amount = fields.Float(tracking=True, help="")
-    holdback_amount = fields.Float(tracking=True, help="")
+    expense_untaxed_amount = fields.Monetary(tracking=True, help="")
+    expense_tax_amount = fields.Monetary(tracking=True, help="")
+    holdback_amount = fields.Monetary(tracking=True, help="")
     balance = fields.Monetary(currency_field="currency_id", readonly=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -60,6 +60,10 @@ class SubrogationReceipt(models.Model):
     line_ids = fields.One2many(
         comodel_name="account.move.line",
         inverse_name="subrogation_id",
+        readonly=True,
+    )
+    item_ids = fields.Many2many(
+        comodel_name="account.move.line",
         readonly=True,
     )
 
@@ -159,6 +163,20 @@ class SubrogationReceipt(models.Model):
             domain + [("move_id.currency_id", "=", journal.currency_id.id)]
         )
         lines.write({"subrogation_id": self.id})
+        vals = {"item_ids": [(6, 0, lines.ids)]}
+        if not self.statement_date:
+            statement = self.env["account.bank.statement"].search(
+                [
+                    ("journal_id.factor_type", "=", self.factor_type),
+                    ("journal_id.currency_id", "=", self.currency_id.id),
+                    ("state", "=", "confirm"),
+                ],
+                limit=1,
+                order="date DESC",
+            )
+            if statement:
+                vals["statement_date"] = statement.date
+        self.write(vals)
 
     def _get_bank_journal(self, factor_type, currency=None):
         """Get matching bank journal
