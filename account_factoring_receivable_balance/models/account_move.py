@@ -20,3 +20,11 @@ class AccountMoveLine(models.Model):
         related="move_id.partner_bank_id.bank_id",
         string="Recipient Bank",
     )
+    partner_ref = fields.Char(string="Partn.", compute="_compute_partner_ref")
+
+    def _compute_partner_ref(self):
+        for rec in self:
+            if rec.partner_id:
+                rec.partner_ref = rec.partner_id.commercial_partner_id.ref
+            else:
+                rec.partner_ref = ""

@@ -11,6 +11,7 @@ class SubrogationReceipt(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _check_company_auto = True
     _rec_name = "factor_type"
+    _order = "target_date DESC"
     _description = "Customer balance data for factoring"
 
     factor_journal_id = fields.Many2one(
@@ -49,7 +50,7 @@ class SubrogationReceipt(models.Model):
     expense_untaxed_amount = fields.Monetary(tracking=True, help="")
     expense_tax_amount = fields.Monetary(tracking=True, help="")
     holdback_amount = fields.Monetary(tracking=True, help="")
-    balance = fields.Monetary(currency_field="currency_id", readonly=True)
+    balance = fields.Monetary(readonly=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
@@ -57,6 +58,7 @@ class SubrogationReceipt(models.Model):
         readonly=True,
         required=True,
     )
+    comment = fields.Text()
     line_ids = fields.One2many(
         comodel_name="account.move.line",
         inverse_name="subrogation_id",
@@ -102,7 +104,24 @@ class SubrogationReceipt(models.Model):
     ):
         """partner_selection_field is a field on partners to guess
         which account data need to be retrieved.
-        You have to create it in your own fatcor module
+        You have to create it in your own factor module
+
+        Query example for debugging purpose:
+
+        SELECT l.id, l.name, l.date, l.create_date, l.debit, p2.name, s.target_date
+         , l.partner_id, o.res_id, l.subrogation_id
+        FROM account_move_line l
+          LEFT JOIN account_account a ON l.account_id = a.id
+          LEFT JOIN subrogation_receipt s ON s.id = l.subrogation_id
+          LEFT JOIN res_partner p1 ON p1.id = l.partner_id
+          LEFT JOIN res_partner p2 ON p2.id = p1.commercial_partner_id
+          LEFT JOIN ir_property o ON o.company_id = 1 and o.fields_id = 10102 
+            and o.res_id = 'res.partner,' || p2.id
+        WHERE l.date > '2022-06-01' and l.date <= '2022-07-26'
+         and a.code like '4111%' and parent_state = 'posted'
+         and l.subrogation_id > 0
+        ORDER BY id DESC
+
         """
         bank_journal = self._get_bank_journal(factor_type, currency=currency)
         domain = [
@@ -176,6 +195,8 @@ class SubrogationReceipt(models.Model):
             )
             if statement:
                 vals["statement_date"] = statement.date
+        if self.item_ids:
+            self.balance = sum(self.item_ids.mapped("amount_currency"))
         self.write(vals)
 
     def _get_bank_journal(self, factor_type, currency=None):

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-08 17:20+0000\n"
-"PO-Revision-Date: 2022-07-08 19:37+0200\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2022-07-26 15:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -45,7 +45,8 @@ msgstr ""
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,help:account_factoring_receivable_balance.field_subrogation_receipt__target_date
 msgid "All account moves line dates are lower or equal to this date"
-msgstr "Toutes les écritures comptables sont antérieures ou égales à cette date"
+msgstr ""
+"Toutes les écritures comptables sont antérieures ou égales à cette date"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__message_attachment_count
@@ -64,6 +65,12 @@ msgid ""
 "Check fields 'Holdabck Amount', 'Untaxed Amount', 'Tax Amount', they should "
 "have a value"
 msgstr ""
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__comment
+#: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
+msgid "Comment"
+msgstr "Commentaire"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model,name:account_factoring_receivable_balance.model_res_company
@@ -250,6 +257,11 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__item_ids
+msgid "Item"
+msgstr "Ecritures"
+
+#. module: account_factoring_receivable_balance
 #: model:ir.model,name:account_factoring_receivable_balance.model_account_journal
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_subrogation_receipt__factor_journal_id
 msgid "Journal"
@@ -344,6 +356,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_factoring_receivable_balance.subrogation_receipt_form
 msgid "Original Currency"
 msgstr "Devise d'origine"
+
+#. module: account_factoring_receivable_balance
+#: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_move_line__partner_ref
+msgid "Partn."
+msgstr "Client"
 
 #. module: account_factoring_receivable_balance
 #: model:ir.model.fields,field_description:account_factoring_receivable_balance.field_account_bank_statement_import_journal_creation__factoring_pending_recharging_account_id
