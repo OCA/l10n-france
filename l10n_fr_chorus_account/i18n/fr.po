@@ -4,18 +4,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-16 15:37+0000\n"
-"PO-Revision-Date: 2021-05-31 08:10+0000\n"
-"Last-Translator: Yann Papouin <y.papouin@dec-industrie.com>\n"
+"POT-Creation-Date: 2022-08-17 11:24+0000\n"
+"PO-Revision-Date: 2022-08-17 14:51+0200\n"
+"Last-Translator: Houzéfa Abbasbhay <houzefa.abba@xcg-consulting.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: l10n_fr_chorus_account
 #: model:mail.template,body_html:l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template
@@ -56,7 +56,7 @@ msgstr ""
 "</p>\n"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__active
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_active
 msgid "Active"
 msgstr "Actif"
 
@@ -67,18 +67,23 @@ msgid "All the selected invoices must be in the same company"
 msgstr "Toutes les factures choisies doivent être de la même société"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Archived"
 msgstr "Archivé"
+
+#. module: l10n_fr_chorus_account
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.invoice_form
+msgid "Attachments"
+msgstr "Pièces jointes"
 
 #. module: l10n_fr_chorus_account
 #: selection:chorus.flow,syntax:0
 #: selection:res.company,fr_chorus_invoice_format:0
 msgid "CII 16B XML"
-msgstr ""
+msgstr "CII 16B XML"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -89,8 +94,8 @@ msgid "Cannot get Chorus Identifier on a contact (%s)"
 msgstr "Impossible de récupérer l'identifiant Chorus sur le contact (%s)"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_check_commitment_number
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_check_commitment_number
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_check_commitment_number
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_check_commitment_number
 msgid "Check Commitment Numbers"
 msgstr "Vérifier les numéros d'engagement"
 
@@ -100,65 +105,71 @@ msgid "Chorus API"
 msgstr "API Chorus"
 
 #. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_attachment_ids
+msgid "Chorus Attachments"
+msgstr "Pièces jointes Chorus"
+
+#. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_chorus_flow
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice__chorus_flow_id
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_flow_id
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Chorus Flow"
 msgstr "Flux Chorus"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.act_window,name:l10n_fr_chorus_account.chorus_flow_action
 #: model:ir.ui.menu,name:l10n_fr_chorus_account.chorus_flow_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_tree
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_tree
 msgid "Chorus Flows"
 msgstr "Flux Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__chorus_identifier
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_identifier
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_identifier
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_chorus_identifier
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner_fr_chorus_identifier
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users_fr_chorus_identifier
 msgid "Chorus Identifier"
 msgstr "Identifiant Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__chorus_invoice_format
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_invoice_format
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_invoice_format
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_chorus_invoice_format
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_invoice_format
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_invoice_format
 msgid "Chorus Invoice Format"
 msgstr "Format de facture Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice__chorus_identifier
-msgid "Chorus Invoice Indentifier"
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_identifier
+#| msgid "Chorus Invoice Indentifier"
+msgid "Chorus Invoice Identifier"
 msgstr "Identifiant de facture Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice__chorus_status
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_status
 msgid "Chorus Invoice Status"
 msgstr "Statut de facture Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_form
 msgid "Chorus Partner Service"
 msgstr "Code du service Chorus"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.act_window,name:l10n_fr_chorus_account.chorus_partner_service_action
 #: model:ir.ui.menu,name:l10n_fr_chorus_account.chorus_partner_service_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_tree
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_tree
 msgid "Chorus Partner Services"
 msgstr "Code du service Chorus"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.ui.menu,name:l10n_fr_chorus_account.chorus_config
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.invoice_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.invoice_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
 msgid "Chorus Pro"
 msgstr "Chorus Pro"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid "Chorus Pro API"
 msgstr "API Chorus Pro"
 
@@ -184,15 +195,15 @@ msgid "Chorus Pro Partner Update"
 msgstr "Mise à jour des partenaires Chorus Pro"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_service_id
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_service_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner_fr_chorus_service_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users_fr_chorus_service_id
 msgid "Chorus Service"
 msgstr "Code du service Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_service_ids
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_service_ids
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner_fr_chorus_service_ids
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users_fr_chorus_service_ids
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
 msgid "Chorus Services"
 msgstr "Code du service Chorus"
 
@@ -202,36 +213,36 @@ msgid "Chorus Services attached to a partner"
 msgstr "Code du service Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_account_invoice_filter
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.view_account_invoice_filter
 msgid "Chorus Status"
 msgstr "Statut Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_api_login
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_api_login
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_api_login
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_api_login
 msgid "Chorus Technical User Login"
 msgstr "Login utilisateur technique Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_api_password
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_api_password
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_api_password
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_api_password
 msgid "Chorus Technical User Password"
 msgstr "Mot de passe utilisateur technique Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_pwd_expiry_date
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_pwd_expiry_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_pwd_expiry_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_pwd_expiry_date
 msgid "Chorus Technical User Password Expiry Date"
 msgstr "Date d'expiration du mot de passe de l'utilisateur technique Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_qualif
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_qualif
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_qualif
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_qualif
 msgid "Chorus Test Mode"
 msgstr "Mode de Test Chorus"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:125
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:244
 #, python-format
 msgid "Chorus only accepts IBAN. But the bank account '%s' is not an IBAN."
 msgstr ""
@@ -249,12 +260,12 @@ msgstr ""
 "défini sur le partenaire %s qui n'a pas de parent."
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Code, Name or Identifier"
 msgstr "Code, nom ou identifiant"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:286
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:410
 #, python-format
 msgid ""
 "Commitment number '%s' not found in Chorus Pro. Please check the customer "
@@ -269,15 +280,10 @@ msgid "Companies"
 msgstr "Sociétés"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__company_id
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__company_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_company_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_company_id
 msgid "Company"
 msgstr "Société"
-
-#. module: l10n_fr_chorus_account
-#: model:ir.model,name:l10n_fr_chorus_account.model_res_config_settings
-msgid "Config Settings"
-msgstr "Paramètres de configuration"
 
 #. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/models/company.py:231
@@ -323,34 +329,34 @@ msgstr ""
 "service Chorus '%s' a été défini sur un contact sans nom."
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__create_uid
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__create_uid
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_create_uid
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_create_uid
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__create_date
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__create_date
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__create_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_create_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_create_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_create_date
 msgid "Created on"
 msgstr "Créé le"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__partner_id
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_partner_id
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Customer"
 msgstr "Client"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
 msgid "Date"
 msgstr "Date"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__display_name
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__display_name
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__display_name
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_display_name
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_display_name
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_display_name
 msgid "Display Name"
 msgstr "Afficher le nom"
 
@@ -360,8 +366,8 @@ msgid "Engagement"
 msgstr "Engagement"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__engagement_required
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_engagement_required
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Engagement Required"
 msgstr "Engagement requis"
 
@@ -389,54 +395,54 @@ msgstr ""
 #: selection:chorus.flow,syntax:0
 #: selection:res.company,fr_chorus_invoice_format:0
 msgid "Factur-X PDF"
-msgstr ""
+msgstr "Factur-X PDF"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__attachment_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_attachment_id
 msgid "File Sent to Chorus"
 msgstr "Fichier envoyé à Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_date
 msgid "Flow Date"
 msgstr "Date du flux"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__name
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_name
 msgid "Flow Ref"
 msgstr "Référence du flux"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_status
 msgid "Flow Status"
 msgstr "Statut du flux"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__syntax
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_syntax
 msgid "Flow Syntax"
 msgstr "Syntaxe du flux"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Get Chorus Invoice Identifiers"
 msgstr "Obtenir des identifiants de facture Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Group By"
 msgstr "Grouper par"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__id
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__id
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_company__fr_chorus_check_commitment_number
-#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_check_commitment_number
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_company_fr_chorus_check_commitment_number
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_check_commitment_number
 msgid ""
 "If enabled, Odoo will check the commitment number ('engagement juridique' in "
 "French) upon invoice validation. It corresponds to the 'customer order "
@@ -449,7 +455,7 @@ msgstr ""
 "commande si le module l10n_fr_chorus_sale est installé."
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__group_chorus_api
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings_group_chorus_api
 msgid ""
 "If you select 'Use Chorus Pro API', it will add all users to the Chorus API "
 "group."
@@ -458,8 +464,8 @@ msgstr ""
 "seront ajoutés au groupe d'API Chorus."
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_required
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_required
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner_fr_chorus_required
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users_fr_chorus_required
 msgid "Info Required for Chorus"
 msgstr "Informations requises pour Chorus"
 
@@ -479,49 +485,49 @@ msgstr ""
 "factures/avoirs des clients à Chorus."
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__invoice_identifiers
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_invoice_identifiers
 msgid "Invoice Identifiers"
 msgstr "Identifiants de facture"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__invoice_ids
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_invoice_ids
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Invoices"
 msgstr "Factures"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__invoice_ids
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_invoice_ids
 msgid "Invoices to Send"
 msgstr "Factures à envoyer"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice__chorus_status_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_status_date
 msgid "Last Chorus Invoice Status Date"
 msgstr "Date de l'état de la dernière facture Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send____last_update
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow____last_update
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service____last_update
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send___last_update
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow___last_update
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service___last_update
 msgid "Last Modified on"
 msgstr "Dernière Modification le"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_status_date
 msgid "Last Status Update"
 msgstr "Dernière mise à jour du statut"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__write_uid
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__write_uid
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_write_uid
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_write_uid
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__write_date
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__write_date
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__write_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_write_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_write_date
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -547,7 +553,7 @@ msgstr ""
 "Identificateur de Chorus manquant sur le service '%s' du partenaire '%s'."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:204
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:328
 #, python-format
 msgid "Missing Chorus Invoice Identifier on invoice '%s'"
 msgstr "Identifiant de facture Chorus manquant sur la facture '%s'"
@@ -559,7 +565,7 @@ msgid "Missing Info Required for Chorus on partner %s."
 msgstr "Informations manquantes requises pour Chorus sur le partenaire %s."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:103
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:222
 #, python-format
 msgid "Missing Payment Mode. This information is required for Chorus."
 msgstr "Mode de paiement manquant. Cette information est requise pour Chorus."
@@ -571,13 +577,13 @@ msgid "Missing SIRET on partner %s"
 msgstr "SIRET manquant sur le partenaire %s"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:39
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:163
 #, python-format
 msgid "Missing SIRET on partner '%s' linked to company '%s'."
 msgstr "SIRET manquant sur le partenaire '%s' lié à la société '%s'."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:50
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:168
 #, python-format
 msgid ""
 "Missing SIRET on partner '%s'. This information is required for Chorus "
@@ -587,7 +593,7 @@ msgstr ""
 "pour les factures Chorus."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:114
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:233
 #, python-format
 msgid ""
 "Missing bank account information for payment. For that, you have two "
@@ -602,7 +608,7 @@ msgstr ""
 "défini sur la facture client."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:242
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:366
 #, python-format
 msgid "Missing commitment number."
 msgstr "Numéro d'engagement manquant."
@@ -641,20 +647,75 @@ msgid "None"
 msgstr "Aucun"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__notes
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow_notes
 msgid "Notes"
 msgstr "Notes"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_service_count
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_service_count
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner_fr_chorus_service_count
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users_fr_chorus_service_count
 msgid "Number of Chorus Services"
 msgstr "Code du service Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__invoice_count
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send_invoice_count
 msgid "Number of Invoices"
 msgstr "Nombre de factures"
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:143
+#, python-format
+msgid ""
+"On Chorus Pro, an invoice with its attachments cannot exceed %s Mb, so we "
+"set a limit of %s Mb for the attachments. The attachments have a total size "
+"of %s Mb."
+msgstr ""
+"Sur Chorus Pro, une facture et ses pièces jointes ne peuvent pas dépasser %s "
+"Mb, donc nous définissons une limite à %s Mb pour les pièces jointes. Les "
+"pièces jointes ont une taille totale de %s Mb."
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:129
+#, python-format
+msgid ""
+"On Chorus Pro, each attachment cannot exceed %s Mb. The attachment '%s' "
+"weights %s Mb."
+msgstr ""
+"Sur Chorus Pro, chaque pièce jointe ne peut pas dépasser %s Mb. La pièce "
+"jointe '%s' pèse %s Mb."
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:114
+#, python-format
+msgid ""
+"On Chorus Pro, the allowed formats for the attachments are the following: "
+"%s.\n"
+"The attachment '%s' is not part of this list."
+msgstr ""
+"Sur Chorus Pro, les formats autorisés pour les pièces jointes sont les "
+"suivants : %s.\n"
+"La pièce jointe '%s' ne satisfait pas cette liste."
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:95
+#, python-format
+msgid ""
+"On Chorus Pro, the attachment filename is %d caracters maximum (extension "
+"included). The filename '%s' has %d caracters."
+msgstr ""
+"Sur Chorus Pro, le nom de fichier de chaque pièce jointe est de %d "
+"caractères maximum (extension incluse). Le nom de fichier '%s' a %d "
+"caractères."
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:105
+#, python-format
+msgid ""
+"On Chorus Pro, the attachment filenames must have an extension. The filename "
+"'%s' doesn't have any extension."
+msgstr ""
+"Sur Chorus Pro, les noms de fichier des pièces jointes doivent avoir une "
+"extension. Le nom de fichier '%s' n'a pas d'extension."
 
 #. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/models/chorus_flow.py:153
@@ -681,12 +742,12 @@ msgstr ""
 "définie sur Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Partner"
 msgstr "Partenaire"
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:92
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:210
 #, python-format
 msgid ""
 "Partner '%s' is configured as 'Service or Engagement' required for Chorus "
@@ -700,7 +761,7 @@ msgstr ""
 "tant que service (doit être un contact avec un Service de Chorus et un nom)."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:70
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:188
 #, python-format
 msgid ""
 "Partner '%s' is configured as Engagement required for Chorus, so the field "
@@ -711,7 +772,7 @@ msgstr ""
 "d'engagement."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:58
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:176
 #, python-format
 msgid ""
 "Partner '%s' is configured as Service required for Chorus, so you must "
@@ -724,7 +785,7 @@ msgstr ""
 "être actif."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:81
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:199
 #, python-format
 msgid ""
 "Partner '%s' is linked to Chorus service '%s' which is marked as 'Engagement "
@@ -736,17 +797,17 @@ msgstr ""
 "factures doit contenir un numéro d'engagement."
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
 msgid "Search Chorus Flows"
 msgstr "Rechercher des flux Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Search Partner Services"
 msgstr "Rechercher des services partenaires"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid ""
 "Send electronic invoices to the French administration directly from Odoo via "
 "the Chorus Pro API"
@@ -755,7 +816,7 @@ msgstr ""
 "depuis Odoo via l'API Chorus Pro"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 msgid "Send invoices to Chorus"
 msgstr "Envoyer des factures à Chorus"
 
@@ -765,8 +826,8 @@ msgid "Send several invoices to Chorus"
 msgstr "Envoyez plusieurs factures à Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.invoice_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.invoice_form
 msgid "Send to Chorus"
 msgstr "Envoyer vers Chorus"
 
@@ -781,12 +842,12 @@ msgid "Service"
 msgstr "Service"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__code
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_code
 msgid "Service Code"
 msgstr "Code du service"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__name
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service_name
 msgid "Service Name"
 msgstr "Nom du service"
 
@@ -801,7 +862,7 @@ msgid "Service or Engagement"
 msgstr "Service ou engagement"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
 msgid "Status"
 msgstr "Status"
 
@@ -843,7 +904,7 @@ msgstr ""
 "facture sera rejetée."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:137
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:261
 #, python-format
 msgid ""
 "The Chorus Invoice Format is not configured on the Accounting Configuration "
@@ -870,7 +931,14 @@ msgstr ""
 "partenaire (%s)."
 
 #. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:257
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:250
+#, python-format
+msgid "The Payment Mode must be empty for customer refunds sent to Chorus."
+msgstr ""
+"Le mode de paiement doit être vide sur les avoirs client envoyés vers Chorus."
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:381
 #, python-format
 msgid ""
 "The engagement juridique '%s' is %d caracters long. The maximum is 50. "
@@ -899,6 +967,12 @@ msgid "The invoice '%s' has already been sent: it is linked to Chorus Flow %s."
 msgstr "La facture '%s' a déjà été envoyée : elle est liée au flux Chorus %s."
 
 #. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:123
+#, python-format
+msgid "The size of the attachment '%s' is 0."
+msgstr "La taille de la pièce jointe '%s' est 0."
+
+#. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/wizard/account_invoice_chorus_send.py:30
 #, python-format
 msgid ""
@@ -914,7 +988,7 @@ msgid "This Chorus service code already exists for that partner!"
 msgstr "Ce code de service Chorus existe déjà pour ce partenaire !"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 msgid ""
 "This wizard will send electronic invoices to Chorus Pro via the Chorus API."
 msgstr ""
@@ -922,50 +996,34 @@ msgstr ""
 "Chorus."
 
 #. module: l10n_fr_chorus_account
-#: selection:chorus.flow,syntax:0
-#: selection:res.company,fr_chorus_invoice_format:0
-msgid "UBL XML"
-msgstr ""
-
-#. module: l10n_fr_chorus_account
-#: code:addons/l10n_fr_chorus_account/models/account_invoice.py:44
-#, python-format
-msgid ""
-"Unece Due Date not configured on tax '%s'. This information is required for "
-"Chorus invoices."
-msgstr ""
-"Date d'échéance non configurée sur la taxe '%s'. Ces informations sont "
-"obligatoires pour les factures Chorus."
-
-#. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
 msgid "Update Chorus Info and Services"
 msgstr "Mettre à jour les informations et les services de Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.invoice_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.invoice_form
 msgid "Update Chorus Invoice Status"
 msgstr "Mettre à jour le statut de la facture Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
+#: model:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Update Flow Status"
 msgstr "Mettre à jour l'état du flux"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__group_chorus_api
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings_group_chorus_api
 msgid "Use Chorus Pro API"
 msgstr "Utiliser l'API Chorus Pro"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_company__fr_chorus_qualif
-#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_qualif
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_company_fr_chorus_qualif
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_qualif
 msgid "Use the Chorus Pro qualification website"
 msgstr "Utilisez le site Web de qualification Chorus Pro"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_expiry_remind_user_ids
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_expiry_remind_user_ids
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company_fr_chorus_expiry_remind_user_ids
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings_fr_chorus_expiry_remind_user_ids
 msgid "Users Receiving the Expiry Reminder"
 msgstr "Utilisateurs recevant le rappel d'expiration"
 
@@ -981,3 +1039,9 @@ msgid "[${object.name}] Action needed to continue to use the Chorus Pro API"
 msgstr ""
 "[$ {object.name}] Action nécessaire pour continuer à utiliser l'API Chorus "
 "Pro"
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model,name:l10n_fr_chorus_account.model_res_config_settings
+#| msgid "Config Settings"
+msgid "res.config.settings"
+msgstr "res.config.settings"
