@@ -1,0 +1,22 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_account_invoice_facturx
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-17 12:36+0000\n"
+"PO-Revision-Date: 2022-08-17 14:39+0200\n"
+"Last-Translator: Houzéfa Abbasbhay <houzefa.abba@xcg-consulting.fr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: l10n_fr_account_invoice_facturx
+#: model:ir.model,name:l10n_fr_account_invoice_facturx.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
