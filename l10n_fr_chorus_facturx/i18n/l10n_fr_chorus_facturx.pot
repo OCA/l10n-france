@@ -4,8 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-17 11:25+0000\n"
+"PO-Revision-Date: 2022-08-17 11:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -14,35 +16,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_chorus_facturx
-#: selection:chorus.flow,syntax:0
-#: selection:res.company,fr_chorus_invoice_format:0
-msgid "CII 16B XML"
-msgstr ""
-
-#. module: l10n_fr_chorus_facturx
 #: model:ir.model,name:l10n_fr_chorus_facturx.model_chorus_flow
 msgid "Chorus Flow"
 msgstr ""
 
 #. module: l10n_fr_chorus_facturx
-#: model:ir.model.fields,field_description:l10n_fr_chorus_facturx.field_res_company__fr_chorus_invoice_format
-msgid "Chorus Invoice Format"
-msgstr ""
-
-#. module: l10n_fr_chorus_facturx
 #: model:ir.model,name:l10n_fr_chorus_facturx.model_res_company
 msgid "Companies"
-msgstr ""
-
-#. module: l10n_fr_chorus_facturx
-#: selection:chorus.flow,syntax:0
-#: selection:res.company,fr_chorus_invoice_format:0
-msgid "Factur-X PDF"
-msgstr ""
-
-#. module: l10n_fr_chorus_facturx
-#: model:ir.model.fields,field_description:l10n_fr_chorus_facturx.field_chorus_flow__syntax
-msgid "Flow Syntax"
 msgstr ""
 
 #. module: l10n_fr_chorus_facturx
@@ -57,13 +37,7 @@ msgid "Invoice"
 msgstr ""
 
 #. module: l10n_fr_chorus_facturx
-#: selection:chorus.flow,syntax:0
-#: selection:res.company,fr_chorus_invoice_format:0
-msgid "UBL XML"
-msgstr ""
-
-#. module: l10n_fr_chorus_facturx
-#: code:addons/l10n_fr_chorus_facturx/models/account_invoice.py:38
+#: code:addons/l10n_fr_chorus_facturx/models/account_invoice.py:43
 #, python-format
 msgid "Unsupported report type %s found."
 msgstr ""
