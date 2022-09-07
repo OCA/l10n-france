@@ -110,36 +110,42 @@ class L10nFrIntrastatProductDeclaration(models.Model):
             dpt = self.company_id.partner_id.department_id
         return dpt
 
-    def _update_computation_line_vals(self, inv_line, line_vals, notedict):
-        super()._update_computation_line_vals(inv_line, line_vals, notedict)
-        if not line_vals.get("vat"):
+    def _get_vat(self, inv_line, notedict):
+        if self.declaration_type == "dispatches":
             inv = inv_line.move_id
             commercial_partner = inv.commercial_partner_id
             eu_countries = self.env.ref("base.europe").country_ids
-            if (
-                commercial_partner.country_id not in eu_countries
-                and not commercial_partner.intrastat_fiscal_representative_id
-            ):
-                line_notes = [
-                    _(
-                        "Missing fiscal representative on partner '%s'."
-                        % commercial_partner.display_name
-                    )
-                ]
-                self._format_line_note(inv_line, notedict, line_notes)
-            else:
-                fiscal_rep = commercial_partner.intrastat_fiscal_representative_id
-                if not fiscal_rep.vat:
+            if commercial_partner.country_id not in eu_countries:
+                if commercial_partner.intrastat_fiscal_representative_id:
+                    fiscal_rep = commercial_partner.intrastat_fiscal_representative_id
+                    if fiscal_rep.vat:
+                        return fiscal_rep.vat
+                    else:
+                        line_notes = [
+                            _(
+                                "Missing VAT number on partner '%s' which is the "
+                                "fiscal representative of partner '%s'."
+                                % (
+                                    fiscal_rep.display_name,
+                                    commercial_partner.display_name,
+                                )
+                            )
+                        ]
+                        self._format_line_note(inv_line, notedict, line_notes)
+                        return False
+                else:
                     line_notes = [
                         _(
-                            "Missing VAT number on partner '%s' which is the "
-                            "fiscal representative of partner '%s'."
-                            % (fiscal_rep.display_name, commercial_partner.display_name)
+                            "Missing fiscal representative on partner '%s'."
+                            % commercial_partner.display_name
                         )
                     ]
                     self._format_line_note(inv_line, notedict, line_notes)
-                else:
-                    line_vals["vat"] = fiscal_rep.vat
+                    return False
+        return super()._get_vat(inv_line, notedict)
+
+    def _update_computation_line_vals(self, inv_line, line_vals, notedict):
+        super()._update_computation_line_vals(inv_line, line_vals, notedict)
         dpt = self._get_fr_department(inv_line, notedict)
         line_vals["fr_department_id"] = dpt and dpt.id or False
 
