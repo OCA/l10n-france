@@ -43,6 +43,7 @@
                                 name="due_vat_base_box_id"
                                 attrs="{'invisible': [('box_type', '!=', 'due_vat')], 'required': [('box_type', '=', 'due_vat')]}"
                             />
+                            <field name="negative_switch_box_id" />
                                                 <field
                                 name="accounting_method"
                                 attrs="{'invisible': [('display_type', '!=', False)]}"
@@ -156,6 +157,10 @@
                                         <field name="push_sequence" optional="hide" />
                                         <field name="push_box_id" optional="hide" />
                                         <field name="push_rate" optional="hide" />
+                                        <field
+                        name="negative_switch_box_id"
+                        optional="hide"
+                    />
                                 </tree>
                         </field>
                 </record>

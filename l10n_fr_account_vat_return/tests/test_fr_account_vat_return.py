@@ -101,7 +101,7 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_cc": 2410,  # B2 HA intracom products
             "ca3_cg": 6710,  # B4 HA extracom
-            "ca3_da": 1500,  # E1 Extracom
+            "ca3_da": 750,  # E1 Extracom
             "ca3_db": 1400,  # E2 Autres opérations non imposables
             "ca3_dc": 150,  # F2 livraisons intracom
             ######
@@ -232,7 +232,7 @@ class TestFrAccountVatReturn(TransactionCase):
         company._test_create_move_init_vat_credit(
             initial_credit_vat, self.before_start_date
         )
-        company._test_create_invoice_data(self.start_date)
+        company._test_create_invoice_data(self.start_date, extracom_refund_ratio=2)
         lfavro = self.env["l10n.fr.account.vat.return"]
         vat_return = lfavro.create(
             {
@@ -250,9 +250,10 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_cc": 2410,  # B2 HA intracom products
             "ca3_cg": 6710,  # B4 HA extracom
-            "ca3_da": 1500,  # E1 Extracom
             "ca3_db": 1400,  # E2 Autres opérations non imposables
             "ca3_dc": 150,  # F2 livraisons intracom
+            "ca3_de": 1500,  # F8 régularisations
+            # => replaces E1 because the extracom amount is negative
             ######
             "ca3_fp": 688,  # base 20%
             "ca3_gp": 138,  # montant collecté 20%
@@ -319,3 +320,73 @@ class TestFrAccountVatReturn(TransactionCase):
         for line in move.line_ids:
             if line.account_id.code in must_be_reconciled:
                 self.assertTrue(line.full_reconcile_id)
+
+    def test_vat_return_on_invoice_negative(self):
+        company = self.env["res.company"]._test_fr_vat_create_company(
+            company_name="FR Company VAT on_invoice neg",
+            fr_vat_exigibility="on_invoice",
+        )
+        initial_credit_vat = 44
+        company._test_create_move_init_vat_credit(
+            initial_credit_vat, self.before_start_date
+        )
+        product_dict = company._test_prepare_product_dict()
+        partner_dict = company._test_prepare_partner_dict()
+        company._test_create_invoice_with_payment(
+            "out_invoice",
+            self.start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 200},
+                {"product_id": product_dict["product"][100].id, "price_unit": 100},
+            ],
+            {},
+        )
+        company._test_create_invoice_with_payment(
+            "out_refund",
+            self.start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 400},
+                {"product_id": product_dict["product"][100].id, "price_unit": 200},
+            ],
+            {},
+        )
+        company._test_create_invoice_with_payment(
+            "in_refund",
+            self.start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 100},
+                {"product_id": product_dict["product"][100].id, "price_unit": 10},
+            ],
+            {},
+        )
+        company._test_create_invoice_with_payment(
+            "in_refund",
+            self.start_date,
+            partner_dict["france_vendor_vat_on_payment"],
+            [{"product_id": product_dict["asset"][55].id, "price_unit": 1000}],
+            {self.start_date: "residual"},
+        )
+        lfavro = self.env["l10n.fr.account.vat.return"]
+        vat_return = lfavro.create(
+            {
+                "company_id": company.id,
+                "start_date": self.start_date,
+                "vat_periodicity": "1",
+            }
+        )
+        vat_return.manual2auto()
+        expected_res = {
+            "ca3_ce": 300,  # B5 regul
+            "ca3_gg": 76,  # 15 TVA antérieurement déduite à reverser
+            "ca3_gh": 76,  # Total TVA collectée
+            "ca3_hc": 50,  # TVA déduc biens et services
+            "ca3_hd": initial_credit_vat,  # report crédit TVA
+            "ca3_hg": 50 + initial_credit_vat,  # total VAT deduc
+            ######
+            "ca3_ja": initial_credit_vat - 76 + 50,  # Crédit TVA
+            "ca3_jc": initial_credit_vat - 76 + 50,  # Crédit TVA
+        }
+        self._check_vat_return_result(vat_return, expected_res)
