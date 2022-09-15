@@ -63,6 +63,12 @@ class L10nFrAccountVatBox(models.Model):
         ],
         string="Type",
     )
+    negative_switch_box_id = fields.Many2one(
+        "l10n.fr.account.vat.box",
+        string="Negative Switch Box",
+        help="If the amount of this box is negative, its lines will be transfered "
+        "to another box with a sign inversion.",
+    )
     accounting_method = fields.Selection(
         [
             ("debit", "Debit"),
@@ -196,6 +202,7 @@ class L10nFrAccountVatBox(models.Model):
         "push_box_id",
         "push_rate",
         "push_sequence",
+        "negative_switch_box_id",
     )
     def _check_box(self):  # noqa: C901
         for box in self:
@@ -212,6 +219,7 @@ class L10nFrAccountVatBox(models.Model):
                     or box.print_x
                     or box.print_y
                     or box.push_box_id
+                    or box.negative_switch_box_id
                 ):
                     raise ValidationError(
                         _("The section or sub-section '%s' is not properly configured.")
@@ -225,6 +233,25 @@ class L10nFrAccountVatBox(models.Model):
                 if not box.edi_type:
                     raise ValidationError(
                         _("The box '%s' must have an EDI type.") % box.display_name
+                    )
+                if box.negative_switch_box_id and box.edi_type != "MOA":
+                    raise ValidationError(
+                        _(
+                            "The box '%s' has a negative switch box but it's EDI Type "
+                            "is not 'MOA'."
+                        )
+                        % box.display_name
+                    )
+                if (
+                    box.negative_switch_box_id
+                    and box.negative_switch_box_id.edi_type != "MOA"
+                ):
+                    raise ValidationError(
+                        _(
+                            "The box '%s' is the negative switch box of '%s' but it's "
+                            "EDI Type is not 'MOA'."
+                        )
+                        % (box.negative_switch_box_id.display_name, box.display_name)
                     )
                 if not box.code and box.form_code == "3310CA3":
                     # on 3310-A, total boxes don't have a code
