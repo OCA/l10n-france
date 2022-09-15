@@ -372,6 +372,7 @@ class L10nFrAccountVatReturn(models.Model):
         self._generate_operation_untaxed(speedy)
         self._generate_due_vat(speedy)
         self._generate_deductible_vat(speedy)
+        self._switch_negative_boxes(speedy)
         self._generate_credit_deferment(speedy)
         self._create_push_lines("start", speedy)
         self._generate_ca3_bottom_totals(speedy)
@@ -886,11 +887,6 @@ class L10nFrAccountVatReturn(models.Model):
         )
 
         # Intracom
-        # In theory, the balance of intracom VAT accounts should only contain
-        # invoices of the VAT return period. But, in real life, we may have
-        # some older invoices which were not autoliquidated.
-        # So we use the balance of the VAT intracom accounts and we compute
-        # a product/service ratio on the VAT return period
         rate2product_ratio = self._compute_rate2product_ratio(
             speedy, autoliq_taxedop_type2accounts, autoliq_tax2rate
         )
@@ -982,23 +978,30 @@ class L10nFrAccountVatReturn(models.Model):
         # Check that these autoliq due accounts 4452xx are empty at start of period
         for account, rate_int in autoliq_vat_account2rate.items():
             # check start balance is empty at start of period
-            # balance_end_previous_period = account._fr_vat_get_balance(
-            #    "base_domain_end_previous", speedy
-            # )
-            # if not speedy["currency"].is_zero(balance_end_previous_period):
-            #    raise UserError(
-            #        _(
-            #            "Account '%s' is a due VAT auto-liquidation account. "
-            #            "So it should be empty at the start of the VAT period, "
-            #            "but the balance on the last day of the previous period is %s."
-            #        )
-            #        % (
-            #            account.display_name,
-            #            format_amount(
-            #                self.env, balance_end_previous_period, speedy["currency"]
-            #            ),
-            #        )
-            #    )
+            # This check is important because, for intracom autoliq,
+            # we analyse each invoice for the product/service ratio,
+            # so it won't work if the autoliq due account has a residual amount
+            # at start of period (and if we allow that, we get all sorts of problem:
+            # for example, when the intracom due account has a residual at start
+            # of period but there are no intracom autoliq invoice in the period, so
+            # our dicts rate2product_ratio are empty)
+            balance_end_previous_period = account._fr_vat_get_balance(
+                "base_domain_end_previous", speedy
+            )
+            if not speedy["currency"].is_zero(balance_end_previous_period):
+                raise UserError(
+                    _(
+                        "Account '%s' is a due VAT auto-liquidation account. "
+                        "So it should be empty at the start of the VAT period, "
+                        "but the balance on the last day of the previous period is %s."
+                    )
+                    % (
+                        account.display_name,
+                        format_amount(
+                            self.env, balance_end_previous_period, speedy["currency"]
+                        ),
+                    )
+                )
             balance = account._fr_vat_get_balance("base_domain_end", speedy) * -1
             if not speedy["currency"].is_zero(balance):
                 rate2logs[rate_int].append(
@@ -1074,7 +1077,9 @@ class L10nFrAccountVatReturn(models.Model):
                                 rate_int / 100,
                                 format_amount(self.env, base, speedy["currency"]),
                                 product_ratio,
-                                format_amount(self.env, product_base, speedy["currency"])
+                                format_amount(
+                                    self.env, product_base, speedy["currency"]
+                                ),
                             ),
                         }
                     )
@@ -1116,7 +1121,9 @@ class L10nFrAccountVatReturn(models.Model):
                                 rate_int / 100,
                                 format_amount(self.env, base, speedy["currency"]),
                                 service_ratio,
-                                format_amount(self.env, service_base, speedy["currency"])
+                                format_amount(
+                                    self.env, service_base, speedy["currency"]
+                                ),
                             ),
                         }
                     )
@@ -1586,6 +1593,54 @@ class L10nFrAccountVatReturn(models.Model):
                         }
                     )
             self._create_line(speedy, logs, box_type)
+
+    def _switch_negative_boxes(self, speedy):
+        negative_lines = speedy["line_obj"].search(
+            [
+                ("value", "<", 0),
+                ("box_edi_type", "=", "MOA"),
+                ("parent_id", "=", self.id),
+            ]
+        )
+        logger.info("%d negative lines detected", len(negative_lines))
+        for line in negative_lines:
+            # delete negative due VAT base lines
+            if line.box_box_type == "due_vat_base":
+                line.unlink()
+                continue
+            negative_box = line.box_id.negative_switch_box_id
+            if not negative_box:
+                raise UserError(
+                    _(
+                        "Box '%s' has a negative value (%s) but it doesn't have a "
+                        "negative switch box."
+                    )
+                    % (line.box_id.display_name, line.value)
+                )
+            negative_line = speedy["line_obj"].search(
+                [
+                    ("parent_id", "=", self.id),
+                    ("box_id", "=", negative_box.id),
+                ],
+                limit=1,
+            )
+            if not negative_line:
+                negative_line = speedy["line_obj"].create(
+                    {
+                        "box_id": negative_box.id,
+                        "parent_id": self.id,
+                    }
+                )
+            # Transfer log line to the negative box line
+            for log in line.log_ids:
+                initial_amount = log.amount
+                vals = {
+                    "parent_id": negative_line.id,
+                    "amount": initial_amount * -1,
+                    # TODO Ajout d'un commentaire ??
+                }
+                log.write(vals)
+            line.unlink()
 
     def create_reimbursement_line(self, amount):
         assert isinstance(amount, int)
@@ -2316,7 +2371,9 @@ class L10nFrAccountVatReturnLine(models.Model):
                     % (line.box_id.display_name, line.value_manual_int)
                 )
 
-    @api.depends("log_ids", "log_ids.amount", "value_bool", "value_manual_int")
+    @api.depends(
+        "log_ids", "log_ids.amount", "value_bool", "value_manual_int", "box_id"
+    )
     def _compute_value(self):
         rg_res = self.env["l10n.fr.account.vat.return.line.log"].read_group(
             [("parent_id", "in", self.ids)], ["parent_id", "amount"], ["parent_id"]
