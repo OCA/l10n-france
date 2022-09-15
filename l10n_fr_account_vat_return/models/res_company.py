@@ -673,7 +673,11 @@ class ResCompany(models.Model):
         move.action_post()
 
     def _test_create_invoice_data(
-        self, start_date, product_dict=None, partner_dict=None
+        self,
+        start_date,
+        product_dict=None,
+        partner_dict=None,
+        extracom_refund_ratio=0.5,
     ):
         if product_dict is None:
             product_dict = self._test_prepare_product_dict()
@@ -794,7 +798,7 @@ class ResCompany(models.Model):
             ],
             {start_date: "residual"},
         )
-        # extracom
+        # extracom invoice
         self._test_create_invoice_with_payment(
             "out_invoice",
             start_date,
@@ -808,7 +812,36 @@ class ResCompany(models.Model):
             ],
             {start_date: "residual"},
         )
-
+        # extracom refund
+        ratio = extracom_refund_ratio
+        self._test_create_invoice_with_payment(
+            "out_refund",
+            start_date,
+            partner_dict["extracom"],
+            [
+                {
+                    "product_id": product_dict["product"][200].id,
+                    "price_unit": 100 * ratio,
+                },
+                {
+                    "product_id": product_dict["product"][100].id,
+                    "price_unit": 200 * ratio,
+                },
+                {
+                    "product_id": product_dict["product"][55].id,
+                    "price_unit": 300 * ratio,
+                },
+                {
+                    "product_id": product_dict["product"][21].id,
+                    "price_unit": 400 * ratio,
+                },
+                {
+                    "product_id": product_dict["product"][0].id,
+                    "price_unit": 500 * ratio,
+                },
+            ],
+            {start_date: "residual"},
+        )
         # IN INVOICE/PAYMENT
         self._test_create_invoice_with_payment(
             "in_invoice",
