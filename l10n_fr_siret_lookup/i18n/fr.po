@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-04 14:28+0000\n"
-"PO-Revision-Date: 2021-10-25 20:10+0000\n"
-"Last-Translator: Rémi <remi@le-filament.com>\n"
+"PO-Revision-Date: 2022-09-15 22:07+0000\n"
+"Last-Translator: Claude R Perrin <claude@perrin.it>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__staff
 msgid "# Staff"
-msgstr "Effectifs"
+msgstr "Nb Employés"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__ape
@@ -76,7 +76,7 @@ msgstr "Valider l'entreprise sélectionnée ?"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__country_id
@@ -124,7 +124,7 @@ msgid ""
 "Failure in the request on data.opendatasoft.com to create or update partner "
 "from SIREN or SIRET. Technical error: %s."
 msgstr ""
-"Échec de la requêtes à l'API data.opendatasoft.com pour créer ou mettre à "
+"Échec de la requête à l'API data.opendatasoft.com pour créer ou mettre à "
 "jour le contact à partir du SIREN ou SIRET. Erreur technique : %s."
 
 #. module: l10n_fr_siret_lookup
@@ -181,7 +181,7 @@ msgstr "Nom"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__name
 msgid "Name to Search"
-msgstr "Nom à Chercher"
+msgstr "Nom à rechercher"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__partner_id
@@ -214,7 +214,7 @@ msgstr "SIREN"
 #. module: l10n_fr_siret_lookup
 #: model:ir.actions.act_window,name:l10n_fr_siret_lookup.fr_siret_lookup_partner_action
 msgid "SIREN Lookup"
-msgstr "Recherche API SIRENE"
+msgstr "Recherche via l'API SIRENE"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
@@ -234,7 +234,7 @@ msgstr "SIRET"
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "Search Results"
-msgstr "Résultats de Recherche"
+msgstr "Résultats de recherche"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
