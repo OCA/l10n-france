@@ -1658,15 +1658,13 @@ class L10nFrAccountVatReturn(models.Model):
                     {
                         "box_id": negative_box.id,
                         "parent_id": self.id,
+                        "negative_switch": True,
                     }
                 )
             # Transfer log line to the negative box line
             for log in line.log_ids:
-                initial_amount = log.amount
                 vals = {
                     "parent_id": negative_line.id,
-                    "amount": initial_amount * -1,
-                    # TODO Ajout d'un commentaire ??
                 }
                 log.write(vals)
             line.unlink()
@@ -2330,6 +2328,7 @@ class L10nFrAccountVatReturnLine(models.Model):
     box_name = fields.Char(related="box_id.name", store=True)
     box_display_type = fields.Selection(related="box_id.display_type", store=True)
     box_sequence = fields.Integer(related="box_id.sequence", store=True)
+    negative_switch = fields.Boolean(readonly=True)
     value = fields.Integer(
         compute="_compute_value", store=True
     )  # MOA, QTY, PCD, CCI_TBX (manual + auto)
@@ -2401,7 +2400,12 @@ class L10nFrAccountVatReturnLine(models.Model):
                 )
 
     @api.depends(
-        "log_ids", "log_ids.amount", "value_bool", "value_manual_int", "box_id"
+        "log_ids",
+        "log_ids.amount",
+        "value_bool",
+        "value_manual_int",
+        "box_id",
+        "negative_switch",
     )
     def _compute_value(self):
         rg_res = self.env["l10n.fr.account.vat.return.line.log"].read_group(
@@ -2411,6 +2415,7 @@ class L10nFrAccountVatReturnLine(models.Model):
         for line in self:
             value = 0
             value_float = 0
+            sign = line.negative_switch and -1 or 1
             if not line.box_id.display_type:
                 if line.box_id.edi_type in ("MOA", "QTY", "PCD"):
                     if line.box_id.box_type == "manual":
@@ -2420,8 +2425,8 @@ class L10nFrAccountVatReturnLine(models.Model):
                         value = int(round(value_float))
                 elif line.box_id.edi_type == "CCI_TBX":
                     value = int(line.value_bool)
-            line.value = value
-            line.value_float = value_float
+            line.value = value * sign
+            line.value_float = value_float * sign
 
 
 class L10nFrAccountVatReturnLineLog(models.Model):
