@@ -281,6 +281,11 @@
                         <field name="model">l10n.fr.account.vat.return.line</field>
                         <field name="arch" type="xml">
                                 <form>
+                                        <div
+                        class="alert alert-warning"
+                        role="alert"
+                        attrs="{'invisible': [('negative_switch', '=', False)]}"
+                    >The logs lines below have a negative total, so they were moved from their original box to this box and the sign of the total has been inverted.</div>
                                         <group name="main">
                                                 <field
                             name="box_id"
@@ -302,6 +307,11 @@
                             name="company_id"
                             invisible="1"
                         />
+                                                <field
+                            name="negative_switch"
+                            invisible="1"
+                        />
+
                                                 <field
                             name="value"
                             attrs="{'invisible': ['|', ('box_box_type', '=', 'manual'), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
@@ -352,6 +362,7 @@
                                 <tree
                     decoration-info="box_display_type == 'section'"
                     decoration-success="box_display_type == 'sub_section'"
+                    decoration-danger="negative_switch == True"
                     limit="100"
                 >
                                                 <field name="box_form_code" />
@@ -361,6 +372,11 @@
                         name="box_display_type"
                         invisible="1"
                     />
+                                                <field
+                        name="negative_switch"
+                        invisible="1"
+                    />
+
                                                 <field name="value" />
                                                 <field
                         name="value_float"
