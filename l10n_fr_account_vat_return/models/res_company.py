@@ -80,8 +80,8 @@ class ResCompany(models.Model):
         self.env.user.write({"company_ids": [(4, company.id)]})
         fr_chart_template = self.env.ref("l10n_fr.l10n_fr_pcg_chart_template")
         fr_chart_template._load(20.0, 20.0, company)
-        company._setup_l10n_fr_coa_vat_company()
-        return company
+        intracom_purchase_tax_dict = company._setup_l10n_fr_coa_vat_company()
+        return (company, intracom_purchase_tax_dict)
 
     def _setup_l10n_fr_coa_vat_company(self):  # noqa: C901
         self.ensure_one()
@@ -344,14 +344,14 @@ class ResCompany(models.Model):
         # Update regular FR VAT taxes
         tax_type_id = self.env.ref("account.data_account_type_current_liabilities").id
         rate2account = {
-            2000: "445711",
-            1000: "445712",
-            850: "445713",
-            550: "445714",
-            210: "445715",
+            200: "445711",
+            100: "445712",
+            85: "445713",
+            55: "445714",
+            21: "445715",
         }
         for rate, acc_code in rate2account.items():
-            rate_label = "%s %% " % str(rate / 100).replace(".", ",")
+            rate_label = "%s %% " % str(rate / 10).replace(".", ",")
             tax_account_id = aao.create(
                 {
                     "code": acc_code,
@@ -367,7 +367,7 @@ class ResCompany(models.Model):
         for tline in intracom_fp.tax_ids:
             if tline.tax_src_id.type_tax_use == "sale":
                 tax = tline.tax_src_id
-                rate = int(round(tax.amount * 100))
+                rate = int(round(tax.amount * 10))
                 if rate in rate2account:
                     lines = atrlo.search(
                         [
@@ -381,24 +381,25 @@ class ResCompany(models.Model):
         # Update intracom and extracom autoliq taxes
         tracom_dict = {
             "intracom_b2b": {
-                2000: "445201",
-                1000: "445202",
-                850: "445203",
-                550: "445204",
-                210: "445205",
+                200: "445201",
+                100: "445202",
+                85: "445203",
+                55: "445204",
+                21: "445205",
                 "deduc": "445662",
                 "label": "acquisitions intracommunautaire",
             },
             "extracom": {
-                2000: "445301",
-                1000: "445302",
-                850: "445303",
-                550: "445304",
-                210: "445305",
+                200: "445301",
+                100: "445302",
+                85: "445303",
+                55: "445304",
+                21: "445305",
                 "deduc": "445663",
                 "label": "acquisitions extracommunautaire",
             },
         }
+        intracom_purchase_tax_dict = {}
         for fp_type, wdict in tracom_dict.items():
             fp = fptype2fp[fp_type]
             deduc_tax_account_id = aao.create(
@@ -413,8 +414,10 @@ class ResCompany(models.Model):
             for tax_line in fp.tax_ids:
                 if tax_line.tax_dest_id.type_tax_use == "purchase":
                     tax = tax_line.tax_dest_id
-                    tax_rate = int(round(tax.amount * 100))
-                    rate_label = "%s %% " % str(tax_rate / 100).replace(".", ",")
+                    tax_rate = int(round(tax.amount * 10))
+                    rate_label = "%s %% " % str(tax_rate / 10).replace(".", ",")
+                    if fp_type == "intracom_b2b":
+                        intracom_purchase_tax_dict[tax_rate] = tax
                     if tax_rate in wdict:
                         acc_code = wdict[tax_rate]
                         due_tax_account_id = aao.create(
@@ -446,6 +449,7 @@ class ResCompany(models.Model):
                             ]
                         )
                         due_lines.write({"account_id": due_tax_account_id})
+        return intracom_purchase_tax_dict
 
     def _test_create_invoice_with_payment(
         self, move_type, date, partner, lines, payments, force_in_vat_on_payment=False
@@ -473,7 +477,8 @@ class ResCompany(models.Model):
             il_vals = dict(line, move_id=vals)
             if "quantity" not in il_vals:
                 il_vals["quantity"] = 1
-            il_vals = amlo.play_onchanges(il_vals, ["product_id"])
+            if line.get("product_id"):
+                il_vals = amlo.play_onchanges(il_vals, ["product_id"])
             il_vals.pop("move_id")
             vals["invoice_line_ids"].append((0, 0, il_vals))
         move = amo.create(vals)
@@ -596,6 +601,24 @@ class ResCompany(models.Model):
         self._test_common_product_dict(product_dict["service"], product_type="service")
         return product_dict
 
+    def _test_prepare_expense_account_dict(self):
+        aao = self.env["account.account"]
+        account_dict = {
+            "service": "6226",
+            "product": "607",
+        }
+        for key, account_prefix in account_dict.items():
+            account = aao.search(
+                [
+                    ("code", "=ilike", account_prefix + "%"),
+                    ("company_id", "=", self.id),
+                ],
+                limit=1,
+            )
+            assert account
+            account_dict[key] = account
+        return account_dict
+
     def _test_prepare_partner_dict(self):
         self.ensure_one()
         partner_dict = {
@@ -675,14 +698,12 @@ class ResCompany(models.Model):
     def _test_create_invoice_data(
         self,
         start_date,
-        product_dict=None,
-        partner_dict=None,
+        intracom_purchase_tax_dict,
         extracom_refund_ratio=0.5,
     ):
-        if product_dict is None:
-            product_dict = self._test_prepare_product_dict()
-        if partner_dict is None:
-            partner_dict = self._test_prepare_partner_dict()
+        product_dict = self._test_prepare_product_dict()
+        partner_dict = self._test_prepare_partner_dict()
+        account_dict = self._test_prepare_expense_account_dict()
         after_end_date = start_date + relativedelta(months=1)
         mid_date = start_date + relativedelta(days=12)
         # OUT INVOICE/REFUND
@@ -929,14 +950,65 @@ class ResCompany(models.Model):
             start_date,
             partner_dict["intracom_b2b"],
             [
-                {"product_id": product_dict["product"][200].id, "price_unit": 150},
-                {"product_id": product_dict["service"][200].id, "price_unit": 50},
-                {"product_id": product_dict["product"][100].id, "price_unit": 160},
-                {"product_id": product_dict["service"][100].id, "price_unit": 60},
-                {"product_id": product_dict["product"][55].id, "price_unit": 1500},
-                {"product_id": product_dict["service"][55].id, "price_unit": 500},
-                {"product_id": product_dict["product"][21].id, "price_unit": 600},
-                {"product_id": product_dict["service"][21].id, "price_unit": 1600},
+                {"product_id": product_dict["product"][200].id, "price_unit": 75},
+                {"product_id": product_dict["service"][200].id, "price_unit": 25},
+                {"product_id": product_dict["product"][100].id, "price_unit": 80},
+                {"product_id": product_dict["service"][100].id, "price_unit": 30},
+                {"product_id": product_dict["product"][55].id, "price_unit": 750},
+                {"product_id": product_dict["service"][55].id, "price_unit": 250},
+                {"product_id": product_dict["product"][21].id, "price_unit": 300},
+                {"product_id": product_dict["service"][21].id, "price_unit": 800},
+            ],
+            {start_date: "residual"},
+        )
+        intra_tax_ids = {}
+        for rate, tax in intracom_purchase_tax_dict.items():
+            intra_tax_ids[rate] = [(6, 0, [tax.id])]
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["intracom_b2b"],
+            [
+                {
+                    "account_id": account_dict["product"].id,
+                    "tax_ids": intra_tax_ids[200],
+                    "price_unit": 75,
+                },
+                {
+                    "account_id": account_dict["service"].id,
+                    "tax_ids": intra_tax_ids[200],
+                    "price_unit": 25,
+                },
+                {
+                    "account_id": account_dict["product"].id,
+                    "tax_ids": intra_tax_ids[100],
+                    "price_unit": 80,
+                },
+                {
+                    "account_id": account_dict["service"].id,
+                    "tax_ids": intra_tax_ids[100],
+                    "price_unit": 30,
+                },
+                {
+                    "account_id": account_dict["product"].id,
+                    "tax_ids": intra_tax_ids[55],
+                    "price_unit": 750,
+                },
+                {
+                    "account_id": account_dict["service"].id,
+                    "tax_ids": intra_tax_ids[55],
+                    "price_unit": 250,
+                },
+                {
+                    "account_id": account_dict["product"].id,
+                    "tax_ids": intra_tax_ids[21],
+                    "price_unit": 300,
+                },
+                {
+                    "account_id": account_dict["service"].id,
+                    "tax_ids": intra_tax_ids[21],
+                    "price_unit": 800,
+                },
             ],
             {start_date: "residual"},
         )

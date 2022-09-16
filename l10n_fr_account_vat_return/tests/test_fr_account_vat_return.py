@@ -48,17 +48,17 @@ class TestFrAccountVatReturn(TransactionCase):
         return move_dict
 
     def test_vat_return_on_invoice(self):
-        company = self.env["res.company"]._test_fr_vat_create_company(
+        res = self.env["res.company"]._test_fr_vat_create_company(
             company_name="FR Company VAT on_invoice", fr_vat_exigibility="on_invoice"
         )
+        company, intracom_purchase_tax_dict = res
         currency = company.currency_id
         initial_credit_vat = 3333
         company._test_create_move_init_vat_credit(
             initial_credit_vat, self.before_start_date
         )
-        company._test_create_invoice_data(self.start_date)
-        lfavro = self.env["l10n.fr.account.vat.return"]
-        vat_return = lfavro.create(
+        company._test_create_invoice_data(self.start_date, intracom_purchase_tax_dict)
+        vat_return = self.env["l10n.fr.account.vat.return"].create(
             {
                 "company_id": company.id,
                 "start_date": self.start_date,
@@ -224,17 +224,19 @@ class TestFrAccountVatReturn(TransactionCase):
                 self.assertTrue(line.full_reconcile_id)
 
     def test_vat_return_on_payment(self):
-        company = self.env["res.company"]._test_fr_vat_create_company(
+        res = self.env["res.company"]._test_fr_vat_create_company(
             company_name="FR Company VAT on_payment", fr_vat_exigibility="on_payment"
         )
+        company, intracom_purchase_tax_dict = res
         currency = company.currency_id
         initial_credit_vat = 22
         company._test_create_move_init_vat_credit(
             initial_credit_vat, self.before_start_date
         )
-        company._test_create_invoice_data(self.start_date, extracom_refund_ratio=2)
-        lfavro = self.env["l10n.fr.account.vat.return"]
-        vat_return = lfavro.create(
+        company._test_create_invoice_data(
+            self.start_date, intracom_purchase_tax_dict, extracom_refund_ratio=2
+        )
+        vat_return = self.env["l10n.fr.account.vat.return"].create(
             {
                 "company_id": company.id,
                 "start_date": self.start_date,
@@ -322,10 +324,11 @@ class TestFrAccountVatReturn(TransactionCase):
                 self.assertTrue(line.full_reconcile_id)
 
     def test_vat_return_on_invoice_negative(self):
-        company = self.env["res.company"]._test_fr_vat_create_company(
+        res = self.env["res.company"]._test_fr_vat_create_company(
             company_name="FR Company VAT on_invoice neg",
             fr_vat_exigibility="on_invoice",
         )
+        company, intracom_purchase_tax_dict = res
         initial_credit_vat = 44
         company._test_create_move_init_vat_credit(
             initial_credit_vat, self.before_start_date
