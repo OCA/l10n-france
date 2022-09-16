@@ -285,7 +285,7 @@
                         class="alert alert-warning"
                         role="alert"
                         attrs="{'invisible': [('negative_switch', '=', False)]}"
-                    >The logs lines below have a negative total, so they were moved from their original box to this box and the sign of the total has been inverted.</div>
+                    >The logs lines below have a negative total, so they were moved from their original box(es) to this box and the sign of the total has been inverted.</div>
                                         <group name="main">
                                                 <field
                             name="box_id"
