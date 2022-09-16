@@ -1143,6 +1143,7 @@ class L10nFrAccountVatReturn(models.Model):
         )
 
         autoliq_vat_moves = autoliq_vat_move_lines.move_id
+        product_account_prefixes = self._get_product_account_prefixes()
         for move in autoliq_vat_moves:
             if move.move_type not in ("in_invoice", "in_refund"):
                 raise UserError(
@@ -1160,11 +1161,18 @@ class L10nFrAccountVatReturn(models.Model):
                         rate_int = autoliq_tax2rate[tax]
                 if rate_int:
                     rate2total[rate_int] += line.balance
-                    if line.product_id and (
-                        line.product_id.type in ("product", "consu")
-                        or line.product_id.is_accessory_cost
-                    ):
-                        rate2product[rate_int] += line.balance
+                    # If we have a product, we use its type and is_accessory_cost
+                    # to determine if it's a product or service
+                    # If we don't have a product, we use the account
+                    if line.product_id:
+                        if (
+                            line.product_id.type in ("product", "consu")
+                            or line.product_id.is_accessory_cost
+                        ):
+                            rate2product[rate_int] += line.balance
+                    else:
+                        if line.account_id.code.startswith(product_account_prefixes):
+                            rate2product[rate_int] += line.balance
 
         rate2product_ratio = {}
         for rate_int, total in rate2total.items():
@@ -1174,6 +1182,27 @@ class L10nFrAccountVatReturn(models.Model):
             rate2product_ratio[rate_int] = productratio
 
         return rate2product_ratio
+
+    @api.model
+    def _get_product_account_prefixes(self):
+        return (
+            "21",
+            "601",
+            "602",
+            "605",
+            "606",
+            "607",
+            "6091",
+            "6092",
+            "6095",
+            "6096",
+            "6097",
+            "6181",
+            "6183",
+            "6232",
+            "6234",
+            "6236",
+        )
 
     def _generate_due_vat_create_vat_to_pay_lines(self, speedy, rate2logs):
         # Create boxes 08, 09, 9B (columns base HT et Taxe due)
