@@ -66,7 +66,7 @@ class AccountMove(models.Model):
         "chorus.flow", string="Chorus Flow", readonly=True, copy=False, tracking=True
     )
     chorus_identifier = fields.Integer(
-        string="Chorus Invoice Indentifier", readonly=True, copy=False, tracking=True
+        string="Chorus Invoice Identifier", readonly=True, copy=False, tracking=True
     )
     chorus_status = fields.Char(
         string="Chorus Invoice Status", readonly=True, copy=False, tracking=True
@@ -123,7 +123,7 @@ class AccountMove(models.Model):
                         )
                     if not attach.file_size:
                         raise ValidationError(
-                            _("The size of the attachment '%s' is 0.")
+                            _("The size of the attachment '%s' is 0.") % attach.name
                         )
                     total_size += attach.file_size
                     filesize_mo = round(attach.file_size / (1024 * 1024), 1)
@@ -240,6 +240,12 @@ class AccountMove(models.Model):
                         )
                     else:
                         inv.chorus_invoice_check_commitment_number()
+            inv._chorus_check_payment_data()
+        return super().action_post()
+
+    def _chorus_check_payment_data(self):
+        self.ensure_one()
+        if self.move_type == "out_invoice":
             if not self.payment_mode_id:
                 raise UserError(
                     _(
@@ -276,7 +282,14 @@ class AccountMove(models.Model):
                         )
                         % partner_bank_id.acc_number
                     )
-        return super().action_post()
+        elif self.move_type == "out_refund":
+            if self.payment_mode_id:
+                raise UserError(
+                    _(
+                        "The Payment Mode must be empty "
+                        "for customer refunds sent to Chorus."
+                    )
+                )
 
     def chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()

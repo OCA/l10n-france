@@ -111,7 +111,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_bank_statement_line__chorus_identifier
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__chorus_identifier
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__chorus_identifier
-msgid "Chorus Invoice Indentifier"
+msgid "Chorus Invoice Identifier"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -833,6 +833,12 @@ msgstr ""
 msgid ""
 "The Chorus Service '%s' configured on contact '%s' is attached to another "
 "partner (%s)."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/account_move.py:0
+#, python-format
+msgid "The Payment Mode must be empty for customer refunds sent to Chorus."
 msgstr ""
 
 #. module: l10n_fr_chorus_account

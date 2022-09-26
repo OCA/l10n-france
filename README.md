@@ -1,6 +1,7 @@
 
 [![Runboat](https://img.shields.io/badge/runboat-Try%20me-875A7B.png)](https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=14.0)
-[![Build Status](https://travis-ci.com/OCA/l10n-france.svg?branch=14.0)](https://travis-ci.com/OCA/l10n-france)
+[![Pre-commit Status](https://github.com/OCA/l10n-france/actions/workflows/pre-commit.yml/badge.svg?branch=14.0)](https://github.com/OCA/l10n-france/actions/workflows/pre-commit.yml?query=branch%3A14.0)
+[![Build Status](https://github.com/OCA/l10n-france/actions/workflows/test.yml/badge.svg?branch=14.0)](https://github.com/OCA/l10n-france/actions/workflows/test.yml?query=branch%3A14.0)
 [![codecov](https://codecov.io/gh/OCA/l10n-france/branch/14.0/graph/badge.svg)](https://codecov.io/gh/OCA/l10n-france)
 [![Translation Status](https://translation.odoo-community.org/widgets/l10n-france-14-0/-/svg-badge.svg)](https://translation.odoo-community.org/engage/l10n-france-14-0/?utm_source=widget)
 
@@ -8,7 +9,7 @@
 
 # l10n-france
 
-TODO: add repo description.
+French localization modules.
 
 <!-- /!\ do not modify below this line -->
 
@@ -27,7 +28,7 @@ addon | version | maintainers | summary
 [l10n_fr_account_invoice_import_facturx](l10n_fr_account_invoice_import_facturx/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | France-specific module to import Factur-X invoices
 [l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Auto-configure UNECE params on French taxes
 [l10n_fr_business_document_import](l10n_fr_business_document_import/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Adapt the module base_business_document_import for France
-[l10n_fr_chorus_account](l10n_fr_chorus_account/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Generate Chorus-compliant e-invoices and transmit them via the Chorus API
+[l10n_fr_chorus_account](l10n_fr_chorus_account/) | 14.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Generate Chorus-compliant e-invoices and transmit them via the Chorus API
 [l10n_fr_chorus_facturx](l10n_fr_chorus_facturx/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Generate Chorus-compliant Factur-X invoices
 [l10n_fr_chorus_sale](l10n_fr_chorus_sale/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Set public market on sale orders
 [l10n_fr_cog](l10n_fr_cog/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Add Code Officiel Géographique (COG) on countries
