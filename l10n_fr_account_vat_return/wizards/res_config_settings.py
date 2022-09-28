@@ -12,7 +12,9 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.fr_vat_periodicity", readonly=False
     )
     fr_vat_exigibility = fields.Selection(
-        related="company_id.fr_vat_exigibility", readonly=False
+        related="company_id.fr_vat_exigibility",
+        readonly=True
+        # value is updated by the wizard l10n.fr.vat.exigibility.update
     )
     fr_vat_update_lock_dates = fields.Boolean(
         related="company_id.fr_vat_update_lock_dates", readonly=False
