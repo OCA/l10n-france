@@ -21,6 +21,23 @@ class AccountMove(models.Model):
         string="Fiscal Position Type",
     )
 
+    def _fr_vat_exigibility_auto_compute_vat_on_payment(self):
+        # This method is designed to be inherited
+        # so that you can tune the algo when fr_vat_exigibility == "auto"
+        self.ensure_one()
+        vat_on_payment = False
+        product_total = 0.0
+        service_total = 0.0
+        for line in self.invoice_line_ids:
+            if not line.display_type and line.product_id:
+                if line.product_id.type == "service":
+                    service_total += line.price_subtotal
+                else:
+                    product_total += line.price_subtotal
+        if self.currency_id.compare_amounts(service_total, product_total) > 0:
+            vat_on_payment = True
+        return vat_on_payment
+
     @api.depends(
         "move_type", "invoice_line_ids.product_id", "invoice_line_ids.price_subtotal"
     )
@@ -31,19 +48,9 @@ class AccountMove(models.Model):
                 if move.company_id.fr_vat_exigibility == "on_payment":
                     vat_on_payment = True
                 elif move.company_id.fr_vat_exigibility == "auto":
-                    product_total = 0.0
-                    service_total = 0.0
-                    for line in move.invoice_line_ids:
-                        if not line.display_type and line.product_id:
-                            if line.product_id.type == "service":
-                                service_total += line.price_subtotal
-                            else:
-                                product_total += line.price_subtotal
-                    if (
-                        move.currency_id.compare_amounts(service_total, product_total)
-                        > 0
-                    ):
-                        vat_on_payment = True
+                    vat_on_payment = (
+                        move._fr_vat_exigibility_auto_compute_vat_on_payment()
+                    )
             move.out_vat_on_payment = vat_on_payment
 
     def _collect_tax_cash_basis_values(self):
