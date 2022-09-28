@@ -4,7 +4,7 @@
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.tools import float_compare
 
 
@@ -21,11 +21,7 @@ class ResCompany(models.Model):
         string="VAT Periodicity",
     )
     fr_vat_exigibility = fields.Selection(
-        [
-            ("on_invoice", "Based on invoice"),
-            ("on_payment", "Based on payment"),
-            ("auto", "Both (automatic)"),
-        ],
+        "_fr_vat_exigibility_selection",
         default="on_invoice",
         string="VAT Exigibility",
     )
@@ -57,6 +53,15 @@ class ResCompany(models.Model):
         ondelete="restrict",
         help="Company bank account used to pay VAT or receive credit VAT reimbursements.",
     )
+
+    @api.model
+    def _fr_vat_exigibility_selection(self):
+        res = [
+            ("on_invoice", _("Based on invoice")),
+            ("on_payment", _("Based on payment")),
+            ("auto", _("Both (automatic)")),
+        ]
+        return res
 
     @api.model
     def _test_fr_vat_create_company(

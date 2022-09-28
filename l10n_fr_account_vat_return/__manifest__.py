@@ -15,6 +15,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/ir_rule.xml",
+        "wizards/l10n_fr_vat_exigibility_update_view.xml",
         "wizards/res_config_settings.xml",
         "wizards/l10n_fr_account_vat_return_reimbursement_view.xml",
         "views/l10n_fr_account_vat_box.xml",

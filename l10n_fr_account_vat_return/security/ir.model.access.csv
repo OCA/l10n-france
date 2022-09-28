@@ -5,3 +5,4 @@ access_l10n_fr_account_vat_return_full,Full access on l10n.fr.account.vat.return
 access_l10n_fr_account_vat_return_line_full,Full access on l10n.fr.account.vat.return.line,model_l10n_fr_account_vat_return_line,account.group_account_user,1,1,1,1
 access_l10n_fr_account_vat_return_line_log_full,Full access on l10n.fr.account.vat.return.line.log,model_l10n_fr_account_vat_return_line_log,account.group_account_user,1,1,1,1
 access_l10n_fr_account_vat_return_reimbursement_full,Full access on l10n.fr.account.vat.return.reimbursement wizard,model_l10n_fr_account_vat_return_reimbursement,account.group_account_user,1,1,1,1
+access_l10n_fr_vat_exigibility_update,Full access on l10n_fr_vat_exigibility_update wizard,model_l10n_fr_vat_exigibility_update,account.group_account_manager,1,1,1,1
