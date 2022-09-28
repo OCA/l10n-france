@@ -547,8 +547,10 @@ class ResCompany(models.Model):
         return False
 
     def _test_common_product_dict(
-        self, product_dict, asset=False, product_type="product"
+        self, product_dict, asset=False, product_type="consu"
     ):
+        # I can't use product_type="product" because this module
+        # doesn't depend on the module "stock"
         ppo = self.env["product.product"].with_company(self.id)
         for vat_rate in product_dict.keys():
             if vat_rate:
