@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+        <record id="l10n_fr_account_vat_return_reimbursement_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.reimbursement</field>
+        <field name="arch" type="xml">
+                <form>
+                        <group name="main">
+                                <field name="company_currency_id" invisible="1" />
+                                <field name="return_id" />
+                                <field
+                        name="vat_credit_total"
+                        widget="monetary"
+                        options="{'currency_field': 'company_currency_id'}"
+                    />
+                                <field
+                        name="min_amount"
+                        widget="monetary"
+                        options="{'currency_field': 'company_currency_id'}"
+                    />
+                                <field name="amount" />
+                                <field name="reimbursement_type" />
+                                <field
+                        name="first_creation_date"
+                        attrs="{'invisible': [('reimbursement_type', '!=', 'first')], 'required': [('reimbursement_type', '=', 'first')]}"
+                        options="{'datepicker': {'warn_future': true}}"
+                    />
+                                <field
+                        name="end_date"
+                        attrs="{'invisible': [('reimbursement_type', '!=', 'end')], 'required': [('reimbursement_type', '=', 'end')]}"
+                        options="{'datepicker': {'warn_future': true}}"
+                    />
+                                <field name="reimbursement_comment_dgfip" />
+                        </group>
+                        <footer>
+                                <button
+                        type="object"
+                        string="Validate"
+                        name="validate"
+                        class="btn-primary"
+                    />
+                                <button special="cancel" string="Cancel" />
+                        </footer>
+                </form>
+        </field>
+</record>
+
+<record
+        id="l10n_fr_account_vat_return_reimbursement_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Credit VAT Reimbursement</field>
+        <field name="res_model">l10n.fr.account.vat.return.reimbursement</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+</record>
+
+</odoo>
