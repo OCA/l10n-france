@@ -136,7 +136,7 @@ class L10nFrAccountVatReturn(models.Model):
     selenium_attachment_name = fields.Char(
         related="selenium_attachment_id.name", string="Selenium Filename"
     )
-    ca3_attachment_id = fields.Many2one("ir.attachment")
+    ca3_attachment_id = fields.Many2one("ir.attachment", string="CA3 Attachment")
     ca3_attachment_datas = fields.Binary(
         related="ca3_attachment_id.datas", string="CA3 File"
     )
