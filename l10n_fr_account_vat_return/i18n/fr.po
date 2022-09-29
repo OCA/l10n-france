@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-19 09:21+0000\n"
-"PO-Revision-Date: 2022-06-19 09:21+0000\n"
+"POT-Creation-Date: 2022-09-29 20:11+0000\n"
+"PO-Revision-Date: 2022-09-29 20:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__account_id
 msgid "Account"
 msgstr "Compte"
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Account '%s' is a due VAT auto-liquidation account. So it should be empty at"
+" the start of the VAT period, but the balance on the last day of the "
+"previous period is %s."
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
@@ -220,12 +229,14 @@ msgid "Bad configuration on regular purchase tax '%s'."
 msgstr "Mauvaise configuration pour la taxe d'achat normale '%s'."
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_exigibility__on_invoice
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
 msgid "Based on invoice"
 msgstr "TVA sur les débits"
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_exigibility__on_payment
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
 msgid "Based on payment"
 msgstr "TVA sur les encaissements"
 
@@ -235,7 +246,8 @@ msgid "Boolean (CCI/TBX)"
 msgstr "Booléen (CCI/TBX)"
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_exigibility__auto
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
 msgid "Both (automatic)"
 msgstr "Les deux (automatique)"
 
@@ -262,6 +274,14 @@ msgid ""
 msgstr ""
 "La case '%s' n'a pas de méthode comptable, donc elle ne devrait avoir aucun "
 "paramètre comptable."
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Box '%s' has a negative value (%s) but it doesn't have a negative switch "
+"box."
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
@@ -316,11 +336,12 @@ msgstr "Nom de fichier CA3"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__ca3_attachment_id
-msgid "Ca3 Attachment"
-msgstr ""
+msgid "CA3 Attachment"
+msgstr "Pièce jointe CA3"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_reimbursement_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_exigibility_update_form
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -334,6 +355,11 @@ msgstr ""
 " l'état 'Lignes manuelles'."
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_exigibility_update
+msgid "Change Company VAT Exigibility"
+msgstr "Modification du régime de TVA de la société"
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__edi_type__ftx
 msgid "Char (FTX)"
 msgstr "Chaîne de caractère (FTX)"
@@ -342,7 +368,7 @@ msgstr "Chaîne de caractère (FTX)"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__code
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_code
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
@@ -361,6 +387,7 @@ msgstr "Sociétés"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__company_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__company_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__company_id
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_search
 msgid "Company"
 msgstr "Société"
@@ -433,6 +460,7 @@ msgstr "Page de configuration"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
@@ -442,6 +470,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__create_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -491,6 +520,11 @@ msgid "Currency"
 msgstr "Devise"
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__current_fr_vat_exigibility
+msgid "Current VAT Exigibility"
+msgstr "Régime de TVA actuel"
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__accounting_method__debit
 msgid "Debit"
 msgstr "Débit"
@@ -518,6 +552,7 @@ msgstr "Autre montant de TVA déductible"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__display_name
 msgid "Display Name"
@@ -572,7 +607,7 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_form
 msgid "EDI"
-msgstr ""
+msgstr "EDI"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__edi_code
@@ -705,6 +740,11 @@ msgid "France VAT Return (CA3) box"
 msgstr "Case de la déclaration de TVA (CA3)"
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_vat_exigibility_update__update_type__from_start
+msgid "From the Start"
+msgstr "Depuis le début"
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__full_label
 msgid "Full Label"
 msgstr "Libellé complet"
@@ -737,6 +777,7 @@ msgstr "Code comptable générique"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__id
 msgid "ID"
@@ -773,6 +814,21 @@ msgstr ""
 "Si non renseigné, Odoo utilisera le premier compte qui commence par le code "
 "comptable générique. Si renseigné, Odoo ignorera le code comptable générique"
 " et l'utilisera comme compte comptable."
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__negative_switch_box_id
+msgid ""
+"If the amount of this box is negative, its lines will be transfered to "
+"another box with a sign inversion."
+msgstr "Si le montant de cette case est négatif, ses lignes seront transférées à une autre case avec une inversion du signe."
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
+#, python-format
+msgid ""
+"If you don't want to change the VAT Exigibility of company '%s', click on "
+"the Cancel button."
+msgstr "Si vous ne souhaitez pas modifier le régime de TVA de la société '%s', cliquez sur le bouton Annuler."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__value_manual_int
@@ -846,6 +902,7 @@ msgstr "Libellé"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings____last_update
 msgid "Last Modified on"
@@ -857,6 +914,7 @@ msgstr "Dernière modification le"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__write_uid
 msgid "Last Updated by"
 msgstr "Dernière modification par"
 
@@ -866,6 +924,7 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__write_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__write_date
 msgid "Last Updated on"
 msgstr "Dernière modification le"
 
@@ -969,6 +1028,21 @@ msgstr "Code N-REF"
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "Name or Code"
 msgstr "Nom ou Code"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__negative_switch
+msgid "Negative Switch"
+msgstr "Basculement négatif"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__negative_switch_box_id
+msgid "Negative Switch Box"
+msgstr "Case de basculement si négatif"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__new_fr_vat_exigibility
+msgid "New VAT Exigibility"
+msgstr "Nouveau régime de TVA"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_date_deadline
@@ -1267,6 +1341,11 @@ msgid "Show VAT Credit Reimbursement Button"
 msgstr "Afficher le bouton de remboursement de crédit de TVA"
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_vat_exigibility_update__update_type__date
+msgid "Since Specific Date"
+msgstr "Depuis une date particulière"
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__origin_move_id
 msgid "Source Invoice"
 msgstr "Facture d'origine"
@@ -1416,6 +1495,20 @@ msgstr "Le solde du compte '%s' est %s. Ce devrait être un montant positif."
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
+msgid "The box '%s' has a negative switch box but it's EDI Type is not 'MOA'."
+msgstr "La case '%s' a une case de basculement si négatif mais son type EDI n'est pas 'MOA'."
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#, python-format
+msgid ""
+"The box '%s' is the negative switch box of '%s' but it's EDI Type is not "
+"'MOA'."
+msgstr "La case '%s' est la case de basculement si négatif de la case '%s' mais son type EDI n'est pas 'MOA'."
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#, python-format
 msgid "The box '%s' must have a code."
 msgstr "La case '%s' doit avoir un code."
 
@@ -1436,6 +1529,12 @@ msgstr "La case '%s' doit avoir un type EDI."
 #, python-format
 msgid "The creation date must be in the past."
 msgstr "La date de création doit être dans le passé."
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
+#, python-format
+msgid "The date cannot be in the future."
+msgstr "La date ne peut pas être dans le futur."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
@@ -1477,6 +1576,13 @@ msgid ""
 msgstr ""
 "La pièce comptable '%s' générée par la déclaration de TVA ne peut pas être "
 "supprimée car elle est déjà comptabilisée."
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_line_form
+msgid ""
+"The logs lines below have a negative total, so they were moved from their "
+"original box(es) to this box and the sign of the total has been inverted."
+msgstr "Les lignes de log ci-dessous ont un total négatif, donc elles ont été déplacées de leur(s) case(s) initiale(s) vers cette case et le signe du total a été inversé."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
@@ -1690,6 +1796,18 @@ msgid "Untaxed Operations - Intracom B2C"
 msgstr "Opérations non taxées - Intracom B2C"
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__update_type
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_exigibility_update_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.res_config_settings_view_form
+msgid "Update"
+msgstr "Mettre à jour"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.actions.act_window,name:l10n_fr_account_vat_return.l10n_fr_vat_exigibility_update_action
+msgid "Update Company VAT Exigibility"
+msgstr "Mise à jour du régime de TVA de la société"
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_update_lock_dates
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_update_lock_dates
 msgid "Update Lock Date upon VAT Return Validation"
@@ -1697,10 +1815,29 @@ msgstr ""
 "MAJ des dates de verrouillage suite à la validation de la déclaration de TVA"
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__update_date
+msgid "Update Since"
+msgstr "Mise à jour depuis"
+
+#. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "VAT Amount %s, Rate %.2f%%, Base %s"
 msgstr "Montant de TVA %s, Taux %.2f%%, Base %s"
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"VAT Amount %s, Rate %.2f%%, Base %s, Product Ratio %.2f%%, Product Base %s"
+msgstr "Montant de TVA %s, Taux %.2f%%, Base %s, Ratio produit %.2f%%, Base produit %s"
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"VAT Amount %s, Rate %.2f%%, Base %s, Service Ratio %.2f%%, Service Base %s"
+msgstr "Montant de TVA %s, Taux %.2f%%, Base %s, Ratio service %.2f%%, Base service %s"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__rate
@@ -1717,7 +1854,7 @@ msgstr "Total crédit de TVA"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_exigibility
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_exigibility
 msgid "VAT Exigibility"
-msgstr "Exigibilité de la TVA"
+msgstr "Régime de TVA"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__vat_periodicity
@@ -1759,27 +1896,14 @@ msgstr "Ligne de déclaration de TVA française (Ligne de CA3)"
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "VAT amount %s, Product Ratio %.2f%%, VAT Product Amount %s"
-msgstr "Montant de TVA %s, Ratio biens %.2f%%, Montant de TVA sur les biens %s"
+msgstr ""
+"Montant de TVA %s, Ratio biens %.2f%%, Montant de TVA sur les biens %s"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "VAT amount %s, Rate %.2f%%, Base %s"
 msgstr "Montant de TVA %s, Taux %.2f%%, Base %s"
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"VAT amount %s, Rate %.2f%%, Base %s, Product Ratio %.2f%%, Product Base %s"
-msgstr "Montant de TVA %s, Taux %.2f%%, Base %s, Ratio biens %.2f%%, Base biens %s"
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"VAT amount %s, Rate %.2f%%, Base %s, Service Ratio %.2f%%, Service Base %s"
-msgstr "Montant de TVA %s, Taux %.2f%%, Base %s, Ratio services %.2f%%, Base services %s"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.view_invoice_tree
@@ -1831,6 +1955,12 @@ msgid "Wrong accounting method on Due VAT box '%s': it should be 'Debit'."
 msgstr ""
 "Mauvaise méthode de comptabilisation pour la case de TVA due '%s' : ce "
 "devrait être 'Débit'."
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
+#, python-format
+msgid "Wrong value for the new VAT exigibility."
+msgstr "Mauvaise valeur pour le nouveau régime de TVA."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__vat_periodicity__12
