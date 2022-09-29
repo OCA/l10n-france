@@ -14,6 +14,8 @@ setuptools.setup(
         'odoo14-addon-l10n_fr_account_invoice_facturx',
         'odoo14-addon-l10n_fr_account_invoice_import_facturx',
         'odoo14-addon-l10n_fr_account_tax_unece',
+        'odoo14-addon-l10n_fr_account_vat_return',
+        'odoo14-addon-l10n_fr_account_vat_return_teledec',
         'odoo14-addon-l10n_fr_business_document_import',
         'odoo14-addon-l10n_fr_chorus_account',
         'odoo14-addon-l10n_fr_chorus_facturx',
