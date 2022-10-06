@@ -459,15 +459,15 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _setup_data_pre_check(self, speedy):
         self.ensure_one()
-        # Block if there are unposted moves before end_date
+        # Block if there are draft moves before end_date
         unposted_move_count = speedy["am_obj"].search_count(
-            [("date", "<=", self.end_date), ("state", "!=", "posted")]
+            [("date", "<=", self.end_date), ("state", "=", "draft")]
             + speedy["company_domain"]
         )
         if unposted_move_count:
             raise UserError(
                 _(
-                    "There is/are %d unposted journal entry/entries dated before %s. "
+                    "There is/are %d draft journal entry/entries dated before %s. "
                     "You should post this/these journal entry/entries or "
                     "delete it/them."
                 )
