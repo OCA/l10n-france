@@ -84,7 +84,7 @@ class AccountFrFecOca(models.TransientModel):
     export_type = fields.Selection(
         [
             ("official", "Official FEC report (posted entries only)"),
-            ("nonofficial", "Non-official FEC report (posted and unposted entries)"),
+            ("nonofficial", "Non-official FEC report (posted and draft entries)"),
         ],
         string="Export Type",
         required=True,
@@ -159,9 +159,9 @@ class AccountFrFecOca(models.TransientModel):
         """
         # For official report: only use posted entries
         if self.export_type == "official":
-            sql_query += """
-            AND am.state = 'posted'
-            """
+            sql_query += " AND am.state = 'posted' "
+        else:
+            sql_query += " AND am.state IN ('draft', 'posted') "
         company = self.env.company
         formatted_date_from = fields.Date.to_string(self.date_from).replace("-", "")
         date_from = self.date_from
@@ -284,9 +284,9 @@ class AccountFrFecOca(models.TransientModel):
 
         # For official report: only use posted entries
         if self.export_type == "official":
-            sql_query += """
-            AND am.state = 'posted'
-            """
+            sql_query += " AND am.state = 'posted' "
+        else:
+            sql_query += " AND am.state IN ('draft', 'posted') "
 
         sql_query += """
         GROUP BY aml.account_id, aat.type
@@ -463,9 +463,9 @@ class AccountFrFecOca(models.TransientModel):
 
         # For official report: only use posted entries
         if self.export_type == "official":
-            sql_query += """
-            AND am.state = 'posted'
-            """
+            sql_query += " AND am.state = 'posted' "
+        else:
+            sql_query += " AND am.state IN ('draft', 'posted') "
 
         sql_query += """
         GROUP BY aml.account_id, aat.type, rp.id
@@ -554,9 +554,9 @@ class AccountFrFecOca(models.TransientModel):
 
         # For official report: only use posted entries
         if self.export_type == "official":
-            sql_query += """
-            AND am.state = 'posted'
-            """
+            sql_query += " AND am.state = 'posted' "
+        else:
+            sql_query += " AND am.state IN ('draft', 'posted') "
 
         sql_query += """
         ORDER BY
