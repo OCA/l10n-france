@@ -31,4 +31,15 @@
                 <field name="fr_vat_type">extracom</field>
         </record>
 
+        <record
+        id="france_supplier_vat_on_payment_fp_template"
+        model="account.fiscal.position.template"
+    >
+            <field name="sequence">1</field>
+            <field name="name">France - Fournisseur TVA sur encaissement</field>
+            <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template" />
+            <field name="country_id" ref="base.fr" />
+            <field name="fr_vat_type">france_vendor_vat_on_payment</field>
+        </record>
+
 </odoo>
