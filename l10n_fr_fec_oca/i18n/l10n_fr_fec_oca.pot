@@ -267,7 +267,7 @@ msgstr ""
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__nonofficial
-msgid "Non-official FEC report (posted and unposted entries)"
+msgid "Non-official FEC report (posted and draft entries)"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
