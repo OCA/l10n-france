@@ -11,7 +11,7 @@
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
-    "depends": ["mis_builder", "l10n_fr"],
+    "depends": ["mis_builder"],
     "data": [
         "data/mis_report_styles.xml",
         "data/mis_report_pl.xml",
