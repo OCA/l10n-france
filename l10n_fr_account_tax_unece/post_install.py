@@ -36,7 +36,9 @@ def set_unece_on_taxes(cr, registry):
             )
             if company.country_id and company.country_id != env.ref("base.fr"):
                 continue
-            taxes = ato.search([("company_id", "=", company.id)])
+            taxes = ato.with_context(active_test=False).search(
+                [("company_id", "=", company.id)]
+            )
             for tax in taxes:
                 xmlid_obj = imdo.search(
                     [
