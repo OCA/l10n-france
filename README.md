@@ -27,7 +27,7 @@ addon | version | maintainers | summary
 [l10n_fr_account_invoice_facturx](l10n_fr_account_invoice_facturx/) | 14.0.1.0.0 |  | France-specific module to generate Factur-X invoices
 [l10n_fr_account_invoice_import_facturx](l10n_fr_account_invoice_import_facturx/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | France-specific module to import Factur-X invoices
 [l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 14.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Auto-configure UNECE params on French taxes
-[l10n_fr_account_vat_return](l10n_fr_account_vat_return/) | 14.0.2.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | VAT return for France: CA3, CA12, 3519
+[l10n_fr_account_vat_return](l10n_fr_account_vat_return/) | 14.0.2.2.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | VAT return for France: CA3, CA12, 3519
 [l10n_fr_account_vat_return_teledec](l10n_fr_account_vat_return_teledec/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Teletransmit CA3 via Teledec.fr (subscription required)
 [l10n_fr_business_document_import](l10n_fr_business_document_import/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Adapt the module base_business_document_import for France
 [l10n_fr_chorus_account](l10n_fr_chorus_account/) | 14.0.1.2.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Generate Chorus-compliant e-invoices and transmit them via the Chorus API
