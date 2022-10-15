@@ -1591,8 +1591,8 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"There is/are %d unposted journal entry/entries dated before %s. You should "
-"post this/these journal entry/entries or delete it/them."
+"There is/are %d draft journal entry/entries dated before %s. You should post"
+" this/these journal entry/entries or delete it/them."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
