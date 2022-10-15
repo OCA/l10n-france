@@ -232,6 +232,7 @@ class L10nFrDas2(models.Model):
             ("date", "<=", "%d-12-31" % self.year),
             ("journal_id", "in", self.payment_journal_ids.ids),
             ("balance", "!=", 0),
+            ("parent_state", "=", "posted"),
         ]
         for partner in das2_partners:
             vals = self._prepare_line(partner, base_domain)
@@ -311,6 +312,7 @@ class L10nFrDas2(models.Model):
                 ("partner_id", "not in", das2_partners.ids),
                 ("account_id", "in", das2_accounts.ids),
                 ("balance", "!=", 0),
+                ("parent_state", "=", "posted"),
             ],
             ["partner_id"],
             ["partner_id"],
