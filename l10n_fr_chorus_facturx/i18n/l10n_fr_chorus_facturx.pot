@@ -79,9 +79,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_chorus_facturx.field_res_company____last_update
 msgid "Last Modified on"
 msgstr ""
-
-#. module: l10n_fr_chorus_facturx
-#: code:addons/l10n_fr_chorus_facturx/models/account_move.py:0
-#, python-format
-msgid "Unsupported report type %s found."
-msgstr ""
