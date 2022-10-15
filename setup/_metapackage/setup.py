@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo14-addon-account_statement_import_fr_cfonb',
         'odoo14-addon-l10n_fr_account_invoice_facturx',
         'odoo14-addon-l10n_fr_account_invoice_import_facturx',
+        'odoo14-addon-l10n_fr_account_invoice_import_simple_pdf',
         'odoo14-addon-l10n_fr_account_tax_unece',
         'odoo14-addon-l10n_fr_account_vat_return',
         'odoo14-addon-l10n_fr_account_vat_return_teledec',
