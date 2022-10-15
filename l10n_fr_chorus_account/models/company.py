@@ -244,10 +244,10 @@ class ResCompany(models.Model):
         auth_piste = "%s:%s" % auth
         auth_piste_b64 = base64.b64encode(auth_piste.encode("utf8"))
         headers = {
-            "Content-type": "application/json",
+            "Content-type": "application/json;charset=utf-8",
             "cpro-account": auth_piste_b64,
-            "Authorization": "Bearer",
         }
+        # The header Authorization: Bearer <token> is automatically added by the session
         if session is None:
             token = self._get_token(api_params)
             session = OAuth2Session(api_params["oauth_id"], token=token)
