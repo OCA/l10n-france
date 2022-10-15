@@ -1687,12 +1687,9 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"There is/are %d unposted journal entry/entries dated before %s. You should "
-"post this/these journal entry/entries or delete it/them."
+"There is/are %d draft journal entry/entries dated before %s. You should post "
+"this/these journal entry/entries or delete it/them."
 msgstr ""
-"Il y a %d pièce(s) comptable(s) non comptabilisée(s) datée(s) d'avant le %s. "
-"Vous devriez comptabiliser cette/ces pièce(s) comptable(s) ou la/les "
-"supprimer."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__print_page__3
@@ -1984,3 +1981,12 @@ msgstr "Mauvaise valeur pour le nouveau régime de TVA."
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__12
 msgid "Yearly"
 msgstr "Annuelle"
+
+#, python-format
+#~ msgid ""
+#~ "There is/are %d unposted journal entry/entries dated before %s. You "
+#~ "should post this/these journal entry/entries or delete it/them."
+#~ msgstr ""
+#~ "Il y a %d pièce(s) comptable(s) non comptabilisée(s) datée(s) d'avant le "
+#~ "%s. Vous devriez comptabiliser cette/ces pièce(s) comptable(s) ou la/les "
+#~ "supprimer."
