@@ -271,8 +271,8 @@ msgstr ""
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__nonofficial
-msgid "Non-official FEC report (posted and unposted entries)"
-msgstr "Rapport FEC non-officiel (entrées postées et non-postées)"
+msgid "Non-official FEC report (posted and draft entries)"
+msgstr ""
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__official
@@ -349,6 +349,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
 msgid "We use partner.ref (w/ fallback on 'ID' + partner.id)"
 msgstr ""
+
+#~ msgid "Non-official FEC report (posted and unposted entries)"
+#~ msgstr "Rapport FEC non-officiel (entrées postées et non-postées)"
 
 #~ msgid "FEC is for French companies only !"
 #~ msgstr "Le FEC est uniquement pour les sociétés françaises !"
