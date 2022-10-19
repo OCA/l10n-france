@@ -1017,6 +1017,16 @@ msgid "No Due VAT box found for VAT rate %.2f%%."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"No account mapping on fiscal position <a href=# data-oe-"
+"model=account.fiscal.position data-oe-id=%d>%s</a>. If this fiscal position "
+"is not only used for purchase but also for sale, you must configure an "
+"account mapping on revenue accounts."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "No sections"
 msgstr ""
