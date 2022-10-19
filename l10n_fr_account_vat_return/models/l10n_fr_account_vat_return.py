@@ -299,6 +299,7 @@ class L10nFrAccountVatReturn(models.Model):
             "company_id": self.company_id.id,
             "currency": self.company_id.currency_id,
             "company_domain": company_domain,
+            "base_domain": base_domain,
             "base_domain_period": base_domain_period,
             "base_domain_end": base_domain_end,
             "base_domain_end_previous": base_domain_end_previous,
@@ -460,18 +461,18 @@ class L10nFrAccountVatReturn(models.Model):
     def _setup_data_pre_check(self, speedy):
         self.ensure_one()
         # Block if there are draft moves before end_date
-        unposted_move_count = speedy["am_obj"].search_count(
+        draft_move_count = speedy["am_obj"].search_count(
             [("date", "<=", self.end_date), ("state", "=", "draft")]
             + speedy["company_domain"]
         )
-        if unposted_move_count:
+        if draft_move_count:
             raise UserError(
                 _(
                     "There is/are %d draft journal entry/entries dated before %s. "
                     "You should post this/these journal entry/entries or "
                     "delete it/them."
                 )
-                % (unposted_move_count, format_date(self.env, self.end_date))
+                % (draft_move_count, format_date(self.env, self.end_date))
             )
         bad_fp = speedy["afp_obj"].search(
             speedy["company_domain"] + [("fr_vat_type", "=", False)], limit=1
@@ -1314,6 +1315,7 @@ class L10nFrAccountVatReturn(models.Model):
         common_move_domain = speedy["company_domain"] + [
             ("date", "<=", self.end_date),
             ("amount_total", ">", 0),
+            ("state", "=", "posted"),
         ]
         if in_or_out == "in":
             journal_type = "purchase"
@@ -1392,7 +1394,7 @@ class L10nFrAccountVatReturn(models.Model):
             [("create_date", ">=", self.end_date)]
         )
         reconciled_purchase_or_sale_lines = speedy["aml_obj"].search(
-            speedy["company_domain"]
+            speedy["base_domain"]
             + [
                 ("full_reconcile_id", "in", full_reconcile_post_end.ids),
                 ("journal_id", "in", purchase_or_sale_journals.ids),
