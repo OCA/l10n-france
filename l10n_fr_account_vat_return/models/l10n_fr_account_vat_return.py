@@ -1585,10 +1585,24 @@ class L10nFrAccountVatReturn(models.Model):
         for fpositions, box_type in fpositions2boxtype.items():
             for fposition in fpositions:
                 if not fposition.account_ids:
-                    raise UserError(
-                        _("Missing account mapping on fiscal position '%s'.")
-                        % fposition.display_name
-                    )
+                    if fposition.fr_vat_type == "france_exo":
+                        # it may be a purchase-only fiscal position (ex: Auto-entrep)
+                        # -> no raise, only write a warning in chatter
+                        self.message_post(
+                            body=_(
+                                "No account mapping on fiscal position "
+                                "<a href=# data-oe-model=account.fiscal.position "
+                                "data-oe-id=%d>%s</a>. If this fiscal position is not "
+                                "only used for purchase but also for sale, you must "
+                                "configure an account mapping on revenue accounts."
+                            )
+                            % (fposition.id, fposition.display_name)
+                        )
+                    else:
+                        raise UserError(
+                            _("Missing account mapping on fiscal position '%s'.")
+                            % fposition.display_name
+                        )
                 for mapping in fposition.account_ids:
                     if box_type not in boxtype2accounts:
                         boxtype2accounts[box_type] = mapping.account_dest_id
