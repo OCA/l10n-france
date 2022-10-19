@@ -299,6 +299,7 @@ class L10nFrAccountVatReturn(models.Model):
             "company_id": self.company_id.id,
             "currency": self.company_id.currency_id,
             "company_domain": company_domain,
+            "base_domain": base_domain,
             "base_domain_period": base_domain_period,
             "base_domain_end": base_domain_end,
             "base_domain_end_previous": base_domain_end_previous,
@@ -460,18 +461,18 @@ class L10nFrAccountVatReturn(models.Model):
     def _setup_data_pre_check(self, speedy):
         self.ensure_one()
         # Block if there are draft moves before end_date
-        unposted_move_count = speedy["am_obj"].search_count(
+        draft_move_count = speedy["am_obj"].search_count(
             [("date", "<=", self.end_date), ("state", "=", "draft")]
             + speedy["company_domain"]
         )
-        if unposted_move_count:
+        if draft_move_count:
             raise UserError(
                 _(
                     "There is/are %d draft journal entry/entries dated before %s. "
                     "You should post this/these journal entry/entries or "
                     "delete it/them."
                 )
-                % (unposted_move_count, format_date(self.env, self.end_date))
+                % (draft_move_count, format_date(self.env, self.end_date))
             )
         bad_fp = speedy["afp_obj"].search(
             speedy["company_domain"] + [("fr_vat_type", "=", False)], limit=1
@@ -1314,6 +1315,7 @@ class L10nFrAccountVatReturn(models.Model):
         common_move_domain = speedy["company_domain"] + [
             ("date", "<=", self.end_date),
             ("amount_total", ">", 0),
+            ("state", "=", "posted"),
         ]
         if in_or_out == "in":
             journal_type = "purchase"
@@ -1392,7 +1394,7 @@ class L10nFrAccountVatReturn(models.Model):
             [("create_date", ">=", self.end_date)]
         )
         reconciled_purchase_or_sale_lines = speedy["aml_obj"].search(
-            speedy["company_domain"]
+            speedy["base_domain"]
             + [
                 ("full_reconcile_id", "in", full_reconcile_post_end.ids),
                 ("journal_id", "in", purchase_or_sale_journals.ids),
@@ -1585,10 +1587,24 @@ class L10nFrAccountVatReturn(models.Model):
         for fpositions, box_type in fpositions2boxtype.items():
             for fposition in fpositions:
                 if not fposition.account_ids:
-                    raise UserError(
-                        _("Missing account mapping on fiscal position '%s'.")
-                        % fposition.display_name
-                    )
+                    if fposition.fr_vat_type == "france_exo":
+                        # it may be a purchase-only fiscal position (ex: Auto-entrep)
+                        # -> no raise, only write a warning in chatter
+                        self.message_post(
+                            body=_(
+                                "No account mapping on fiscal position "
+                                "<a href=# data-oe-model=account.fiscal.position "
+                                "data-oe-id=%d>%s</a>. If this fiscal position is not "
+                                "only used for purchase but also for sale, you must "
+                                "configure an account mapping on revenue accounts."
+                            )
+                            % (fposition.id, fposition.display_name)
+                        )
+                    else:
+                        raise UserError(
+                            _("Missing account mapping on fiscal position '%s'.")
+                            % fposition.display_name
+                        )
                 for mapping in fposition.account_ids:
                     if box_type not in boxtype2accounts:
                         boxtype2accounts[box_type] = mapping.account_dest_id
