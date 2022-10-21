@@ -4,8 +4,9 @@
 
 {
     "name": "French Localization - Check Social Security Number",
-    "version": "14.0.1.0.1",
+    "version": "16.0.1.0.0",
     "category": "Human Resources",
+    "development_status": "Mature",
     "license": "AGPL-3",
     "summary": "Check validity of Social Security Numbers in French companies",
     "author": "Akretion,Odoo Community Association (OCA)",
