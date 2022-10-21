@@ -26,6 +26,9 @@ class HrEmployee(models.Model):
                     validate(empl.ssnid)
                 except (InvalidFormat, InvalidLength, InvalidChecksum) as e:
                     raise ValidationError(
-                        _("The French Social Security Number '%s' is invalid. " "(%s)")
-                        % (empl.ssnid, e)
-                    )
+                        _(
+                            "The French Social Security Number '%(ssnid)s' "
+                            "is invalid. (%(e)s)"
+                        )
+                        % {"ssnid": empl.ssnid, "e": e}
+                    ) from e
