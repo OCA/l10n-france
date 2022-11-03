@@ -27,6 +27,5 @@ msgstr "Employé"
 #. module: l10n_fr_hr_check_ssnid
 #: code:addons/l10n_fr_hr_check_ssnid/models/hr_employee.py:0
 #, fuzzy, python-format
-#| msgid "The French Social Security Number '%s' is invalid. (%s)"
 msgid "The French Social Security Number '%(ssnid)s' is invalid. (%(e)s)"
 msgstr "Le numéro de sécurité sociale '%(ssnid)s' est invalide. (%(e)s)"
