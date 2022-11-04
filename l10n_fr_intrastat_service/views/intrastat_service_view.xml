@@ -21,22 +21,10 @@
                     />
                     <button
                         name="done"
-                        string="Done"
+                        string="Confirm"
                         type="object"
                         states="draft"
                         class="btn-primary"
-                    />
-                    <button
-                        name="generate_xml"
-                        string="Generate XML Export"
-                        type="object"
-                        attrs="{'invisible': ['|', ('attachment_id', '!=', False), ('declaration_line_ids', '=', [])]}"
-                    />
-                    <button
-                        name="delete_xml"
-                        string="Delete XML Export"
-                        type="object"
-                        attrs="{'invisible': [('attachment_id', '=', False)]}"
                     />
                     <button name="create_xlsx" type="object" string="Excel Export" />
                     <button
@@ -44,6 +32,7 @@
                         string="Back to Draft"
                         type="object"
                         states="done"
+                        confirm="Are you sure you want to go back to draft?"
                     />
                     <field name="state" widget="statusbar" />
                 </header>

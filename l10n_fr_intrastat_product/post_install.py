@@ -16,8 +16,11 @@ def set_fr_company_intrastat(cr, registry):
         afpo = env["account.fiscal.position"]
         fr_id = env.ref("base.fr").id
         companies = env["res.company"].search([("partner_id.country_id", "=", fr_id)])
-        out_inv_trans_id = env.ref(
+        out_inv_b2b_trans_id = env.ref(
             "l10n_fr_intrastat_product.intrastat_transaction_21_11"
+        ).id
+        out_inv_b2c_trans_id = env.ref(
+            "l10n_fr_intrastat_product.intrastat_transaction_29_12"
         ).id
         out_ref_trans_id = env.ref(
             "l10n_fr_intrastat_product.intrastat_transaction_25"
@@ -25,31 +28,36 @@ def set_fr_company_intrastat(cr, registry):
         in_inv_trans_id = env.ref(
             "l10n_fr_intrastat_product.intrastat_transaction_11_11"
         ).id
+        fpdict = {
+            "intraeub2b": out_inv_b2b_trans_id,
+            "intraeub2c": out_inv_b2c_trans_id,
+        }
         for company in companies:
-            company.write(
-                {
-                    "intrastat_transaction_out_invoice": out_inv_trans_id,
-                    "intrastat_transaction_out_refund": out_ref_trans_id,
-                    "intrastat_transaction_in_invoice": in_inv_trans_id,
-                    "intrastat_accessory_costs": True,
-                }
-            )
+            company.write({"intrastat_accessory_costs": True})
             fps = afpo.search([("company_id", "=", company.id)])
             for fp in fps:
                 xmlid_rec = imdo.search(
                     [
                         ("model", "=", "account.fiscal.position"),
-                        ("module", "=", "l10n_fr"),
+                        ("module", "=like", "l10n_fr%"),
                         ("res_id", "=", fp.id),
-                        ("name", "=like", "%_fiscal_position_template_intraeub2b"),
                     ],
                     limit=1,
                 )
                 if xmlid_rec:
-                    logger.debug(
-                        "set_fr_company_intrastat writing intrastat=True "
-                        "on fiscal position ID %d",
-                        fp.id,
-                    )
-                    fp.write({"intrastat": True})
-    return
+                    for fp_type, out_inv_trans_id in fpdict.items():
+                        if xmlid_rec.name.endswith(fp_type):
+                            logger.debug(
+                                "set_fr_company_intrastat writing intrastat=True "
+                                "on fiscal position ID %d",
+                                fp.id,
+                            )
+                            fp.write(
+                                {
+                                    "intrastat": True,
+                                    "intrastat_out_invoice_transaction_id": out_inv_trans_id,
+                                    "intrastat_out_refund_transaction_id": out_ref_trans_id,
+                                    "intrastat_in_invoice_transaction_id": in_inv_trans_id,
+                                }
+                            )
+                            break
