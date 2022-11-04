@@ -109,7 +109,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             for x in rg_res
         }
         for rec in self:
-            rec.write(data.get(rec.id, {}))
+            rec.total_amount = data.get(rec.id, {}).get("total_amount", 0)
+            rec.num_decl_lines = data.get(rec.id, {}).get("num_decl_lines", 0)
 
     @api.depends("start_date")
     def _compute_dates(self):
@@ -154,6 +155,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ("invoice_date", ">=", self.start_date),
             ("state", "=", "posted"),
             ("intrastat_fiscal_position", "=", True),
+            ("fiscal_position_id.vat_required", "=", True),
             ("company_id", "=", self.company_id.id),
         ]
         return domain
@@ -276,14 +278,16 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         return
 
     def done(self):
+        for decl in self:
+            assert decl.state == "draft"
+            decl.generate_xml()
         self.write({"state": "done"})
 
     def back2draft(self):
         for decl in self:
+            assert decl.state == "done"
             if decl.attachment_id:
-                raise UserError(
-                    _("Before going back to draft, you must delete the XML export.")
-                )
+                decl.attachment_id.unlink()
         self.write({"state": "draft"})
 
     def _generate_des_xml_root(self):
@@ -337,14 +341,9 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
 
     def generate_xml(self):
         self.ensure_one()
-        if self.attachment_id:
-            raise UserError(
-                _(
-                    "An XML Export already exists for %s. "
-                    "To re-generate it, you must first delete it."
-                )
-                % self.display_name
-            )
+        assert not self.attachment_id
+        if not self.declaration_line_ids:
+            return
         root = self._generate_des_xml_root()
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
@@ -370,10 +369,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             }
         )
         return attach.id
-
-    def delete_xml(self):
-        self.ensure_one()
-        self.attachment_id and self.attachment_id.unlink()
 
     @api.model
     def _scheduler_reminder(self):
