@@ -19,6 +19,8 @@
         "l10n_fr_state",
         "contacts",
     ],
+    "excludes": ["partner_contact_department"],
+    # partner_contact_department also declares a field 'department_id' on res.partner
     "data": [
         "security/ir.model.access.csv",
         "data/res_country_department.xml",
