@@ -19,6 +19,7 @@ msgid "Employee"
 msgstr ""
 
 #. module: l10n_fr_hr_check_ssnid
+#. odoo-python
 #: code:addons/l10n_fr_hr_check_ssnid/models/hr_employee.py:0
 #, python-format
 msgid "The French Social Security Number '%(ssnid)s' is invalid. (%(e)s)"
