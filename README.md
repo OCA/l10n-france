@@ -7,9 +7,9 @@
 
 <!-- /!\ do not modify above this line -->
 
-# l10n-france
+# French Localization
 
-TODO: add repo description.
+French Localization Modules
 
 <!-- /!\ do not modify below this line -->
 
