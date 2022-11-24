@@ -7,7 +7,7 @@
 
 <!-- /!\ do not modify above this line -->
 
-# l10n-france
+# French Localization
 
 French localization modules.
 
