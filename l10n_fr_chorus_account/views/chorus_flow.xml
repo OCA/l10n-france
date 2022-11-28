@@ -14,22 +14,24 @@
                         name="update_flow_status"
                         type="object"
                         string="Update Flow Status"
-                        attrs="{'invisible': [('status', '=', 'IN_INTEGRE')]}"
+                        attrs="{'invisible': [('status', 'in', ('IN_INTEGRE', 'IN_INTEGRE_PARTIEL', 'IN_REJETE'))]}"
                     />
                     <button
                         name="get_invoice_identifiers"
                         type="object"
                         string="Get Chorus Invoice Identifiers"
-                        attrs="{'invisible': ['|', ('status', '!=', 'IN_INTEGRE'), ('invoice_identifiers', '=', True)]}"
+                        attrs="{'invisible': ['|', ('status', 'not in', ('IN_INTEGRE', 'IN_INTEGRE_PARTIEL')), ('invoice_identifiers', '=', True)]}"
                     />
                 </header>
                 <group name="main">
                     <field name="name" />
                     <field name="date" />
                     <field name="syntax" />
+                    <field name="initial_invoice_ids" widget="many2many_tags" />
                     <field name="attachment_id" />
                     <field name="company_id" groups="base.group_multi_company" />
-                    <field name="status" />
+                    <field name="status_display" />
+                    <field name="status" invisible="1" />
                     <field name="status_date" />
                     <field name="invoice_identifiers" invisible="1" />
                     <field name="notes" />
@@ -65,10 +67,22 @@
             <tree>
                 <field name="name" />
                 <field name="date" />
-                <field name="syntax" />
-                <field name="status" />
-                <field name="status_date" />
-                <field name="company_id" groups="base.group_multi_company" />
+                <field name="syntax" optional="show" />
+                <field
+                    name="status_display"
+                    widget="badge"
+                    decoration-info="status == 'IN_DEPOT_PORTAIL_EN_ATTENTE_TRAITEMENT_SE_CPP'"
+                    decoration-success="status == 'IN_INTEGRE'"
+                    decoration-warning="status == 'IN_INTEGRE_PARTIEL'"
+                    decoration-danger="status == 'IN_REJETE'"
+                />
+                <field name="status" invisible="1" />
+                <field name="status_date" optional="show" />
+                <field
+                    name="company_id"
+                    groups="base.group_multi_company"
+                    optional="show"
+                />
             </tree>
         </field>
     </record>
@@ -82,7 +96,7 @@
                     <filter
                         name="status_groupby"
                         string="Status"
-                        context="{'group_by': 'status'}"
+                        context="{'group_by': 'status_display'}"
                     />
                     <filter
                         name="date_groupby"
