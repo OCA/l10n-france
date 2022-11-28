@@ -20,7 +20,10 @@ class ChorusFlow(models.Model):
     attachment_id = fields.Many2one(
         "ir.attachment", string="File Sent to Chorus", readonly=True, copy=False
     )
-    status = fields.Char(string="Flow Status", readonly=True, copy=False)
+    status = fields.Char(string="Flow Status (raw value)", readonly=True, copy=False)
+    status_display = fields.Char(
+        compute="_compute_status_display", string="Flow Status", store=True
+    )
     status_date = fields.Datetime(
         string="Last Status Update", readonly=True, copy=False
     )
@@ -36,9 +39,30 @@ class ChorusFlow(models.Model):
     invoice_identifiers = fields.Boolean(
         compute="_compute_invoice_identifiers", readonly=True, store=True
     )
-    invoice_ids = fields.One2many(
-        "account.move", "chorus_flow_id", string="Invoices", readonly=True
+    initial_invoice_ids = fields.Many2many(
+        "account.move",
+        "chorus_flow_initial_account_move_rel",
+        "chorus_flow_id",
+        "move_id",
+        string="Initial Invoices",
+        help="Invoices in the flow before potential rejections",
     )
+    invoice_ids = fields.One2many(
+        "account.move",
+        "chorus_flow_id",
+        string="Invoices",
+        readonly=True,
+        help="Invoices in the flow after potential rejections",
+    )
+
+    @api.depends("status")
+    def _compute_status_display(self):
+        for flow in self:
+            if flow.status and flow.status.startswith("IN_") and len(flow.status) > 3:
+                status_display = flow.status[3:].replace("_", " ")
+            else:
+                status_display = flow.status
+            flow.status_display = status_display
 
     @api.depends("invoice_ids.chorus_identifier")
     def _compute_invoice_identifiers(self):
@@ -47,12 +71,14 @@ class ChorusFlow(models.Model):
                 [inv.chorus_identifier for inv in flow.invoice_ids]
             )
 
+    @api.depends("name", "status_display")
     def name_get(self):
         res = []
         for flow in self:
             name = flow.name
-            if flow.status:
-                name = "{} ({})".format(name, flow.status)
+            if flow.status_display:
+                status = flow.status_display
+                name = "{} ({})".format(name, status)
             res.append((flow.id, name))
         return res
 
@@ -93,6 +119,27 @@ class ChorusFlow(models.Model):
                             error.get("libelleErreurDP"),
                         )
                     )
+                    # If we can identify the invoice in Odoo, we detach it
+                    # from the flow, so that it can be fixed and re-transmitted
+                    if error.get("numeroDP"):
+                        invoice = self.env["account.move"].search(
+                            [
+                                ("company_id", "=", self.company_id.id),
+                                ("name", "=", error["numeroDP"]),
+                            ],
+                            limit=1,
+                        )
+                        if invoice:
+                            invoice.message_post(
+                                body=_(
+                                    "This invoice has been <b>rejected by Chorus Pro</b> "
+                                    "for the following reason:<br/><i>%s</i><br/>"
+                                    "You should fix the error and send this invoice to "
+                                    "Chorus Pro again."
+                                )
+                                % error.get("libelleErreurDP")
+                            )
+                            invoice.sudo().write({"chorus_flow_id": False})
             res = {
                 "status": answer.get("etatCourantDepotFlux"),
                 "notes": notes or answer.get("libelle"),
@@ -157,15 +204,18 @@ class ChorusFlow(models.Model):
         raise_if_ko = self._context.get("chorus_raise_if_ko", True)
         flows = []
         for flow in self:
-            if flow.status != "IN_INTEGRE":
+            if flow.status not in ("IN_INTEGRE", "IN_INTEGRE_PARTIEL"):
                 if raise_if_ko:
                     raise UserError(
-                        _("On flow %s, the status is not 'IN_INTEGRE'")
+                        _(
+                            "On flow %s, the status is not 'INTEGRE' "
+                            "nor 'INTEGRE PARTIEL'."
+                        )
                         % (flow.name, flow.status)
                     )
                 logger.warning(
                     "Skipping flow %s: chorus flow status should be "
-                    "IN_INTEGRE but current value is %s",
+                    "IN_INTEGRE or IN_INTEGRE_PARTIEL but current value is %s",
                     flow.name,
                     flow.status,
                 )
@@ -207,11 +257,14 @@ class ChorusFlow(models.Model):
         self = self.with_context(chorus_raise_if_ko=False)
         logger.info("Start Chorus flow cron")
         to_update_flows = self.search(
-            [("status", "not in", ("IN_REJETE", "IN_INTEGRE"))]
+            [("status", "not in", ("IN_REJETE", "IN_INTEGRE", "IN_INTEGRE_PARTIEL"))]
         )
         to_update_flows.update_flow_status()
         get_identifiers_flows = self.search(
-            [("status", "=", "IN_INTEGRE"), ("invoice_identifiers", "=", False)]
+            [
+                ("status", "in", ("IN_INTEGRE", "IN_INTEGRE_PARTIEL")),
+                ("invoice_identifiers", "=", False),
+            ]
         )
         get_identifiers_flows.get_invoice_identifiers()
         invoices_update_invoice_status = self.env["account.move"].search(
