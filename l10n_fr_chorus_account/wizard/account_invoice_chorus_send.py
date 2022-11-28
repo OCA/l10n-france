@@ -121,6 +121,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     "syntax": company.fr_chorus_invoice_format,
                     "attachment_id": attach.id,
                     "company_id": company.id,
+                    "initial_invoice_ids": self.invoice_ids.ids,
                 }
             )
             self.invoice_ids.write(
