@@ -10,7 +10,11 @@ setuptools.setup(
     install_requires=[
         'odoo-addon-account_banking_fr_lcr>=15.0dev,<15.1dev',
         'odoo-addon-account_statement_import_fr_cfonb>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_account_invoice_facturx>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_account_tax_unece>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_chorus_account>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_chorus_facturx>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_chorus_sale>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_department>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_department_oversea>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_ecotaxe>=15.0dev,<15.1dev',
