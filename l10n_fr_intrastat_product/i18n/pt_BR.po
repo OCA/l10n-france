@@ -20,59 +20,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_fr_intrastat_product
-#: model:mail.template,body_html:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
-msgid ""
-"\n"
-"<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-"
-"serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
-"\n"
-"<p>I would like to remind you that we are approaching the deadline for the "
-"DEB for month ${object.year_month}.</p>\n"
-"\n"
-"<p>As there were no ${object.declaration_type} DEB for that month in Odoo, a "
-"draft ${object.declaration_type} DEB has been generated automatically by "
-"Odoo.</p>\n"
-"\n"
-"% if ctx.get('exception'):\n"
-"<p>When trying to generate the lines of the ${object.declaration_type} DEB, "
-"the following error was encountered:</p>\n"
-"\n"
-"<p>${ctx.get('error_msg')}</p>\n"
-"\n"
-"<p>You should solve this error, then go to the menu \"Invoicing > Reporting "
-"> Intrastat > DEB\", open the ${object.declaration_type} declaration for "
-"month ${object.year_month} and click on the button \"Generate lines from "
-"invoices\".</p>\n"
-"\n"
-"% else:\n"
-"% if object.num_lines and object.num_lines > 0:\n"
-"<p>This draft ${object.declaration_type} DEB contains ${object."
-"num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'}.</p>\n"
-"% else:\n"
-"<p>This draft ${object.declaration_type} DEB generated automatically by Odoo "
-"doesn't contain any line.</p>\n"
-"% endif\n"
-"\n"
-"<p>Go and check this declaration in Odoo in the menu \"Invoicing > Reporting "
-"> Intrastat > DEB\".</p>\n"
-"\n"
-"% endif\n"
-"\n"
-"<p>\n"
-"--\n"
-"Automatic e-mail sent by Odoo.\n"
-"</p>\n"
-"</div>\n"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: model:mail.template,subject:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
-msgid ""
-"${object.declaration_type} DEB ${object.year_month} for ${object.company_id."
-"name}"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_transaction__fr_fiscal_value_multiplier
 msgid ""
 "'0' for procedure codes 19 and 29, '-1' for procedure code 25, '1' for all "
@@ -103,6 +50,29 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields.selection,name:l10n_fr_intrastat_product.selection__intrastat_transaction__fr_transaction_code__19
 msgid "19"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__product_origin_country_code
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__product_origin_country_code
+msgid ""
+"2 digit code of country of origin of the product except for the UK.\n"
+"Specify 'XI' for UK Northern Ireland and 'XU' for rest of the UK.\n"
+"Specify 'QU' when the country is unknown.\n"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__src_dest_country_code
+msgid ""
+"2 digit code of country of origin/destination.\n"
+"Specify 'XI' for UK Northern Ireland and 'XU' for rest of the UK."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__src_dest_country_code
+msgid ""
+"2 digit code of country of origin/destination.\n"
+"Specify 'XI' for UK Northern Ireland."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -168,6 +138,53 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields.selection,name:l10n_fr_intrastat_product.selection__intrastat_transaction__fr_transaction_code__99
 msgid "99"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:mail.template,body_html:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
+msgid ""
+"<p>I would like to remind you that we are approaching the deadline for the "
+"DEB for month <strong t-out=\"object.year_month\">2022-01</strong>.</p>\n"
+"\n"
+"<p>As there were no <t t-out=\"object.declaration_type\">departure</t> DEB "
+"for that month in Odoo, a draft <t t-out=\"object.declaration_type"
+"\">departure</t> DEB has been generated automatically by Odoo.</p>\n"
+"\n"
+"<t t-if=\"ctx.get('exception')\">\n"
+"<p>When trying to generate the lines of the <t t-out=\"object."
+"declaration_type\">departure</t> DEB, the following error was encountered:</"
+"p>\n"
+"\n"
+"<code><t t-out=\"ctx.get('error_msg')\">Missing VAT number on partner 'Azur'."
+"</t></code>\n"
+"\n"
+"<p>You should solve this error, then go to the menu \"Invoicing &gt; "
+"Reporting &gt; Intrastat &gt; DEB\", open the <t t-out=\"object."
+"declaration_type\">departure</t> DEB for month <t t-out=\"object.year_month"
+"\">2022-01</t> and click on the button <em>Generate lines from invoices</em>."
+"</p>\n"
+"\n"
+"</t>\n"
+"<t t-else=\"\">\n"
+"        <t t-if=\"object.num_decl_lines &gt; 0\">\n"
+"                <p>This draft <t t-out=\"object.declaration_type"
+"\">departure</t> DEB contains <t t-out=\"object.num_decl_lines\">3</t> "
+"line(s).</p>\n"
+"        </t>\n"
+"<t t-else=\"\">\n"
+"<p>This draft <t t-out=\"object.declaration_type\">departure</t> DEB "
+"generated automatically by Odoo doesn't contain any line.</p>\n"
+"</t>\n"
+"\n"
+"<p>Go and check this declaration in Odoo in the menu <em>Invoicing &gt; "
+"Reporting &gt; Intrastat &gt; DEB</em>.</p>\n"
+"\n"
+"</t>\n"
+"\n"
+"<p>\n"
+"--\n"
+"Automatic e-mail sent by Odoo.\n"
+"</p>\n"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -254,8 +271,9 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid ""
-"Bad VAT number '%s' on line %d. Brexit took place on January 1st 2021 and "
-"companies in Northern Ireland have a new VAT number starting with 'XI'."
+"Bad VAT number '{vat}' on line {line_number}. Brexit took place on January "
+"1st 2021 and companies in Northern Ireland have a new VAT number starting "
+"with 'XI'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -309,7 +327,15 @@ msgid "Country"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__src_dest_country_code
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__src_dest_country_code
+msgid "Country Code"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__product_origin_country_code
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__product_origin_country_id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__product_origin_country_code
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__product_origin_country_id
 msgid "Country of Origin of the Product"
 msgstr ""
@@ -373,6 +399,7 @@ msgstr ""
 #: model:ir.actions.server,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron
 #: model:ir.cron,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron
+#: model:mail.template,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
 msgid "DEB Reminder"
 msgstr ""
 
@@ -422,17 +449,9 @@ msgid "Dispatches"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction__display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_unit__display_name
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__display_name
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__display_name
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_partner__display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_stock_location__display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_stock_warehouse__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -459,11 +478,6 @@ msgid "Followers"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -481,17 +495,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction__id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_unit__id
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line__id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line__id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_partner__id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_stock_location__id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_stock_warehouse__id
 msgid "ID"
 msgstr "Identificação"
 
@@ -638,17 +649,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_transaction____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_unit____last_update
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_computation_line____last_update
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration____last_update
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration_line____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_res_partner____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_stock_location____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_stock_warehouse____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -703,8 +706,8 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid ""
-"Missing VAT number on partner '%s' which is the fiscal representative of "
-"partner '%s'."
+"Missing VAT number on partner '{fiscal_rep}' which is the fiscal "
+"representative of partner '{partner}'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -837,8 +840,8 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid ""
-"On line %d, the source/destination country is '%s', which is not part of the "
-"European Union."
+"On line {line_number}, the source/destination country is '{country}', which "
+"is not part of the European Union."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -959,20 +962,24 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/res_partner.py:0
 #, python-format
 msgid ""
-"The fiscal representative '%s' of partner '%s' must be based in an EU "
+"The fiscal representative '{fiscal_rep}' of partner '{partner}' must be "
+"based in an EU country."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/res_partner.py:0
+#, python-format
+msgid ""
+"The fiscal representative '{fiscal_rep}' of partner '{partner}' must have a "
+"VAT number."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: code:addons/l10n_fr_intrastat_product/models/res_partner.py:0
+#, python-format
+msgid ""
+"The fiscal representative '{fiscal_rep}' of partner '{partner}' must have a "
 "country."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/res_partner.py:0
-#, python-format
-msgid "The fiscal representative '%s' of partner '%s' must have a VAT number."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: code:addons/l10n_fr_intrastat_product/models/res_partner.py:0
-#, python-format
-msgid "The fiscal representative '%s' of partner '%s' must have a country."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -1117,6 +1124,13 @@ msgstr ""
 msgid ""
 "You should not set a transaction code when the Code (i.e. Procedure Code) is "
 "'25', '26' or '31'."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#: model:mail.template,subject:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
+msgid ""
+"{{object.declaration_type}} DEB {{object.year_month}} for {{object."
+"company_id.name}}"
 msgstr ""
 
 #, fuzzy
