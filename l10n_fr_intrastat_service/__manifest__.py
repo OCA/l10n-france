@@ -12,7 +12,7 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["intrastat_base", "report_xlsx_helper"],
-    "external_dependencies": {"python": ["stdnum"]},
+    "external_dependencies": {"python": ["python-stdnum>=1.18"]},
     "data": [
         "security/ir.model.access.csv",
         "views/intrastat_service_view.xml",
