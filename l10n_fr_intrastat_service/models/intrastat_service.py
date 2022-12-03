@@ -7,7 +7,7 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 from lxml import etree
-from stdnum.vatin import is_valid
+from stdnum import vatin
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -513,7 +513,7 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
     @api.constrains("partner_vat")
     def _check_partner_vat(self):
         for line in self:
-            if line.partner_vat and not is_valid(line.partner_vat):
+            if line.partner_vat and not vatin.is_valid(line.partner_vat):
                 raise ValidationError(
                     _("The VAT number '%s' is invalid.") % line.partner_vat
                 )
