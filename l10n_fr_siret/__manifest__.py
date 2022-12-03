@@ -12,7 +12,7 @@
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
     "depends": ["l10n_fr"],
-    "external_dependencies": {"python": ["stdnum"]},
+    "external_dependencies": {"python": ["python-stdnum>=1.18"]},
     "data": [
         "views/res_partner.xml",
         "views/res_company.xml",

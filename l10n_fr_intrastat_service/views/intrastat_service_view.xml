@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2010-2022 Akretion France (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <!-- Form view for DES -->
+    <record id="l10n_fr_intrastat_service_declaration_form" model="ir.ui.view">
+        <field name="name">fr.intrastat.service.declaration.form</field>
+        <field name="model">l10n.fr.intrastat.service.declaration</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="generate_service_lines"
+                        string="Generate Lines from Invoices"
+                        type="object"
+                        states="draft"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="done"
+                        string="Done"
+                        type="object"
+                        states="draft"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="generate_xml"
+                        string="Generate XML Export"
+                        type="object"
+                        attrs="{'invisible': ['|', ('attachment_id', '!=', False), ('declaration_line_ids', '=', [])]}"
+                    />
+                    <button
+                        name="delete_xml"
+                        string="Delete XML Export"
+                        type="object"
+                        attrs="{'invisible': [('attachment_id', '=', False)]}"
+                    />
+                    <button name="create_xlsx" type="object" string="Excel Export" />
+                    <button
+                        name="back2draft"
+                        string="Back to Draft"
+                        type="object"
+                        states="done"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet string="DES">
+                    <div class="oe_title">
+                        <h1>
+                            <label string="DES" for="year_month" />
+                            <field name="year_month" class="oe_inline" />
+                        </h1>
+                    </div>
+                    <group name="top-block">
+                        <group name="properties-1">
+                            <field name="start_date" />
+                            <field name="end_date" />
+                            <field name="attachment_datas" filename="attachment_name" />
+                            <field name="attachment_name" invisible="1" />
+                            <field name="attachment_id" invisible="1" />
+                        </group>
+                        <group name="properties-2">
+                            <field name="num_decl_lines" />
+                            <field name="total_amount" />
+                            <field name="currency_id" invisible="1" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                    </group>
+                    <group name="lines">
+                        <field name="declaration_line_ids" nolabel="1" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- Tree view for DES -->
+    <record id="l10n_fr_intrastat_service_declaration_tree" model="ir.ui.view">
+        <field name="name">fr.intrastat.service.declaration.tree</field>
+        <field name="model">l10n.fr.intrastat.service.declaration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="year_month" decoration-bf="1" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="num_decl_lines" sum="1" />
+                <field name="total_amount" sum="1" />
+                <field name="currency_id" invisible="1" />
+                <field
+                    name="state"
+                    decoration-success="state == 'done'"
+                    decoration-info="state == 'draft'"
+                    widget="badge"
+                />
+            </tree>
+        </field>
+    </record>
+    <!-- Search view for DES -->
+    <record id="l10n_fr_intrastat_service_declaration_search" model="ir.ui.view">
+        <field name="name">fr.intrastat.service.declaration.search</field>
+        <field name="model">l10n.fr.intrastat.service.declaration</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="year_month" />
+                <filter
+                    name="draft"
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
+                <group string="Group By" name="groupby">
+                    <filter
+                        name="date_groupby"
+                        string="Date"
+                        context="{'group_by': 'start_date'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <!-- Graph view for DES -->
+    <record id="l10n_fr_intrastat_service_declaration_graph" model="ir.ui.view">
+        <field name="name">fr.intrastat.service.declaration.graph</field>
+        <field name="model">l10n.fr.intrastat.service.declaration</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="year_month" type="row" />
+                <field name="total_amount" type="measure" />
+            </graph>
+        </field>
+    </record>
+    <!-- Pivot view for DES -->
+    <record id="l10n_fr_intrastat_service_declaration_pivot" model="ir.ui.view">
+        <field name="name">fr.intrastat.service.declaration.pivot</field>
+        <field name="model">l10n.fr.intrastat.service.declaration</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="year_month" type="row" />
+                <field name="total_amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+    <!-- Form view for service lines -->
+    <record id="l10n_fr_intrastat_service_declaration_line_form" model="ir.ui.view">
+        <field name="name">fr.intrastat.service.declaration.line.form</field>
+        <field name="model">l10n.fr.intrastat.service.declaration.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <group string="Information to Declare" name="to-declare">
+                    <field name="partner_id" />
+                    <field name="partner_vat" />
+                    <field name="amount_company_currency" />
+                    <field name="company_currency_id" invisible="1" />
+                </group>
+                <group string="Related Invoice" name="additionnal">
+                    <field name="move_id" />
+                    <field name="invoice_date" />
+                    <field name="amount_invoice_currency" />
+                    <field name="invoice_currency_id" invisible="1" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <!-- Tree view for service lines -->
+    <record id="l10n_fr_intrastat_service_declaration_line_tree" model="ir.ui.view">
+        <field name="name">fr.intrastat.service.declaration.line.tree</field>
+        <field name="model">l10n.fr.intrastat.service.declaration.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_vat" />
+                <!-- amount_company_currency is an Integer field,
+                     not a fields.Monetary, that's why I use explicitely
+                     the widget and the options in the field below -->
+                <field
+                    name="amount_company_currency"
+                    widget="monetary"
+                    options="{'currency_field': 'company_currency_id'}"
+                    sum="1"
+                />
+                <field name="company_currency_id" invisible="1" />
+                <field name="partner_id" />
+                <field name="move_id" />
+            </tree>
+        </field>
+    </record>
+    <!-- Action related -->
+    <record
+        id="l10n_fr_intrastat_service_declaration_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">DES</field>
+        <field name="res_model">l10n.fr.intrastat.service.declaration</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+    </record>
+    <!-- Intrastat service menu -->
+    <menuitem
+        id="l10n_fr_intrastat_service_declaration_menu"
+        parent="intrastat_base.menu_intrastat_base_root"
+        action="l10n_fr_intrastat_service_declaration_action"
+        sequence="20"
+    />
+</odoo>

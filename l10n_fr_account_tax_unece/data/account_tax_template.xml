@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  Copyright 2017-2021 Akretion France
+  Copyright 2017-2022 Akretion France
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -207,6 +207,10 @@
     <record id="l10n_fr.tva_imm_normale" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
     </record>
+    <!-- IMMO-20.0 services -->
+    <record id="l10n_fr.tva_purchase_imm_normale" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+    </record>
     <!-- IMMO-10.0 -->
     <record id="l10n_fr.tva_imm_intermediaire" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
@@ -223,48 +227,101 @@
     <record id="l10n_fr.tva_imm_super_reduite" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
     </record>
-    <!-- ACH_UE-20.0 -->
-    <record id="l10n_fr.tva_intra_normale" model="account.tax.template">
+    <!-- CARBURANT 20.0 -->
+    <record id="l10n_fr.tva_purchase_good_fuel" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+    </record>
+    <!-- CARBURANT 20.0 TTC -->
+    <record id="l10n_fr.tva_purchase_good_fuel_TTC" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+    </record>
+    <!-- ACH_UE-20.0 goods -->
+    <record id="l10n_fr.tva_intra_normale_biens" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- ACH_UE-10.0 -->
-    <record id="l10n_fr.tva_intra_intermediaire" model="account.tax.template">
+    <!-- ACH_UE-20.0 services -->
+    <record id="l10n_fr.tva_intra_normale_services" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- ACH_UE-8.5 -->
-    <record id="l10n_fr.tva_intra_specifique" model="account.tax.template">
+    <!-- ACH_UE-10.0 goods -->
+    <record id="l10n_fr.tva_intra_intermediaire_biens" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- ACH_UE-5.5 -->
-    <record id="l10n_fr.tva_intra_reduite" model="account.tax.template">
+    <!-- ACH_UE-10.0 services -->
+    <record id="l10n_fr.tva_intra_intermediaire_services" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- ACH_UE-2.1 -->
-    <record id="l10n_fr.tva_intra_super_reduite" model="account.tax.template">
+    <!-- ACH_UE-8.5 goods -->
+    <record id="l10n_fr.tva_intra_specifique_biens" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
-    <!-- EXO-0 -->
-    <record id="l10n_fr.tva_0" model="account.tax.template">
+    <!-- ACH_UE-8.5 services -->
+    <record id="l10n_fr.tva_intra_specifique_services" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+    </record>
+    <!-- ACH_UE-5.5 goods -->
+    <record id="l10n_fr.tva_intra_reduite_biens" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+    </record>
+    <!-- ACH_UE-5.5 services -->
+    <record id="l10n_fr.tva_intra_reduite_services" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+    </record>
+    <!-- ACH_UE-2.1 goods -->
+    <record id="l10n_fr.tva_intra_super_reduite_biens" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+    </record>
+    <!-- ACH_UE-2.1 services -->
+    <record id="l10n_fr.tva_intra_super_reduite_services" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+    </record>
+    <!-- EXO-0 goods -->
+    <record id="l10n_fr.tva_sale_good_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_e" />
     </record>
-    <!-- EXPORT-0 -->
-    <record id="l10n_fr.tva_export_0" model="account.tax.template">
+    <!-- EXO-0 service -->
+    <record id="l10n_fr.tva_sale_service_0" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_e" />
+    </record>
+    <!-- EXPORT-0 goods -->
+    <record id="l10n_fr.tva_sale_good_export_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
     </record>
-    <!-- UE-0 -->
-    <record id="l10n_fr.tva_intra_0" model="account.tax.template">
+    <!-- EXPORT-0 service -->
+    <record id="l10n_fr.tva_sale_service_export_0" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+    </record>
+    <!-- UE-0 goods -->
+    <record id="l10n_fr.tva_sale_good_intra_0" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+    </record>
+    <!-- UE-0 service -->
+    <record id="l10n_fr.tva_sale_service_intra_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
     </record>
     <!-- IMPORT-hors-UE-20.0 -->
     <record id="l10n_fr.tva_import_outside_eu_20" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+    </record>
+    <!-- IMPORT-hors-UE-20.0 services -->
+    <record id="l10n_fr.tva_purchase_service_20_import" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
     </record>
