@@ -16,6 +16,7 @@ setuptools.setup(
         'odoo-addon-l10n_fr_ecotaxe>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_ecotaxe_product>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_ecotaxe_sale>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_intrastat_service>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_siret>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_state>=15.0dev,<15.1dev',
     ],
