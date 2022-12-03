@@ -5,8 +5,7 @@ from odoo.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
 try:
-    from stdnum.fr.siren import is_valid as siren_is_valid
-    from stdnum.fr.siret import is_valid as siret_is_valid
+    from stdnum.fr import siren, siret
 except ImportError:
     logger.debug("Cannot import stdnum")
 
@@ -31,9 +30,9 @@ class Partner(models.Model):
     def _inverse_siret(self):
         for rec in self:
             if rec.siret:
-                if siret_is_valid(rec.siret):
+                if siret.is_valid(rec.siret):
                     rec.write({"siren": rec.siret[:9], "nic": rec.siret[9:]})
-                elif siren_is_valid(rec.siret[:9]) and rec.siret[9:] == "*****":
+                elif siren.is_valid(rec.siret[:9]) and rec.siret[9:] == "*****":
                     rec.write({"siren": rec.siret[:9], "nic": False})
                 else:
                     raise ValidationError(_("SIRET '%s' is invalid.") % rec.siret)
@@ -64,7 +63,7 @@ class Partner(models.Model):
                             "incorrect: it must have exactly 9 digits."
                         ).format(siren=rec.siren, partner_name=rec.display_name)
                     )
-                if not siren_is_valid(rec.siren):
+                if not siren.is_valid(rec.siren):
                     raise ValidationError(
                         _(
                             "The SIREN '{siren}' of partner '{partner_name}' is "
@@ -72,7 +71,7 @@ class Partner(models.Model):
                         ).format(siren=rec.siren, partner_name=rec.display_name)
                     )
                 # Check the NIC key (you need both SIREN and NIC to check it)
-                if rec.nic and not siret_is_valid(rec.siren + rec.nic):
+                if rec.nic and not siret.is_valid(rec.siren + rec.nic):
                     raise ValidationError(
                         _(
                             "The SIRET '{siret}' of partner '{partner_name}' is "
