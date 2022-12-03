@@ -29,6 +29,7 @@ addon | version | maintainers | summary
 [l10n_fr_ecotaxe](l10n_fr_ecotaxe/) | 15.0.1.0.0 |  | Use Ecotaxe in French localisation contexte
 [l10n_fr_ecotaxe_product](l10n_fr_ecotaxe_product/) | 15.0.1.0.0 |  | Move Ecotax management from templates to products
 [l10n_fr_ecotaxe_sale](l10n_fr_ecotaxe_sale/) | 15.0.1.0.0 |  | Sale Ecotaxe used in French localisation contexte
+[l10n_fr_intrastat_product](l10n_fr_intrastat_product/) | 15.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | DEB (Déclaration d'Échange de Biens) for France
 [l10n_fr_intrastat_service](l10n_fr_intrastat_service/) | 15.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Module for Intrastat service reporting (DES) for France
 [l10n_fr_siret](l10n_fr_siret/) | 15.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | French company identity numbers SIRET/SIREN/NIC
 [l10n_fr_state](l10n_fr_state/) | 15.0.1.0.0 | [![legalsylvain](https://github.com/legalsylvain.png?size=30px)](https://github.com/legalsylvain) | Populate Database with French States (Régions)
