@@ -385,8 +385,13 @@ msgid "Flow Ref"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status_display
 msgid "Flow Status"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status
+msgid "Flow Status (raw value)"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -440,6 +445,11 @@ msgid "Info Required for Chorus"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__initial_invoice_ids
+msgid "Initial Invoices"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__invoice_identifiers
 msgid "Invoice Identifiers"
 msgstr ""
@@ -448,6 +458,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__invoice_ids
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Invoices"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_chorus_flow__invoice_ids
+msgid "Invoices in the flow after potential rejections"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model.fields,help:l10n_fr_chorus_account.field_chorus_flow__initial_invoice_ids
+msgid "Invoices in the flow before potential rejections"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -672,7 +692,7 @@ msgstr ""
 #. module: l10n_fr_chorus_account
 #: code:addons/l10n_fr_chorus_account/models/chorus_flow.py:0
 #, python-format
-msgid "On flow %s, the status is not 'IN_INTEGRE'"
+msgid "On flow %s, the status is not 'INTEGRE' nor 'INTEGRE PARTIEL'."
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -893,6 +913,15 @@ msgstr ""
 #. module: l10n_fr_chorus_account
 #: model:ir.model.constraint,message:l10n_fr_chorus_account.constraint_chorus_partner_service_partner_code_uniq
 msgid "This Chorus service code already exists for that partner!"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: code:addons/l10n_fr_chorus_account/models/chorus_flow.py:0
+#, python-format
+msgid ""
+"This invoice has been <b>rejected by Chorus Pro</b> for the following reason:"
+"<br/><i>%s</i><br/>You should fix the error and send this invoice to Chorus "
+"Pro again."
 msgstr ""
 
 #. module: l10n_fr_chorus_account
