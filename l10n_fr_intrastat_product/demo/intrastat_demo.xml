@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2011-2020 Akretion France (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo noupdate="1">
+    <record id="base.main_company" model="res.company">
+        <field name="fr_intrastat_accreditation">A12B</field>
+        <field
+            name="intrastat_transaction_out_invoice"
+            ref="intrastat_transaction_21_11"
+        />
+        <field name="intrastat_transaction_out_refund" ref="intrastat_transaction_25" />
+        <field
+            name="intrastat_transaction_in_invoice"
+            ref="intrastat_transaction_11_11"
+        />
+        <field name="country_id" ref="base.fr" />
+        <field name="intrastat_accessory_costs">1</field>
+    </record>
+    <!-- Use the same SIRET as in l10n_fr_das2 otherwise it break tests!
+    Reason: when l10n_fr_siret is installed, due to the fact that base.main_partner
+    has child contacts, it will sync the siren with the childs
+    while keeping the nic, so the SIRET will become invalid on the childs -->
+    <record id="base.main_partner" model="res.partner">
+        <field name="siret">99999999800019</field>
+    </record>
+    <record id="intrastat_product.intrastat_unit_pce" model="intrastat.unit">
+        <field name="fr_xml_label">PCE</field>
+    </record>
+    <!-- Elec import is the fiscal rep of Asustek -->
+    <!--
+<record id="base.res_partner_1" model="res.partner">
+    <field name="intrastat_fiscal_representative_id" ref="base.res_partner_2" />
+</record>
+-->
+</odoo>

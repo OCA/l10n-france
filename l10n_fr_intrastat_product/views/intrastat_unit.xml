@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2010-2019 Akretion France (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+    <record id="intrastat_unit_form" model="ir.ui.view">
+        <field name="name">fr.intrastat.unit.form</field>
+        <field name="model">intrastat.unit</field>
+        <field name="inherit_id" ref="intrastat_product.intrastat_unit_form" />
+        <field name="arch" type="xml">
+            <field name="description" position="after">
+                <field name="fr_xml_label" />
+            </field>
+        </field>
+    </record>
+</odoo>

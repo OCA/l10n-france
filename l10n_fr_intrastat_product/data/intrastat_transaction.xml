@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2014-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo noupdate="1">
+    <record id="intrastat_transaction_11_11" model="intrastat.transaction">
+        <field
+            name="description"
+        >Achat Fournisseur (Acquisitions intracomm. taxables en France)</field>
+        <field name="code">11</field>
+        <field name="fr_object_type">in_invoice</field>
+        <field name="fr_transaction_code">11</field>
+        <field name="fr_is_fiscal_only" eval="False" />
+        <field name="fr_fiscal_value_multiplier">1</field>
+        <field name="fr_intrastat_product_type">arrivals</field>
+    </record>
+    <record id="intrastat_transaction_21_11" model="intrastat.transaction">
+        <field
+            name="description"
+        >Vente Client (Livraisons intracomm. exo. en France et taxables dans l'Etat d'arrivée)</field>
+        <field name="code">21</field>
+        <field name="fr_object_type">out_invoice</field>
+        <field name="fr_transaction_code">11</field>
+        <field name="fr_is_fiscal_only" eval="False" />
+        <field name="fr_fiscal_value_multiplier">1</field>
+        <field name="fr_intrastat_product_type">dispatches</field>
+    </record>
+    <record id="intrastat_transaction_25" model="intrastat.transaction">
+        <field
+            name="description"
+        >Avoir Client (Régularisation commerciale - minoration de valeur)</field>
+        <field name="code">25</field>
+        <field name="fr_object_type">out_refund</field>
+        <field name="fr_is_fiscal_only" eval="True" />
+        <field name="fr_fiscal_value_multiplier">-1</field>
+        <field name="fr_intrastat_product_type">dispatches</field>
+    </record>
+</odoo>

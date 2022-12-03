@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2010-2019 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+    <record id="intrastat_transaction_tree" model="ir.ui.view">
+        <field name="name">fr.intrastat.transaction.tree</field>
+        <field name="model">intrastat.transaction</field>
+        <field name="inherit_id" ref="intrastat_product.intrastat_transaction_tree" />
+        <field name="arch" type="xml">
+            <field name="description" position="after">
+                <field name="fr_transaction_code" />
+                <field name="fr_object_type" />
+                <field name="fr_is_fiscal_only" />
+                <field name="fr_fiscal_value_multiplier" />
+                <field name="fr_intrastat_product_type" />
+            </field>
+        </field>
+    </record>
+    <record id="intrastat_transaction_form" model="ir.ui.view">
+        <field name="name">fr.intrastat.transaction.form</field>
+        <field name="model">intrastat.transaction</field>
+        <field name="inherit_id" ref="intrastat_product.intrastat_transaction_form" />
+        <field name="arch" type="xml">
+            <field name="description" position="after">
+                <field name="fr_transaction_code" />
+                <field name="fr_object_type" />
+                <field name="fr_is_fiscal_only" />
+                <field name="fr_fiscal_value_multiplier" />
+                <field name="fr_intrastat_product_type" />
+            </field>
+        </field>
+    </record>
+</odoo>

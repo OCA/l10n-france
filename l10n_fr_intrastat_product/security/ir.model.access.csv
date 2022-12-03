@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fr_intrastat_product,Full access to l10n.fr.intrastat.product.declaration to accountant,model_l10n_fr_intrastat_product_declaration,account.group_account_user,1,1,1,1
+access_fr_intrastat_product_computation_line,Full access to l10n.fr.intrastat.product.computation.line to accountant,model_l10n_fr_intrastat_product_computation_line,account.group_account_user,1,1,1,1
+access_fr_intrastat_product_declaration_line,Full access to l10n.fr.intrastat.product.declaration.line to accountant,model_l10n_fr_intrastat_product_declaration_line,account.group_account_user,1,1,1,1

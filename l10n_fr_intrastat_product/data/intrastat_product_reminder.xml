@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2013-2020 Akretion France (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+        <record id="l10n_fr_intrastat_product_cron" model="ir.cron">
+            <field name="name">DEB Reminder</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="model_id" ref="model_l10n_fr_intrastat_product_declaration" />
+            <field name="state">code</field>
+            <field name="code">model._scheduler_reminder()</field>
+        </record>
+    </data>
+    <data>
+        <record
+            id="l10n_fr_intrastat_product_reminder_email_template"
+            model="mail.template"
+        >
+            <field name="name">DEB Reminder</field>
+            <field
+                name="model_id"
+                ref="l10n_fr_intrastat_product.model_l10n_fr_intrastat_product_declaration"
+            />
+            <field name="auto_delete" eval="False" />
+            <field
+                name="email_from"
+            >{{object.company_id.email or 'odoo@example.com'}}</field>
+            <field name="email_to">{{object.company_id.intrastat_email_list}}</field>
+            <field
+                name="subject"
+            >{{object.declaration_type}} DEB {{object.year_month}} for {{object.company_id.name}}</field>
+            <field name="body_html" type="html">
+<p
+                >I would like to remind you that we are approaching the deadline for the DEB for month <strong
+                        t-out="object.year_month"
+                    >2022-01</strong>.</p>
+
+<p>As there were no <t
+                        t-out="object.declaration_type"
+                    >departure</t> DEB for that month in Odoo, a draft <t
+                        t-out="object.declaration_type"
+                    >departure</t> DEB has been generated automatically by Odoo.</p>
+
+<t t-if="ctx.get('exception')">
+<p>When trying to generate the lines of the <t
+                            t-out="object.declaration_type"
+                        >departure</t> DEB, the following error was encountered:</p>
+
+<code><t t-out="ctx.get('error_msg')">Missing VAT number on partner 'Azur'.</t></code>
+
+<p
+                    >You should solve this error, then go to the menu "Invoicing > Reporting > Intrastat > DEB", open the <t
+                            t-out="object.declaration_type"
+                        >departure</t> DEB for month <t
+                            t-out="object.year_month"
+                        >2022-01</t> and click on the button <em
+                        >Generate lines from invoices</em>.</p>
+
+</t>
+<t t-else="">
+        <t t-if="object.num_decl_lines > 0">
+                <p>This draft <t
+                                t-out="object.declaration_type"
+                            >departure</t> DEB contains <t
+                                t-out="object.num_decl_lines"
+                            >3</t> line(s).</p>
+        </t>
+<t t-else="">
+<p>This draft <t
+                                t-out="object.declaration_type"
+                            >departure</t> DEB generated automatically by Odoo doesn't contain any line.</p>
+</t>
+
+<p>Go and check this declaration in Odoo in the menu <em
+                        >Invoicing > Reporting > Intrastat > DEB</em>.</p>
+
+</t>
+
+<p>
+--
+Automatic e-mail sent by Odoo.
+</p>
+</field>
+        </record>
+    </data>
+</odoo>
