@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2018 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="chorus_flow_form" model="ir.ui.view">
+        <field name="name">chorus.flow.form</field>
+        <field name="model">chorus.flow</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="update_flow_status"
+                        type="object"
+                        string="Update Flow Status"
+                        attrs="{'invisible': [('status', 'in', ('IN_INTEGRE', 'IN_INTEGRE_PARTIEL', 'IN_REJETE'))]}"
+                    />
+                    <button
+                        name="get_invoice_identifiers"
+                        type="object"
+                        string="Get Chorus Invoice Identifiers"
+                        attrs="{'invisible': ['|', ('status', 'not in', ('IN_INTEGRE', 'IN_INTEGRE_PARTIEL')), ('invoice_identifiers', '=', True)]}"
+                    />
+                </header>
+                <group name="main">
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="syntax" />
+                    <field name="initial_invoice_ids" widget="many2many_tags" />
+                    <field name="attachment_id" />
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="status_display" />
+                    <field name="status" invisible="1" />
+                    <field name="status_date" />
+                    <field name="invoice_identifiers" invisible="1" />
+                    <field name="notes" />
+                </group>
+                <group name="invoices" string="Invoices">
+                    <field name="invoice_ids" nolabel="1">
+                        <tree
+                            decoration-info="state == 'draft'"
+                            decoration-muted="state == 'cancel'"
+                        >
+                            <field name="partner_id" string="Customer" />
+                            <field name="invoice_date" />
+                            <field name="name" />
+                            <field name="invoice_date_due" />
+                            <field name="amount_untaxed" />
+                            <field name="amount_total" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="state" invisible="1" />
+                            <field name="payment_state" />
+                            <field name="chorus_identifier" />
+                            <field name="chorus_status" />
+                            <field name="chorus_status_date" />
+                        </tree>
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="chorus_flow_tree" model="ir.ui.view">
+        <field name="name">chorus.flow.tree</field>
+        <field name="model">chorus.flow</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="date" />
+                <field name="syntax" optional="show" />
+                <field
+                    name="status_display"
+                    widget="badge"
+                    decoration-info="status == 'IN_DEPOT_PORTAIL_EN_ATTENTE_TRAITEMENT_SE_CPP'"
+                    decoration-success="status == 'IN_INTEGRE'"
+                    decoration-warning="status == 'IN_INTEGRE_PARTIEL'"
+                    decoration-danger="status == 'IN_REJETE'"
+                />
+                <field name="status" invisible="1" />
+                <field name="status_date" optional="show" />
+                <field
+                    name="company_id"
+                    groups="base.group_multi_company"
+                    optional="show"
+                />
+            </tree>
+        </field>
+    </record>
+    <record id="chorus_flow_search" model="ir.ui.view">
+        <field name="name">chorus.flow.search</field>
+        <field name="model">chorus.flow</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <group string="Group By" name="groupby">
+                    <filter
+                        name="status_groupby"
+                        string="Status"
+                        context="{'group_by': 'status_display'}"
+                    />
+                    <filter
+                        name="date_groupby"
+                        string="Date"
+                        context="{'group_by': 'date'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="chorus_flow_action" model="ir.actions.act_window">
+        <field name="name">Chorus Flows</field>
+        <field name="res_model">chorus.flow</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        id="chorus_config"
+        parent="account.menu_finance_configuration"
+        name="Chorus Pro"
+        sequence="100"
+    />
+    <menuitem
+        id="chorus_flow_menu"
+        action="chorus_flow_action"
+        parent="chorus_config"
+        groups="l10n_fr_chorus_account.group_chorus_api"
+        sequence="20"
+    />
+</odoo>
