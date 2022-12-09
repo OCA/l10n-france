@@ -1,3 +1,4 @@
 # generated from manifests external_dependencies
 python-stdnum
 python-stdnum>=1.18
+requests
