@@ -10,28 +10,29 @@
             <field name="siret" position="attributes">
                 <attribute
                     name="attrs"
-                >{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}</attribute>
+                    operation="update"
+                >{'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}</attribute>
             </field>
             <field name="siret" position="after">
-                <div
-                    class="oe_edit_only"
-                    attrs="{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
-                    colspan="2"
-                >
-                    <label for="siren" />
-                    <field
-                        name="siren"
-                        class="oe_inline"
-                        attrs="{'readonly': [('parent_id', '!=', False)]}"
-                    />
-                    <label for="nic" class="oe_inline" />
-                    <field name="nic" class="oe_inline" />
-                </div>
                 <field
-                    name="company_registry"
-                    attrs="{'invisible': [('is_company', '=', False)]}"
+                    name="siren"
+                    attrs="{'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
+                />
+                <field
+                    name="nic"
+                    attrs="{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
                 />
                 <field name="parent_is_company" invisible="1" />
+            </field>
+            <field name="company_registry" position="attributes">
+                <attribute name="attrs" operation="update">
+                    {'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}
+                </attribute>
+            </field>
+            <field name="child_ids" position="attributes">
+                <attribute name="context" operation="update">
+                    {'default_nic': nic}
+                </attribute>
             </field>
             <xpath
                 expr="//field[@name='child_ids']/form//field[@name='comment']"
@@ -39,10 +40,13 @@
             >
                 <field
                     name="nic"
-                    attrs="{'invisible': [('type','=', 'contact')]}"
-                    class="oe_edit_only"
+                    attrs="{'invisible': [('type','in', ('contact', 'private'))]}"
                 />
-                <field name="siret" attrs="{'invisible': [('type','=', 'contact')]}" />
+                <field
+                    name="siret"
+                    attrs="{'invisible': [('type','in', ('contact', 'private'))]}"
+                    readonly="1"
+                />
             </xpath>
             <div
                 attrs="{'invisible': [('same_vat_partner_id', '=', False)]}"
@@ -58,7 +62,6 @@
                     /> has the same <b>SIREN</b>.
                 </div>
             </div>
-            <!-- TODO When base_view_inheritance_extension will be ported to v14, add default_nic to context of child_ids -->
         </field>
     </record>
 

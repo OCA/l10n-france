@@ -119,6 +119,7 @@ class Partner(models.Model):
         compute="_compute_siret",
         inverse="_inverse_siret",
         store=True,
+        precompute=True,
         readonly=False,
         help="The SIRET number is the official identity number of this "
         "company's office in France. It is composed of the 9 digits "
