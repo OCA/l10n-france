@@ -16,7 +16,7 @@
                         colspan="2"
                     />
                 </group><group string="Search Results" name="lines">
-                <field name="line_ids" nolabel="1">
+                <field name="line_ids" nolabel="1" colspan="2">
                     <tree>
                         <field name="name" />
                         <field name="street" optional="show" />
