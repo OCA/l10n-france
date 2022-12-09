@@ -296,3 +296,15 @@ class AccountInvoice(models.Model):
         logger.warning(
             'Commitment number %s not found in Chorus Pro.', order_ref)
         return False
+    
+    @api.model
+    def _prepare_refund(
+        self, invoice, date_invoice=None, date=None, description=None, journal_id=None
+    ):
+        values = super(AccountInvoice, self)._prepare_refund(
+            invoice, date_invoice, date, description, journal_id
+        )
+        if (
+                invoice.type == 'out_invoice' and 
+                invoice.transmit_method_code == 'fr-chorus'):
+            values["payment_mode_id"] = False
