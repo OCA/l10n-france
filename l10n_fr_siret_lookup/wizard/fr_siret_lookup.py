@@ -1,5 +1,5 @@
-# Copyright 2018-2021 Le Filament (<http://www.le-filament.com>)
-# Copyright 2021 Akretion France (http://www.akretion.com/)
+# Copyright 2018-2022 Le Filament (<http://www.le-filament.com>)
+# Copyright 2021-2022 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -15,7 +15,7 @@ class FrSiretLookup(models.TransientModel):
     line_ids = fields.One2many(
         "fr.siret.lookup.line", "wizard_id", string="Results", readonly=True
     )
-    partner_id = fields.Many2one("res.partner", "Partner", readonly=True, required=True)
+    partner_id = fields.Many2one("res.partner", readonly=True, required=True)
 
     @api.model
     def default_get(self, fields_list):
@@ -94,19 +94,19 @@ class FrSiretLookupLine(models.TransientModel):
     _description = "Company Selection"
 
     wizard_id = fields.Many2one("fr.siret.lookup", string="Wizard", ondelete="cascade")
-    name = fields.Char(string="Name")
-    street = fields.Char(string="Street")
-    zip = fields.Char(string="Zip")
-    city = fields.Char(string="City")
+    name = fields.Char()
+    street = fields.Char()
+    zip = fields.Char()
+    city = fields.Char()
     country_id = fields.Many2one("res.country", string="Country")
-    legal_type = fields.Char("Legal Type")
+    legal_type = fields.Char()
     siren = fields.Char("SIREN")
     siret = fields.Char("SIRET")
     ape = fields.Char("APE Code")
     ape_label = fields.Char("APE Label")
-    creation_date = fields.Date("Creation date")
+    creation_date = fields.Date()
     staff = fields.Char("# Staff")
-    category = fields.Char("Category")
+    category = fields.Char()
 
     def _prepare_partner_values(self):
         self.ensure_one()
