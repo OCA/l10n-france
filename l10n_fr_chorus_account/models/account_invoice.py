@@ -308,3 +308,5 @@ class AccountInvoice(models.Model):
                 invoice.type == 'out_invoice' and 
                 invoice.transmit_method_code == 'fr-chorus'):
             values["payment_mode_id"] = False
+        return values
+    
