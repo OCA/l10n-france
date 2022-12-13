@@ -115,7 +115,7 @@ class SubrogationReceipt(models.Model):
           LEFT JOIN subrogation_receipt s ON s.id = l.subrogation_id
           LEFT JOIN res_partner p1 ON p1.id = l.partner_id
           LEFT JOIN res_partner p2 ON p2.id = p1.commercial_partner_id
-          LEFT JOIN ir_property o ON o.company_id = 1 and o.fields_id = 10102 
+          LEFT JOIN ir_property o ON o.company_id = 1 and o.fields_id = 10102
             and o.res_id = 'res.partner,' || p2.id
         WHERE l.date > '2022-06-01' and l.date <= '2022-07-26'
          and a.code like '4111%' and parent_state = 'posted'
@@ -196,7 +196,7 @@ class SubrogationReceipt(models.Model):
             if statement:
                 vals["statement_date"] = statement.date
         if self.item_ids:
-            self.balance = sum(self.item_ids.mapped("amount_currency"))
+            vals["balance"] = sum(self.item_ids.mapped("amount_currency"))
         self.write(vals)
 
     def _get_bank_journal(self, factor_type, currency=None):
