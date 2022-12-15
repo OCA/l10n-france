@@ -192,6 +192,66 @@ class AccountFrFecOca(models.TransientModel):
         siren = company.siret[:9]
         return siren
 
+    def _get_aux_fields(self, sql_args):
+        sql_aux_num_base = """
+        CASE WHEN rp.ref IS null OR rp.ref = ''
+        THEN COALESCE('ID' || rp.id, '')
+        ELSE replace(rp.ref, '|', '/')
+        END
+        """
+        sql_aux_lib_base = """
+        COALESCE(replace(replace(rp.name, '|', '/'), '\t', ''), '')
+        """
+        if self.partner_option == "types":
+            sql_args["partner_account_type_ids"] = tuple(
+                self.partner_account_type_ids.ids
+            )
+            return (
+                """
+            case when aat.id in %(partner_account_type_ids)s
+            then """
+                + sql_aux_num_base
+                + """
+            else ''
+            end
+            as CompAuxNum,
+            case when aat.id in %(partner_account_type_ids)s
+            then """
+                + sql_aux_lib_base
+                + """
+            else ''
+            end
+            as CompAuxLib,
+            """
+            )
+        elif self.partner_option == "accounts":
+            sql_args["partner_account_ids"] = tuple(self.partner_account_ids.ids)
+            return (
+                """
+            CASE WHEN aa.id IN %(partner_account_ids)s
+            THEN """
+                + sql_aux_num_base
+                + """
+            ELSE ''
+            END
+            AS CompAuxNum,
+            CASE WHEN aa.id IN %(partner_account_ids)s
+            THEN """
+                + sql_aux_lib_base
+                + """
+            ELSE ''
+            END
+            AS CompAuxLib,
+            """
+            )
+        else:
+            return (
+                sql_aux_num_base
+                + "AS CompAuxNum, "
+                + sql_aux_lib_base
+                + "AS CompAuxLib,"
+            )
+
     # flake8: noqa: C901
     def generate_fec(self):
         self.ensure_one()
@@ -353,64 +413,7 @@ class AccountFrFecOca(models.TransientModel):
         ):
             rows_to_write.append(unaffected_earnings_results)
 
-        sql_aux_num_base = """
-        CASE WHEN rp.ref IS null OR rp.ref = ''
-        THEN COALESCE('ID' || rp.id, '')
-        ELSE replace(rp.ref, '|', '/')
-        END
-        """
-        sql_aux_lib_base = """
-        COALESCE(replace(replace(rp.name, '|', '/'), '\t', ''), '')
-        """
-        if self.partner_option == "types":
-            aux_fields = (
-                """
-            CASE WHEN aat.id IN %(partner_account_type_ids)s
-            THEN """
-                + sql_aux_num_base
-                + """
-            ELSE ''
-            END
-            AS CompAuxNum,
-            CASE WHEN aat.id IN %(partner_account_type_ids)s
-            THEN """
-                + sql_aux_lib_base
-                + """
-            ELSE ''
-            END
-            AS CompAuxLib,
-            """
-            )
-            sql_args["partner_account_type_ids"] = tuple(
-                self.partner_account_type_ids.ids
-            )
-        elif self.partner_option == "accounts":
-            aux_fields = (
-                """
-            CASE WHEN aa.id IN %(partner_account_ids)s
-            THEN """
-                + sql_aux_num_base
-                + """
-            ELSE ''
-            END
-            AS CompAuxNum,
-            CASE WHEN aa.id IN %(partner_account_ids)s
-            THEN """
-                + sql_aux_lib_base
-                + """
-            ELSE ''
-            END
-            AS CompAuxLib,
-            """
-            )
-            sql_args["partner_account_ids"] = tuple(self.partner_account_ids.ids)
-        else:
-            aux_fields = (
-                sql_aux_num_base
-                + "AS CompAuxNum, "
-                + sql_aux_lib_base
-                + "AS CompAuxLib,"
-            )
+        aux_fields = self._get_aux_fields(sql_args)
 
         aux_fields_ini_bal = aux_fields.replace("aa.id IN", "MIN(aa.id) IN").replace(
             "aat.id IN", "MIN(aat.id) IN"
