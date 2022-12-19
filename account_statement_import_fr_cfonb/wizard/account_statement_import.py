@@ -155,7 +155,10 @@ class AccountStatementImport(models.TransientModel):
                 # when it's interesting for the user, in order to avoid
                 # too long labels with too much "pollution"
                 transactions[-1]["unique_import_id"] += complementary_info
-                if complementary_info_type in ("   ", "LIB") and complementary_info:
+                if (
+                    complementary_info_type in ("   ", "LIB", "LCC")
+                    and complementary_info
+                ):
                     transactions[-1]["payment_ref"] += " " + complementary_info
 
             if rec_type in ("04", "05", "07") and account_key not in result:
