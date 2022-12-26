@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  Copyright 2013-2021 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
-  Copyright 2016-2021 Akretion France (http://www.akretion.com/)
+  Copyright 2013-2022 GRAP (Sylvain LE GAL https://twitter.com/legalsylvain)
+  Copyright 2016-2022 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -14,7 +14,7 @@
     </record>
     <!-- ex Aquitaine-Limousin-Poitou-Charentes -->
     <record id="res_country_state_aquitaine" model="res.country.state">
-        <field name="name">Nouvelle Aquitaine</field>
+        <field name="name">Nouvelle-Aquitaine</field>
         <field name="code">75</field>
         <field name="country_id" ref="base.fr" />
     </record>
