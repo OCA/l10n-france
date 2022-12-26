@@ -10,16 +10,20 @@ from odoo.tools.misc import groupby
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    department_id = fields.Many2one(
+    # Warning: The OCA module 'partner_contact_department'
+    # from https://github.com/OCA/partner-contact
+    # adds a field 'department_id' on res.partner
+    # So we chose a more specific field name: country_department_id
+    country_department_id = fields.Many2one(
         "res.country.department",
-        compute="_compute_department",
+        compute="_compute_country_department",
         string="Department",
         store=True,
     )
 
     @api.depends("zip", "country_id", "country_id.code")
     # If a department code changes, it will have to be manually recomputed
-    def _compute_department(self):
+    def _compute_country_department(self):
         def _get_zipcode(partner) -> str:
             if partner.country_id not in fr_countries:
                 return ""
@@ -54,7 +58,7 @@ class ResPartner(models.Model):
         # computed before loading ``res.country.department`` records via
         # .xml file)
         if not departments:
-            self.department_id = False
+            self.country_department_id = False
         # Else: group departments by zip code, assign them to the grouped
         # partners according to their common zip code
         else:
@@ -65,7 +69,7 @@ class ResPartner(models.Model):
                     dep_code = zip2dep(zipcode)
                     if dep_code in departments_by_code:
                         department = departments_by_code[dep_code][0]
-                self.browse().concat(*partner_list).department_id = department
+                self.browse().concat(*partner_list).country_department_id = department
 
     @api.model
     @ormcache("zipcode")
@@ -80,7 +84,6 @@ class ResPartner(models.Model):
             "06260": "04",
             "48250": "07",
             "43450": "15",
-            "36260": "18",
             "33220": "24",
             "05700": "26",
             "73670": "38",

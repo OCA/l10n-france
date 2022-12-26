@@ -8,9 +8,9 @@ from odoo import SUPERUSER_ID, api
 def set_department_on_partner(cr, registry):
     """This post_install script is required because, when the module
     is installed, Odoo creates the column in the DB and compute the field
-    and THEN it loads the file data/res_country_department_data.yml...
+    and THEN it loads the file data/res_country_department.xml...
     So, when it computes the field on module installation, the
-    departments are not available in the DB, so the department_id field
+    departments are not available in the DB, so the country_department_id field
     on res.partner stays null. This post_install script fixes this."""
     env = api.Environment(cr, SUPERUSER_ID, {})
     fr_countries = env["res.country"].search(
@@ -21,5 +21,5 @@ def set_department_on_partner(cr, registry):
         .with_context(active_test=False)
         .search([("country_id", "in", fr_countries.ids)])
     )
-    partners._compute_department()
+    partners._compute_country_department()
     return
