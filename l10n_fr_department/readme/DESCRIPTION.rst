@@ -4,6 +4,5 @@ french departments, but only the french departments of mainland.
 If you need the overseas departments, please install the module
 *l10n_fr_department_oversea*.
 
-It also adds a computed many2one *department_id* field on the
-*res_partner* object (this field is not displayed in the partner form
-view by default).
+It also adds a computed many2one *country_department_id* field on the
+*res_partner* object.
