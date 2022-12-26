@@ -1,4 +1,4 @@
-# Copyright 2016-2018 Akretion France
+# Copyright 2016-2022 Akretion France
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 from odoo.tests.common import TransactionCase
@@ -18,7 +18,7 @@ class TestFrDepartmentOversea(TransactionCase):
             }
         )
         self.assertEqual(
-            partner1.department_id,
+            partner1.country_department_id,
             self.env.ref("l10n_fr_department_oversea.res_country_department_reunion"),
         )
         # I also want it to work if you select France as country
@@ -33,6 +33,6 @@ class TestFrDepartmentOversea(TransactionCase):
             }
         )
         self.assertEqual(
-            partner2.department_id,
+            partner2.country_department_id,
             self.env.ref("l10n_fr_department_oversea.res_country_department_reunion"),
         )
