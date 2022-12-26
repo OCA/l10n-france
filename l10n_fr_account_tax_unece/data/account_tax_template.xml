@@ -345,4 +345,9 @@
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
     </record>
+    <!-- Achat 0% EXO service -->
+    <record id="l10n_fr.tva_purchase_service_0" model="account.tax.template">
+        <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
+        <field name="unece_categ_id" ref="account_tax_unece.tax_categ_e" />
+    </record>
 </odoo>
