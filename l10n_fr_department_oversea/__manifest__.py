@@ -6,7 +6,7 @@
     "name": "French Overseas Departments (DOM)",
     "summary": "Populate Database with overseas French "
     "Departments (Départements d'outre-mer)",
-    "version": "15.0.1.0.0",
+    "version": "16.0.1.0.0",
     "category": "French Localization",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
@@ -17,6 +17,7 @@
         "data/res_country_state.xml",
         "data/res_country_department.xml",
     ],
+    "pre_init_hook": "create_fr_oversea_state_xmlid",
     "post_init_hook": "set_oversea_department_on_partner",
     "installable": True,
 }
