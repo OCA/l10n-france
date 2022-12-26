@@ -18,7 +18,7 @@ class TestFrDepartment(TransactionCase):
             }
         )
         self.assertEqual(
-            partner1.department_id,
+            partner1.country_department_id,
             self.env.ref("l10n_fr_department.res_country_department_rhone"),
         )
         partner2 = rpo.create(
@@ -31,7 +31,7 @@ class TestFrDepartment(TransactionCase):
             }
         )
         self.assertEqual(
-            partner2.department_id,
+            partner2.country_department_id,
             self.env.ref("l10n_fr_department.res_country_department_vaucluse"),
         )
 
@@ -48,17 +48,17 @@ class TestFrDepartment(TransactionCase):
                 "country_id": self.env.ref("base.fr").id,
             }
         )
-        self.assertEqual(partner.department_id, corse2A)
+        self.assertEqual(partner.country_department_id, corse2A)
 
         partner.write({"zip": "20200", "city": "Bastia"})
-        self.assertEqual(partner.department_id, corse2B)
+        self.assertEqual(partner.country_department_id, corse2B)
 
         partner.write({"zip": "20190", "city": "Zigliara"})
-        self.assertEqual(partner.department_id, corse2A)
+        self.assertEqual(partner.country_department_id, corse2A)
         partner.write({"zip": "20620", "city": "Biguglia"})
-        self.assertEqual(partner.department_id, corse2B)
+        self.assertEqual(partner.country_department_id, corse2B)
         partner.write({"zip": "20999", "city": "Unknown"})
-        self.assertFalse(partner.department_id)
+        self.assertFalse(partner.country_department_id)
 
     def test_special(self):
         partner1 = self.env["res.partner"].create(
@@ -70,7 +70,7 @@ class TestFrDepartment(TransactionCase):
             }
         )
         self.assertEqual(
-            partner1.department_id,
+            partner1.country_department_id,
             self.env.ref(
                 "l10n_fr_department.res_country_department_alpesdehauteprovence"
             ),
