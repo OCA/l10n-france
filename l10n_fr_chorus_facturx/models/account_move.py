@@ -2,8 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, models
-from odoo.exceptions import UserError
+from odoo import api, models
 
 
 class AccountMove(models.Model):
@@ -29,15 +28,7 @@ class AccountMove(models.Model):
             ).generate_facturx_xml()[0]
         elif chorus_invoice_format == "pdf_factur-x":
             report = self.env.ref("account.account_invoices")
-            if report.report_type in ["qweb-html", "qweb-pdf"]:
-                chorus_file_content, filetype = report._render_qweb_pdf([self.id])
-            else:
-                res = report.render([self.id])
-                if not res:
-                    raise UserError(
-                        _("Unsupported report type %s found.") % report.report_type
-                    )
-                chorus_file_content, filetype = res
+            chorus_file_content, filetype = report._render([self.id])
             assert filetype == "pdf", "wrong filetype"
         else:
             chorus_file_content = super().chorus_get_invoice(chorus_invoice_format)
