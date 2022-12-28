@@ -2,3 +2,4 @@
 python-stdnum
 python-stdnum>=1.18
 requests
+unidecode
