@@ -77,23 +77,25 @@ class AccountPaymentOrder(models.Model):
         if partner_bank.acc_type != "iban":
             raise UserError(
                 _(
-                    "For the bank account '{acc_number}' of partner '{partner}', "
+                    "For the bank account '%(acc_number)s' of partner '%(partner)s', "
                     "the Bank Account Type should be 'IBAN'."
-                ).format(
-                    acc_number=partner_bank.acc_number,
-                    partner=partner_bank.partner_id.display_name,
                 )
+                % {
+                    "acc_number": partner_bank.acc_number,
+                    "partner": partner_bank.partner_id.display_name,
+                }
             )
         iban = partner_bank.sanitized_acc_number
         if iban[0:2] != "FR":
             raise UserError(
                 _(
-                    "LCR are only for French bank accounts. The IBAN '{acc_number}' "
-                    "of partner '{partner}' is not a French IBAN."
-                ).format(
-                    acc_number=partner_bank.acc_number,
-                    partner=partner_bank.partner_id.display_name,
+                    "LCR are only for French bank accounts. The IBAN '%(acc_number)s' "
+                    "of partner '%(partner)s' is not a French IBAN."
                 )
+                % {
+                    "acc_number": partner_bank.acc_number,
+                    "partner": partner_bank.partner_id.display_name,
+                }
             )
         assert len(iban) == 27, "French IBANs must have 27 caracters"
         return {
@@ -242,10 +244,14 @@ class AccountPaymentOrder(models.Model):
             if line.currency_id != eur_currency:
                 raise UserError(
                     _(
-                        "The currency of payment line '{payment_line}' is "
-                        "'{currency}'. To be included in a French LCR, "
+                        "The currency of payment line '%(payment_line)s' is "
+                        "'%(currency)s'. To be included in a French LCR, "
                         "the currency must be EUR."
-                    ).format(payment_line=line.name, currency=line.currency_id.name)
+                    )
+                    % {
+                        "payment_line": line.display_name,
+                        "currency": line.currency_id.name,
+                    }
                 )
             transactions_count += 1
             cfonb_string += self._prepare_cfonb_line(line, transactions_count)
