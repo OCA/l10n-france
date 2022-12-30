@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -46,8 +46,8 @@ msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
-#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__department_id
-#: model:ir.model.fields,field_description:l10n_fr_department.field_res_users__department_id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__country_department_id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_users__country_department_id
 #: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
 msgstr ""
