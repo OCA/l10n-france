@@ -97,17 +97,17 @@ msgstr "Créé le"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__creation_date
-msgid "Creation date"
-msgstr "Date de création"
+msgid "Creation Date"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__display_name
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__display_name
-#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: l10n_fr_siret_lookup
+#. odoo-python
 #: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
 #, python-format
 msgid ""
@@ -118,6 +118,7 @@ msgstr ""
 "Erreur technique : %s."
 
 #. module: l10n_fr_siret_lookup
+#. odoo-python
 #: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
 #, python-format
 msgid ""
@@ -135,14 +136,12 @@ msgstr "Obtenir les informations sur les entreprises"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__id
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__id
-#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_res_partner__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup____last_update
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line____last_update
-#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr "Dernière Modification le"
 
@@ -189,6 +188,7 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #. module: l10n_fr_siret_lookup
+#. odoo-python
 #: code:addons/l10n_fr_siret_lookup/wizard/fr_siret_lookup.py:0
 #, python-format
 msgid "Partner '%s' is not a company. This action is not relevant."
@@ -196,6 +196,7 @@ msgstr ""
 "Le contact '%s' n'est pas une société. Cette action n'est pas applicable."
 
 #. module: l10n_fr_siret_lookup
+#. odoo-python
 #: code:addons/l10n_fr_siret_lookup/wizard/fr_siret_lookup.py:0
 #, python-format
 msgid "Partner updated via the opendatasoft.com API."
@@ -248,6 +249,7 @@ msgid "Street"
 msgstr "Rue"
 
 #. module: l10n_fr_siret_lookup
+#. odoo-python
 #: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
 #, python-format
 msgid "The webservice data.opendatasoft.com returned an HTTP error code %s."
@@ -262,6 +264,9 @@ msgstr "Assistant"
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__zip
 msgid "Zip"
 msgstr "Code Postal"
+
+#~ msgid "Creation date"
+#~ msgstr "Date de création"
 
 #~ msgid "CP"
 #~ msgstr "CP"
