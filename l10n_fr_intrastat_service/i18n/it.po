@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-17 14:35+0000\n"
-"PO-Revision-Date: 2022-12-29 16:46+0000\n"
+"PO-Revision-Date: 2023-01-03 12:50+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -224,7 +224,7 @@ msgstr "Data dell'ultimo messaggio aggiunto al record."
 #: field:l10n.fr.intrastat.service.declaration,display_name:0
 #: field:l10n.fr.intrastat.service.declaration.line,display_name:0
 msgid "Display Name"
-msgstr "Display Name"
+msgstr "Nome visualizzato"
 
 #. module: l10n_fr_intrastat_service
 #: view:l10n.fr.intrastat.service.declaration:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
