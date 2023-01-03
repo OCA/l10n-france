@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-17 14:35+0000\n"
-"PO-Revision-Date: 2023-01-02 12:45+0000\n"
+"PO-Revision-Date: 2023-01-03 12:44+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -76,7 +76,7 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: field:account.ecotaxe.classification,display_name:0
 msgid "Display Name"
-msgstr "Display Name"
+msgstr "Nome visualizzato"
 
 #. module: l10n_fr_ecotaxe
 #: field:account.invoice.line,amount_ecotaxe:0 field:account.tax,is_ecotaxe:0
