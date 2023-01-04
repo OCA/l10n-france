@@ -1,25 +1,23 @@
-# -*- coding: utf-8 -*-
 # Copyright 2015-2018 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class DeliveryCarrier(models.Model):
-    _inherit = 'delivery.carrier'
+    _inherit = "delivery.carrier"
 
-    department_ids = fields.Many2many(
-        'res.country.department', string="Departments")
+    department_ids = fields.Many2many("res.country.department", string="Departments")
 
-    @api.multi
-    def verify_carrier(self, contact):
-        self.ensure_one()
-        res = super(DeliveryCarrier, self).verify_carrier(contact)
-        if (
-                self.department_ids and
-                contact.department_id and
-                contact.department_id not in self.department_ids):
-            return False
-        return res
+    def filter_carrier_with_departments(self, contact):
+        if not contact:
+            contact = self.env["res.partner"]
+        for carrier in self:
+            if (
+                carrier.department_ids
+                and contact.department_id.id not in carrier.department_ids.ids
+            ):
+                self -= carrier
+        return self
