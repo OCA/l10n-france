@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@id='invoicing_settings']" position="after">
                 <h2>Factor</h2>
-                <div class="row mt16 o_settings_container" id="factor"/>
+                <div class="row mt16 o_settings_container" id="factor" />
             </xpath>
         </field>
     </record>

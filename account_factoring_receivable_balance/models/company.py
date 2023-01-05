@@ -2,7 +2,7 @@
 # © 2022 Alexis DE LATTRE @ Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models, Command
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tests.common import Form
 
@@ -39,7 +39,6 @@ class ResCompany(models.Model):
 
     def _prepare_data_for_factor(self, move_type="out_invoice"):
         self.ensure_one()
-        raise UserError("Not yet implemented")
         move_form = Form(
             self.env["account.move"]
             .with_company(self.env.company)
@@ -53,6 +52,5 @@ class ResCompany(models.Model):
         move_form.partner_id = self.env.ref("base.res_partner_2")
 
     def ui_populate_data_for_factor(self):
-        for rec in self:
-            raise UserError("Not yet implemented")
-            rec._prepare_data_for_factor()
+        raise UserError(_("Not yet implemented"))
+        # self._prepare_data_for_factor()

@@ -4,7 +4,6 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 
 
 class ResPartner(models.Model):
@@ -21,6 +20,7 @@ class ResPartner(models.Model):
     def bpce_ref_constrains(self):
         for rec in self:
             if rec.bpce_factoring_balance and (not rec.ref or not rec.siret):
+                # pylint: disable=C8107
                 raise UserError(
                     "Les balances clients gérées par BPCE doivent avoir "
                     "les champs Référence et SIRET remplis"

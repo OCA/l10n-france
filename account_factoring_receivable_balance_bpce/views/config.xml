@@ -8,21 +8,15 @@
                 <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane" id="bpce_left">
                         <div class="row" id="bpce">
-                            <label
-                                for="bpce_factor_code"
-                                class="col-md-3"
-                            />
+                            <label for="bpce_factor_code" class="col-md-3" />
                             <field name="bpce_factor_code" />
-                            <label
-                                for="bpce_start_date"
-                                class="col-md-3"
-                            />
+                            <label for="bpce_start_date" class="col-md-3" />
                             <field name="bpce_start_date" />
                         </div>
                     </div>
-                    <div class="o_setting_right_pane" id="bpce_right"/>
+                    <div class="o_setting_right_pane" id="bpce_right" />
 
-<!--  
+<!--
                 -->
 <!--                     <button type="object" name="ui_configure_bpce_factoring_balance" string="Configure BPCE journals and accounts"/> -->
                 </div>

@@ -3,9 +3,11 @@
 
 {
     "name": "Account Factoring Receivable Balance",
-    "version": "15.0.2.1.0",
+    "version": "16.0.2.1.0",
     "category": "Accounting",
     "license": "AGPL-3",
+    "author": "Akretion",
+    "website": "https://github.com/akretion/odoo-factoring",
     "maintainers": [
         "bealdav",
         "alexis-via",
