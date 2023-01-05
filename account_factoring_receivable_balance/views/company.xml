@@ -2,10 +2,13 @@
 
     <record id="view_company_form" model="ir.ui.view">
         <field name="model">res.company</field>
-        <field name="inherit_id" ref="base_factoring.view_company_form"/>
+        <field name="inherit_id" ref="base_factoring.view_company_form" />
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='factor']//group[@name='config_facto']" position="inside">
-                <field name="factor_config_currency_id"/>
+            <xpath
+                expr="//page[@name='factor']//group[@name='config_facto']"
+                position="inside"
+            >
+                <field name="factor_config_currency_id" />
             </xpath>
         </field>
     </record>

@@ -2,13 +2,20 @@
 
     <record id="view_company_form" model="ir.ui.view">
         <field name="model">res.company</field>
-        <field name="inherit_id" ref="base_factoring.view_company_form"/>
+        <field name="inherit_id" ref="base_factoring.view_company_form" />
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='factor']//group[@name='config_facto']" position="inside">
-                <field name="bpce_factor_code" placeholder="001234"/>
-                <field name="bpce_start_date"/>
-                <button type="object" name="ui_configure_bpce_factoring_balance" string="Configure BPCE journals and accounts"/>
-                <span/>
+            <xpath
+                expr="//page[@name='factor']//group[@name='config_facto']"
+                position="inside"
+            >
+                <field name="bpce_factor_code" placeholder="001234" />
+                <field name="bpce_start_date" />
+                <button
+                    type="object"
+                    name="ui_configure_bpce_factoring_balance"
+                    string="Configure BPCE journals and accounts"
+                />
+                <span />
             </xpath>
         </field>
     </record>

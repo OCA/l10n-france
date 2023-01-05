@@ -8,7 +8,6 @@ import re
 from odoo import api, fields, models, tools
 from odoo.exceptions import UserError
 
-
 FORMAT_VERSION = "7.0"
 RETURN = "\r\n"
 
@@ -17,7 +16,7 @@ class SubrogationReceipt(models.Model):
     _inherit = "subrogation.receipt"
 
     def _prepare_factor_file_bpce(self):
-        self.ensure_one
+        self.ensure_one()
         name = "BPCE_%s_%s_%s.txt" % (
             self._sanitize_filepath("%s" % fields.Date.today()),
             self.id,
@@ -33,11 +32,13 @@ class SubrogationReceipt(models.Model):
     def _prepare_factor_file_data_bpce(self):
         self.ensure_one()
         if not self.company_id.bpce_factor_code:
+            # pylint: disable=C8107
             raise UserError(
                 "Vous devez mettre le code du factor dans la société '%s'.\n"
                 "Champ dans l'onglet 'Factor'" % self.env.company.name
             )
         if not self.statement_date:
+            # pylint: disable=C8107
             raise UserError("Vous devez spécifier la date du dernier relevé")
         body, max_row, balance = self._get_bpce_body()
         header = self._get_bpce_header()
@@ -56,9 +57,11 @@ class SubrogationReceipt(models.Model):
             # make debugging easier saving file on filesystem to check
             debug(raw_data, "_raw")
             debug(data)
+            # pylint: disable=C8107
             raise UserError("See files /odoo/subrog*.txt")
         total_in_erp = sum(self.line_ids.mapped("amount_currency"))
         if round(balance, 2) != round(total_in_erp, 2):
+            # pylint: disable=C8107
             raise UserError(
                 "Erreur dans le calul de la balance :"
                 "\n - erp : %s\n - fichier : %s" % (total_in_erp, balance)
@@ -158,7 +161,8 @@ class SubrogationReceipt(models.Model):
                 "rib": pad(" ", 23),  # TODO
                 "eff_echeance": pad(" ", 8),  # date effet echeance TODO not implemented
                 "eff_pull": pad(" ", 10),  # reférence tiré/le nom TODO not implemented
-                "eff_type": " ",  # 0: traite non accepté, 1: traite accepté, 2: BOR TODO not implemented
+                # 0: traite non accepté, 1: traite accepté, 2: BOR TODO not implemented
+                "eff_type": " ",
                 "res4": pad(" ", 17),
             }
             balance += total
@@ -197,6 +201,7 @@ def get_type_piece(move):
                         od_type = "C"
                     break
             if not od_type:
+                # pylint: disable=C8107
                 raise UserError(
                     "Impossible de déterminer le type de l'OD %s" % move.name
                 )
@@ -255,6 +260,7 @@ def check_column_size(string, fstring=None, info=None):
             fstring = "|".join(strings)
         else:
             fstring = ""
+        # pylint: disable=C8107
         raise UserError(
             "La ligne suivante contient %s caractères au lieu de 275\n\n%s"
             "\n\nDebugging string:\n%s" % (len(string), string, fstring)

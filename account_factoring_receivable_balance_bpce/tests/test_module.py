@@ -1,12 +1,16 @@
 # © 2022 David BEAL @ Akretion
 # © 2022 Alexis DE LATTRE @ Akretion
 
+from odoo.tests import tagged
+
 # from odoo import fields
 # from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+
 # from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
-from odoo.tests import tagged
+
+# TODO : IMPLEMENT TESTS
 
 
 # class Test(AccountTestInvoicingCommon):
@@ -24,13 +28,11 @@ class TestB(TransactionCase):
 
     def setUp(self):
         super().setUp()
-        import pdb; pdb.set_trace()
         self.env = self.env(context=dict(self.env.context, tracking_disable=True))
         self.pp = "PP"
 
     def test_module(self):
-        import pdb; pdb.set_trace()
-        company = self.env['res.company']._create_french_company(company_name="Any")
+        company = self.env["res.company"]._create_french_company(company_name="Any")
         assert len(company) == 1
         # partner = self.partner_a
         # tax = self.tax_sale_a

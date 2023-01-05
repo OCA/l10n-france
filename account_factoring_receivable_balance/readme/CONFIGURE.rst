@@ -57,4 +57,3 @@ this partner code
         company_dependent=True,
         help="Use MyOwnFactor factoring receivable balance external service",
     )
-

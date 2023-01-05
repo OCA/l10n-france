@@ -208,13 +208,13 @@ class SubrogationReceipt(models.Model):
         res = self.env["account.journal"].search(domain, limit=1)
         if not res:
             raise UserError(
-                "Missing bank journal with factor '%s' currency %s"
-                % (factor_type, currency and currency.name or "")
+                _("Missing bank journal with factor '%(ft)s' currency %(curr)s")
+                % {"ft": factor_type, "curr": currency and currency.name or ""}
             )
         return res
 
     def _prepare_factor_file(self, factor_type):
-        self.ensure_one
+        self.ensure_one()
         method = "_prepare_factor_file_%s" % factor_type
         if hasattr(self, method):
             return getattr(self, method)()
@@ -256,7 +256,7 @@ class SubrogationReceipt(models.Model):
     def action_goto_moves(self):
         self.ensure_one()
         return {
-            "name": _("Subrogation Receipt %s" % self.display_name),
+            "name": _("Subrogation Receipt %s") % self.display_name,
             "res_model": "account.move.line",
             "view_mode": "tree,form",
             "domain": "[('subrogation_id', '=', %s)]" % self.id,

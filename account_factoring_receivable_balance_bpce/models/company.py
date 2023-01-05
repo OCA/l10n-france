@@ -4,11 +4,8 @@
 
 import logging
 
-from odoo import _, api, fields, models, Command
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
-from odoo.exceptions import UserError, RedirectWarning
-from odoo.tools.misc import formatLang, format_date as odoo_format_date, get_lang
-
+from odoo import _, api, fields, models
+from odoo.exceptions import RedirectWarning, UserError
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +26,7 @@ class ResCompany(models.Model):
         bpce_journals = self.env["account.journal"].search(
             [("factor_type", "=", "bpce"), ("company_id", "=", self.id)]
         )
-        action_id=self.env.ref("account.action_account_journal_form").id
+        action_id = self.env.ref("account.action_account_journal_form").id
         active_ids = ",".join([str(x) for x in bpce_journals.ids])
 
         return {
@@ -39,12 +36,15 @@ class ResCompany(models.Model):
                 "title": "Configuration réussie",
                 "type": "success",  # warning/success
                 "message": "Consulter les journaux et comptes configurés",
-                "links": [{
-                    "label": "Voir les journaux",
-                    "url": f"#action={action_id}&model=account.journal&active_ids={active_ids}",
-                }],
-                "sticky": True,  #True/False will display for few seconds if false
-                "next": action_id,  # {'type': 'ir.actions.act_window_close'},  # Refresh the form to show the key
+                "links": [
+                    {
+                        "label": "Voir les journaux",
+                        "url": f"#action={action_id}&model=account.journal"
+                        f"&active_ids={active_ids}",
+                    }
+                ],
+                "sticky": True,  # True/False will display for few seconds if false
+                "next": action_id,
             },
         }
 
@@ -59,11 +59,6 @@ class ResCompany(models.Model):
             company._configure_bpce_factoring(currency=currency.name)
         return company
 
-    def ui_populate_data_for_factor(self):
-        raise UserError("Not yet implemented")
-        self.env.ref("base.res_partner_2").bpce_factoring_balance = True
-        super().ui_populate_data_for_factor()
-
     @api.model
     def _configure_bpce_factoring(self, currency):
         """Mainly copied from l10n_fr_account_vat_return
@@ -76,7 +71,8 @@ class ResCompany(models.Model):
         self.ensure_one()
         currency = self.env.ref("base.%s" % currency.upper(), raise_if_not_found=False)
         if not currency:
-            raise UserError("La devise '%s' est inconnu" % currency.name)
+            # pylint: disable=C8107
+            raise UserError("La devise '%s' est inconnue" % currency.name)
         if self.env["account.journal"].search(
             [
                 ("factor_type", "=", "bpce"),
@@ -84,6 +80,7 @@ class ResCompany(models.Model):
                 ("currency_id", "=", currency.id),
             ]
         ):
+            # pylint: disable=C8107
             raise UserError(
                 "Un journal BPCE avec la devise '%s' existe déjà. Configuration annulée"
                 % currency.name
@@ -112,8 +109,9 @@ class ResCompany(models.Model):
             raise UserError(
                 _(
                     "BPCE Journal with currency '%s' already exist. "
-                    "Configuration aborted" % currency.name
+                    "Configuration aborted"
                 )
+                % currency.name
             )
         vals = {"reconcile": False, "tax_ids": False, "company_id": company.id}
         acc = {}

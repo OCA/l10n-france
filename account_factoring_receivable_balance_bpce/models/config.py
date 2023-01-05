@@ -6,7 +6,6 @@ import logging
 
 from odoo import fields, models
 
-
 logger = logging.getLogger(__name__)
 
 
