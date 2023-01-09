@@ -99,7 +99,7 @@
             />
             <field name="gender">male</field>
             <field name="country_id" ref="base.fr" />
-            <field name="ssnid">195109912611151</field>
+            <field name="ssnid">195109912611146</field>
             <field name="address_home_id" ref="base.res_partner_2" />
             <field name="qualification">Partenaire</field>
             <field name="pcs_id" ref="hr_employee_pcs_cadre" />
@@ -112,7 +112,7 @@
             />
             <field name="gender">male</field>
             <field name="country_id" ref="base.fr" />
-            <field name="ssnid">195109912611252</field>
+            <field name="ssnid">195109912622232</field>
             <field name="address_home_id" ref="base.res_partner_3" />
             <field name="qualification">Médior</field>
             <field name="pcs_id" ref="hr_employee_pcs_cadre" />
@@ -125,7 +125,7 @@
             />
             <field name="gender">male</field>
             <field name="country_id" ref="base.fr" />
-            <field name="ssnid">195109912617215</field>
+            <field name="ssnid">195109912633318</field>
             <field name="address_home_id" ref="base.res_partner_4" />
             <field name="qualification">Sénior</field>
             <field name="pcs_id" ref="hr_employee_pcs_intermediaires" />
