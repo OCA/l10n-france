@@ -16,7 +16,8 @@
     "data": [
         "security/ir.model.access.csv",
         "views/intrastat_service_view.xml",
-        "data/intrastat_service_reminder.xml",
+        "data/ir_cron.xml",
+        "data/mail_template.xml",
         "security/intrastat_service_security.xml",
     ],
     "installable": True,
