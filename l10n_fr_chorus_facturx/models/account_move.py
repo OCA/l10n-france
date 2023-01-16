@@ -27,8 +27,9 @@ class AccountMove(models.Model):
                 fr_chorus_cii16b=True
             ).generate_facturx_xml()[0]
         elif chorus_invoice_format == "pdf_factur-x":
-            report = self.env.ref("account.account_invoices")
-            chorus_file_content, filetype = report._render([self.id])
+            chorus_file_content, filetype = self.env["ir.actions.report"]._render(
+                "account.report_invoice", [self.id]
+            )
             assert filetype == "pdf", "wrong filetype"
         else:
             chorus_file_content = super().chorus_get_invoice(chorus_invoice_format)

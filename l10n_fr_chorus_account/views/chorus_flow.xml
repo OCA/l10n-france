@@ -37,7 +37,7 @@
                     <field name="notes" />
                 </group>
                 <group name="invoices" string="Invoices">
-                    <field name="invoice_ids" nolabel="1">
+                    <field name="invoice_ids" nolabel="1" colspan="2">
                         <tree
                             decoration-info="state == 'draft'"
                             decoration-muted="state == 'cancel'"
