@@ -78,7 +78,7 @@ class ChorusFlow(models.Model):
             name = flow.name
             if flow.status_display:
                 status = flow.status_display
-                name = "{} ({})".format(name, status)
+                name = "%s (%s)" % (name, status)
             res.append((flow.id, name))
         return res
 
@@ -99,10 +99,19 @@ class ChorusFlow(models.Model):
         res = {}
         if answer:
             notes = ""
+            i = 0
+            if answer.get("listeErreurTechnique") and isinstance(
+                answer["listeErreurTechnique"], list
+            ):
+                for error in answer["listeErreurTechnique"]:
+                    i += 1
+                    notes += "Erreur technique %d :\n" "  Libellé erreur : %s\n" % (
+                        i,
+                        error.get("libelleErreur"),
+                    )
             if answer.get("listeErreurDP") and isinstance(
                 answer["listeErreurDP"], list
             ):
-                i = 0
                 for error in answer["listeErreurDP"]:
                     i += 1
                     notes += (

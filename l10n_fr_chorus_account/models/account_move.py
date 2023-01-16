@@ -66,7 +66,7 @@ class AccountMove(models.Model):
         "chorus.flow", string="Chorus Flow", readonly=True, copy=False, tracking=True
     )
     chorus_identifier = fields.Integer(
-        string="Chorus Invoice Indentifier", readonly=True, copy=False, tracking=True
+        string="Chorus Invoice Identifier", readonly=True, copy=False, tracking=True
     )
     chorus_status = fields.Char(
         string="Chorus Invoice Status", readonly=True, copy=False, tracking=True
@@ -96,14 +96,15 @@ class AccountMove(models.Model):
                     if len(attach.name) > CHORUS_FILENAME_MAX:
                         raise ValidationError(
                             _(
-                                "On Chorus Pro, the attachment filename is {filename_max} "
+                                "On Chorus Pro, the attachment filename is %(filename_max)s "
                                 "caracters maximum (extension included). The "
-                                "filename '{filename}' has {filename_size} caracters."
-                            ).format(
-                                filename_max=CHORUS_FILENAME_MAX,
-                                filename=attach.name,
-                                filename_size=len(attach.name),
+                                "filename '%(filename)s' has %(filename_size)s caracters."
                             )
+                            % {
+                                "filename_max": CHORUS_FILENAME_MAX,
+                                "filename": attach.name,
+                                "filename_size": len(attach.name),
+                            }
                         )
                     filename, file_extension = os.path.splitext(attach.name)
                     if not file_extension:
@@ -119,12 +120,13 @@ class AccountMove(models.Model):
                         raise ValidationError(
                             _(
                                 "On Chorus Pro, the allowed formats for the "
-                                "attachments are the following: {extension_list}.\n"
-                                "The attachment '{filename}' is not part of this list."
-                            ).format(
-                                extension_list=", ".join(CHORUS_ALLOWED_FORMATS),
-                                filename=attach.name,
+                                "attachments are the following: %(extension_list)s.\n"
+                                "The attachment '%(filename)s' is not part of this list."
                             )
+                            % {
+                                "extension_list": ", ".join(CHORUS_ALLOWED_FORMATS),
+                                "filename": attach.name,
+                            }
                         )
                     if not attach.file_size:
                         raise ValidationError(
@@ -135,13 +137,14 @@ class AccountMove(models.Model):
                     if filesize_mo >= CHORUS_FILESIZE_MAX_MO:
                         raise ValidationError(
                             _(
-                                "On Chorus Pro, each attachment cannot exceed {size_max} Mb. "
-                                "The attachment '{filename}' weights {size} Mb."
-                            ).format(
-                                size_max=CHORUS_FILESIZE_MAX_MO,
-                                filename=attach.name,
-                                size=formatLang(self.env, filesize_mo),
+                                "On Chorus Pro, each attachment cannot exceed %(size_max)s Mb. "
+                                "The attachment '%(filename)s' weights %(size)s Mb."
                             )
+                            % {
+                                "size_max": CHORUS_FILESIZE_MAX_MO,
+                                "filename": attach.name,
+                                "size": formatLang(self.env, filesize_mo),
+                            }
                         )
                 if total_size:
                     total_size_mo = round(total_size / (1024 * 1024), 1)
@@ -149,14 +152,15 @@ class AccountMove(models.Model):
                         raise ValidationError(
                             _(
                                 "On Chorus Pro, an invoice with its attachments "
-                                "cannot exceed {size_max} Mb, so we set a limit of "
-                                "{attach_size_max} Mb for the attachments. "
-                                "The attachments have a total size of {size} Mb."
-                            ).format(
-                                size_max=CHORUS_TOTAL_FILESIZE_MAX_MO,
-                                attach_size_max=CHORUS_TOTAL_ATTACHMENTS_MAX_MO,
-                                size=formatLang(self.env, total_size_mo),
+                                "cannot exceed %(size_max)s Mb, so we set a limit of "
+                                "%(attach_size_max)s Mb for the attachments. "
+                                "The attachments have a total size of %(size)s Mb."
                             )
+                            % {
+                                "size_max": CHORUS_TOTAL_FILESIZE_MAX_MO,
+                                "attach_size_max": CHORUS_TOTAL_ATTACHMENTS_MAX_MO,
+                                "size": formatLang(self.env, total_size_mo),
+                            }
                         )
 
     def action_post(self):
@@ -165,106 +169,36 @@ class AccountMove(models.Model):
             lambda x: x.move_type in ("out_invoice", "out_refund")
             and x.transmit_method_code == "fr-chorus"
         ):
-            company_partner = inv.company_id.partner_id
-            if not company_partner.siren or not company_partner.nic:
-                raise UserError(
-                    _(
-                        "Missing SIRET on partner '{partner}' linked to company '{company}'."
-                    ).format(
-                        partner=company_partner.display_name,
-                        company=inv.company_id.display_name,
-                    )
-                )
-            cpartner = inv.commercial_partner_id
-            if not cpartner.siren or not cpartner.nic:
-                raise UserError(
-                    _(
-                        "Missing SIRET on partner '%s'. "
-                        "This information is required for Chorus invoices."
-                    )
-                    % cpartner.display_name
-                )
-            if (
-                cpartner.fr_chorus_required in ("service", "service_and_engagement")
-                and not inv.partner_id.chorus_service_ok()
-            ):
-                raise UserError(
-                    _(
-                        "Partner '%s' is configured as Service required for "
-                        "Chorus, so you must select a contact as customer "
-                        "for the invoice and this contact should have a name "
-                        "and a Chorus service and the Chorus service must "
-                        "be active."
-                    )
-                    % cpartner.display_name
-                )
-            if cpartner.fr_chorus_required in ("engagement", "service_and_engagement"):
-                if inv.ref:
-                    inv.chorus_invoice_check_commitment_number()
-                else:
-                    raise UserError(
-                        _(
-                            "Partner '%s' is configured as Engagement required for "
-                            "Chorus, so the field 'Reference' of its invoices must "
-                            "contain an engagement number."
-                        )
-                        % cpartner.display_name
-                    )
-            elif (
-                inv.partner_id.fr_chorus_service_id
-                and inv.partner_id.fr_chorus_service_id.engagement_required
-            ):
-                if inv.ref:
-                    inv.chorus_invoice_check_commitment_number()
-                else:
-                    raise UserError(
-                        _(
-                            "Partner '{partner}' is linked to Chorus service '{service}' "
-                            "which is marked as 'Engagement required', so the "
-                            "field 'Reference' of its invoices must "
-                            "contain an engagement number."
-                        ).format(
-                            partner=inv.partner_id.display_name,
-                            service=inv.partner_id.fr_chorus_service_id.code,
-                        )
-                    )
+            inv._chorus_validation_checks()
+        return super().action_post()
 
-            if cpartner.fr_chorus_required == "service_or_engagement":
-                if not inv.partner_id.chorus_service_ok():
-                    if not inv.ref:
-                        raise UserError(
-                            _(
-                                "Partner '%s' is configured as "
-                                "'Service or Engagement' required for Chorus but "
-                                "there is no engagement number in the field "
-                                "'Reference' and the customer of the "
-                                "invoice is not correctly configured as a service "
-                                "(should be a contact with a Chorus service "
-                                "and a name)."
-                            )
-                            % cpartner.display_name
-                        )
-                    else:
-                        inv.chorus_invoice_check_commitment_number()
+    def _chorus_validation_checks(self):
+        self.ensure_one()
+        self.company_id._chorus_common_validation_checks(
+            self, self.partner_id, self.ref
+        )
+        if self.move_type == "out_invoice":
             if not self.payment_mode_id:
                 raise UserError(
                     _(
-                        "Missing Payment Mode. This "
-                        "information is required for Chorus."
+                        "Missing Payment Mode on invoice '%s'. "
+                        "This information is required for Chorus Pro."
                     )
+                    % self.display_name
                 )
             payment_means_code = (
                 self.payment_mode_id.payment_method_id.unece_code or "30"
             )
-            partner_bank_id = self.partner_bank_id or (
-                self.payment_mode_id.bank_account_link == "fixed"
-                and self.payment_mode_id.fixed_journal_id.bank_account_id
-            )
             if payment_means_code in CREDIT_TRF_CODES:
+                partner_bank_id = self.partner_bank_id or (
+                    self.payment_mode_id.bank_account_link == "fixed"
+                    and self.payment_mode_id.fixed_journal_id.bank_account_id
+                )
                 if not partner_bank_id:
                     raise UserError(
                         _(
-                            "Missing bank account information for payment. "
+                            "On invoice '%(invoice)s', the bank account information "
+                            "of the issuer (%(company)s) is missing. "
                             "For that, you have two options: either the "
                             "payment mode of the invoice should have "
                             "'Link to Bank Account' = "
@@ -273,16 +207,32 @@ class AccountMove(models.Model):
                             "'Bank Account' should be set on the customer "
                             "invoice."
                         )
+                        % {
+                            "invoice": self.display_name,
+                            "company": self.company_id.display_name,
+                        }
                     )
                 if partner_bank_id.acc_type != "iban":
                     raise UserError(
                         _(
-                            "Chorus only accepts IBAN. But the bank account "
-                            "'%s' is not an IBAN."
+                            "Chorus Pro only accepts IBAN. But the bank account "
+                            "'%(acc_number)s' of %(company)s is not an IBAN."
                         )
-                        % partner_bank_id.acc_number
+                        % {
+                            "acc_number": partner_bank_id.acc_number,
+                            "company": self.company_id.display_name,
+                        }
                     )
-        return super().action_post()
+        elif self.move_type == "out_refund":
+            if self.payment_mode_id:
+                raise UserError(
+                    _(
+                        "The Payment Mode must be empty on %s "
+                        "because customer refunds sent to Chorus Pro mustn't "
+                        "have a Payment Mode."
+                    )
+                    % self.display_name
+                )
 
     def chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()
@@ -305,7 +255,7 @@ class AccountMove(models.Model):
         ]
         if len(self) == 1:
             chorus_file_content = self.chorus_get_invoice(chorus_invoice_format)
-            filename = "{}_chorus_facture_{}.{}".format(
+            filename = "%s_chorus_facture_%s.%s" % (
                 short_format,
                 self.name.replace("/", "-"),
                 file_extension,
@@ -317,7 +267,7 @@ class AccountMove(models.Model):
                 for inv in self:
                     inv_file_data = inv.chorus_get_invoice(chorus_invoice_format)
                     invfileio = BytesIO(inv_file_data)
-                    invfilename = "{}_chorus_facture_{}.{}".format(
+                    invfilename = "%s_chorus_facture_%s.%s" % (
                         short_format,
                         inv.name.replace("/", "-"),
                         file_extension,
@@ -392,89 +342,3 @@ class AccountMove(models.Model):
                     }
                 )
         logger.info("End of the update of chorus invoice status")
-
-    def chorus_invoice_check_commitment_number(self, raise_if_not_found=True):
-        self.ensure_one()
-        res = self.chorus_check_commitment_number(
-            self.company_id, self.ref, raise_if_not_found=raise_if_not_found
-        )
-        if res is True:
-            self.message_post(
-                body=_("Engagement juridique <b>%s</b> checked via Chorus Pro API.")
-                % self.ref
-            )
-        return res
-
-    # api.model because this method is called from invoice
-    # but also from sale.order
-    @api.model
-    def chorus_check_commitment_number(
-        self, company, order_ref, raise_if_not_found=True
-    ):
-        if not order_ref:
-            raise UserError(_("Missing commitment number."))
-        if not company.fr_chorus_check_commitment_number:
-            logger.info(
-                "Commitment number check not enabled on company %s",
-                company.display_name,
-            )
-            return
-        if not self.env.user.has_group("l10n_fr_chorus_account.group_chorus_api"):
-            return
-        if not company.partner_id.fr_chorus_identifier:
-            company.partner_id.sudo().with_context(
-                get_company_identifier=True
-            ).fr_chorus_identifier_get()
-        company_identifier = company.partner_id.fr_chorus_identifier
-        order_ref = order_ref.strip()
-        if len(order_ref) > 50:
-            raise UserError(
-                _(
-                    "The engagement juridique '{order_ref}' is {size} caracters long. "
-                    "The maximum is 50. Please update the customer order "
-                    "reference."
-                ).format(order_ref=order_ref, size=len(order_ref))
-            )
-        api_params = company.chorus_get_api_params()
-        return self.chorus_api_check_commitment_number(
-            api_params,
-            company_identifier,
-            order_ref,
-            raise_if_not_found=raise_if_not_found,
-        )
-
-    @api.model
-    def chorus_api_check_commitment_number(
-        self,
-        api_params,
-        company_identifier,
-        order_ref,
-        session=None,
-        raise_if_not_found=True,
-    ):
-        assert order_ref
-        url_path = "engagementsJuridiques/v1/rechercher"
-        payload = {
-            "structureReceptriceEngagementJuridique": str(company_identifier),
-            "numeroEngagementJuridique": order_ref,
-            "etatCourantEngagementJuridique": "COMMANDE",
-        }
-        answer, session = self.env["res.company"].chorus_post(
-            api_params, url_path, payload, session=session
-        )
-        if answer.get("listeEngagementJuridique"):
-            if len(answer["listeEngagementJuridique"]) == 1:
-                return True
-            elif len(answer["listeEngagementJuridique"]) > 1:
-                logger.warning("Several engagements juridiques... strange!")
-                return True
-        elif raise_if_not_found:
-            raise UserError(
-                _(
-                    "Commitment number '%s' not found in Chorus Pro. "
-                    "Please check the customer order reference carefully."
-                )
-                % order_ref
-            )
-        logger.warning("Commitment number %s not found in Chorus Pro.", order_ref)
-        return False
