@@ -28,45 +28,47 @@ class AccountInvoiceChorusSend(models.TransientModel):
                 raise UserError(
                     _(
                         "Move '%s' is not a customer invoice. You can only send "
-                        "customer invoices/refunds to Chorus."
+                        "customer invoices/refunds to Chorus Pro."
                     )
                     % invoice.display_name
                 )
             if invoice.state != "posted":
                 raise UserError(
                     _(
-                        "The state of invoice '{invoice_display_name}' is "
-                        "'{invoice_state}'. You can only send to Chorus invoices "
+                        "The state of invoice '%(invoice)s' is "
+                        "'%(invoice_state)s'. You can only send to Chorus Pro invoices "
                         "in posted state."
-                    ).format(
-                        invoice_display_name=invoice.display_name,
-                        invoice_state=invoice._fields["state"].convert_to_export(
+                    )
+                    % {
+                        "invoice": invoice.display_name,
+                        "invoice_state": invoice._fields["state"].convert_to_export(
                             invoice.state, invoice
                         ),
-                    )
+                    }
                 )
             if invoice.transmit_method_code != "fr-chorus":
                 raise UserError(
                     _(
-                        "On invoice '{invoice_display_name}', the transmit method is "
-                        "'{transmit_method_name}'. To be able "
-                        "to send it to Chorus, the transmit method must be "
+                        "On invoice '%(invoice)s', the transmit method is "
+                        "'%(transmit_method)s'. To be able "
+                        "to send it to Chorus Pro, the transmit method must be "
                         "'Chorus'."
-                    ).format(
-                        invoice_display_name=invoice.display_name,
-                        transmit_method_name=invoice.transmit_method_id.name
-                        or _("None"),
                     )
+                    % {
+                        "invoice": invoice.display_name,
+                        "transmit_method": invoice.transmit_method_id.name or _("None"),
+                    }
                 )
             if invoice.chorus_flow_id:
                 raise UserError(
                     _(
-                        "The invoice '{invoice_display_name}' has already been sent: "
-                        "it is linked to Chorus Flow {flow}."
-                    ).format(
-                        invoice_display_name=invoice.display_name,
-                        flow=invoice.chorus_flow_id.display_name,
+                        "The invoice '%(invoice)s' has already been sent: "
+                        "it is linked to Chorus Flow %(flow)s."
                     )
+                    % {
+                        "invoice": invoice.display_name,
+                        "flow": invoice.chorus_flow_id.display_name,
+                    }
                 )
             if company:
                 if company != invoice.company_id:
