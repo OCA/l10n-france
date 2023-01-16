@@ -51,7 +51,7 @@ class ChorusPartnerService(models.Model):
     def name_get(self):
         res = []
         for partner in self:
-            name = "[{}] {}".format(partner.code, partner.name or "-")
+            name = "[%s] %s" % (partner.code, partner.name or "-")
             res.append((partner.id, name))
         return res
 
@@ -110,12 +110,13 @@ class ChorusPartnerService(models.Model):
                 if raise_if_ko:
                     raise UserError(
                         _(
-                            "Missing Chorus Identifier on service '{service_name}' of partner "
-                            "'{partner_name}'."
-                        ).format(
-                            service_name=service.display_name,
-                            partner_name=partner.display_name,
+                            "Missing Chorus Identifier on service '%(service_name)s' "
+                            "of partner '%(partner_name)s'."
                         )
+                        % {
+                            "service_name": service.display_name,
+                            "partner_name": partner.display_name,
+                        }
                     )
                 else:
                     logger.warning(

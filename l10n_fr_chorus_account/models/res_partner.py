@@ -61,12 +61,14 @@ class ResPartner(models.Model):
                     raise ValidationError(
                         _(
                             "Chorus service codes can only be set on contacts, "
-                            "not on parent partners. Chorus service code '{service_code}' has "
-                            "been set on partner {partner_name} that has no parent."
-                        ).format(
-                            service_code=partner.fr_chorus_service_id.code,
-                            partner_name=partner.display_name,
+                            "not on parent partners. Chorus service code "
+                            "'%(service_code)s' has been set on "
+                            "partner %(partner_name)s that has no parent."
                         )
+                        % {
+                            "service_code": partner.fr_chorus_service_id.code,
+                            "partner_name": partner.display_name,
+                        }
                     )
                 if not partner.name:
                     raise ValidationError(
@@ -81,14 +83,15 @@ class ResPartner(models.Model):
                 if chorus_service_partner != partner.commercial_partner_id:
                     raise ValidationError(
                         _(
-                            "The Chorus Service '{service_name}' configured on "
-                            "contact '{partner_name}' is attached to another partner "
-                            "({other_partner_name})."
-                        ).format(
-                            service_name=partner.fr_chorus_service_id.display_name,
-                            partner_name=partner.display_name,
-                            other_partner_name=chorus_service_partner.display_name,
+                            "The Chorus Service '%(service_name)s' configured on "
+                            "contact '%(partner_name)s' is attached to another partner "
+                            "(%(other_partner_name)s)."
                         )
+                        % {
+                            "service_name": partner.fr_chorus_service_id.display_name,
+                            "partner_name": partner.display_name,
+                            "other_partner_name": chorus_service_partner.display_name,
+                        }
                     )
 
     def fr_chorus_api_structures_rechercher(self, api_params, session=None):
