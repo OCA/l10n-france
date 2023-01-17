@@ -20,12 +20,12 @@
                         states="draft"
                         class="btn-primary"
                     />
-                <button name="generate_file" string="Generate File" type="object" />
                 <button
                         name="back2draft"
                         string="Back to Draft"
                         type="object"
                         states="done"
+                        confirm="Are you sure you want to go back to draft?"
                     />
                 <button
                         name="done"

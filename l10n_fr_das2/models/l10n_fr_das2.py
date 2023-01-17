@@ -175,10 +175,17 @@ class L10nFrDas2(models.Model):
         return res
 
     def done(self):
-        self.write({"state": "done"})
+        vals = {"state": "done"}
+        if self.line_ids:
+            attach = self.generate_file()
+            vals["attachment_id"] = attach.id
+        self.write(vals)
         return
 
     def back2draft(self):
+        if self.attachment_id:
+            self.attachment_id.unlink()
+            self.message_post(body=_("DAS2 file deleted."))
         self.write({"state": "draft"})
         return
 
@@ -692,8 +699,8 @@ class L10nFrDas2(models.Model):
                 "datas": base64.encodebytes(file_content_encoded),
             }
         )
-        self.attachment_id = attach.id
         self.message_post(body=_("DAS2 file generated."))
+        return attach
 
     def button_lines_fullscreen(self):
         self.ensure_one()
