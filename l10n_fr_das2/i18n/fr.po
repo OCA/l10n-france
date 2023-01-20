@@ -31,8 +31,8 @@ msgstr "Une DAS2 existe déjà pour cette année !"
 #, python-format
 msgid ""
 "A special character in the DAS2 file is not in the latin1 table. Please "
-"locate this special character and replace it by a standard character and try"
-" again."
+"locate this special character and replace it by a standard character and try "
+"again."
 msgstr ""
 "Un caractère spécial dans le fichier DAS2 n'est pas dans le tableau latin1. "
 "Veuillez remplacer ce caractère spécial et le remplacer par un caractère "
@@ -77,11 +77,16 @@ msgstr "Allocation forfaitaire"
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"An export file already exists. First, delete it via the attachments and then"
-" re-generate it."
+"An export file already exists. First, delete it via the attachments and then "
+"re-generate it."
 msgstr ""
 "Un fichier d'exportation existe déjà. Tout d'abord, supprimez-le via les "
 "pièces jointes, puis régénérez-le."
+
+#. module: l10n_fr_das2
+#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
+msgid "Are you sure you want to go back to draft?"
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_id
@@ -257,6 +262,12 @@ msgstr "Type DAS2"
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
+msgid "DAS2 file deleted."
+msgstr ""
+
+#. module: l10n_fr_das2
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
 msgid "DAS2 file generated."
 msgstr "Fichier DAS2 généré."
 
@@ -350,11 +361,6 @@ msgstr "Abonnés (Partenaires)"
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Icône Font Awesome e.g. fa-tasks"
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
-msgid "Generate File"
-msgstr "Générer un fichier"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
@@ -756,9 +762,8 @@ msgstr ""
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"The following partners are not configured for DAS2 but they have expenses in"
-" some accounts that indicate they should probably be configured for "
-"DAS2:<ul>"
+"The following partners are not configured for DAS2 but they have expenses in "
+"some accounts that indicate they should probably be configured for DAS2:<ul>"
 msgstr ""
 "Les partenaires suivants ne sont pas configurés pour DAS2, mais ils ont des "
 "dépenses dans certains comptes qui indiquent qu'ils devraient probablement "
@@ -767,8 +772,7 @@ msgstr ""
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid ""
-"The phone number is not set on the administrative contact partner '%s'."
+msgid "The phone number is not set on the administrative contact partner '%s'."
 msgstr ""
 "Le numéro de téléphone n'est pas défini sur le partenaire de contact "
 "administratif '%s'."
@@ -840,3 +844,6 @@ msgstr "Historique de communication du site web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#~ msgid "Generate File"
+#~ msgstr "Générer un fichier"
