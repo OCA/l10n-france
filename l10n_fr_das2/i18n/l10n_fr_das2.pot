@@ -76,6 +76,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_das2
+#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
+msgid "Are you sure you want to go back to draft?"
+msgstr ""
+
+#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_id
 msgid "Attachment"
 msgstr ""
@@ -244,6 +249,12 @@ msgstr ""
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
+msgid "DAS2 file deleted."
+msgstr ""
+
+#. module: l10n_fr_das2
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
 msgid "DAS2 file generated."
 msgstr ""
 
@@ -334,11 +345,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
-msgid "Generate File"
 msgstr ""
 
 #. module: l10n_fr_das2
