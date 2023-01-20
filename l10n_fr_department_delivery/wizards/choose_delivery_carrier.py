@@ -7,7 +7,7 @@ class ChooseDeliveryCarrier(models.TransientModel):
     @api.depends("partner_id")
     def _compute_available_carrier(self):
         super()._compute_available_carrier()
-        partner = self.order_id.partner_id
+        partner = self.order_id.partner_shipping_id
         for rec in self:
             available_carrier_ids = \
                 rec.available_carrier_ids.filter_carrier_with_departments(
