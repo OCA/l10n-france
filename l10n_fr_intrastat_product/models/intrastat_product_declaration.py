@@ -92,14 +92,12 @@ class IntrastatProductDeclaration(models.Model):
         if not dpt:
             dpt = self.company_id.partner_id.department_id
             if not dpt:
-                line_notes = [
-                    _(
-                        "Missing department on partner '%s'. "
-                        "To set it, set the country and the zip code on this partner."
-                    )
-                    % self.company_id.partner_id.display_name
-                ]
-                self._format_line_note(inv_line, notedict, line_notes)
+                msg = _(
+                    "Missing department. "
+                    "To set it, set the country and the zip code on this partner."
+                )
+                partner_name = self.company_id.partner_id.display_name
+                notedict["partner"][partner_name][msg].add(notedict["inv_origin"])
         return dpt
 
     def _generate_xml(self):
