@@ -10,6 +10,7 @@
             name="description"
         >Achat Fournisseur (Acquisitions intracomm. taxables en France)</field>
         <field name="code">11</field>
+        <field name="company_id" eval="False" />
         <field name="fr_object_type">in_invoice</field>
         <field name="fr_transaction_code">11</field>
         <field name="fr_is_fiscal_only" eval="False" />
@@ -21,6 +22,7 @@
             name="description"
         >Vente Client B2B (Livraisons intracomm. exo. en France et taxables dans l'Etat d'arrivée)</field>
         <field name="code">21</field>
+        <field name="company_id" eval="False" />
         <field name="fr_object_type">out_invoice</field>
         <field name="fr_transaction_code">11</field>
         <field name="fr_is_fiscal_only" eval="False" />
@@ -30,6 +32,7 @@
     <record id="intrastat_transaction_29_12" model="intrastat.transaction">
         <field name="description">Vente Client B2C (soumises à TVA)</field>
         <field name="code">29</field>
+        <field name="company_id" eval="False" />
         <field name="fr_object_type">out_invoice</field>
         <field name="fr_transaction_code">12</field>
         <field name="fr_is_fiscal_only" eval="False" />
@@ -41,6 +44,7 @@
             name="description"
         >Avoir Client (Régularisation commerciale - minoration de valeur)</field>
         <field name="code">25</field>
+        <field name="company_id" eval="False" />
         <field name="fr_object_type">out_refund</field>
         <field name="fr_is_fiscal_only" eval="True" />
         <field name="fr_fiscal_value_multiplier">-1</field>
