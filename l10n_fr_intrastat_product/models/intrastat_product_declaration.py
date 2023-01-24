@@ -364,11 +364,11 @@ class IntrastatProductDeclarationLine(models.Model):
             if self.vat and self.vat.startswith("GB") and decl.year >= "2021":
                 raise UserError(
                     _(
-                        "Bad VAT number '%s' on line %d. Brexit took place "
-                        "on January 1st 2021 and companies in Northern Ireland "
-                        "have a new VAT number starting with 'XI'."
+                        "Bad VAT number '%(vat)s' on line %(line_number)d. "
+                        "Brexit took place on January 1st 2021 and companies "
+                        "in Northern Ireland have a new VAT number starting with 'XI'."
                     )
-                    % (self.vat, line_number)
+                    % {"vat": self.vat, "line_number": line_number}
                 )
             partner_vat.text = self.vat and self.vat.replace(" ", "") or ""
         # Code régime is on all EMEBIs

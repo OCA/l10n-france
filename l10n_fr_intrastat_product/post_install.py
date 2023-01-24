@@ -29,11 +29,18 @@ def set_fr_company_intrastat(cr, registry):
             "l10n_fr_intrastat_product.intrastat_transaction_11_11"
         ).id
         fpdict = {
-            "intraeub2b": out_inv_b2b_trans_id,
+            "intraeub2b": False,
             "intraeub2c": out_inv_b2c_trans_id,
         }
         for company in companies:
-            company.write({"intrastat_accessory_costs": True})
+            company.write(
+                {
+                    "intrastat_accessory_costs": True,
+                    "intrastat_out_invoice_transaction_id": out_inv_b2b_trans_id,
+                    "intrastat_out_refund_transaction_id": out_ref_trans_id,
+                    "intrastat_in_invoice_transaction_id": in_inv_trans_id,
+                }
+            )
             fps = afpo.search([("company_id", "=", company.id)])
             for fp in fps:
                 xmlid_rec = imdo.search(
@@ -52,12 +59,10 @@ def set_fr_company_intrastat(cr, registry):
                                 "on fiscal position ID %d",
                                 fp.id,
                             )
-                            fp.write(
-                                {
-                                    "intrastat": True,
-                                    "intrastat_out_invoice_transaction_id": out_inv_trans_id,
-                                    "intrastat_out_refund_transaction_id": out_ref_trans_id,
-                                    "intrastat_in_invoice_transaction_id": in_inv_trans_id,
-                                }
-                            )
+                            vals = {"intrastat": True}
+                            if out_inv_trans_id:
+                                vals[
+                                    "intrastat_out_invoice_transaction_id"
+                                ] = out_inv_trans_id
+                            fp.write(vals)
                             break
