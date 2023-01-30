@@ -8,15 +8,14 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 
-from odoo.tests import tagged
-from odoo.tests.common import SavepointCase
-from odoo.tools import float_compare
 from odoo.exceptions import UserError
+from odoo.tests import tagged
+from odoo.tests.common import TransactionCase
+from odoo.tools import float_compare
 
 
 @tagged("post_install", "-at_install")
-class TestFrIntrastatService(SavepointCase):
-
+class TestFrIntrastatService(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
