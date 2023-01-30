@@ -8,98 +8,90 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+from odoo.tests.common import SavepointCase
 from odoo.tools import float_compare
+from odoo.exceptions import UserError
 
 
-class TestFrIntrastatService(TransactionCase):
-    def setUp(self):
-        super(TestFrIntrastatService, self).setUp()
+@tagged("post_install", "-at_install")
+class TestFrIntrastatService(SavepointCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         # Set company country to France
         # Using base.main_company is more difficult now because
         # its currency is USD
         # So I decided to create another company from scratch
-        self.company = self.env["res.company"].create(
+        cls.company = cls.env["res.company"].create(
             {
                 "name": "Akretion France",
                 "street": "27 rue Henri Rolland",
                 "zip": "69100",
                 "city": "Villeurbanne",
-                "country_id": self.env.ref("base.fr").id,
+                "country_id": cls.env.ref("base.fr").id,
                 "vat": "FR86792377731",
             }
         )
-        self.env.company.chart_template_id.try_loading(company=self.company)
-        self.env.user.write({"company_ids": [(4, self.company.id)]})
-        self.env.user.write({"company_id": self.company.id})
-        self.fp_eu_b2b = self.env["account.fiscal.position"].create(
+        cls.env.company.chart_template_id.try_loading(company=cls.company)
+        cls.env.user.write({"company_ids": [(4, cls.company.id)]})
+        cls.env.user.write({"company_id": cls.company.id})
+        cls.fp_eu_b2b = cls.env["account.fiscal.position"].create(
             {
                 "name": "EU B2B",
                 "intrastat": True,
+                "vat_required": True,
             }
         )
-        self.move_model = self.env["account.move"]
-        self.move_line_model = self.env["account.move.line"]
-        self.account_account_model = self.env["account.account"]
-        self.service_product = self.env["product.product"].create(
+        cls.move_model = cls.env["account.move"]
+        cls.account_account_model = cls.env["account.account"]
+        cls.service_product = cls.env["product.product"].create(
             {
                 "name": "Engineering services",
                 "type": "service",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
-        self.hw_product = self.env["product.product"].create(
+        cls.hw_product = cls.env["product.product"].create(
             {
                 "name": "Hardware product",
                 "type": "consu",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
 
-        self.belgian_partner = self.env["res.partner"].create(
+        cls.belgian_partner = cls.env["res.partner"].create(
             {
                 "name": "Odoo SA",
                 "is_company": True,
                 "vat": "BE0477472701",
-                "country_id": self.env.ref("base.be").id,
+                "country_id": cls.env.ref("base.be").id,
                 "company_id": False,
             }
         )
-        self.account_receivable = self.account_account_model.search(
-            [("code", "=", "411100"), ("company_id", "=", self.company.id)], limit=1
+        cls.account_revenue = cls.account_account_model.search(
+            [("code", "=", "706000"), ("company_id", "=", cls.company.id)], limit=1
         )
-        if not self.account_receivable:
-            self.account_receivable = self.account_account_model.create(
-                {
-                    "code": "411100",
-                    "name": "Debtors - (test)",
-                    "reconcile": True,
-                    "user_type_id": self.ref("account.data_account_type_receivable"),
-                    "company_id": self.company.id,
-                }
-            )
-        assert self.account_receivable
-        self.account_revenue = self.account_account_model.search(
-            [("code", "=", "706000"), ("company_id", "=", self.company.id)], limit=1
-        )
-        if not self.account_revenue:
-            self.account_revenue = self.account_account_model.create(
+        if not cls.account_revenue:
+            cls.account_revenue = cls.account_account_model.create(
                 {
                     "code": "706000",
                     "name": "Service Sales - (test)",
-                    "user_type_id": self.ref("account.data_account_type_revenue"),
-                    "company_id": self.company.id,
+                    "user_type_id": cls.ref("account.data_account_type_revenue"),
+                    "company_id": cls.company.id,
                 }
             )
 
         # create first invoice
         date = datetime.today() + relativedelta(day=5, months=-1)
-        inv1 = self.move_model.create(
+        inv1 = cls.move_model.create(
             {
-                "company_id": self.company.id,
-                "partner_id": self.belgian_partner.id,
-                "fiscal_position_id": self.fp_eu_b2b.id,
-                "currency_id": self.env.ref("base.EUR").id,
+                "company_id": cls.company.id,
+                "partner_id": cls.belgian_partner.id,
+                "fiscal_position_id": cls.fp_eu_b2b.id,
+                "currency_id": cls.env.ref("base.EUR").id,
                 "move_type": "out_invoice",
                 "invoice_date": date,
                 "invoice_line_ids": [
@@ -107,11 +99,11 @@ class TestFrIntrastatService(TransactionCase):
                         0,
                         0,
                         {
-                            "product_id": self.service_product.id,
+                            "product_id": cls.service_product.id,
                             "quantity": 5,
                             "price_unit": 90,
                             "name": "Audit service",
-                            "account_id": self.account_revenue.id,
+                            "account_id": cls.account_revenue.id,
                         },
                     ),
                     (
@@ -119,11 +111,11 @@ class TestFrIntrastatService(TransactionCase):
                         0,
                         {
                             # product
-                            "product_id": self.hw_product.id,
+                            "product_id": cls.hw_product.id,
                             "quantity": 1,
                             "price_unit": 1950,
                             "name": "Laptop",
-                            "account_id": self.account_revenue.id,
+                            "account_id": cls.account_revenue.id,
                         },
                     ),
                 ],
@@ -131,12 +123,12 @@ class TestFrIntrastatService(TransactionCase):
         )
         inv1.action_post()
         # create 2nd invoice
-        inv2 = self.move_model.create(
+        inv2 = cls.move_model.create(
             {
-                "company_id": self.company.id,
-                "partner_id": self.belgian_partner.id,
-                "fiscal_position_id": self.fp_eu_b2b.id,
-                "currency_id": self.env.ref("base.EUR").id,
+                "company_id": cls.company.id,
+                "partner_id": cls.belgian_partner.id,
+                "fiscal_position_id": cls.fp_eu_b2b.id,
+                "currency_id": cls.env.ref("base.EUR").id,
                 "move_type": "out_invoice",
                 "invoice_date": date,
                 "invoice_line_ids": [
@@ -144,11 +136,11 @@ class TestFrIntrastatService(TransactionCase):
                         0,
                         0,
                         {
-                            "product_id": self.env.ref("product.product_product_1").id,
+                            "product_id": cls.env.ref("product.product_product_1").id,
                             "quantity": 2,
                             "price_unit": 90.2,
                             "name": "GAP Analysis for your Odoo v10 project",
-                            "account_id": self.account_revenue.id,
+                            "account_id": cls.account_revenue.id,
                         },
                     ),
                     (
@@ -156,11 +148,11 @@ class TestFrIntrastatService(TransactionCase):
                         0,
                         {
                             # consu product
-                            "product_id": self.env.ref("product.product_product_7").id,
+                            "product_id": cls.env.ref("product.product_product_7").id,
                             "quantity": 1,
                             "price_unit": 45,
                             "name": "Apple headphones",
-                            "account_id": self.account_revenue.id,
+                            "account_id": cls.account_revenue.id,
                         },
                     ),
                 ],
@@ -168,12 +160,12 @@ class TestFrIntrastatService(TransactionCase):
         )
         inv2.action_post()
         # create refund
-        inv3 = self.move_model.create(
+        inv3 = cls.move_model.create(
             {
-                "company_id": self.company.id,
-                "partner_id": self.belgian_partner.id,
-                "fiscal_position_id": self.fp_eu_b2b.id,
-                "currency_id": self.env.ref("base.EUR").id,
+                "company_id": cls.company.id,
+                "partner_id": cls.belgian_partner.id,
+                "fiscal_position_id": cls.fp_eu_b2b.id,
+                "currency_id": cls.env.ref("base.EUR").id,
                 "move_type": "out_refund",
                 "invoice_date": date,
                 "invoice_line_ids": [
@@ -181,11 +173,11 @@ class TestFrIntrastatService(TransactionCase):
                         0,
                         0,
                         {
-                            "product_id": self.service_product.id,
+                            "product_id": cls.service_product.id,
                             "quantity": 1,
                             "price_unit": 90,
                             "name": "Refund consulting hour",
-                            "account_id": self.account_revenue.id,
+                            "account_id": cls.account_revenue.id,
                         },
                     )
                 ],
@@ -198,11 +190,10 @@ class TestFrIntrastatService(TransactionCase):
             {"company_id": self.company.id}
         )
         des.generate_service_lines()
-        self.assertEqual(float_compare(des.total_amount, 540.0, precision_digits=0), 0)
+        self.assertFalse(float_compare(des.total_amount, 540.0, precision_digits=0))
         self.assertEqual(des.num_decl_lines, 3)
         des.done()
         self.assertEqual(des.state, "done")
-        des.generate_xml()
         xml_des_file = des.attachment_id
         self.assertTrue(xml_des_file)
         self.assertEqual(xml_des_file.name[-4:], ".xml")
@@ -212,3 +203,10 @@ class TestFrIntrastatService(TransactionCase):
         self.assertEqual(company_vat_xpath[0].text, self.company.vat)
         lines_xpath = xml_root.xpath("/fichier_des/declaration_des/ligne_des")
         self.assertEqual(len(lines_xpath), des.num_decl_lines)
+        with self.assertRaises(UserError):
+            des.unlink()
+        des.back2draft()
+        self.assertEqual(des.state, "draft")
+
+    def test_cron(self):
+        self.env["l10n.fr.intrastat.service.declaration"]._scheduler_reminder()
