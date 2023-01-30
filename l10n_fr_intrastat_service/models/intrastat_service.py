@@ -56,7 +56,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     total_amount = fields.Monetary(
         compute="_compute_numbers",
         currency_field="currency_id",
-        string="Total Amount",
         store=True,
         tracking=True,
     )
@@ -68,7 +67,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ("draft", "Draft"),
             ("done", "Done"),
         ],
-        string="State",
         readonly=True,
         tracking=True,
         default="draft",
@@ -275,7 +273,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     }
                 )
         self.message_post(body=_("Re-generating lines from invoices"))
-        return
 
     def done(self):
         for decl in self:
@@ -349,7 +346,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
 
-        # We now validate the XML file against the official XSD
+        # Validate the XML file against the official XSD
         self.company_id._intrastat_check_xml_schema(
             xml_bytes, "l10n_fr_intrastat_service/data/des.xsd"
         )
@@ -464,7 +461,7 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
         index=True,
     )
     company_id = fields.Many2one(
-        "res.company", related="parent_id.company_id", string="Company", store=True
+        "res.company", related="parent_id.company_id", store=True
     )
     company_currency_id = fields.Many2one(
         "res.currency",
