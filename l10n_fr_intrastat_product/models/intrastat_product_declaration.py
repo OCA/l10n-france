@@ -102,6 +102,8 @@ class IntrastatProductDeclaration(models.Model):
 
     def _generate_xml(self):
         """Generate the INSTAT XML file export."""
+        if self.company_id.country_id.code != "FR":
+            return super()._generate_xml()
         my_company_vat = self.company_id.partner_id.vat.replace(" ", "")
 
         if not self.company_id.siret:
@@ -125,13 +127,15 @@ class IntrastatProductDeclaration(models.Model):
         envelope = etree.SubElement(root, "Envelope")
         envelope_id = etree.SubElement(envelope, "envelopeId")
         if not self.company_id.fr_intrastat_accreditation:
-            raise UserError(
-                _(
-                    "The customs accreditation identifier is not set "
-                    "for the company '%s'."
+            self.message_post(
+                body=_(
+                    "No XML file generated because the <b>Customs Accreditation "
+                    "Identifier</b> is not set on the accounting configuration "
+                    "page of the company '%s'."
                 )
                 % self.company_id.display_name
             )
+            return
         envelope_id.text = self.company_id.fr_intrastat_accreditation
         create_date_time = etree.SubElement(envelope, "DateTime")
         create_date = etree.SubElement(create_date_time, "date")
