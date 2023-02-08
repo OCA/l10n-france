@@ -1,4 +1,4 @@
-from . import intrastat_transaction
+from . import intrastat_fr_regime
 from . import intrastat_unit
 from . import stock
 from . import res_company

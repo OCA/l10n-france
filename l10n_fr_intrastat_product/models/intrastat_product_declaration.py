@@ -17,8 +17,6 @@ logger = logging.getLogger(__name__)
 class IntrastatProductDeclaration(models.Model):
     _inherit = "intrastat.product.declaration"
 
-    # I wanted to inherit this field in l10n.fr.intrastat.product.declaration
-    # but it doesn't work
     total_amount = fields.Integer(compute="_compute_fr_numbers")
     # Inherit also num_decl_lines to avoid double loop
     num_decl_lines = fields.Integer(compute="_compute_fr_numbers")
@@ -29,10 +27,10 @@ class IntrastatProductDeclaration(models.Model):
             total_amount = 0.0
             num_lines = 0
             for line in decl.declaration_line_ids:
-                total_amount += (
-                    line.amount_company_currency
-                    * line.transaction_id.fr_fiscal_value_multiplier
-                )
+                multi = 1
+                if line.fr_regime_id:
+                    multi = line.fr_regime_id.fiscal_value_multiplier
+                total_amount += line.amount_company_currency * multi
                 num_lines += 1
             decl.num_decl_lines = num_lines
             decl.total_amount = total_amount
@@ -90,7 +88,7 @@ class IntrastatProductDeclaration(models.Model):
                 so = so_line.order_id
                 dpt = so.warehouse_id._get_fr_department()
         if not dpt:
-            dpt = self.company_id.partner_id.department_id
+            dpt = self.company_id.partner_id.country_department_id
             if not dpt:
                 msg = _(
                     "Missing department. "
@@ -100,8 +98,41 @@ class IntrastatProductDeclaration(models.Model):
                 notedict["partner"][partner_name][msg].add(notedict["inv_origin"])
         return dpt
 
+    def _update_computation_line_vals(self, inv_line, line_vals, notedict):
+        super()._update_computation_line_vals(inv_line, line_vals, notedict)
+        if self.company_id.country_id.code == "FR":
+            invoice = inv_line.move_id
+            regime_code = False
+            # TODO improve by taking into account the transaction code
+            # to set the best regime code
+            # example : if transaction code is 51/52 => regime code is 19 or 29
+            if invoice.move_type == "in_invoice":
+                regime_code = 11
+            elif invoice.move_type == "out_refund":
+                if invoice.intrastat_fiscal_position == "b2b":
+                    regime_code = 25
+                elif invoice.intrastat_fiscal_position == "b2c":
+                    # TODO customer refund B2C : what are we supposed to do ?
+                    # As we don't have a VAT number and regime 25 requires
+                    # a VAT number, I decided for the moment not to mention
+                    # it in EMEBI
+                    line_vals.clear()
+                    return
+            elif invoice.move_type == "out_invoice":
+                if invoice.intrastat_fiscal_position == "b2b":
+                    regime_code = 21
+                elif invoice.intrastat_fiscal_position == "b2c":
+                    regime_code = 29
+            if regime_code:
+                regime = self.env.ref(
+                    "l10n_fr_intrastat_product.fr_regime_%d" % regime_code
+                )
+                line_vals["fr_regime_id"] = regime.id
+
     def _generate_xml(self):
         """Generate the INSTAT XML file export."""
+        if self.company_id.country_id.code != "FR":
+            return super()._generate_xml()
         my_company_vat = self.company_id.partner_id.vat.replace(" ", "")
 
         if not self.company_id.siret:
@@ -125,13 +156,15 @@ class IntrastatProductDeclaration(models.Model):
         envelope = etree.SubElement(root, "Envelope")
         envelope_id = etree.SubElement(envelope, "envelopeId")
         if not self.company_id.fr_intrastat_accreditation:
-            raise UserError(
-                _(
-                    "The customs accreditation identifier is not set "
-                    "for the company '%s'."
+            self.message_post(
+                body=_(
+                    "No XML file generated because the <b>Customs Accreditation "
+                    "Identifier</b> is not set on the accounting configuration "
+                    "page of the company '%s'."
                 )
                 % self.company_id.display_name
             )
+            return
         envelope_id.text = self.company_id.fr_intrastat_accreditation
         create_date_time = etree.SubElement(envelope, "DateTime")
         create_date = etree.SubElement(create_date_time, "date")
@@ -295,21 +328,52 @@ class IntrastatProductDeclaration(models.Model):
         return
 
 
+class IntrastatProductComputationLine(models.Model):
+    _inherit = "intrastat.product.computation.line"
+
+    # regime is certainly not the best word in English
+    # but the advantage is that, when we read the field name, we know what it is!
+    fr_regime_id = fields.Many2one(
+        "intrastat.fr.regime",
+        domain="[('declaration_type', '=', declaration_type)]",
+        string="Regime",
+    )
+    fr_regime_code = fields.Char(
+        related="fr_regime_id.code", store=True, string="Regime Code"
+    )
+
+    def _group_line_hashcode_fields(self):
+        res = super()._group_line_hashcode_fields()
+        res["fr_regime_id"] = self.fr_regime_id.id or False
+        return res
+
+    def _prepare_grouped_fields(self, fields_to_sum):
+        vals = super()._prepare_grouped_fields(fields_to_sum)
+        vals["fr_regime_id"] = self.fr_regime_id.id or False
+        return vals
+
+
 class IntrastatProductDeclarationLine(models.Model):
     _inherit = "intrastat.product.declaration.line"
+
+    fr_regime_id = fields.Many2one("intrastat.fr.regime", string="Regime")
+    fr_regime_code = fields.Char(
+        related="fr_regime_id.code", store=True, string="Regime Code"
+    )
 
     # flake8: noqa: C901
     # TODO update error message to avoid quoting declaration line number
     def _generate_xml_line(self, parent_node, eu_countries, line_number):
         self.ensure_one()
         decl = self.parent_id
-        assert self.transaction_id, "Missing Intrastat Type"
+        assert self.fr_regime_id, "Missing Intrastat Type"
         transaction = self.transaction_id
+        regime = self.fr_regime_id
         item = etree.SubElement(parent_node, "Item")
         item_number = etree.SubElement(item, "itemNumber")
         item_number.text = str(line_number)
         # START of elements which are only required in "detailed" level
-        if decl.reporting_level == "extended" and not transaction.fr_is_fiscal_only:
+        if decl.reporting_level == "extended" and not regime.is_fiscal_only:
             cn8 = etree.SubElement(item, "CN8")
             cn8_code = etree.SubElement(cn8, "CN8Code")
             if not self.hs_code_id:
@@ -359,7 +423,7 @@ class IntrastatProductDeclarationLine(models.Model):
         # some exceptions for regime 29 in case of B2C
         if decl.declaration_type == "dispatches":
             partner_vat = etree.SubElement(item, "partnerId")
-            if not self.vat and transaction.code != "29":
+            if not self.vat and regime.code != "29":
                 raise UserError(_("Missing VAT number on line %d.") % line_number)
             if self.vat and self.vat.startswith("GB") and decl.year >= "2021":
                 raise UserError(
@@ -373,23 +437,23 @@ class IntrastatProductDeclarationLine(models.Model):
             partner_vat.text = self.vat and self.vat.replace(" ", "") or ""
         # Code régime is on all EMEBIs
         statistical_procedure_code = etree.SubElement(item, "statisticalProcedureCode")
-        statistical_procedure_code.text = transaction.code
+        statistical_procedure_code.text = regime.code
 
         # START of elements which are only required in "detailed" level
-        if decl.reporting_level == "extended" and not transaction.fr_is_fiscal_only:
+        if decl.reporting_level == "extended" and not regime.is_fiscal_only:
             transaction_nature = etree.SubElement(item, "NatureOfTransaction")
             transaction_nature_a = etree.SubElement(
                 transaction_nature, "natureOfTransactionACode"
             )
-            transaction_nature_a.text = transaction.fr_transaction_code[0]
+            transaction_nature_a.text = transaction.code[0]
             transaction_nature_b = etree.SubElement(
                 transaction_nature, "natureOfTransactionBCode"
             )
-            if len(transaction.fr_transaction_code) != 2:
+            if len(transaction.code) != 2:
                 raise UserError(
                     _("Transaction code on line %d should have 2 digits.") % line_number
                 )
-            transaction_nature_b.text = transaction.fr_transaction_code[1]
+            transaction_nature_b.text = transaction.code[1]
             mode_of_transport_code = etree.SubElement(item, "modeOfTransportCode")
             if not self.transport_id:
                 raise UserError(

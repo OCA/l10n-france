@@ -12,6 +12,12 @@
             ref="intrastat_product.intrastat_product_computation_line_view_form"
         />
         <field name="arch" type="xml">
+            <field name="transaction_id" position="before">
+                <field
+                    name="fr_regime_id"
+                    attrs="{'invisible': [('company_country_code', '!=', 'FR')], 'required': [('company_country_code', '=', 'FR')]}"
+                />
+            </field>
             <field name="vat" position="attributes">
                     <attribute
                     name="attrs"
@@ -26,6 +32,12 @@
             ref="intrastat_product.intrastat_product_computation_line_view_tree"
         />
         <field name="arch" type="xml">
+            <field name="transaction_code" position="before">
+                <field
+                    name="fr_regime_code"
+                    attrs="{'column_invisible': [('parent.company_country_code', '!=', 'FR')]}"
+                />
+            </field>
             <field name="vat" position="attributes">
                     <attribute
                     name="attrs"
@@ -40,6 +52,12 @@
             ref="intrastat_product.intrastat_product_declaration_line_view_form"
         />
         <field name="arch" type="xml">
+            <field name="transaction_id" position="before">
+                <field
+                    name="fr_regime_id"
+                    attrs="{'invisible': [('company_country_code', '!=', 'FR')]}"
+                />
+            </field>
             <field name="vat" position="attributes">
                 <attribute
                     name="attrs"
@@ -56,6 +74,12 @@
             ref="intrastat_product.intrastat_product_declaration_line_view_tree"
         />
         <field name="arch" type="xml">
+            <field name="transaction_code" position="before">
+                <field
+                    name="fr_regime_code"
+                    attrs="{'column_invisible': [('parent.company_country_code', '!=', 'FR')]}"
+                />
+            </field>
             <field name="vat" position="attributes">
                 <attribute
                     name="attrs"
