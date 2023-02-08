@@ -40,7 +40,7 @@ class TestFrIntrastatService(TransactionCase):
         cls.fp_eu_b2b = cls.env["account.fiscal.position"].create(
             {
                 "name": "EU B2B",
-                "intrastat": True,
+                "intrastat": "b2b",
                 "vat_required": True,
             }
         )
