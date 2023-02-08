@@ -152,8 +152,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ("invoice_date", "<=", self.end_date),
             ("invoice_date", ">=", self.start_date),
             ("state", "=", "posted"),
-            ("intrastat_fiscal_position", "=", True),
-            ("fiscal_position_id.vat_required", "=", True),
+            ("intrastat_fiscal_position", "=", "b2b"),
             ("company_id", "=", self.company_id.id),
         ]
         return domain
