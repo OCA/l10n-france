@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2023 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo noupdate="0">
+    <record id="fr_regime_11" model="intrastat.fr.regime">
+        <field name="code">11</field>
+        <field name="name">Acquisitions taxables en France</field>
+        <field name="is_fiscal_only" eval="False" />
+        <field name="fiscal_value_multiplier">1</field>
+        <field name="declaration_type">arrivals</field>
+</record>
+    <record id="fr_regime_19" model="intrastat.fr.regime">
+        <field name="code">19</field>
+        <field name="name">Autres introductions</field>
+        <field
+            name="description"
+        >Ensemble des introductions qui ne constituent pas des acquisitions intracommunautaires de biens au sens de l'article 256 bis du code général des impôts :
+- introductions de biens en vue d'une prestation de services (travail à façon…) ;
+- réintroductions de biens en suite d'une prestation de services (travail à façon…) ;
+- placements sous un régime suspensif, y compris le placement de marchandises en provenance d'un État membre sous l'un des cinq types d'entrepôts fiscaux prévus par les textes nationaux ;
+- introductions de biens destinés à un montage ou une installation ;
+- introductions de biens d'occasion, d'oeuvres d'art, d'objets de collection et d'antiquité ;
+- introduction de biens par des assujettis non établis en France pour y réaliser des exportations ;
+- achats effectués par un assujetti français en franchise de TVA ;
+- achats de biens exonérés de TVA (organes, sang et lait humains…) en vertu de l'article 291 du code général des impôts ;
+- dons, cadeaux.</field>
+        <field name="is_fiscal_only" eval="False" />
+        <field name="fiscal_value_multiplier">0</field>
+        <field name="declaration_type">arrivals</field>
+    </record>
+
+    <record id="fr_regime_21" model="intrastat.fr.regime">
+        <field name="code">21</field>
+        <field
+            name="name"
+        >Livraison exonérée en France et taxable dans l'Etat membre d'arrivée</field>
+        <field name="is_fiscal_only" eval="False" />
+        <field name="fiscal_value_multiplier">1</field>
+        <field name="declaration_type">dispatches</field>
+    </record>
+    <record id="fr_regime_29" model="intrastat.fr.regime">
+        <field name="code">29</field>
+        <field name="name">Autres expéditions (vente à distance B2C…)</field>
+        <field
+            name="description"
+        >- Éxpéditions de biens en vue d'une prestation de services (travail à façon…) ;
+- Réexpéditions de biens en suite d'une prestation de services (travail à façon…) ;
+- Éxpéditions de biens destinés à faire l'objet d'un montage ou d'une installation ;
+- Éxpéditions de biens dans le cadre de ventes à distance B2C ;
+- Éxpéditions de biens d'occasion, d'oeuvres d'art, d'objets de collection et d'antiquité ;
+- Livraisons aux forces armées étrangères, aux organismes internationaux et aux ambassades
+étrangères établis dans un autre État membre ;
+- Livraisons de moyens de transport neufs à des particuliers ;
+- Éxpéditions en vue de l'accomplissement des formalités d'exportation dans un autre État
+membre ;
+- Dons, cadeaux.</field>
+        <field name="is_fiscal_only" eval="False" />
+        <field name="fiscal_value_multiplier">0</field>
+        <field name="declaration_type">dispatches</field>
+    </record>
+    <record id="fr_regime_25" model="intrastat.fr.regime">
+        <field name="code">25</field>
+        <field
+            name="name"
+        >Régularisation commerciale entraînant une minoration de valeur</field>
+        <field name="description">Rabais, remise, ristourne</field>
+        <field name="is_fiscal_only" eval="True" />
+        <field name="fiscal_value_multiplier">-1</field>
+        <field name="declaration_type">dispatches</field>
+</record>
+    <record id="fr_regime_26" model="intrastat.fr.regime">
+        <field name="code">26</field>
+        <field
+            name="name"
+        >Régularisation commerciale entraînant une majoration de valeur</field>
+        <field name="is_fiscal_only" eval="True" />
+        <field name="fiscal_value_multiplier">1</field>
+        <field name="declaration_type">dispatches</field>
+    </record>
+    <record id="fr_regime_31" model="intrastat.fr.regime">
+        <field name="code">31</field>
+        <field name="name">Opérations particulières</field>
+        <field
+            name="description"
+        >Refacturation dans le cadre d'une opération triangulaire, ou facturation de matériaux à un donneur d'ouvrage établi dans un autre État membre, les
+matériaux faisant l'objet d'une prestation de services en France</field>
+        <field name="is_fiscal_only" eval="True" />
+        <field name="fiscal_value_multiplier">1</field>
+        <field name="declaration_type">dispatches</field>
+    </record>
+
+</odoo>
