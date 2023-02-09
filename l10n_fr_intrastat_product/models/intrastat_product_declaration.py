@@ -15,7 +15,12 @@ logger = logging.getLogger(__name__)
 
 
 class IntrastatProductDeclaration(models.Model):
-    _inherit = "intrastat.product.declaration"
+    _name = "intrastat.product.declaration"
+    _inherit = [
+        "intrastat.product.declaration",
+        "report.intrastat_product.product_declaration_xls",
+    ]
+    _description = "EMEBI"
 
     total_amount = fields.Integer(compute="_compute_fr_numbers")
     # Inherit also num_decl_lines to avoid double loop
@@ -326,6 +331,49 @@ class IntrastatProductDeclaration(models.Model):
                         )
         logger.info("End of the EMEBI reminder")
         return
+
+    @api.model
+    def _xls_template(self):
+        res = super()._xls_template()
+        res.update(
+            {
+                "fr_regime_id": {
+                    "header": {
+                        "type": "string",
+                        "value": _("Regime"),
+                    },
+                    "line": {
+                        "value": self._render(
+                            "line.fr_regime_id and line.fr_regime_id.display_name or ''"
+                        ),
+                    },
+                    "width": 65,
+                },
+                "fr_regime_code": {
+                    "header": {
+                        "type": "string",
+                        "value": _("Regime Code"),
+                    },
+                    "line": {
+                        "value": self._render("line.fr_regime_code"),
+                    },
+                    "width": 8,
+                },
+            }
+        )
+        return res
+
+    @api.model
+    def _xls_computation_line_fields(self):
+        res = super()._xls_computation_line_fields()
+        res.insert(6, "fr_regime_id")
+        return res
+
+    @api.model
+    def _xls_declaration_line_fields(self):
+        res = super()._xls_declaration_line_fields()
+        res.insert(3, "fr_regime_code")
+        return res
 
 
 class IntrastatProductComputationLine(models.Model):
