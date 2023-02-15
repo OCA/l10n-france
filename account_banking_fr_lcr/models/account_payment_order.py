@@ -155,7 +155,7 @@ class AccountPaymentOrder(models.Model):
         code_operation = "60"
         numero_enregistrement = str(transactions_count + 1).zfill(8)
         reference_tire = self._prepare_lcr_field(
-            "Référence tiré", line.communication, 10
+            "Référence tiré", line.payment_reference, 10
         )
         rib = self._get_rib_from_iban(line.partner_bank_id)
 
@@ -167,7 +167,7 @@ class AccountPaymentOrder(models.Model):
         else:
             nom_banque = " " * 24
         code_acceptation = "0"
-        montant_centimes = str(round(line.amount_currency * 100))
+        montant_centimes = str(round(line.amount * 100))
         zero_montant_centimes = montant_centimes.zfill(12)
         today_dt = fields.Date.context_today(self)
         date_creation = today_dt.strftime(LCR_DATE_FORMAT)
@@ -232,7 +232,7 @@ class AccountPaymentOrder(models.Model):
         transactions_count = 0
         eur_currency = self.env.ref("base.EUR")
         # Iterate each bank payment lines
-        for line in self.bank_line_ids:
+        for line in self.payment_ids:
             if line.currency_id != eur_currency:
                 raise UserError(
                     _(
@@ -243,7 +243,7 @@ class AccountPaymentOrder(models.Model):
                 )
             transactions_count += 1
             cfonb_string += self._prepare_cfonb_line(line, transactions_count)
-            total_amount += line.amount_currency
+            total_amount += line.amount
 
         cfonb_string += self._prepare_final_cfonb_line(total_amount, transactions_count)
 
