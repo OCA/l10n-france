@@ -83,10 +83,10 @@ class ResCompany(models.Model):
             }
         )
         self.env.user.write({"company_ids": [(4, company.id)]})
-        fr_chart_template = self.env.ref("l10n_fr.l10n_fr_pcg_chart_template")
+        fr_chart_template = self.env.ref("l10n_fr_oca.l10n_fr_pcg_chart_template")
         fr_chart_template._load(20.0, 20.0, company)
-        intracom_purchase_tax_dict = company._setup_l10n_fr_coa_vat_company()
-        return (company, intracom_purchase_tax_dict)
+        company._setup_l10n_fr_coa_vat_company()
+        return company
 
     def _setup_l10n_fr_coa_vat_company(self):  # noqa: C901
         self.ensure_one()
@@ -95,163 +95,13 @@ class ResCompany(models.Model):
         afpto = self.env["account.fiscal.position.tax"]
         aao = self.env["account.account"]
         ato = self.env["account.tax"]
-        atrlo = self.env["account.tax.repartition.line"]
+        cdomain = [("company_id", "=", self.id)]
         od_journal = self.env["account.journal"].search(
-            [("company_id", "=", self.id), ("type", "=", "general")], limit=1
+            cdomain + [("type", "=", "general")], limit=1
         )
         self.write({"fr_vat_journal_id": od_journal.id})
-        # Update PCG
-        # delete some accounts
-        accounts_to_del = aao.search(
-            [
-                ("company_id", "=", self.id),
-                ("code", "in", ("701200", "707200", "445710")),
-            ]
-        )
-        accounts_to_del.unlink()
-
-        # create accounts
-        revenue_accounts = [
-            ("701200", "Vt produits finis UE B2B"),
-            ("701300", "Vt produits finis UE B2C"),
-            ("701400", "Vt produits finis reste du monde"),
-            ("701500", "Vt produits finis France exonéré"),
-            ("706200", "Prestation de service UE B2B"),
-            ("706300", "Prestation de service UE B2C"),
-            ("706400", "Prestation de service reste du monde"),
-            ("706500", "Prestation de service France exonéré"),
-            ("707200", "Vt marchandises UE B2B"),
-            ("707300", "Vt marchandises UE B2C"),
-            ("707400", "Vt marchandises reste du monde"),
-            ("707500", "Vt marchandises France exonéré"),
-            ("708520", "Frais de port UE B2B"),
-            ("708530", "Frais de port UE B2C"),
-            ("708540", "Frais de port reste du monde"),
-            ("708550", "Frais de port France exonéré"),
-        ]
-        revenue_type_id = self.env.ref("account.data_account_type_revenue").id
-        for acc_code, acc_name in revenue_accounts:
-            aao.create(
-                {
-                    "company_id": self.id,
-                    "code": acc_code,
-                    "name": acc_name,
-                    "user_type_id": revenue_type_id,
-                    "reconcile": False,
-                    "tax_ids": False,
-                }
-            )
-        fr_account_codes = ["701100", "706000", "707100", "708500"]
-        for fr_account_code in fr_account_codes:
-            account = aao.search(
-                [("company_id", "=", self.id), ("code", "=", fr_account_code)]
-            )
-            new_name = "%s France" % account.name
-            account.write({"name": new_name})
-
-        # update accounts
-        mark_as_reconcile = ["445620", "445660"]
-        for acc_code in mark_as_reconcile:
-            account = aao.search(
-                [
-                    ("company_id", "=", self.id),
-                    ("code", "=", acc_code),
-                    ("reconcile", "=", False),
-                ],
-                limit=1,
-            )
-            if account:
-                account.write({"reconcile": True})
-        # update fiscal positions
-        fp2type = {
-            "fiscal_position_template_intraeub2b": "intracom_b2b",
-            "fiscal_position_template_domestic": "france",
-            "fiscal_position_template_import_export": "extracom",
-            "fiscal_position_template_intraeub2c": "intracom_b2c",
-        }
-        type2map = {
-            "intracom_b2b": [
-                ("701100", "701200"),
-                ("706000", "706200"),
-                ("707100", "707200"),
-                ("708500", "708520"),
-                ("701500", "701200"),
-                ("706500", "706200"),
-                ("707500", "707200"),
-                ("708550", "708520"),
-            ],
-            "intracom_b2c": [
-                ("701100", "701300"),
-                ("706000", "706300"),
-                ("707100", "707300"),
-                ("708500", "708530"),
-            ],
-            "extracom": [
-                ("701100", "701400"),
-                ("706000", "706400"),
-                ("707100", "707400"),
-                ("708500", "708540"),
-                ("701500", "701400"),
-                ("706500", "706400"),
-                ("707500", "707400"),
-                ("708550", "708540"),
-            ],
-            "france_exo": [
-                ("701100", "701500"),
-                ("706000", "706500"),
-                ("707100", "707500"),
-                ("708500", "708550"),
-            ],
-        }
-        fptype2fp = {}
-        for fp_xmlid_suffix, fp_type in fp2type.items():
-            xmlid = "l10n_fr.%d_%s" % (self.id, fp_xmlid_suffix)
-            fp = self.env.ref(xmlid)
-            fpvals = {
-                "fr_vat_type": fp_type,
-                "auto_apply": False,
-            }
-            if fp_type == "france":
-                fpvals["vat_required"] = False
-            fp.write(fpvals)
-            fptype2fp[fp_type] = fp
-            if type2map.get(fp_type):
-                for (src_acc_code, dest_acc_code) in type2map[fp_type]:
-                    afpao.create(
-                        {
-                            "position_id": fp.id,
-                            "account_src_id": aao.search(
-                                [
-                                    ("company_id", "=", self.id),
-                                    ("code", "=", src_acc_code),
-                                ]
-                            ).id,
-                            "account_dest_id": aao.search(
-                                [
-                                    ("company_id", "=", self.id),
-                                    ("code", "=", dest_acc_code),
-                                ]
-                            ).id,
-                        }
-                    )
-        # delete on_payment taxes
-        taxes_to_del = ato.search(
-            [("company_id", "=", self.id), ("tax_exigibility", "=", "on_payment")]
-        )
-        tax_map_to_del = afpto.search(
-            [("company_id", "=", self.id), ("tax_src_id", "in", taxes_to_del.ids)]
-        )
-        tax_map_to_del.unlink()
-        taxes_to_del.unlink()
-        # Create supplier VAT on payment
-        afpo.create(
-            {
-                "name": "France - Fournisseur TVA encaissement",
-                "fr_vat_type": "france_vendor_vat_on_payment",
-                "auto_apply": False,
-                "company_id": self.id,
-            }
-        )
+        # activate all taxes
+        ato.search(cdomain + [("active", "=", False)]).write({"active": True})
         # Create France exo FP
         france_exo_fp = afpo.create(
             {
@@ -261,77 +111,38 @@ class ResCompany(models.Model):
                 "company_id": self.id,
             }
         )
-        fptype2fp["france_exo"] = france_exo_fp
-        for (src_acc_code, dest_acc_code) in type2map["france_exo"]:
+        exo_fp_account_map = {
+            "701100": "701500",
+            "706100": "706500",
+            "707100": "707500",
+            "708510": "708550",
+        }
+        revenue_type_id = self.env.ref("account.data_account_type_revenue").id
+        for (src_acc_code, dest_acc_code) in exo_fp_account_map.items():
+            src_account = aao.search(cdomain + [("code", "=", src_acc_code)], limit=1)
+            assert src_account
+            dest_account = aao.create(
+                {
+                    "company_id": self.id,
+                    "code": dest_acc_code,
+                    "name": "%s exonéré" % src_account.name,
+                    "user_type_id": revenue_type_id,
+                    "reconcile": False,
+                    "tax_ids": False,
+                }
+            )
             afpao.create(
                 {
                     "position_id": france_exo_fp.id,
-                    "account_src_id": aao.search(
-                        [
-                            ("company_id", "=", self.id),
-                            ("code", "=", src_acc_code),
-                        ]
-                    ).id,
-                    "account_dest_id": aao.search(
-                        [
-                            ("company_id", "=", self.id),
-                            ("code", "=", dest_acc_code),
-                        ]
-                    ).id,
+                    "account_src_id": src_account.id,
+                    "account_dest_id": dest_account.id,
                 }
             )
         # I use extracom FP to get the list of source taxes
-        extracom_fp = fptype2fp["extracom"]
-        sale_tax_dest_xmlid = "l10n_fr.%d_tva_0" % self.id
-        sale_tax_dest_id = self.env.ref(sale_tax_dest_xmlid).id
-        # There is no puchase 0% tax provided in l10n_fr
-        purchase_tax_dest_id = ato.create(
-            {
-                "company_id": self.id,
-                "name": "TVA 0% (achat)",
-                "description": "TVA 0%",
-                "amount": 0,
-                "amount_type": "percent",
-                "type_tax_use": "purchase",
-                "tax_group_id": self.env.ref("l10n_fr.tax_group_tva_0").id,
-                "invoice_repartition_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "factor_percent": 100,
-                            "repartition_type": "base",
-                        },
-                    ),
-                    (
-                        0,
-                        0,
-                        {
-                            "factor_percent": 100,
-                            "repartition_type": "tax",
-                        },
-                    ),
-                ],
-                "refund_repartition_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "factor_percent": 100,
-                            "repartition_type": "base",
-                        },
-                    ),
-                    (
-                        0,
-                        0,
-                        {
-                            "factor_percent": 100,
-                            "repartition_type": "tax",
-                        },
-                    ),
-                ],
-            }
-        ).id
+        extracom_fp = afpo.search(cdomain + [("fr_vat_type", "=", "extracom")], limit=1)
+        tax_0_xmlid = "l10n_fr_oca.%d_tva_%s_0_exo"
+        sale_tax_dest_id = self.env.ref(tax_0_xmlid % (self.id, "sale")).id
+        purchase_tax_dest_id = self.env.ref(tax_0_xmlid % (self.id, "purchase")).id
 
         for extracom_tax_line in extracom_fp.tax_ids:
             if extracom_tax_line.tax_src_id.type_tax_use == "sale":
@@ -345,116 +156,33 @@ class ResCompany(models.Model):
                     "tax_dest_id": tax_dest_id,
                 }
             )
-
-        # Update regular FR VAT taxes
-        tax_type_id = self.env.ref("account.data_account_type_current_liabilities").id
-        rate2account = {
-            200: "445711",
-            100: "445712",
-            85: "445713",
-            55: "445714",
-            21: "445715",
-        }
-        for rate, acc_code in rate2account.items():
-            rate_label = "%s %% " % str(rate / 10).replace(".", ",")
-            tax_account_id = aao.create(
-                {
-                    "code": acc_code,
-                    "name": "TVA collectée %s" % rate_label,
-                    "company_id": self.id,
-                    "reconcile": True,
-                    "user_type_id": tax_type_id,
-                }
-            ).id
-            rate2account[rate] = tax_account_id
-
-        intracom_fp = fptype2fp["intracom_b2b"]
-        for tline in intracom_fp.tax_ids:
-            if tline.tax_src_id.type_tax_use == "sale":
-                tax = tline.tax_src_id
-                rate = int(round(tax.amount * 10))
-                if rate in rate2account:
-                    lines = atrlo.search(
-                        [
-                            "|",
-                            ("invoice_tax_id", "=", tax.id),
-                            ("refund_tax_id", "=", tax.id),
-                            ("repartition_type", "=", "tax"),
-                        ]
-                    )
-                    lines.write({"account_id": rate2account[rate]})
-        # Update intracom and extracom autoliq taxes
-        tracom_dict = {
-            "intracom_b2b": {
-                200: "445201",
-                100: "445202",
-                85: "445203",
-                55: "445204",
-                21: "445205",
-                "deduc": "445662",
-                "label": "acquisitions intracommunautaire",
-            },
+        # Update account mapping on IntraEU B2B and Export
+        fp_to_update = {
             "extracom": {
-                200: "445301",
-                100: "445302",
-                85: "445303",
-                55: "445304",
-                21: "445305",
-                "deduc": "445663",
-                "label": "acquisitions extracommunautaire",
+                "701500": "701400",
+                "706500": "706400",
+                "707500": "707400",
+                "708550": "708540",
+            },
+            "intracom_b2b": {
+                "701500": "701200",
+                "706500": "706200",
+                "707500": "707200",
+                "708550": "708520",
             },
         }
-        intracom_purchase_tax_dict = {}
-        for fp_type, wdict in tracom_dict.items():
-            fp = fptype2fp[fp_type]
-            deduc_tax_account_id = aao.create(
-                {
-                    "code": wdict["deduc"],
-                    "name": "TVA déductible %s" % wdict["label"],
-                    "company_id": self.id,
-                    "reconcile": True,
-                    "user_type_id": tax_type_id,
-                }
-            ).id
-            for tax_line in fp.tax_ids:
-                if tax_line.tax_dest_id.type_tax_use == "purchase":
-                    tax = tax_line.tax_dest_id
-                    tax_rate = int(round(tax.amount * 10))
-                    rate_label = "%s %% " % str(tax_rate / 10).replace(".", ",")
-                    if fp_type == "intracom_b2b":
-                        intracom_purchase_tax_dict[tax_rate] = tax
-                    if tax_rate in wdict:
-                        acc_code = wdict[tax_rate]
-                        due_tax_account_id = aao.create(
-                            {
-                                "code": acc_code,
-                                "name": "TVA due %s %s" % (wdict["label"], rate_label),
-                                "company_id": self.id,
-                                "reconcile": True,
-                                "user_type_id": tax_type_id,
-                            }
-                        ).id
-                        deduc_lines = atrlo.search(
-                            [
-                                "|",
-                                ("invoice_tax_id", "=", tax.id),
-                                ("refund_tax_id", "=", tax.id),
-                                ("repartition_type", "=", "tax"),
-                                ("factor_percent", ">", 99),  # = 100
-                            ]
-                        )
-                        deduc_lines.write({"account_id": deduc_tax_account_id})
-                        due_lines = atrlo.search(
-                            [
-                                "|",
-                                ("invoice_tax_id", "=", tax.id),
-                                ("refund_tax_id", "=", tax.id),
-                                ("repartition_type", "=", "tax"),
-                                ("factor_percent", "<", -99),  # = -100
-                            ]
-                        )
-                        due_lines.write({"account_id": due_tax_account_id})
-        return intracom_purchase_tax_dict
+        for fp_fr_vat_type, fp_account_map in fp_to_update.items():
+            fp = afpo.search(cdomain + [("fr_vat_type", "=", fp_fr_vat_type)], limit=1)
+            for src_acc_code, dest_acc_code in fp_account_map.items():
+                src_acc = aao.search(cdomain + [("code", "=", src_acc_code)])
+                dest_acc = aao.search(cdomain + [("code", "=", dest_acc_code)])
+                afpao.create(
+                    {
+                        "position_id": fp.id,
+                        "account_src_id": src_acc.id,
+                        "account_dest_id": dest_acc.id,
+                    }
+                )
 
     def _test_create_invoice_with_payment(
         self, move_type, date, partner, lines, payments, force_in_vat_on_payment=False
@@ -533,19 +261,23 @@ class ResCompany(models.Model):
 
     def _test_get_tax(self, type_tax_use, vat_rate, asset=False):
         self.ensure_one()
-        taxes = self.env["account.tax"].search(
-            [
-                ("company_id", "=", self.id),
-                ("type_tax_use", "=", type_tax_use),
-                ("amount_type", "=", "percent"),
-                ("price_include", "=", False),
-                ("fr_vat_autoliquidation", "=", False),
-            ]
+        taxes = (
+            self.env["account.tax"]
+            .with_context(active_test=False)
+            .search(
+                [
+                    ("company_id", "=", self.id),
+                    ("type_tax_use", "=", type_tax_use),
+                    ("amount_type", "=", "percent"),
+                    ("price_include", "=", False),
+                    ("fr_vat_autoliquidation", "=", False),
+                ]
+            )
         )
         for tax in taxes:
-            if not asset and "immobilisation" in tax.name:
+            if not asset and "immo" in tax.name:
                 continue
-            if asset and "immobilisation" not in tax.name:
+            if asset and "immo" not in tax.name:
                 continue
             if not float_compare(vat_rate, tax.amount, precision_digits=4):
                 return tax
@@ -558,6 +290,8 @@ class ResCompany(models.Model):
         # doesn't depend on the module "stock"
         ppo = self.env["product.product"].with_company(self.id)
         for vat_rate in product_dict.keys():
+            if vat_rate == 21 and asset:
+                continue
             if vat_rate:
                 real_vat_rate = vat_rate / 10
                 sale_tax = self._test_get_tax("sale", real_vat_rate)
@@ -570,13 +304,19 @@ class ResCompany(models.Model):
                 purchase_tax_ids = [(6, 0, [purchase_tax.id])]
                 account_income_id = False
             else:
-                sale_tax = self.env.ref("l10n_fr.%d_tva_0" % self.id)
+                real_vat_rate = 0
+                exo_tax_xmlid = "l10n_fr_oca.%d_tva_%s_0_exo"
+                sale_tax = self.env.ref(exo_tax_xmlid % (self.id, "sale"))
                 sale_tax_ids = [(6, 0, [sale_tax.id])]
-                purchase_tax_ids = False
+                purchase_tax = self.env.ref(exo_tax_xmlid % (self.id, "purchase"))
+                purchase_tax_ids = [(6, 0, [purchase_tax.id])]
                 account_income_id = self._test_get_account("707500")
+            product_name = "Test-demo TVA %s %%" % real_vat_rate
+            if asset:
+                product_name += " immo"
             product = ppo.create(
                 {
-                    "name": "Test-demo TVA %s %%" % real_vat_rate,
+                    "name": product_name,
                     "type": product_type,
                     "sale_ok": True,
                     "purchase_ok": True,
@@ -705,7 +445,6 @@ class ResCompany(models.Model):
     def _test_create_invoice_data(
         self,
         start_date,
-        intracom_purchase_tax_dict,
         extracom_refund_ratio=0.5,
     ):
         product_dict = self._test_prepare_product_dict()
@@ -969,8 +708,16 @@ class ResCompany(models.Model):
             {start_date: "residual"},
         )
         intra_tax_ids = {}
-        for rate, tax in intracom_purchase_tax_dict.items():
-            intra_tax_ids[rate] = [(6, 0, [tax.id])]
+        intra_b2b_fp = self.env["account.fiscal.position"].search(
+            [("company_id", "=", self.id), ("fr_vat_type", "=", "intracom_b2b")],
+            limit=1,
+        )
+        for tax_map_line in intra_b2b_fp.tax_ids:
+            tax = tax_map_line.tax_dest_id
+            if tax.type_tax_use == "purchase":
+                rate = int(round(tax.amount * 10))
+                intra_tax_ids[rate] = [(6, 0, [tax.id])]
+
         self._test_create_invoice_with_payment(
             "in_invoice",
             start_date,
