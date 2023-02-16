@@ -3,8 +3,9 @@
 
 <template
         id="trial_balance_ebp"
-    >"Compte.Numero","Compte.Intitule","Balance.SldCptNDebit","Balance.SldCptNCredit","Balance.SldCptNSoldeD","Balance.SldCptNSoldeC"
-<t t-foreach="docs" t-as="o"><t t-foreach="trial_balance" t-as="balance"><t
+    >"Compte.Numero","Compte.Intitule","Balance.SldCptNDebit","Balance.SldCptNCredit","Balance.SldCptNSoldeD","Balance.SldCptNSolde"
+
+ <t t-foreach="docs" t-as="o"><t t-foreach="trial_balance" t-as="balance"><t
                     t-if="balance['type'] == 'account_type'"
                 >"<t t-esc="balance['code']" />","<t t-esc="balance['name']" />",<t
                         t-esc="round(balance['debit'], 2)"
@@ -13,7 +14,9 @@
                     />,<t
                         t-esc="balance['ending_balance'] &lt; 0 and -round(balance['ending_balance'], 2) or 0.00"
                     />
-</t></t></t>
+
+ </t>
+</t></t>
 </template>
 
 </odoo>
