@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Fiscal Position Templates -->
+
+    <record
+        id="fiscal_position_template_domestic"
+        model="account.fiscal.position.template"
+    >
+        <field name="sequence">10</field>
+        <field name="name">France</field>
+        <field name="chart_template_id" ref="l10n_fr_pcg_chart_template" />
+        <field name="auto_apply" eval="True" />
+        <field name="vat_required" eval="False" />
+        <field name="country_id" ref="base.fr" />
+    </record>
+
+    <record
+        id="fiscal_position_template_domestic_supplier_vat_on_payment"
+        model="account.fiscal.position.template"
+    >
+        <field name="sequence">20</field>
+        <field name="name">France - Fournisseur TVA sur encaissement</field>
+        <field name="chart_template_id" ref="l10n_fr_pcg_chart_template" />
+        <field name="auto_apply" eval="False" />
+        <field name="vat_required" eval="False" />
+        <field name="country_id" ref="base.fr" />
+    </record>
+
+    <record
+        id="fiscal_position_template_intraeub2b"
+        model="account.fiscal.position.template"
+    >
+        <field name="sequence">30</field>
+        <field name="name">Intra-EU B2B</field>
+        <field name="chart_template_id" ref="l10n_fr_pcg_chart_template" />
+        <field
+            name="note"
+        >French VAT exemption according to articles 262 ter I (for products) and/or 283-2 (for services) of "CGI"</field>
+        <field name="auto_apply" eval="True" />
+        <field name="country_group_id" ref="base.europe" />
+        <field name="vat_required" eval="True" />
+    </record>
+
+    <record
+        id="fiscal_position_template_intraeub2c"
+        model="account.fiscal.position.template"
+    >
+        <field name="sequence">40</field>
+        <field name="name">Intra-EU B2C</field>
+        <field name="chart_template_id" ref="l10n_fr_pcg_chart_template" />
+        <field name="auto_apply" eval="True" />
+        <field name="country_group_id" ref="base.europe" />
+    </record>
+
+    <record
+        id="fiscal_position_template_import_export"
+        model="account.fiscal.position.template"
+    >
+        <field name="sequence">50</field>
+        <field name="name">Import/Export Hors UE + DOM-TOM</field>
+        <field name="chart_template_id" ref="l10n_fr_pcg_chart_template" />
+        <field
+            name="note"
+        >French VAT exemption according to articles 291, 294 and 262 I of "CGI"</field>
+        <field name="auto_apply" eval="True" />
+    </record>
+
+    <!-- Intra EU B2B tax -->
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_200"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_200" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_100"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_100" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_85"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_85" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_55"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_55" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_21"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_21" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_200_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_200_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_100_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_100_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_85_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_85_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_55_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_55_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_sale_21_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_sale_21_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_200"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_200" />
+        <field name="tax_dest_id" ref="tva_purchase_200_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_100"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_100" />
+        <field name="tax_dest_id" ref="tva_purchase_100_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_55"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_55" />
+        <field name="tax_dest_id" ref="tva_purchase_55_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_21"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_21" />
+        <field name="tax_dest_id" ref="tva_purchase_21_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_200_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_200_ttc" />
+        <field name="tax_dest_id" ref="tva_purchase_200_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_100_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_100_ttc" />
+        <field name="tax_dest_id" ref="tva_purchase_100_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_55_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_55_ttc" />
+        <field name="tax_dest_id" ref="tva_purchase_55_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_21_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_21_ttc" />
+        <field name="tax_dest_id" ref="tva_purchase_21_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_200_immo"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_200_immo" />
+        <field name="tax_dest_id" ref="tva_purchase_200_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_100_immo"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_100_immo" />
+        <field name="tax_dest_id" ref="tva_purchase_100_intracom" />
+    </record>
+    <record
+        id="fp_tax_template_intraeub2b_tva_purchase_55_immo"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="tax_src_id" ref="tva_purchase_55_immo" />
+        <field name="tax_dest_id" ref="tva_purchase_55_intracom" />
+    </record>
+
+    <!-- Intra EU B2B accounts -->
+    <record
+        id="fp_account_template_intraeub2b_pcg_7011"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="account_src_id" ref="pcg_7011" />
+        <field name="account_dest_id" ref="pcg_7012" />
+    </record>
+    <record
+        id="fp_account_template_intraeub2b_pcg_7061"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="account_src_id" ref="pcg_7061" />
+        <field name="account_dest_id" ref="pcg_7062" />
+    </record>
+    <record
+        id="fp_account_template_intraeub2b_pcg_7071"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="account_src_id" ref="pcg_7071" />
+        <field name="account_dest_id" ref="pcg_7072" />
+    </record>
+    <record
+        id="fp_account_template_intraeub2b_pcg_70851"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2b" />
+        <field name="account_src_id" ref="pcg_70851" />
+        <field name="account_dest_id" ref="pcg_70852" />
+    </record>
+
+    <!-- Intra EU B2C accounts -->
+    <record
+        id="fp_account_template_intraeub2c_pcg_7011"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2c" />
+        <field name="account_src_id" ref="pcg_7011" />
+        <field name="account_dest_id" ref="pcg_7013" />
+    </record>
+    <record
+        id="fp_account_template_intraeub2c_pcg_7061"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2c" />
+        <field name="account_src_id" ref="pcg_7061" />
+        <field name="account_dest_id" ref="pcg_7063" />
+    </record>
+    <record
+        id="fp_account_template_intraeub2c_pcg_7071"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2c" />
+        <field name="account_src_id" ref="pcg_7071" />
+        <field name="account_dest_id" ref="pcg_7073" />
+    </record>
+    <record
+        id="fp_account_template_intraeub2c_pcg_70851"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_intraeub2c" />
+        <field name="account_src_id" ref="pcg_70851" />
+        <field name="account_dest_id" ref="pcg_70853" />
+    </record>
+
+
+    <!-- Import-Export tax -->
+    <record
+        id="fp_tax_template_extracom_tva_sale_200"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_200" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_100"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_100" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_85"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_85" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_55"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_55" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_21"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_21" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_200_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_200_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_100_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_100_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_85_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_85_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_55_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_55_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_sale_21_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_sale_21_ttc" />
+        <field name="tax_dest_id" ref="tva_sale_0_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_200"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_200" />
+        <field name="tax_dest_id" ref="tva_purchase_200_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_100"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_100" />
+        <field name="tax_dest_id" ref="tva_purchase_100_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_55"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_55" />
+        <field name="tax_dest_id" ref="tva_purchase_55_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_21"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_21" />
+        <field name="tax_dest_id" ref="tva_purchase_21_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_200_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_200_ttc" />
+        <field name="tax_dest_id" ref="tva_purchase_200_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_100_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_100_ttc" />
+        <field name="tax_dest_id" ref="tva_purchase_100_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_55_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_55_ttc" />
+        <field name="tax_dest_id" ref="tva_purchase_55_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_21_ttc"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_21_ttc" />
+        <field name="tax_dest_id" ref="tva_purchase_21_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_200_immo"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_200_immo" />
+        <field name="tax_dest_id" ref="tva_purchase_200_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_100_immo"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_100_immo" />
+        <field name="tax_dest_id" ref="tva_purchase_100_extracom" />
+    </record>
+    <record
+        id="fp_tax_template_extracom_tva_purchase_55_immo"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="tax_src_id" ref="tva_purchase_55_immo" />
+        <field name="tax_dest_id" ref="tva_purchase_55_extracom" />
+    </record>
+
+    <!-- Import-Export accounts -->
+    <record
+        id="fp_account_template_extracom_pcg_7011"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="account_src_id" ref="pcg_7011" />
+        <field name="account_dest_id" ref="pcg_7014" />
+    </record>
+    <record
+        id="fp_account_template_extracom_pcg_7061"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="account_src_id" ref="pcg_7061" />
+        <field name="account_dest_id" ref="pcg_7064" />
+    </record>
+    <record
+        id="fp_account_template_extracom_pcg_7071"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="account_src_id" ref="pcg_7071" />
+        <field name="account_dest_id" ref="pcg_7074" />
+    </record>
+    <record
+        id="fp_account_template_extracom_pcg_70851"
+        model="account.fiscal.position.account.template"
+    >
+        <field name="position_id" ref="fiscal_position_template_import_export" />
+        <field name="account_src_id" ref="pcg_70851" />
+        <field name="account_dest_id" ref="pcg_70854" />
+    </record>
+
+
+</odoo>
