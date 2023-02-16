@@ -1531,10 +1531,10 @@ class L10nFrAccountVatReturn(models.Model):
                 and int(x.factor_percent) == 100
             )
             if len(line) != 1:
-                raise UserError(
-                    _("Bad configuration on regular purchase tax '%s'.")
-                    % tax.display_name
+                logger.debug(
+                    "Check that tax %s is a special gasoline tax", tax.display_name
                 )
+                continue
             vat_account = line.account_id
             if tax.fr_vat_autoliquidation:
                 vtype = "autoliq"
