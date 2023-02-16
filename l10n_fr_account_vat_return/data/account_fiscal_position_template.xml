@@ -6,6 +6,8 @@
 -->
 <odoo>
 
+        <!--  l10n_fr -->
+
         <record
         id="l10n_fr.fiscal_position_template_domestic"
         model="account.fiscal.position.template"
@@ -40,6 +42,38 @@
             <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template" />
             <field name="country_id" ref="base.fr" />
             <field name="fr_vat_type">france_vendor_vat_on_payment</field>
+        </record>
+
+        <!-- l10n_fr_oca -->
+        <record
+        id="l10n_fr_oca.fiscal_position_template_domestic"
+        model="account.fiscal.position.template"
+    >
+            <field name="fr_vat_type">france</field>
+        </record>
+        <record
+        id="l10n_fr_oca.fiscal_position_template_domestic_supplier_vat_on_payment"
+        model="account.fiscal.position.template"
+    >
+            <field name="fr_vat_type">france_vendor_vat_on_payment</field>
+        </record>
+        <record
+        id="l10n_fr_oca.fiscal_position_template_intraeub2b"
+        model="account.fiscal.position.template"
+    >
+            <field name="fr_vat_type">intracom_b2b</field>
+        </record>
+        <record
+        id="l10n_fr_oca.fiscal_position_template_intraeub2c"
+        model="account.fiscal.position.template"
+    >
+            <field name="fr_vat_type">intracom_b2c</field>
+        </record>
+        <record
+        id="l10n_fr_oca.fiscal_position_template_import_export"
+        model="account.fiscal.position.template"
+    >
+            <field name="fr_vat_type">extracom</field>
         </record>
 
 </odoo>
