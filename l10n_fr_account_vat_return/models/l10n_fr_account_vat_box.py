@@ -99,6 +99,7 @@ class L10nFrAccountVatBox(models.Model):
             ("PCD", "Percentage (PCD)"),
             ("QTY", "Quantity (QTY)"),
             ("FTX", "Char (FTX)"),
+            ("NAD", "Name and address (NAD)"),
         ],
         string="EDI Type",
     )
