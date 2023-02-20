@@ -197,7 +197,7 @@ class L10nFrAccountVatReturn(models.Model):
                 teledec_dict[line.box_form_code][line.box_id.edi_code] = line.value
             elif line.box_edi_type == "CCI_TBX":
                 teledec_dict[line.box_form_code][line.box_id.edi_code] = line.value_bool
-            elif line.box_edi_type == "FTX":
+            elif line.box_edi_type in ("FTX", "NAD"):
                 teledec_dict[line.box_form_code][line.box_id.edi_code] = line.value_char
             else:
                 raise UserError(

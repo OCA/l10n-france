@@ -326,7 +326,7 @@
                         />
                                                 <field
                             name="value_char"
-                            attrs="{'invisible': [('box_edi_type', '!=', 'FTX')]}"
+                            attrs="{'invisible': [('box_edi_type', 'not in', ('FTX', 'NAD'))]}"
                         />
                                                 <field
                             name="value_manual_int"
