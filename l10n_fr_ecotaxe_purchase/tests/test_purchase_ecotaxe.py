@@ -36,7 +36,7 @@ class TestPurchaseEcotaxe(AccountTestInvoicingCommon):
         cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classification2.id
 
     def test_01_manual_fixed_ecotaxe(self):
-        """ Tests multiple lines with fixed ecotaxes """
+        """Tests multiple lines with fixed ecotaxes"""
         # in order to test the correct assignment of fixed ecotaxe
         # I create a customer purchase.
         partner12 = self.env.ref("base.res_partner_12")
@@ -56,7 +56,7 @@ class TestPurchaseEcotaxe(AccountTestInvoicingCommon):
         self.assertEqual(self.purchase.amount_ecotaxe, 6.0)
 
     def test_02_classification_weight_based_ecotaxe(self):
-        """ Tests multiple lines with weight based ecotaxes """
+        """Tests multiple lines with weight based ecotaxes"""
         # in order to test the correct assignment of fixed ecotaxe
         # I create a customer purchase.
         partner12 = self.env.ref("base.res_partner_12")
@@ -76,7 +76,7 @@ class TestPurchaseEcotaxe(AccountTestInvoicingCommon):
         self.assertEqual(self.purchase.amount_ecotaxe, 12)
 
     def test_03_classification_ecotaxe(self):
-        """ Tests multiple lines with mixed ecotaxes """
+        """Tests multiple lines with mixed ecotaxes"""
         # in order to test the correct assignment of fixed ecotaxe
         # I create a customer purchase.
         partner12 = self.env.ref("base.res_partner_12")
