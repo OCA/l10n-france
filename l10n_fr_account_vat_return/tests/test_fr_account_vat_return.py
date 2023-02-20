@@ -110,12 +110,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_gr": 81,  # montant collecté 10%
             "ca3_fb": 28000,  # base 5,5%
             "ca3_gb": 1540,  # montant collecté 5,5%
-            "a_bb": 33300,  # base 2,1%
-            "a_cb": 699,  # montant collecté 2,1%
-            "a_bn": 33300,  # total base annexe
-            "a_cn": 699,  # montant collecté annexe
-            "ca3_fd": 33300,  # report base annexe
-            "ca3_gd": 699,  # report collecté annexe
+            "ca3_mf": 33300,  # base 2,1%
+            "ca3_me": 699,  # montant collecté 2,1%
             "ca3_gh": 2466,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
@@ -259,12 +255,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_gr": 74,  # montant collecté 10%
             "ca3_fb": 23750,  # base 5,5%
             "ca3_gb": 1306,  # montant collecté 5,5%
-            "a_bb": 26300,  # base 2,1%
-            "a_cb": 552,  # montant collecté 2,1%
-            "a_bn": 26300,  # total base annexe
-            "a_cn": 552,  # montant collecté annexe
-            "ca3_fd": 26300,  # report base annexe
-            "ca3_gd": 552,  # report collecté annexe
+            "ca3_mf": 26300,  # base 2,1%
+            "ca3_me": 552,  # montant collecté 2,1%
             "ca3_gh": 2070,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
@@ -275,6 +267,7 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_hg": 1721,  # total VAT deduc
             ######
             "ca3_ka": 349,  # TVA à payer (ligne 16 - 23)
+            "ca3_nd": 349,  # TVA nette due (ligne TD - X5)
             "ca3_ke": 349,  # Total à payer
         }
         self._check_vat_return_result(vat_return, expected_res)
@@ -291,8 +284,7 @@ class TestFrAccountVatReturn(TransactionCase):
             currency.compare_amounts(move_dict["445670"], initial_credit_vat * -1)
         )
         vat_return.print_ca3()
-        with self.assertRaises(UserError):
-            vat_return.generate_selenium_file()
+        vat_return.generate_selenium_file()
         vat_return.auto2sent()
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
