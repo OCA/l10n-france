@@ -56,12 +56,6 @@
                             states="auto,sent,posted"
                         />
                                                 <button
-                            name="generate_selenium_file"
-                            type="object"
-                            string="Generate Selenium File"
-                            attrs="{'invisible': ['|', '|', ('selenium_attachment_id', '!=', False), ('state', '!=', 'auto'), ('vat_periodicity', '!=', '1')]}"
-                        />
-                                                <button
                             name="back_to_manual"
                             type="object"
                             string="Back to Manual Lines"
@@ -133,19 +127,6 @@
                                 />
                                         </group>
                                         <group name="main-right">
-                                                <field
-                                    name="selenium_attachment_datas"
-                                    filename="selenium_attachment_name"
-                                    attrs="{'invisible': [('selenium_attachment_datas', '=', False)]}"
-                                />
-                                                <field
-                                    name="selenium_attachment_name"
-                                    invisible="1"
-                                />
-                                                <field
-                                    name="selenium_attachment_id"
-                                    invisible="1"
-                                />
                                                 <field
                                     name="company_id"
                                     groups="base.group_multi_company"
