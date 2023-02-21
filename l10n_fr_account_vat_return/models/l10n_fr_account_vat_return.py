@@ -2256,6 +2256,11 @@ class L10nFrAccountVatReturnLineLog(models.Model):
     origin_move_id = fields.Many2one(
         "account.move", string="Source Invoice", readonly=True
     )
+    origin_move_partner_id = fields.Many2one(
+        related="origin_move_id.commercial_partner_id",
+        string="Source Invoice Partner",
+        store=True,
+    )
     note = fields.Char()
 
     @api.constrains("parent_id", "account_id")
