@@ -396,6 +396,10 @@
                         name="origin_move_id"
                         optional="show"
                     />
+                                                <field
+                        name="origin_move_partner_id"
+                        optional="hide"
+                    />
                                                 <field name="note" optional="show" />
                                                 <field
                         name="analytic_account_id"
@@ -428,6 +432,10 @@
                                                 <field name="compute_type" />
                                                 <field
                             name="origin_move_id"
+                            attrs="{'invisible': [('origin_move_id', '=', False)]}"
+                        />
+                                                <field
+                            name="origin_move_partner_id"
                             attrs="{'invisible': [('origin_move_id', '=', False)]}"
                         />
                                             </group>
