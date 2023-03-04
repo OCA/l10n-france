@@ -28,7 +28,8 @@ addon | version | maintainers | summary
 [l10n_fr_account_invoice_import_facturx](l10n_fr_account_invoice_import_facturx/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | France-specific module to import Factur-X invoices
 [l10n_fr_account_invoice_import_simple_pdf](l10n_fr_account_invoice_import_simple_pdf/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Invoice import simple PDF: match partners using SIREN
 [l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 14.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Auto-configure UNECE params on French taxes
-[l10n_fr_account_vat_return](l10n_fr_account_vat_return/) | 14.0.2.3.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | VAT return for France: CA3, CA12, 3519
+[l10n_fr_account_vat_return](l10n_fr_account_vat_return/) | 14.0.3.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | VAT return for France: CA3, CA12, 3519
+[l10n_fr_account_vat_return_selenium](l10n_fr_account_vat_return_selenium/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Autofill CA3 on impots.gouv.fr via Selenium IDE
 [l10n_fr_account_vat_return_teledec](l10n_fr_account_vat_return_teledec/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Teletransmit CA3 via Teledec.fr (subscription required)
 [l10n_fr_business_document_import](l10n_fr_business_document_import/) | 14.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Adapt the module base_business_document_import for France
 [l10n_fr_chorus_account](l10n_fr_chorus_account/) | 14.0.1.3.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Generate Chorus-compliant e-invoices and transmit them via the Chorus API
@@ -44,6 +45,7 @@ addon | version | maintainers | summary
 [l10n_fr_intrastat_product](l10n_fr_intrastat_product/) | 14.0.2.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | DEB (Déclaration d'Échange de Biens) for France
 [l10n_fr_intrastat_service](l10n_fr_intrastat_service/) | 14.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Module for Intrastat service reporting (DES) for France
 [l10n_fr_mis_reports](l10n_fr_mis_reports/) | 14.0.1.1.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | MIS Report templates for the French P&L and Balance Sheets
+[l10n_fr_oca](l10n_fr_oca/) | 14.0.1.0.0 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Fork of l10n_fr: fewer taxes, ready for OCA VAT return for France
 [l10n_fr_pos_cert_allow_change_qty](l10n_fr_pos_cert_allow_change_qty/) | 14.0.1.0.1 |  | Remove restriction on change quantity
 [l10n_fr_siret](l10n_fr_siret/) | 14.0.1.3.1 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | French company identity numbers SIRET/SIREN/NIC
 [l10n_fr_siret_lookup](l10n_fr_siret_lookup/) | 14.0.1.1.0 | [![remi-filament](https://github.com/remi-filament.png?size=30px)](https://github.com/remi-filament) | Lookup partner via an API on the SIRENE directory
