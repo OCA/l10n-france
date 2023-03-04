@@ -1844,6 +1844,7 @@ class L10nFrAccountVatReturn(models.Model):
             # when the moves are already reconciled
             if rg_res and speedy["currency"].is_zero(rg_res[0]["balance"] or 0):
                 moves_to_reconcile = speedy["aml_obj"].search(domain)
+                moves_to_reconcile.remove_move_reconcile()
                 moves_to_reconcile.reconcile()
 
     def _create_draft_account_move(self, speedy):
