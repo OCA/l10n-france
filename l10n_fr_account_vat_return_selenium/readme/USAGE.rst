@@ -1,6 +1,6 @@
-Click on the button
+At the step *Automatic Lines*, you will see a button *Generate Selenium File*. When you click on this button, Odoo will generate a scenario file for Selenium IDE.
 
-* Odoo will generate a scenario file for Selenium IDE,
+Then, follow these steps:
 * in your web browser, click on the icon corresponding to Selenium IDE and load in the Selenium IDE file
 * it will start a new web browser window that will connect to impots.gouv.fr
 * enter your credentials for impots.gouv.fr and then the scenario will continue it's execution until the selection of the form

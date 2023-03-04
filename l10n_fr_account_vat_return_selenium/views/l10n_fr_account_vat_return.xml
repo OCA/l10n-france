@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2021-2023 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+<record id="l10n_fr_account_vat_return_form" model="ir.ui.view">
+    <field name="model">l10n.fr.account.vat.return</field>
+    <field
+            name="inherit_id"
+            ref="l10n_fr_account_vat_return.l10n_fr_account_vat_return_form"
+        />
+    <field name="arch" type="xml">
+        <button name="print_ca3" position="after">
+            <button
+                    name="generate_selenium_file"
+                    type="object"
+                    string="Generate Selenium File"
+                    attrs="{'invisible': ['|', '|', ('selenium_attachment_id', '!=', False), ('state', '!=', 'auto'), ('vat_periodicity', '!=', '1')]}"
+                />
+        </button>
+        <xpath
+                expr="//group[@name='main-right']/field[@name='company_id']"
+                position="before"
+            >
+            <field
+                    name="selenium_attachment_datas"
+                    filename="selenium_attachment_name"
+                    attrs="{'invisible': [('selenium_attachment_datas', '=', False)]}"
+                />
+            <field name="selenium_attachment_name" invisible="1" />
+            <field name="selenium_attachment_id" invisible="1" />
+        </xpath>
+    </field>
+</record>
+
+</odoo>

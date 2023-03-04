@@ -8,7 +8,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
-from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -48,16 +47,15 @@ class TestFrAccountVatReturn(TransactionCase):
         return move_dict
 
     def test_vat_return_on_invoice(self):
-        res = self.env["res.company"]._test_fr_vat_create_company(
+        company = self.env["res.company"]._test_fr_vat_create_company(
             company_name="FR Company VAT on_invoice", fr_vat_exigibility="on_invoice"
         )
-        company, intracom_purchase_tax_dict = res
         currency = company.currency_id
         initial_credit_vat = 3333
         company._test_create_move_init_vat_credit(
             initial_credit_vat, self.before_start_date
         )
-        company._test_create_invoice_data(self.start_date, intracom_purchase_tax_dict)
+        company._test_create_invoice_data(self.start_date)
         vat_return = self.env["l10n.fr.account.vat.return"].create(
             {
                 "company_id": company.id,
@@ -111,12 +109,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_gr": 81,  # montant collecté 10%
             "ca3_fb": 28000,  # base 5,5%
             "ca3_gb": 1540,  # montant collecté 5,5%
-            "a_bb": 33300,  # base 2,1%
-            "a_cb": 699,  # montant collecté 2,1%
-            "a_bn": 33300,  # total base annexe
-            "a_cn": 699,  # montant collecté annexe
-            "ca3_fd": 33300,  # report base annexe
-            "ca3_gd": 699,  # report collecté annexe
+            "ca3_mf": 33300,  # base 2,1%
+            "ca3_me": 699,  # montant collecté 2,1%
             "ca3_gh": 2466,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
@@ -201,8 +195,6 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertFalse(vat_return.reimbursement_type)
         self.assertFalse(vat_return.reimbursement_first_creation_date)
         vat_return.print_ca3()
-        with self.assertRaises(UserError):
-            vat_return.generate_selenium_file()
         vat_return.auto2sent()
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
@@ -224,18 +216,15 @@ class TestFrAccountVatReturn(TransactionCase):
                 self.assertTrue(line.full_reconcile_id)
 
     def test_vat_return_on_payment(self):
-        res = self.env["res.company"]._test_fr_vat_create_company(
+        company = self.env["res.company"]._test_fr_vat_create_company(
             company_name="FR Company VAT on_payment", fr_vat_exigibility="on_payment"
         )
-        company, intracom_purchase_tax_dict = res
         currency = company.currency_id
         initial_credit_vat = 22
         company._test_create_move_init_vat_credit(
             initial_credit_vat, self.before_start_date
         )
-        company._test_create_invoice_data(
-            self.start_date, intracom_purchase_tax_dict, extracom_refund_ratio=2
-        )
+        company._test_create_invoice_data(self.start_date, extracom_refund_ratio=2)
         vat_return = self.env["l10n.fr.account.vat.return"].create(
             {
                 "company_id": company.id,
@@ -263,12 +252,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_gr": 74,  # montant collecté 10%
             "ca3_fb": 23750,  # base 5,5%
             "ca3_gb": 1306,  # montant collecté 5,5%
-            "a_bb": 26300,  # base 2,1%
-            "a_cb": 552,  # montant collecté 2,1%
-            "a_bn": 26300,  # total base annexe
-            "a_cn": 552,  # montant collecté annexe
-            "ca3_fd": 26300,  # report base annexe
-            "ca3_gd": 552,  # report collecté annexe
+            "ca3_mf": 26300,  # base 2,1%
+            "ca3_me": 552,  # montant collecté 2,1%
             "ca3_gh": 2070,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
@@ -279,6 +264,7 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_hg": 1721,  # total VAT deduc
             ######
             "ca3_ka": 349,  # TVA à payer (ligne 16 - 23)
+            "ca3_nd": 349,  # TVA nette due (ligne TD - X5)
             "ca3_ke": 349,  # Total à payer
         }
         self._check_vat_return_result(vat_return, expected_res)
@@ -295,8 +281,6 @@ class TestFrAccountVatReturn(TransactionCase):
             currency.compare_amounts(move_dict["445670"], initial_credit_vat * -1)
         )
         vat_return.print_ca3()
-        with self.assertRaises(UserError):
-            vat_return.generate_selenium_file()
         vat_return.auto2sent()
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
@@ -307,9 +291,9 @@ class TestFrAccountVatReturn(TransactionCase):
         acc2bal = {
             "445711": -8.5,  # 20%
             "445712": -7,  # 10%
-            "445713": 0,  # 8,5%
-            "445714": -233.75,  # 5,5%
-            "445715": -147,  # 2,1 %
+            "445713": -233.75,  # 5,5%
+            "445714": -147,  # 2,1 %
+            "445715": 0,  # 8,5%
         }
         for acc_code, expected_bal in acc2bal.items():
             acc = aao.search(
@@ -324,11 +308,10 @@ class TestFrAccountVatReturn(TransactionCase):
                 self.assertTrue(line.full_reconcile_id)
 
     def test_vat_return_on_invoice_negative(self):
-        res = self.env["res.company"]._test_fr_vat_create_company(
+        company = self.env["res.company"]._test_fr_vat_create_company(
             company_name="FR Company VAT on_invoice neg",
             fr_vat_exigibility="on_invoice",
         )
-        company, intracom_purchase_tax_dict = res
         initial_credit_vat = 44
         company._test_create_move_init_vat_credit(
             initial_credit_vat, self.before_start_date
