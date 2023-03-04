@@ -1,0 +1,100 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_account_vat_return_selenium
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_account_vat_return_selenium
+#: code:addons/l10n_fr_account_vat_return_selenium/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"<a href=\"https://www.selenium.dev/selenium-ide/\" "
+"target=\"_blank\">Selenium IDE</a> file generated."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_selenium.field_l10n_fr_account_vat_return__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: model:ir.model,name:l10n_fr_account_vat_return_selenium.model_l10n_fr_account_vat_return
+msgid "France VAT Return (CA3)"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_selenium.l10n_fr_account_vat_return_form
+msgid "Generate Selenium File"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_selenium.field_l10n_fr_account_vat_return__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_selenium.field_l10n_fr_account_vat_return____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: code:addons/l10n_fr_account_vat_return_selenium/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Missing NREF code on box '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: code:addons/l10n_fr_account_vat_return_selenium/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Missing SIRET on company '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: code:addons/l10n_fr_account_vat_return_selenium/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Only MOA fields can be exported to Selenium for the moment. It is not the "
+"case of box '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_selenium.field_l10n_fr_account_vat_return__selenium_attachment_id
+msgid "Selenium Attachment"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_selenium.field_l10n_fr_account_vat_return__selenium_attachment_datas
+msgid "Selenium File"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_selenium.field_l10n_fr_account_vat_return__selenium_attachment_name
+msgid "Selenium Filename"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: code:addons/l10n_fr_account_vat_return_selenium/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Selenium IDE File"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: code:addons/l10n_fr_account_vat_return_selenium/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Selenium cannot work when there are 3310-A lines."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_selenium
+#: code:addons/l10n_fr_account_vat_return_selenium/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Selenium export only support monthly CA3 returns for the moment."
+msgstr ""
