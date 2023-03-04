@@ -224,12 +224,6 @@ msgid "Back to Manual Lines"
 msgstr "Retour aux lignes manuelles"
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid "Bad configuration on regular purchase tax '%s'."
-msgstr "Mauvaise configuration pour la taxe d'achat normale '%s'."
-
-#. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Based on invoice"
@@ -754,11 +748,6 @@ msgid "Generate Automatic Lines"
 msgstr "Générer les lignes automatiques"
 
 #. module: l10n_fr_account_vat_return
-#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
-msgid "Generate Selenium File"
-msgstr "Générer le fichier Selenium"
-
-#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__account_code
 msgid "Generic Account Code"
 msgstr "Code comptable générique"
@@ -979,18 +968,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
-msgid "Missing NREF code on box '%s'."
-msgstr "Code NREF manquant sur la case '%s'."
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid "Missing SIRET on company '%s'."
-msgstr "SIRET manquant sur la société '%s'."
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "Missing account mapping on fiscal position '%s'."
 msgstr "Table de correspondance des comptes vide sur la position fiscale '%s'."
 
@@ -1026,6 +1003,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__nref_code
 msgid "N-REF Code"
 msgstr "Code N-REF"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__edi_type__nad
+msgid "Name and address (NAD)"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
@@ -1137,16 +1119,6 @@ msgid ""
 msgstr ""
 "Sur la case '%s', le code comptable n'est pas renseigné. Vous pouvez "
 "spécifier un compte sur cette case."
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"Only MOA fields can be exported to Selenium for the moment. It is not the "
-"case of box '%s'."
-msgstr ""
-"Seuls les champs MOA peuvent être exportés vers Selenium pour le moment. Ce "
-"n'est pas le cas pour la case '%s'."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__print_page
@@ -1307,41 +1279,6 @@ msgid "Section"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__selenium_attachment_id
-msgid "Selenium Attachment"
-msgstr "Pièce jointe Selenium"
-
-#. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__selenium_attachment_datas
-msgid "Selenium File"
-msgstr "Fichier Selenium"
-
-#. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__selenium_attachment_name
-msgid "Selenium Filename"
-msgstr "Nom de fichier Selenium"
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid "Selenium IDE File"
-msgstr "Fichier Selenium IDE"
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid "Selenium cannot work when there are 3310-A lines."
-msgstr "Selenium ne fonctionne pas quand il y a des lignes 3310-A."
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid "Selenium export only support monthly CA3 returns for the moment."
-msgstr ""
-"L'export Selenium ne fonctionne que pour les déclarations mensuelles pour le "
-"moment."
-
-#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__state__sent
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_search
 msgid "Sent"
@@ -1367,6 +1304,11 @@ msgstr "Depuis une date particulière"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__origin_move_id
 msgid "Source Invoice"
 msgstr "Facture d'origine"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__origin_move_partner_id
+msgid "Source Invoice Partner"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__start_date
@@ -1991,6 +1933,52 @@ msgstr "Mauvaise valeur pour le nouveau régime de TVA."
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__12
 msgid "Yearly"
 msgstr "Annuelle"
+
+#, python-format
+#~ msgid "Bad configuration on regular purchase tax '%s'."
+#~ msgstr "Mauvaise configuration pour la taxe d'achat normale '%s'."
+
+#~ msgid "Generate Selenium File"
+#~ msgstr "Générer le fichier Selenium"
+
+#, python-format
+#~ msgid "Missing NREF code on box '%s'."
+#~ msgstr "Code NREF manquant sur la case '%s'."
+
+#, python-format
+#~ msgid "Missing SIRET on company '%s'."
+#~ msgstr "SIRET manquant sur la société '%s'."
+
+#, python-format
+#~ msgid ""
+#~ "Only MOA fields can be exported to Selenium for the moment. It is not the "
+#~ "case of box '%s'."
+#~ msgstr ""
+#~ "Seuls les champs MOA peuvent être exportés vers Selenium pour le moment. "
+#~ "Ce n'est pas le cas pour la case '%s'."
+
+#~ msgid "Selenium Attachment"
+#~ msgstr "Pièce jointe Selenium"
+
+#~ msgid "Selenium File"
+#~ msgstr "Fichier Selenium"
+
+#~ msgid "Selenium Filename"
+#~ msgstr "Nom de fichier Selenium"
+
+#, python-format
+#~ msgid "Selenium IDE File"
+#~ msgstr "Fichier Selenium IDE"
+
+#, python-format
+#~ msgid "Selenium cannot work when there are 3310-A lines."
+#~ msgstr "Selenium ne fonctionne pas quand il y a des lignes 3310-A."
+
+#, python-format
+#~ msgid "Selenium export only support monthly CA3 returns for the moment."
+#~ msgstr ""
+#~ "L'export Selenium ne fonctionne que pour les déclarations mensuelles pour "
+#~ "le moment."
 
 #, python-format
 #~ msgid ""
