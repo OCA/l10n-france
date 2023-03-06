@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,17 +14,19 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_banking_fr_lcr
+#. odoo-python
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid "Cannot convert the field '%s' to ASCII"
 msgstr ""
 
 #. module: account_banking_fr_lcr
+#. odoo-python
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"For the bank account '{acc_number}' of partner '{partner}', the Bank Account"
-" Type should be 'IBAN'."
+"For the bank account '%(acc_number)s' of partner '%(partner)s', the Bank "
+"Account Type should be 'IBAN'."
 msgstr ""
 
 #. module: account_banking_fr_lcr
@@ -38,11 +40,12 @@ msgid "LCR"
 msgstr ""
 
 #. module: account_banking_fr_lcr
+#. odoo-python
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"LCR are only for French bank accounts. The IBAN '{acc_number}' of partner "
-"'{partner}' is not a French IBAN."
+"LCR are only for French bank accounts. The IBAN '%(acc_number)s' of partner "
+"'%(partner)s' is not a French IBAN."
 msgstr ""
 
 #. module: account_banking_fr_lcr
@@ -61,14 +64,16 @@ msgid "Payment Order"
 msgstr ""
 
 #. module: account_banking_fr_lcr
+#. odoo-python
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"The currency of payment line '{payment_line}' is '{currency}'. To be "
+"The currency of payment line '%(payment_line)s' is '%(currency)s'. To be "
 "included in a French LCR, the currency must be EUR."
 msgstr ""
 
 #. module: account_banking_fr_lcr
+#. odoo-python
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid "The field '%s' is empty or 0. It should have a non-null value."
