@@ -21,13 +21,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_08_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_08_taxe')],
                 'account_id': ref('pcg_445711'),
             }),
         ]"
@@ -38,13 +36,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_08_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_08_taxe')],
                 'account_id': ref('pcg_445711'),
             }),
         ]"
@@ -70,13 +66,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_9B_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_9B_taxe')],
                 'account_id': ref('pcg_445712'),
             }),
         ]"
@@ -87,13 +81,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_9B_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_9B_taxe')],
                 'account_id': ref('pcg_445712'),
             }),
         ]"
@@ -119,13 +111,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_10_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_10_taxe')],
                 'account_id': ref('pcg_445715'),
             }),
         ]"
@@ -136,13 +126,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_10_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_10_taxe')],
                 'account_id': ref('pcg_445715'),
             }),
         ]"
@@ -168,13 +156,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_09_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_09_taxe')],
                 'account_id': ref('pcg_445713'),
             }),
         ]"
@@ -185,13 +171,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_09_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_09_taxe')],
                 'account_id': ref('pcg_445713'),
             }),
         ]"
@@ -217,13 +201,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_11_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_11_taxe')],
                 'account_id': ref('pcg_445714'),
             }),
         ]"
@@ -234,13 +216,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_11_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_11_taxe')],
                 'account_id': ref('pcg_445714'),
             }),
         ]"
@@ -267,12 +247,10 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_08_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_08_taxe')],
                 'account_id': ref('pcg_445711'),
             }),
         ]"
@@ -283,12 +261,10 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_08_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_08_taxe')],
                 'account_id': ref('pcg_445711'),
             }),
         ]"
@@ -314,13 +290,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_9B_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_9B_taxe')],
                 'account_id': ref('pcg_445712'),
             }),
         ]"
@@ -331,12 +305,10 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_9B_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_9B_taxe')],
                 'account_id': ref('pcg_445712'),
             }),
         ]"
@@ -362,13 +334,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_10_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_10_taxe')],
                 'account_id': ref('pcg_445715'),
             }),
         ]"
@@ -379,12 +349,10 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_10_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_10_taxe')],
                 'account_id': ref('pcg_445715'),
             }),
         ]"
@@ -410,13 +378,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_09_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_09_taxe')],
                 'account_id': ref('pcg_445713'),
             }),
         ]"
@@ -427,13 +393,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_09_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_09_taxe')],
                 'account_id': ref('pcg_445713'),
             }),
         ]"
@@ -459,13 +423,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_11_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_11_taxe')],
                 'account_id': ref('pcg_445714'),
             }),
         ]"
@@ -476,13 +438,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A1'), ref('l10n_fr_oca.tax_report_11_base')],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_11_taxe')],
                 'account_id': ref('pcg_445714'),
             }),
         ]"
@@ -508,7 +468,6 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_F2')],
             }),
 
             (0,0, {
@@ -523,7 +482,6 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_F2')],
             }),
 
             (0,0, {
@@ -552,7 +510,6 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_E1')],
             }),
 
             (0,0, {
@@ -567,7 +524,6 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_E1')],
             }),
 
             (0,0, {
@@ -596,7 +552,6 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A2')],
             }),
 
             (0,0, {
@@ -611,7 +566,6 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A2')],
             }),
 
             (0,0, {
@@ -641,13 +595,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -658,13 +610,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -689,13 +639,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -706,13 +654,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -737,13 +683,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -754,13 +698,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -785,13 +727,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -802,13 +742,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -834,13 +772,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -851,13 +787,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -882,13 +816,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -899,13 +831,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -930,13 +860,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -947,13 +875,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -978,13 +904,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -995,13 +919,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_44566'),
             }),
         ]"
@@ -1026,13 +948,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_19')],
                 'account_id': ref('pcg_44562'),
             }),
         ]"
@@ -1043,13 +963,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_19')],
                 'account_id': ref('pcg_44562'),
             }),
         ]"
@@ -1074,13 +992,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_19')],
                 'account_id': ref('pcg_44562'),
             }),
         ]"
@@ -1091,13 +1007,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_19')],
                 'account_id': ref('pcg_44562'),
             }),
         ]"
@@ -1122,13 +1036,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_19')],
                 'account_id': ref('pcg_44562'),
             }),
         ]"
@@ -1139,13 +1051,11 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
 
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_19')],
                 'account_id': ref('pcg_44562'),
             }),
         ]"
@@ -1174,20 +1084,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_B2'),
-                                         ref('l10n_fr_oca.tax_report_08_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_08_taxe'),
-                                         ref('l10n_fr_oca.tax_report_17')],
                 'account_id': ref('pcg_445662'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_445201'),
             }),
         ]"
@@ -1198,20 +1103,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_B2'),
-                                          ref('l10n_fr_oca.tax_report_08_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_08_taxe'),
-                                          ref('l10n_fr_oca.tax_report_17'),],
                 'account_id': ref('pcg_445662'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_445201'),
             }),
         ]"
@@ -1237,20 +1137,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_B2'),
-                                         ref('l10n_fr_oca.tax_report_9B_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_17'),
-                                         ref('l10n_fr_oca.tax_report_9B_taxe')],
                 'account_id': ref('pcg_445662'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_445202'),
             }),
         ]"
@@ -1261,20 +1156,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_B2'),
-                                          ref('l10n_fr_oca.tax_report_9B_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_17'),
-                                         ref('l10n_fr_oca.tax_report_9B_taxe')],
                 'account_id': ref('pcg_445662'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_445202'),
             }),
         ]"
@@ -1300,20 +1190,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_B2'),
-                                         ref('l10n_fr_oca.tax_report_09_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_17'),
-                                         ref('l10n_fr_oca.tax_report_09_taxe')],
                 'account_id': ref('pcg_445662'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_445203'),
             }),
         ]"
@@ -1324,20 +1209,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_B2'),
-                                          ref('l10n_fr_oca.tax_report_09_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_17'),
-                                         ref('l10n_fr_oca.tax_report_09_taxe')],
                 'account_id': ref('pcg_445662'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_445203'),
             }),
         ]"
@@ -1363,20 +1243,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_B2'),
-                                         ref('l10n_fr_oca.tax_report_11_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_17'),
-                                         ref('l10n_fr_oca.tax_report_11_taxe')],
                 'account_id': ref('pcg_445662'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_445204'),
             }),
         ]"
@@ -1387,20 +1262,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_B2'),
-                                          ref('l10n_fr_oca.tax_report_11_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_17'),
-                                         ref('l10n_fr_oca.tax_report_11_taxe')],
                 'account_id': ref('pcg_445662'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20')],
                 'account_id': ref('pcg_445204'),
             }),
         ]"
@@ -1428,21 +1298,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A4'),
-                                         ref('l10n_fr_oca.tax_report_08_base'),
-                                         ref('l10n_fr_oca.tax_report_I1_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                         ref('l10n_fr_oca.tax_report_I1_taxe')],
                 'account_id': ref('pcg_445663'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_08_taxe')],
                 'account_id': ref('pcg_445301'),
             }),
         ]"
@@ -1453,21 +1317,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A4'),
-                                          ref('l10n_fr_oca.tax_report_08_base'),
-                                          ref('l10n_fr_oca.tax_report_I1_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                          ref('l10n_fr_oca.tax_report_I1_taxe')],
                 'account_id': ref('pcg_445663'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_08_taxe')],
                 'account_id': ref('pcg_445301'),
             }),
         ]"
@@ -1493,21 +1351,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A4'),
-                                         ref('l10n_fr_oca.tax_report_9B_base'),
-                                         ref('l10n_fr_oca.tax_report_I2_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                         ref('l10n_fr_oca.tax_report_I2_taxe')],
                 'account_id': ref('pcg_445663'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_9B_taxe')],
                 'account_id': ref('pcg_445302'),
             }),
         ]"
@@ -1518,21 +1370,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A4'),
-                                          ref('l10n_fr_oca.tax_report_9B_base'),
-                                          ref('l10n_fr_oca.tax_report_I2_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                          ref('l10n_fr_oca.tax_report_I2_taxe')],
                 'account_id': ref('pcg_445663'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_9B_taxe')],
                 'account_id': ref('pcg_445302'),
             }),
         ]"
@@ -1558,21 +1404,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A4'),
-                                         ref('l10n_fr_oca.tax_report_09_base'),
-                                         ref('l10n_fr_oca.tax_report_I4_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                         ref('l10n_fr_oca.tax_report_I4_taxe')],
                 'account_id': ref('pcg_445663'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_09_taxe')],
                 'account_id': ref('pcg_445303'),
             }),
         ]"
@@ -1583,21 +1423,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A4'),
-                                          ref('l10n_fr_oca.tax_report_09_base'),
-                                          ref('l10n_fr_oca.tax_report_I4_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                          ref('l10n_fr_oca.tax_report_I4_taxe')],
                 'account_id': ref('pcg_445663'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_09_taxe')],
                 'account_id': ref('pcg_445303'),
             }),
         ]"
@@ -1623,21 +1457,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_A4'),
-                                         ref('l10n_fr_oca.tax_report_11_base'),
-                                         ref('l10n_fr_oca.tax_report_I5_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                         ref('l10n_fr_oca.tax_report_I5_taxe')],
                 'account_id': ref('pcg_445663'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_11_taxe')],
                 'account_id': ref('pcg_445304'),
             }),
         ]"
@@ -1648,21 +1476,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_A4'),
-                                          ref('l10n_fr_oca.tax_report_11_base'),
-                                          ref('l10n_fr_oca.tax_report_I5_base')],
             }),
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                          ref('l10n_fr_oca.tax_report_I5_taxe')],
                 'account_id': ref('pcg_445663'),
             }),
             (0,0, {
                 'factor_percent': -100,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_11_taxe')],
                 'account_id': ref('pcg_445304'),
             }),
         ]"
@@ -1688,7 +1510,6 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [],
             }),
            (0,0, {
                 'factor_percent': 100,
@@ -1702,7 +1523,6 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [],
             }),
            (0,0, {
                 'factor_percent': 100,
@@ -1731,21 +1551,17 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_P1_base')],
             }),
 
             (0,0, {
                 'factor_percent': 80,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                         ref('l10n_fr_oca.tax_report_P1_taxe')],
                 'account_id': ref('pcg_44566'),
             }),
 
             (0,0, {
                 'factor_percent': 20,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_P1_taxe')],
                 'account_id': ref('pcg_6061'),
             }),
         ]"
@@ -1756,21 +1572,17 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_P1_base')],
             }),
 
             (0,0, {
                 'factor_percent': 80,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                          ref('l10n_fr_oca.tax_report_P1_taxe')],
                 'account_id': ref('pcg_44566'),
             }),
 
             (0,0, {
                 'factor_percent': 20,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_P1_taxe')],
                 'account_id': ref('pcg_6061'),
             }),
         ]"
@@ -1795,21 +1607,17 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'plus_report_line_ids': [ ref('l10n_fr_oca.tax_report_P1_base')],
             }),
 
             (0,0, {
                 'factor_percent': 80,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                         ref('l10n_fr_oca.tax_report_P1_taxe')],
                 'account_id': ref('pcg_44566'),
             }),
 
             (0,0, {
                 'factor_percent': 20,
                 'repartition_type': 'tax',
-                'plus_report_line_ids': [ref('l10n_fr_oca.tax_report_P1_taxe')],
                 'account_id': ref('pcg_6061'),
             }),
         ]"
@@ -1820,21 +1628,17 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'base',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_P1_base')],
             }),
 
             (0,0, {
                 'factor_percent': 80,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_20'),
-                                          ref('l10n_fr_oca.tax_report_P1_taxe')],
                 'account_id': ref('pcg_44566'),
             }),
 
             (0,0, {
                 'factor_percent': 20,
                 'repartition_type': 'tax',
-                'minus_report_line_ids': [ref('l10n_fr_oca.tax_report_P1_taxe')],
                 'account_id': ref('pcg_6061'),
             }),
         ]"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=duplicate-xml-record-id -->
+<!-- oca-hooks:disable=xml-duplicate-record-id -->
 <odoo>
     <record id="l10n_fr_pcg_chart_template" model="account.chart.template">
       <field name="property_account_receivable_id" ref="fr_pcg_recv" />
@@ -11,6 +11,8 @@
       <field name="property_tax_payable_account_id" ref="pcg_44551" />
       <field name="property_tax_receivable_account_id" ref="pcg_44567" />
       <field name="default_pos_receivable_account_id" ref="fr_pcg_recv_pos" />
+      <field name="account_journal_early_pay_discount_loss_account_id" ref="pcg_665" />
+      <field name="account_journal_early_pay_discount_gain_account_id" ref="pcg_765" />
       <field name="currency_id" ref="base.EUR" />
     </record>
 </odoo>

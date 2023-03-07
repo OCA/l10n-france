@@ -2,6 +2,8 @@
 <odoo>
 
 <!--  Default taxes on accounts  -->
+<!-- We can't put this in account.account.template.csv because we need to load
+    taxes before, and taxes need to be loaded after account.account.template.csv -->
 
 <!-- Expenses -->
     <record id="pcg_6011" model="account.account.template">
