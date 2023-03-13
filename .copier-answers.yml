@@ -16,9 +16,9 @@ org_name: Odoo Community Association (OCA)
 org_slug: OCA
 rebel_module_groups: []
 repo_description: 'TODO: add repo description.'
-repo_name: crm
-repo_slug: crm
-repo_website: https://github.com/OCA/crm
+repo_name: l10n-france
+repo_slug: l10n-france
+repo_website: https://github.com/OCA/l10n-france
 travis_apt_packages: []
 travis_apt_sources: []
 
