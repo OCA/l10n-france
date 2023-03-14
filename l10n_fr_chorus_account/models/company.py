@@ -279,9 +279,16 @@ class ResCompany(models.Model):
                 % e
             )
         if r.status_code != 200:
+            reponse_text = r.text
+            if r.status_code == 401:
+                # may be:
+                # 'Bearer realm="PISTE",error="Unauthorized",
+                # error_description="login or password incorrects"'
+                reponse_text = f"{reponse_text} {r.headers.get('WWW-Authenticate', '')}"
+
             logger.error(
                 "Chorus API webservice answered with HTTP status code=%s and "
-                "content=%s" % (r.status_code, r.text)
+                "content=%s" % (r.status_code, reponse_text)
             )
             raise UserError(
                 _("Wrong request on %s. HTTP error code received from " "Chorus: %s")
