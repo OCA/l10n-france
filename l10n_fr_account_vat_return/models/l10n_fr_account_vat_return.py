@@ -1575,7 +1575,11 @@ class L10nFrAccountVatReturn(models.Model):
         boxtype2accounts = {}
         for fpositions, box_type in fpositions2boxtype.items():
             for fposition in fpositions:
-                if not fposition.account_ids:
+                revenue_account_mappings = fposition.account_ids.filtered(
+                    lambda x: x.account_src_id.code.startswith("7")
+                    and x.account_dest_id.code.startswith("7")
+                )
+                if not revenue_account_mappings:
                     if fposition.fr_vat_type == "france_exo":
                         # it may be a purchase-only fiscal position (ex: Auto-entrep)
                         # -> no raise, only write a warning in chatter
@@ -1594,7 +1598,7 @@ class L10nFrAccountVatReturn(models.Model):
                             _("Missing account mapping on fiscal position '%s'.")
                             % fposition.display_name
                         )
-                for mapping in fposition.account_ids:
+                for mapping in revenue_account_mappings:
                     if box_type not in boxtype2accounts:
                         boxtype2accounts[box_type] = mapping.account_dest_id
                     else:
