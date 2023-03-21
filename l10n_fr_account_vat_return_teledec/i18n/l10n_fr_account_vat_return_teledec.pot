@@ -356,3 +356,9 @@ msgid ""
 "VAT return successfully sent to <a "
 "href=\"https://teledec.fr/\">Teledec.fr</a>."
 msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.l10n_fr_account_vat_return_form
+msgid ""
+"You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
+msgstr ""
