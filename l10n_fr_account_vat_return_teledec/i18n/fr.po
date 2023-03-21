@@ -383,3 +383,9 @@ msgid ""
 msgstr ""
 "Déclaration de TVA envoyée avec succès à <a href=\"https://teledec.fr/"
 "\">Teledec.fr</a>."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.l10n_fr_account_vat_return_form
+msgid ""
+"You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
+msgstr ""
