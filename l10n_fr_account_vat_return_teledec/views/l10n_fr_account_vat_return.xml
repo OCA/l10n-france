@@ -20,6 +20,7 @@
                     string="Transmit via Teledec.fr"
                     attrs="{'invisible': ['|', ('state', '!=', 'auto'), ('vat_periodicity', '=', '12')]}"
                     class="btn-primary"
+                    confirm="You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
                 />
                                 </button>
                                 <button name="auto2sent" position="attributes">
