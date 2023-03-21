@@ -4,7 +4,7 @@
 
 {
     "name": "VAT Teletransmission via Teledec.fr",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "summary": "Teletransmit CA3 via Teledec.fr (subscription required)",
