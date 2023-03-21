@@ -331,7 +331,7 @@ class L10nFrAccountVatReturn(models.Model):
                         "JSON answer."
                     )
                 )
-            # to reproduice the crash, just change the login
+            # to reproduce the crash, just change the login
             if res_json.get("status") != "ok":
                 raise UserError(
                     _(
