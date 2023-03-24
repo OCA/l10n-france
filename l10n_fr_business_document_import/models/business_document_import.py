@@ -77,14 +77,17 @@ class BusinessDocumentImport(models.AbstractModel):
                         company_dict,
                         _(
                             "The SIREN of the customer written in the "
-                            "business document (%s) doesn't match the SIREN "
-                            "of the company '%s' (%s) in which you are "
-                            "trying to import this document."
-                        )
-                        % (siren, company.display_name, company.siren),
+                            "business document (%(customer_siren)s) doesn't match "
+                            "the SIREN of the company '%(company_name)s' "
+                            "(%(company_siren)s) in which you are trying to import "
+                            "this document.",
+                            customer_siren=siren,
+                            company_name=company.display_name,
+                            company_siren=company.siren,
+                        ),
                     )
             else:
                 chatter_msg.append(
-                    _("Missing SIRET on company '%s'") % company.display_name
+                    _("Missing SIRET on company '%s'.") % company.display_name
                 )
         return super()._check_company(company_dict, chatter_msg)
