@@ -4,7 +4,7 @@
 
 {
     "name": "Factur-X Invoices Import for France",
-    "version": "14.0.1.0.2",
+    "version": "16.0.1.0.0",
     "category": "Localisation",
     "license": "AGPL-3",
     "summary": "France-specific module to import Factur-X invoices",
