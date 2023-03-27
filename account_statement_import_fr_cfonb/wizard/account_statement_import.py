@@ -92,6 +92,7 @@ class AccountStatementImport(models.TransientModel):
                     )
                     % (i, len(line))
                 )
+            assert len(line) == CFONB_WIDTH
             rec_type = line[0:2]
             bank_code = line[2:7]
             guichet_code = line[11:16]
