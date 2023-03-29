@@ -6,7 +6,7 @@
 {
     "name": "Import Statement Files",
     "category": "Accounting",
-    "version": "14.0.1.2.3",
+    "version": "16.0.1.0.0",
     "depends": ["account", "account_bank_statement_import"],
     "author": "Odoo SA, Akretion, Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
