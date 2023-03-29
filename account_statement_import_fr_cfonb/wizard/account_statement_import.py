@@ -61,7 +61,7 @@ class AccountStatementImport(models.TransientModel):
         return data_file.decode("latin1").strip().startswith("01")
 
     def _parse_file(self, data_file):
-        """Import a file in French CFONB format"""
+        """ Import a file in French CFONB format"""
         cfonb = self._check_cfonb(data_file)
         if not cfonb:
             return super()._parse_file(data_file)
@@ -82,7 +82,16 @@ class AccountStatementImport(models.TransientModel):
         for line in lines:
             i += 1
             _logger.debug("Line %d: %s" % (i, line))
-            assert len(line) == CFONB_WIDTH
+            if not line:
+                continue
+            if len(line) != CFONB_WIDTH:
+                raise UserError(
+                    _(
+                        "Line %d is %d caracters long. All lines of a "
+                        "CFONB bank statement file must be 120 caracters long."
+                    )
+                    % (i, len(line))
+                )
             rec_type = line[0:2]
             bank_code = line[2:7]
             guichet_code = line[11:16]
@@ -155,10 +164,7 @@ class AccountStatementImport(models.TransientModel):
                 # when it's interesting for the user, in order to avoid
                 # too long labels with too much "pollution"
                 transactions[-1]["unique_import_id"] += complementary_info
-                if (
-                    complementary_info_type in ("   ", "LIB", "LCC")
-                    and complementary_info
-                ):
+                if complementary_info_type in ("   ", "LIB") and complementary_info:
                     transactions[-1]["payment_ref"] += " " + complementary_info
 
             if rec_type in ("04", "05", "07") and account_key not in result:
