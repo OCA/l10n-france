@@ -11,13 +11,13 @@
         <field name="model">account.journal</field>
         <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view" />
         <field name="arch" type="xml">
-            <xpath expr='//div[@name="bank_statement_create_button"]' position='inside'>
+            <xpath expr='//span[@name="button_import_placeholder"]' position='inside'>
                 <span>or <a
                         type="object"
                         name="import_account_statement"
                     >Import CFONB</a></span>
             </xpath>
-            <xpath expr='//t[@t-name="JournalManage"]/div/div[2]/div' position="after">
+            <xpath expr='//div[@name="bank_cash_commands"]' position="before">
                 <div t-if="journal_type == 'bank'">
                     <a
                         type="object"

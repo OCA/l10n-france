@@ -345,8 +345,6 @@ class AccountStatementImport(models.TransientModel):
                     if "balance_start" in st_vals:
                         st_vals["balance_start"] += float(lvals["amount"])
                 else:
-                    # Add journal id on vals
-                    lvals['journal_id'] = st_vals.get('journal_id')
                     st_lines_to_create.append(lvals)
 
             if len(st_lines_to_create) > 0:

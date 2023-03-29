@@ -6,12 +6,11 @@
 {
     "name": "Import Statement Files",
     "category": "Accounting",
-    "version": "14.0.1.2.3",
-    "depends": ["account", "account_bank_statement_import"],
+    "version": "16.0.0.0.0",
+    "depends": ["account"],
     "author": "Odoo SA, Akretion, Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "development_status": "Mature",
-    'license': 'LGPL-3',
     "website": "https://github.com/OCA/bank-statement-import",
     "data": [
         "security/ir.model.access.csv",
