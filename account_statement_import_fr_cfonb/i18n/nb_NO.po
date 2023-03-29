@@ -25,6 +25,18 @@ msgid "CFONB (French format)"
 msgstr ""
 
 #. module: account_statement_import_fr_cfonb
+#: model:ir.model.fields,field_description:account_statement_import_fr_cfonb.field_account_journal__display_name
+#: model:ir.model.fields,field_description:account_statement_import_fr_cfonb.field_account_statement_import__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_statement_import_fr_cfonb
+#: model:ir.model.fields,field_description:account_statement_import_fr_cfonb.field_account_journal__id
+#: model:ir.model.fields,field_description:account_statement_import_fr_cfonb.field_account_statement_import__id
+msgid "ID"
+msgstr ""
+
+#. module: account_statement_import_fr_cfonb
 #: model:ir.model,name:account_statement_import_fr_cfonb.model_account_statement_import
 #, fuzzy
 msgid "Import Bank Statement Files"
@@ -34,6 +46,22 @@ msgstr "Importer bankutsagn"
 #: model:ir.model,name:account_statement_import_fr_cfonb.model_account_journal
 msgid "Journal"
 msgstr ""
+
+#. module: account_statement_import_fr_cfonb
+#: model:ir.model.fields,field_description:account_statement_import_fr_cfonb.field_account_journal____last_update
+#: model:ir.model.fields,field_description:account_statement_import_fr_cfonb.field_account_statement_import____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: account_statement_import_fr_cfonb
+#: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
+#, python-format
+msgid ""
+"Line %d is %d caracters long. All lines of a CFONB bank statement file must "
+"be 120 caracters long."
+msgstr ""
+"Linje %d er %d tegn langt. Alle linjer i en CFONB-bankutsagnsfil må være 120 "
+"tegn langt."
 
 #. module: account_statement_import_fr_cfonb
 #. odoo-python
