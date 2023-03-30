@@ -3,12 +3,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import gzip
 import logging
 from datetime import datetime
 
 from stdnum.fr.siret import is_valid
 
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
 
 logger = logging.getLogger(__name__)
@@ -18,6 +19,11 @@ try:
 except ImportError:
     unidecode = False
     logger.debug("Cannot import unidecode")
+try:
+    import pgpy
+except ImportError:
+    pgpy = False
+    logger.debug("Cannot import pgpy")
 
 
 FRANCE_CODES = (
@@ -130,6 +136,9 @@ class L10nFrDas2(models.Model):
         related="attachment_id.datas", string="File Export"
     )
     attachment_name = fields.Char(related="attachment_id.name", string="Filename")
+    unencrypted_attachment_id = fields.Many2one(
+        "ir.attachment", string="Unencrypted Attachment", readonly=True
+    )
     # The only drawback of the warning_msg solution is that I didn't find a way
     # to put a link to partners inside it
     warning_msg = fields.Html(readonly=True)
@@ -175,17 +184,39 @@ class L10nFrDas2(models.Model):
         return res
 
     def done(self):
+        self.ensure_one()
         vals = {"state": "done"}
         if self.line_ids:
-            attach = self.generate_file()
-            vals["attachment_id"] = attach.id
+            running_env = tools.config.get("running_env")
+            if running_env in ("test", "dev"):
+                encryption = "test"
+            else:
+                encryption = "prod"
+            msg = (
+                _("DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key.")
+                % encryption
+            )
+
+            attach = self.generate_file(encryption=encryption)
+            self.message_post(body=msg)
+            # also generate a clear file, for audit purposes
+            unencrypted_attach = self.generate_file(encryption="none")
+            vals.update(
+                {
+                    "attachment_id": attach.id,
+                    "unencrypted_attachment_id": unencrypted_attach.id,
+                }
+            )
         self.write(vals)
         return
 
     def back2draft(self):
+        self.ensure_one()
         if self.attachment_id:
             self.attachment_id.unlink()
             self.message_post(body=_("DAS2 file deleted."))
+        if self.unencrypted_attachment_id:
+            self.unencrypted_attachment_id.unlink()
         self.write({"state": "draft"})
         return
 
@@ -492,8 +523,10 @@ class L10nFrDas2(models.Model):
             + caddress
             + " " * 40
             + " " * 53
-            + "N" * 6
-            + " " * 296
+            + "N"
+            + " " * 3
+            + "N"
+            + " " * 297
         )
 
         i = 0
@@ -595,6 +628,7 @@ class L10nFrDas2(models.Model):
         contact_phone = self._prepare_field(
             "Administrative contact phone", contact, phone, 10
         )
+        # Total Etablissement
         flines.append(
             cprefix
             + "300"
@@ -604,17 +638,20 @@ class L10nFrDas2(models.Model):
             + " " * 12
             + "0" * 12 * 2
             + "0" * 6
-            + "0" * 12 * 5
+            + " " * 48
+            + "0" * 12
             + " " * 74
             + contact_name
             + contact_phone
             + contact_email
-            + " " * 76
+            + csiren
+            + " " * 67
         )
 
         lines_number = self._prepare_field(
             "Number of lines", cpartner, i, 6, numeric=True
         )
+        # Total Entreprise
         flines.append(
             csiren
             + "9" * 12
@@ -622,14 +659,14 @@ class L10nFrDas2(models.Model):
             + "00001"
             + "0" * 6
             + lines_number
-            + "0" * 6 * 3
-            + " " * 18
+            + " " * 36
             + "0" * 12 * 9
             + "".join(total_fields_list)
             + " " * 12
             + "0" * 12 * 2
             + "0" * 6
-            + "0" * 12 * 5
+            + " " * 48
+            + "0" * 12
             + " " * 253
         )
         for fline in flines:
@@ -644,13 +681,16 @@ class L10nFrDas2(models.Model):
         file_content = "\r\n".join(flines) + "\r\n"
         return file_content
 
-    def generate_file(self):
+    def generate_file(self, encryption="prod"):
         self.ensure_one()
+        assert encryption in ("prod", "test", "none")
         company = self.company_id
         if not self.line_ids:
             raise UserError(_("The DAS2 has no lines."))
         if not company.siret:
             raise UserError(_("Missing SIRET on company '%s'.") % company.display_name)
+        if not company.siren:
+            raise UserError(_("Missing SIREN on company '%s'.") % company.display_name)
         if not company.ape:
             raise UserError(_("Missing APE on company '%s'.") % company.display_name)
         if not company.street:
@@ -690,16 +730,42 @@ class L10nFrDas2(models.Model):
                     "it by a standard character and try again."
                 )
             )
-        filename = "DAS2_{}_{}.txt".format(self.year, company.name.replace(" ", "_"))
+
+        if encryption in ("prod", "test"):
+            prefix = "DSAL_"
+            file_ext = "txt.gz.gpg"
+            key_path = (
+                "l10n_fr_das2/pgp_keys/DGFIP_TIERSDECLARANTS_%s.asc"
+                % encryption.upper()
+            )
+            with tools.file_open(key_path, mode="rb") as key_file:
+                key_file_blob = key_file.read()
+            pubkey = pgpy.PGPKey.from_blob(key_file_blob)[0]
+            file_content_compressed = gzip.compress(file_content_encoded)
+            to_encrypt_object = pgpy.PGPMessage.new(file_content_compressed)
+            file_content_final = bytes(pubkey.encrypt(to_encrypt_object))
+        else:
+            file_content_final = file_content_encoded
+            prefix = "UNENCRYPTED_DAS2_for_audit-"
+            file_ext = "txt"
+
+        user_local_datetime = fields.Datetime.context_timestamp(self, datetime.now())
+        filename = "%(prefix)s%(year)s_%(siren)s_000_%(gentime)s.%(file_ext)s" % {
+            "prefix": prefix,
+            "year": self.year,
+            "siren": company.siren,
+            "gentime": user_local_datetime.strftime("%Y%m%d%H%M%S"),
+            "file_ext": file_ext,
+        }
+
         attach = self.env["ir.attachment"].create(
             {
                 "name": filename,
                 "res_id": self.id,
                 "res_model": self._name,
-                "datas": base64.encodebytes(file_content_encoded),
+                "datas": base64.encodebytes(file_content_final),
             }
         )
-        self.message_post(body=_("DAS2 file generated."))
         return attach
 
     def button_lines_fullscreen(self):
