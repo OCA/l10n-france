@@ -16,7 +16,7 @@
         "l10n_fr_cog",
     ],
     "external_dependencies": {
-        "python": ["unidecode", "stdnum"],
+        "python": ["unidecode", "stdnum", "pgpy"],
     },
     "data": [
         "security/das2_security.xml",
