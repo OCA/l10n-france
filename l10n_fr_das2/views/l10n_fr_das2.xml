@@ -96,7 +96,7 @@
     <field name="model">l10n.fr.das2</field>
     <field name="arch" type="xml">
         <tree string="DAS2">
-            <field name="year" />
+            <field name="year" decoration-bf="1" />
             <field name="company_id" groups="base.group_multi_company" />
             <field name="currency_id" invisible="1" />
             <field
