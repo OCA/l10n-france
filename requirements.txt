@@ -1,4 +1,5 @@
 # generated from manifests external_dependencies
+pgpy
 python-stdnum
 requests
 requests_oauthlib
