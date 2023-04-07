@@ -255,7 +255,7 @@ msgstr ""
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "DAS2 file generated."
+msgid "DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -482,6 +482,12 @@ msgstr ""
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing Code Officiel Géographique on country '%s'."
+msgstr ""
+
+#. module: l10n_fr_das2
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
+msgid "Missing SIREN on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -771,6 +777,11 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__activity_exception_decoration
 msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_fr_das2
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__unencrypted_attachment_id
+msgid "Unencrypted Attachment"
 msgstr ""
 
 #. module: l10n_fr_das2
