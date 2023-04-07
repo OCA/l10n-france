@@ -5,7 +5,7 @@
 {
     "name": "Code Officiel Géographique",
     "summary": "Add Code Officiel Géographique (COG) on countries",
-    "version": "15.0.1.0.0",
+    "version": "16.0.1.0.0",
     "category": "French Localization",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
