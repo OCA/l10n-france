@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-17 14:35+0000\n"
-"PO-Revision-Date: 2023-01-03 12:50+0000\n"
+"PO-Revision-Date: 2023-04-07 18:26+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -580,7 +580,7 @@ msgstr "Riga Fattura"
 #. module: l10n_fr_intrastat_product
 #: field:l10n.fr.intrastat.product.declaration,message_is_follower:0
 msgid "Is a Follower"
-msgstr "È un follower"
+msgstr "Sta seguendo"
 
 #. module: l10n_fr_intrastat_product
 #: field:intrastat.transaction,fr_is_fiscal_only:0
