@@ -25,7 +25,6 @@
     <field name="name">l10n.fr.das2.res.partner.search</field>
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_res_partner_filter" />
-    <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]" />
     <field name="arch" type="xml">
         <filter name="inactive" position="after">
             <separator />
@@ -33,6 +32,7 @@
                     name="fr_das2"
                     string="DAS2"
                     domain="[('fr_das2_type', '!=', False), ('parent_id', '=', False)]"
+                    groups="account.group_account_invoice"
                 />
         </filter>
     </field>

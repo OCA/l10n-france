@@ -70,6 +70,7 @@
                         <field name="attachment_datas" filename="attachment_name" />
                         <field name="attachment_id" invisible="1" />
                         <field name="attachment_name" invisible="1" />
+                        <field name="company_id" invisible="1" />
                         <field
                                 name="company_id"
                                 groups="base.group_multi_company"
@@ -78,7 +79,7 @@
                     </group>
                 </group>
                 <group name="lines">
-                    <field name="line_ids" nolabel="1" />
+                    <field name="line_ids" nolabel="1" colspan="2" />
                 </group>
             </sheet>
             <div class="oe_chatter">
@@ -200,7 +201,7 @@
                     <field name="withholding_tax_amount" />
                 </group>
                 <group name="note" string="Notes" colspan="2">
-                    <field name="note" nolabel="1" />
+                    <field name="note" nolabel="1" colspan="2" />
                 </group>
             </group>
         </form>

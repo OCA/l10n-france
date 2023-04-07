@@ -11,6 +11,7 @@ from stdnum.fr.siret import is_valid
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.misc import format_amount, format_date
 
 logger = logging.getLogger(__name__)
 
@@ -292,20 +293,19 @@ class L10nFrDas2(models.Model):
                 ("account_id", "=", partner.property_account_payable_id.id),
             ]
         )
-        note = []
+        note = ""
         amount = 0.0
         for mline in mlines:
             amount += mline.balance
-            note.append(
-                _(
-                    "Payment dated %(date)s in journal '%(journal)s': "
-                    "%(amount).2f € (journal entry %(move_name)s)",
-                    date=mline.date,
-                    journal=mline.journal_id.display_name,
-                    amount=mline.balance,
-                    move_name=mline.move_id.name,
-                )
+            note_text = _(
+                "Payment dated <b>%(date)s</b> in journal <b>%(journal)s</b>: "
+                "%(amount)s (journal entry %(move_name)s)",
+                date=format_date(self.env, mline.date),
+                journal=mline.journal_id.display_name,
+                amount=format_amount(self.env, mline.balance, self.currency_id),
+                move_name=mline.move_id.name,
             )
+            note += "<li>%s</li>" % note_text
         res = False
         amount_int = int(round(amount))
         if note and amount_int > 0:
@@ -315,7 +315,7 @@ class L10nFrDas2(models.Model):
                 "parent_id": self.id,
                 "partner_id": partner.id,
                 "job": partner.fr_das2_job,
-                "note": "\n".join(note),
+                "note": "<ul>%s</ul>" % note,
             }
             if partner.siren and partner.nic:
                 res["partner_siret"] = partner.siret
@@ -357,6 +357,7 @@ class L10nFrDas2(models.Model):
                 ("account_id", "in", das2_accounts.ids),
                 ("balance", "!=", 0),
                 ("parent_state", "=", "posted"),
+                ("display_type", "=", "product"),
             ],
             ["partner_id"],
             ["partner_id"],
@@ -811,7 +812,13 @@ class L10nFrDas2Line(models.Model):
         required=True,
     )
     partner_siret = fields.Char(
-        string="SIRET", size=14, states={"done": [("readonly", True)]}
+        compute="_compute_partner_siret",
+        store=True,
+        precompute=True,
+        readonly=False,
+        string="SIRET",
+        size=14,
+        states={"done": [("readonly", True)]},
     )
     company_id = fields.Many2one(related="parent_id.company_id", store=True)
     currency_id = fields.Many2one(
@@ -885,9 +892,15 @@ class L10nFrDas2Line(models.Model):
         "Outils issus des NTIC", states={"done": [("readonly", True)]}
     )
     state = fields.Selection(related="parent_id.state", store=True)
-    note = fields.Text()
+    note = fields.Html()
     job = fields.Char(
-        string="Profession", size=30, states={"done": [("readonly", True)]}
+        compute="_compute_job",
+        store=True,
+        precompute=True,
+        readonly=False,
+        string="Profession",
+        size=30,
+        states={"done": [("readonly", True)]},
     )
 
     _sql_constraints = [
@@ -979,16 +992,20 @@ class L10nFrDas2Line(models.Model):
             line.to_declare = to_declare
             line.total_amount = total_amount
 
+    @api.depends("partner_id")
+    def _compute_partner_siret(self):
+        for line in self:
+            if line.partner_id and line.partner_id.siren and line.partner_id.nic:
+                line.partner_siret = line.partner_id.siret
+
+    @api.depends("partner_id")
+    def _compute_job(self):
+        for line in self:
+            if line.partner_id and line.partner_id.fr_das2_job:
+                line.job = line.partner_id.fr_das2_job
+
     @api.constrains("partner_siret")
-    def check_siret(self):
+    def _check_siret(self):
         for line in self:
             if line.partner_siret and not is_valid(line.partner_siret):
                 raise ValidationError(_("SIRET '%s' is invalid.") % line.partner_siret)
-
-    @api.onchange("partner_id")
-    def partner_id_change(self):
-        if self.partner_id:
-            if self.partner_id.siren and self.partner_id.nic:
-                self.partner_siret = self.partner_id.siret
-            if self.partner_id.fr_das2_job:
-                self.job = self.partner_id.fr_das2_job
