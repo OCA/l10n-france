@@ -8,3 +8,11 @@ On the supplier form view, in the *Accounting* tab, you will see a section *DAS2
 On the company configuration form, the APE code, SIRET and address must be set.
 
 For the user responsible for the declaration, the phone number and email must be set on his related partner form (name, email and phone number are used in the DAS2 declaration file).
+
+If you want to encrypt the declaration file with the DGFiP's **test** PGP key, ensure that your Odoo server configuration file has the following parameter:
+
+.. code::
+
+  running_env = test
+
+Otherwise, Odoo will use DGFiP's **production** PGP key.
