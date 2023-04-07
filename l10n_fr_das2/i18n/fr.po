@@ -268,8 +268,8 @@ msgstr ""
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "DAS2 file generated."
-msgstr "Fichier DAS2 généré."
+msgid "DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key."
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2_line
@@ -498,6 +498,12 @@ msgstr "APE manquant pour l'entreprise '%s'."
 #, python-format
 msgid "Missing Code Officiel Géographique on country '%s'."
 msgstr "Code INSEE géographique manquant pour le pays '%s'."
+
+#. module: l10n_fr_das2
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
+msgid "Missing SIREN on company '%s'."
+msgstr ""
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
@@ -805,6 +811,11 @@ msgid "Type of the exception activity on record."
 msgstr "Type d'activité d'exception enregistrée."
 
 #. module: l10n_fr_das2
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__unencrypted_attachment_id
+msgid "Unencrypted Attachment"
+msgstr ""
+
+#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_unread
 msgid "Unread Messages"
 msgstr "Messages non lus"
@@ -844,6 +855,10 @@ msgstr "Historique de communication du site web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#, python-format
+#~ msgid "DAS2 file generated."
+#~ msgstr "Fichier DAS2 généré."
 
 #~ msgid "Generate File"
 #~ msgstr "Générer un fichier"
