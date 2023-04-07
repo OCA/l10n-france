@@ -61,13 +61,14 @@ class L10nFrDas2(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "year desc"
     _description = "DAS2"
+    _check_company_auto = True
 
     year = fields.Integer(
-        string="Year",
         required=True,
         states={"done": [("readonly", True)]},
         tracking=True,
         default=lambda self: self._default_year(),
+        index=True,
     )
     state = fields.Selection(
         [
@@ -76,12 +77,11 @@ class L10nFrDas2(models.Model):
         ],
         default="draft",
         readonly=True,
-        string="State",
         tracking=True,
+        index=True,
     )
     company_id = fields.Many2one(
         "res.company",
-        string="Company",
         ondelete="cascade",
         required=True,
         states={"done": [("readonly", True)]},
@@ -89,7 +89,6 @@ class L10nFrDas2(models.Model):
     )
     currency_id = fields.Many2one(
         related="company_id.currency_id",
-        readonly=True,
         store=True,
         string="Company Currency",
     )
@@ -100,6 +99,7 @@ class L10nFrDas2(models.Model):
         default=lambda self: self._default_payment_journals(),
         domain="[('company_id', '=', company_id)]",
         states={"done": [("readonly", True)]},
+        check_company=True,
     )
     line_ids = fields.One2many(
         "l10n.fr.das2.line",
@@ -131,7 +131,7 @@ class L10nFrDas2(models.Model):
         help="Contact in the company for the fiscal administration: the name, "
         "email and phone number of this partner will be used in the file.",
     )
-    attachment_id = fields.Many2one("ir.attachment", string="Attachment", readonly=True)
+    attachment_id = fields.Many2one("ir.attachment", readonly=True)
     attachment_datas = fields.Binary(
         related="attachment_id.datas", string="File Export"
     )
@@ -239,15 +239,20 @@ class L10nFrDas2(models.Model):
         if company.country_id.code not in FRANCE_CODES:
             raise UserError(
                 _(
-                    "Company '%s' is configured in country '%s'. The DAS2 is "
-                    "only for France and it's oversea territories."
+                    "Company '%(company)s' is configured in country '%(country)s'. "
+                    "The DAS2 is only for France and it's oversea territories.",
+                    company=company.display_name,
+                    country=company.country_id.name,
                 )
-                % (company.display_name, company.country_id.name)
             )
         if company.currency_id != self.env.ref("base.EUR"):
             raise UserError(
-                _("Company '%s' is configured with currency '%s'. " "It should be EUR.")
-                % (company.display_name, company.currency_id.name)
+                _(
+                    "Company '%(company)s' is configured with currency '%(currency)s'. "
+                    "It should be EUR.",
+                    company=company.display_name,
+                    currency=company.currency_id.name,
+                )
             )
         if company.fr_das2_partner_declare_threshold <= 0:
             raise UserError(
@@ -292,12 +297,13 @@ class L10nFrDas2(models.Model):
         for mline in mlines:
             amount += mline.balance
             note.append(
-                _("Payment dated %s in journal '%s': " "%.2f € (journal entry %s)")
-                % (
-                    mline.date,
-                    mline.journal_id.display_name,
-                    mline.balance,
-                    mline.move_id.name,
+                _(
+                    "Payment dated %(date)s in journal '%(journal)s': "
+                    "%(amount).2f € (journal entry %(move_name)s)",
+                    date=mline.date,
+                    journal=mline.journal_id.display_name,
+                    amount=mline.balance,
+                    move_name=mline.move_id.name,
                 )
             )
         res = False
@@ -387,20 +393,27 @@ class L10nFrDas2(models.Model):
             if not isinstance(value, int):
                 try:
                     value = int(value)
-                except Exception:
+                except Exception as e:
                     raise UserError(
-                        _("Failed to convert field '%s' (partner %s) " "to integer.")
-                        % (field_name, partner.display_name)
-                    )
+                        _(
+                            "Failed to convert field '%(field_name)s' "
+                            "(partner %(partner)s) to integer.",
+                            field_name=field_name,
+                            partner=partner.display_name,
+                        )
+                    ) from e
             value = str(value)
             if len(value) > size:
                 raise UserError(
                     _(
-                        "Field %s (partner %s) has value %s: "
-                        "it is bigger than the maximum size "
-                        "(%d characters)"
+                        "Field %(field_name)s (partner %(partner)s) has value "
+                        "%(value)s: it is bigger than the maximum size "
+                        "(%(size)d characters).",
+                        field_name=field_name,
+                        partner=partner.display_name,
+                        value=value,
+                        size=size,
                     )
-                    % (field_name, partner.display_name, value, size)
                 )
             if len(value) < size:
                 value = value.rjust(size, "0")
@@ -408,10 +421,11 @@ class L10nFrDas2(models.Model):
         if required and not value:
             raise UserError(
                 _(
-                    "The field '%s' (partner %s) is empty or 0. "
-                    "It should have a non-null value."
+                    "The field '%(field_name)s' (partner %(partner)s) is empty or 0. "
+                    "It should have a non-null value.",
+                    field_name=field_name,
+                    partner=partner.display_name,
                 )
-                % (field_name, partner.display_name)
             )
         if not value:
             value = " " * size
@@ -673,10 +687,11 @@ class L10nFrDas2(models.Model):
             if len(fline) != 672:
                 raise UserError(
                     _(
-                        "One of the lines has a length of %d. "
-                        "All lines should have a length of 672. Line: %s."
+                        "One of the lines has a length of %(length)d. "
+                        "All lines should have a length of 672. Line: %(line_content)s.",
+                        length=len(fline),
+                        line_content=fline,
                     )
-                    % (len(fline), fline)
                 )
         file_content = "\r\n".join(flines) + "\r\n"
         return file_content
@@ -722,14 +737,14 @@ class L10nFrDas2(models.Model):
         file_content = self._prepare_file()
         try:
             file_content_encoded = file_content.encode("latin1")
-        except UnicodeEncodeError:
+        except UnicodeEncodeError as e:
             raise UserError(
                 _(
                     "A special character in the DAS2 file is not in the latin1 "
                     "table. Please locate this special character and replace "
                     "it by a standard character and try again."
                 )
-            )
+            ) from e
 
         if encryption in ("prod", "test"):
             prefix = "DSAL_"
@@ -798,13 +813,10 @@ class L10nFrDas2Line(models.Model):
     partner_siret = fields.Char(
         string="SIRET", size=14, states={"done": [("readonly", True)]}
     )
-    company_id = fields.Many2one(
-        related="parent_id.company_id", store=True, readonly=True
-    )
+    company_id = fields.Many2one(related="parent_id.company_id", store=True)
     currency_id = fields.Many2one(
         related="parent_id.company_id.currency_id",
         store=True,
-        readonly=True,
         string="Company Currency",
     )
     fee_amount = fields.Integer(
@@ -842,12 +854,11 @@ class L10nFrDas2Line(models.Model):
     )
     total_amount = fields.Integer(
         compute="_compute_total_amount",
-        string="Total Amount",
         store=True,
         readonly=True,
     )
     to_declare = fields.Boolean(
-        compute="_compute_total_amount", string="To Declare", readonly=True, store=True
+        compute="_compute_total_amount", readonly=True, store=True
     )
     allowance_fixed = fields.Boolean(
         "Allocation forfaitaire", states={"done": [("readonly", True)]}
@@ -873,7 +884,7 @@ class L10nFrDas2Line(models.Model):
     benefits_in_kind_nict = fields.Boolean(
         "Outils issus des NTIC", states={"done": [("readonly", True)]}
     )
-    state = fields.Selection(related="parent_id.state", store=True, readonly=True)
+    state = fields.Selection(related="parent_id.state", store=True)
     note = fields.Text()
     job = fields.Char(
         string="Profession", size=30, states={"done": [("readonly", True)]}
