@@ -25,15 +25,14 @@ def set_fr_cog(cr, registry):
             if xfield.attrib and xfield.attrib.get("name") == "fr_cog":
                 data[xmlid] = int(xfield.text)
     logger.debug("set_fr_cog data=%s", data)
-    with api.Environment.manage():
-        env = api.Environment(cr, SUPERUSER_ID, {})
-        for xmlid, fr_cog in data.items():
-            country = env.ref(xmlid)
-            country.fr_cog = fr_cog
-            logger.debug(
-                "Country ID %d xmlid %s updated with fr_cog=%d",
-                country.id,
-                xmlid,
-                fr_cog,
-            )
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    for xmlid, fr_cog in data.items():
+        country = env.ref(xmlid)
+        country.fr_cog = fr_cog
+        logger.debug(
+            "Country ID %d xmlid %s updated with fr_cog=%d",
+            country.id,
+            xmlid,
+            fr_cog,
+        )
     return
