@@ -11,7 +11,7 @@
     <field name="name">l10n.fr.das2.form</field>
     <field name="model">l10n.fr.das2</field>
     <field name="arch" type="xml">
-        <form string="DAS2">
+        <form>
             <header>
                 <button
                         name="generate_lines"
@@ -95,7 +95,7 @@
     <field name="name">l10n.fr.das2.tree</field>
     <field name="model">l10n.fr.das2</field>
     <field name="arch" type="xml">
-        <tree string="DAS2">
+        <tree>
             <field name="year" decoration-bf="1" />
             <field name="company_id" groups="base.group_multi_company" />
             <field name="currency_id" invisible="1" />
@@ -113,7 +113,7 @@
     <field name="name">l10n.fr.das2.search</field>
     <field name="model">l10n.fr.das2</field>
     <field name="arch" type="xml">
-        <search string="Search DAS2">
+        <search>
             <field name="year" />
             <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
             <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
@@ -139,7 +139,7 @@
     <field name="name">l10n.fr.das2.line.form</field>
     <field name="model">l10n.fr.das2.line</field>
     <field name="arch" type="xml">
-        <form string="DAS2 Line">
+        <form>
             <group name="main">
                 <group name="left">
                     <field
@@ -200,7 +200,7 @@
                     <field name="withholding_tax_amount" />
                 </group>
                 <group name="note" string="Notes" colspan="2">
-                    <field name="note" nolabel="1" />
+                    <field name="note" nolabel="1" colspan="2" />
                 </group>
             </group>
         </form>
@@ -211,7 +211,7 @@
     <field name="name">l10n.fr.das2.line.tree</field>
     <field name="model">l10n.fr.das2.line</field>
     <field name="arch" type="xml">
-        <tree string="DAS2 Lines" decoration-muted="to_declare == False">
+        <tree decoration-muted="to_declare == False">
             <field name="partner_id" />
             <field name="partner_siret" />
             <field name="job" />
@@ -237,7 +237,7 @@
     <field name="name">l10n.fr.das2.line.search</field>
     <field name="model">l10n.fr.das2.line</field>
     <field name="arch" type="xml">
-        <search string="Search DAS2 Lines">
+        <search>
             <field name="partner_id" />
             <separator />
             <filter
