@@ -204,8 +204,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_action
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2
 #: model:ir.ui.menu,name:l10n_fr_das2.l10n_fr_das2_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_tree
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
@@ -219,13 +217,7 @@ msgid "DAS2 Job"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_form
-msgid "DAS2 Line"
-msgstr ""
-
-#. module: l10n_fr_das2
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_line_action
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_tree
 msgid "DAS2 Lines"
 msgstr ""
 
@@ -621,7 +613,7 @@ msgstr ""
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Payment dated %s in journal '%s': %.2f € (journal entry %s)"
+msgid "Payment dated <b>%s</b> in journal <b>%s</b>: %s (journal entry %s)"
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -669,16 +661,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
-msgid "Search DAS2"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_search
-msgid "Search DAS2 Lines"
 msgstr ""
 
 #. module: l10n_fr_das2
