@@ -395,6 +395,11 @@ ul.auto-toc {
 </ul>
 <p>On the company configuration form, the APE code, SIRET and address must be set.</p>
 <p>For the user responsible for the declaration, the phone number and email must be set on his related partner form (name, email and phone number are used in the DAS2 declaration file).</p>
+<p>If you want to encrypt the declaration file with the DGFiP’s <strong>test</strong> PGP key, ensure that your Odoo server configuration file has the following parameter:</p>
+<pre class="code literal-block">
+running_env = test
+</pre>
+<p>Otherwise, Odoo will use DGFiP’s <strong>production</strong> PGP key.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#id2">Usage</a></h1>
