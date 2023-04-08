@@ -217,8 +217,6 @@ msgstr "Type de DADS"
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_action
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2
 #: model:ir.ui.menu,name:l10n_fr_das2.l10n_fr_das2_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_tree
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
@@ -232,13 +230,7 @@ msgid "DAS2 Job"
 msgstr "Job DAS2"
 
 #. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_form
-msgid "DAS2 Line"
-msgstr "Ligne DAS2"
-
-#. module: l10n_fr_das2
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_line_action
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_tree
 msgid "DAS2 Lines"
 msgstr "Lignes DAS2"
 
@@ -638,10 +630,8 @@ msgstr "Journaux de paiement"
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Payment dated %s in journal '%s': %.2f € (journal entry %s)"
+msgid "Payment dated <b>%s</b> in journal <b>%s</b>: %s (journal entry %s)"
 msgstr ""
-"Paiement en date du %s dans le journal '%s' : %.2f € ( écriture de journal "
-"%s)"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_employer
@@ -689,16 +679,6 @@ msgstr "Erreur de livraison du SMS"
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
 msgstr "Même partenaire utilisé sur plusieurs lignes !"
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
-msgid "Search DAS2"
-msgstr "Rechercher DAS2"
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_search
-msgid "Search DAS2 Lines"
-msgstr "Rechercher des lignes DAS2"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__state
@@ -855,6 +835,21 @@ msgstr "Historique de communication du site web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#~ msgid "DAS2 Line"
+#~ msgstr "Ligne DAS2"
+
+#, python-format
+#~ msgid "Payment dated %s in journal '%s': %.2f € (journal entry %s)"
+#~ msgstr ""
+#~ "Paiement en date du %s dans le journal '%s' : %.2f € ( écriture de "
+#~ "journal %s)"
+
+#~ msgid "Search DAS2"
+#~ msgstr "Rechercher DAS2"
+
+#~ msgid "Search DAS2 Lines"
+#~ msgstr "Rechercher des lignes DAS2"
 
 #, python-format
 #~ msgid "DAS2 file generated."
