@@ -11,6 +11,7 @@ from stdnum.fr.siret import is_valid
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.misc import format_amount, format_date
 
 logger = logging.getLogger(__name__)
 
@@ -61,6 +62,7 @@ class L10nFrDas2(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "year desc"
     _description = "DAS2"
+    _check_company_auto = True
 
     year = fields.Integer(
         string="Year",
@@ -89,7 +91,6 @@ class L10nFrDas2(models.Model):
     )
     currency_id = fields.Many2one(
         related="company_id.currency_id",
-        readonly=True,
         store=True,
         string="Company Currency",
     )
@@ -100,6 +101,7 @@ class L10nFrDas2(models.Model):
         default=lambda self: self._default_payment_journals(),
         domain="[('company_id', '=', company_id)]",
         states={"done": [("readonly", True)]},
+        check_company=True,
     )
     line_ids = fields.One2many(
         "l10n.fr.das2.line",
@@ -287,19 +289,19 @@ class L10nFrDas2(models.Model):
                 ("account_id", "=", partner.property_account_payable_id.id),
             ]
         )
-        note = []
+        note = ""
         amount = 0.0
         for mline in mlines:
             amount += mline.balance
-            note.append(
-                _("Payment dated %s in journal '%s': " "%.2f € (journal entry %s)")
-                % (
-                    mline.date,
-                    mline.journal_id.display_name,
-                    mline.balance,
-                    mline.move_id.name,
-                )
+            note_text = _(
+                "Payment dated <b>%s</b> in journal <b>%s</b>: %s (journal entry %s)"
+            ) % (
+                format_date(self.env, mline.date),
+                mline.journal_id.display_name,
+                format_amount(self.env, mline.balance, self.currency_id),
+                mline.move_id.name,
             )
+            note += "<li>%s</li>" % note_text
         res = False
         amount_int = int(round(amount))
         if note and amount_int > 0:
@@ -309,7 +311,7 @@ class L10nFrDas2(models.Model):
                 "parent_id": self.id,
                 "partner_id": partner.id,
                 "job": partner.fr_das2_job,
-                "note": "\n".join(note),
+                "note": "<ul>%s</ul>" % note,
             }
             if partner.siren and partner.nic:
                 res["partner_siret"] = partner.siret
@@ -351,6 +353,7 @@ class L10nFrDas2(models.Model):
                 ("account_id", "in", das2_accounts.ids),
                 ("balance", "!=", 0),
                 ("parent_state", "=", "posted"),
+                ("display_type", "=", False),
             ],
             ["partner_id"],
             ["partner_id"],
@@ -798,13 +801,10 @@ class L10nFrDas2Line(models.Model):
     partner_siret = fields.Char(
         string="SIRET", size=14, states={"done": [("readonly", True)]}
     )
-    company_id = fields.Many2one(
-        related="parent_id.company_id", store=True, readonly=True
-    )
+    company_id = fields.Many2one(related="parent_id.company_id", store=True)
     currency_id = fields.Many2one(
         related="parent_id.company_id.currency_id",
         store=True,
-        readonly=True,
         string="Company Currency",
     )
     fee_amount = fields.Integer(
@@ -873,8 +873,8 @@ class L10nFrDas2Line(models.Model):
     benefits_in_kind_nict = fields.Boolean(
         "Outils issus des NTIC", states={"done": [("readonly", True)]}
     )
-    state = fields.Selection(related="parent_id.state", store=True, readonly=True)
-    note = fields.Text()
+    state = fields.Selection(related="parent_id.state", store=True)
+    note = fields.Html()
     job = fields.Char(
         string="Profession", size=30, states={"done": [("readonly", True)]}
     )
