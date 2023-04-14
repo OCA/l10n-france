@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,6 +24,7 @@ msgid "A DAS2 already exists for that year!"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
@@ -68,6 +69,7 @@ msgid "Allocation forfaitaire"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
@@ -112,6 +114,7 @@ msgid "Back to Draft"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Cannot delete declaration %s in done state."
@@ -135,17 +138,21 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"Company '%s' is configured in country '%s'. The DAS2 is only for France and "
-"it's oversea territories."
+"Company '%(company)s' is configured in country '%(country)s'. The DAS2 is "
+"only for France and it's oversea territories."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Company '%s' is configured with currency '%s'. It should be EUR."
+msgid ""
+"Company '%(company)s' is configured with currency '%(currency)s'. It should "
+"be EUR."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -172,6 +179,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Country not set on company '%s'."
@@ -204,8 +212,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_action
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2
 #: model:ir.ui.menu,name:l10n_fr_das2.l10n_fr_das2_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_tree
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
@@ -219,13 +225,7 @@ msgid "DAS2 Job"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_form
-msgid "DAS2 Line"
-msgstr ""
-
-#. module: l10n_fr_das2
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_line_action
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_tree
 msgid "DAS2 Lines"
 msgstr ""
 
@@ -247,12 +247,14 @@ msgid "DAS2 Type"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 file deleted."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key."
@@ -264,6 +266,7 @@ msgid "DAS2 line"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 lines generated. "
@@ -272,9 +275,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__display_name
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -304,17 +304,20 @@ msgid "Droits d'inventeur"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
-#, python-format
-msgid "Failed to convert field '%s' (partner %s) to integer."
-msgstr ""
-
-#. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"Field %s (partner %s) has value %s: it is bigger than the maximum size (%d "
-"characters)"
+"Failed to convert field '%(field_name)s' (partner %(partner)s) to integer."
+msgstr ""
+
+#. module: l10n_fr_das2
+#. odoo-python
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
+msgid ""
+"Field %(field_name)s (partner %(partner)s) has value %(value)s: it is bigger"
+" than the maximum size (%(size)d characters)."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -333,11 +336,6 @@ msgid "Followers"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -353,6 +351,11 @@ msgid "Generate Lines"
 msgstr ""
 
 #. module: l10n_fr_das2
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__fee_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__fee
 msgid "Honoraires et vacations"
@@ -361,9 +364,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__id
 msgid "ID"
 msgstr ""
 
@@ -379,7 +379,6 @@ msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_needaction
-#: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -424,9 +423,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2____last_update
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -473,48 +469,56 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing APE on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing Code Officiel Géographique on country '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIREN on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIRET for french partner %s."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIRET on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing Street on company '%s'"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing administrative contact."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing city on partner '%s'."
@@ -591,16 +595,12 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_unread_counter
-msgid "Number of unread messages"
-msgstr ""
-
-#. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"One of the lines has a length of %d. All lines should have a length of 672. "
-"Line: %s."
+"One of the lines has a length of %(length)d. All lines should have a length "
+"of 672. Line: %(line_content)s."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -619,9 +619,12 @@ msgid "Payment Journals"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Payment dated %s in journal '%s': %.2f € (journal entry %s)"
+msgid ""
+"Payment dated <b>%(date)s</b> in journal <b>%(journal)s</b>: %(amount)s "
+"(journal entry %(move_name)s)"
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -656,6 +659,7 @@ msgid "SIRET"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "SIRET '%s' is invalid."
@@ -669,16 +673,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
-msgid "Search DAS2"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_search
-msgid "Search DAS2 Lines"
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -707,12 +701,14 @@ msgid "Sur frais réels"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The DAS2 has no lines."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The DAS2 partner declaration threshold is not set on company '%s'."
@@ -724,19 +720,23 @@ msgid "The DAS2 partner declaration threshold must be positive!"
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The email is not set on the administrative contact partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"The field '%s' (partner %s) is empty or 0. It should have a non-null value."
+"The field '%(field_name)s' (partner %(partner)s) is empty or 0. It should "
+"have a non-null value."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
@@ -746,6 +746,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
@@ -753,6 +754,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "There are no partners configured for DAS2."
@@ -782,16 +784,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__unencrypted_attachment_id
 msgid "Unencrypted Attachment"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_unread_counter
-msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: l10n_fr_das2
