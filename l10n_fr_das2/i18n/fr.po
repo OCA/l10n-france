@@ -27,6 +27,7 @@ msgid "A DAS2 already exists for that year!"
 msgstr "Une DAS2 existe déjà pour cette année !"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
@@ -74,6 +75,7 @@ msgid "Allocation forfaitaire"
 msgstr "Allocation forfaitaire"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
@@ -120,6 +122,7 @@ msgid "Back to Draft"
 msgstr "Remettre en brouillon"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Cannot delete declaration %s in done state."
@@ -143,21 +146,22 @@ msgid "Company"
 msgstr "Société"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"Company '%s' is configured in country '%s'. The DAS2 is only for France and "
-"it's oversea territories."
+"Company '%(company)s' is configured in country '%(country)s'. The DAS2 is "
+"only for France and it's oversea territories."
 msgstr ""
-"L'entreprise '%s' est configurée dans le pays '%s'. Le DAS2 est réservé à la "
-"France et ce sont des territoires d'outre-mer."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Company '%s' is configured with currency '%s'. It should be EUR."
+msgid ""
+"Company '%(company)s' is configured with currency '%(currency)s'. It should "
+"be EUR."
 msgstr ""
-"L'entreprise '%s' est configurée avec la devise '%s'. Ça devrait être EUR."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__currency_id
@@ -185,6 +189,7 @@ msgstr ""
 "le numéro de téléphone de ce partenaire seront utilisés dans le dossier."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Country not set on company '%s'."
@@ -217,8 +222,6 @@ msgstr "Type de DADS"
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_action
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2
 #: model:ir.ui.menu,name:l10n_fr_das2.l10n_fr_das2_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_tree
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
@@ -232,13 +235,7 @@ msgid "DAS2 Job"
 msgstr "Job DAS2"
 
 #. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_form
-msgid "DAS2 Line"
-msgstr "Ligne DAS2"
-
-#. module: l10n_fr_das2
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_line_action
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_tree
 msgid "DAS2 Lines"
 msgstr "Lignes DAS2"
 
@@ -260,12 +257,14 @@ msgid "DAS2 Type"
 msgstr "Type DAS2"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 file deleted."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key."
@@ -277,6 +276,7 @@ msgid "DAS2 line"
 msgstr "Ligne DAS2"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 lines generated. "
@@ -285,9 +285,6 @@ msgstr "Lignes DAS2 générées. "
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__display_name
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -317,20 +314,21 @@ msgid "Droits d'inventeur"
 msgstr "Droits de brevet"
 
 #. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
-#, python-format
-msgid "Failed to convert field '%s' (partner %s) to integer."
-msgstr "Impossible de convertir le champ '%s' (partenaire %s) en entier."
-
-#. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"Field %s (partner %s) has value %s: it is bigger than the maximum size (%d "
-"characters)"
+"Failed to convert field '%(field_name)s' (partner %(partner)s) to integer."
 msgstr ""
-"Le champ %s (partenaire %s) a la valeur %s : il est plus grand que la taille "
-"maximale (%d caractères)"
+
+#. module: l10n_fr_das2
+#. odoo-python
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
+msgid ""
+"Field %(field_name)s (partner %(partner)s) has value %(value)s: it is bigger "
+"than the maximum size (%(size)d characters)."
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_datas
@@ -348,11 +346,6 @@ msgid "Followers"
 msgstr "Abonnés"
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Abonnés (Canaux)"
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Abonnés (Partenaires)"
@@ -368,6 +361,11 @@ msgid "Generate Lines"
 msgstr "Générer des lignes"
 
 #. module: l10n_fr_das2
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__fee_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__fee
 msgid "Honoraires et vacations"
@@ -376,9 +374,6 @@ msgstr "Honoraires et vacances"
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__id
 msgid "ID"
 msgstr "Identifiant"
 
@@ -394,7 +389,6 @@ msgstr "Icône pour indiquer une activité d'exception."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_needaction
-#: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Si coché, de nouveaux messages demandent votre attention."
 
@@ -439,9 +433,6 @@ msgstr "La société verse des salaires"
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2____last_update
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
 
@@ -488,48 +479,56 @@ msgid "Messages"
 msgstr "Messages"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing APE on company '%s'."
 msgstr "APE manquant pour l'entreprise '%s'."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing Code Officiel Géographique on country '%s'."
 msgstr "Code INSEE géographique manquant pour le pays '%s'."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIREN on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIRET for french partner %s."
 msgstr "SIRET manquant pour le partenaire français %s."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIRET on company '%s'."
 msgstr "SIRET manquant pour l'entreprise '%s'."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing Street on company '%s'"
 msgstr "Rue manquante pour l'entreprise '%s'"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing administrative contact."
 msgstr "Contact administratif manquant."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing city on partner '%s'."
@@ -606,19 +605,13 @@ msgid "Number of messages with delivery error"
 msgstr "Nombre de messages avec des erreurs d'envoi"
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Nombre de messages non lus"
-
-#. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"One of the lines has a length of %d. All lines should have a length of 672. "
-"Line: %s."
+"One of the lines has a length of %(length)d. All lines should have a length "
+"of 672. Line: %(line_content)s."
 msgstr ""
-"L'une des lignes a une longueur de %d. Toutes les lignes doivent avoir une "
-"longueur de 672. Ligne : %s."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_nict
@@ -636,12 +629,13 @@ msgid "Payment Journals"
 msgstr "Journaux de paiement"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Payment dated %s in journal '%s': %.2f € (journal entry %s)"
+msgid ""
+"Payment dated <b>%(date)s</b> in journal <b>%(journal)s</b>: %(amount)s "
+"(journal entry %(move_name)s)"
 msgstr ""
-"Paiement en date du %s dans le journal '%s' : %.2f € ( écriture de journal "
-"%s)"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_employer
@@ -675,6 +669,7 @@ msgid "SIRET"
 msgstr "SIRET"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "SIRET '%s' is invalid."
@@ -689,16 +684,6 @@ msgstr "Erreur de livraison du SMS"
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
 msgstr "Même partenaire utilisé sur plusieurs lignes !"
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
-msgid "Search DAS2"
-msgstr "Rechercher DAS2"
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_search
-msgid "Search DAS2 Lines"
-msgstr "Rechercher des lignes DAS2"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__state
@@ -730,12 +715,14 @@ msgid "Sur frais réels"
 msgstr "Sur frais réels"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The DAS2 has no lines."
 msgstr "La DAS2 n'a pas de lignes."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The DAS2 partner declaration threshold is not set on company '%s'."
@@ -749,6 +736,7 @@ msgid "The DAS2 partner declaration threshold must be positive!"
 msgstr "Le seuil de déclaration du partenaire DAS2 doit être positif !"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The email is not set on the administrative contact partner '%s'."
@@ -756,15 +744,16 @@ msgstr ""
 "L'e-mail n'est pas défini sur le partenaire de contact administratif '%s'."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"The field '%s' (partner %s) is empty or 0. It should have a non-null value."
+"The field '%(field_name)s' (partner %(partner)s) is empty or 0. It should "
+"have a non-null value."
 msgstr ""
-"Le champ '%s' (partenaire %s) est vide ou à zéro. Il devrait avoir une "
-"valeur non nulle."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
@@ -776,6 +765,7 @@ msgstr ""
 "être configurés pour DAS2&nbsp;:<ul>"
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The phone number is not set on the administrative contact partner '%s'."
@@ -784,6 +774,7 @@ msgstr ""
 "administratif '%s'."
 
 #. module: l10n_fr_das2
+#. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "There are no partners configured for DAS2."
@@ -816,16 +807,6 @@ msgid "Unencrypted Attachment"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_unread
-msgid "Unread Messages"
-msgstr "Messages non lus"
-
-#. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Compteur de messages non lus"
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_res_partner__fr_das2_job
 #: model:ir.model.fields,help:l10n_fr_das2.field_res_users__fr_das2_job
 msgid "Used in the field 'Profession' of DAS2."
@@ -855,6 +836,74 @@ msgstr "Historique de communication du site web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#, python-format
+#~ msgid ""
+#~ "Company '%s' is configured in country '%s'. The DAS2 is only for France "
+#~ "and it's oversea territories."
+#~ msgstr ""
+#~ "L'entreprise '%s' est configurée dans le pays '%s'. Le DAS2 est réservé à "
+#~ "la France et ce sont des territoires d'outre-mer."
+
+#, python-format
+#~ msgid "Company '%s' is configured with currency '%s'. It should be EUR."
+#~ msgstr ""
+#~ "L'entreprise '%s' est configurée avec la devise '%s'. Ça devrait être EUR."
+
+#~ msgid "DAS2 Line"
+#~ msgstr "Ligne DAS2"
+
+#, python-format
+#~ msgid "Failed to convert field '%s' (partner %s) to integer."
+#~ msgstr "Impossible de convertir le champ '%s' (partenaire %s) en entier."
+
+#, python-format
+#~ msgid ""
+#~ "Field %s (partner %s) has value %s: it is bigger than the maximum size "
+#~ "(%d characters)"
+#~ msgstr ""
+#~ "Le champ %s (partenaire %s) a la valeur %s : il est plus grand que la "
+#~ "taille maximale (%d caractères)"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Abonnés (Canaux)"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Nombre de messages non lus"
+
+#, python-format
+#~ msgid ""
+#~ "One of the lines has a length of %d. All lines should have a length of "
+#~ "672. Line: %s."
+#~ msgstr ""
+#~ "L'une des lignes a une longueur de %d. Toutes les lignes doivent avoir "
+#~ "une longueur de 672. Ligne : %s."
+
+#, python-format
+#~ msgid "Payment dated %s in journal '%s': %.2f € (journal entry %s)"
+#~ msgstr ""
+#~ "Paiement en date du %s dans le journal '%s' : %.2f € ( écriture de "
+#~ "journal %s)"
+
+#~ msgid "Search DAS2"
+#~ msgstr "Rechercher DAS2"
+
+#~ msgid "Search DAS2 Lines"
+#~ msgstr "Rechercher des lignes DAS2"
+
+#, python-format
+#~ msgid ""
+#~ "The field '%s' (partner %s) is empty or 0. It should have a non-null "
+#~ "value."
+#~ msgstr ""
+#~ "Le champ '%s' (partenaire %s) est vide ou à zéro. Il devrait avoir une "
+#~ "valeur non nulle."
+
+#~ msgid "Unread Messages"
+#~ msgstr "Messages non lus"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Compteur de messages non lus"
 
 #, python-format
 #~ msgid "DAS2 file generated."
