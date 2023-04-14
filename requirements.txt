@@ -1,4 +1,5 @@
 # generated from manifests external_dependencies
+pgpy
 python-stdnum
 python-stdnum>=1.18
 requests

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="view_partner_property_form" model="ir.ui.view">
+    <field name="name">l10n.fr.das2.res.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.view_partner_property_form" />
+    <field name="arch" type="xml">
+        <group name="accounting_entries" position="after">
+            <group name="fr_das2" string="DAS2">
+                <field name="fr_das2_type" string="Type" />
+                <field name="fr_das2_job" string="Job" />
+            </group>
+        </group>
+    </field>
+</record>
+
+<record id="view_res_partner_filter" model="ir.ui.view">
+    <field name="name">l10n.fr.das2.res.partner.search</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_res_partner_filter" />
+    <field name="arch" type="xml">
+        <filter name="inactive" position="after">
+            <separator />
+            <filter
+                    name="fr_das2"
+                    string="DAS2"
+                    domain="[('fr_das2_type', '!=', False), ('parent_id', '=', False)]"
+                    groups="account.group_account_invoice"
+                />
+        </filter>
+    </field>
+</record>
+
+
+</odoo>
