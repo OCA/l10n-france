@@ -12,6 +12,8 @@ setuptools.setup(
         'odoo-addon-account_banking_fr_lcr>=16.0dev,<16.1dev',
         'odoo-addon-account_statement_import_fr_cfonb>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_account_tax_unece>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_fr_cog>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_fr_das2>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_department>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_department_oversea>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_hr_check_ssnid>=16.0dev,<16.1dev',
