@@ -17,30 +17,16 @@ def set_department_on_partner(cr, registry):
         fr_countries = env["res.country"].search(
             [("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT"))]
         )
-        rcdo = env["res.country.department"]
-        map_department = dict((d["code"], d["id"]) for d in rcdo.search_read(
-            [("country_id", "in", fr_countries.ids)], ["code", "id"]))
 
-        partners = [(p["id"], p["zip"])
-                    for p in env["res.partner"]
-                    .with_context(active_test=False)
-                    .search_read([("country_id", "in", fr_countries.ids),
-                                  ("zip", '!=', False)],
-                                 ["id", "zip"])
-                    ]
+        datas = [(p["id"], p["country_id"], p["zip"])
+                 for p in env["res.partner"]
+                 .with_context(active_test=False)
+                 .search_read([("country_id", "in", fr_countries.ids),
+                               ("zip", '!=', False)],
+                              ["id", "zip"])
+                 ]
 
-        map_partners = defaultdict(set)
-
-        for partner_id, zipcode in partners:
-            if len(zipcode) == 5:
-                map_partners[zipcode].add(partner_id)
-
-        for zipcode, partner_ids in map_partners.items():
-            zipcode = zipcode.strip().replace(" ", "").rjust(5, "0")
-            code = env['res.partner']._fr_zipcode_to_department_code(zipcode)
-            dpt_id = map_department.get(code, False)
-            if not dpt_id:
-                continue
+        for dpt_id, partner_ids in env["res.partner"]._prepare_compute_department(datas).items():
             for sub_ids in env.cr.split_for_in_conditions(partner_ids):
                 env.cr.execute(
                     "UPDATE res_partner SET department_id=%s WHERE id IN %s",
