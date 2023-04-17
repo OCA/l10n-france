@@ -19,14 +19,14 @@
                     <div class="o_setting_right_pane">
                         <div class="row" id="fr_vat_exigibility">
                             <label for="fr_vat_exigibility" class="col-md-3" />
-                            <field name="fr_vat_exigibility" class="col-md-3" />
+                            <field name="fr_vat_exigibility" />
                             <button
                                     type="action"
                                     name="%(l10n_fr_vat_exigibility_update_action)d"
-                                    string="Update"
+                                    string="Change VAT Exigibility"
                                     context="{'default_company_id': company_id}"
-                                    class="oe_link"
                                     icon="fa-exchange"
+                                    class="col-md-3"
                                 />
                         </div>
                         <div class="row" id="fr_vat_periodicity">
@@ -44,25 +44,33 @@
                         </div>
                         <div
                                 class="row"
-                                id="fr_vat_expense_analytic_account_id"
+                                id="fr_vat_expense_analytic_distribution"
                                 groups="analytic.group_analytic_accounting"
                             >
                             <label
-                                    for="fr_vat_expense_analytic_account_id"
+                                    for="fr_vat_expense_analytic_distribution"
                                     class="col-md-3"
                                 />
-                            <field name="fr_vat_expense_analytic_account_id" />
+                            <field
+                                    name="fr_vat_expense_analytic_distribution"
+                                    widget="analytic_distribution"
+                                    options="{'business_domain': 'general'}"
+                                />
                         </div>
                         <div
                                 class="row"
-                                id="fr_vat_income_analytic_account_id"
+                                id="fr_vat_income_analytic_distribution"
                                 groups="analytic.group_analytic_accounting"
                             >
                             <label
-                                    for="fr_vat_income_analytic_account_id"
+                                    for="fr_vat_income_analytic_distribution"
                                     class="col-md-3"
                                 />
-                            <field name="fr_vat_income_analytic_account_id" />
+                            <field
+                                    name="fr_vat_income_analytic_distribution"
+                                    widget="analytic_distribution"
+                                    options="{'business_domain': 'general'}"
+                                />
                         </div>
                     </div>
                 </div>

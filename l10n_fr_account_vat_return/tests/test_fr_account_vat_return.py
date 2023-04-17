@@ -79,7 +79,7 @@ class TestFrAccountVatReturn(TransactionCase):
                 "code": "635820",
                 "name": "Taxe sur la diffusion de contenus audiovisuels",
                 "company_id": company.id,
-                "user_type_id": self.env.ref("account.data_account_type_expenses").id,
+                "account_type": "expense",
             }
         )
         self.env.ref("l10n_fr_account_vat_return.a_kj").with_company(company.id).write(

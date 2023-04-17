@@ -18,6 +18,7 @@ from odoo.tools.misc import format_datetime
 logger = logging.getLogger(__name__)
 
 TELEDEC_DATE_FORMAT = "%Y-%m-%d"
+TIMEOUT = 20
 
 
 class L10nFrAccountVatReturn(models.Model):
@@ -62,7 +63,7 @@ class L10nFrAccountVatReturn(models.Model):
             )
         if not legal_rep.email:
             raise UserError(
-                _("E-mail missing on partner '%s'." % legal_rep.display_name)
+                _("E-mail missing on partner '%s'.") % legal_rep.display_name
             )
         if not legal_rep.title:
             raise UserError(
@@ -202,10 +203,11 @@ class L10nFrAccountVatReturn(models.Model):
             else:
                 raise UserError(
                     _(
-                        "Cannot teletransmit box '%s': box types '%s' are not "
-                        "supported for the moment."
+                        "Cannot teletransmit box '%(box)s': box types "
+                        "'%(box_edi_type)s' are not supported for the moment.",
+                        box=line.box_id.display_name,
+                        box_edi_type=line.box_edi_type,
                     )
-                    % (line.box_id.display_name, line.box_edi_type)
                 )
             if line.box_id.id == vat_reimbursement_box_id:
                 credit_vat_reimbursement_amount = line.value
@@ -275,10 +277,11 @@ class L10nFrAccountVatReturn(models.Model):
         self.ensure_one()
         if self.teledec_sent_datetime:
             raise UserError(
-                _("The VAT declaration '%s' has already been sent on %s.")
-                % (
-                    self.display_name,
-                    format_datetime(self.env, self.teledec_sent_datetime),
+                _(
+                    "The VAT declaration '%(vat_return)s' has already been sent "
+                    "on %(datetime)s.",
+                    vat_return=self.display_name,
+                    datetime=format_datetime(self.env, self.teledec_sent_datetime),
                 )
             )
         assert self.state == "auto"
@@ -312,11 +315,13 @@ class L10nFrAccountVatReturn(models.Model):
         headers = {"Content-type": "application/json", "Accept": "application/json"}
         try:
             logger.info("Sending HTTP POST on %s with params=%s", url, params)
-            res = requests.post(url, params=params, headers=headers, data=teledec_str)
+            res = requests.post(
+                url, params=params, headers=headers, data=teledec_str, timeout=TIMEOUT
+            )
         except Exception as e:
             raise UserError(
                 _("Failed to send the request to Teledec.fr. Technical error: %s.") % e
-            )
+            ) from e
         logger.debug("Teledec answer HTTP code %s texte %s", res.status_code, res.text)
         if res.status_code == 200:
             try:
@@ -330,16 +335,17 @@ class L10nFrAccountVatReturn(models.Model):
                         "request them to setup your account with a "
                         "JSON answer."
                     )
-                )
+                ) from None
             # to reproduice the crash, just change the login
             if res_json.get("status") != "ok":
                 raise UserError(
                     _(
-                        "The request sent to Teledec.fr got an answer '%s' "
-                        "(it should have received 'ok'). Error message: '%s'."
+                        "The request sent to Teledec.fr got an answer '%(answer)s' "
+                        "(it should have received 'ok'). Error message: '%(error)s'.",
+                        answer=res_json.get("status"),
+                        error=res_json.get("message", _("None")),
                     )
-                    % (res_json.get("status"), res_json.get("message", _("None")))
-                )
+                ) from None
             self.write({"teledec_sent_datetime": fields.Datetime.now()})
             self.message_post(
                 body=_(

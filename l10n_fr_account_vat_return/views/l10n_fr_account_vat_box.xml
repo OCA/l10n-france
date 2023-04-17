@@ -5,99 +5,93 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-        <data>
 
                 <record id="l10n_fr_account_vat_box_form" model="ir.ui.view">
                         <field name="model">l10n.fr.account.vat.box</field>
                         <field name="arch" type="xml">
                                 <form>
                                         <widget
-                        name="web_ribbon"
-                        title="Archived"
-                        bg_color="bg-danger"
-                        attrs="{'invisible': [('active', '=', True)]}"
-                    />
+                    name="web_ribbon"
+                    title="Archived"
+                    bg_color="bg-danger"
+                    attrs="{'invisible': [('active', '=', True)]}"
+                />
                                         <group name="main">
                                         <group name="params">
                                                 <field name="active" invisible="1" />
                                                 <field name="display_type" />
                                                 <field name="form_code" />
                                                 <field
-                                name="code"
-                                attrs="{'invisible': [('display_type', '!=', False)], 'required': [('display_type', '=', False)]}"
-                            />
+                            name="code"
+                            attrs="{'invisible': [('display_type', '!=', False)], 'required': [('display_type', '=', False)]}"
+                        />
                                                 <field name="name" />
                                                 <field
-                                name="full_label"
-                                groups="base.group_no_one"
-                            />
+                            name="full_label"
+                            groups="base.group_no_one"
+                        />
                                                 <field
-                                name="box_type"
-                                attrs="{'invisible': [('display_type', '!=', False)]}"
-                            />
+                            name="box_type"
+                            attrs="{'invisible': [('display_type', '!=', False)]}"
+                        />
                                                 <field
-                                name="due_vat_rate"
-                                attrs="{'invisible': [('box_type', '!=', 'due_vat')], 'required': [('box_type', '=', 'due_vat')]}"
-                            />
+                            name="due_vat_rate"
+                            attrs="{'invisible': [('box_type', '!=', 'due_vat')], 'required': [('box_type', '=', 'due_vat')]}"
+                        />
                                                 <field
-                                name="due_vat_base_box_id"
-                                attrs="{'invisible': [('box_type', '!=', 'due_vat')], 'required': [('box_type', '=', 'due_vat')]}"
-                            />
+                            name="due_vat_base_box_id"
+                            attrs="{'invisible': [('box_type', '!=', 'due_vat')], 'required': [('box_type', '=', 'due_vat')]}"
+                        />
                             <field name="negative_switch_box_id" />
                                                 <field
-                                name="accounting_method"
-                                attrs="{'invisible': [('display_type', '!=', False)]}"
-                            />
+                            name="accounting_method"
+                            attrs="{'invisible': [('display_type', '!=', False)]}"
+                        />
                                                 <field
-                                name="account_code"
-                                attrs="{'invisible': [('accounting_method', '=', False)]}"
-                            />
+                            name="account_code"
+                            attrs="{'invisible': [('accounting_method', '=', False)]}"
+                        />
                                                 <field
-                                name="account_id"
-                                attrs="{'invisible': [('accounting_method', '=', False)]}"
-                            />
-                                                <field
-                                name="analytic_account_id"
-                                attrs="{'invisible': [('accounting_method', '=', False)]}"
-                                groups="analytic.group_analytic_accounting"
-                            />
+                            name="account_id"
+                            attrs="{'invisible': [('accounting_method', '=', False)]}"
+                        />
                                                 <field name="sequence" />
                                         </group>
                                         <group
-                            name="compute"
-                            string="Push Compute"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        >
+                        name="compute"
+                        string="Push Compute"
+                        attrs="{'invisible': [('display_type', '!=', False)]}"
+                    >
                                                 <field name="push_sequence" />
                                                 <field name="push_box_id" />
                                                 <label
-                                for="push_rate"
-                                attrs="{'invisible': [('push_box_id', '=', False)]}"
-                            />
+                            for="push_rate"
+                            attrs="{'invisible': [('push_box_id', '=', False)]}"
+                        />
                                                 <div
-                                name="push_rate"
-                                attrs="{'invisible': [('push_box_id', '=', False)]}"
-                            >
+                            name="push_rate"
+                            attrs="{'invisible': [('push_box_id', '=', False)]}"
+                        >
                                                     <field
-                                    name="push_rate"
-                                    class="oe_inline"
-                                /> %
+                                name="push_rate"
+                                class="oe_inline"
+                            /> %
                                             </div>
                                         </group>
                                         <group
-                            name="edi"
-                            string="EDI"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        >
+                        name="edi"
+                        string="EDI"
+                        attrs="{'invisible': [('display_type', '!=', False)]}"
+                    >
                                                 <field name="edi_code" />
                                                 <field name="edi_type" />
                                                 <field name="nref_code" />
                                         </group>
                                         <group
-                            name="print"
-                            string="Report"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        >
+                        name="print"
+                        string="Report"
+                        attrs="{'invisible': [('display_type', '!=', False)]}"
+                    >
                                                 <field name="print_page" />
                                                 <field name="print_x" />
                                                 <field name="print_y" />
@@ -111,13 +105,13 @@
                         <field name="model">l10n.fr.account.vat.box</field>
                         <field name="arch" type="xml">
                                 <tree
-                    decoration-info="display_type == 'section'"
-                    decoration-success="display_type == 'sub_section'"
-                >
+                decoration-info="display_type == 'section'"
+                decoration-success="display_type == 'sub_section'"
+            >
                                         <field
-                        name="sequence"
-                        optional="hide"
-                    />  <!-- Don't put widget="handle" because we don't want re-order by drag-and-drop -->
+                    name="sequence"
+                    optional="hide"
+                />  <!-- Don't put widget="handle" because we don't want re-order by drag-and-drop -->
                                         <field name="display_type" optional="hide" />
                                         <field name="form_code" />
                                         <field name="code" />
@@ -125,29 +119,23 @@
                                         <field name="box_type" optional="show" />
                                         <field name="due_vat_rate" optional="hide" />
                                         <field
-                        name="due_vat_base_box_id"
-                        optional="hide"
-                    />
+                    name="due_vat_base_box_id"
+                    optional="hide"
+                />
                                         <field
-                        name="accounting_method"
-                        optional="hide"
-                    />
+                    name="accounting_method"
+                    optional="hide"
+                />
                                         <field
-                        name="account_code"
-                        attrs="{'invisible': [('accounting_method', '=', False)]}"
-                        optional="hide"
-                    />
+                    name="account_code"
+                    attrs="{'invisible': [('accounting_method', '=', False)]}"
+                    optional="hide"
+                />
                                         <field
-                        name="account_id"
-                        attrs="{'invisible': [('accounting_method', '=', False)]}"
-                        optional="hide"
-                    />
-                                        <field
-                        name="analytic_account_id"
-                        attrs="{'invisible': [('accounting_method', '=', False)]}"
-                        optional="hide"
-                        groups="analytic.group_analytic_accounting"
-                    />
+                    name="account_id"
+                    attrs="{'invisible': [('accounting_method', '=', False)]}"
+                    optional="hide"
+                />
                                         <field name="edi_code" optional="show" />
                                         <field name="edi_type" optional="hide" />
                                         <field name="nref_code" optional="hide" />
@@ -158,9 +146,9 @@
                                         <field name="push_box_id" optional="hide" />
                                         <field name="push_rate" optional="hide" />
                                         <field
-                        name="negative_switch_box_id"
-                        optional="hide"
-                    />
+                    name="negative_switch_box_id"
+                    optional="hide"
+                />
                                 </tree>
                         </field>
                 </record>
@@ -170,64 +158,63 @@
                         <field name="arch" type="xml">
                                 <search>
                                         <field
-                        name="name"
-                        filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
-                        string="Name or Code"
-                    />
+                    name="name"
+                    filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
+                    string="Name or Code"
+                />
                                         <field name="edi_code" />
                                         <separator />
                                         <filter
-                        string="3310-CA3"
-                        name="form_code_ca3"
-                        domain="[('form_code', '=', '3310CA3')]"
-                    />
+                    string="3310-CA3"
+                    name="form_code_ca3"
+                    domain="[('form_code', '=', '3310CA3')]"
+                />
                                         <filter
-                        string="3310-A"
-                        name="form_code_a"
-                        domain="[('form_code', '=', '3310A')]"
-                    />
+                    string="3310-A"
+                    name="form_code_a"
+                    domain="[('form_code', '=', '3310A')]"
+                />
                                         <separator />
                                         <filter
-                        name="no_sections"
-                        string="No sections"
-                        domain="[('display_type', '=', False)]"
-                    />
+                    name="no_sections"
+                    string="No sections"
+                    domain="[('display_type', '=', False)]"
+                />
                                         <group name="groupby">
                                                 <filter
-                            name="box_type_groupby"
-                            string="Type"
-                            context="{'group_by': 'box_type'}"
-                        />
+                        name="box_type_groupby"
+                        string="Type"
+                        context="{'group_by': 'box_type'}"
+                    />
                                                 <filter
-                            name="accounting_method_groupby"
-                            string="Accounting Method"
-                            context="{'group_by': 'accounting_method'}"
-                        />
+                        name="accounting_method_groupby"
+                        string="Accounting Method"
+                        context="{'group_by': 'accounting_method'}"
+                    />
                                                 <filter
-                            name="display_type_groupby"
-                            string="Display Type"
-                            context="{'group_by': 'display_type'}"
-                        />
+                        name="display_type_groupby"
+                        string="Display Type"
+                        context="{'group_by': 'display_type'}"
+                    />
                                         </group>
                                 </search>
                         </field>
                 </record>
 
                 <record
-            id="l10n_fr_account_vat_box_action"
-            model="ir.actions.act_window"
-        >
+        id="l10n_fr_account_vat_box_action"
+        model="ir.actions.act_window"
+    >
                         <field name="name">France VAT Boxes</field>
                         <field name="res_model">l10n.fr.account.vat.box</field>
                         <field name="view_mode">tree,form</field>
                 </record>
 
                 <menuitem
-            id="l10n_fr_account_vat_box_menu"
-            action="l10n_fr_account_vat_box_action"
-            parent="account.account_account_menu"
-            sequence="100"
-        />
+        id="l10n_fr_account_vat_box_menu"
+        action="l10n_fr_account_vat_box_action"
+        parent="account.account_account_menu"
+        sequence="100"
+    />
 
-        </data>
 </odoo>

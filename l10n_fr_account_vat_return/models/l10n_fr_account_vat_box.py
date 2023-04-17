@@ -21,11 +21,10 @@ class L10nFrAccountVatBox(models.Model):
             ("section", "Section"),
             ("sub_section", "Sub-Section"),
         ],
-        string="Display Type",
     )
     code = fields.Char()
     name = fields.Char(string="Label", required=True)
-    full_label = fields.Char(string="Full Label")
+    full_label = fields.Char()
     box_type = fields.Selection(
         [
             ("taxed_op_france", "Taxed Operations - France"),
@@ -65,7 +64,6 @@ class L10nFrAccountVatBox(models.Model):
     )
     negative_switch_box_id = fields.Many2one(
         "l10n.fr.account.vat.box",
-        string="Negative Switch Box",
         help="If the amount of this box is negative, its lines will be transfered "
         "to another box with a sign inversion.",
     )
@@ -74,7 +72,6 @@ class L10nFrAccountVatBox(models.Model):
             ("debit", "Debit"),
             ("credit", "Credit"),
         ],
-        string="Accounting Method",
     )
     due_vat_rate = fields.Integer(string="VAT Rate x100")
     due_vat_base_box_id = fields.Many2one(
@@ -117,19 +114,19 @@ class L10nFrAccountVatBox(models.Model):
     account_code = fields.Char(string="Generic Account Code")
     account_id = fields.Many2one(
         "account.account",
-        string="Account",
         company_dependent=True,
         domain="[('deprecated', '=', False), ('company_id', '=', current_company_id)]",
         help="If not set, Odoo will use the first account that starts with the "
         "Generic Account Code. If set, Odoo will ignore the Generic Account Code "
         "and use this account.",
     )
-    analytic_account_id = fields.Many2one(
-        "account.analytic.account",
-        string="Analytic Account",
-        company_dependent=True,
-        domain="[('company_id', 'in', (False, current_company_id))]",
-    )
+    # analytic_account_id = fields.Many2one(  # TODO replace by distribution
+    # but pb company_dependent=True,
+    #    "account.analytic.account",
+    #    string="Analytic Account",
+    #    company_dependent=True,
+    #    domain="[('company_id', 'in', (False, current_company_id))]",
+    # )
     push_sequence = fields.Integer()
     # 10: appendix lines
     # 20: totals cols appendix
@@ -138,10 +135,9 @@ class L10nFrAccountVatBox(models.Model):
     # 100 : CA3 end : total à payer + crédit à reporter
     push_box_id = fields.Many2one(
         "l10n.fr.account.vat.box",
-        string="Push Box",
         domain=[("box_type", "=", "manual")],
     )
-    push_rate = fields.Float(digits=(16, PUSH_RATE_PRECISION), string="Push Rate")
+    push_rate = fields.Float(digits=(16, PUSH_RATE_PRECISION))
 
     _sql_constraints = [
         ("sequence_unique", "unique(sequence)", "This sequence already exists."),
@@ -189,7 +185,6 @@ class L10nFrAccountVatBox(models.Model):
             self.print_y = False
             self.account_code = False
             self.account_id = False
-            self.analytic_account_id = False
 
     @api.constrains(
         "edi_type",
@@ -199,7 +194,6 @@ class L10nFrAccountVatBox(models.Model):
         "accounting_method",
         "account_code",
         "account_id",
-        "analytic_account_id",
         "push_box_id",
         "push_rate",
         "push_sequence",
@@ -249,10 +243,11 @@ class L10nFrAccountVatBox(models.Model):
                 ):
                     raise ValidationError(
                         _(
-                            "The box '%s' is the negative switch box of '%s' but it's "
-                            "EDI Type is not 'MOA'."
+                            "The box '%(negative_box)s' is the negative switch box of "
+                            "'%(box)s' but it's EDI Type is not 'MOA'.",
+                            negative_box=box.negative_switch_box_id.display_name,
+                            box=box.display_name,
                         )
-                        % (box.negative_switch_box_id.display_name, box.display_name)
                     )
                 if not box.code and box.form_code == "3310CA3":
                     # on 3310-A, total boxes don't have a code
@@ -277,10 +272,12 @@ class L10nFrAccountVatBox(models.Model):
                     elif box.due_vat_base_box_id.box_type != "due_vat_base":
                         raise ValidationError(
                             _(
-                                "The Due VAT box '%s' has '%s' configured as "
-                                "Due VAT Base box, but it has a different type."
+                                "The Due VAT box '%(due_vat_box)s' has "
+                                "'%(due_vat_base_box)s' configured as "
+                                "Due VAT Base box, but it has a different type.",
+                                due_vat_box=box.display_name,
+                                due_vat_base_box=box.due_vat_base_box_id.display_name,
                             )
-                            % (box.display_name, box.due_vat_base_box_id.display_name)
                         )
                     if box.accounting_method != "debit":
                         raise ValidationError(
@@ -293,15 +290,15 @@ class L10nFrAccountVatBox(models.Model):
                     if box.print_y != box.due_vat_base_box_id.print_y:
                         raise ValidationError(
                             _(
-                                "Due VAT box '%s' has print Y %d whereas "
-                                "Base Due VAT box '%s' has print Y %d. "
-                                "They should be on the same line."
-                            )
-                            % (
-                                box.display_name,
-                                box.print_y,
-                                box.due_vat_base_box_id.display_name,
-                                box.due_vat_base_box_id.print_y,
+                                "Due VAT box '%(due_vat_box)s' has print Y "
+                                "%(due_vat_box_print_y)d "
+                                "whereas Due VAT Base box '%(due_vat_base_box)s' "
+                                "has print Y %(due_vat_base_box_print_y)d. "
+                                "They should be on the same line.",
+                                due_vat_box=box.display_name,
+                                due_vat_box_print_y=box.print_y,
+                                due_vat_base_box=box.due_vat_base_box_id.display_name,
+                                due_vat_base_box_print_y=box.due_vat_base_box_id.print_y,
                             )
                         )
                 elif box.due_vat_base_box_id:
@@ -325,7 +322,7 @@ class L10nFrAccountVatBox(models.Model):
                         % box.display_name
                     )
                 if not box.accounting_method:
-                    if box.account_code or box.account_id or box.analytic_account_id:
+                    if box.account_code or box.account_id:
                         raise ValidationError(
                             _(
                                 "Box '%s' doesn't have an accounting method, "
@@ -337,10 +334,11 @@ class L10nFrAccountVatBox(models.Model):
                     if box.push_box_id.box_type in ("manual", "no_push_total"):
                         raise ValidationError(
                             _(
-                                "Box '%s' has a push box '%s' that is configured "
-                                "as manual or not pushed total."
+                                "Box '%(box)s' has a push box '%(push_box)s' "
+                                "that is configured as manual or not pushed total.",
+                                box=box.display_name,
+                                push_box=box.push_box_id.display_name,
                             )
-                            % (box.display_name, box.push_box_id.display_name)
                         )
                     if not box.push_sequence:
                         raise ValidationError(
@@ -407,9 +405,11 @@ class L10nFrAccountVatBox(models.Model):
             )
             raise UserError(
                 _(
-                    "A single box with type '%s' should exists, "
-                    "but there are %d box(es) of that type. This should never happen."
+                    "A single box with type '%(box_type)s' should exists, "
+                    "but there are %(count)d box(es) of that type. "
+                    "This should never happen.",
+                    box_type=boxtype2label[box_type],
+                    count=len(box),
                 )
-                % (boxtype2label[box_type], len(box))
             )
         return box

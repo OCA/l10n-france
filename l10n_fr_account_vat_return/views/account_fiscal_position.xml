@@ -5,14 +5,13 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-        <data>
 
                 <record id="view_account_position_form" model="ir.ui.view">
                         <field name="model">account.fiscal.position</field>
                         <field
-                name="inherit_id"
-                ref="account.view_account_position_form"
-            />
+            name="inherit_id"
+            ref="account.view_account_position_form"
+        />
                         <field name="arch" type="xml">
                                 <field name="vat_required" position="after">
                                         <field name="fr_vat_type" />
@@ -23,9 +22,9 @@
                 <record id="view_account_position_tree" model="ir.ui.view">
                         <field name="model">account.fiscal.position</field>
                         <field
-                name="inherit_id"
-                ref="account.view_account_position_tree"
-            />
+            name="inherit_id"
+            ref="account.view_account_position_tree"
+        />
                         <field name="arch" type="xml">
                                 <field name="company_id" position="before">
                                         <field name="fr_vat_type" optional="show" />
@@ -33,5 +32,4 @@
                         </field>
                 </record>
 
-        </data>
 </odoo>
