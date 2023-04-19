@@ -9,6 +9,6 @@
         id="l10n_fr.fiscal_position_template_intraeub2b"
         model="account.fiscal.position.template"
     >
-        <field name="intrastat" eval="True" />
+        <field name="intrastat">b2b</field>
     </record>
 </odoo>

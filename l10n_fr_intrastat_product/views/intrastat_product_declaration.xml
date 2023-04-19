@@ -76,10 +76,10 @@
             ref="intrastat_product.intrastat_product_declaration_line_view_form"
         />
         <field name="arch" type="xml">
-            <field name="product_origin_country_id" position="attributes">
+            <field name="product_origin_country_code" position="attributes">
                 <attribute name="invisible">0</attribute>
             </field>
-            <field name="region_id" position="after">
+            <field name="region_code" position="after">
                 <field name="fr_department_id" />
             </field>
         </field>
@@ -93,10 +93,10 @@
             ref="intrastat_product.intrastat_product_declaration_line_view_tree"
         />
         <field name="arch" type="xml">
-            <field name="product_origin_country_id" position="attributes">
+            <field name="product_origin_country_code" position="attributes">
                 <attribute name="invisible">0</attribute>
             </field>
-            <field name="region_id" position="after">
+            <field name="region_code" position="after">
                 <field name="fr_department_id" />
             </field>
         </field>

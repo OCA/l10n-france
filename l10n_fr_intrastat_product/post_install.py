@@ -15,22 +15,9 @@ def set_fr_company_intrastat(cr, registry):
     afpo = env["account.fiscal.position"]
     fr_id = env.ref("base.fr").id
     companies = env["res.company"].search([("partner_id.country_id", "=", fr_id)])
-    out_inv_trans_id = env.ref(
-        "l10n_fr_intrastat_product.intrastat_transaction_21_11"
-    ).id
-    out_ref_trans_id = env.ref("l10n_fr_intrastat_product.intrastat_transaction_25").id
-    in_inv_trans_id = env.ref(
-        "l10n_fr_intrastat_product.intrastat_transaction_11_11"
-    ).id
     for company in companies:
-        company.write(
-            {
-                "intrastat_transaction_out_invoice": out_inv_trans_id,
-                "intrastat_transaction_out_refund": out_ref_trans_id,
-                "intrastat_transaction_in_invoice": in_inv_trans_id,
-                "intrastat_accessory_costs": True,
-            }
-        )
+        company.intrastat_accessory_costs = True
+
         fps = afpo.search([("company_id", "=", company.id)])
         for fp in fps:
             xmlid_rec = imdo.search(
@@ -48,4 +35,4 @@ def set_fr_company_intrastat(cr, registry):
                     "on fiscal position ID %d",
                     fp.id,
                 )
-                fp.write({"intrastat": True})
+                fp.write({"intrastat": companies._compute_intrastat()})

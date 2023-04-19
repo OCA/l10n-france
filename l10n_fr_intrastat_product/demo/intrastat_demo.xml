@@ -7,15 +7,6 @@
 <odoo noupdate="1">
     <record id="base.main_company" model="res.company">
         <field name="fr_intrastat_accreditation">A12B</field>
-        <field
-            name="intrastat_transaction_out_invoice"
-            ref="intrastat_transaction_21_11"
-        />
-        <field name="intrastat_transaction_out_refund" ref="intrastat_transaction_25" />
-        <field
-            name="intrastat_transaction_in_invoice"
-            ref="intrastat_transaction_11_11"
-        />
         <field name="country_id" ref="base.fr" />
         <field name="intrastat_accessory_costs">1</field>
     </record>
@@ -29,10 +20,4 @@
     <record id="intrastat_product.intrastat_unit_pce" model="intrastat.unit">
         <field name="fr_xml_label">PCE</field>
     </record>
-    <!-- Elec import is the fiscal rep of Asustek -->
-    <!--
-<record id="base.res_partner_1" model="res.partner">
-    <field name="intrastat_fiscal_representative_id" ref="base.res_partner_2" />
-</record>
--->
 </odoo>
