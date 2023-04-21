@@ -3,14 +3,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class DeliveryCarrier(models.Model):
-    _inherit = 'delivery.carrier'
+    _inherit = "delivery.carrier"
 
-    department_ids = fields.Many2many(
-        'res.country.department', string="Departments")
+    department_ids = fields.Many2many("res.country.department", string="Departments")
 
     def _match_address(self, partner):
         self.ensure_one()
