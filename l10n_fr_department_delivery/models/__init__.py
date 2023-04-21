@@ -1,3 +1,1 @@
-# -*- encoding: utf-8 -*-
-
-from . import delivery
+from . import delivery_carrier
