@@ -13,7 +13,7 @@ class StockWarehouse(models.Model):
         self.ensure_one()
         if not self.partner_id:
             raise UserError(_("Missing partner on warehouse '%s'.") % self.display_name)
-        return self.partner_id.department_id
+        return self.partner_id.country_department_id
 
 
 class StockLocation(models.Model):
