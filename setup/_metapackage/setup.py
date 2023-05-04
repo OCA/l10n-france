@@ -25,6 +25,7 @@ setuptools.setup(
         'odoo14-addon-l10n_fr_cog',
         'odoo14-addon-l10n_fr_das2',
         'odoo14-addon-l10n_fr_department',
+        'odoo14-addon-l10n_fr_department_delivery',
         'odoo14-addon-l10n_fr_department_oversea',
         'odoo14-addon-l10n_fr_fec_oca',
         'odoo14-addon-l10n_fr_hr_check_ssnid',
