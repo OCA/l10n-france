@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2015-2023 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="view_delivery_carrier_form" model="ir.ui.view">
+    <field name="name">fr.department.delivery.carrier.form</field>
+    <field name="model">delivery.carrier</field>
+    <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
+    <field name="arch" type="xml">
+        <field name="state_ids" position="after">
+            <field name="department_ids" widget="many2many_tags" />
+        </field>
+    </field>
+</record>
+
+
+</odoo>
