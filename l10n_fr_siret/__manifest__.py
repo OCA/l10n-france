@@ -8,6 +8,7 @@
     'version': '12.0.1.0.2',
     "category": 'French Localization',
     'author': 'Numérigraphe,Akretion,Odoo Community Association (OCA)',
+    'website': 'https://github.com/OCA/l10n-france',
     'license': 'AGPL-3',
     'depends': ['l10n_fr'],
     'data': [
