@@ -1,4 +1,4 @@
-# © 2014-2020 Akretion (http://www.akretion.com)
+# © 2014-2023 Akretion (http://www.akretion.com)
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
@@ -9,7 +9,9 @@
     "website": "https://github.com/OCA/l10n-france",
     "category": "Localization/Account Taxes",
     "license": "AGPL-3",
-    "depends": ["account"],
+    "depends": [
+        "account",
+    ],
     "data": [
         "data/decimal_precision.xml",
         "security/ir_rule.xml",
