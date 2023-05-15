@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-   Copyright (C) 2015 Akretion (http://www.akretion.com/)
+   Copyright (C) 2023 Akretion (http://www.akretion.com/)
    @author: Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 -->
 <odoo>
@@ -30,6 +30,12 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
                     <div class="oe_title oe_left">
                         <div class="oe_edit_only">
                             <label for="name" />
@@ -46,6 +52,7 @@
                         <field name="ecotaxe_deb_code" />
                         <field name="ecotaxe_scale_code" />
                         <field name="company_id" groups="base.group_multi_company" />
+                        <field name="active" invisible="1" />
                     </group>
                     <separator string="Ecotaxes settings" />
                     <group col="4">
