@@ -25,6 +25,7 @@
         'data/transmit_method.xml',
         'data/cron.xml',
         'data/mail_template.xml',
+        'data/ir_config_parameter.xml',
         'wizard/account_invoice_chorus_send_view.xml',
         'views/chorus_flow.xml',
         'views/chorus_partner_service.xml',

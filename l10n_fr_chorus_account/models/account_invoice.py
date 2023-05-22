@@ -2,6 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import ast
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import tarfile
@@ -129,9 +130,15 @@ class AccountInvoice(models.Model):
                             % partner_bank_id.acc_number)
             elif inv.type == 'out_refund':
                 if inv.payment_mode_id:
-                    raise UserError(_(
-                        "The Payment Mode must be empty "
-                        "for customer refunds sent to Chorus."))
+                    icp = self.env['ir.config_parameter'].sudo()
+                    key = "l10n_fr_chorus_account.raise_if_payment_on_refund"
+                    should_raise = ast.literal_eval(icp.get_param(key, "True"))
+                    if not should_raise:
+                        inv.payment_mode_id = None
+                    else:
+                        raise UserError(_(
+                            "The Payment Mode must be empty "
+                            "for customer refunds sent to Chorus."))
         return super(AccountInvoice, self).action_move_create()
 
     def chorus_get_invoice(self, chorus_invoice_format):
