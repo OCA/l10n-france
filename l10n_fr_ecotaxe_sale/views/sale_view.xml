@@ -9,20 +9,22 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-            <field name="tax_totals_json" position="after">
-                <field name="amount_ecotaxe" />
+            <field name="tax_totals" position="after">
+                <field name="amount_ecotaxe" class="oe_subtotal_footer_separator" />
             </field>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='tax_id']"
                 position="after"
             >
+                <field name="subtotal_ecotaxe" />
                 <field name="unit_ecotaxe_amount" />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='tax_id']"
                 position="after"
             >
-                <field name="unit_ecotaxe_amount" />
+                <field name="subtotal_ecotaxe" optional="show" />
+                <field name="unit_ecotaxe_amount" optional="hide" />
             </xpath>
         </field>
     </record>
