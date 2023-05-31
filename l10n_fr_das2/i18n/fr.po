@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-09-15 22:07+0000\n"
+"PO-Revision-Date: 2023-05-31 18:59+0000\n"
 "Last-Translator: Claude R Perrin <claude@perrin.it>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
@@ -86,7 +86,7 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 msgid "Are you sure you want to go back to draft?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir revenir en brouillon ?"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_id
@@ -181,8 +181,8 @@ msgid ""
 "Contact in the company for the fiscal administration: the name, email and "
 "phone number of this partner will be used in the file."
 msgstr ""
-"Contact dans l'entreprise pour l'administration fiscale : le nom, l'email et "
-"le numéro de téléphone de ce partenaire seront utilisés dans le dossier."
+"Contact de l'entreprise pour l'administration fiscale : le nom, l'email et "
+"le numéro de téléphone de ce contact seront utilisés dans le fichier."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
@@ -238,7 +238,7 @@ msgstr "Lignes DAS2"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__fr_das2_partner_declare_threshold
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__fr_das2_partner_declare_threshold
 msgid "DAS2 Partner Declaration Threshold"
-msgstr "Seuil de déclaration du partenaire DAS2"
+msgstr "Seuil de déclaration DAS2 pour un contact"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__parent_id
@@ -255,13 +255,13 @@ msgstr "Type DAS2"
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 file deleted."
-msgstr ""
+msgstr "Fichier DAS2 supprimé."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key."
-msgstr ""
+msgstr "Fichier DAS2 généré. Chiffré avec la clé PGP <b>%s</b> de la DGFiP."
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2_line
@@ -312,7 +312,7 @@ msgstr "Droits de brevet"
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Failed to convert field '%s' (partner %s) to integer."
-msgstr "Impossible de convertir le champ '%s' (partenaire %s) en entier."
+msgstr "Impossible de convertir le champ '%s' (contact %s) en entier."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
@@ -321,8 +321,8 @@ msgid ""
 "Field %s (partner %s) has value %s: it is bigger than the maximum size (%d "
 "characters)"
 msgstr ""
-"Le champ %s (partenaire %s) a la valeur %s : il est plus grand que la taille "
-"maximale (%d caractères)"
+"Le champ %s (contact %s) a la valeur %s : il dépasse la taille maximale "
+"autorisée (%d caractères)"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_datas
@@ -363,7 +363,7 @@ msgstr "Générer des lignes"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__fee_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__fee
 msgid "Honoraires et vacations"
-msgstr "Honoraires et vacances"
+msgstr "Honoraires et vacations"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__id
@@ -372,7 +372,7 @@ msgstr "Honoraires et vacances"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__id
 msgid "ID"
-msgstr "Identifiant"
+msgstr "ID"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_exception_icon
@@ -489,19 +489,19 @@ msgstr "APE manquant pour l'entreprise '%s'."
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing Code Officiel Géographique on country '%s'."
-msgstr "Code INSEE géographique manquant pour le pays '%s'."
+msgstr "Code INSEE pays manquant pour le pays '%s'."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIREN on company '%s'."
-msgstr ""
+msgstr "SIREN manquant pour l'entreprise '%s'."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIRET for french partner %s."
-msgstr "SIRET manquant pour le partenaire français %s."
+msgstr "SIRET manquant pour le contact français %s."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
@@ -525,7 +525,7 @@ msgstr "Contact administratif manquant."
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing city on partner '%s'."
-msgstr "Ville manquante pour le partenaire '%s'."
+msgstr "Ville manquante pour le contact '%s'."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__my_activity_date_deadline
@@ -620,7 +620,7 @@ msgstr "Outils issus des NTIC"
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__partner_declare_threshold
 msgid "Partner Declaration Threshold"
-msgstr "Seuil de déclaration du partenaire"
+msgstr "Seuil de déclaration pour un contact"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__payment_journal_ids
@@ -632,6 +632,8 @@ msgstr "Journaux de paiement"
 #, python-format
 msgid "Payment dated <b>%s</b> in journal <b>%s</b>: %s (journal entry %s)"
 msgstr ""
+"Paiement daté du <b>%s</b> dans le journal <b>%s</b> : %s (écriture de "
+"journal %s)"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_employer
@@ -678,7 +680,7 @@ msgstr "Erreur de livraison du SMS"
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
-msgstr "Même partenaire utilisé sur plusieurs lignes !"
+msgstr "Le même contact utilisé sur plusieurs lignes !"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__state
@@ -720,20 +722,18 @@ msgstr "La DAS2 n'a pas de lignes."
 #, python-format
 msgid "The DAS2 partner declaration threshold is not set on company '%s'."
 msgstr ""
-"Le seuil de déclaration du partenaire DAS2 n'est pas défini sur la société "
-"'%s'."
+"Le seuil de déclaration de contact DAS2 n'est pas défini sur la société '%s'."
 
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_res_company_fr_das2_partner_declare_threshold_positive
 msgid "The DAS2 partner declaration threshold must be positive!"
-msgstr "Le seuil de déclaration du partenaire DAS2 doit être positif !"
+msgstr "Le seuil de déclaration du contact DAS2 doit être positif !"
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The email is not set on the administrative contact partner '%s'."
-msgstr ""
-"L'e-mail n'est pas défini sur le partenaire de contact administratif '%s'."
+msgstr "L'e-mail n'est pas défini pour le contact administratif de %s’."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
@@ -741,8 +741,8 @@ msgstr ""
 msgid ""
 "The field '%s' (partner %s) is empty or 0. It should have a non-null value."
 msgstr ""
-"Le champ '%s' (partenaire %s) est vide ou à zéro. Il devrait avoir une "
-"valeur non nulle."
+"Le champ '%s' (contact %s) est vide ou à zéro. Il devrait avoir une valeur "
+"non nulle."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
@@ -751,7 +751,7 @@ msgid ""
 "The following partners are not configured for DAS2 but they have expenses in "
 "some accounts that indicate they should probably be configured for DAS2:<ul>"
 msgstr ""
-"Les partenaires suivants ne sont pas configurés pour DAS2, mais ils ont des "
+"Les contacts suivants ne sont pas configurés pour DAS2, mais ils ont des "
 "dépenses dans certains comptes qui indiquent qu'ils devraient probablement "
 "être configurés pour DAS2&nbsp;:<ul>"
 
@@ -760,14 +760,13 @@ msgstr ""
 #, python-format
 msgid "The phone number is not set on the administrative contact partner '%s'."
 msgstr ""
-"Le numéro de téléphone n'est pas défini sur le partenaire de contact "
-"administratif '%s'."
+"Le numéro de téléphone n'est pas défini sur le contact administratif '%s'."
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "There are no partners configured for DAS2."
-msgstr "Il n'y a pas de partenaires configurés pour la DAS2."
+msgstr "Il n'y a pas de contacts configurés pour la DAS2."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__to_declare
@@ -793,7 +792,7 @@ msgstr "Type d'activité d'exception enregistrée."
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__unencrypted_attachment_id
 msgid "Unencrypted Attachment"
-msgstr ""
+msgstr "Pièce jointe non cryptée"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_unread
