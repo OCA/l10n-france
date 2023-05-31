@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-29 20:11+0000\n"
-"PO-Revision-Date: 2022-09-29 20:11+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2023-05-31 21:09+0000\n"
+"Last-Translator: Claude R Perrin <claude@perrin.it>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
@@ -36,13 +37,13 @@ msgstr "%s (ajout)"
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310a
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-A"
-msgstr ""
+msgstr "3310-A"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310ca3
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-CA3"
-msgstr ""
+msgstr "3310-CA3"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_return_start_company_uniq
@@ -55,7 +56,7 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "A regular sale "
-msgstr "Une vente normale"
+msgstr "Une vente normale "
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
@@ -83,6 +84,9 @@ msgid ""
 "the start of the VAT period, but the balance on the last day of the previous "
 "period is %s."
 msgstr ""
+"Le compte '%s' est un compte de liquidation automatique de la TVA due. Il "
+"devrait donc être vide au début de la période de TVA, mais le solde du "
+"dernier jour de la période précédente est %s."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
@@ -136,7 +140,7 @@ msgstr "Méthode de comptabilisation"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Nécessite une action"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__active
@@ -146,22 +150,22 @@ msgstr "Actif"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Activités"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Décoration de l’activité en exception"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "État de l’activité"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Icône de type d'activité"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__amount
@@ -195,7 +199,7 @@ msgstr "Archivé"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Nombre de pièces jointes"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_tax__fr_vat_autoliquidation
@@ -275,6 +279,8 @@ msgstr ""
 msgid ""
 "Box '%s' has a negative value (%s) but it doesn't have a negative switch box."
 msgstr ""
+"La case '%s' a une valeur négative (%s) mais elle n’a pas de boîte de "
+"commutation négative."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
@@ -400,7 +406,7 @@ msgstr "Devise société"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__company_partner_id
 msgid "Company Partner"
-msgstr "Partenaire de la société"
+msgstr "Contact de la société"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_res_company__fr_vat_bank_account_id
@@ -688,22 +694,22 @@ msgstr "Type de position fiscale"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Abonnés"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_channel_ids
 msgid "Followers (Channels)"
-msgstr ""
+msgstr "Abonnés (Canaux)"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Abonnés (Contacts)"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Icône \"Font awesome\", par exemple \"fa-tasks\""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__form_code
@@ -769,12 +775,12 @@ msgstr "Code comptable générique"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Icône"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_exception_icon
@@ -1678,7 +1684,7 @@ msgstr "Ce code existe déjà pour ce formulaire."
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_account_move__fiscal_position_fr_vat_type
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_account_payment__fiscal_position_fr_vat_type
 msgid "This field is used by the French VAT return module"
-msgstr "Ce champ est utilisé par le module de déclaration de TVA française."
+msgstr "Ce champ est utilisé par le module de déclaration de TVA française"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_return_line_unique_return_box
