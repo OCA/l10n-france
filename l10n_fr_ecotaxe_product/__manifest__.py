@@ -5,7 +5,7 @@
 {
     "name": "France Custom Ecotaxe - Manage on Products",
     "summary": "Move Ecotax management from templates to products",
-    "version": "15.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Camptocamp, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-france",
     "category": "Localization/Account Taxes",
