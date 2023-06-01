@@ -1,1 +1,1 @@
-odoo-addon-l10n_fr_ecotaxe @ git+https://github.com/OCA/l10n-france.git@refs/pull/448/head#subdirectory=setup/l10n_fr_ecotaxe
+odoo-addon-l10n_fr_ecotaxe @git+https://github.com/OCA/l10n-france.git@refs/pull/448/head#subdirectory=setup/l10n_fr_ecotaxe
