@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-30 00:43+0000\n"
-"PO-Revision-Date: 2023-05-22 16:08+0000\n"
+"PO-Revision-Date: 2023-06-07 11:11+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-l10n-france-8-0/"
 "language/it/)\n"
@@ -48,7 +48,7 @@ msgstr "Creato il"
 #. module: account_banking_fr_lcr
 #: field:banking.export.lcr.wizard,display_name:0
 msgid "Display Name"
-msgstr "Nome da visualizzare"
+msgstr "Nome visualizzato"
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_banking_export_lcr_wizard
