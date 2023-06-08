@@ -101,15 +101,15 @@ msgid "Attachment Count"
 msgstr "Nombre de pièces jointes"
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__other_income_amount
-#: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__other_income
-msgid "Autre rémunérations"
-msgstr "Autres rémunérations"
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_other
 msgid "Autres"
 msgstr "Autres"
+
+#. module: l10n_fr_das2
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__other_income_amount
+#: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__other_income
+msgid "Autres rémunérations"
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_amount
@@ -850,6 +850,9 @@ msgstr "Historique des échanges sur le site Web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#~ msgid "Autre rémunérations"
+#~ msgstr "Autres rémunérations"
 
 #, python-format
 #~ msgid ""
