@@ -848,7 +848,7 @@ class L10nFrDas2Line(models.Model):
         string="Droits d'inventeur", states={"done": [("readonly", True)]}
     )
     other_income_amount = fields.Integer(
-        string="Autre rémunérations", states={"done": [("readonly", True)]}
+        string="Autres rémunérations", states={"done": [("readonly", True)]}
     )
     allowance_amount = fields.Integer(
         string="Indemnités et remboursements", states={"done": [("readonly", True)]}
