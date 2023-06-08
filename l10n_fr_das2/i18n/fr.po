@@ -31,6 +31,15 @@ msgstr "Une DAS2 existe déjà pour cette année !"
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
+"A declaration file already exists. First, delete it via the attachments and "
+"then re-generate it."
+msgstr ""
+
+#. module: l10n_fr_das2
+#. odoo-python
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
+msgid ""
 "A special character in the DAS2 file is not in the latin1 table. Please "
 "locate this special character and replace it by a standard character and try "
 "again."
@@ -73,17 +82,6 @@ msgstr "Contact administratif"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_fixed
 msgid "Allocation forfaitaire"
 msgstr "Allocation forfaitaire"
-
-#. module: l10n_fr_das2
-#. odoo-python
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
-#, python-format
-msgid ""
-"An export file already exists. First, delete it via the attachments and then "
-"re-generate it."
-msgstr ""
-"Un fichier d'exportation existe déjà. Tout d'abord, supprimez-le via les "
-"pièces jointes, puis régénérez-le."
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
@@ -283,6 +281,11 @@ msgid "DAS2 lines generated. "
 msgstr "Lignes DAS2 générées. "
 
 #. module: l10n_fr_das2
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_datas
+msgid "Declaration File"
+msgstr ""
+
+#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__display_name
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__display_name
 msgid "Display Name"
@@ -329,11 +332,6 @@ msgid ""
 "Field %(field_name)s (partner %(partner)s) has value %(value)s: it is bigger "
 "than the maximum size (%(size)d characters)."
 msgstr ""
-
-#. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_datas
-msgid "File Export"
-msgstr "Exporter le fichier"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_name
@@ -836,6 +834,17 @@ msgstr "Historique de communication du site web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#, python-format
+#~ msgid ""
+#~ "An export file already exists. First, delete it via the attachments and "
+#~ "then re-generate it."
+#~ msgstr ""
+#~ "Un fichier d'exportation existe déjà. Tout d'abord, supprimez-le via les "
+#~ "pièces jointes, puis régénérez-le."
+
+#~ msgid "File Export"
+#~ msgstr "Exporter le fichier"
 
 #, python-format
 #~ msgid ""
