@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-06-08 08:07+0000\n"
+"PO-Revision-Date: 2023-06-08 11:08+0000\n"
 "Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -109,7 +109,7 @@ msgstr "Autres"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__other_income_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__other_income
 msgid "Autres rémunérations"
-msgstr ""
+msgstr "Autres rémunérations"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_amount
