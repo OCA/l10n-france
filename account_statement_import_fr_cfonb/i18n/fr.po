@@ -6,46 +6,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-06-08 16:08+0000\n"
+"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
 "Language-Team: none\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_statement_import_fr_cfonb
 #: model_terms:ir.ui.view,arch_db:account_statement_import_fr_cfonb.account_statement_import_form
 msgid "CFONB (French format)"
-msgstr ""
+msgstr "CFONB (format français)"
 
 #. module: account_statement_import_fr_cfonb
 #: model:ir.model,name:account_statement_import_fr_cfonb.model_account_statement_import
 msgid "Import Bank Statement Files"
-msgstr ""
+msgstr "Importer des fichiers de relevé de compte"
 
 #. module: account_statement_import_fr_cfonb
 #: model:ir.model,name:account_statement_import_fr_cfonb.model_account_journal
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: account_statement_import_fr_cfonb
 #. odoo-python
 #: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
 #, python-format
 msgid "The CFONB file is inconsistent. Error on line %d."
-msgstr ""
+msgstr "Le fichier CFONB est incohérent. Erreur sur la ligne %d."
 
 #. module: account_statement_import_fr_cfonb
 #. odoo-python
 #: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
 #, python-format
 msgid "The file is empty."
-msgstr ""
+msgstr "Le fichier est vide."
 
 #. module: account_statement_import_fr_cfonb
 #. odoo-python
 #: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
 #, python-format
 msgid "The file is not divisible in 120 char lines"
-msgstr ""
+msgstr "Le fichier n'est pas divisible en lignes de 120 caractères"
