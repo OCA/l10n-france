@@ -134,7 +134,7 @@ class L10nFrDas2(models.Model):
     )
     attachment_id = fields.Many2one("ir.attachment", readonly=True)
     attachment_datas = fields.Binary(
-        related="attachment_id.datas", string="File Export"
+        related="attachment_id.datas", string="Declaration File"
     )
     attachment_name = fields.Char(related="attachment_id.name", string="Filename")
     unencrypted_attachment_id = fields.Many2one(
@@ -730,7 +730,7 @@ class L10nFrDas2(models.Model):
         if self.attachment_id:
             raise UserError(
                 _(
-                    "An export file already exists. First, delete it via the "
+                    "A declaration file already exists. First, delete it via the "
                     "attachments and then re-generate it."
                 )
             )
