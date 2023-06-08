@@ -13,42 +13,50 @@
             ref="l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration"
         />
         <field name="auto_delete" eval="False" />
-        <field name="email_from">${object.company_id.email}</field>
-        <field name="email_to">${object.company_id.intrastat_email_list}</field>
+        <field name="email_from">{{object.company_id.email}}</field>
+        <field name="email_to">{{object.company_id.intrastat_email_list}}</field>
         <field
             name="subject"
-        >DES ${object.year_month} for ${object.company_id.name}</field>
+        >DES {{object.year_month}} for {{object.company_id.name}}</field>
         <field name="body_html" type="html">
 <div style="margin: 0px; padding: 0px;">
 <p
                     style="margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, Helvetica, sans-serif"
-                >I would like to remind you that we are approaching the deadline for the DES declaration for month ${object.year_month}.<br
-                    /><br />
+                >I would like to remind you that we are approaching the deadline for the DES declaration for month <t
+                        t-out="object.year_month"
+                    />.<br /><br />
 
 As there were no DES for that month in Odoo, a draft declaration has been generated automatically.<br
                     /><br />
 
-% if ctx.get('exception'):
+<t t-if="ctx.get('exception')">
 When trying to generate the DES lines, the following error was encountered:<br /><br />
 
-${ctx.get('error_msg')}<br /><br />
+<t t-out="ctx.get('error_msg')" /><br /><br />
 
 You should solve this error, then go to the menu <em
-                    >Invoicing &gt; Reporting &gt; Intrastat &gt;  DES</em>, open the declaration of month ${object.year_month} and click on the button <em
-                    >Re-generate lines</em>.<br /><br />
+                        >Invoicing &gt; Reporting &gt; Intrastat &gt; DES</em>, open the declaration of month <t
+                            t-out="object.year_month"
+                        /> and click on the button <em>Re-generate lines</em>.<br /><br
+                        />
+</t>
 
-% else:
-% if object.num_decl_lines != 0:
-This draft DES contains ${object.num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'} and the total amount is ${object.total_amount} ${object.currency_id.symbol}.<br
-                    /><br />
-% else:
+<t t-else="">
+<t t-if="object.num_decl_lines">
+                This draft DES contains <t
+                                t-out="object.num_decl_lines"
+                            /> line(s) and the total amount is <t
+                                t-out="format_amount(object.total_amount, object.currency_id)"
+                            />.<br /><br />
+</t>
+<t t-else="">
 This draft DES generated automatically by Odoo doesn't contain any line.<br /><br />
-% endif
+</t>
 
 Go and check this declaration in the menu <em
-                    >Invoicing > Reporting > Intrastat > DES</em>.<br /><br />
+                        >Invoicing > Reporting > Intrastat > DES</em>.<br /><br />
 
-% endif
+</t>
 </p>
 
 <p
