@@ -17,7 +17,7 @@ class ResPartner(models.Model):
             ("attendance_fee", "Jetons de présence"),
             ("copyright_royalties", "Droits d'auteur"),
             ("licence_royalties", "Droits d'inventeur"),
-            ("other_income", "Autre rémunérations"),
+            ("other_income", "Autres rémunérations"),
             ("allowance", "Indemnités et remboursements"),
         ],
         string="DAS2 Type",
