@@ -93,14 +93,14 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__other_income_amount
-#: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__other_income
-msgid "Autre rémunérations"
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_other
+msgid "Autres"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_other
-msgid "Autres"
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__other_income_amount
+#: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__other_income
+msgid "Autres rémunérations"
 msgstr ""
 
 #. module: l10n_fr_das2
