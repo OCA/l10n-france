@@ -1,0 +1,51 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_statement_import_fr_cfonb
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: account_statement_import_fr_cfonb
+#: model_terms:ir.ui.view,arch_db:account_statement_import_fr_cfonb.account_statement_import_form
+msgid "CFONB (French format)"
+msgstr ""
+
+#. module: account_statement_import_fr_cfonb
+#: model:ir.model,name:account_statement_import_fr_cfonb.model_account_statement_import
+msgid "Import Bank Statement Files"
+msgstr ""
+
+#. module: account_statement_import_fr_cfonb
+#: model:ir.model,name:account_statement_import_fr_cfonb.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: account_statement_import_fr_cfonb
+#. odoo-python
+#: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
+#, python-format
+msgid "The CFONB file is inconsistent. Error on line %d."
+msgstr ""
+
+#. module: account_statement_import_fr_cfonb
+#. odoo-python
+#: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
+#, python-format
+msgid "The file is empty."
+msgstr ""
+
+#. module: account_statement_import_fr_cfonb
+#. odoo-python
+#: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
+#, python-format
+msgid "The file is not divisible in 120 char lines"
+msgstr ""
