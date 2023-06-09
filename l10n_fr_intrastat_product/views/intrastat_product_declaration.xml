@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2010-2020 Akretion France (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+    <record id="intrastat_product_computation_line_view_form" model="ir.ui.view">
+        <field name="model">intrastat.product.computation.line</field>
+        <field
+            name="inherit_id"
+            ref="intrastat_product.intrastat_product_computation_line_view_form"
+        />
+        <field name="arch" type="xml">
+            <field name="transaction_id" position="before">
+                <field
+                    name="fr_regime_id"
+                    attrs="{'invisible': [('company_country_code', '!=', 'FR')], 'required': [('company_country_code', '=', 'FR')]}"
+                />
+            </field>
+            <field name="vat" position="attributes">
+                    <attribute
+                    name="attrs"
+                >{'invisible': [('declaration_type', '=', 'arrivals'), ('company_country_code', '=', 'FR')]}</attribute>
+            </field>
+        </field>
+    </record>
+    <record id="intrastat_product_computation_line_view_tree" model="ir.ui.view">
+        <field name="model">intrastat.product.computation.line</field>
+        <field
+            name="inherit_id"
+            ref="intrastat_product.intrastat_product_computation_line_view_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="transaction_code" position="before">
+                <field
+                    name="fr_regime_code"
+                    attrs="{'column_invisible': [('parent.company_country_code', '!=', 'FR')]}"
+                />
+            </field>
+            <field name="vat" position="attributes">
+                    <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.declaration_type', '=', 'arrivals'), ('parent.company_country_code', '=', 'FR')]}</attribute>
+            </field>
+        </field>
+</record>
+    <record id="intrastat_product_declaration_line_view_form" model="ir.ui.view">
+        <field name="model">intrastat.product.declaration.line</field>
+        <field
+            name="inherit_id"
+            ref="intrastat_product.intrastat_product_declaration_line_view_form"
+        />
+        <field name="arch" type="xml">
+            <field name="transaction_id" position="before">
+                <field
+                    name="fr_regime_id"
+                    attrs="{'invisible': [('company_country_code', '!=', 'FR')]}"
+                />
+            </field>
+            <field name="vat" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('declaration_type', '=', 'arrivals'), ('company_country_code', '=', 'FR')]}</attribute>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="intrastat_product_declaration_line_view_tree" model="ir.ui.view">
+        <field name="model">intrastat.product.declaration.line</field>
+        <field
+            name="inherit_id"
+            ref="intrastat_product.intrastat_product_declaration_line_view_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="transaction_code" position="before">
+                <field
+                    name="fr_regime_code"
+                    attrs="{'column_invisible': [('parent.company_country_code', '!=', 'FR')]}"
+                />
+            </field>
+            <field name="vat" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.declaration_type', '=', 'arrivals'), ('parent.company_country_code', '=', 'FR')]}</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record
+        id="l10n_fr_intrastat_product_declaration_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">EMEBI</field>
+        <field name="res_model">intrastat.product.declaration</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+    </record>
+    <menuitem
+        id="l10n_fr_intrastat_product_declaration_menu"
+        parent="intrastat_base.menu_intrastat_base_root"
+        action="l10n_fr_intrastat_product_declaration_action"
+        sequence="10"
+    />
+</odoo>
