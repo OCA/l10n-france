@@ -19,6 +19,7 @@ setuptools.setup(
         'odoo-addon-l10n_fr_hr_check_ssnid>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_intrastat_product>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_intrastat_service>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_fr_mis_reports>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_siret>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_siret_lookup>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_state>=16.0dev,<16.1dev',
