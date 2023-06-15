@@ -471,7 +471,7 @@ class AccountFrFecOca(models.TransientModel):
             sql_query += " AND am.state IN ('draft', 'posted') "
 
         sql_query += """
-        GROUP BY aml.account_id, aat.type, rp.id
+        GROUP BY aml.account_id, aat.type, rp.id, aat.id
         HAVING round(sum(aml.balance), %(currency_digits)s) != 0
         AND aat.type in ('receivable', 'payable')
         """
