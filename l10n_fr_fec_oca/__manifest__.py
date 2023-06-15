@@ -6,7 +6,7 @@
 {
     "name": "France - FEC",
     "category": "Accounting",
-    "version": "14.0.1.1.1",
+    "version": "14.0.1.2.0",
     "license": "LGPL-3",
     "summary": "Fichier d'Échange Informatisé (FEC) for France",
     "author": "Akretion,Odoo Community Association (OCA)",
