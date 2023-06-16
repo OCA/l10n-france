@@ -1,71 +1,25 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* l10n_fr_fec
+# 	* l10n_fr_fec_oca
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-17 13:45+0000\n"
-"PO-Revision-Date: 2021-05-14 18:47+0000\n"
-"Last-Translator: Yves Le Doeuff <yld@alliasys.fr>\n"
+"POT-Creation-Date: 2023-06-16 10:25+0000\n"
+"PO-Revision-Date: 2023-06-16 10:37+0000\n"
+"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "# 10"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "# 11"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "# 12"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "# 13"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "# 14"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "# 15"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "# 16"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "# 17"
-msgstr ""
+"Plural-Forms: \n"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__ascii
 msgid "ASCII"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_account_type_ids
-msgid "Account Types"
-msgstr "Types de comptes"
+msgstr "ASCII"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_account_ids
@@ -75,7 +29,7 @@ msgstr "Comptes"
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__all
 msgid "All"
-msgstr "Tout"
+msgstr "Tous"
 
 #. module: l10n_fr_fec_oca
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
@@ -83,34 +37,9 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Column"
-msgstr "Colonne"
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Comment"
-msgstr "Commentaire"
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "CompAuxLib"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "CompAuxNum"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "CompteLib"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "CompteNum"
-msgstr ""
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__company_id
+msgid "Company"
+msgstr "Société"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__create_uid
@@ -123,49 +52,14 @@ msgid "Created on"
 msgstr "Créé le"
 
 #. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Credit"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__date_range_id
 msgid "Date Range"
 msgstr "Période"
 
 #. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "DateLet"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Debit"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__display_name
 msgid "Display Name"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "EcritureDate"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "EcritureLet"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "EcritureLib"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "EcritureNum"
-msgstr ""
+msgstr "Nom affiché"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__encoding
@@ -185,18 +79,13 @@ msgstr "Type d'export"
 #. module: l10n_fr_fec_oca
 #: model:ir.actions.act_window,name:l10n_fr_fec_oca.account_fr_fec_oca_action
 #: model:ir.ui.menu,name:l10n_fr_fec_oca.account_fr_fec_oca_menu
-msgid "FEC"
-msgstr ""
+msgid "FEC (OCA)"
+msgstr "FEC (OCA)"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__fec_data
 msgid "FEC File"
 msgstr "Fichier FEC"
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "FEC File Generation by OCA"
-msgstr "Génération Fichier FEC (OCA)"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model,name:l10n_fr_fec_oca.model_account_fr_fec_oca
@@ -207,6 +96,17 @@ msgstr "Fichier Echange Informatise"
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__delimiter
 msgid "Field Delimiter"
 msgstr "Séparateur de champ"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,help:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_identifier
+msgid ""
+"Field on partner used for the column CompAuxNum. If you select 'Reference', "
+"make sure all partners used in journal items have a Reference and that this "
+"reference is unique."
+msgstr ""
+"Champ du partenaire utilisé pour la colonne CompAuxNum. Si vous sélectionnez "
+"\"Référence\", assurez-vous que tous les partenaires utilisés dans les "
+"écritures comptables ont une référence et que cette référence est unique."
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__filename
@@ -220,89 +120,66 @@ msgstr "Générer"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__id
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_identifier__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__iso8859_15
 msgid "ISO-8859-15"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Idevise"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "JournalCode"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "JournalLib"
-msgstr ""
+msgstr "ISO-8859-15"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Dernière modification le"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Dernière mise à jour par"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Dernière mise à jour le"
 
 #. module: l10n_fr_fec_oca
+#. odoo-python
 #: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:0
 #, python-format
 msgid "Missing SIRET on company %s."
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Montantdevise"
-msgstr ""
+msgstr "SIRET manquant sur la société %s."
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__nonofficial
 msgid "Non-official FEC report (posted and draft entries)"
-msgstr ""
+msgstr "Rapport FEC non officiel (écritures comptabilisées et brouillons)"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__official
 msgid "Official FEC report (posted entries only)"
-msgstr "Rapport FEC officiel (entrées postées uniquement)"
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Options"
-msgstr ""
+msgstr "Rapport FEC officiel (écritures comptabilisées uniquement)"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_option
 msgid "Partner Export Option"
-msgstr "Option d'export du partenaire"
+msgstr "Option d'export pour le partenaire"
 
 #. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "PieceDate"
-msgstr ""
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_identifier
+msgid "Partner Identifier"
+msgstr "Identifiant du partenaire"
 
 #. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "PieceRef"
-msgstr ""
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__receivable_payable
+msgid "Receivable and Payable Accounts"
+msgstr "Comptes client et fournisseur"
 
 #. module: l10n_fr_fec_oca
-#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__types
-msgid "Selected Account Types"
-msgstr "Types de comptes sélectionnés"
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_identifier__ref
+msgid "Reference"
+msgstr "Référence"
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__accounts
@@ -317,51 +194,16 @@ msgstr "Date de début"
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__delimiter__tab
 msgid "Tab"
-msgstr ""
+msgstr "Tabulation"
 
 #. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Technical Info"
-msgstr "Info technique"
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "Technical Name"
-msgstr "Nom technique"
-
-#. module: l10n_fr_fec_oca
+#. odoo-python
 #: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:0
 #, python-format
 msgid "The start date must be before the end date."
-msgstr ""
+msgstr "La date de début doit être antérieure à la date de fin."
 
 #. module: l10n_fr_fec_oca
 #: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__utf-8
 msgid "UTF-8"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "ValidDate"
-msgstr ""
-
-#. module: l10n_fr_fec_oca
-#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
-msgid "We use partner.ref (w/ fallback on 'ID' + partner.id)"
-msgstr ""
-
-#~ msgid "Non-official FEC report (posted and unposted entries)"
-#~ msgstr "Rapport FEC non-officiel (entrées postées et non-postées)"
-
-#~ msgid "FEC is for French companies only !"
-#~ msgstr "Le FEC est uniquement pour les sociétés françaises !"
-
-#~ msgid "Missing VAT number for company %s"
-#~ msgstr "Numéro de TVA manquant sur la société %s"
-
-#~ msgid ""
-#~ "The encoding of this text file is UTF-8. The structure of file is CSV "
-#~ "separated by pipe '|'."
-#~ msgstr ""
-#~ "Ce fichier texte est encodé en UTF-8. Le format du fichier est CSV avec "
-#~ "séparateur '|'."
+msgstr "UTF-8"
