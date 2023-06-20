@@ -13,6 +13,7 @@
             ref="l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration"
         />
         <field name="auto_delete" eval="False" />
+        <field name="lang">{{object.company_id.partner_id.lang}}</field>
         <field name="email_from">{{object.company_id.email}}</field>
         <field name="email_to">{{object.company_id.intrastat_email_list}}</field>
         <field
