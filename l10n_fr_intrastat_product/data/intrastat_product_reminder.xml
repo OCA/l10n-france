@@ -32,46 +32,69 @@
                 ref="intrastat_product.model_intrastat_product_declaration"
             />
             <field name="auto_delete" eval="False" />
-            <field
-                name="email_from"
-            >${object.company_id.email or 'odoo@example.com'}</field>
-            <field name="email_to">${object.company_id.intrastat_email_list}</field>
+            <field name="email_from">{{object.company_id.email}}</field>
+            <field name="email_to">{{object.company_id.intrastat_email_list}}</field>
             <field
                 name="subject"
-            >${object.declaration_type} EMEBI ${object.year_month} for ${object.company_id.name}</field>
-            <field
-                name="body_html"
-            ><![CDATA[
-<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+            >{{object.declaration_type}} EMEBI {{object.year_month}} for {{object.company_id.name}}</field>
+            <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+<p
+                        style="margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, Helvetica, sans-serif"
+                    >
+I would like to remind you that we are approaching the deadline for the EMEBI for month <t
+                            t-out="object.year_month"
+                        />.<br /><br />
 
-<p>I would like to remind you that we are approaching the deadline for the EMEBI for month ${object.year_month}.</p>
+        As there were no <t
+                            t-out="object.declaration_type"
+                        /> EMEBI for that month in Odoo, a draft <t
+                            t-out="object.declaration_type"
+                        /> EMEBI has been generated automatically by Odoo.<br /><br />
 
-<p>As there were no ${object.declaration_type} EMEBI for that month in Odoo, a draft ${object.declaration_type} EMEBI has been generated automatically by Odoo.</p>
+<t t-if="ctx.get('exception')">
+When trying to generate the lines of the ${object.declaration_type} EMEBI, the following error was encountered:<br
+                            /><br />
 
-% if ctx.get('exception'):
-<p>When trying to generate the lines of the ${object.declaration_type} EMEBI, the following error was encountered:</p>
+<t t-out="ctx.get('error_msg')" /><br /><br />
 
-<p>${ctx.get('error_msg')}</p>
+        You should solve this error, then go to the menu <em
+                            >Invoicing &gt; Reporting &gt; Intrastat &gt; EMEBI</em>, open the <t
+                                t-out="object.declaration_type"
+                            /> declaration for month <t
+                                t-out="object.year_month"
+                            /> and click on the button <em
+                            >Generate lines from invoices</em>.<br /><br />
+</t>
 
-<p>You should solve this error, then go to the menu "Invoicing > Reporting > Intrastat > EMEBI", open the ${object.declaration_type} declaration for month ${object.year_month} and click on the button "Generate lines from invoices".</p>
+<t t-else="">
+<t t-if="object.computation_line_ids">
+                This draft <t t-out="object.declaration_type" /> EMEBI contains <t
+                                    t-out="len(object.computation_line_ids)"
+                                /> transaction line(s).<br /><br />
+</t>
+<t t-else="">
+                This draft <t
+                                    t-out="object.declaration_type"
+                                /> EMEBI generated automatically by Odoo doesn't contain any transaction line.<br
+                                /><br />
+</t>
 
-% else:
-% if object.num_lines and object.num_lines > 0:
-<p>This draft ${object.declaration_type} EMEBI contains ${object.num_decl_lines} ${object.num_decl_lines == 1 and 'line' or 'lines'}.</p>
-% else:
-<p>This draft ${object.declaration_type} EMEBI generated automatically by Odoo doesn't contain any line.</p>
-% endif
+        Go and check this declaration in Odoo in the menu <em
+                            >Invoicing &gt; Reporting &gt; Intrastat &gt; EMEBI</em>.<br
+                            /><br />
 
-<p>Go and check this declaration in Odoo in the menu "Invoicing > Reporting > Intrastat > EMEBI".</p>
+</t>
+</p>
 
-% endif
-
-<p>
---
+<p
+                        style="margin: 0px; padding: 0px; font-size: 10px; font-family: 'Courier New', Courier, Prestige, monospace"
+                    >
+-- <br />
 Automatic e-mail sent by Odoo.
 </p>
 </div>
-]]></field>
+</field>
         </record>
     </data>
 </odoo>
