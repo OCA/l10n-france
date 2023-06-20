@@ -182,7 +182,7 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_computation_line
-msgid "Intrastat Product Computataion Lines"
+msgid "Intrastat Product Computation Lines"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
