@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-29 11:32+0000\n"
-"PO-Revision-Date: 2018-12-29 11:32+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2023-06-21 01:10+0000\n"
+"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_intrastat_product
 #: model:mail.template,body_html:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
@@ -75,17 +76,64 @@ msgid ""
 "</p>\n"
 "</div>\n"
 msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"<p style=\"margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, "
+"Helvetica, sans-serif\">\n"
+"Je voudrais vous rappeler que nous approchons de la date limite pour l'EMEBI "
+"du mois <t t-out=\"object.year_month\"></t>.<br><br>\n"
+"\n"
+"        Comme il n'y avait pas d'EMEBI <t t-out=\"dict(object.fields_get("
+"'declaration_type', 'selection')['declaration_type']['selection'])[object."
+"declaration_type]\"></t> pour ce mois dans Odoo, un brouillon d'EMEBI <t "
+"t-out=\"dict(object.fields_get('declaration_type', "
+"'selection')['declaration_type']['selection'])[object.declaration_type]\"></"
+"t> a été généré automatiquement par Odoo.<br><br>\n"
+"\n"
+"<t t-if=\"ctx.get('exception')\">\n"
+"                En essayant de générer les lignes de l'EMEBI <t t-out=\"dict"
+"(object.fields_get('declaration_type', "
+"'selection')['declaration_type']['selection'])[object.declaration_type]\"></"
+"t>, l'erreur suivante a été rencontrée :<br><br>\n"
+"\n"
+"<t t-out=\"ctx.get('error_msg')\"></t><br><br>Vous devez résoudre cette "
+"erreur, puis aller dans le menu <em>Facturation &gt; Analyse &gt; EMEBI/DES "
+"&gt; EMEBI</em>, ouvrir la déclaration <t t-out=\"dict(object.fields_get("
+"'declaration_type', 'selection')['declaration_type']['selection'])[object."
+"declaration_type]\"></t> pour le mois <t t-out=\"object.year_month\"></t> et "
+"cliquer sur le bouton <em>Générer les lignes à partir des "
+"factures</em>.<br><br>\n"
+"</t>\n"
+"\n"
+"<t t-else=\"\">\n"
+"<t t-if=\"object.computation_line_ids\">\n"
+"Ce brouillon d'EMEBI <t t-if=\"object.computation_line_ids\"> <t t-out=\"dict"
+"(object.fields_get('declaration_type', "
+"'selection')['declaration_type']['selection'])[object.declaration_type]\"></"
+"t> contient <t t-out=\"len(object.computation_line_ids)\"></t> ligne(s) "
+"d'opération.<br><br></t><t t-else=\"\">Ce brouillon d'EMEBI <t t-out=\"dict"
+"(object.fields_get('declaration_type', "
+"'selection')['declaration_type']['selection'])[object.declaration_type]\"></"
+"t> généré automatiquement par Odoo ne contient aucune ligne "
+"d'opération.<br><br></t>Allez vérifier cette déclaration dans Odoo dans le "
+"menu <em>Facturation &gt; Analyse &gt; EMEBI/DES &gt; "
+"EMEBI</em>.<br><br></t></p>\n"
+"\n"
+"<p style=\"margin: 0px; padding: 0px; font-size: 10px; font-family: 'Courier "
+"New', Courier, Prestige, monospace\">\n"
+"-- <br>\n"
+"E-mail automatique envoyé par Odoo</p>\n"
+"</div>\n"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__active
 msgid "Active"
-msgstr ""
+msgstr "Actif"
 
 #. module: l10n_fr_intrastat_product
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_search
 msgid "Archived"
-msgstr ""
+msgstr "Archivé"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields.selection,name:l10n_fr_intrastat_product.selection__intrastat_fr_regime__declaration_type__arrivals
@@ -102,11 +150,14 @@ msgid ""
 "January 1st 2021 and companies in Northern Ireland have a new VAT number "
 "starting with 'XI'."
 msgstr ""
+"Mauvais numéro de TVA '%(vat)s' sur la ligne %(line_number)d. Le Brexit a eu "
+"lieu le 1er janvier 2021 et les entreprises d'Irlande du Nord ont un nouveau "
+"numéro de TVA commençant par 'XI'."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__code
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_res_company
@@ -118,17 +169,18 @@ msgstr "Sociétés"
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_res_config_settings__fr_intrastat_accreditation
 msgid "Company identifier for Intrastat file export. Size: 4 characters."
 msgstr ""
+"Identifiant de la société pour la génération de fichiers Intrastat. Taille : "
+"4 caractères."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_res_config_settings
-#, fuzzy
 msgid "Config Settings"
-msgstr "res.config.settings"
+msgstr "Configuration"
 
 #. module: l10n_fr_intrastat_product
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_form
 msgid "Configuration"
-msgstr ""
+msgstr "Configuration"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__create_uid
@@ -150,13 +202,13 @@ msgstr "Numéro d'habilitation délivré par la douane"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__declaration_type
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_search
 msgid "Declaration Type"
-msgstr ""
+msgstr "Type de déclaration"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__description
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_form
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields.selection,name:l10n_fr_intrastat_product.selection__intrastat_fr_regime__declaration_type__dispatches
@@ -167,26 +219,26 @@ msgstr "Expéditions"
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__display_name
 msgid "Display Name"
-msgstr "Afficher le nom"
+msgstr "Nom affiché"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.actions.act_window,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_action
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_declaration
 #: model:ir.ui.menu,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_menu
 msgid "EMEBI"
-msgstr ""
+msgstr "EMEBI"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.actions.server,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron
 #: model:mail.template,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
 msgid "EMEBI Reminder"
-msgstr ""
+msgstr "Rappel EMEBI"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__fiscal_value_multiplier
 msgid "Fiscal Value Multiplier"
-msgstr ""
+msgstr "Multiplicateur de valeur fiscale"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__id
@@ -199,6 +251,7 @@ msgstr "ID"
 #, python-format
 msgid "In France, Arrival EMEBI can only be Exempt or Extended."
 msgstr ""
+"En France, l'EMEBI à l'introduction ne peut être qu'exemptée ou détaillée."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -206,50 +259,51 @@ msgstr ""
 #, python-format
 msgid "In France, an arrival EMEBI cannot have a 'standard' reporting level."
 msgstr ""
+"En France, une EMEBI à l'introduction ne peut pas avoir un niveau de "
+"déclaration \"standard\"."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_computation_line
 msgid "Intrastat Product Computation Lines"
-msgstr "Lignes de calcul de la DEB"
+msgstr "Lignes de calcul de l'EMEBI"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_declaration_line
 msgid "Intrastat Product Declaration Lines"
-msgstr "Lignes de DEB"
+msgstr "Lignes de l'EMEBI"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_unit
 msgid "Intrastat Supplementary Units"
-msgstr "Unités de mesure supplémentaire pour la DEB"
+msgstr "Unités de mesure supplémentaire pour l'EMEBI"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_fr_regime
 msgid "Intrastat: Code regime for France"
-msgstr ""
+msgstr "Intrastat : code régime pour la France"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_stock_location
 msgid "Inventory Locations"
-msgstr "Emplacement de stock"
+msgstr "Emplacements de stock"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__is_fiscal_only
 msgid "Is fiscal only ?"
-msgstr "Données fiscales seulement ?"
+msgstr "Données fiscales uniquement ?"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_unit__fr_xml_label
 msgid "Label for DEB"
-msgstr "Libellé pour la DEB"
+msgstr "Libellé pour l'EMEBI"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_unit__fr_xml_label
-#, fuzzy
 msgid ""
 "Label used in the XML file export of the French Intrastat Product "
 "Declaration for this supplementary unit of measure."
 msgstr ""
-"Libellé utilisé dans le fichier d'export XML pour la DEB pour cette unité de "
+"Libellé utilisé dans le fichier d'export XML de l'EMEBI pour cette unité de "
 "mesure supplémentaire."
 
 #. module: l10n_fr_intrastat_product
@@ -260,19 +314,19 @@ msgstr "Dernière modification le"
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__write_uid
 msgid "Last Updated by"
-msgstr "Dernière modification par"
+msgstr "Dernière mise à jour par"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__write_date
 msgid "Last Updated on"
-msgstr "Dernière modification le"
+msgstr "Dernière mise à jour le"
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing Country Code of Origin/Destination on line %d."
-msgstr ""
+msgstr "Code pays d'origine/destination manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -286,7 +340,7 @@ msgstr "Code S.H. manquant sur la ligne %d."
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing VAT number on line %d."
-msgstr ""
+msgstr "Numéro de TVA manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -296,6 +350,8 @@ msgid ""
 "Missing department. To set it, set the country and the zip code on this "
 "partner."
 msgstr ""
+"Département manquant. Pour qu'il soit renseigné, définissez le pays et le "
+"code postal sur ce partenaire."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -309,14 +365,14 @@ msgstr "Valeur fiscale manquante sur la ligne %d."
 #: code:addons/l10n_fr_intrastat_product/models/stock.py:0
 #, python-format
 msgid "Missing partner on warehouse '%s'."
-msgstr ""
+msgstr "Partenaire manquant sur l'entrepôt \"%s\"."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing product country of origin code on line %d."
-msgstr ""
+msgstr "Code du pays d'origine de l'article manquant sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -342,12 +398,12 @@ msgstr "Mode de transport manquant sur la ligne %d."
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__name
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: l10n_fr_intrastat_product
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_search
 msgid "Name or Code"
-msgstr ""
+msgstr "Nom ou code"
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -357,6 +413,9 @@ msgid ""
 "No XML file generated because the <b>Customs Accreditation Identifier</b> is "
 "not set on the accounting configuration page of the company '%s'."
 msgstr ""
+"Aucun fichier XML n'est généré car le <b>numéro d'habilitation délivré par "
+"la douane</b> n'est pas défini sur la page de configuration de la "
+"comptabilité de la société \"%s\"."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -377,7 +436,7 @@ msgstr "Nombre de lignes de déclaration"
 #, python-format
 msgid "Pro.dou@ne only accepts XML file upload for the original declaration."
 msgstr ""
-"Pro.dou@ne accepte les fichiers XML uniquement pour la déclaration d'origine."
+"Pro.dou@ne accepte les fichiers XML uniquement pour la déclaration initiale."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -386,7 +445,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration_line__fr_regime_id
 #, python-format
 msgid "Regime"
-msgstr ""
+msgstr "Régime"
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -395,20 +454,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration_line__fr_regime_code
 #, python-format
 msgid "Regime Code"
-msgstr ""
+msgstr "Code régime"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.actions.act_window,name:l10n_fr_intrastat_product.intrastat_fr_regime_action
 #: model:ir.ui.menu,name:l10n_fr_intrastat_product.intrastat_fr_regime_menu
 msgid "Regime Codes"
-msgstr ""
+msgstr "Codes régime"
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Region Code is not set on line %d."
-msgstr ""
+msgstr "Le code régional n'est pas défini sur la ligne %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -424,22 +483,23 @@ msgstr "Le SIRET n'est pas renseigné sur la société '%s'."
 msgid ""
 "This EMEBI has been auto-generated by the EMEBI reminder scheduled action."
 msgstr ""
+"Cette EMEBI a été générée automatiquement par l'action planifiée de rappel "
+"de l'EMEBI."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.constraint,message:l10n_fr_intrastat_product.constraint_intrastat_fr_regime_code_unique
 msgid "This code regime already exists."
-msgstr ""
+msgstr "Ce code régime existe déjà."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
-#, fuzzy
 msgid "Total Fiscal Amount"
-msgstr "Montant total"
+msgstr "Total fiscal"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
 msgid "Total fiscal amount in company currency of the declaration."
-msgstr ""
+msgstr "Total fiscal dans la devise de la société de la déclaration."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -453,7 +513,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_fr_regime__fiscal_value_multiplier
 msgid "Used to compute the total fiscal value of the declaration."
-msgstr ""
+msgstr "Utilisé pour calculer le total fiscal de la déclaration."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_stock_warehouse
@@ -467,6 +527,9 @@ msgid ""
 "['selection'])[object.declaration_type]}} EMEBI {{object.year_month}} for "
 "{{object.company_id.name}}"
 msgstr ""
+"EMEBI {{dict(object.fields_get('declaration_type', "
+"'selection')['declaration_type']['selection'])[object.declaration_type]}} "
+"{{object.year_month}} pour {{object.company_id.name}}"
 
 #~ msgid ""
 #~ "'0' for procedure codes 19 and 29, '-1' for procedure code 25, '1' for "
