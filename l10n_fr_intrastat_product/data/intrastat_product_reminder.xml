@@ -36,7 +36,7 @@
             <field name="email_to">{{object.company_id.intrastat_email_list}}</field>
             <field
                 name="subject"
-            >{{object.declaration_type}} EMEBI {{object.year_month}} for {{object.company_id.name}}</field>
+            >{{dict(object.fields_get('declaration_type', 'selection')['declaration_type']['selection'])[object.declaration_type]}} EMEBI {{object.year_month}} for {{object.company_id.name}}</field>
             <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
 <p
@@ -47,20 +47,21 @@ I would like to remind you that we are approaching the deadline for the EMEBI fo
                         />.<br /><br />
 
         As there were no <t
-                            t-out="object.declaration_type"
+                            t-out="dict(object.fields_get('declaration_type', 'selection')['declaration_type']['selection'])[object.declaration_type]"
                         /> EMEBI for that month in Odoo, a draft <t
-                            t-out="object.declaration_type"
+                            t-out="dict(object.fields_get('declaration_type', 'selection')['declaration_type']['selection'])[object.declaration_type]"
                         /> EMEBI has been generated automatically by Odoo.<br /><br />
 
 <t t-if="ctx.get('exception')">
-When trying to generate the lines of the ${object.declaration_type} EMEBI, the following error was encountered:<br
-                            /><br />
+                When trying to generate the lines of the <t
+                                t-out="dict(object.fields_get('declaration_type', 'selection')['declaration_type']['selection'])[object.declaration_type]"
+                            /> EMEBI, the following error was encountered:<br /><br />
 
 <t t-out="ctx.get('error_msg')" /><br /><br />
 
         You should solve this error, then go to the menu <em
                             >Invoicing &gt; Reporting &gt; Intrastat &gt; EMEBI</em>, open the <t
-                                t-out="object.declaration_type"
+                                t-out="dict(object.fields_get('declaration_type', 'selection')['declaration_type']['selection'])[object.declaration_type]"
                             /> declaration for month <t
                                 t-out="object.year_month"
                             /> and click on the button <em
@@ -69,13 +70,15 @@ When trying to generate the lines of the ${object.declaration_type} EMEBI, the f
 
 <t t-else="">
 <t t-if="object.computation_line_ids">
-                This draft <t t-out="object.declaration_type" /> EMEBI contains <t
+                This draft <t
+                                    t-out="dict(object.fields_get('declaration_type', 'selection')['declaration_type']['selection'])[object.declaration_type]"
+                                /> EMEBI contains <t
                                     t-out="len(object.computation_line_ids)"
                                 /> transaction line(s).<br /><br />
 </t>
 <t t-else="">
                 This draft <t
-                                    t-out="object.declaration_type"
+                                    t-out="dict(object.fields_get('declaration_type', 'selection')['declaration_type']['selection'])[object.declaration_type]"
                                 /> EMEBI generated automatically by Odoo doesn't contain any transaction line.<br
                                 /><br />
 </t>
