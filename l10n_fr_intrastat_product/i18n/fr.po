@@ -201,8 +201,8 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_computation_line
-msgid "Intrastat Product Computataion Lines"
-msgstr ""
+msgid "Intrastat Product Computation Lines"
+msgstr "Lignes de calcul de la DEB"
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_declaration_line
@@ -635,9 +635,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Intrastat Code"
 #~ msgstr "Type de DEB"
-
-#~ msgid "Intrastat Product Computation Lines"
-#~ msgstr "Lignes de calcul de la DEB"
 
 #~ msgid "Intrastat Product Declaration"
 #~ msgstr "DEB"
