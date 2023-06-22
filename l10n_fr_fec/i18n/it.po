@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-25 04:49+0000\n"
-"PO-Revision-Date: 2023-06-07 11:11+0000\n"
+"PO-Revision-Date: 2023-06-22 10:09+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-l10n-france-8-0/"
 "language/it/)\n"
@@ -109,7 +109,7 @@ msgstr "Nome file"
 #. module: l10n_fr_fec
 #: field:account.fr.fec,fiscalyear_id:0
 msgid "Fiscal Year"
-msgstr "Anno Fiscale"
+msgstr "Anno fiscale"
 
 #. module: l10n_fr_fec
 #: view:account.fr.fec:l10n_fr_fec.account_fr_fec_view
