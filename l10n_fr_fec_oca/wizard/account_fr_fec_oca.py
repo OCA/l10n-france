@@ -17,7 +17,7 @@ import io
 import logging
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessDenied, UserError
 from odoo.tools import float_is_zero
 
 logger = logging.getLogger(__name__)
@@ -35,18 +35,26 @@ except ImportError:
 class AccountFrFecOca(models.TransientModel):
     _name = "account.fr.fec.oca"
     _description = "Ficher Echange Informatise"
+    _check_company_auto = True
 
-    date_range_id = fields.Many2one("date.range", string="Date Range")
+    company_id = fields.Many2one(
+        "res.company",
+        ondelete="cascade",
+        required=True,
+        default=lambda self: self.env.company,
+    )
+    date_range_id = fields.Many2one(
+        "date.range",
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+    )
     date_from = fields.Date(string="Start Date", required=True)
     date_to = fields.Date(string="End Date", required=True)
     encoding = fields.Selection(
         [
             ("iso8859_15", "ISO-8859-15"),
             ("utf-8", "UTF-8"),
-            # ('cp500', 'EBCDIC'),
             ("ascii", "ASCII"),
         ],
-        string="Encoding",
         default="iso8859_15",
         required=True,
     )
@@ -77,16 +85,28 @@ class AccountFrFecOca(models.TransientModel):
     partner_account_ids = fields.Many2many(
         "account.account",
         string="Accounts",
+        check_company=True,
+        domain="[('company_id', '=', company_id)]",
         default=lambda self: self._default_partner_account_ids(),
     )
+    partner_identifier = fields.Selection(
+        [
+            ("id", "ID"),
+            ("ref", "Reference"),
+        ],
+        required=True,
+        default="id",
+        help="Field on partner used for the column CompAuxNum. If you select "
+        "'Reference', make sure all partners used in journal items have a Reference "
+        "and that this reference is unique.",
+    )
     fec_data = fields.Binary("FEC File", readonly=True, attachment=True)
-    filename = fields.Char(string="Filename", size=256, readonly=True)
+    filename = fields.Char(size=256, readonly=True)
     export_type = fields.Selection(
         [
             ("official", "Official FEC report (posted entries only)"),
             ("nonofficial", "Non-official FEC report (posted and draft entries)"),
         ],
-        string="Export Type",
         required=True,
         default="official",
     )
@@ -111,7 +131,7 @@ class AccountFrFecOca(models.TransientModel):
         )
         return pay + rec
 
-    def do_query_unaffected_earnings(self):
+    def _do_query_unaffected_earnings(self):
         """Compute the sum of ending balances for all accounts that are
         of a type that does not bring forward the balance in new fiscal years.
         This is needed because we have to display only one line for the initial
@@ -162,7 +182,7 @@ class AccountFrFecOca(models.TransientModel):
             sql_query += " AND am.state = 'posted' "
         else:
             sql_query += " AND am.state IN ('draft', 'posted') "
-        company = self.env.company
+        company = self.company_id
         formatted_date_from = fields.Date.to_string(self.date_from).replace("-", "")
         date_from = self.date_from
         formatted_date_year = date_from.year
@@ -193,68 +213,75 @@ class AccountFrFecOca(models.TransientModel):
         return siren
 
     def _get_aux_fields(self, sql_args):
-        sql_aux_num_base = """
-        CASE WHEN rp.ref IS null OR rp.ref = ''
-        THEN COALESCE('ID' || rp.id, '')
-        ELSE replace(rp.ref, '|', '/')
-        END
+        aux_dict = {
+            "auxlib": """
+        COALESCE(REGEXP_REPLACE(replace(rp.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g'), '')
         """
-        sql_aux_lib_base = """
-        COALESCE(replace(replace(rp.name, '|', '/'), '\t', ''), '')
-        """
+        }
+        if self.partner_identifier == "ref":
+            aux_dict[
+                "auxnum"
+            ] = """
+            CASE WHEN rp.ref IS null OR rp.ref = ''
+            THEN COALESCE('ID' || rp.id, '')
+            ELSE REGEXP_REPLACE(replace(rp.ref, '|', '/'), '[\\t\\r\\n]', ' ', 'g')
+            END
+            """
+        else:
+            aux_dict["auxnum"] = """rp.id::text"""
+
         if self.partner_option == "types":
             sql_args["partner_account_type_ids"] = tuple(
                 self.partner_account_type_ids.ids
             )
-            return (
+            aux_sql = (
                 """
-            case when aat.id in %(partner_account_type_ids)s
-            then """
-                + sql_aux_num_base
-                + """
-            else ''
-            end
-            as CompAuxNum,
-            case when aat.id in %(partner_account_type_ids)s
-            then """
-                + sql_aux_lib_base
-                + """
-            else ''
-            end
-            as CompAuxLib,
-            """
-            )
-        elif self.partner_option == "accounts":
-            sql_args["partner_account_ids"] = tuple(self.partner_account_ids.ids)
-            return (
-                """
-            CASE WHEN aa.id IN %(partner_account_ids)s
-            THEN """
-                + sql_aux_num_base
-                + """
+            CASE WHEN aat.id IN %%(partner_account_type_ids)s
+            THEN %(auxnum)s
             ELSE ''
             END
             AS CompAuxNum,
-            CASE WHEN aa.id IN %(partner_account_ids)s
-            THEN """
-                + sql_aux_lib_base
-                + """
+            CASE WHEN aat.id IN %%(partner_account_type_ids)s
+            THEN %(auxlib)s
             ELSE ''
             END
             AS CompAuxLib,
             """
+                % aux_dict
+            )
+        elif self.partner_option == "accounts":
+            sql_args["partner_account_ids"] = tuple(self.partner_account_ids.ids)
+            aux_sql = (
+                """
+            CASE WHEN aa.id IN %%(partner_account_ids)s
+            THEN %(auxnum)s
+            ELSE ''
+            END
+            AS CompAuxNum,
+            CASE WHEN aa.id IN %%(partner_account_ids)s
+            THEN %(auxlib)s
+            ELSE ''
+            END
+            AS CompAuxLib,
+            """
+                % aux_dict
             )
         else:
-            return (
-                sql_aux_num_base
-                + "AS CompAuxNum, "
-                + sql_aux_lib_base
-                + "AS CompAuxLib,"
+            aux_sql = (
+                """
+            %(auxnum)s AS CompAuxNum, %(auxlib)s AS CompAuxLib,
+            """
+                % aux_dict
             )
+        return aux_sql
 
     # flake8: noqa: C901
     def generate_fec(self):
         self.ensure_one()
+        if not (
+            self.env.is_admin() or self.env.user.has_group("account.group_account_user")
+        ):
+            raise AccessDenied()
         # We choose to implement the flat file instead of the XML
         # file for 2 reasons :
         # 1) the XSD file impose to have the label on the account.move
@@ -266,7 +293,7 @@ class AccountFrFecOca(models.TransientModel):
         if self.date_from >= self.date_to:
             raise UserError(_("The start date must be before the end date."))
 
-        company = self.env.company
+        company = self.company_id
 
         header = [
             "JournalCode",  # 0
@@ -297,7 +324,7 @@ class AccountFrFecOca(models.TransientModel):
         if unaffected_earnings_xml_ref:
             # compute the benefit/loss of last year to add in the
             # initial balance of the current year earnings account
-            unaffected_earnings_results = self.do_query_unaffected_earnings()
+            unaffected_earnings_results = self._do_query_unaffected_earnings()
             unaffected_earnings_line = False
 
         # INITIAL BALANCE other than payable/receivable
@@ -486,25 +513,24 @@ class AccountFrFecOca(models.TransientModel):
         sql_query = (
             """
         SELECT
-            replace(replace(aj.code, '|', '/'), '\t', '') AS JournalCode,
-            replace(replace(aj.name, '|', '/'), '\t', '') AS JournalLib,
-            replace(replace(am.name, '|', '/'), '\t', '') AS EcritureNum,
+            REGEXP_REPLACE(replace(aj.code, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalCode,
+            REGEXP_REPLACE(replace(aj.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalLib,
+            REGEXP_REPLACE(replace(am.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS EcritureNum,
             TO_CHAR(am.date, 'YYYYMMDD') AS EcritureDate,
             aa.code AS CompteNum,
-            replace(replace(aa.name, '|', '/'), '\t', '') AS CompteLib,
+            REGEXP_REPLACE(replace(aa.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS CompteLib,
         """
             + aux_fields
             + """
             CASE
                 WHEN am.ref IS null OR am.ref = ''
                 THEN '-'
-                ELSE replace(replace(am.ref, '|', '/'), '\t', '')
+                ELSE REGEXP_REPLACE(replace(am.ref, '|', '/'), '[\\t\\r\\n]', ' ', 'g')
             END AS PieceRef,
             TO_CHAR(am.date, 'YYYYMMDD') AS PieceDate,
             CASE WHEN aml.name IS NULL OR aml.name = '' THEN '/'
-                WHEN aml.name SIMILAR TO '[\t|\\s|\n]*' THEN '/'
-                ELSE replace(replace(replace(replace(
-                aml.name, '|', '/'), '\t', ''), '\n', ''), '\r', '')
+                WHEN aml.name SIMILAR TO '[\\t|\\s|\\n]*' THEN '/'
+                ELSE REGEXP_REPLACE(replace(aml.name, '|', '/'), '[\\t\\n\\r]', ' ', 'g')
             END AS EcritureLib,
             replace(
                 CASE WHEN aml.debit = 0
@@ -527,13 +553,13 @@ class AccountFrFecOca(models.TransientModel):
             END AS DateLet,
             TO_CHAR(am.date, 'YYYYMMDD') AS ValidDate,
             CASE
-                WHEN aml.amount_currency IS NULL OR aml.amount_currency = 0
+                WHEN aml.currency_id IS NULL OR aml.currency_id = aml.company_currency_id OR aml.amount_currency IS NULL OR aml.amount_currency = 0
                 THEN ''
                 ELSE replace(to_char(
                     aml.amount_currency, '000000000000000D99'), '.', ',')
             END AS Montantdevise,
             CASE
-                WHEN aml.currency_id IS NULL
+                WHEN aml.currency_id IS NULL OR aml.currency_id = aml.company_currency_id OR aml.amount_currency IS NULL OR aml.amount_currency = 0
                 THEN ''
                 ELSE rc.name
             END AS Idevise
@@ -583,7 +609,7 @@ class AccountFrFecOca(models.TransientModel):
             {
                 "fec_data": base64.encodebytes(fecvalue),
                 # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
-                "filename": "{}FEC{}{}.txt".format(siren, end_date, suffix),
+                "filename": "%sFEC%s%s.txt" % (siren, end_date, suffix),
             }
         )
 

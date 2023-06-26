@@ -18,6 +18,7 @@
     },
     "data": [
         "security/ir.model.access.csv",
+        "security/ir_rule.xml",
         "wizard/account_fr_fec_oca_view.xml",
     ],
     "installable": True,
