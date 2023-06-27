@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-30 10:45+0000\n"
-"PO-Revision-Date: 2017-11-30 10:45+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2023-06-27 18:08+0000\n"
+"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
@@ -28,7 +29,7 @@ msgstr "Impossible de convertir le champ '%s' en ASCII"
 #: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom affiché"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
@@ -44,12 +45,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_account_move_line
 msgid "Journal Item"
-msgstr "Élément du journal"
+msgstr "Écriture comptable"
 
 #. module: account_banking_fr_lcr
 #: model:account.payment.mode,name:account_banking_fr_lcr.payment_mode_lcr
@@ -70,12 +71,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Dernière modification le"
 
 #. module: account_banking_fr_lcr
 #: model:account.payment.method,name:account_banking_fr_lcr.fr_lcr
 msgid "Lettre de Change Relevé"
-msgstr ""
+msgstr "Lettre de Change Relevé"
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_account_payment_order
@@ -89,8 +90,8 @@ msgid ""
 "The currency of payment line '%s' is '%s'. To be included in a French LCR, "
 "the currency must be EUR."
 msgstr ""
-"La monnaie de la ligne de paiement '%s' est '%s'. Pour être intégrée dans "
-"une LCR, la monnaie doit être EUR."
+"La devise de la ligne de paiement \"%s\" est \"%s\". Pour être incluse dans "
+"une LCR, la devise doit être l'euro."
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
