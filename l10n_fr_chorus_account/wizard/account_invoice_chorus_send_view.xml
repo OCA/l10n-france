@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2018-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_invoice_chorus_send_form" model="ir.ui.view">
+        <field name="model">account.invoice.chorus.send</field>
+        <field name="arch" type="xml">
+            <form string="Send invoices to Chorus">
+                <p
+                >This wizard will send electronic invoices to Chorus Pro via the Chorus API.</p>
+                <group name="main">
+                    <field name="invoice_ids" widget="many2many_tags" />
+                    <field name="invoice_count" />
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="chorus_invoice_format" />
+                </group>
+                <footer>
+                    <button
+                        type="object"
+                        name="run"
+                        string="Send to Chorus"
+                        class="btn-primary"
+                    />
+                    <button special="cancel" string="Cancel" class="btn-default" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="account_invoice_chorus_send_action" model="ir.actions.act_window">
+        <field name="name">Send to Chorus Pro</field>
+        <field name="res_model">account.invoice.chorus.send</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field
+            name="groups_id"
+            eval="[(4, ref('l10n_fr_chorus_account.group_chorus_api'))]"
+        />
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>
