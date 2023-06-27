@@ -51,6 +51,7 @@ msgid "Flow Syntax"
 msgstr ""
 
 #. module: l10n_fr_chorus_facturx
+#. odoo-python
 #: code:addons/l10n_fr_chorus_facturx/models/company.py:0
 #, python-format
 msgid ""
@@ -62,10 +63,4 @@ msgstr ""
 #. module: l10n_fr_chorus_facturx
 #: model:ir.model,name:l10n_fr_chorus_facturx.model_account_move
 msgid "Journal Entry"
-msgstr ""
-
-#. module: l10n_fr_chorus_facturx
-#: code:addons/l10n_fr_chorus_facturx/models/account_move.py:0
-#, python-format
-msgid "Unsupported report type %s found."
 msgstr ""
