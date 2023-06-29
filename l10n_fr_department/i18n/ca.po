@@ -54,7 +54,7 @@ msgstr "Creat el"
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__country_department_id
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_users__country_department_id
 #: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
-msgid "Department"
+msgid "Country Department"
 msgstr ""
 
 #. module: l10n_fr_department
