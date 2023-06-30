@@ -29,7 +29,7 @@
                     />
                 <button
                         name="done"
-                        string="Done"
+                        string="Validate"
                         type="object"
                         states="draft"
                         class="btn-primary"
