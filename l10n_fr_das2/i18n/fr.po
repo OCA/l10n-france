@@ -299,7 +299,6 @@ msgstr "Nom affiché"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__l10n_fr_das2__state__done
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
 msgid "Done"
 msgstr "Terminé"
@@ -825,6 +824,11 @@ msgstr "Pièce jointe non chiffrée"
 #: model:ir.model.fields,help:l10n_fr_das2.field_res_users__fr_das2_job
 msgid "Used in the field 'Profession' of DAS2."
 msgstr "Utilisé dans le champ 'Profession' de la DAS2."
+
+#. module: l10n_fr_das2
+#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
+msgid "Validate"
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_car
