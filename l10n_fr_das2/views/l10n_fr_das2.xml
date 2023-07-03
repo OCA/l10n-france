@@ -214,18 +214,18 @@
     <field name="arch" type="xml">
         <tree decoration-muted="to_declare == False">
             <field name="partner_id" />
-            <field name="partner_siret" />
-            <field name="job" />
-            <field name="fee_amount" sum="1" />
-            <field name="commission_amount" sum="1" />
-            <field name="brokerage_amount" sum="1" />
-            <field name="discount_amount" sum="1" />
-            <field name="attendance_fee_amount" sum="1" />
-            <field name="copyright_royalties_amount" sum="1" />
-            <field name="licence_royalties_amount" sum="1" />
-            <field name="other_income_amount" sum="1" />
-            <field name="allowance_amount" sum="1" />
-            <field name="withholding_tax_amount" sum="1" />
+            <field name="partner_siret" optional="show" />
+            <field name="job" optional="show" />
+            <field name="fee_amount" sum="1" optional="show" />
+            <field name="commission_amount" sum="1" optional="show" />
+            <field name="brokerage_amount" sum="1" optional="show" />
+            <field name="discount_amount" sum="1" optional="show" />
+            <field name="attendance_fee_amount" sum="1" optional="show" />
+            <field name="copyright_royalties_amount" sum="1" optional="show" />
+            <field name="licence_royalties_amount" sum="1" optional="show" />
+            <field name="other_income_amount" sum="1" optional="show" />
+            <field name="allowance_amount" sum="1" optional="show" />
+            <field name="withholding_tax_amount" sum="1" optional="show" />
             <field name="total_amount" sum="1" />
             <field name="currency_id" invisible="1" />
             <field name="to_declare" />
