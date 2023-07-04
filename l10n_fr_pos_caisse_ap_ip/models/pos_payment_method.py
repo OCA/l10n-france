@@ -136,21 +136,29 @@ class PosPaymentMethod(models.Model):
             answer = sock.recv(BUFFER_SIZE)
             logger.debug("answer received from payment terminal: %s", answer.decode('ascii'))
         if answer:
-            answer_dict = self._fr_caisse_ap_ip_parse_answer(answer)
-            self._fr_caisse_ap_ip_check_answer(answer_dict, msg_dict)
-            if answer_dict.get('AE') == '10':
-                to_pos_dict = self._fr_caisse_ap_ip_success_to_pos_dict(answer_dict)
-                logger.debug('JSON sent back to POS: %s', to_pos_dict)
-                return to_pos_dict
-            elif answer_dict.get('AE') == '01':
-                error_msg = self._fr_caisse_ap_ip_failure_error_msg(answer_dict)
-                raise UserError(error_msg)
-            else:
-                raise UserError(_(
-                    "Error in the communication with the payment terminal: "
-                    "the action statuts is invalid (AE=%s). "
-                    "This should never happen!") % answer_dict.get('AE'))
-        return True
+            res = self._fr_caisse_ap_ip_prepare(answer, msg_dict)
+        else:
+            res = {'payment_status': 'failure'}
+        logger.debug('JSON sent back to POS: %s', res)
+        return res
+
+    def _fr_caisse_ap_ip_answer(self, answer, msg_dict):
+        answer_dict = self._fr_caisse_ap_ip_parse_answer(answer)
+        self._fr_caisse_ap_ip_check_answer(answer_dict, msg_dict)
+        if answer_dict.get('AE') == '10':
+            res = self._fr_caisse_ap_ip_prepare_success(answer_dict)
+        elif answer_dict.get('AE') == '01':
+            res = self._fr_caisse_ap_ip_prepare_failure(answer_dict)
+        else:
+            error_msg = _(
+                "Error in the communication with the payment terminal: "
+                "the action statuts is invalid (AE=%s). "
+                "This should never happen!") % answer_dict.get('AE')
+            res = {
+                'payment_status': 'failure',
+                'error_message': error_msg,
+                }
+        return res
 
     def _fr_caisse_ap_ip_check_answer(self, answer_dict, msg_dict):
         tag_dict = {
@@ -170,7 +178,7 @@ class PosPaymentMethod(models.Model):
                 if msg_dict[tag] != strip_answer:
                     raise UserError(_("Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value %(request_val)s in the request and %(answer_val)s in the answer, but these values should be identical. This should never happen!", label=props['label'], tag=tag, request_val=msg_dict[tag], answer_val=strip_answer))
 
-    def _fr_caisse_ap_ip_success_to_pos_dict(self, answer_dict):
+    def _fr_caisse_ap_ip_prepare_success(self, answer_dict):
         card_type_list = []
         cc_labels = {
             '1': 'CB contact',
@@ -209,14 +217,15 @@ class PosPaymentMethod(models.Model):
         transaction_tags = ['AA', 'AB', 'AC', 'AI', 'CD']
         transaction_id = '|'.join(['%s-%s' % (tag, answer_dict[tag]) for tag in transaction_tags if answer_dict.get(tag)])
 
-        to_pos_dict = {
+        res = {
+            'payment_status': 'success',
             'transaction_id': transaction_id,
             'card_type': ' - '.join(card_type_list),
             'ticket': ticket,
             }
-        return to_pos_dict
+        return res
 
-    def _fr_caisse_ap_ip_failure_error_msg(self, answer_dict):
+    def _fr_caisse_ap_ip_prepare_failure(self, answer_dict):
         error_msg = _("The payment transaction has failed.")
         af_labels = {
             '00': 'Inconnu',
@@ -237,7 +246,11 @@ class PosPaymentMethod(models.Model):
         if answer_dict.get('AF') and answer_dict['AF'] in af_labels:
             label = af_labels[answer_dict['AF']]
             error_msg = _("The payment transaction has failed: %s") % label
-        return error_msg
+        res = {
+            'payment_status': 'failure',
+            'error_message': error_msg,
+            }
+        return res
 
     def _fr_caisse_ap_ip_parse_answer(self, data_bytes):
         data_str = data_bytes.decode('ascii')
