@@ -5,11 +5,11 @@
     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 */
 
-odoo.define("pos_caisse_ap_ip.models", function (require) {
+odoo.define("l10n_fr_pos_caisse_ap_ip.models", function (require) {
     "use strict";
 
     var models = require("point_of_sale.models");
-    var CaisseAPIP = require("pos_caisse_ap_ip.payment");
+    var CaisseAPIP = require("l10n_fr_pos_caisse_ap_ip.payment");
     models.register_payment_method("caisse_ap_ip", CaisseAPIP);
 
 });
