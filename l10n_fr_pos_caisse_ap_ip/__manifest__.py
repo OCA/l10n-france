@@ -17,8 +17,8 @@
     ],
     "assets": {
         "point_of_sale.assets": [
-            "pos_caisse_ap_ip/static/src/js/models.js",
-            "pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js",
+            "l10n_fr_pos_caisse_ap_ip/static/src/js/models.js",
+            "l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js",
         ],
     },
     'installable': True,

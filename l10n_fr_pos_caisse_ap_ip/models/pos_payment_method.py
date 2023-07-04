@@ -6,6 +6,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 import socket
 import logging
+from pprint import pprint
 logger = logging.getLogger(__name__)
 
 try:
@@ -47,7 +48,7 @@ class PosPaymentMethod(models.Model):
                     raise ValidationError(_(
                         "Caisse-AP Payment Terminal Port is not set on Payment Method '%s'.") % method.display_name)
 
-    def _prepare_caisse_ap_ip_msg(self, msg_dict):
+    def _caisse_ap_ip_prepare_msg(self, msg_dict):
         assert isinstance(msg_dict, dict)
         for tag, value in msg_dict.items():
             assert isinstance(tag, str)
@@ -134,12 +135,104 @@ class PosPaymentMethod(models.Model):
             return False
         if payment_method.caisse_ap_ip_mode == 'check':
             msg_dict['CC'] = '00C'
+        # TODO Try/except quand l'IP n'est pas joignable
+        answer = False
         with socket.create_connection((payment_method.caisse_ap_ip_address, payment_method.caisse_ap_ip_port), timeout=CAISSE_AP_TIMEOUT) as sock:
             sock.settimeout(None)
-            msg_str = self._prepare_caisse_ap_ip_msg(msg_dict)
+            msg_str = self._caisse_ap_ip_prepare_msg(msg_dict)
             logger.debug('data sent to payment terminal: %s' % msg_str)
             sock.send(msg_str.encode('ascii'))
             BUFFER_SIZE = 1024
             answer = sock.recv(BUFFER_SIZE)
-        logger.debug("answer received from payment terminal: %s", answer.decode('ascii'))
+            logger.debug("answer received from payment terminal: %s", answer.decode('ascii'))
+        if answer:
+            answer_dict = self._caisse_ap_ip_parse_answer(answer)
+            self._caisse_ap_ip_check_answer(answer_dict, msg_dict)
+            if answer_dict.get('AE') == '10':
+                to_pos_dict = self._caisse_ap_ip_prepare_success_to_pos_dict(answer_dict)
+                logger.debug('JSON sent back to POS: %s', to_pos_dict)
+                return to_pos_dict
         return True
+
+    def _caisse_ap_ip_check_answer(self, answer_dict, msg_dict):
+        tag_dict = {
+            'CA': {'fixed_size': True, 'required': True, 'label': 'caisse'},
+            'CB': {'fixed_size': False, 'required': True, 'label': 'amount'},
+            'CD': {'fixed_size': True, 'required': True, 'label': 'action pay/reimb'},
+            'CE': {'fixed_size': True, 'required': True, 'label': 'currency'},
+            'BF': {'fixed_size': True, 'required': False, 'label': 'partial payment'},
+            }
+        for tag, props in tag_dict.items():
+            if props['required'] and not answer_dict.get(tag):
+                raise UserError(_("Caisse AP IP protocol: tag %s is required but it is not present in the answer. This should never happen!") % answer_dict.get(tag))
+            if props['fixed_size'] and answer_dict.get(tag) and answer_dict[tag] != msg_dict[tag]:
+                raise UserError(_("Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value %(request_val)s in the request and %(answer_val)s in the answer, but these values should be identical. This should never happen!", label=props['label'], tag=tag, request_val=msg_dict[tag], answer_val=answer_dict[tag]))
+            elif not props['fixed_size'] and answer_dict.get(tag):
+                strip_answer = answer_dict[tag].lstrip('0')
+                if msg_dict[tag] != strip_answer:
+                    raise UserError(_("Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value %(request_val)s in the request and %(answer_val)s in the answer, but these values should be identical. This should never happen!", label=props['label'], tag=tag, request_val=msg_dict[tag], answer_val=strip_answer))
+
+    def _caisse_ap_ip_prepare_success_to_pos_dict(self, answer_dict):
+        card_type_list = []
+        cc_labels = {
+            '1': 'CB contact',
+            'B': 'CB sans contact',
+            'C': 'Chèque',
+            '2': 'Amex contact',
+            'D': 'Amex sans contact',
+            '3': 'CB Enseigne',
+            '5': 'Cofinoga',
+            '6': 'Diners',
+            '7': 'CB-Pass',
+            '8': 'Franfinance',
+            '9': 'JCB',
+            'A': 'Banque Accord',
+            'I': 'CPEI',
+            'E': 'CMCIC-Pay TPE',
+            'U': 'CUP',
+            '0': 'Autres',
+            }
+        ci_labels = {
+            '0': 'indifférent',
+            '1':' contact',
+            '2': 'sans contact',
+            '3': 'piste',
+            '4': 'saisie manuelle',
+            }
+        ticket = False
+        if answer_dict.get('CC') and len(answer_dict['CC']) == 3:
+            cc_tag = answer_dict['CC'].lstrip('0')
+            card_type_list.append(_('Application %(label)s (code %(code)s)', label=cc_labels.get(cc_tag, _('unknown')), code=cc_tag))
+            ticket = cc_labels.get(cc_tag, False)
+        if answer_dict.get('CI') and len(answer_dict['CI']) == 1:
+            card_type_list.append(_('Read mode: %(label)s (code %(code)s)', label=ci_labels.get(answer_dict['CI'], _('unknown')), code=answer_dict['CI']))
+
+        transaction_tags = ['AA', 'AB', 'AC', 'AI', 'CD']
+        transaction_id = '|'.join(['%s-%s' % (tag, answer_dict[tag]) for tag in transaction_tags if answer_dict.get(tag)])
+
+        to_pos_dict = {
+            'transaction_id': transaction_id,
+            'card_type': ' - '.join(card_type_list),
+            'ticket': ticket,
+            }
+        return to_pos_dict
+
+    def _caisse_ap_ip_parse_answer(self, data_bytes):
+        print('answer=', data_bytes)
+        print('TYPE(answer)', type(data_bytes))
+        data_str = data_bytes.decode('ascii')
+        logger.info('Received raw data: %s', data_str)
+        data_dict = {}
+        i = 0
+        while i < len(data_str):
+            tag = data_str[i:i + 2]
+            i += 2
+            size_str = data_str[i:i + 3]
+            size = int(size_str)
+            i += 3
+            value = data_str[i:i + size]
+            data_dict[tag] = value
+            i += size
+        logger.info('Answer dict:')
+        pprint(data_dict)
+        return data_dict
