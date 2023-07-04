@@ -14,7 +14,7 @@ try:
 except ImportError:
     logger.debug('Cannot import pycountry')
 
-CAISSE_AP_TIMEOUT = 180
+BUFFER_SIZE = 1024
 
 
 class PosPaymentMethod(models.Model):
@@ -76,7 +76,6 @@ class PosPaymentMethod(models.Model):
         payment_method_id = data['payment_method_id']
         currency_id = data['currency_id']
         currency = self.env['res.currency'].browse(currency_id)
-        print('payment_method_id=', payment_method_id)
         payment_method = self.browse(payment_method_id)
         cur_speed_map = {  # small speed-up, and works even if pycountry not installed
             'EUR': '978',
@@ -125,16 +124,29 @@ class PosPaymentMethod(models.Model):
             return False
         if payment_method.fr_caisse_ap_ip_mode == 'check':
             msg_dict['CC'] = '00C'
-        # TODO Try/except quand l'IP n'est pas joignable
         answer = False
-        with socket.create_connection((payment_method.fr_caisse_ap_ip_address, payment_method.fr_caisse_ap_ip_port), timeout=CAISSE_AP_TIMEOUT) as sock:
-            sock.settimeout(None)
-            msg_str = self._fr_caisse_ap_ip_prepare_msg(msg_dict)
-            logger.debug('data sent to payment terminal: %s' % msg_str)
-            sock.send(msg_str.encode('ascii'))
-            BUFFER_SIZE = 1024
-            answer = sock.recv(BUFFER_SIZE)
-            logger.debug("answer received from payment terminal: %s", answer.decode('ascii'))
+        timeout_ms = data['timeout']
+        # For the timeout of the TCP socket to the payment terminal, we remove
+        # 3 seconds from the timeout of the POS
+        timeout_sec = timeout_ms / 1000 - 3
+        msg_str = self._fr_caisse_ap_ip_prepare_msg(msg_dict)
+        logger.debug('data sent to payment terminal: %s' % msg_str)
+        msg_bytes = msg_str.encode('ascii')
+        ip_addr = payment_method.fr_caisse_ap_ip_address
+        port = payment_method.fr_caisse_ap_ip_port
+        try:
+            with socket.create_connection((ip_addr, port), timeout=timeout_sec) as sock:
+                sock.settimeout(None)
+                sock.send(msg_bytes)
+                answer = sock.recv(BUFFER_SIZE)
+                logger.debug("answer received from payment terminal: %s", answer.decode('ascii'))
+        except Exception as e:
+            error_msg = _("Failed to connect to the payment terminal on %(ip_addr)s:%(port)s\n%(error)s", ip_addr=ip_addr, port=port, error=e)
+            res = {
+                'payment_status': 'failure',
+                'error_message': error_msg,
+                }
+            return res
         if answer:
             res = self._fr_caisse_ap_ip_answer(answer, msg_dict)
         else:
