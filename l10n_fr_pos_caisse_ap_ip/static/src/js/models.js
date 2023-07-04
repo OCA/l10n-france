@@ -11,5 +11,4 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.models", function (require) {
     var models = require("point_of_sale.models");
     var CaisseAPIP = require("l10n_fr_pos_caisse_ap_ip.payment");
     models.register_payment_method("fr-caisse_ap_ip", CaisseAPIP);
-
 });
