@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 import socket
 import logging
 from pprint import pprint
@@ -89,7 +89,8 @@ class PosPaymentMethod(models.Model):
         cur_speed_map = {  # small speed-up, and works even if pycountry not installed
             'EUR': '978',
             'XPF': '953',
-            }
+            'USD': '840',  # Only because it is the default currency
+        }
         if currency.name in cur_speed_map:
             cur_num = cur_speed_map[currency.name]
         else:
@@ -97,7 +98,7 @@ class PosPaymentMethod(models.Model):
                 cur = pycountry.currencies.get(alpha_3=currency.name)
                 cur_num = cur.numeric  # it returns a string
             except Exception as e:
-                logger.error("pycountry doesn't support currency '%s'. Error: %s" % (cur_iso_alpha, e))
+                logger.error("pycountry doesn't support currency '%s'. Error: %s" % (currency.name, e))
                 return False
         msg_dict = {
             'CJ': '012345678901',
@@ -149,9 +150,12 @@ class PosPaymentMethod(models.Model):
             answer_dict = self._caisse_ap_ip_parse_answer(answer)
             self._caisse_ap_ip_check_answer(answer_dict, msg_dict)
             if answer_dict.get('AE') == '10':
-                to_pos_dict = self._caisse_ap_ip_prepare_success_to_pos_dict(answer_dict)
+                to_pos_dict = self._caisse_ap_ip_success_to_pos_dict(answer_dict)
                 logger.debug('JSON sent back to POS: %s', to_pos_dict)
                 return to_pos_dict
+            elif answer_dict.get('AE') == '01':
+                error_msg = self._caisse_ap_ip_failure_error_msg(answer_dict)
+                raise UserError(error_msg)
         return True
 
     def _caisse_ap_ip_check_answer(self, answer_dict, msg_dict):
@@ -172,7 +176,7 @@ class PosPaymentMethod(models.Model):
                 if msg_dict[tag] != strip_answer:
                     raise UserError(_("Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value %(request_val)s in the request and %(answer_val)s in the answer, but these values should be identical. This should never happen!", label=props['label'], tag=tag, request_val=msg_dict[tag], answer_val=strip_answer))
 
-    def _caisse_ap_ip_prepare_success_to_pos_dict(self, answer_dict):
+    def _caisse_ap_ip_success_to_pos_dict(self, answer_dict):
         card_type_list = []
         cc_labels = {
             '1': 'CB contact',
@@ -194,7 +198,7 @@ class PosPaymentMethod(models.Model):
             }
         ci_labels = {
             '0': 'indifférent',
-            '1':' contact',
+            '1': 'contact',
             '2': 'sans contact',
             '3': 'piste',
             '4': 'saisie manuelle',
@@ -202,8 +206,9 @@ class PosPaymentMethod(models.Model):
         ticket = False
         if answer_dict.get('CC') and len(answer_dict['CC']) == 3:
             cc_tag = answer_dict['CC'].lstrip('0')
-            card_type_list.append(_('Application %(label)s (code %(code)s)', label=cc_labels.get(cc_tag, _('unknown')), code=cc_tag))
-            ticket = cc_labels.get(cc_tag, False)
+            cc_label = cc_labels.get(cc_tag, _('unknown'))
+            card_type_list.append(_('Application %(label)s (code %(code)s)', label=cc_label, code=cc_tag))
+            ticket = _('Card type: %s') % cc_label
         if answer_dict.get('CI') and len(answer_dict['CI']) == 1:
             card_type_list.append(_('Read mode: %(label)s (code %(code)s)', label=ci_labels.get(answer_dict['CI'], _('unknown')), code=answer_dict['CI']))
 
@@ -217,9 +222,30 @@ class PosPaymentMethod(models.Model):
             }
         return to_pos_dict
 
+    def _caisse_ap_ip_failure_error_msg(self, answer_dict):
+        error_msg = _("The payment transaction has failed.")
+        af_labels = {
+            '00': 'Inconnu',
+            '01': 'Transaction autorisé',
+            '02': 'Appel phonie',
+            '03': 'Forçage',
+            '04': 'Refusée',
+            '05': 'Interdite',
+            '06': 'Abandon',
+            '07': 'Non aboutie',
+            '08': 'Opération non effectuée Time-out saisie',
+            '09': 'Opération non effectuée erreur format message',
+            '10': 'Opération non effectuée erreur sélection',
+            '11': 'Opération non effectuée Abandon Opérateur',
+            '12': 'Opération non effectuée type d’action demandé inconnu',
+            '13': 'Devise non supportée',
+            }
+        if answer_dict.get('AF') and answer_dict['AF'] in af_labels:
+            label = af_labels[answer_dict['AF']]
+            error_msg = _("The payment transaction has failed: %s") % label
+        return error_msg
+
     def _caisse_ap_ip_parse_answer(self, data_bytes):
-        print('answer=', data_bytes)
-        print('TYPE(answer)', type(data_bytes))
         data_str = data_bytes.decode('ascii')
         logger.info('Received raw data: %s', data_str)
         data_dict = {}
