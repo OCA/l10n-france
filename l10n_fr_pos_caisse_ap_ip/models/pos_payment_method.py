@@ -136,7 +136,7 @@ class PosPaymentMethod(models.Model):
             answer = sock.recv(BUFFER_SIZE)
             logger.debug("answer received from payment terminal: %s", answer.decode('ascii'))
         if answer:
-            res = self._fr_caisse_ap_ip_prepare(answer, msg_dict)
+            res = self._fr_caisse_ap_ip_answer(answer, msg_dict)
         else:
             res = {'payment_status': 'failure'}
         logger.debug('JSON sent back to POS: %s', res)
