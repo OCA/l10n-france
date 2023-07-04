@@ -22,33 +22,31 @@ class PosPaymentMethod(models.Model):
 
     def _get_payment_terminal_selection(self):
         res = super()._get_payment_terminal_selection()
-        res.append(("caisse_ap_ip", _("Caisse AP over IP")))
+        res.append(("fr-caisse_ap_ip", _("Caisse AP over IP (France only)")))
         return res
 
-    caisse_ap_ip_mode = fields.Selection(
+    fr_caisse_ap_ip_mode = fields.Selection(
         [("card", "Card"), ("check", "Check")], string="Payment Mode", default="card"
     )
-    caisse_ap_ip_address = fields.Char(string='Caisse-AP Payment Terminal IP Address', help="IP address or DNS name of the payment terminal that support Caisse-AP protocol over IP")
-    caisse_ap_ip_port = fields.Integer(string='Caisse-AP Payment Terminal Port', help="TCP port of the payment terminal that support Caisse-AP protocol over IP", default=8888)
+    fr_caisse_ap_ip_address = fields.Char(string='Caisse-AP Payment Terminal IP Address', help="IP address or DNS name of the payment terminal that support Caisse-AP protocol over IP")
+    fr_caisse_ap_ip_port = fields.Integer(string='Caisse-AP Payment Terminal Port', help="TCP port of the payment terminal that support Caisse-AP protocol over IP", default=8888)
 
-    @api.constrains('caisse_ap_ip_port')
-    def _check_caisse_ap_ip_port(self):
-        for config in self:
-            if config.caisse_ap_ip_port < 1 or config.caisse_ap_ip_port > 65535:
-                raise ValidationError(_("Port %s for the payment terminal is not a valid TCP port.") % config.caisse_ap_ip_port)
-
-    @api.constrains('use_payment_terminal', 'caisse_ap_ip_address', 'caisse_ap_ip_port')
-    def _check_caisse_ap_ip(self):
+    @api.constrains('use_payment_terminal', 'fr_caisse_ap_ip_address', 'fr_caisse_ap_ip_port')
+    def _check_fr_caisse_ap_ip(self):
         for method in self:
             if method.use_payment_terminal == 'caisse_ap_ip':
-                if not method.caisse_ap_ip_address:
+                if not method.fr_caisse_ap_ip_address:
                     raise ValidationError(_(
                         "Caisse-AP Payment Terminal IP Address is not set on Payment Method '%s'.") % method.display_name)
-                if not method.caisse_ap_ip_port:
+                if not method.fr_caisse_ap_ip_port:
                     raise ValidationError(_(
                         "Caisse-AP Payment Terminal Port is not set on Payment Method '%s'.") % method.display_name)
 
-    def _caisse_ap_ip_prepare_msg(self, msg_dict):
+                if method.fr_caisse_ap_ip_port < 1 or method.fr_caisse_ap_ip_port > 65535:
+                    raise ValidationError(_(
+                        "Port %s for the payment terminal is not a valid TCP port.") % method.fr_caisse_ap_ip_port)
+
+    def _fr_caisse_ap_ip_prepare_msg(self, msg_dict):
         assert isinstance(msg_dict, dict)
         for tag, value in msg_dict.items():
             assert isinstance(tag, str)
@@ -57,6 +55,7 @@ class PosPaymentMethod(models.Model):
             assert len(value) >= 1
             assert len(value) <= 999
         msg_list = []
+        # CZ tag: protocol version
         # Always start with tag CZ
         # the order of the other tags is unrelevant
         if 'CZ' in msg_dict:
@@ -70,9 +69,8 @@ class PosPaymentMethod(models.Model):
         return msg_str
 
     @api.model
-    def caisse_ap_ip_send_payment(self, data):
+    def fr_caisse_ap_ip_send_payment(self, data):
         # called by JS code
-        print('caisse_ap_ip_send_payment data=', data)
         logger.debug('caisse_ap_ip_send_payment data=%s', data)
         amount = data.get('amount')
         payment_method_id = data['payment_method_id']
@@ -80,12 +78,6 @@ class PosPaymentMethod(models.Model):
         currency = self.env['res.currency'].browse(currency_id)
         print('payment_method_id=', payment_method_id)
         payment_method = self.browse(payment_method_id)
-# p48 - identification caisse terminal
-# CZ version protocole
-# CJ identifiant protocole concert : aucun intérêt, mais obligatoire
-# CA numéro de caisse
-# CD Type action 0 débit (achat) 1 crédit (remboursement)
-# BF paiement partiel 0 refusé 1 accepté
         cur_speed_map = {  # small speed-up, and works even if pycountry not installed
             'EUR': '978',
             'XPF': '953',
@@ -100,6 +92,9 @@ class PosPaymentMethod(models.Model):
             except Exception as e:
                 logger.error("pycountry doesn't support currency '%s'. Error: %s" % (currency.name, e))
                 return False
+        # CJ identifiant protocole concert : no interest, but required
+        # CA POS number
+        # BF partial payments: 0=refused 1=accepted
         msg_dict = {
             'CJ': '012345678901',
             'CA': '01',
@@ -107,6 +102,7 @@ class PosPaymentMethod(models.Model):
             'BF': '0',
             }
         amount_compare = currency.compare_amounts(amount, 0)
+        # CD Action type: 0=debit (regular payment) 1=credit (reimbursement)
         if not amount_compare:
             logger.error('Amount for payment terminal is 0')
             return False  # TODO raise Error?
@@ -116,13 +112,6 @@ class PosPaymentMethod(models.Model):
         else:
             msg_dict['CD'] = '0'  # debit i.e. regular payment
             amount_positive = amount
-
-# Réponse sur MESSAGE_ID : CZ0040301CJ012330538600404CA00201CD001IAE00210
-# p36 Transaction
-# CB = montant en centimes, longueur variable 2 à 12
-# CD = action (0 pour débit ; 1 pour remboursement ; 2 pour annulation)
-# CE = devise 978 pour euro
-# CH : optionnel : Numéro de référence donné lors de la transaction (En fonction du type d’action demandée par la caisse, ce numéro peut être vérifié par le terminal)
         if currency.decimal_places:
             amount_cent = amount_positive * (10 ** currency.decimal_places)
         else:
@@ -134,31 +123,36 @@ class PosPaymentMethod(models.Model):
         elif len(amount_str) > 12:
             logger.error("Amount with cents '%s' is over the maximum." % amount_str)
             return False
-        if payment_method.caisse_ap_ip_mode == 'check':
+        if payment_method.fr_caisse_ap_ip_mode == 'check':
             msg_dict['CC'] = '00C'
         # TODO Try/except quand l'IP n'est pas joignable
         answer = False
-        with socket.create_connection((payment_method.caisse_ap_ip_address, payment_method.caisse_ap_ip_port), timeout=CAISSE_AP_TIMEOUT) as sock:
+        with socket.create_connection((payment_method.fr_caisse_ap_ip_address, payment_method.fr_caisse_ap_ip_port), timeout=CAISSE_AP_TIMEOUT) as sock:
             sock.settimeout(None)
-            msg_str = self._caisse_ap_ip_prepare_msg(msg_dict)
+            msg_str = self._fr_caisse_ap_ip_prepare_msg(msg_dict)
             logger.debug('data sent to payment terminal: %s' % msg_str)
             sock.send(msg_str.encode('ascii'))
             BUFFER_SIZE = 1024
             answer = sock.recv(BUFFER_SIZE)
             logger.debug("answer received from payment terminal: %s", answer.decode('ascii'))
         if answer:
-            answer_dict = self._caisse_ap_ip_parse_answer(answer)
-            self._caisse_ap_ip_check_answer(answer_dict, msg_dict)
+            answer_dict = self._fr_caisse_ap_ip_parse_answer(answer)
+            self._fr_caisse_ap_ip_check_answer(answer_dict, msg_dict)
             if answer_dict.get('AE') == '10':
-                to_pos_dict = self._caisse_ap_ip_success_to_pos_dict(answer_dict)
+                to_pos_dict = self._fr_caisse_ap_ip_success_to_pos_dict(answer_dict)
                 logger.debug('JSON sent back to POS: %s', to_pos_dict)
                 return to_pos_dict
             elif answer_dict.get('AE') == '01':
-                error_msg = self._caisse_ap_ip_failure_error_msg(answer_dict)
+                error_msg = self._fr_caisse_ap_ip_failure_error_msg(answer_dict)
                 raise UserError(error_msg)
+            else:
+                raise UserError(_(
+                    "Error in the communication with the payment terminal: "
+                    "the action statuts is invalid (AE=%s). "
+                    "This should never happen!") % answer_dict.get('AE'))
         return True
 
-    def _caisse_ap_ip_check_answer(self, answer_dict, msg_dict):
+    def _fr_caisse_ap_ip_check_answer(self, answer_dict, msg_dict):
         tag_dict = {
             'CA': {'fixed_size': True, 'required': True, 'label': 'caisse'},
             'CB': {'fixed_size': False, 'required': True, 'label': 'amount'},
@@ -176,7 +170,7 @@ class PosPaymentMethod(models.Model):
                 if msg_dict[tag] != strip_answer:
                     raise UserError(_("Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value %(request_val)s in the request and %(answer_val)s in the answer, but these values should be identical. This should never happen!", label=props['label'], tag=tag, request_val=msg_dict[tag], answer_val=strip_answer))
 
-    def _caisse_ap_ip_success_to_pos_dict(self, answer_dict):
+    def _fr_caisse_ap_ip_success_to_pos_dict(self, answer_dict):
         card_type_list = []
         cc_labels = {
             '1': 'CB contact',
@@ -222,7 +216,7 @@ class PosPaymentMethod(models.Model):
             }
         return to_pos_dict
 
-    def _caisse_ap_ip_failure_error_msg(self, answer_dict):
+    def _fr_caisse_ap_ip_failure_error_msg(self, answer_dict):
         error_msg = _("The payment transaction has failed.")
         af_labels = {
             '00': 'Inconnu',
@@ -245,7 +239,7 @@ class PosPaymentMethod(models.Model):
             error_msg = _("The payment transaction has failed: %s") % label
         return error_msg
 
-    def _caisse_ap_ip_parse_answer(self, data_bytes):
+    def _fr_caisse_ap_ip_parse_answer(self, data_bytes):
         data_str = data_bytes.decode('ascii')
         logger.info('Received raw data: %s', data_str)
         data_dict = {}

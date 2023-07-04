@@ -179,7 +179,7 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
             console.log('rpc.query');
             return rpc.query({
                 model: "pos.payment.method",
-                method: "caisse_ap_ip_send_payment",
+                method: "fr_caisse_ap_ip_send_payment",
                 args: [data],
             }, {
             // timeout in ms
