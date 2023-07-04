@@ -5,7 +5,7 @@
     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 */
 
-odoo.define("pos_caisse_ap_ip.payment", function (require) {
+odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
     "use strict";
 
     var core = require("web.core");
@@ -92,6 +92,7 @@ odoo.define("pos_caisse_ap_ip.payment", function (require) {
                 // outcome manually. This is done by rejecting the
                 // promise as explained in the send_payment_request()
                 // documentation.
+                console.log('set_payment_status force_done')
                 pay_line.set_payment_status("force_done");
                 return Promise.reject();
             });
@@ -171,19 +172,22 @@ odoo.define("pos_caisse_ap_ip.payment", function (require) {
         },
 
         _caisse_ap_ip_request: function (data) {
-            console.log('_caisse_ap_ip_payment_terminal_request data=');
+            console.log('_caisse_ap_ip_request data=');
             console.log(data);
-            var self = this;
-            console.log('this===');
+            console.log('_caisse_ap_ip_request this===');
             console.log(this);
-            rpc.query({
+            console.log('rpc.query');
+            return rpc.query({
                 model: "pos.payment.method",
                 method: "caisse_ap_ip_send_payment",
                 args: [data],
             }, {
-            timeout: 5000,
+            // timeout in ms
+            timeout: 180000,
             shadow: true,
         }).then((response) => {
+                    console.log('rpc.query THEN response=');
+                    console.log(response);
                     return response;
                 })
                 .catch(() => {
@@ -191,18 +195,6 @@ odoo.define("pos_caisse_ap_ip.payment", function (require) {
                     return false;
                 })
                 ;
-/*
-            return this.pos.env.proxy
-                .message("payment_terminal_transaction_start", {
-                    payment_info: JSON.stringify(data),
-                })
-                .then((response) => {
-                    return response;
-                })
-                .catch(() => {
-                    console.error("Error starting payment transaction");
-                    return false;
-                });  */
         },
 
         _show_error: function (msg, title) {
