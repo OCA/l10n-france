@@ -49,15 +49,17 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
         },
         send_payment_request: function (cid) {
             this._super.apply(this, arguments);
-            // check that this.payment_method.use_payment_terminal is ??
             var order = this.pos.get_order();
             var pay_line = order.selected_paymentline;
             var currency = this.pos.currency;
+            // Define the timout used in the pos and in the back-end (in ms)
+            const timeout = 180000;
             var data = {
                 amount: pay_line.amount,
                 currency_id: currency.id,
                 payment_method_id: this.payment_method.id,
                 payment_id: cid,
+                timeout: timeout,
             };
             pay_line.set_payment_status("waitingCard");
             return rpc.query({
@@ -65,7 +67,7 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
                 method: "fr_caisse_ap_ip_send_payment",
                 args: [data],
             }, {
-                timeout: 5000,
+                timeout: timeout,
                 shadow: true,
             }).then((response) => {
                 if (response instanceof Object && "payment_status" in response){
@@ -78,12 +80,10 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
                     return this._handle_caisse_ap_ip_unexpected_response(pay_line, response);
                 }
             }).catch((error) => {
+                // It should be a request timeout
                 let error_msg = _t(
-                    "Failed to send the amount to pay to the payment terminal. Press the red button on the payment terminal and try again."
+                    "No response received from the payment terminal in the given time."
                 )
-                if (error && "message" in error){
-                    error_msg = error.message.data.message;
-                }
                 return this._handle_error(error_msg);
             });
         },
