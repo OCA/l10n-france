@@ -68,7 +68,7 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
                 timeout: 5000,
                 shadow: true,
             }).then((response) => {
-                if (response instanceof Object && "transaction_id" in response){
+                if (response instanceof Object && "payment_status" in response){
                     // The response is a valid object
                     return this._handle_caisse_ap_ip_response(
                         pay_line,
@@ -78,7 +78,9 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
                     return this._handle_caisse_ap_ip_unexpected_response(pay_line, response);
                 }
             }).catch((error) => {
-                let error_msg = null;
+                let error_msg = _t(
+                    "Failed to send the amount to pay to the payment terminal. Press the red button on the payment terminal and try again."
+                )
                 if (error && "message" in error){
                     error_msg = error.message.data.message;
                 }
@@ -87,13 +89,7 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
         },
 
         _handle_error: function (msg) {
-            let error_msg = _t(
-                    "Failed to send the amount to pay to the payment terminal. Press the red button on the payment terminal and try again."
-                )
-            if(msg !== null && typeof msg === "string") {
-                error_msg = error_msg.concat("\n\n", msg);
-            }
-            this._show_error(error_msg);
+            this._show_error(msg);
             return false;
         },
         _show_error: function (msg, title) {
