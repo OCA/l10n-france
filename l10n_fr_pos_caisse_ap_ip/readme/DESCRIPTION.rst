@@ -1,0 +1,5 @@
+This module adds support for the **Caisse AP** protocol over IP in the Odoo Point of Sale.
+
+The `Caisse AP protocol <https://www.associationdupaiement.fr/protocoles/protocole-caisse/>`_ is a vendor-independent protocol used in France to communicate between a point of sale and a payment terminal. It is implemented by `Ingenico <https://ingenico.com/fr/produits-et-services/terminaux-de-paiement>`_ payment terminals, `Verifone <https://www.verifone.com/>`_ payment terminal and other brands of payment terminals. This protocol is designed by a French association called `Association du paiement <https://www.associationdupaiement.fr/>`_, abbreviated as **AP**. Note that the Caisse-AP protocol is used by Ingenico payment terminals deployed in France, but not by the same model of Ingenico payment terminals deployed in other countries!
+
+The Caisse-AP protocol was initially written for serial and USB. Since the Caisse AP protocol version 3.x, it also supports IP. When used over IP, the client (point of sale) and the server (payment terminal) exchange simple text data encoded as ASCII over a raw TCP socket.
