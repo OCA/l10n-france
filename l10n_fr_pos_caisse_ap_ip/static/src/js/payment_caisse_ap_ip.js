@@ -20,183 +20,82 @@ odoo.define("l10n_fr_pos_caisse_ap_ip.payment", function (require) {
             this._super.apply(this, arguments);
         },
 
-        send_payment_request: function (cid) {
-            console.log('send_payment_request');
-            this._super.apply(this, arguments);
-            // check that this.payment_method.use_payment_terminal is ??
-            return this._caisse_ap_ip_pay(cid);
-        },
-
         send_payment_cancel: function (order, cid) {
-            console.log('send_payment_cancel');
             this._super.apply(this, arguments);
             this._show_error(
                 _t(
                     "Please press the red button on the payment terminal to cancel the transaction."
                 )
             );
+            return true;
+        },
+        _handle_caisse_ap_ip_response: function(pay_line, response) {
+            if (response.payment_status == "success") {
+                pay_line.card_type = response.card_type;
+                pay_line.transaction_id = response.transaction_id;
+                if ("ticket" in response){
+                    pay_line.set_receipt_info(response.ticket);
+                }
+                return true;
+            } else {
+                return this._handle_error(response.error_message);
+            }
+        },
+        _handle_caisse_ap_ip_unexpected_response: function(pay_line, response) {
+            // The response cannot be understood
+            // We let the cashier handle it manually (force or cancel)
+            pay_line.set_payment_status("force_done");
             return Promise.reject();
         },
-
-        _caisse_ap_ip_pay: function (cid) {
-            console.log('_caisse_ap_ip_pay===== cid=');
-            console.log(cid);
+        send_payment_request: function (cid) {
+            this._super.apply(this, arguments);
+            // check that this.payment_method.use_payment_terminal is ??
             var order = this.pos.get_order();
             var pay_line = order.selected_paymentline;
             var currency = this.pos.currency;
-            console.log('Currency=');
-            console.log('THIS1====');
-            console.log(this);
-            console.log(currency);
             var data = {
                 amount: pay_line.amount,
                 currency_id: currency.id,
                 payment_method_id: this.payment_method.id,
                 payment_id: cid,
-                //order_id: order.name,
             };
-            console.log('data====');
-            console.log(data);
-/*            if (this.payment_method.oca_payment_terminal_id) {
-                data.terminal_id = this.payment_method.oca_payment_terminal_id;
-            }  */
-            return this._caisse_ap_ip_request(data).then((response) => {
-                if (response === false) {
-                    this._show_error(
-                        _t(
-                            "Failed to send the amount to pay to the payment terminal. Press the red button on the payment terminal and try again."
-                        )
-                    );
-                    // There was an error, let the user retry.
-                    return false;
-                } else if (response instanceof Object && "transaction_id" in response) {
-                    // The response has a terminal transaction identifier:
-                    // return a promise that polls for transaction status.
-                    pay_line.set_payment_status("waitingCard");
-                    this._caisse_ap_ip_update_payment_line_terminal_transaction_status(
-                        pay_line,
-                        response
-                    );
-                    return new Promise((resolve, reject) => {
-                        this._caisse_ap_ip_poll_for_transaction_status(
-                            pay_line,
-                            resolve,
-                            reject
-                        );
-                    });
-                }
-
-                // The transaction was started, but the terminal driver
-                // does not report status, so we won't know the
-                // transaction result: we let the user enter the
-                // outcome manually. This is done by rejecting the
-                // promise as explained in the send_payment_request()
-                // documentation.
-                console.log('set_payment_status force_done')
-                pay_line.set_payment_status("force_done");
-                return Promise.reject();
-            });
-        },
-
-        _caisse_ap_ip_poll_for_transaction_status: function (pay_line, resolve, reject) {
-            var timerId = setInterval(() => {
-                // Query the driver status more frequently than the regular POS
-                // proxy, to get faster feedback when the transaction is
-                // complete on the terminal.
-                var status_params = {};
-                if (this.payment_method.oca_payment_terminal_id) {
-                    status_params.terminal_id =
-                        this.payment_method.oca_payment_terminal_id;
-                }
-                this.pos.env.proxy.connection
-                    .rpc("/hw_proxy/status_json", status_params, {
-                        shadow: true,
-                        timeout: 1000,
-                    })
-                    .then((drivers_status) => {
-                        for (var driver_name in drivers_status) {
-                            // Look for a driver that is a payment terminal and has
-                            // transactions.
-                            var driver = drivers_status[driver_name];
-                            if (!driver.is_terminal || !("transactions" in driver)) {
-                                continue;
-                            }
-                            for (var transaction_id in driver.transactions) {
-                                var transaction = driver.transactions[transaction_id];
-                                if (
-                                    transaction.transaction_id ===
-                                    pay_line.terminal_transaction_id
-                                ) {
-                                    // Look for the transaction corresponding to
-                                    // the payment line.
-                                    this._caisse_ap_ip_update_payment_line_terminal_transaction_status(
-                                        pay_line,
-                                        transaction
-                                    );
-                                    if (
-                                        pay_line.terminal_transaction_success !== null
-                                    ) {
-                                        resolve(pay_line.terminal_transaction_success);
-                                        // Stop the loop
-                                        clearInterval(timerId);
-                                    }
-                                }
-                            }
-                        }
-                    })
-                    .catch(() => {
-                        console.error("Error querying terminal driver status");
-                        // We could not query the transaction status so we
-                        // won't know the transaction result: we let the user
-                        // enter the outcome manually. This is done by
-                        // rejecting the promise as explained in the
-                        // send_payment_request() documentation.
-                        pay_line.set_payment_status("force_done");
-                        reject();
-                        // Stop the loop
-                        clearInterval(timerId);
-                    });
-            }, 1000);
-        },
-
-        _caisse_ap_ip_update_payment_line_terminal_transaction_status: function (
-            pay_line,
-            transaction
-        ) {
-            pay_line.terminal_transaction_id = transaction.transaction_id;
-            pay_line.terminal_transaction_success = transaction.success;
-            pay_line.terminal_transaction_status = transaction.status;
-            pay_line.terminal_transaction_status_details = transaction.status_details;
-            // Payment transaction reference, for accounting reconciliation purposes.
-            pay_line.transaction_id = transaction.reference;
-        },
-
-        _caisse_ap_ip_request: function (data) {
-            console.log('_caisse_ap_ip_request data=');
-            console.log(data);
-            console.log('_caisse_ap_ip_request this===');
-            console.log(this);
-            console.log('rpc.query');
+            pay_line.set_payment_status("waitingCard");
             return rpc.query({
                 model: "pos.payment.method",
                 method: "fr_caisse_ap_ip_send_payment",
                 args: [data],
             }, {
-            // timeout in ms
-            timeout: 180000,
-            shadow: true,
-        }).then((response) => {
-                    console.log('rpc.query THEN response=');
-                    console.log(response);
-                    return response;
-                })
-                .catch(() => {
-                    console.error("Error starting payment transaction");
-                    return false;
-                })
-                ;
+                timeout: 5000,
+                shadow: true,
+            }).then((response) => {
+                if (response instanceof Object && "transaction_id" in response){
+                    // The response is a valid object
+                    return this._handle_caisse_ap_ip_response(
+                        pay_line,
+                        response
+                    );
+                } else {
+                    return this._handle_caisse_ap_ip_unexpected_response(pay_line, response);
+                }
+            }).catch((error) => {
+                let error_msg = null;
+                if (error && "message" in error){
+                    error_msg = error.message.data.message;
+                }
+                return this._handle_error(error_msg);
+            });
         },
 
+        _handle_error: function (msg) {
+            let error_msg = _t(
+                    "Failed to send the amount to pay to the payment terminal. Press the red button on the payment terminal and try again."
+                )
+            if(msg !== null && typeof msg === "string") {
+                error_msg = error_msg.concat("\n\n", msg);
+            }
+            this._show_error(error_msg);
+            return false;
+        },
         _show_error: function (msg, title) {
             Gui.showPopup("ErrorPopup", {
                 title: title || _t("Payment Terminal Error"),
