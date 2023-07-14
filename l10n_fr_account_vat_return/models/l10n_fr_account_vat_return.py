@@ -272,6 +272,7 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _prepare_speedy(self):
         # Generate a speed-dict called speedy that is used in several methods
+        # or for some domains that we may need to inherit
         self.ensure_one()
         company_domain = [("company_id", "=", self.company_id.id)]
         base_domain = company_domain + [("parent_state", "=", "posted")]
@@ -280,6 +281,19 @@ class L10nFrAccountVatReturn(models.Model):
             ("date", "<=", self.end_date),
         ]
         base_domain_end = base_domain + [("date", "<=", self.end_date)]
+        vat_tax_domain = company_domain + [
+            ("amount_type", "=", "percent"),
+            ("amount", ">", 0),
+            ("unece_type_code", "=", "VAT"),
+        ]
+        sale_regular_vat_tax_domain = vat_tax_domain + [
+            ("fr_vat_autoliquidation", "=", False),
+            ("type_tax_use", "=", "sale"),
+        ]
+        purchase_vat_tax_domain = vat_tax_domain + [("type_tax_use", "=", "purchase")]
+        purchase_autoliq_vat_tax_domain = purchase_vat_tax_domain + [
+            ("fr_vat_autoliquidation", "=", True),
+        ]
         movetype2label = dict(
             self.env["account.move"].fields_get("move_type", "selection")["move_type"][
                 "selection"
@@ -292,6 +306,9 @@ class L10nFrAccountVatReturn(models.Model):
             "base_domain": base_domain,
             "base_domain_period": base_domain_period,
             "base_domain_end": base_domain_end,
+            "sale_regular_vat_tax_domain": sale_regular_vat_tax_domain,
+            "purchase_vat_tax_domain": purchase_vat_tax_domain,
+            "purchase_autoliq_vat_tax_domain": purchase_autoliq_vat_tax_domain,
             "end_date_formatted": format_date(self.env, self.end_date),
             "start_date_formatted": format_date(self.env, self.start_date),
             "movetype2label": movetype2label,
@@ -726,13 +743,7 @@ class L10nFrAccountVatReturn(models.Model):
         sale_vat_account2rate = {}
         sale_vat_accounts = speedy["aa_obj"]
         regular_due_vat_taxes = speedy["at_obj"].search(
-            speedy["company_domain"]
-            + [
-                ("amount_type", "=", "percent"),
-                ("amount", ">", 0),
-                ("fr_vat_autoliquidation", "=", False),
-                ("type_tax_use", "=", "sale"),
-            ]
+            speedy["sale_regular_vat_tax_domain"]
         )
         for tax in regular_due_vat_taxes:
             invoice_lines = tax.invoice_repartition_line_ids.filtered(
@@ -897,13 +908,7 @@ class L10nFrAccountVatReturn(models.Model):
         autoliq_tax2rate = {}
         autoliq_vat_accounts = speedy["aa_obj"]
         autoliq_vat_taxes = speedy["at_obj"].search(
-            [
-                ("type_tax_use", "=", "purchase"),
-                ("amount_type", "=", "percent"),
-                ("amount", ">", 0),
-                ("fr_vat_autoliquidation", "=", True),
-                ("company_id", "=", speedy["company_id"]),
-            ]
+            speedy["purchase_autoliq_vat_tax_domain"]
         )
         for tax in autoliq_vat_taxes:
             lines = tax.invoice_repartition_line_ids.filtered(
@@ -1502,14 +1507,7 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _generate_deductible_vat_prepare_struct(self, speedy):
         vat_account2type = {}
-        deduc_vat_taxes = speedy["at_obj"].search(
-            speedy["company_domain"]
-            + [
-                ("amount_type", "=", "percent"),
-                ("amount", ">", 0),
-                ("type_tax_use", "=", "purchase"),
-            ]
-        )
+        deduc_vat_taxes = speedy["at_obj"].search(speedy["purchase_vat_tax_domain"])
         for tax in deduc_vat_taxes:
             line = tax.invoice_repartition_line_ids.filtered(
                 lambda x: x.repartition_type == "tax"
