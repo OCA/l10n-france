@@ -70,9 +70,8 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Account '%s' is a due VAT auto-liquidation account. So it should be empty at"
-" the start of the VAT period, but the balance on the last day of the "
-"previous period is %s."
+"Account '%s' is an account for autoliquidation, so it's reconcile option "
+"must be enabled."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1530,6 +1529,16 @@ msgid ""
 "There are still On Payment taxes in company '%s'. To handle on payment VAT, "
 "this module uses a different implementation than the native solution based "
 "on a configuration parameter on taxes."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"There is a problem on the intracom vendor bill/refund '%s': check that the "
+"invoice lines have a single autoliquidation tax, and not the old dual-tax "
+"system for autoliquidation which was used by Odoo up to version 12.0 "
+"included."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
