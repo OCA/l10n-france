@@ -1150,6 +1150,16 @@ class L10nFrAccountVatReturn(models.Model):
                     else:
                         if line.account_id.code.startswith(product_account_prefixes):
                             rate2product[rate_int] += line.balance
+                else:
+                    raise UserError(
+                        _(
+                            "There is a problem on the intracom vendor bill/refund '%s': "
+                            "check that the invoice lines have a single autoliquidation "
+                            "tax, and not the old dual-tax system for autoliquidation "
+                            "which was used by Odoo up to version 12.0 included."
+                        )
+                        % move.display_name
+                    )
 
         rate2product_ratio = {}
         for rate_int, total in rate2total.items():
