@@ -280,7 +280,6 @@ class L10nFrAccountVatReturn(models.Model):
             ("date", "<=", self.end_date),
         ]
         base_domain_end = base_domain + [("date", "<=", self.end_date)]
-        base_domain_end_previous = base_domain + [("date", "<", self.start_date)]
         movetype2label = dict(
             self.env["account.move"].fields_get("move_type", "selection")["move_type"][
                 "selection"
@@ -293,7 +292,6 @@ class L10nFrAccountVatReturn(models.Model):
             "base_domain": base_domain,
             "base_domain_period": base_domain_period,
             "base_domain_end": base_domain_end,
-            "base_domain_end_previous": base_domain_end_previous,
             "end_date_formatted": format_date(self.env, self.end_date),
             "start_date_formatted": format_date(self.env, self.start_date),
             "movetype2label": movetype2label,
@@ -934,6 +932,19 @@ class L10nFrAccountVatReturn(models.Model):
                         autoliq_vat_account2rate[account] / 100,
                     )
                 )
+            # Since May 2023, the new strategy to separate goods vs services
+            # for intracom autoliq base is by analyzing unreconciled lines,
+            # and not by analysing the VAT period only (which requires that the balance
+            # of the account is 0 at the start of the period).
+            # So the minimum is to make sure that the account has reconcile=True !
+            if not account.reconcile:
+                raise UserError(
+                    _(
+                        "Account '%s' is an account for autoliquidation, "
+                        "so it's reconcile option must be enabled."
+                    )
+                    % account.display_name
+                )
             autoliq_vat_account2rate[account] = rate_int
             autoliq_vat_accounts |= account
             tax_map = speedy["afpt_obj"].search(
@@ -967,31 +978,6 @@ class L10nFrAccountVatReturn(models.Model):
         # For autoliq, we don't do VAT on payment, we do VAT on debit
         # Check that these autoliq due accounts 4452xx are empty at start of period
         for account, rate_int in autoliq_vat_account2rate.items():
-            # check start balance is empty at start of period
-            # This check is important because, for intracom autoliq,
-            # we analyse each invoice for the product/service ratio,
-            # so it won't work if the autoliq due account has a residual amount
-            # at start of period (and if we allow that, we get all sorts of problem:
-            # for example, when the intracom due account has a residual at start
-            # of period but there are no intracom autoliq invoice in the period, so
-            # our dicts rate2product_ratio are empty)
-            balance_end_previous_period = account._fr_vat_get_balance(
-                "base_domain_end_previous", speedy
-            )
-            if not speedy["currency"].is_zero(balance_end_previous_period):
-                raise UserError(
-                    _(
-                        "Account '%s' is a due VAT auto-liquidation account. "
-                        "So it should be empty at the start of the VAT period, "
-                        "but the balance on the last day of the previous period is %s."
-                    )
-                    % (
-                        account.display_name,
-                        format_amount(
-                            self.env, balance_end_previous_period, speedy["currency"]
-                        ),
-                    )
-                )
             balance = account._fr_vat_get_balance("base_domain_end", speedy) * -1
             if not speedy["currency"].is_zero(balance):
                 rate2logs[rate_int].append(
@@ -1010,7 +996,7 @@ class L10nFrAccountVatReturn(models.Model):
         taxedop_type2logs,
     ):
         # Taxable operations - Autoliquidation Extra EU
-        # Box 3B: Achats de biens ou presta de services réalisés auprès d'un
+        # Box B4: Achats de biens ou presta de services réalisés auprès d'un
         # assujetti non établi en France (art 283-1 du CGI)
         for account in autoliq_taxedop_type2accounts["extracom"]:
             vat_amount = account._fr_vat_get_balance("base_domain_end", speedy) * -1
@@ -1128,8 +1114,9 @@ class L10nFrAccountVatReturn(models.Model):
             [
                 ("account_id", "in", autoliq_taxedop_type2accounts["intracom_b2b"].ids),
                 ("balance", "!=", 0),
+                ("full_reconcile_id", "=", False),
             ]
-            + speedy["base_domain_period"]
+            + speedy["base_domain_end"]
         )
 
         autoliq_vat_moves = autoliq_vat_move_lines.move_id
@@ -1163,6 +1150,16 @@ class L10nFrAccountVatReturn(models.Model):
                     else:
                         if line.account_id.code.startswith(product_account_prefixes):
                             rate2product[rate_int] += line.balance
+                else:
+                    raise UserError(
+                        _(
+                            "There is a problem on the intracom vendor bill/refund '%s': "
+                            "check that the invoice lines have a single autoliquidation "
+                            "tax, and not the old dual-tax system for autoliquidation "
+                            "which was used by Odoo up to version 12.0 included."
+                        )
+                        % move.display_name
+                    )
 
         rate2product_ratio = {}
         for rate_int, total in rate2total.items():
