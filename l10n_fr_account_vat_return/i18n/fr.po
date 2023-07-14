@@ -80,13 +80,9 @@ msgstr "Compte"
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Account '%s' is a due VAT auto-liquidation account. So it should be empty at "
-"the start of the VAT period, but the balance on the last day of the previous "
-"period is %s."
+"Account '%s' is an account for autoliquidation, so it's reconcile option "
+"must be enabled."
 msgstr ""
-"Le compte '%s' est un compte de liquidation automatique de la TVA due. Il "
-"devrait donc être vide au début de la période de TVA, mais le solde du "
-"dernier jour de la période précédente est %s."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
@@ -1630,6 +1626,16 @@ msgstr ""
 "configuration de la taxe."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"There is a problem on the intracom vendor bill/refund '%s': check that the "
+"invoice lines have a single autoliquidation tax, and not the old dual-tax "
+"system for autoliquidation which was used by Odoo up to version 12.0 "
+"included."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_box_unique_page_x_y
 msgid "There is already a box at this position!"
 msgstr "Il y a déjà une case à cette position !"
@@ -1939,6 +1945,16 @@ msgstr "Mauvaise valeur pour le nouveau régime de TVA."
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__12
 msgid "Yearly"
 msgstr "Annuelle"
+
+#, python-format
+#~ msgid ""
+#~ "Account '%s' is a due VAT auto-liquidation account. So it should be empty "
+#~ "at the start of the VAT period, but the balance on the last day of the "
+#~ "previous period is %s."
+#~ msgstr ""
+#~ "Le compte '%s' est un compte de liquidation automatique de la TVA due. Il "
+#~ "devrait donc être vide au début de la période de TVA, mais le solde du "
+#~ "dernier jour de la période précédente est %s."
 
 #, python-format
 #~ msgid "Bad configuration on regular purchase tax '%s'."
