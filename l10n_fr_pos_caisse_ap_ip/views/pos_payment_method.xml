@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2023 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="pos_payment_method_view_form" model="ir.ui.view">
+    <field name="model">pos.payment.method</field>
+    <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form" />
+    <field name="arch" type="xml">
+        <field name="use_payment_terminal" position="after">
+            <field
+                    name="fr_caisse_ap_ip_address"
+                    attrs="{'invisible': [('use_payment_terminal', '!=', 'fr-caisse_ap_ip')], 'required': [('use_payment_terminal', '=', 'fr-caisse_ap_ip')]}"
+                />
+            <field
+                    name="fr_caisse_ap_ip_port"
+                    attrs="{'invisible': [('use_payment_terminal', '!=', 'fr-caisse_ap_ip')], 'required': [('use_payment_terminal', '=', 'fr-caisse_ap_ip')]}"
+                />
+            <field
+                    name="fr_caisse_ap_ip_mode"
+                    attrs="{'invisible': [('use_payment_terminal', '!=', 'fr-caisse_ap_ip')], 'required': [('use_payment_terminal', '=', 'fr-caisse_ap_ip')]}"
+                />
+        </field>
+    </field>
+</record>
+
+
+</odoo>
