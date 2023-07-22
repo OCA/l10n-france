@@ -4,10 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-04 21:55+0000\n"
-"PO-Revision-Date: 2023-07-04 21:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,14 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "Application %(label)s (code %(code)s)"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid ""
@@ -33,7 +29,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid ""
@@ -43,7 +38,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid ""
@@ -52,7 +46,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "Caisse AP over IP (France only)"
@@ -69,7 +62,6 @@ msgid "Caisse-AP Payment Terminal Port"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid ""
@@ -77,7 +69,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "Caisse-AP payment terminal port is not set on payment method '%s'."
@@ -89,7 +80,6 @@ msgid "Card"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "Card type: %s"
@@ -101,14 +91,17 @@ msgid "Check"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "Empty answer from payment terminal. This should never happen."
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid ""
@@ -117,12 +110,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid ""
 "Failed to connect to the payment terminal on %(ip_addr)s:%(port)s\n"
 "%(error)s"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__id
+msgid "ID"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
@@ -133,7 +130,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-javascript
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. openerp-web
 #: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
 #, python-format
 msgid "No answer from the payment terminal in the given time."
@@ -145,7 +147,7 @@ msgid "Payment Mode"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-javascript
+#. openerp-web
 #: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
 #, python-format
 msgid "Payment Terminal Error"
@@ -157,14 +159,13 @@ msgid "Point of Sale Payment Methods"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "Port %s for the payment terminal is not a valid TCP port."
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-javascript
+#. openerp-web
 #: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
 #, python-format
 msgid ""
@@ -172,7 +173,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "Read mode: %(label)s (code %(code)s)"
@@ -185,28 +185,24 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "The payment transaction has failed."
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "The payment transaction has failed: %s"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "You are tying to send a null amount to the payment terminal!"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid ""
@@ -215,7 +211,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
-#. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid "unknown"
