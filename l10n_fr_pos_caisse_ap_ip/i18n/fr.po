@@ -41,6 +41,16 @@ msgstr ""
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
 msgid ""
+"Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value %(request_val)s in "
+"the request and %(answer_val)s in the answer, but these values should be "
+"identical. This should never happen!"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid ""
 "Caisse AP IP protocol: tag %s is required but it is not present in the "
 "answer from the terminal. This should never happen!"
 msgstr ""
@@ -71,8 +81,8 @@ msgstr "Port du terminal de paiement Caisse-AP"
 msgid ""
 "Caisse-AP payment terminal IP address is not set on payment method '%s'."
 msgstr ""
-"L'adresse IP du terminal de paiement Caisse-AP n'est pas définie sur "
-"la méthode de paiement '%s'."
+"L'adresse IP du terminal de paiement Caisse-AP n'est pas définie sur la "
+"méthode de paiement '%s'."
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
@@ -80,8 +90,8 @@ msgstr ""
 #, python-format
 msgid "Caisse-AP payment terminal port is not set on payment method '%s'."
 msgstr ""
-"Le port du terminal de paiement Caisse-AP n'est pas défini sur la "
-"méthode de paiement '%s'."
+"Le port du terminal de paiement Caisse-AP n'est pas défini sur la méthode de "
+"paiement '%s'."
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__card
@@ -222,8 +232,8 @@ msgid ""
 "You are tying to send amount %s cents to the payment terminal, but it is "
 "over the maximum!"
 msgstr ""
-"Vous essayez d'envoyer le montant %s centimes au terminal de paiement, mais il "
-"est supérieur au maximum !"
+"Vous essayez d'envoyer le montant %s centimes au terminal de paiement, mais "
+"il est supérieur au maximum !"
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
