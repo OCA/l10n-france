@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-06-08 11:08+0000\n"
+"PO-Revision-Date: 2023-07-03 12:08+0000\n"
 "Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -176,7 +176,7 @@ msgstr "Devise de la société"
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_res_config_settings
 msgid "Config Settings"
-msgstr "Paramètres de config"
+msgstr "Configuration"
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_res_partner
@@ -299,7 +299,6 @@ msgstr "Nom affiché"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__l10n_fr_das2__state__done
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
 msgid "Done"
 msgstr "Terminé"
@@ -646,8 +645,8 @@ msgid ""
 "Payment dated <b>%(date)s</b> in journal <b>%(journal)s</b>: %(amount)s "
 "(journal entry %(move_name)s)"
 msgstr ""
-"Paiement daté <b>%(date)s</b> dans le journal <b>%(journal)s</b>: %(amount)s "
-"(pièce comptable %(move_name)s)"
+"Paiement daté du <b>%(date)s</b> dans le journal <b>%(journal)s</b> : "
+"%(amount)s (pièce comptable %(move_name)s)"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_employer
@@ -825,6 +824,11 @@ msgstr "Pièce jointe non chiffrée"
 #: model:ir.model.fields,help:l10n_fr_das2.field_res_users__fr_das2_job
 msgid "Used in the field 'Profession' of DAS2."
 msgstr "Utilisé dans le champ 'Profession' de la DAS2."
+
+#. module: l10n_fr_das2
+#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
+msgid "Validate"
+msgstr "Valider"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_car
