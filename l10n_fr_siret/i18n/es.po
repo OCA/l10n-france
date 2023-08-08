@@ -9,105 +9,108 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-17 03:38+0000\n"
-"PO-Revision-Date: 2017-01-17 03:38+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2023-08-08 14:11+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__parent_is_company
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_users__parent_is_company
 msgid "Check if the contact is a company, otherwise it is a person"
 msgstr ""
+"Marque esta casilla si el contacto es una compañía. En caso contrario, será "
+"una persona"
 
 #. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Compañías"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__company_registry
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__company_registry
 msgid "Company Registry"
-msgstr ""
+msgstr "Registro de la Compañía"
 
 #. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Mostrar Nombre"
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "Duplicate warning: partner"
-msgstr ""
+msgstr "Aviso de duplicado: socio"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__id
 msgid "ID"
-msgstr ""
+msgstr "ID (identificación)"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificación el"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__nic
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__nic
 msgid "NIC"
-msgstr ""
+msgstr "NIC"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__parent_is_company
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__parent_is_company
 msgid "Parent is a Company"
-msgstr ""
+msgstr "La matriz es una compañía"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__same_siren_partner_id
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__same_siren_partner_id
 msgid "Partner with same SIREN"
-msgstr ""
+msgstr "Socio con el mismo SIREN"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siren
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siren
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siren
 msgid "SIREN"
-msgstr ""
+msgstr "SIREN"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret
 msgid "SIRET"
-msgstr ""
+msgstr "SIRET"
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "SIRET '%s' is invalid."
-msgstr ""
+msgstr "SIRET '%s' es inválido."
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
-msgstr ""
+msgstr "El NIC '%s' es incorrecto: debe tener exactamente 5 dígitos."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__nic
@@ -117,18 +120,20 @@ msgid ""
 "The NIC number is the official rank number of this office in the company in "
 "France. It composes the last 5 digits of the SIRET number."
 msgstr ""
+"El número NIC es el número de rango oficial de esta oficina en la empresa en "
+"Francia. Compone los últimos 5 dígitos del número SIRET."
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIREN '%s' is incorrect: it must have exactly 9 digits."
-msgstr ""
+msgstr "El SIREN '%s' es incorrecto: debe tener exactamente 9 dígitos."
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIREN '%s' is invalid: the checksum is wrong."
-msgstr ""
+msgstr "La SIREN '%s' no es válida: la suma de comprobación es incorrecta."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siren
@@ -138,12 +143,14 @@ msgid ""
 "The SIREN number is the official identity number of the company in France. "
 "It composes the first 9 digits of the SIRET number."
 msgstr ""
+"El número SIREN es el número de identidad oficial de la empresa en Francia. "
+"Se compone de las 9 primeras cifras del número SIRET."
 
 #. module: l10n_fr_siret
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "The SIRET '%s%s' is invalid: the checksum is wrong."
-msgstr ""
+msgstr "El SIRET '%s%s' no es válido: la suma de comprobación es incorrecta."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
@@ -154,18 +161,21 @@ msgid ""
 "France. It is composed of the 9 digits of the SIREN number and the 5 digits "
 "of the NIC number, ie. 14 digits."
 msgstr ""
+"El número SIRET es el número de identidad oficial de la oficina de esta "
+"empresa en Francia. Se compone de los 9 dígitos del número SIREN y los 5 "
+"dígitos del número NIC, es decir, 14 dígitos."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__company_registry
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__company_registry
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_users__company_registry
 msgid "The name of official registry where this company was declared."
-msgstr ""
+msgstr "El nombre del registro oficial donde se declaró esta empresa."
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "has the same <b>SIREN</b>."
-msgstr ""
+msgstr "tiene el mismo <b>SIREN</b>."
 
 #~ msgid "Partner"
 #~ msgstr "Empresa"
