@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-08 14:11+0000\n"
+"PO-Revision-Date: 2023-08-08 17:11+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -69,43 +69,43 @@ msgstr "Otras compras y cargos externos"
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_ge
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_262
 msgid "Autres charges"
-msgstr ""
+msgstr "Otros gastos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_242
 msgid "Autres charges externes"
-msgstr ""
+msgstr "Otros cargos externos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_bz
 msgid "Autres créances"
-msgstr ""
+msgstr "Otras creencias"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_ea
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_172
 msgid "Autres dettes"
-msgstr ""
+msgstr "Otras deudas"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dt
 msgid "Autres emprunts obligataires"
-msgstr ""
+msgstr "Otras emisiones de bonos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_at
 msgid "Autres immobilisations corporelles"
-msgstr ""
+msgstr "Otras inmovilizaciones corporales"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_bh
 msgid "Autres immobilisations financières"
-msgstr ""
+msgstr "Otras inmovilizaciones financieras"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_aj
 msgid "Autres immobilisations incorporelles"
-msgstr ""
+msgstr "Otras inmovilizaciones incorporales"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gl
@@ -411,408 +411,408 @@ msgstr "Inmovilizaciones corporales en curso"
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_040
 msgid "Immobilisations financières"
-msgstr ""
+msgstr "Inmovilizaciones financieras"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_014
 msgid "Immobilisations incorporelles - Autres"
-msgstr ""
+msgstr "Inmovilizaciones inmateriales - Otros"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_010
 msgid "Immobilisations incorporelles - Fonds commercial"
-msgstr ""
+msgstr "Inmovilizaciones inmateriales - Fondo de comercio"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_306
 msgid "Impôts sur les bénéfices (VII)"
-msgstr ""
+msgstr "Impuesto sobre la renta (VII)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_hk
 msgid "Impôts sur les bénéfices (X)"
-msgstr ""
+msgstr "Impuesto sobre la renta (X)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fx
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_244
 msgid "Impôts, taxes et versements assimilés"
-msgstr ""
+msgstr "Impuestos, tasas y otros pagos similares"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_ar
 msgid "Installations techniques, matériel et outillage industriels"
-msgstr ""
+msgstr "Instalaciones, maquinaria y equipos industriales"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gr
 msgid "Intérêts et charges assimilées"
-msgstr ""
+msgstr "Intereses y cargos similares"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_bt
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_060
 msgid "Marchandises"
-msgstr ""
+msgstr "Bienes"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_bl
 msgid "Matières premières, approvisionnements"
-msgstr ""
+msgstr "Materias primas, suministros"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_050
 msgid "Matières premières, approvisionnements, en cours de production"
-msgstr ""
+msgstr "Materias primas, suministros, en proceso de producción"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gh
 msgid "Opérations en commun - bénéfice attribué ou perte transférée (III)"
-msgstr ""
+msgstr "Operaciones conjuntas - utilidad asignada o pérdida transferida (III)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gi
 msgid "Opérations en commun - perte supportée ou bénéfice transféré (IV)"
-msgstr ""
+msgstr "Operaciones conjuntas - pérdida incurrida o ganancia transferida (IV)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_hj
 msgid "Participation des salariés aux résultats de l'entreprise (IX)"
-msgstr ""
+msgstr "Participación de los trabajadores en los resultados de la empresa (IX)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_cs
 msgid "Participations évaluées selon la méthode de mise en équivalence"
-msgstr ""
+msgstr "Inversiones valoradas por el método de la participación"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gd
 msgid "Pour risques et charges : dotations aux provisions"
-msgstr ""
+msgstr "Por riesgos y cargas: dotaciones a provisiones"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_db
 msgid "Primes d'émission, de fusion, d'apport"
-msgstr ""
+msgstr "Primas de emisión, fusión, aportación"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_cm
 msgid "Primes de remboursement des obligations (V)"
-msgstr ""
+msgstr "Primas de Amortización de Bonos (V)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fn
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_224
 msgid "Production immobilisée"
-msgstr ""
+msgstr "Producción inmobilizada"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fm
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_222
 msgid "Production stockée"
-msgstr ""
+msgstr "Producción almacenada"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_ff
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_214
 msgid "Production vendue de biens"
-msgstr ""
+msgstr "Venta de producción de bienes"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fi
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_218
 msgid "Production vendue de services"
-msgstr ""
+msgstr "Venta de producción de servicios"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dm
 msgid "Produit des émissions de titres participatifs"
-msgstr ""
+msgstr "Producto de emisiones de valores de renta variable"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_eb
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_174
 msgid "Produits constatés d'avance"
-msgstr ""
+msgstr "Ingresos diferidos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gk
 msgid ""
 "Produits des autres valeurs mobilières et créances de l'actif immobilisé"
-msgstr ""
+msgstr "Ingresos de otros valores y cuentas por cobrar de activos fijos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_290
 msgid "Produits exceptionnels (IV)"
-msgstr ""
+msgstr "Productos Destacados (IV)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_ha
 msgid "Produits exceptionnels sur opérations de gestion"
-msgstr ""
+msgstr "Ingresos excepcionales en operaciones de gestión"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_hb
 msgid "Produits exceptionnels sur opérations en capital"
-msgstr ""
+msgstr "Rentas excepcionales por operaciones de capital"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_280
 msgid "Produits financiers (III)"
-msgstr ""
+msgstr "Productos financieros (III)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gj
 msgid "Produits financiers de participations"
-msgstr ""
+msgstr "Ingresos financieros por participaciones"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_br
 msgid "Produits intermédiaires et finis"
-msgstr ""
+msgstr "Productos intermedios y terminados"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_go
 msgid "Produits nets sur cessions de valeurs mobilières de placement"
-msgstr ""
+msgstr "Producto neto de la venta de valores negociables"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dq
 msgid "Provisions pour charges"
-msgstr ""
+msgstr "Provisiones para gastos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dp
 msgid "Provisions pour risques"
-msgstr ""
+msgstr "Provisiones de riesgo"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_154
 msgid "Provisions pour risques et charges (II)"
-msgstr ""
+msgstr "Provisiones para riesgos y gastos (II)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dk
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_140
 msgid "Provisions réglementées"
-msgstr ""
+msgstr "Provisiones reguladas"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_bf
 msgid "Prêts"
-msgstr ""
+msgstr "Préstamos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dh
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_134
 msgid "Report à nouveau"
-msgstr ""
+msgstr "Beneficios no distribuidos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fp
 msgid "Reprises sur amortissements et provisions, transferts de charges"
-msgstr ""
+msgstr "Reversiones de depreciación y provisiones, transferencia de cargos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gm
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_hc
 msgid "Reprises sur provisions et transferts de charges"
-msgstr ""
+msgstr "Reversiones de provisiones y traspasos de cargos"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_250
 msgid "Rémunération du personnel"
-msgstr ""
+msgstr "Remuneración del personal"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dd
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_126
 msgid "Réserve légale"
-msgstr ""
+msgstr "Reserva legal"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_df
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_130
 msgid "Réserves réglementées"
-msgstr ""
+msgstr "Reservas reguladas"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_de
 msgid "Réserves statutaires ou contractuelles"
-msgstr ""
+msgstr "Reservas estatutarias o contractuales"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_136
 msgid "Résultat de l'exercice"
-msgstr ""
+msgstr "Resultado del ejercicio"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_di
 msgid "Résultat de l'exercice (bénéfice ou perte)"
-msgstr ""
+msgstr "Resultado del ejercicio (beneficio o pérdidas)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fy
 msgid "Salaires et traitements"
-msgstr ""
+msgstr "Sueldos y salarios"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fo
 msgid "Subventions d'exploitation"
-msgstr ""
+msgstr "Subvenciones de explotación"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_226
 msgid "Subventions d'exploitation reçues"
-msgstr ""
+msgstr "Subvenciones de explotación recibidas"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dj
 msgid "Subventions d'investissement"
-msgstr ""
+msgstr "Subvenciones de inversión"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gc
 msgid "Sur actif circulant : dotations aux provisions"
-msgstr ""
+msgstr "En activo circulante: dotaciones a provisiones"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_an
 msgid "Terrains"
-msgstr ""
+msgstr "Tierras"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_110
 msgid "Total actif (I + II)"
-msgstr ""
+msgstr "Activo total (I + II)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_co
 msgid "Total actif (I à VI)"
-msgstr ""
+msgstr "Activo total (I a VI)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_096
 msgid "Total actif circulant et CCA (II)"
-msgstr ""
+msgstr "Activo corriente total y CCA (II)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_cj
 msgid "Total actif circulant et charges constatées d'avance (III)"
-msgstr ""
+msgstr "Total activo circulante y gastos anticipados (III)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_044
 msgid "Total actif immobilisé (I)"
-msgstr ""
+msgstr "Activos fijos totales (I)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_bj
 msgid "Total actif immobilisé (II)"
-msgstr ""
+msgstr "Activo fijo total (II)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_do
 msgid "Total autres fonds propres (II)"
-msgstr ""
+msgstr "Total otros fondos propios (II)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dl
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_142
 msgid "Total capitaux propres (I)"
-msgstr ""
+msgstr "Total fondos propios (I)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_hm
 msgid "Total des charges (II + IV + VI + VIII + IX + X)"
-msgstr ""
+msgstr "Gastos totales (II + IV + VI + VIII + IX + X)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gf
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_264
 msgid "Total des charges d'exploitation (II)"
-msgstr ""
+msgstr "Total gastos de explotación (II)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_hh
 msgid "Total des charges exceptionnelles (VIII)"
-msgstr ""
+msgstr "Total cargos excepcionales (VIII)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gu
 msgid "Total des charges financières (VI)"
-msgstr ""
+msgstr "Cargos financieros totales (VI)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_hl
 msgid "Total des produits (I + III + V + VII)"
-msgstr ""
+msgstr "Productos totales (I + III + V + VII)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fr
 msgid "Total des produits d'exploitation (I)"
-msgstr ""
+msgstr "Total ingresos de explotación (I)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_232
 msgid "Total des produits d'exploitation hors TVA (I)"
-msgstr ""
+msgstr "Total ingresos de explotación sin IVA (I)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_hd
 msgid "Total des produits exceptionnels (VII)"
-msgstr ""
+msgstr "Ingreso excepcional total (VII)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_gp
 msgid "Total des produits financiers (V)"
-msgstr ""
+msgstr "Ingresos financieros totales (V)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_176
 msgid "Total dettes et PCA (III)"
-msgstr ""
+msgstr "Deudas totales y PCA (III)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_ec
 msgid "Total dettes et produits constatés d'avance (IV)"
-msgstr ""
+msgstr "Total cuentas por pagar e ingresos anticipados (IV)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_180
 msgid "Total passif (I + II + III)"
-msgstr ""
+msgstr "Total pasivo (I + II + III)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_ee
 msgid "Total passif (I à V)"
-msgstr ""
+msgstr "Pasivos totales (I a V)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_dr
 msgid "Total provisions pour risques et charges (III)"
-msgstr ""
+msgstr "Total provisiones para riesgos y gastos (III)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_cd
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_bs_simplified_080
 msgid "Valeurs mobilières de placement"
-msgstr ""
+msgstr "Valores mobiliarios negociables"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_ft
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_236
 msgid "Variation de stock (marchandises)"
-msgstr ""
+msgstr "Cambio en stock (bienes)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fv
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_240
 msgid "Variation de stock (matières premières et approvisionnements)"
-msgstr ""
+msgstr "Variación de existencias (materias primas y suministros)"
 
 #. module: l10n_fr_mis_reports
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_fc
 #: model:mis.report.kpi,description:l10n_fr_mis_reports.mis_report_pl_simplified_210
 msgid "Ventes de marchandises"
-msgstr ""
+msgstr "Venta de bienes"
