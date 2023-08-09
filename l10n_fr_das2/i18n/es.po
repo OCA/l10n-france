@@ -6,23 +6,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-08-09 11:11+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 msgid "<span class=\"o_stat_text\">Lines Fullscreen</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">lineas a pantalla completa</span>"
 
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_year_company_uniq
 msgid "A DAS2 already exists for that year!"
-msgstr ""
+msgstr "¡Ya existe un DAS2 para ese año!"
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -32,6 +34,8 @@ msgid ""
 "A declaration file already exists. First, delete it via the attachments and "
 "then re-generate it."
 msgstr ""
+"Ya existe un archivo de declaración. Primero, elimínelo a través de los "
+"archivos adjuntos y luego vuelva a generarlo."
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -42,101 +46,104 @@ msgid ""
 "locate this special character and replace it by a standard character and try"
 " again."
 msgstr ""
+"Un carácter especial en el archivo DAS2 no está en la tabla latin1. Localice "
+"este carácter especial y reemplácelo por un carácter estándar y vuelva a "
+"intentarlo."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Necesita Acción"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Avtividades"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Decoración de Actividad de Excepción"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Estado de la Actividad"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Icono para el tipo de actividad"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__contact_id
 msgid "Administrative Contact"
-msgstr ""
+msgstr "Contacto Administrativo"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_fixed
 msgid "Allocation forfaitaire"
-msgstr ""
+msgstr "Indemnización a tanto alzado"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 msgid "Are you sure you want to go back to draft?"
-msgstr ""
+msgstr "¿Seguro que quieres volver al estado de borrador?"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_id
 msgid "Attachment"
-msgstr ""
+msgstr "Archivo adjunto"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Conteo de Archivos Adjuntos"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_other
 msgid "Autres"
-msgstr ""
+msgstr "Otros"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__other_income_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__other_income
 msgid "Autres rémunérations"
-msgstr ""
+msgstr "Otras remuneraciones"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_amount
 msgid "Avantages en nature"
-msgstr ""
+msgstr "Ventajas en la naturaleza"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 msgid "Back to Draft"
-msgstr ""
+msgstr "Volver a borrador"
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Cannot delete declaration %s in done state."
-msgstr ""
+msgstr "No se puede eliminar la declaración %s en estado Hecho."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__commission_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__commission
 msgid "Commissions"
-msgstr ""
+msgstr "Comisiones"
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Compañías"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__company_id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__company_id
 msgid "Company"
-msgstr ""
+msgstr "Companía"
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -146,6 +153,8 @@ msgid ""
 "Company '%(company)s' is configured in country '%(country)s'. The DAS2 is "
 "only for France and it's oversea territories."
 msgstr ""
+"La empresa '%(company)s' está configurada en el país %(country)s'. El DAS2 "
+"es sólo para Francia y sus territorios de ultramar."
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -155,22 +164,24 @@ msgid ""
 "Company '%(company)s' is configured with currency '%(currency)s'. It should "
 "be EUR."
 msgstr ""
+"La empresa '%(company)s' está configurada con la moneda '%(currency)s'. "
+"Debería ser EUR."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__currency_id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__currency_id
 msgid "Company Currency"
-msgstr ""
+msgstr "Divisa de compañía"
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Ajustes de Configuración"
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__contact_id
@@ -178,36 +189,39 @@ msgid ""
 "Contact in the company for the fiscal administration: the name, email and "
 "phone number of this partner will be used in the file."
 msgstr ""
+"Contacto en la empresa para la administración fiscal: el nombre, el correo "
+"electrónico y el número de teléfono de este interlocutor se utilizarán en el "
+"fichero."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Country not set on company '%s'."
-msgstr ""
+msgstr "País no establecido en la empresa '%s'."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__brokerage_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__brokerage
 msgid "Courtages"
-msgstr ""
+msgstr "Corretajes"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__create_date
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creado el"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__dads_type
 msgid "DADS Type"
-msgstr ""
+msgstr "Tipo de DADS"
 
 #. module: l10n_fr_das2
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_action
@@ -217,96 +231,96 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
 msgid "DAS2"
-msgstr ""
+msgstr "DAS2"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__fr_das2_job
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_users__fr_das2_job
 msgid "DAS2 Job"
-msgstr ""
+msgstr "DAS2 Trabajo"
 
 #. module: l10n_fr_das2
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_line_action
 msgid "DAS2 Lines"
-msgstr ""
+msgstr "DAS2 Líneas"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__fr_das2_partner_declare_threshold
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__fr_das2_partner_declare_threshold
 msgid "DAS2 Partner Declaration Threshold"
-msgstr ""
+msgstr "Umbral de declaración de socios DAS2"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__parent_id
 msgid "DAS2 Report"
-msgstr ""
+msgstr "Informe DAS2"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__fr_das2_type
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_res_users__fr_das2_type
 msgid "DAS2 Type"
-msgstr ""
+msgstr "Tipo DAS2"
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 file deleted."
-msgstr ""
+msgstr "Archivo DAS2 eliminado."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key."
-msgstr ""
+msgstr "Archivo DAS2 generado. Cifrado con la clave PGP <b>%s</b> de DGFiP."
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2_line
 msgid "DAS2 line"
-msgstr ""
+msgstr "DAS2 Línea"
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "DAS2 lines generated. "
-msgstr ""
+msgstr "Líneas DAS2 generadas. "
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_datas
 msgid "Declaration File"
-msgstr ""
+msgstr "Línea de declaración"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__display_name
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Mostrar Nombre"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__l10n_fr_das2__state__done
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__l10n_fr_das2__state__draft
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
 msgid "Draft"
-msgstr ""
+msgstr "Borrador"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__copyright_royalties_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__copyright_royalties
 msgid "Droits d'auteur"
-msgstr ""
+msgstr "Derechos de autor"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__licence_royalties_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__licence_royalties
 msgid "Droits d'inventeur"
-msgstr ""
+msgstr "Derechos de invención"
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -315,6 +329,7 @@ msgstr ""
 msgid ""
 "Failed to convert field '%(field_name)s' (partner %(partner)s) to integer."
 msgstr ""
+"No se pudo convertir el campo '%(field_name)s' (socio %(partner)s) a entero."
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -324,210 +339,212 @@ msgid ""
 "Field %(field_name)s (partner %(partner)s) has value %(value)s: it is bigger"
 " than the maximum size (%(size)d characters)."
 msgstr ""
+"El campo %(field_name)s (partner %(partner)s) tiene valor %(value)s: es "
+"mayor que el tamaño máximo (%(size)d caracteres)."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__attachment_name
 msgid "Filename"
-msgstr ""
+msgstr "Nombre del fichero"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Seguidores/as"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Seguidores (Socios)"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Icono de fuente impresionante, por ejemplo fa-tasks"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 msgid "Generate Lines"
-msgstr ""
+msgstr "Generar líneas"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Tiene mensaje"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__fee_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__fee
 msgid "Honoraires et vacations"
-msgstr ""
+msgstr "Honorarios y consultas"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID (identificación)"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Icono"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Icono para indicar una actividad por excepción."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Si está marcada, nuevos mensajes requieren su atención."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_error
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Si está marcada, algunos mensajes tienen un error de entrega."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__allowance
 msgid "Indemnités et remboursements"
-msgstr ""
+msgstr "Indemnizaciones y reembolsos"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Es Seguidor/a"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__attendance_fee_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__attendance_fee
 msgid "Jetons de présence"
-msgstr ""
+msgstr "Honorarios de los administradores"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 msgid "Job"
-msgstr ""
+msgstr "Puesto"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__l10n_fr_das2__dads_type__1
 msgid "La société ne verse pas de salaires"
-msgstr ""
+msgstr "La empresa no paga salarios"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__l10n_fr_das2__dads_type__4
 msgid "La société verse des salaires"
-msgstr ""
+msgstr "La empresa no paga salarios"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2____last_update
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificación el"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Actualizado por Última vez por"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__write_date
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última actualización el"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__line_ids
 msgid "Lines"
-msgstr ""
+msgstr "Líneas"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 msgid "List view of lines"
-msgstr ""
+msgstr "Vista de lista de líneas"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_accomodation
 msgid "Logement"
-msgstr ""
+msgstr "Vivienda"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_main_attachment_id
 msgid "Main Attachment"
-msgstr ""
+msgstr "Archivo adjunto principal"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Error en entrega de mensaje"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Mensajes"
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing APE on company '%s'."
-msgstr ""
+msgstr "Falta APE en la empresa '%s'."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing Code Officiel Géographique on country '%s'."
-msgstr ""
+msgstr "Falta el código geográfico oficial en el país '%s'."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIREN on company '%s'."
-msgstr ""
+msgstr "Falta SIREN en la empresa '%s'."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIRET for french partner %s."
-msgstr ""
+msgstr "Falta SIRET para el socio francés %s."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing SIRET on company '%s'."
-msgstr ""
+msgstr "Falta SIRET en la empresa '%s'."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing Street on company '%s'"
-msgstr ""
+msgstr "Calle faltante en la empresa '%s'"
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing administrative contact."
-msgstr ""
+msgstr "Falta contacto administrativo."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "Missing city on partner '%s'."
-msgstr ""
+msgstr "Falta la ciudad en el socio '%s'."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Fecha límite de mi actividad"
 
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_allowance_amount_positive
@@ -542,57 +559,57 @@ msgstr ""
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_other_income_amount_positive
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_withholding_tax_amount_positive
 msgid "Negative amounts not allowed!"
-msgstr ""
+msgstr "¡No se permiten cantidades negativas!"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Fecha Límite para la siguiente Actividad"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Resumen de la Siguiente Actividad"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Tipo Siguiente Actividad"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__note
 msgid "Note"
-msgstr ""
+msgstr "Nota"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_form
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_food
 msgid "Nourriture"
-msgstr ""
+msgstr "Alimentación"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Número de acciones"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Número de errores"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Números de mensajes que requieren una acción"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Número de mensajes con error de entrega"
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -602,21 +619,23 @@ msgid ""
 "One of the lines has a length of %(length)d. All lines should have a length "
 "of 672. Line: %(line_content)s."
 msgstr ""
+"Una de las líneas tiene una longitud de %(length)d. Todas las líneas deben "
+"tener una longitud de 672. Línea: %(line_content)s."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_nict
 msgid "Outils issus des NTIC"
-msgstr ""
+msgstr "Herramientas de NTIC"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__partner_declare_threshold
 msgid "Partner Declaration Threshold"
-msgstr ""
+msgstr "Umbral de declaración de socios"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__payment_journal_ids
 msgid "Payment Journals"
-msgstr ""
+msgstr "Diarios de pago"
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -626,60 +645,62 @@ msgid ""
 "Payment dated <b>%(date)s</b> in journal <b>%(journal)s</b>: %(amount)s "
 "(journal entry %(move_name)s)"
 msgstr ""
+"Fecha de pago<b>%(date)s</b>en el diario<b>%(journal)s</b>%(amount)s(entrada "
+"del diario%(move_name)s)"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_employer
 msgid "Prise en charge directe par l'employeur"
-msgstr ""
+msgstr "Pago directo por el empresario"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__job
 msgid "Profession"
-msgstr ""
+msgstr "Profesión"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Usuario Responsable"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__withholding_tax_amount
 msgid "Retenue à la source"
-msgstr ""
+msgstr "Retención en origen"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__discount_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__discount
 msgid "Ristournes"
-msgstr ""
+msgstr "Rebajas"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__partner_siret
 msgid "SIRET"
-msgstr ""
+msgstr "SIRET"
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "SIRET '%s' is invalid."
-msgstr ""
+msgstr "SIRET '%s' es inválido."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Error en la entrega de SMS"
 
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
-msgstr ""
+msgstr "¡El mismo socio utilizado en varias líneas!"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__state
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__state
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__activity_state
@@ -689,23 +710,27 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Estado en base a las actividades\n"
+"Atrasada: La fecha de vencimiento ya ha pasado\n"
+"Hoy: La fecha de la actividad es hoy\n"
+"Planificada: Actividades futuras."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__partner_id
 msgid "Supplier"
-msgstr ""
+msgstr "Proveedor"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__allowance_real
 msgid "Sur frais réels"
-msgstr ""
+msgstr "Sobre los costes reales"
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The DAS2 has no lines."
-msgstr ""
+msgstr "El DAS2 no tiene líneas."
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -713,11 +738,13 @@ msgstr ""
 #, python-format
 msgid "The DAS2 partner declaration threshold is not set on company '%s'."
 msgstr ""
+"El umbral de declaración de socio DAS2 no está establecido en la empresa "
+"'%s'."
 
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_res_company_fr_das2_partner_declare_threshold_positive
 msgid "The DAS2 partner declaration threshold must be positive!"
-msgstr ""
+msgstr "¡El umbral de declaración del socio DAS2 debe ser positivo!"
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -725,6 +752,8 @@ msgstr ""
 #, python-format
 msgid "The email is not set on the administrative contact partner '%s'."
 msgstr ""
+"El correo electrónico no está configurado en el interlocutor administrativo "
+"'%s'."
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -734,6 +763,8 @@ msgid ""
 "The field '%(field_name)s' (partner %(partner)s) is empty or 0. It should "
 "have a non-null value."
 msgstr ""
+"El campo '%(field_name)s' (partner %(partner)s) está vacío o es 0. Debe "
+"tener un valor no nulo."
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -744,6 +775,9 @@ msgid ""
 " some accounts that indicate they should probably be configured for "
 "DAS2:<ul>"
 msgstr ""
+"Los siguientes socios no están configurados para DAS2 pero tienen gastos en "
+"algunas cuentas que indican que probablemente deberían estar configurados "
+"para DAS2:<ul>"
 
 #. module: l10n_fr_das2
 #. odoo-python
@@ -752,72 +786,74 @@ msgstr ""
 msgid ""
 "The phone number is not set on the administrative contact partner '%s'."
 msgstr ""
+"El número de teléfono no está configurado en el interlocutor administrativo "
+"'%s'."
 
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "There are no partners configured for DAS2."
-msgstr ""
+msgstr "No hay socios configurados para DAS2."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__to_declare
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_search
 msgid "To Declare"
-msgstr ""
+msgstr "A Declarar"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__total_amount
 msgid "Total Amount"
-msgstr ""
+msgstr "Importe Total"
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Tipo (o clase) de actividad excepcional registrada."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__unencrypted_attachment_id
 msgid "Unencrypted Attachment"
-msgstr ""
+msgstr "Adjunto sin cifrar"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_res_partner__fr_das2_job
 #: model:ir.model.fields,help:l10n_fr_das2.field_res_users__fr_das2_job
 msgid "Used in the field 'Profession' of DAS2."
-msgstr ""
+msgstr "Utilizado en el campo 'Profesión' de DAS2."
 
 #. module: l10n_fr_das2
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
 msgid "Validate"
-msgstr ""
+msgstr "Validar"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_car
 msgid "Voiture"
-msgstr ""
+msgstr "Coche"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__warning_msg
 msgid "Warning Msg"
-msgstr ""
+msgstr "Mensaje de advertencia"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Mensajes de la página web"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Historial de la comunicación en la página web"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
-msgstr ""
+msgstr "Año"
