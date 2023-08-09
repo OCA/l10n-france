@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-23 15:34+0000\n"
-"PO-Revision-Date: 2018-03-23 15:34+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2023-08-09 15:09+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -26,6 +27,9 @@ msgid ""
 "%(obj_display_name)s: Customer Reference '%(client_order_ref)s' not found in "
 "Chorus Pro. Please check the Customer Reference carefully."
 msgstr ""
+"%(obj_display_name)s: La referencia de cliente '%(client_order_ref)s' no se "
+"encuentra en Chorus Pro. Por favor compruebe detenidamente la Referencia de "
+"cliente."
 
 #. module: l10n_fr_chorus_account
 #: model:mail.template,body_html:l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template
@@ -47,63 +51,80 @@ msgid ""
 "Automatic e-mail sent by Odoo.\n"
 "</p>\n"
 msgstr ""
+"<p>El servidor Odoo de la empresa <em t-out=\"object.name\">Mi empresa</em> "
+"está configurado para acceder a la API de Chorus Pro. Acceder a la API de "
+"Chorus Pro requiere un inicio de sesión y una contraseña de usuario técnico. "
+"La contraseña del usuario técnico tiene fecha de caducidad. La contraseña "
+"del usuario técnico caduca el <strong t-out=\"format_date(object."
+"fr_chorus_pwd_expiry_date) o ''\">08/08/2021</strong> (en <strong t-out=\"ctx"
+".get('pwd_days ')\">7</strong> días).</p>\n"
+"\n"
+"<p>Para continuar accediendo a la API de Chorus Pro sin problemas, debe "
+"conectarse a Chorus Pro, generar una nueva contraseña para el usuario "
+"técnico y copiarla en Odoo en la página de configuración de contabilidad.</p>"
+"\n"
+"\n"
+"<p>\n"
+"-- <br>\n"
+"Correo electrónico automático enviado por Odoo.\n"
+"</p>\n"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__active
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/wizard/account_invoice_chorus_send.py:0
 #, python-format
 msgid "All the selected invoices must be in the same company"
-msgstr ""
+msgstr "Todas las facturas seleccionadas deben pertenecer a la misma compañía"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Archived"
-msgstr ""
+msgstr "Archivado"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_move_form
 msgid "Attachments"
-msgstr ""
+msgstr "Archivos adjuntos"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
 msgid "Cannot get Chorus Identifier on a contact (%s)"
-msgstr ""
+msgstr "No se puede obtener el identificador de coro de un contacto (%s)"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_check_commitment_number
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_check_commitment_number
 msgid "Check Commitment Numbers"
-msgstr ""
+msgstr "Comprobar los números de compromiso"
 
 #. module: l10n_fr_chorus_account
 #: model:res.groups,name:l10n_fr_chorus_account.group_chorus_api
 msgid "Chorus API"
-msgstr ""
+msgstr "API Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:mail.template,name:l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template
 msgid "Chorus API Expiry Reminder"
-msgstr ""
+msgstr "Recordatorio de caducidad de la API Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_bank_statement_line__chorus_attachment_ids
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__chorus_attachment_ids
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__chorus_attachment_ids
 msgid "Chorus Attachments"
-msgstr ""
+msgstr "Adjuntos de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_chorus_flow
@@ -111,47 +132,47 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__chorus_flow_id
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__chorus_flow_id
 msgid "Chorus Flow"
-msgstr ""
+msgstr "Flujo de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.act_window,name:l10n_fr_chorus_account.chorus_flow_action
 #: model:ir.ui.menu,name:l10n_fr_chorus_account.chorus_flow_menu
 msgid "Chorus Flows"
-msgstr ""
+msgstr "Flujos de Coros"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__chorus_identifier
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_identifier
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_identifier
 msgid "Chorus Identifier"
-msgstr ""
+msgstr "Identificador de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__chorus_invoice_format
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_invoice_format
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_invoice_format
 msgid "Chorus Invoice Format"
-msgstr ""
+msgstr "Formato de factura de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_bank_statement_line__chorus_identifier
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__chorus_identifier
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__chorus_identifier
 msgid "Chorus Invoice Identifier"
-msgstr ""
+msgstr "Identificador de Factura de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_bank_statement_line__chorus_status
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__chorus_status
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__chorus_status
 msgid "Chorus Invoice Status"
-msgstr ""
+msgstr "Estado de Factura de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.act_window,name:l10n_fr_chorus_account.chorus_partner_service_action
 #: model:ir.ui.menu,name:l10n_fr_chorus_account.chorus_partner_service_menu
 msgid "Chorus Partner Services"
-msgstr ""
+msgstr "Servicios de socios de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.ui.menu,name:l10n_fr_chorus_account.chorus_config
@@ -160,30 +181,30 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_move_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
 msgid "Chorus Pro"
-msgstr ""
+msgstr "Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid "Chorus Pro API"
-msgstr ""
+msgstr "API de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_api_expiry_reminder_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_api_expiry_reminder_cron
 msgid "Chorus Pro API Expiry Reminder Email"
-msgstr ""
+msgstr "Correo electrónico de recordatorio de caducidad de la API de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_flow_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_flow_cron
 msgid "Chorus Pro Invoice Status Update"
-msgstr ""
+msgstr "Actualización del estado de la factura de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_partner_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_partner_cron
 msgid "Chorus Pro Partner Update"
-msgstr ""
+msgstr "Actualización de socios de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -193,53 +214,55 @@ msgid ""
 "Chorus Pro only accepts IBAN. But the bank account '%(acc_number)s' of "
 "%(company)s is not an IBAN."
 msgstr ""
+"Coro Pro sólo acepta IBAN. Pero la cuenta bancaria '%(acc_number)s' de "
+"%(company)s no es un IBAN."
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_service_id
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_service_id
 msgid "Chorus Service"
-msgstr ""
+msgstr "Servicio de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_service_ids
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_service_ids
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
 msgid "Chorus Services"
-msgstr ""
+msgstr "Servicios de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_chorus_partner_service
 msgid "Chorus Services attached to a partner"
-msgstr ""
+msgstr "Servicios de coro unidos a un socio"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_account_invoice_filter
 msgid "Chorus Status"
-msgstr ""
+msgstr "Estado de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_api_login
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_api_login
 msgid "Chorus Technical User Login"
-msgstr ""
+msgstr "Inicio de sesión de usuario técnico de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_api_password
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_api_password
 msgid "Chorus Technical User Password"
-msgstr ""
+msgstr "Contraseña de usuario técnico de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_pwd_expiry_date
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_pwd_expiry_date
 msgid "Chorus Technical User Password Expiry Date"
-msgstr ""
+msgstr "Fecha de caducidad de la contraseña de usuario técnico de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_qualif
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_qualif
 msgid "Chorus Test Mode"
-msgstr ""
+msgstr "Modo de prueba de Coro"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -250,11 +273,15 @@ msgid ""
 "Chorus service code '%(service_code)s' has been set on partner "
 "%(partner_name)s that has no parent."
 msgstr ""
+"Los códigos de servicio del Coro sólo pueden establecerse en los contactos, "
+"no en los socios padre. El código de servicio de Coro '%(service_code)s' se "
+"ha establecido en el contacto %(partner_name)s que no tiene contacto "
+"principal."
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Code, Name or Identifier"
-msgstr ""
+msgstr "Código, Nombre o Identificador"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_res_company
