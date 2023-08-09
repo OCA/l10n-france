@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-09 11:11+0000\n"
+"PO-Revision-Date: 2023-08-09 15:09+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -31,16 +31,18 @@ msgid ""
 "For the bank account '%(acc_number)s' of partner '%(partner)s', the Bank "
 "Account Type should be 'IBAN'."
 msgstr ""
+"Para la cuenta bancaria '%(acc_number)s' del socio '%(partner)s', el Tipo de "
+"cuenta bancaria debe ser 'IBAN'."
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Artículo Diario"
 
 #. module: account_banking_fr_lcr
 #: model:account.payment.mode,name:account_banking_fr_lcr.payment_mode_lcr
 msgid "LCR"
-msgstr ""
+msgstr "LCR"
 
 #. module: account_banking_fr_lcr
 #. odoo-python
@@ -50,21 +52,23 @@ msgid ""
 "LCR are only for French bank accounts. The IBAN '%(acc_number)s' of partner "
 "'%(partner)s' is not a French IBAN."
 msgstr ""
+"LCR son solo para cuentas bancarias francesas. El IBAN '%(acc_number)s' del "
+"socio '%(partner)s' no es un IBAN francés."
 
 #. module: account_banking_fr_lcr
 #: model:account.payment.method,name:account_banking_fr_lcr.fr_lcr
 msgid "Lettre de Change Relevé"
-msgstr ""
+msgstr "Carta de Cambio Relevante"
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_account_payment_method
 msgid "Payment Methods"
-msgstr ""
+msgstr "Métodos de Pago"
 
 #. module: account_banking_fr_lcr
 #: model:ir.model,name:account_banking_fr_lcr.model_account_payment_order
 msgid "Payment Order"
-msgstr ""
+msgstr "Orden de pago"
 
 #. module: account_banking_fr_lcr
 #. odoo-python
@@ -74,10 +78,12 @@ msgid ""
 "The currency of payment line '%(payment_line)s' is '%(currency)s'. To be "
 "included in a French LCR, the currency must be EUR."
 msgstr ""
+"La divisa de la línea de pago '%(payment_line)s' es '%(currency)s'. Para "
+"estar incluido en un LCR francés, la moneda debe ser EUR."
 
 #. module: account_banking_fr_lcr
 #. odoo-python
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid "The field '%s' is empty or 0. It should have a non-null value."
-msgstr ""
+msgstr "El campo '%s' está vacío o es 0. Debe tener un valor no nulo."
