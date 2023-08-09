@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-23 15:34+0000\n"
-"PO-Revision-Date: 2023-08-09 15:09+0000\n"
+"PO-Revision-Date: 2023-08-09 19:10+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
@@ -286,18 +286,18 @@ msgstr "Código, Nombre o Identificador"
 #. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Compañías"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__company_id
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__company_id
 msgid "Company"
-msgstr ""
+msgstr "Compañía"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Ajustes de Configuración"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -309,6 +309,10 @@ msgid ""
 "\n"
 "Error details: %(error)s"
 msgstr ""
+"Conexión a la API de Coro (URL %(url)s) falló. Compruebe la conexión a "
+"Internet del servidor de Odoo.\n"
+"\n"
+"Detalles del error: %(error)s"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -320,11 +324,15 @@ msgid ""
 "\n"
 "Error details: %(error)s"
 msgstr ""
+"La conexión a PISTE (URL %(url)s) ha fallado. Compruebe la conexión a "
+"Internet del servidor Odoo.\n"
+"\n"
+"Detalles del error: %(error)s"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -334,6 +342,9 @@ msgid ""
 "Contacts with a Chorus service code should have a name. The Chorus service "
 "code '%s' has been set on a contact without a name."
 msgstr ""
+"Los contactos con un código de servicio Coro deben tener un nombre. El "
+"código de servicio de Coro \"%s\" se ha establecido en un contacto sin "
+"nombre."
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__create_uid
@@ -356,12 +367,12 @@ msgstr "Creado en"
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 #, python-format
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__display_name
@@ -373,13 +384,13 @@ msgstr "Nombre mostrado"
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields.selection,name:l10n_fr_chorus_account.selection__res_partner__fr_chorus_required__engagement
 msgid "Engagement"
-msgstr ""
+msgstr "Compromiso"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__engagement_required
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Engagement Required"
-msgstr ""
+msgstr "Compromiso Requerido"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -391,6 +402,10 @@ msgid ""
 "HTTP error code: %(status_code)s. Error type: %(error_type)s. Error "
 "description: %(error_description)s."
 msgstr ""
+"Error en la solicitud para obtener un nuevo símbolo a través de PISTE.\n"
+"\n"
+"Código de error HTTP: %(status_code)s. Tipo de error: %(error_type)s. "
+"Descripción del error: %(error_description)s."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -398,47 +413,49 @@ msgstr ""
 #, python-format
 msgid "Error in the request to get a new token via PISTE. HTTP error code: %s."
 msgstr ""
+"Error en la solicitud para obtener un nuevo símbolo a través de PISTE. "
+"Código de error HTTP: %s."
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__attachment_id
 msgid "File Sent to Chorus"
-msgstr ""
+msgstr "Archivo enviado a Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__date
 msgid "Flow Date"
-msgstr ""
+msgstr "Fecha de Flujo"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__name
 msgid "Flow Ref"
-msgstr ""
+msgstr "Ref de Flujo"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status_display
 msgid "Flow Status"
-msgstr ""
+msgstr "Estado del Flujo"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status
 msgid "Flow Status (raw value)"
-msgstr ""
+msgstr "Estado del flujo (valor bruto)"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__syntax
 msgid "Flow Syntax"
-msgstr ""
+msgstr "Sintaxis del Flujo"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Get Chorus Invoice Identifiers"
-msgstr ""
+msgstr "Obtener identificadores de factura de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Group By"
-msgstr ""
+msgstr "Agrupado por"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__id
@@ -456,6 +473,11 @@ msgid ""
 "reference' in the administrative tongue. It will also check it upon sale "
 "order validation if the module l10n_fr_chorus_sale is installed."
 msgstr ""
+"Si se activa, Odoo comprobará el número de compromiso ('engagement "
+"juridique' en francés) en la validación de la factura. Corresponde a la "
+"\"referencia del pedido del cliente\" en la lengua administrativa. También "
+"lo comprobará en la validación del pedido de venta si el módulo "
+"l10n_fr_chorus_sale está instalado."
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__group_chorus_api
@@ -463,62 +485,64 @@ msgid ""
 "If you select 'Use Chorus Pro API', it will add all users to the Chorus API "
 "group."
 msgstr ""
+"Si seleccionas \"Usar API de Coro Pro\", se añadirán todos los usuarios al "
+"grupo API de Coro."
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_required
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_required
 msgid "Info Required for Chorus"
-msgstr ""
+msgstr "Información requerida para Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__initial_invoice_ids
 msgid "Initial Invoices"
-msgstr ""
+msgstr "Facturas iniciales"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_company.py:0
 #, python-format
 msgid "Invoice Address"
-msgstr ""
+msgstr "Dirección de facturación"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__invoice_identifiers
 msgid "Invoice Identifiers"
-msgstr ""
+msgstr "Identificadores de facturación"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__invoice_ids
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Invoices"
-msgstr ""
+msgstr "Facturas"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_chorus_flow__invoice_ids
 msgid "Invoices in the flow after potential rejections"
-msgstr ""
+msgstr "Facturas en el flujo tras posibles rechazos"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_chorus_flow__initial_invoice_ids
 msgid "Invoices in the flow before potential rejections"
-msgstr ""
+msgstr "Facturas en el flujo antes de posibles rechazos"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__invoice_ids
 msgid "Invoices to Send"
-msgstr ""
+msgstr "Facturas por enviar"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Entrada Diaria"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_bank_statement_line__chorus_status_date
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__chorus_status_date
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__chorus_status_date
 msgid "Last Chorus Invoice Status Date"
-msgstr ""
+msgstr "Fecha de la última factura de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send____last_update
@@ -530,7 +554,7 @@ msgstr "Última modificación el"
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status_date
 msgid "Last Status Update"
-msgstr ""
+msgstr "Última actualización de estado"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__write_uid
@@ -551,7 +575,7 @@ msgstr "Última actualización el"
 #: code:addons/l10n_fr_chorus_account/models/res_company.py:0
 #, python-format
 msgid "Missing Chorus API parameters on the company %s"
-msgstr ""
+msgstr "Faltan parámetros de la API de Coro en la compañía %s"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -559,14 +583,14 @@ msgstr ""
 #: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
 msgid "Missing Chorus Identifier on partner %s."
-msgstr ""
+msgstr "Falta identificador de Coro en el socio %s."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
 msgid "Missing Chorus Identifier on partner '%s'."
-msgstr ""
+msgstr "Falta identificador de Coro en el socio' %s'."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -576,20 +600,22 @@ msgid ""
 "Missing Chorus Identifier on service '%(service_name)s' of partner "
 "'%(partner_name)s'."
 msgstr ""
+"Falta identificador de Coro en el servicio '%(service_name)s' del socio "
+"'%(partner_name)s'."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/account_move.py:0
 #, python-format
 msgid "Missing Chorus Invoice Identifier on invoice '%s'"
-msgstr ""
+msgstr "Falta identificador de factura de Coro en la factura '%s'"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
 msgid "Missing Info Required for Chorus on partner %s."
-msgstr ""
+msgstr "Falta Información Requerida para Coro en el socio %s."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -599,13 +625,15 @@ msgid ""
 "Missing Payment Mode on invoice '%s'. This information is required for "
 "Chorus Pro."
 msgstr ""
+"Falta el modo de pago en la factura '%s'. Esta información es necesaria para "
+"Coro Pro."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
 msgid "Missing SIRET on partner %s"
-msgstr ""
+msgstr "Falta SIRET en el socio %s"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -613,6 +641,7 @@ msgstr ""
 #, python-format
 msgid "Missing SIRET on partner '%(partner)s' linked to company '%(company)s'."
 msgstr ""
+"Falta SIRET en el socio '%(partner)s' vinculado a la empresa '%(company)s'."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -621,6 +650,7 @@ msgstr ""
 msgid ""
 "Missing SIRET on partner '%s'. This information is required for Chorus Pro."
 msgstr ""
+"Falta SIRET en el socio '%s'. Esta información es necesaria para Coro Pro."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -628,6 +658,8 @@ msgstr ""
 #, python-format
 msgid "Missing key 'chorus_api_oauth_id' in Odoo server configuration file"
 msgstr ""
+"Falta la clave 'chorus_api_oauth_id' en el archivo de configuración del "
+"servidor Odoo"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -635,6 +667,8 @@ msgstr ""
 #, python-format
 msgid "Missing key 'chorus_api_oauth_secret' in Odoo server configuration file"
 msgstr ""
+"Falta la clave 'chorus_api_oauth_secret' en el archivo de configuración del "
+"servidor Odoo"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -644,6 +678,8 @@ msgid ""
 "Move '%s' is not a customer invoice. You can only send customer invoices/"
 "refunds to Chorus Pro."
 msgstr ""
+"El movimiento '%s' no es una factura de cliente. Sólo puede enviar facturas/"
+"reembolsos de clientes a Coro Pro."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -653,6 +689,8 @@ msgid ""
 "No entity found in Chorus corresponding to SIRET %s. The detailed error is "
 "written in Odoo server logs."
 msgstr ""
+"No se ha encontrado ninguna entidad en el Coro correspondiente a SIRET %s. "
+"El error detallado se escribe en los registros del servidor Odoo."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -660,23 +698,23 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_fr_chorus_account.selection__res_partner__fr_chorus_required__none
 #, python-format
 msgid "None"
-msgstr ""
+msgstr "Ninguno/a"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__notes
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_service_count
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_service_count
 msgid "Number of Chorus Services"
-msgstr ""
+msgstr "Número de servicios de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__invoice_count
 msgid "Number of Invoices"
-msgstr ""
+msgstr "Número de facturas"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -687,6 +725,9 @@ msgid ""
 "%(size)s caracters long. The maximum is 50. Please update the Customer "
 "Reference."
 msgstr ""
+"En %(obj_display_name)s, la referencia de cliente '%(client_order_ref)s' "
+"tiene %(size)s caracteres. El máximo es 50. Actualice la referencia de "
+"cliente."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -697,6 +738,10 @@ msgid ""
 "Mb, so we set a limit of %(attach_size_max)s Mb for the attachments. The "
 "attachments have a total size of %(size)s Mb."
 msgstr ""
+"En Coro Pro, una factura con sus archivos adjuntos no puede superar "
+"%(size_max)s Mb, por lo que establecemos un límite de %(attach_size_max)s Mb "
+"para los archivos adjuntos. Los adjuntos tienen un tamaño total de %(size)s "
+"Mb."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -706,6 +751,8 @@ msgid ""
 "On Chorus Pro, each attachment cannot exceed %(size_max)s Mb. The attachment "
 "'%(filename)s' weights %(size)s Mb."
 msgstr ""
+"En Coro Pro, cada archivo adjunto no puede superar %(size_max)s Mb. El "
+"archivo adjunto '%(filename)s' pesa %(size)s Mb."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -716,6 +763,9 @@ msgid ""
 "%(extension_list)s.\n"
 "The attachment '%(filename)s' is not part of this list."
 msgstr ""
+"En Coro Pro, los formatos permitidos para los archivos adjuntos son los "
+"siguientes: %(extension_list)s.\n"
+"El archivo adjunto '%(filename)s' no forma parte de esta lista."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -726,6 +776,9 @@ msgid ""
 "(extension included). The filename '%(filename)s' has %(filename_size)s "
 "caracters."
 msgstr ""
+"En Coro Pro, el nombre del archivo adjunto tiene un máximo de %(filename_max)"
+"s caracteres (extensión incluida). El nombre de archivo '%(filename)s' tiene "
+"%(filename_size)s caracteres."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -735,13 +788,15 @@ msgid ""
 "On Chorus Pro, the attachment filenames must have an extension. The filename "
 "'%s' doesn't have any extension."
 msgstr ""
+"En Coro Pro, los nombres de archivos adjuntos deben tener una extensión. El "
+"nombre de archivo '%s' no tiene extensión."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/chorus_flow.py:0
 #, python-format
 msgid "On flow %s, the status is not 'INTEGRE' nor 'INTEGRE PARTIEL'."
-msgstr ""
+msgstr "En el flujo %s, el estado no es 'INTEGRE' ni 'INTEGRE PARTIEL'."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -754,6 +809,11 @@ msgid ""
 "related bank journal should have a 'Bank Account' set, or the field 'Bank "
 "Account' should be set on the customer invoice."
 msgstr ""
+"En la factura '%(invoice)s', falta la información de la cuenta bancaria del "
+"emisor (%(company)s). Para eso, tiene dos opciones: el modo de pago de la "
+"factura debe tener 'Enlace a cuenta bancaria' = 'fijo' y el diario bancario "
+"relacionado debe tener una 'Cuenta bancaria' configurada, o el campo 'Cuenta "
+"bancaria' debe ser establecido en la factura del cliente."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -763,6 +823,8 @@ msgid ""
 "On invoice '%(invoice)s', the transmit method is '%(transmit_method)s'. To "
 "be able to send it to Chorus Pro, the transmit method must be 'Chorus'."
 msgstr ""
+"En la factura '%(invoice)s', el método de transmisión es '%(transmit_method)"
+"s'. Para poder enviarla a Coro Pro, el método de transmisión debe ser 'Coro'."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -770,6 +832,8 @@ msgstr ""
 #, python-format
 msgid "On partner %s, the invoice transmit method is not set to Chorus"
 msgstr ""
+"En el interlocutor %s, el método de transmisión de la factura no está "
+"configurado como Coro"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
@@ -786,6 +850,11 @@ msgid ""
 "the '%(partner_field)s' is not correctly configured as a service (should be "
 "a contact with a Chorus service and a name)."
 msgstr ""
+"El socio '%(partner)s' está configurado como 'Servicio o compromiso' "
+"requerido para Coro pero, en %(obj_display_name)s, la 'Referencia del "
+"cliente' no está configurada y el '%(partner_field)s' no está correctamente "
+"configurado como un servicio (debería ser un contacto con un servicio de "
+"Coro y un nombre)."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -796,6 +865,9 @@ msgid ""
 "so the 'Customer Reference' of %(obj_display_name)s must contain a "
 "commitment number."
 msgstr ""
+"El socio '%(partner)s' está configurado como Compromiso necesario para Coro "
+"Pro, por lo que la 'Referencia de cliente' de %(obj_display_name)s debe "
+"contener un número de compromiso."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -807,6 +879,10 @@ msgid ""
 "this contact should have a name and a Chorus service and the Chorus service "
 "must be active."
 msgstr ""
+"Socio '%(partner)s' está configurado como Servicio requerido para Coro Pro, "
+"por lo que debe seleccionar un contacto como %(partner_field)s para "
+"%(obj_display_name)s y este contacto debe tener un nombre y un servicio de "
+"Coro y el servicio de Coro debe estar activo."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -817,6 +893,9 @@ msgid ""
 "configured with 'Engagement Required', so the 'Customer Reference' of "
 "%(obj_display_name)s must contain a commitment number."
 msgstr ""
+"El socio '%(partner)s' está vinculado al servicio de Coro '%(service)s' que "
+"está configurado con 'Compromiso requerido', por lo que la 'Referencia de "
+"cliente' de %(obj_display_name)s debe contener un número de compromiso."
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
@@ -824,57 +903,59 @@ msgid ""
 "Send electronic invoices to the French administration directly from Odoo via "
 "the Chorus Pro API"
 msgstr ""
+"Envíe facturas electrónicas a la administración francesa directamente desde "
+"Odoo a través de la API de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 msgid "Send invoices to Chorus"
-msgstr ""
+msgstr "Envío de facturas a Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model,name:l10n_fr_chorus_account.model_account_invoice_chorus_send
 msgid "Send several invoices to Chorus"
-msgstr ""
+msgstr "Envío de varias facturas a Coro"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_move_form
 msgid "Send to Chorus"
-msgstr ""
+msgstr "Enviar a Coro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.act_window,name:l10n_fr_chorus_account.account_invoice_chorus_send_action
 msgid "Send to Chorus Pro"
-msgstr ""
+msgstr "Enviar a Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields.selection,name:l10n_fr_chorus_account.selection__res_partner__fr_chorus_required__service
 msgid "Service"
-msgstr ""
+msgstr "Servicio"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__code
 msgid "Service Code"
-msgstr ""
+msgstr "Código de servicio"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__name
 msgid "Service Name"
-msgstr ""
+msgstr "Nombre del servicio"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields.selection,name:l10n_fr_chorus_account.selection__res_partner__fr_chorus_required__service_and_engagement
 msgid "Service and Engagement"
-msgstr ""
+msgstr "Servicio y compromiso"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields.selection,name:l10n_fr_chorus_account.selection__res_partner__fr_chorus_required__service_or_engagement
 msgid "Service or Engagement"
-msgstr ""
+msgstr "Servicio o compromiso"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_search
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -885,6 +966,9 @@ msgid ""
 "\n"
 "Error details: %s"
 msgstr ""
+"Fallo técnico al intentar conectarse a la API de Coro.\n"
+"\n"
+"Detalles del error: %s"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -895,6 +979,9 @@ msgid ""
 "\n"
 "Error details: %s"
 msgstr ""
+"Fallo técnico al intentar obtener un nuevo símbolo de PISTE.\n"
+"\n"
+"Detalles del error: %s"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -905,6 +992,9 @@ msgid ""
 "dedicated to invoicing between public entities. Don't use it, otherwise the "
 "invoice will be rejected."
 msgstr ""
+"El 'Service des factures publiques' con código 'FACTURES_PUBLIQUES' está "
+"dedicado a la facturación entre entidades públicas. No lo utilices, de lo "
+"contrario la factura será rechazada."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -914,6 +1004,8 @@ msgid ""
 "The Chorus Invoice Format is not configured on the Accounting Configuration "
 "page of company '%s'"
 msgstr ""
+"El formato de factura de Coro no está configurado en la página de "
+"configuración de contabilidad de la compañía '%s'"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -921,6 +1013,7 @@ msgstr ""
 #, python-format
 msgid "The Chorus Invoice Identifiers are already set for flow %s"
 msgstr ""
+"Los identificadores de factura de Coro ya están configurados para el flujo %s"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -930,6 +1023,9 @@ msgid ""
 "The Chorus Service '%(service_name)s' configured on contact "
 "'%(partner_name)s' is attached to another partner (%(other_partner_name)s)."
 msgstr ""
+"El servicio Coro '%(service_name)s' configurado en el contacto "
+"'%(partner_name)s' está vinculado a otro interlocutor "
+"(%(other_partner_name)s)."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -939,6 +1035,8 @@ msgid ""
 "The Payment Mode must be empty on %s because customer refunds sent to Chorus "
 "Pro mustn't have a Payment Mode."
 msgstr ""
+"El Modo de pago debe estar vacío en %s porque los reembolsos de clientes "
+"enviados a Coro Pro no deben tener un Modo de pago."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -949,6 +1047,10 @@ msgid ""
 "should login to Chorus Pro, generate a new password for the technical user "
 "and update it in the menu Accounting > Configuration > Configuration."
 msgstr ""
+"La fecha de caducidad de la contraseña del usuario técnico para la API de "
+"Coro es %s. Debe iniciar sesión en Coro Pro, generar una nueva contraseña "
+"para el usuario técnico y actualizarla en el menú Contabilidad > "
+"Configuración > Configuración."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -958,13 +1060,15 @@ msgid ""
 "The invoice '%(invoice)s' has already been sent: it is linked to Chorus Flow "
 "%(flow)s."
 msgstr ""
+"La factura '%(invoice)s' ya ha sido enviada: está vinculada a Flujo de "
+"Coro%(flow)s."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/account_move.py:0
 #, python-format
 msgid "The size of the attachment '%s' is 0."
-msgstr ""
+msgstr "El tamaño del archivo adjunto '%s' es 0."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -974,11 +1078,13 @@ msgid ""
 "The state of invoice '%(invoice)s' is '%(invoice_state)s'. You can only send "
 "to Chorus Pro invoices in posted state."
 msgstr ""
+"El estado de la factura '%(invoice)s' es '%(invoice_state)s'. Solo puede "
+"enviar a Coro Pro facturas en estado registrado."
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.constraint,message:l10n_fr_chorus_account.constraint_chorus_partner_service_partner_code_uniq
 msgid "This Chorus service code already exists for that partner!"
-msgstr ""
+msgstr "¡Este código de servicio Coro ya existe para ese socio!"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -989,44 +1095,49 @@ msgid ""
 "<br/><i>%s</i><br/>You should fix the error and send this invoice to Chorus "
 "Pro again."
 msgstr ""
+"Esta factura ha sido <b>rechazada por Coro Pro</b> por el siguiente motivo:<"
+"br/><i>%s</i><br/>Debe corregir el error y enviar esta factura a Coro Pro "
+"nuevamente ."
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.account_invoice_chorus_send_form
 msgid ""
 "This wizard will send electronic invoices to Chorus Pro via the Chorus API."
 msgstr ""
+"Este asistente enviará facturas electrónicas a Coro Pro a través de la API "
+"de Coro."
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
 msgid "Update Chorus Info and Services"
-msgstr ""
+msgstr "Actualizar la información y los servicios de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_move_form
 msgid "Update Chorus Invoice Status"
-msgstr ""
+msgstr "Actualizar el estado de la factura de Coro"
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Update Flow Status"
-msgstr ""
+msgstr "Actualizar el Estado del Flujo"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__group_chorus_api
 msgid "Use Chorus Pro API"
-msgstr ""
+msgstr "Utilizar la API de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_company__fr_chorus_qualif
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_qualif
 msgid "Use the Chorus Pro qualification website"
-msgstr ""
+msgstr "Utilice la página web de cualificación de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_expiry_remind_user_ids
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_expiry_remind_user_ids
 msgid "Users Receiving the Expiry Reminder"
-msgstr ""
+msgstr "Usuarios que reciben el recordatorio de caducidad"
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -1036,8 +1147,11 @@ msgid ""
 "Wrong request on %(url)s. HTTP error code received from Chorus: "
 "%(status_code)s."
 msgstr ""
+"Solicitud incorrecta en %(url)s. Código de error HTTP recibido de Coro: "
+"%(status_code)s."
 
 #. module: l10n_fr_chorus_account
 #: model:mail.template,subject:l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template
 msgid "[{{ object.name }}] Action needed to continue to use the Chorus Pro API"
 msgstr ""
+"{{ object.name }}] Acción necesaria para seguir utilizando la API Coro Pro"
