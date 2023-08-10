@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-17 14:35+0000\n"
-"PO-Revision-Date: 2023-06-08 12:08+0000\n"
+"PO-Revision-Date: 2023-08-10 10:11+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -320,7 +320,7 @@ msgstr "Sta seguendo"
 #. module: l10n_fr_intrastat_service
 #: help:l10n.fr.intrastat.service.declaration.line,date_invoice:0
 msgid "Keep empty to use the current date"
-msgstr "Lasciare vuoto per usare la data odierna"
+msgstr "Lasciare vuoto per utilizzare la data corrente"
 
 #. module: l10n_fr_intrastat_service
 #: field:l10n.fr.intrastat.service.declaration,message_last_post:0
