@@ -70,7 +70,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         return domain
 
     @api.model
-    def _get_product_origin_country(self, inv_line):
+    def _get_product_origin_country(self, inv_line, notedict):
         """Inherit to add warning when origin_country_id is missing"""
         if (
             self.reporting_level == "extended"
@@ -80,7 +80,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                 "Missing country of origin on product %s. "
                 "This product is present in invoice %s."
             ) % (inv_line.product_id.display_name, inv_line.move_id.name)
-            self._note += note
+            self._format_line_note(inv_line, notedict, note)
         return inv_line.product_id.origin_country_id
 
     @api.model
@@ -111,8 +111,8 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         return dpt
 
     @api.model
-    def _update_computation_line_vals(self, inv_line, line_vals):
-        super()._update_computation_line_vals(inv_line, line_vals)
+    def _update_computation_line_vals(self, inv_line, line_vals, notedict):
+        super()._update_computation_line_vals(inv_line, line_vals, notedict)
         inv = inv_line.move_id
         if not inv.partner_id.country_id.intrastat:
             if not inv.commercial_partner_id.intrastat_fiscal_representative_id:
@@ -120,7 +120,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
                     "Missing fiscal representative on partner '%s'"
                     % inv.commercial_partner_id.display_name
                 )
-                self._note += note
+                self._format_line_note(inv_line, notedict, note)
             else:
                 line_vals[
                     "fr_partner_id"
@@ -143,7 +143,7 @@ class L10nFrIntrastatProductDeclaration(models.Model):
         vals["fr_department_id"] = computation_line.fr_department_id.id
         return vals
 
-    def _get_region(self, inv_line):
+    def _get_region(self, inv_line, notedict):
         # TODO : modify only for country == FR
         return False
 
