@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-26 02:41+0000\n"
-"PO-Revision-Date: 2017-04-26 02:41+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2017\n"
+"PO-Revision-Date: 2023-09-03 13:35+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_intrastat_service
 #: model:mail.template,body_html:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
@@ -70,32 +71,32 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.constraint,message:l10n_fr_intrastat_service.constraint_l10n_fr_intrastat_service_declaration_date_uniq
 msgid "A DES already exists for this month!"
-msgstr ""
+msgstr "¡Ya existe un DES para este mes!"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Necesita acción"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Avtividades"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Decoración de actividad de excepción"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Estado de la actividad"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Icono de tipo de actvidad"
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
@@ -103,12 +104,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_company_currency
 #, python-format
 msgid "Amount"
-msgstr ""
+msgstr "Importe"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_invoice_currency
 msgid "Amount in Invoice Currency"
-msgstr ""
+msgstr "Importe en la divisa de facturación"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_company_currency
@@ -117,50 +118,54 @@ msgid ""
 "currency = amount in invoice currency converted to company currency with the "
 "rate of the invoice date and rounded at 0 digits"
 msgstr ""
+"Importe en la divisa de la empresa para escribir en la declaración. Importe "
+"en la divisa de la empresa = importe en la divisa de la factura convertido a "
+"la divisa de la empresa con el tipo de la fecha de la factura y redondeado a "
+"0 dígitos"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Are you sure you want to go back to draft?"
-msgstr ""
+msgstr "¿Seguro que quieres volver al borrador?"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__attachment_id
 msgid "Attachment"
-msgstr ""
+msgstr "Archivo adjunto"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Conteo de Archivos Adjuntos"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Back to Draft"
-msgstr ""
+msgstr "Volver al borrador"
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
 #, python-format
 msgid "Cannot delete '%s' because it is in Done state."
-msgstr ""
+msgstr "No se puede borrar '%s' porque está en estado Hecho."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__company_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__company_id
 msgid "Company"
-msgstr ""
+msgstr "Companía"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__currency_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__company_currency_id
 msgid "Company Currency"
-msgstr ""
+msgstr "Divisa de la Compañía"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__create_uid
@@ -177,7 +182,7 @@ msgstr "Creado en"
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__partner_vat
 msgid "Customer VAT"
-msgstr ""
+msgstr "NIF del cliente"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.act_window,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_action
@@ -186,39 +191,39 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_menu
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "DES"
-msgstr ""
+msgstr "DES"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration_line
 msgid "DES Line"
-msgstr ""
+msgstr "Línea DES"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__declaration_line_ids
 msgid "DES Lines"
-msgstr ""
+msgstr "Líneas DES"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.server,name:l10n_fr_intrastat_service.intrastat_service_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_fr_intrastat_service.intrastat_service_cron
 #: model:mail.template,name:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid "DES Reminder"
-msgstr ""
+msgstr "Recordatorio DES"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model,name:l10n_fr_intrastat_service.model_report_l10n_fr_intrastat_service_declaration_xlsx
 msgid "DES XLSX Export"
-msgstr ""
+msgstr "Exportación DES XLSX"
 
 #. module: l10n_fr_intrastat_service
 #: model:mail.template,subject:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid "DES {{object.year_month}} for {{object.company_id.name}}"
-msgstr ""
+msgstr "DES {{object.year_month}} para {{object.company_id.name}}"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__display_name
@@ -230,53 +235,53 @@ msgstr "Nombre mostrado"
 #: model:ir.model.fields.selection,name:l10n_fr_intrastat_service.selection__l10n_fr_intrastat_service_declaration__state__done
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields.selection,name:l10n_fr_intrastat_service.selection__l10n_fr_intrastat_service_declaration__state__draft
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Draft"
-msgstr ""
+msgstr "Borrador"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__end_date
 msgid "End Date"
-msgstr ""
+msgstr "Fecha Final"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Excel Export"
-msgstr ""
+msgstr "Exportar Excel"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Seguidores/as"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Seguidores (socios)"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Icono de fuente impresionante, por ejemplo fa-tasks"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
 msgid "Generate Lines from Invoices"
-msgstr ""
+msgstr "Generar Líneas desde Facturas"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Group By"
-msgstr ""
+msgstr "Agrupar Por"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Tiene mensaje"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__id
@@ -287,28 +292,28 @@ msgstr "ID"
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Icono"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "icono para indicar una actividad por excepción."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Si está marcada, nuevos mensajes requieren su atención."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Si está marcada, algunos mensajes tienen un error de entrega."
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
 msgid "Information to Declare"
-msgstr ""
+msgstr "Información a declarar"
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
@@ -316,22 +321,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__move_id
 #, python-format
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__invoice_currency_id
 msgid "Invoice Currency"
-msgstr ""
+msgstr "Divisa de facturación"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__invoice_date
 msgid "Invoice Date"
-msgstr ""
+msgstr "Fecha factura"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Es Seguidor/a"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration____last_update
@@ -354,132 +359,132 @@ msgstr "Última actualización el"
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_main_attachment_id
 msgid "Main Attachment"
-msgstr ""
+msgstr "Archivo adjunto principal"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Error en entrega de mensaje"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Mensajes"
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
 #, python-format
 msgid "Missing VAT number on company '%s'."
-msgstr ""
+msgstr "Falta el CIF de la empresa \"%s\"."
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
 #, python-format
 msgid "Missing VAT number on partner '%s'."
-msgstr ""
+msgstr "Falta el NIF del socio \"%s\"."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Fecha límite de mi actividad"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Fecha Límite para la siguiente Actividad"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Resumen de la Siguiente Actividad"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Tipo de la Siguiente Actividad"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Número de acciones"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__num_decl_lines
 msgid "Number of Lines"
-msgstr ""
+msgstr "Número de líneas"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Número de errores"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Números de mensajes que requieren una acción"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Número de mensajes con error de entrega"
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/report/intrastat_service_report_xls.py:0
 #, python-format
 msgid "Partner"
-msgstr ""
+msgstr "Socio"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__partner_id
 msgid "Partner Name"
-msgstr ""
+msgstr "Nombre del socio"
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/report/intrastat_service_report_xls.py:0
 #, python-format
 msgid "Partner VAT"
-msgstr ""
+msgstr "NIF del Socio"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__year_month
 msgid "Period"
-msgstr ""
+msgstr "Periodo"
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
 #, python-format
 msgid "Re-generating lines from invoices"
-msgstr ""
+msgstr "Re-generación de líneas a partir de facturas"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
 msgid "Related Invoice"
-msgstr ""
+msgstr "Factura relacionada"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Usuario Responsabele"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Error en la entrega de sms"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__start_date
 msgid "Start Date"
-msgstr ""
+msgstr "Fecha de inicio"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__state
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_state
@@ -489,20 +494,24 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Estado en base a las actividades\n"
+"Atrasada: La fecha de vencimiento ya ha pasado\n"
+"Hoy: La fecha de la actividad es hoy\n"
+"Planificada: Actividades futuras."
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
 #, python-format
 msgid "The VAT number '%s' is invalid."
-msgstr ""
+msgstr "El NIF '%s' no es válido."
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
 #, python-format
 msgid "The start date must be the first day of a month."
-msgstr ""
+msgstr "La fecha de inicio debe ser el primer día de un mes."
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
@@ -510,16 +519,18 @@ msgstr ""
 #, python-format
 msgid "This DES has been auto-generated by the DES reminder scheduled action."
 msgstr ""
+"Este DES ha sido autogenerado por la acción programada de recordatorio de "
+"DES."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__total_amount
 msgid "Total Amount"
-msgstr ""
+msgstr "Importe Total"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Tipo (o clase) de actividad excepcional registrada."
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
@@ -529,23 +540,26 @@ msgid ""
 "VAT Number '%s' cannot be used because Brexit took place on January 1st 2021 "
 "and services sold in Northern Ireland are not under the EU VAT regime."
 msgstr ""
+"El número de IVA \"%s\" no puede utilizarse porque el Brexit tuvo lugar el 1 "
+"de enero de 2021 y los servicios vendidos en Irlanda del Norte no están "
+"sujetos al régimen de IVA de la UE."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Mensajes de la página web"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Historial de la comunicación en la página web"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__attachment_datas
 msgid "XML Export"
-msgstr ""
+msgstr "Exportar a XML"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__attachment_name
 msgid "XML Filename"
-msgstr ""
+msgstr "Nombre del archivo XML"
