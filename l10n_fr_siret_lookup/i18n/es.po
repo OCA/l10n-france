@@ -6,102 +6,104 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-09-03 13:35+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__staff
 msgid "# Staff"
-msgstr ""
+msgstr "# Empleados"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__ape
 msgid "APE Code"
-msgstr ""
+msgstr "Código APE"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__ape_label
 msgid "APE Label"
-msgstr ""
+msgstr "Etiqueta APE"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Address"
-msgstr ""
+msgstr "Dirección"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__category
 msgid "Category"
-msgstr ""
+msgstr "Categoría"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__city
 msgid "City"
-msgstr ""
+msgstr "Ciudad"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Company"
-msgstr ""
+msgstr "Companía"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Company Infos"
-msgstr ""
+msgstr "Información de la empresa"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_fr_siret_lookup_line
 msgid "Company Selection"
-msgstr ""
+msgstr "Selección de empresa"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Confirm selected company ?"
-msgstr ""
+msgstr "¿Confirmar empresa seleccionada?"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__country_id
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__create_date
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creado el"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__creation_date
 msgid "Creation Date"
-msgstr ""
+msgstr "Fecha de Creación"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__display_name
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Mostrar Nombre"
 
 #. module: l10n_fr_siret_lookup
 #. odoo-python
@@ -111,6 +113,8 @@ msgid ""
 "Failed to query VIES.\n"
 "Technical error: %s."
 msgstr ""
+"Error en la consulta VIES.\n"
+"Error técnico: %s."
 
 #. module: l10n_fr_siret_lookup
 #. odoo-python
@@ -120,125 +124,127 @@ msgid ""
 "Failure in the request on data.opendatasoft.com to create or update partner "
 "from SIREN or SIRET. Technical error: %s."
 msgstr ""
+"Fallo en la petición en data.opendatasoft.com para crear o actualizar socio "
+"desde SIREN o SIRET. Error técnico: %s."
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_fr_siret_lookup
 msgid "Get values from companies"
-msgstr ""
+msgstr "Obtener valores de las compañías"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__id
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID(identificación)"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup____last_update
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificación el"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Actualizado por última vez por"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__write_date
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última Actualización el"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Legal Infos"
-msgstr ""
+msgstr "Información legal"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__legal_type
 msgid "Legal Type"
-msgstr ""
+msgstr "Tipo legal"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "Lookup"
-msgstr ""
+msgstr "Búsqueda"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__name
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__name
 msgid "Name to Search"
-msgstr ""
+msgstr "Nombre a buscar"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Socio"
 
 #. module: l10n_fr_siret_lookup
 #. odoo-python
 #: code:addons/l10n_fr_siret_lookup/wizard/fr_siret_lookup.py:0
 #, python-format
 msgid "Partner '%s' is not a company. This action is not relevant."
-msgstr ""
+msgstr "El socio '%s' no es una empresa. Esta acción no es relevante."
 
 #. module: l10n_fr_siret_lookup
 #. odoo-python
 #: code:addons/l10n_fr_siret_lookup/wizard/fr_siret_lookup.py:0
 #, python-format
 msgid "Partner updated via the opendatasoft.com API."
-msgstr ""
+msgstr "Socio actualizado a través de la API de opendatasoft.com."
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__line_ids
 msgid "Results"
-msgstr ""
+msgstr "Resultados"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__siren
 msgid "SIREN"
-msgstr ""
+msgstr "SIREN"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.actions.act_window,name:l10n_fr_siret_lookup.fr_siret_lookup_partner_action
 msgid "SIREN Lookup"
-msgstr ""
+msgstr "Búsqueda SIREN"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "SIREN Lookup via opendatasoft.com"
-msgstr ""
+msgstr "Búsqueda SIREN vía opendatasoft.com"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.actions.act_window,name:l10n_fr_siret_lookup.fr_siret_lookup_action
 msgid "SIREN lookup via opendatasoft.com"
-msgstr ""
+msgstr "Búsqueda SIREN vía opendatasoft.com"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__siret
 msgid "SIRET"
-msgstr ""
+msgstr "SIRET"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "Search Results"
-msgstr ""
+msgstr "Resultados de búsqueda"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Select"
-msgstr ""
+msgstr "Seleccionar"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__street
 msgid "Street"
-msgstr ""
+msgstr "Calle"
 
 #. module: l10n_fr_siret_lookup
 #. odoo-python
@@ -246,13 +252,14 @@ msgstr ""
 #, python-format
 msgid "The webservice data.opendatasoft.com returned an HTTP error code %s."
 msgstr ""
+"El servicio web data.opendatasoft.com ha devuelto un código de error HTTP %s."
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__wizard_id
 msgid "Wizard"
-msgstr ""
+msgstr "Asistente"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__zip
 msgid "Zip"
-msgstr ""
+msgstr "CP"
