@@ -8,7 +8,7 @@ import textwrap
 from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from pypdf import PdfReader, PdfWriter
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
@@ -2174,25 +2174,25 @@ class L10nFrAccountVatReturn(models.Model):
         packet1.seek(0)
         packet2.seek(0)
         packet3.seek(0)
-        watermark_pdf_reader_p1 = PdfFileReader(packet1)
-        watermark_pdf_reader_p2 = PdfFileReader(packet2)
-        watermark_pdf_reader_p3 = PdfFileReader(packet3)
+        watermark_pdf_reader_p1 = PdfReader(packet1)
+        watermark_pdf_reader_p2 = PdfReader(packet2)
+        watermark_pdf_reader_p3 = PdfReader(packet3)
         # read your existing PDF
         ca3_original_fd = tools.file_open(
             "l10n_fr_account_vat_return/report/CA3_cerfa.pdf", "rb"
         )
-        ca3_original_reader = PdfFileReader(ca3_original_fd)
-        ca3_writer = PdfFileWriter()
+        ca3_original_reader = PdfReader(ca3_original_fd)
+        ca3_writer = PdfWriter()
         # add the "watermark" (which is the new pdf) on the existing page
-        page1 = ca3_original_reader.getPage(0)
-        page2 = ca3_original_reader.getPage(1)
-        page3 = ca3_original_reader.getPage(2)
-        page1.mergePage(watermark_pdf_reader_p1.getPage(0))
-        page2.mergePage(watermark_pdf_reader_p2.getPage(0))
-        page3.mergePage(watermark_pdf_reader_p3.getPage(0))
-        ca3_writer.addPage(page1)
-        ca3_writer.addPage(page2)
-        ca3_writer.addPage(page3)
+        page1 = ca3_original_reader.pages[0]
+        page2 = ca3_original_reader.pages[1]
+        page3 = ca3_original_reader.pages[2]
+        page1.merge_page(watermark_pdf_reader_p1.pages[0])
+        page2.merge_page(watermark_pdf_reader_p2.pages[0])
+        page3.merge_page(watermark_pdf_reader_p3.pages[0])
+        ca3_writer.add_page(page1)
+        ca3_writer.add_page(page2)
+        ca3_writer.add_page(page3)
         # finally, write "output" to a real file
         out_ca3_io = io.BytesIO()
         ca3_writer.write(out_ca3_io)
