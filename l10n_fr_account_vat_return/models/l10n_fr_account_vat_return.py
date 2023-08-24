@@ -235,7 +235,7 @@ class L10nFrAccountVatReturn(models.Model):
             if (
                 rec.state == "auto"
                 and rec.vat_credit_total
-                and rec.vat_credit_total > rec.reimbursement_min_amount
+                and rec.vat_credit_total >= rec.reimbursement_min_amount
                 and not rec.reimbursement_type
             ):
                 reimbursement_show_button = True
@@ -323,6 +323,7 @@ class L10nFrAccountVatReturn(models.Model):
             "afpt_obj": self.env["account.fiscal.position.tax"],
             "afpa_obj": self.env["account.fiscal.position.account"],
             "at_obj": self.env["account.tax"],
+            "box2value": {},  # used to speedy-up checks
         }
         speedy["bank_cash_journals"] = speedy["aj_obj"].search(
             speedy["company_domain"] + [("type", "in", ("bank", "cash"))]
@@ -380,6 +381,7 @@ class L10nFrAccountVatReturn(models.Model):
         self._generate_due_vat(speedy)
         self._generate_deductible_vat(speedy)
         self._switch_negative_boxes(speedy)
+        self._adjustment_sum_due_vat_base_vs_taxed_operations(speedy)
         self._generate_credit_deferment(speedy)
         self._create_push_lines("start", speedy)
         self._generate_ca3_bottom_totals(speedy)
@@ -704,6 +706,105 @@ class L10nFrAccountVatReturn(models.Model):
                 }
             )
 
+    def _adjustment_box2value(self, speedy, box_edi_codes):
+        box2value = {}
+        total = 0
+        box_codes = []
+        for edi_code in box_edi_codes:
+            box = self.env.ref("l10n_fr_account_vat_return.ca3_%s" % edi_code)
+            value = speedy["box2value"].get(box, 0)
+            box2value[box] = value
+            total += value
+            box_codes.append(box.code)
+        box_codes_str = ", ".join(box_codes)
+        return box2value, total, box_codes_str
+
+    def _adjustment_sum_due_vat_base_vs_taxed_operations(self, speedy):
+        self.ensure_one()
+        checks = [
+            # Consistency control Excel line 54
+            (
+                {"ca", "cb", "kh", "cc", "cf", "cg"},
+                {
+                    "fp",
+                    "fb",
+                    "fr",
+                    "fm",
+                    "fn",
+                    "bq",
+                    "bp",
+                    "bs",
+                    "bf",
+                    "be",
+                    "mf",
+                    "mg",
+                    "fc",
+                },
+            ),
+            # Consistency control Excel line 55
+            ({"ch"}, {"gs", "gu"}),
+            # Consistency control Excel line 56
+            ({"dk", "kv"}, {"lb", "ld", "lf", "lh", "lk", "lm"}),
+        ]
+        for taxed_op_boxes, due_vat_base_boxes in checks:
+            taxed_op_res = self._adjustment_box2value(speedy, taxed_op_boxes)
+            taxed_op_box2value, taxed_op_sum, taxed_op_codes_str = taxed_op_res
+            due_vat_base_res = self._adjustment_box2value(speedy, due_vat_base_boxes)
+            (
+                due_vat_base_box2value,
+                due_vat_base_sum,
+                due_vat_base_codes_str,
+            ) = due_vat_base_res
+            assert isinstance(taxed_op_sum, int)
+            assert isinstance(due_vat_base_sum, int)
+            diff = due_vat_base_sum - taxed_op_sum
+            assert isinstance(diff, int)
+            if abs(diff) > 5:
+                raise UserError(
+                    _(
+                        "There is a difference of %(diff)s € between "
+                        "taxed operation boxes %(taxed_op_boxes)s and "
+                        "due VAT base boxes %(due_vat_boxes)s. "
+                        "The difference should be null or just a few euros. "
+                        "This should never happen.",
+                        diff=diff,
+                        taxed_op_boxes=taxed_op_codes_str,
+                        due_vat_boxes=due_vat_base_codes_str,
+                    )
+                )
+            elif not diff:
+                logger.debug(
+                    "No need for adjustment line for boxes %s vs %s",
+                    taxed_op_boxes,
+                    due_vat_base_boxes,
+                )
+            else:
+                logger.debug(
+                    "Creating an adjustment log line for consistency check %s vs %s",
+                    taxed_op_codes_str,
+                    due_vat_base_codes_str,
+                )
+                max_taxed_op_box = max(taxed_op_box2value, key=taxed_op_box2value.get)
+                note = _(
+                    "Adjustment to have "
+                    "sum of taxed operations boxes %(taxed_op_boxes)s = "
+                    "sum of VAT base boxes %(due_vat_boxes)s. "
+                    "Otherwise, DGFiP would reject the VAT return.",
+                    taxed_op_boxes=taxed_op_codes_str,
+                    due_vat_boxes=due_vat_base_codes_str,
+                )
+                logs_to_add = [
+                    {"compute_type": "adjustment", "amount": diff, "note": note}
+                ]
+                self._update_line(speedy, logs_to_add, max_taxed_op_box)
+                new_taxed_op_sum = sum(
+                    [
+                        speedy["box2value"].get(box, 0)
+                        for box in taxed_op_box2value.keys()
+                    ]
+                )
+                assert new_taxed_op_sum == due_vat_base_sum
+
     def _generate_due_vat(self, speedy):
         self.ensure_one()
         # TODO Check that an account can't be used in both autoliq and non-autoliq?
@@ -979,7 +1080,7 @@ class L10nFrAccountVatReturn(models.Model):
     def _generate_due_vat_autoliq_vat_to_pay(
         self, speedy, autoliq_vat_account2rate, rate2logs
     ):
-        # Generate autoliq logs for boxes 08, 09, 9A
+        # Generate autoliq logs for boxes 08, 09, 9A, T6
         # For autoliq, we don't do VAT on payment, we do VAT on debit
         # Check that these autoliq due accounts 4452xx are empty at start of period
         for account, rate_int in autoliq_vat_account2rate.items():
@@ -1223,37 +1324,26 @@ class L10nFrAccountVatReturn(models.Model):
                         _("No Due VAT box found for VAT rate %.2f%%.") % rate_int / 100
                     )
                 box = rate2box[rate_int]
-                vals = {
-                    "parent_id": self.id,
-                    "box_id": box.id,
-                    "log_ids": [(0, 0, x) for x in logs],
-                }
-                line = speedy["line_obj"].create(vals)
+                line = self._create_line(speedy, logs, box)
                 box_base = box.due_vat_base_box_id
                 rate = rate_int / 100
-                base_vals = {
-                    "parent_id": self.id,
-                    "box_id": box_base.id,
-                    "log_ids": [
-                        (
-                            0,
-                            0,
-                            {
-                                "compute_type": "rate",
-                                "amount": line.value_float * 100 / rate,
-                                "note": "VAT Amount %s, Rate %.2f%%, "
-                                "Base = VAT Amount / Rate"
-                                % (
-                                    format_amount(
-                                        self.env, line.value_float, speedy["currency"]
-                                    ),
-                                    rate,
+                logs_base = [
+                    {
+                        "compute_type": "rate",
+                        "amount": line.value_float * 100 / rate,
+                        "note": _(
+                            "VAT Amount %s, Rate %.2f%%, "
+                            "Base = VAT Amount / Rate"
+                            % (
+                                format_amount(
+                                    self.env, line.value_float, speedy["currency"]
                                 ),
-                            },
-                        )
-                    ],
-                }
-                speedy["line_obj"].create(base_vals)
+                                rate,
+                            )
+                        ),
+                    }
+                ]
+                self._create_line(speedy, logs_base, box_base)
 
     def _generate_due_vat_monaco(self, speedy, sale_vat_accounts):
         # Dont TVA sur opérations à destination de Monaco
@@ -1291,14 +1381,38 @@ class L10nFrAccountVatReturn(models.Model):
             )
         return monaco_box_logs
 
-    def _create_line(self, speedy, logs, box_type):
+    def _create_line(self, speedy, logs, box):
+        """Box argument can be a box_type or a box"""
+        line = False
         if logs:
+            if isinstance(box, str):
+                box = speedy["box_obj"]._box_from_single_box_type(box)
             vals = {
                 "parent_id": self.id,
-                "box_id": speedy["box_obj"]._box_from_single_box_type(box_type).id,
+                "box_id": box.id,
                 "log_ids": [(0, 0, x) for x in logs],
             }
-            speedy["line_obj"].create(vals)
+            line = speedy["line_obj"].create(vals)
+            speedy["box2value"][box] = line.value
+        return line
+
+    def _update_line(self, speedy, logs_to_add, box):
+        line = speedy["line_obj"].search(
+            [("box_id", "=", box.id), ("parent_id", "=", self.id)]
+        )
+        assert line
+        if not isinstance(logs_to_add, list):
+            logs_to_add = [logs_to_add]
+        old_value = line.value
+        line.write({"log_ids": [(0, 0, vals) for vals in logs_to_add]})
+        new_value = line.value
+        speedy["box2value"][line.box_id] = new_value
+        logger.info(
+            "Update line with box %s: old value %s new value %s",
+            box.display_name,
+            old_value,
+            new_value,
+        )
 
     def _vat_on_payment(self, in_or_out, vat_account_ids, speedy):
         assert in_or_out in ("in", "out")
@@ -1856,7 +1970,7 @@ class L10nFrAccountVatReturn(models.Model):
         move = speedy["am_obj"].create(self._prepare_account_move(speedy))
         return move
 
-    def _get_box_account(self, box, raise_if_none=True):
+    def _get_box_account(self, box, raise_if_none=True, raise_if_not_unique=True):
         self.ensure_one()
         # I can't use speedy because this method is also called by onchange
         company_id = self.company_id.id
@@ -1899,6 +2013,18 @@ class L10nFrAccountVatReturn(models.Model):
                 box.account_code,
                 self.company_id.display_name,
             )
+            if raise_if_not_unique:
+                raise UserError(
+                    _(
+                        "There are %(account_count)s accounts whose code start with "
+                        "%(account_prefix)s in company '%(company)s' : %(account_list)s. "
+                        "Odoo expects to have only one.",
+                        account_count=len(accounts),
+                        account_prefix=box.account_code,
+                        company=self.company_id.display_name,
+                        account_list=", ".join([a.code for a in accounts]),
+                    )
+                )
         return accounts[0]
 
     def unlink(self):
@@ -2121,7 +2247,9 @@ class L10nFrAccountVatReturnLine(models.Model):
     )  # MOA, QTY, PCD (auto)
     value_bool = fields.Boolean(string="Value (Y/N)")  # CCI_TBX (manual + auto)
     value_manual_int = fields.Integer(string="Integer Value")  # MOA, QTY, PCD (manual)
-    value_char = fields.Char(string="Text")  # FTX (manual + auto), except for BA field
+    value_char = fields.Char(
+        string="Text"
+    )  # FTX, NAD (manual + auto), except for BA field
     log_ids = fields.One2many(
         "l10n.fr.account.vat.return.line.log",
         "parent_id",
@@ -2248,6 +2376,9 @@ class L10nFrAccountVatReturnLineLog(models.Model):
             ("rate", "VAT Amount / VAT Rate"),
             ("box", "Box Value"),  # used for sum boxes (totals)
             ("manual", "Manual"),  # used for credit VAT reimbursement line
+            # used to comply with stupid consistency controls that don't tolerate
+            # few € difference caused by rounding
+            ("adjustment", "Adjustment"),
         ],
         required=True,
         readonly=True,
@@ -2263,19 +2394,25 @@ class L10nFrAccountVatReturnLineLog(models.Model):
     )
     note = fields.Char()
 
-    @api.constrains("parent_id", "account_id")
-    def _check_account_id(self):
+    @api.constrains("parent_id", "account_id", "compute_type")
+    def _check_log_line(self):
         for log in self:
-            if (
-                log.parent_id
-                and log.parent_id.box_accounting_method
-                and not log.account_id
-            ):
-                raise ValidationError(
-                    _(
-                        "Error in the generation of the computation and "
-                        "accounting details of box '%s': this box has an "
-                        "accounting method but the account is not set."
+            if log.parent_id and log.parent_id.box_accounting_method:
+                if not log.account_id:
+                    raise ValidationError(
+                        _(
+                            "Error in the generation of the computation and "
+                            "accounting details of box '%s': this box has an "
+                            "accounting method but the account is not set."
+                        )
+                        % log.parent_id.box_id.display_name
                     )
-                    % log.parent_id.box_id.display_name
-                )
+                if log.compute_type == "adjustment":
+                    raise ValidationError(
+                        _(
+                            "Error in the generation of box '%s': "
+                            "it has an accounting method, so it cannot have "
+                            "any adjustment line."
+                        )
+                        % log.parent_id.box_id.display_name
+                    )
