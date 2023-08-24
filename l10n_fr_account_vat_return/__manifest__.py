@@ -12,6 +12,7 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["l10n_fr", "l10n_fr_oca", "intrastat_base", "onchange_helper"],
+    "external_dependencies": {"python": ["pypdf>=3.1.0"]},
     "data": [
         "security/ir.model.access.csv",
         "security/ir_rule.xml",
