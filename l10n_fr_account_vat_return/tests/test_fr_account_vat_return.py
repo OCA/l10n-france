@@ -9,18 +9,26 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import fields
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 
 @tagged("post_install", "-at_install")
-class TestFrAccountVatReturn(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.today = datetime.now().date()
-        self.start_date = self.today + relativedelta(months=-1, day=1)
-        self.before_start_date = self.start_date + relativedelta(days=-1)
-        self.end_date = self.start_date + relativedelta(day=31)
-        self.first_creation_date = fields.Date.from_string("2022-01-01")
+class TestFrAccountVatReturn(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.today = datetime.now().date()
+        cls.start_date = cls.today + relativedelta(months=-1, day=1)
+        cls.before_start_date = cls.start_date + relativedelta(days=-1)
+        cls.end_date = cls.start_date + relativedelta(day=31)
+        cls.first_creation_date = fields.Date.from_string("2022-01-01")
+        cls.on_invoice_company = cls.env["res.company"]._test_fr_vat_create_company(
+            company_name="FR Company VAT on_invoice", fr_vat_exigibility="on_invoice"
+        )
+        cls.on_payment_company = cls.env["res.company"]._test_fr_vat_create_company(
+            company_name="FR Company VAT on_payment", fr_vat_exigibility="on_payment"
+        )
 
     def _check_vat_return_result(self, vat_return, result):
         box2value = {}
@@ -47,9 +55,7 @@ class TestFrAccountVatReturn(TransactionCase):
         return move_dict
 
     def test_vat_return_on_invoice(self):
-        company = self.env["res.company"]._test_fr_vat_create_company(
-            company_name="FR Company VAT on_invoice", fr_vat_exigibility="on_invoice"
-        )
+        company = self.on_invoice_company
         currency = company.currency_id
         initial_credit_vat = 3333
         company._test_create_move_init_vat_credit(
@@ -65,25 +71,40 @@ class TestFrAccountVatReturn(TransactionCase):
         )
         self.assertEqual(vat_return.end_date, self.end_date)
         self.assertEqual(vat_return.state, "manual")
-        # Create a manual line redevance TV
+        # Create a manual line without rate
+        new_manual_account_id = self.env["account.account"].create(
+            {
+                "code": "635900",
+                "name": "Taxe spécifique",
+                "company_id": company.id,
+                "user_type_id": self.env.ref("account.data_account_type_expenses").id,
+            }
+        )
+        self.env.ref("l10n_fr_account_vat_return.a_ud").with_company(company.id).write(
+            {"account_id": new_manual_account_id}
+        )
         self.env["l10n.fr.account.vat.return.line"].create(
             {
-                "box_id": self.env.ref("l10n_fr_account_vat_return.a_jb").id,
+                "box_id": self.env.ref("l10n_fr_account_vat_return.a_ud").id,
                 "value_manual_int": 134,
                 "parent_id": vat_return.id,
             }
         )
         # Create another manual line with a rate
-        manual_account_id = self.env["account.account"].create(
-            {
-                "code": "635820",
-                "name": "Taxe sur la diffusion de contenus audiovisuels",
-                "company_id": company.id,
-                "user_type_id": self.env.ref("account.data_account_type_expenses").id,
-            }
+        existing_manual_account_id = self.env["account.account"].search(
+            [
+                ("code", "=", "635800"),
+                ("company_id", "=", company.id),
+                (
+                    "user_type_id",
+                    "=",
+                    self.env.ref("account.data_account_type_expenses").id,
+                ),
+            ],
+            limit=1,
         )
         self.env.ref("l10n_fr_account_vat_return.a_kj").with_company(company.id).write(
-            {"account_id": manual_account_id}
+            {"account_id": existing_manual_account_id}
         )
         self.env["l10n.fr.account.vat.return.line"].create(
             {
@@ -120,7 +141,7 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_hd": initial_credit_vat,  # report crédit TVA
             "ca3_hg": 5032,  # total VAT deduc
             ######
-            "a_jb": 134,
+            "a_ud": 134,
             "a_mk": 1000,
             "a_kj": 52,
             "a_hb": 186,
@@ -145,10 +166,10 @@ class TestFrAccountVatReturn(TransactionCase):
             )
         )
         self.assertFalse(
-            currency.compare_amounts(move_dict["635820"], expected_res["a_kj"])
+            currency.compare_amounts(move_dict["635800"], expected_res["a_kj"])
         )
         self.assertFalse(
-            currency.compare_amounts(move_dict["635800"], expected_res["a_jb"])
+            currency.compare_amounts(move_dict["635900"], expected_res["a_ud"])
         )
 
         # Test reimbursement
@@ -216,9 +237,7 @@ class TestFrAccountVatReturn(TransactionCase):
                 self.assertTrue(line.full_reconcile_id)
 
     def test_vat_return_on_payment(self):
-        company = self.env["res.company"]._test_fr_vat_create_company(
-            company_name="FR Company VAT on_payment", fr_vat_exigibility="on_payment"
-        )
+        company = self.on_payment_company
         currency = company.currency_id
         initial_credit_vat = 22
         company._test_create_move_init_vat_credit(
@@ -308,10 +327,7 @@ class TestFrAccountVatReturn(TransactionCase):
                 self.assertTrue(line.full_reconcile_id)
 
     def test_vat_return_on_invoice_negative(self):
-        company = self.env["res.company"]._test_fr_vat_create_company(
-            company_name="FR Company VAT on_invoice neg",
-            fr_vat_exigibility="on_invoice",
-        )
+        company = self.on_invoice_company
         initial_credit_vat = 44
         company._test_create_move_init_vat_credit(
             initial_credit_vat, self.before_start_date
@@ -376,3 +392,38 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_jc": initial_credit_vat - 76 + 50,  # Crédit TVA
         }
         self._check_vat_return_result(vat_return, expected_res)
+
+    def test_vat_return_on_invoice_with_adjustment(self):
+        company = self.on_invoice_company
+        product_dict = company._test_prepare_product_dict()
+        partner_dict = company._test_prepare_partner_dict()
+        company._test_create_invoice_with_payment(
+            "out_invoice",
+            self.start_date,
+            partner_dict["france"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 100.4},
+                {"product_id": product_dict["product"][55].id, "price_unit": 500.3},
+            ],
+            {},
+        )
+        lfavro = self.env["l10n.fr.account.vat.return"]
+        vat_return = lfavro.create(
+            {
+                "company_id": company.id,
+                "start_date": self.start_date,
+                "vat_periodicity": "1",
+            }
+        )
+        vat_return.manual2auto()
+        adj_log_line = self.env["l10n.fr.account.vat.return.line.log"].search(
+            [
+                ("parent_parent_id", "=", vat_return.id),
+                ("compute_type", "=", "adjustment"),
+                ("amount", "=", -1),
+            ]
+        )
+        self.assertEqual(len(adj_log_line), 1)
+        adj_log_line.parent_id.box_id = self.env[
+            "l10n.fr.account.vat.box"
+        ]._box_from_single_box_type("taxed_op_france")

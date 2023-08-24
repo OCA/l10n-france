@@ -357,19 +357,33 @@
                         name="negative_switch"
                         invisible="1"
                     />
+                                                <field
+                        name="box_box_type"
+                        invisible="1"
+                    />
+                                                <field
+                        name="box_edi_type"
+                        invisible="1"
+                    />
 
-                                                <field name="value" />
+                                                <field
+                        name="value"
+                        attrs="{'invisible': [('box_display_type', '!=', False)]}"
+                    />
                                                 <field
                         name="value_float"
                         optional="hide"
+                        attrs="{'invisible': ['|', ('box_box_type', '=', 'manual'), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
                     />
                                                 <field
                         name="value_bool"
                         optional="hide"
+                        attrs="{'invisible': [('box_edi_type', '!=', 'CCI_TBX')]}"
                     />
                                                 <field
                         name="value_char"
                         optional="show"
+                        attrs="{'invisible': [('box_edi_type', 'not in', ('FTX', 'NAD'))]}"
                     />
                                 </tree>
                         </field>
@@ -384,6 +398,7 @@
                     decoration-info="compute_type == 'period_balance'"
                     decoration-success="compute_type == 'balance'"
                     decoration-warning="compute_type == 'subtraction'"
+                    decoration-danger="compute_type == 'adjustment'"
                 >
                                                 <field
                         name="parent_id"
