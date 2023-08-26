@@ -299,6 +299,11 @@ class L10nFrAccountVatReturn(models.Model):
                 "selection"
             ]
         )
+        meaning_id2box = {}
+        for box in self.env["l10n.fr.account.vat.box"].search(
+            [("meaning_id", "!=", False)]
+        ):
+            meaning_id2box[box.meaning_id] = box
         speedy = {
             "company_id": self.company_id.id,
             "currency": self.company_id.currency_id,
@@ -323,7 +328,10 @@ class L10nFrAccountVatReturn(models.Model):
             "afpt_obj": self.env["account.fiscal.position.tax"],
             "afpa_obj": self.env["account.fiscal.position.account"],
             "at_obj": self.env["account.tax"],
+            "meaning_id2box": meaning_id2box,
             "box2value": {},  # used to speedy-up checks
+            # used to create negative boxes at the end
+            "negative_box2logs": defaultdict(list),
         }
         speedy["bank_cash_journals"] = speedy["aj_obj"].search(
             speedy["company_domain"] + [("type", "in", ("bank", "cash"))]
@@ -380,7 +388,7 @@ class L10nFrAccountVatReturn(models.Model):
         self._generate_operation_untaxed(speedy)
         self._generate_due_vat(speedy)
         self._generate_deductible_vat(speedy)
-        self._switch_negative_boxes(speedy)
+        self._generate_negative_boxes(speedy)
         self._adjustment_sum_due_vat_base_vs_taxed_operations(speedy)
         self._generate_credit_deferment(speedy)
         self._create_push_lines("start", speedy)
@@ -398,7 +406,7 @@ class L10nFrAccountVatReturn(models.Model):
         self.ensure_one()
         assert self.state in ("auto", "sent")
         # del auto lines
-        self.line_ids.filtered(lambda x: x.box_box_type != "manual").unlink()
+        self.line_ids.filtered(lambda x: not x.box_manual).unlink()
         self._delete_move_and_attachments()
         vals = {"state": "manual"}
         if self.reimbursement_type:
@@ -513,7 +521,7 @@ class L10nFrAccountVatReturn(models.Model):
             [
                 ("parent_id", "=", self.id),
                 (
-                    "box_box_type",
+                    "box_meaning_id",
                     "in",
                     (
                         "no_push_total_debit",
@@ -529,17 +537,16 @@ class L10nFrAccountVatReturn(models.Model):
         # Generate the 'no_push_total_xxx' lines:
         # 25. Crédit de TVA (lignes 23 - 16)
         # 28. TVA nette due (lignes 16 - 23)
-        due_vat_total_box = speedy["box_obj"]._box_from_single_box_type("due_vat_total")
         vat_to_pay_line = speedy["line_obj"].search(
-            [("parent_id", "=", self.id), ("box_id", "=", due_vat_total_box.id)]
+            [("parent_id", "=", self.id), ("box_meaning_id", "=", "due_vat_total")]
         )
         vat_to_pay = vat_to_pay_line and vat_to_pay_line.value or 0
 
-        deduc_vat_total_box = speedy["box_obj"]._box_from_single_box_type(
-            "deductible_vat_total"
-        )
         vat_deduc_line = speedy["line_obj"].search(
-            [("parent_id", "=", self.id), ("box_id", "=", deduc_vat_total_box.id)]
+            [
+                ("parent_id", "=", self.id),
+                ("box_meaning_id", "=", "deductible_vat_total"),
+            ]
         )
         vat_deduc = vat_deduc_line and vat_deduc_line.value or 0
         logs = [
@@ -556,9 +563,9 @@ class L10nFrAccountVatReturn(models.Model):
         ]
         sub_total = vat_to_pay - vat_deduc
         if sub_total > 0:
-            box = speedy["box_obj"]._box_from_single_box_type("no_push_total_debit")
+            box = speedy["meaning_id2box"]["no_push_total_debit"]
         else:
-            box = speedy["box_obj"]._box_from_single_box_type("no_push_total_credit")
+            box = speedy["meaning_id2box"]["no_push_total_credit"]
             for log in logs:
                 log["amount"] *= -1
             self.write({"vat_credit_total": sub_total * -1})
@@ -662,7 +669,7 @@ class L10nFrAccountVatReturn(models.Model):
                 )
 
     def _generate_credit_deferment(self, speedy):
-        box = speedy["box_obj"]._box_from_single_box_type("credit_deferment")
+        box = speedy["meaning_id2box"]["credit_deferment"]
         account = self._get_box_account(box)
         balance = account._fr_vat_get_balance("base_domain_end", speedy)
         # Check that the balance of 445670 is an integer
@@ -721,6 +728,7 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _adjustment_sum_due_vat_base_vs_taxed_operations(self, speedy):
         self.ensure_one()
+        # TODO: move to a new field on box ?
         checks = [
             # Consistency control Excel line 54
             (
@@ -809,30 +817,29 @@ class L10nFrAccountVatReturn(models.Model):
         self.ensure_one()
         # TODO Check that an account can't be used in both autoliq and non-autoliq?
         # COMPUTE LINES
-        # There are 2 important dicts:
-        # 1. rate2logs: generate block "B décompte de la TVA à payer"
-        # both columns "taxe due" and "Base hors taxe"
-        rate2logs = defaultdict(list)
-        # 2. taxedop_type2logs: generate block top left "Opérations imposables"
-        taxedop_type2logs = defaultdict(list)
+        type_rate2logs = {
+            "france": defaultdict(list),
+            # 'france': {2000: {'vat': [logs], 1000: [logs], 550: [], 'base': [logs]}
+            "autoliq_extracom_product": defaultdict(list),
+            "autoliq_extracom_service": defaultdict(list),
+            "autoliq_intracom_product": defaultdict(list),
+            "autoliq_intracom_service": defaultdict(list),
+        }
 
+        # Compute Auto-liquidation extracom + intracom
+        self._generate_due_vat_autoliq(speedy, type_rate2logs)
         # Compute France and Monaco
-        monaco_logs = self._generate_due_vat_france(
-            speedy, rate2logs, taxedop_type2logs
-        )
-        # Compute Auto-liquidation
-        autoliq_intracom_product_logs = self._generate_due_vat_autoliq(
-            speedy, rate2logs, taxedop_type2logs
-        )
+        monaco_logs = self._generate_due_vat_france(speedy, type_rate2logs)
 
         # CREATE LINES
-        # Boxes 08, 09, 9A
-        self._generate_due_vat_create_vat_to_pay_lines(speedy, rate2logs)
-        # Boxes for taxed operations: A1, B3, A3, B2
-        for taxedop_type, logs in taxedop_type2logs.items():
-            box_type = "taxed_op_%s" % taxedop_type
-            self._create_line(speedy, logs, box_type)
+        # Boxes 08, 09, 9B
+        self._generate_taxed_op_and_due_vat_lines(speedy, type_rate2logs)
         # Box 17 "dont TVA sur acquisitions intracom"
+        # generate autoliq_intracom_product_logs from type_rate2logs
+        autoliq_intracom_product_logs = []
+        for rate, logs in type_rate2logs["autoliq_intracom_product"].items():
+            if rate != "base":
+                autoliq_intracom_product_logs += logs
         self._create_line(
             speedy, autoliq_intracom_product_logs, "due_vat_intracom_product"
         )
@@ -910,7 +917,7 @@ class L10nFrAccountVatReturn(models.Model):
         assert sale_vat_accounts
         return sale_vat_accounts, sale_vat_account2rate
 
-    def _generate_due_vat_france(self, speedy, rate2logs, taxedop_type2logs):
+    def _generate_due_vat_france(self, speedy, type_rate2logs):
         (
             sale_vat_accounts,
             sale_vat_account2rate,
@@ -919,7 +926,7 @@ class L10nFrAccountVatReturn(models.Model):
         vat_on_payment_account2logs = self._vat_on_payment(
             "out", sale_vat_accounts.ids, speedy
         )
-        # generate taxedop_type2logs['france'] and rate2logs
+        # generate type_rate2logs['france']
         for sale_vat_account, rate_int in sale_vat_account2rate.items():
             # Start from balance of VAT account, then compute base
             balance = (
@@ -932,82 +939,91 @@ class L10nFrAccountVatReturn(models.Model):
                 balance,
             )
             if not speedy["currency"].is_zero(balance):
-                rate2logs[rate_int].append(
+                type_rate2logs["france"][rate_int].append(
                     {
                         "account_id": sale_vat_account.id,
                         "compute_type": "balance",
                         "amount": balance,
                     }
                 )
-                base = balance * 10000 / rate_int
-                taxedop_type2logs["france"].append(
-                    {
-                        "account_id": sale_vat_account.id,
-                        "compute_type": "balance",
-                        "amount": base,
-                        "note": _("VAT amount %s, Rate %.2f%%, Base %s")
-                        % (
-                            format_amount(self.env, balance, speedy["currency"]),
-                            rate_int / 100,
-                            format_amount(self.env, base, speedy["currency"]),
-                        ),
-                    }
-                )
-            # remove on_payment invoices unpaid on end_date for rate2logs
-            rate2logs[rate_int] += vat_on_payment_account2logs[sale_vat_account]
-            # and also for taxedop_type2logs['france']
-            for log in vat_on_payment_account2logs[sale_vat_account]:
-                base_log = dict(log)
-                vat_amount = log["amount"]
-                base = speedy["currency"].round(vat_amount * 10000 / rate_int)
-                base_log["amount"] = base
-                taxedop_type2logs["france"].append(base_log)
+            # remove on_payment invoices unpaid on end_date for type_rate2logs
+            type_rate2logs["france"][rate_int] += vat_on_payment_account2logs[
+                sale_vat_account
+            ]
         # MONACO
         monaco_logs = self._generate_due_vat_monaco(speedy, sale_vat_accounts)
         return monaco_logs
 
-    def _generate_due_vat_autoliq(self, speedy, rate2logs, taxedop_type2logs):
+    def _generate_due_vat_autoliq(self, speedy, type_rate2logs):
         (
             autoliq_taxedop_type2accounts,
-            autoliq_vat_accounts,
             autoliq_vat_account2rate,
             autoliq_tax2rate,
         ) = self._generate_due_vat_prepare_autoliq_struct(speedy)
-        # compute bloc "B décompte de la TVA à payer"
-        self._generate_due_vat_autoliq_vat_to_pay(
-            speedy, autoliq_vat_account2rate, rate2logs
-        )
-        # compute bloc "opérations imposables"
-        # Extracom
-        self._generate_due_vat_taxed_op_extracom(
-            speedy,
-            autoliq_vat_account2rate,
-            autoliq_taxedop_type2accounts,
-            taxedop_type2logs,
-        )
 
-        # Intracom
-        rate2product_ratio = self._compute_rate2product_ratio(
+        # compute bloc "opérations imposables" / Intracom
+        # Split product/service
+        autoliq_rate2product_ratio = self._compute_autoliq_rate2product_ratio(
             speedy, autoliq_taxedop_type2accounts, autoliq_tax2rate
         )
 
-        autoliq_intracom_product_logs = self._generate_due_vat_intracom_taxed_op(
-            speedy,
-            autoliq_vat_account2rate,
-            autoliq_taxedop_type2accounts,
-            rate2product_ratio,
-            taxedop_type2logs,
-        )
-        return autoliq_intracom_product_logs
+        ps_labels = {
+            "product": _("Product"),
+            "service": _("Service"),
+        }
+        # autoliq_intracom_product_logs = []  # for box 17
+        # Compute both block B and block A for autoliq intracom + extracom
+        for autoliq_type, accounts in autoliq_taxedop_type2accounts.items():
+            # autoliq_type is 'intracom' or 'extracom'
+            for account in accounts:
+                total_vat_amount = (
+                    account._fr_vat_get_balance("base_domain_end", speedy) * -1
+                )
+                if speedy["currency"].is_zero(total_vat_amount):
+                    continue
+                rate_int = autoliq_vat_account2rate[account]
+                product_ratio = autoliq_rate2product_ratio[autoliq_type][rate_int]
+                ratio = {
+                    "product": product_ratio,
+                    "service": 100 - product_ratio,
+                }
+                product_vat_amount = round(total_vat_amount * product_ratio / 100, 2)
+                ps_vat_amount = {
+                    "product": product_vat_amount,
+                    "service": total_vat_amount - product_vat_amount,
+                }
+                for ps_type in ["product", "service"]:
+                    vat_amount = ps_vat_amount[ps_type]
+                    if speedy["currency"].is_zero(vat_amount):
+                        continue
+                    ptype = "autoliq_%s_%s" % (autoliq_type, ps_type)
+                    # Block B
+                    vat_note = _("VAT amount %s, %s ratio %.2f%%, %s VAT amount %s") % (
+                        format_amount(self.env, total_vat_amount, speedy["currency"]),
+                        ps_labels[ps_type],
+                        ratio[ps_type],
+                        ps_labels[ps_type],
+                        format_amount(self.env, vat_amount, speedy["currency"]),
+                    )
+                    vat_log = {
+                        "account_id": account.id,
+                        "compute_type": "balance_ratio",
+                        "amount": vat_amount,
+                        "note": vat_note,
+                    }
+                    type_rate2logs[ptype][rate_int].append(vat_log)
 
     def _generate_due_vat_prepare_autoliq_struct(self, speedy):
         autoliq_taxedop_type2accounts = {
-            "intracom_b2b": speedy["aa_obj"],
-            "extracom": speedy["aa_obj"],
+            "intracom": speedy["aa_obj"],  # recordset 445201, 445202, 445203
+            "extracom": speedy["aa_obj"],  # recordset 445301, 445302, 445303
         }
-        autoliq_vat_account2rate = {}
-        autoliq_tax2rate = {}
-        autoliq_vat_accounts = speedy["aa_obj"]
+        autoliq_vat_account2rate = (
+            {}
+        )  # {445201: 2000, 445202: 1000, 445203: 55, 445301: 2000,  }
+        autoliq_tax2rate = (
+            {}
+        )  # {TVA 20% intracom (achats): 2000, TVA 10% intracom (achats): 1000, }
         autoliq_vat_taxes = speedy["at_obj"].search(
             speedy["purchase_autoliq_vat_tax_domain"]
         )
@@ -1018,7 +1034,7 @@ class L10nFrAccountVatReturn(models.Model):
                 and int(x.factor_percent) == -100
             )
             if len(lines) != 1:
-                raise UserError(_("A regular sale "))
+                raise UserError(_("A regular sale "))  # TODO error msg
             account = lines.account_id
             rate_int = int(tax.amount * 100)
             autoliq_tax2rate[tax] = rate_int
@@ -1052,7 +1068,6 @@ class L10nFrAccountVatReturn(models.Model):
                     % account.display_name
                 )
             autoliq_vat_account2rate[account] = rate_int
-            autoliq_vat_accounts |= account
             tax_map = speedy["afpt_obj"].search(
                 [
                     ("tax_dest_id", "=", tax.id),
@@ -1068,213 +1083,99 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                     % tax.display_name
                 )
-            fr_vat_type = tax_map.position_id.fr_vat_type
-            autoliq_taxedop_type2accounts[fr_vat_type] |= account
+            autoliq_type = tax_map.position_id.fr_vat_type
+            if autoliq_type == "intracom_b2b":
+                autoliq_type = "intracom"
+            autoliq_taxedop_type2accounts[autoliq_type] |= account
         return (
             autoliq_taxedop_type2accounts,
-            autoliq_vat_accounts,
             autoliq_vat_account2rate,
             autoliq_tax2rate,
         )
 
-    def _generate_due_vat_autoliq_vat_to_pay(
-        self, speedy, autoliq_vat_account2rate, rate2logs
-    ):
-        # Generate autoliq logs for boxes 08, 09, 9A, T6
-        # For autoliq, we don't do VAT on payment, we do VAT on debit
-        # Check that these autoliq due accounts 4452xx are empty at start of period
-        for account, rate_int in autoliq_vat_account2rate.items():
-            balance = account._fr_vat_get_balance("base_domain_end", speedy) * -1
-            if not speedy["currency"].is_zero(balance):
-                rate2logs[rate_int].append(
-                    {
-                        "account_id": account.id,
-                        "compute_type": "balance",
-                        "amount": balance,
-                    }
-                )
-
-    def _generate_due_vat_taxed_op_extracom(
-        self,
-        speedy,
-        autoliq_vat_account2rate,
-        autoliq_taxedop_type2accounts,
-        taxedop_type2logs,
-    ):
-        # Taxable operations - Autoliquidation Extra EU
-        # Box B4: Achats de biens ou presta de services réalisés auprès d'un
-        # assujetti non établi en France (art 283-1 du CGI)
-        for account in autoliq_taxedop_type2accounts["extracom"]:
-            vat_amount = account._fr_vat_get_balance("base_domain_end", speedy) * -1
-            if not speedy["currency"].is_zero(vat_amount):
-                rate_int = autoliq_vat_account2rate[account]
-                base = speedy["currency"].round(vat_amount * 10000 / rate_int)
-                taxedop_type2logs["autoliq_extracom"].append(
-                    {
-                        "account_id": account.id,
-                        "compute_type": "computed_base",
-                        "amount": base,
-                        "note": _("VAT Amount %s, Rate %.2f%%, Base %s")
-                        % (
-                            format_amount(self.env, vat_amount, speedy["currency"]),
-                            rate_int / 100,
-                            format_amount(self.env, base, speedy["currency"]),
-                        ),
-                    }
-                )
-
-    def _generate_due_vat_intracom_taxed_op(
-        self,
-        speedy,
-        autoliq_vat_account2rate,
-        autoliq_taxedop_type2accounts,
-        rate2product_ratio,
-        taxedop_type2logs,
-    ):
-        # Compute boxes A3, B2 and 17
-        autoliq_intracom_product_logs = []  # for box 17
-
-        for account in autoliq_taxedop_type2accounts["intracom_b2b"]:
-            vat_amount = account._fr_vat_get_balance("base_domain_end", speedy) * -1
-            if not speedy["currency"].is_zero(vat_amount):
-                rate_int = autoliq_vat_account2rate[account]
-                product_ratio = rate2product_ratio[rate_int]
-                service_ratio = 100 - product_ratio
-                base = speedy["currency"].round(vat_amount * 10000 / rate_int)
-                product_base = 0
-                if not float_is_zero(product_ratio, precision_digits=2):
-                    # Box B2
-                    product_base = round(base * product_ratio / 100, 2)
-                    taxedop_type2logs["autoliq_intracom_product"].append(
-                        {
-                            "account_id": account.id,
-                            "compute_type": "computed_base",
-                            "amount": product_base,
-                            "note": _(
-                                "VAT Amount %s, Rate %.2f%%, Base %s, "
-                                "Product Ratio %.2f%%, Product Base %s"
-                            )
-                            % (
-                                format_amount(self.env, vat_amount, speedy["currency"]),
-                                rate_int / 100,
-                                format_amount(self.env, base, speedy["currency"]),
-                                product_ratio,
-                                format_amount(
-                                    self.env, product_base, speedy["currency"]
-                                ),
-                            ),
-                        }
-                    )
-                    # Box 17
-                    product_vat_amount = round(vat_amount * product_ratio / 100, 2)
-                    autoliq_intracom_product_logs.append(
-                        {
-                            "account_id": account.id,
-                            "compute_type": "computed_vat_amount",
-                            "amount": product_vat_amount,
-                            "note": _(
-                                "VAT amount %s, Product Ratio %.2f%%, "
-                                "VAT Product Amount %s"
-                            )
-                            % (
-                                format_amount(self.env, vat_amount, speedy["currency"]),
-                                product_ratio,
-                                format_amount(
-                                    self.env, product_vat_amount, speedy["currency"]
-                                ),
-                            ),
-                        }
-                    )
-
-                # Box A3
-                service_base = round(base - product_base, 2)
-                if not float_is_zero(service_base, precision_digits=2):
-                    taxedop_type2logs["autoliq_intracom_service"].append(
-                        {
-                            "account_id": account.id,
-                            "compute_type": "computed_base",
-                            "amount": service_base,
-                            "note": _(
-                                "VAT Amount %s, Rate %.2f%%, Base %s, "
-                                "Service Ratio %.2f%%, Service Base %s"
-                            )
-                            % (
-                                format_amount(self.env, vat_amount, speedy["currency"]),
-                                rate_int / 100,
-                                format_amount(self.env, base, speedy["currency"]),
-                                service_ratio,
-                                format_amount(
-                                    self.env, service_base, speedy["currency"]
-                                ),
-                            ),
-                        }
-                    )
-        return autoliq_intracom_product_logs
-
-    def _compute_rate2product_ratio(
+    def _compute_autoliq_rate2product_ratio(
         self, speedy, autoliq_taxedop_type2accounts, autoliq_tax2rate
     ):
-        rate2total = defaultdict(float)
-        rate2product = defaultdict(float)
-        autoliq_vat_move_lines = speedy["aml_obj"].search(
-            [
-                ("account_id", "in", autoliq_taxedop_type2accounts["intracom_b2b"].ids),
-                ("balance", "!=", 0),
-                ("full_reconcile_id", "=", False),
-            ]
-            + speedy["base_domain_end"]
-        )
-
-        autoliq_vat_moves = autoliq_vat_move_lines.move_id
+        autoliq_rate2product_ratio = {
+            "intracom": {},  # {2000: 54.80, 1000: 24.67, ...}
+            "extracom": {},
+        }
         product_account_prefixes = self._get_product_account_prefixes()
-        for move in autoliq_vat_moves:
-            if move.move_type not in ("in_invoice", "in_refund"):
-                raise UserError(
-                    _(
-                        "Journal entry '%s' uses an intracom autoliquidation due VAT "
-                        "account but is not a supplier invoice/refund. "
-                        "This scenario is not supported."
-                    )
-                    % move.display_name
-                )
-            for line in move.invoice_line_ids.filtered(lambda x: not x.display_type):
-                rate_int = 0
-                for tax in line.tax_ids:
-                    if tax in autoliq_tax2rate:
-                        rate_int = autoliq_tax2rate[tax]
-                if rate_int:
-                    rate2total[rate_int] += line.balance
-                    # If we have a product, we use its type and is_accessory_cost
-                    # to determine if it's a product or service
-                    # If we don't have a product, we use the account
-                    if line.product_id:
-                        if (
-                            line.product_id.type in ("product", "consu")
-                            or line.product_id.is_accessory_cost
-                        ):
-                            rate2product[rate_int] += line.balance
-                    else:
-                        if line.account_id.code.startswith(product_account_prefixes):
-                            rate2product[rate_int] += line.balance
-                else:
+        for autoliq_type in ["intracom", "extracom"]:
+            rate2total = defaultdict(float)
+            rate2product = defaultdict(float)
+
+            autoliq_vat_move_lines = speedy["aml_obj"].search(
+                [
+                    (
+                        "account_id",
+                        "in",
+                        autoliq_taxedop_type2accounts[autoliq_type].ids,
+                    ),
+                    ("balance", "!=", 0),
+                    ("full_reconcile_id", "=", False),
+                ]
+                + speedy["base_domain_end"]
+            )
+
+            autoliq_vat_moves = autoliq_vat_move_lines.move_id
+            for move in autoliq_vat_moves:
+                if move.move_type not in ("in_invoice", "in_refund"):
                     raise UserError(
                         _(
-                            "There is a problem on the intracom vendor bill/refund '%s': "
-                            "check that the invoice lines have a single autoliquidation "
-                            "tax, and not the old dual-tax system for autoliquidation "
-                            "which was used by Odoo up to version 12.0 included."
+                            "Journal entry '%(move)s' is dated before (or on) "
+                            "%(end_date)s and has an unreconciled line with an "
+                            "%(autoliq_type)s autoliquidation due VAT "
+                            "account, but it is not a supplier invoice/refund. "
+                            "That line with the intracom autoliquidation due VAT account "
+                            "should be reconciled.",
+                            move=move.display_name,
+                            autoliq_type=autoliq_type,
+                            end_date=format_date(self.env, self.end_date),
                         )
-                        % move.display_name
                     )
+                for line in move.invoice_line_ids.filtered(
+                    lambda x: not x.display_type
+                ):
+                    rate_int = 0
+                    for tax in line.tax_ids:
+                        if tax in autoliq_tax2rate:
+                            rate_int = autoliq_tax2rate[tax]
+                    if rate_int:
+                        rate2total[rate_int] += line.balance
+                        # If we have a product, we use its type and is_accessory_cost
+                        # to determine if it's a product or service
+                        # If we don't have a product, we use the account
+                        # TODO move it to an inheritable method
+                        if line.product_id:
+                            if (
+                                line.product_id.type in ("product", "consu")
+                                or line.product_id.is_accessory_cost
+                            ):
+                                rate2product[rate_int] += line.balance
+                        else:
+                            if line.account_id.code.startswith(
+                                product_account_prefixes
+                            ):
+                                rate2product[rate_int] += line.balance
+                    else:
+                        raise UserError(
+                            _(
+                                "There is a problem on the intracom vendor bill/refund '%s': "
+                                "check that the invoice lines have a single autoliquidation "
+                                "tax, and not the old dual-tax system for autoliquidation "
+                                "which was used by Odoo up to version 12.0 included."
+                            )
+                            % move.display_name
+                        )
 
-        rate2product_ratio = {}
-        for rate_int, total in rate2total.items():
-            productratio = 0
-            if not speedy["currency"].is_zero(total):
-                productratio = round(100 * rate2product[rate_int] / total, 2)
-            rate2product_ratio[rate_int] = productratio
+            for rate_int, total in rate2total.items():
+                productratio = 0
+                if not speedy["currency"].is_zero(total):
+                    productratio = round(100 * rate2product[rate_int] / total, 2)
+                autoliq_rate2product_ratio[autoliq_type][rate_int] = productratio
 
-        return rate2product_ratio
+        return autoliq_rate2product_ratio
 
     @api.model
     def _get_product_account_prefixes(self):
@@ -1297,53 +1198,101 @@ class L10nFrAccountVatReturn(models.Model):
             "6236",
         )
 
-    def _generate_due_vat_create_vat_to_pay_lines(self, speedy, rate2logs):
+    def _generate_taxed_op_and_due_vat_lines(self, speedy, type_rate2logs):
         # Create boxes 08, 09, 9B (columns base HT et Taxe due)
-        rate2box = {}  # rate as integer x 100 i.e. 550 for 5,5%
-        due_vat_boxes = speedy["box_obj"].search(
-            [
-                ("box_type", "=", "due_vat"),
-                ("due_vat_rate", ">", 0),
-                ("due_vat_base_box_id", "!=", False),
-            ]
-        )
-        for due_vat_box in due_vat_boxes:
-            rate2box[int(due_vat_box.due_vat_rate)] = due_vat_box
-        if not rate2box:
-            raise UserError(
-                _(
-                    "Problem in the configuration of the due VAT boxes. "
-                    "This should never happen."
-                )
-            )
-
-        for rate_int, logs in rate2logs.items():
-            if logs:
-                if rate_int not in rate2box:
-                    raise UserError(
-                        _("No Due VAT box found for VAT rate %.2f%%.") % rate_int / 100
-                    )
-                box = rate2box[rate_int]
-                line = self._create_line(speedy, logs, box)
-                box_base = box.due_vat_base_box_id
-                rate = rate_int / 100
-                logs_base = [
-                    {
-                        "compute_type": "rate",
-                        "amount": line.value_float * 100 / rate,
-                        "note": _(
-                            "VAT Amount %s, Rate %.2f%%, "
-                            "Base = VAT Amount / Rate"
-                            % (
-                                format_amount(
-                                    self.env, line.value_float, speedy["currency"]
-                                ),
-                                rate,
-                            )
-                        ),
-                    }
+        grouped_type_rate2box = {
+            "regular": {},  # {2000: box_rec, 1000, box_rec}
+            "extracom_product": {},
+        }
+        for grouped_type in grouped_type_rate2box.keys():
+            boxes = speedy["box_obj"].search(
+                [
+                    ("meaning_id", "=like", "due_vat_%s_%%" % grouped_type),
+                    ("due_vat_rate", ">", 0),
+                    ("due_vat_base_box_id", "!=", False),
                 ]
-                self._create_line(speedy, logs_base, box_base)
+            )
+            for box in boxes:
+                grouped_type_rate2box[grouped_type][int(box.due_vat_rate)] = box
+
+        box2logs = defaultdict(list)
+        # Prepare box2logs for Block A and Block B VAT amounts
+        for ptype, rate2logs in type_rate2logs.items():
+            for rate_int, logs in rate2logs.items():
+                if not logs:
+                    continue
+                assert isinstance(rate_int, int)
+                total_vat_amount = sum([log["amount"] for log in logs])
+                if ptype == "autoliq_extracom_product":
+                    grouped_type = "extracom_product"
+                else:
+                    grouped_type = "regular"
+                # Generate Base
+                base_logs = []
+                for log in logs:
+                    base_amount = speedy["currency"].round(
+                        log["amount"] * 10000 / rate_int
+                    )
+                    note = "%s, Rate %.2f%% → Base %s" % (
+                        log.get(
+                            "note",
+                            "VAT amount %s"
+                            % format_amount(
+                                self.env, log["amount"], speedy["currency"]
+                            ),
+                        ),
+                        rate_int / 100,
+                        format_amount(self.env, base_amount, speedy["currency"]),
+                    )
+                    compute_type = "base_from_%s" % log["compute_type"]
+                    base_logs.append(
+                        dict(
+                            log,
+                            note=note,
+                            compute_type=compute_type,
+                            amount=base_amount,
+                        )
+                    )
+
+                # NEGATIVE
+                if speedy["currency"].compare_amounts(total_vat_amount, 0) < 0:
+                    box2logs["negative_due_vat"] += logs
+                    box2logs["negative_due_vat_%s" % grouped_type] += logs
+                    # Base
+                    box2logs["negative_taxed_op"] += base_logs
+
+                # POSITIVE
+                else:
+                    box = grouped_type_rate2box[grouped_type][rate_int]
+                    box2logs[box] += logs
+                    box2logs["taxed_op_%s" % ptype] += base_logs
+
+        for box, logs in box2logs.items():
+            line = self._create_line(speedy, logs, box)
+            box_rec = line.box_id
+            if box_rec.meaning_id and box_rec.meaning_id.startswith(
+                ("due_vat_regular_", "due_vat_extracom_product_")
+            ):
+                rate_int = box_rec.due_vat_rate
+                assert isinstance(rate_int, int)
+                assert rate_int > 0
+                base_amount = line.value_float * 10000 / rate_int
+                log_base_vat = {
+                    "compute_type": "rate",
+                    "amount": base_amount,
+                    "note": _(
+                        "VAT amount %s, Rate %.2f%% → "
+                        "Base = %s"
+                        % (
+                            format_amount(
+                                self.env, line.value_float, speedy["currency"]
+                            ),
+                            rate_int / 100,
+                            format_amount(self.env, base_amount, speedy["currency"]),
+                        )
+                    ),
+                }
+                self._create_line(speedy, [log_base_vat], box_rec.due_vat_base_box_id)
 
     def _generate_due_vat_monaco(self, speedy, sale_vat_accounts):
         # Dont TVA sur opérations à destination de Monaco
@@ -1381,12 +1330,17 @@ class L10nFrAccountVatReturn(models.Model):
             )
         return monaco_box_logs
 
-    def _create_line(self, speedy, logs, box):
-        """Box argument can be a box_type or a box"""
+    def _create_line(self, speedy, logs, box, negative_box=None):
+        """Box argument can be a meaning_id or a box"""
         line = False
         if logs:
             if isinstance(box, str):
-                box = speedy["box_obj"]._box_from_single_box_type(box)
+                box = speedy["meaning_id2box"][box]
+            if negative_box:
+                total = sum([log["amount"] for log in logs])
+                if speedy["currency"].compare_amounts(total, 0) < 0:
+                    speedy["negative_box2logs"][negative_box] += logs
+                    return False
             vals = {
                 "parent_id": self.id,
                 "box_id": box.id,
@@ -1573,7 +1527,7 @@ class L10nFrAccountVatReturn(models.Model):
         # vat_account2type is a dict with:
         # key = deduc VAT account
         # value = 'asset', 'regular' or 'autoliq'
-        boxtype2vat_accounts = {
+        box_meaning_id2vat_accounts = {
             "deductible_vat_asset": [
                 account
                 for (account, vtype) in vat_account2type.items()
@@ -1597,11 +1551,11 @@ class L10nFrAccountVatReturn(models.Model):
         )
 
         # Generate return line for the 2 deduc VAT boxes
-        for box_type, vat_accounts in boxtype2vat_accounts.items():
+        for box_meaning_id, vat_accounts in box_meaning_id2vat_accounts.items():
             logger.info(
-                "Deduc VAT accounts: %s go to box type %s",
+                "Deduc VAT accounts: %s go to box meaning_id %s",
                 ", ".join([x.code for x in vat_accounts]),
-                box_type,
+                box_meaning_id,
             )
             logs = []
             for vat_account in vat_accounts:
@@ -1617,7 +1571,9 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                 # minus unpaid vat_on_payment supplier invoices
                 logs += vat_on_payment_account2logs[vat_account]
-            self._create_line(speedy, logs, box_type)
+            self._create_line(
+                speedy, logs, box_meaning_id, negative_box="negative_deductible_vat"
+            )
 
     def _generate_deductible_vat_prepare_struct(self, speedy):
         vat_account2type = {}
@@ -1674,15 +1630,15 @@ class L10nFrAccountVatReturn(models.Model):
     def _generate_operation_untaxed(self, speedy):
         self.ensure_one()
         fp_types = ["intracom_b2b", "intracom_b2c", "extracom", "france_exo"]
-        fpositions2boxtype = {}
+        fpositions2box_meaning_id = {}
         for fp_type in fp_types:
-            box_type = "untaxed_op_%s" % fp_type
+            box_meaning_id = "untaxed_op_%s" % fp_type
             fpositions = speedy["afp_obj"].search(
                 speedy["company_domain"] + [("fr_vat_type", "=", fp_type)]
             )
-            fpositions2boxtype[fpositions] = box_type
-        boxtype2accounts = {}
-        for fpositions, box_type in fpositions2boxtype.items():
+            fpositions2box_meaning_id[fpositions] = box_meaning_id
+        box_meaning_id2accounts = {}
+        for fpositions, box_meaning_id in fpositions2box_meaning_id.items():
             for fposition in fpositions:
                 revenue_account_mappings = fposition.account_ids.filtered(
                     lambda x: x.account_src_id.code.startswith("7")
@@ -1708,14 +1664,18 @@ class L10nFrAccountVatReturn(models.Model):
                             % fposition.display_name
                         )
                 for mapping in revenue_account_mappings:
-                    if box_type not in boxtype2accounts:
-                        boxtype2accounts[box_type] = mapping.account_dest_id
+                    if box_meaning_id not in box_meaning_id2accounts:
+                        box_meaning_id2accounts[
+                            box_meaning_id
+                        ] = mapping.account_dest_id
                     else:
-                        boxtype2accounts[box_type] |= mapping.account_dest_id
+                        box_meaning_id2accounts[
+                            box_meaning_id
+                        ] |= mapping.account_dest_id
         # check that an account is not present in several fiscal positions
         # and create lines
         account_unicity = []
-        for (box_type, accounts) in boxtype2accounts.items():
+        for box_meaning_id, accounts in box_meaning_id2accounts.items():
             if account_unicity:
                 for acc in accounts:
                     if acc.id in account_unicity:
@@ -1739,61 +1699,19 @@ class L10nFrAccountVatReturn(models.Model):
                             "compute_type": "period_balance",
                         }
                     )
-            self._create_line(speedy, logs, box_type)
-
-    def _switch_negative_boxes(self, speedy):
-        negative_lines = speedy["line_obj"].search(
-            [
-                ("value", "<", 0),
-                ("box_edi_type", "=", "MOA"),
-                ("parent_id", "=", self.id),
-            ]
-        )
-        logger.info("%d negative lines detected", len(negative_lines))
-        for line in negative_lines:
-            # delete negative due VAT base lines
-            if line.box_box_type == "due_vat_base":
-                line.unlink()
-                continue
-            negative_box = line.box_id.negative_switch_box_id
-            if not negative_box:
-                raise UserError(
-                    _(
-                        "Box '%s' has a negative value (%s) but it doesn't have a "
-                        "negative switch box."
-                    )
-                    % (line.box_id.display_name, line.value)
-                )
-            negative_line = speedy["line_obj"].search(
-                [
-                    ("parent_id", "=", self.id),
-                    ("box_id", "=", negative_box.id),
-                ],
-                limit=1,
+            self._create_line(
+                speedy, logs, box_meaning_id, negative_box="negative_untaxed_op"
             )
-            if not negative_line:
-                negative_line = speedy["line_obj"].create(
-                    {
-                        "box_id": negative_box.id,
-                        "parent_id": self.id,
-                        "negative_switch": True,
-                    }
-                )
-            # Transfer log line to the negative box line
-            for log in line.log_ids:
-                vals = {
-                    "parent_id": negative_line.id,
-                }
-                log.write(vals)
-            line.unlink()
+
+    def _generate_negative_boxes(self, speedy):
+        for box, logs in speedy["negative_box2logs"].items():
+            self._create_line(speedy, logs, box)
 
     def create_reimbursement_line(self, amount):
         assert isinstance(amount, int)
         assert amount > 0
         speedy = self._prepare_speedy()
-        box = self.env["l10n.fr.account.vat.box"]._box_from_single_box_type(
-            "vat_reimbursement"
-        )
+        box = speedy["meaning_id2box"]["vat_reimbursement"]
         account_id = self._get_box_account(box).id
         log_vals = {
             "amount": amount,
@@ -1818,7 +1736,7 @@ class L10nFrAccountVatReturn(models.Model):
         speedy = self._prepare_speedy()
         self.message_post(body=_("Credit VAT Reimbursement removed."))
         line_to_delete = speedy["line_obj"].search(
-            [("box_box_type", "=", "vat_reimbursement"), ("parent_id", "=", self.id)]
+            [("box_meaning_id", "=", "vat_reimbursement"), ("parent_id", "=", self.id)]
         )
         line_to_delete.unlink()
         self._generate_ca3_bottom_totals(speedy)
@@ -1856,7 +1774,7 @@ class L10nFrAccountVatReturn(models.Model):
         for line in self.line_ids.filtered(lambda x: x.box_accounting_method):
             method = line.box_accounting_method
             sign = method == "credit" and 1 or -1
-            if line.box_box_type == "manual" and line.value_manual_int:
+            if line.box_manual and line.value_manual_int:
                 account = self._get_box_account(line.box_id, raise_if_none=True)
                 account2amount[(account, line.manual_analytic_account_id)] += (
                     line.value_manual_int * sign
@@ -2234,11 +2152,12 @@ class L10nFrAccountVatReturnLine(models.Model):
     )
     box_push_box_id = fields.Many2one(related="box_id.push_box_id", store=True)
     box_push_sequence = fields.Integer(related="box_id.push_sequence", store=True)
-    box_box_type = fields.Selection(related="box_id.box_type", store=True)
+    box_meaning_id = fields.Char(related="box_id.meaning_id", store=True)
+    box_manual = fields.Boolean(related="box_id.manual", store=True)
     box_name = fields.Char(related="box_id.name", store=True)
     box_display_type = fields.Selection(related="box_id.display_type", store=True)
     box_sequence = fields.Integer(related="box_id.sequence", store=True)
-    negative_switch = fields.Boolean(readonly=True)
+    box_negative = fields.Boolean(related="box_id.negative", store=True)
     value = fields.Integer(
         compute="_compute_value", store=True
     )  # MOA, QTY, PCD, CCI_TBX (manual + auto)
@@ -2282,7 +2201,7 @@ class L10nFrAccountVatReturnLine(models.Model):
         for line in self:
             manual_account_id = False
             manual_analytic_account_id = False
-            if line.box_id and line.box_id.box_type == "manual" and line.parent_id:
+            if line.box_id and line.box_id.manual and line.parent_id:
                 account = line.parent_id._get_box_account(
                     line.box_id, raise_if_none=False
                 )
@@ -2317,7 +2236,7 @@ class L10nFrAccountVatReturnLine(models.Model):
         "value_bool",
         "value_manual_int",
         "box_id",
-        "negative_switch",
+        "box_id.negative",
     )
     def _compute_value(self):
         rg_res = self.env["l10n.fr.account.vat.return.line.log"].read_group(
@@ -2327,10 +2246,10 @@ class L10nFrAccountVatReturnLine(models.Model):
         for line in self:
             value = 0
             value_float = 0
-            sign = line.negative_switch and -1 or 1
+            sign = line.box_id.negative and -1 or 1
             if not line.box_id.display_type:
                 if line.box_id.edi_type in ("MOA", "QTY", "PCD"):
-                    if line.box_id.box_type == "manual":
+                    if line.box_id.manual:
                         value = line.value_manual_int
                     else:
                         value_float = mapped_data.get(line.id, 0)
@@ -2367,12 +2286,25 @@ class L10nFrAccountVatReturnLineLog(models.Model):
         readonly=True,
     )
     compute_type = fields.Selection(
+        # TODO migration scripts ? Or remove field ?
         [
             ("period_balance", "Period Balance"),  # used for untaxed operations
             ("balance", "Ending Balance"),  # used for VAT boxes
+            ("balance_ratio", "Ending Balance x Ratio"),  # used for VAT boxes
             ("unpaid_vat_on_payment", "Unpaid VAT on Payment"),  # used for VAT boxes
-            ("computed_base", "Computed Base"),  # used for base VAT boxes
-            ("computed_vat_amount", "Computed VAT Amount"),
+            (
+                "base_from_balance",
+                "Base from Ending Balance",
+            ),  # used for taxed operations
+            (
+                "base_from_balance_ratio",
+                "Base from Ending Balance x Ratio",
+            ),  # used for taxed operations
+            (
+                "base_from_unpaid_vat_on_payment",
+                "Base from Unpaid VAT on Payment",
+            ),  # used for taxed operations
+            ("computed_vat_amount", "Computed VAT Amount"),  # for Monaco
             ("rate", "VAT Amount / VAT Rate"),
             ("box", "Box Value"),  # used for sum boxes (totals)
             ("manual", "Manual"),  # used for credit VAT reimbursement line

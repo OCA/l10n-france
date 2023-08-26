@@ -311,9 +311,11 @@ class ResCompany(models.Model):
                 purchase_tax = self.env.ref(exo_tax_xmlid % (self.id, "purchase"))
                 purchase_tax_ids = [(6, 0, [purchase_tax.id])]
                 account_income_id = self._test_get_account("707500")
-            product_name = "Test-demo TVA %s %%" % real_vat_rate
-            if asset:
-                product_name += " immo"
+            product_name = "Test-demo %s%s TVA %s %%" % (
+                product_type,
+                real_vat_rate,
+                asset and " immo" or "",
+            )
             product = ppo.create(
                 {
                     "name": product_name,
@@ -772,10 +774,14 @@ class ResCompany(models.Model):
             start_date,
             partner_dict["extracom"],
             [
-                {"product_id": product_dict["service"][200].id, "price_unit": 300},
-                {"product_id": product_dict["service"][100].id, "price_unit": 310},
-                {"product_id": product_dict["service"][55].id, "price_unit": 3000},
-                {"product_id": product_dict["service"][21].id, "price_unit": 3100},
+                {"product_id": product_dict["product"][200].id, "price_unit": 200},
+                {"product_id": product_dict["service"][200].id, "price_unit": 100},
+                {"product_id": product_dict["product"][100].id, "price_unit": 110},
+                {"product_id": product_dict["service"][100].id, "price_unit": 200},
+                {"product_id": product_dict["product"][55].id, "price_unit": 500},
+                {"product_id": product_dict["service"][55].id, "price_unit": 2500},
+                {"product_id": product_dict["product"][21].id, "price_unit": 2000},
+                {"product_id": product_dict["service"][21].id, "price_unit": 1100},
             ],
             {start_date: "residual"},
         )
