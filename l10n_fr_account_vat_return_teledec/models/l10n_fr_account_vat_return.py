@@ -186,11 +186,6 @@ class L10nFrAccountVatReturn(models.Model):
             raise UserError(
                 _("There are no lines on VAT return %s.") % self.display_name
             )
-        vat_reimbursement_box_id = (
-            self.env["l10n.fr.account.vat.box"]
-            ._box_from_single_box_type("vat_reimbursement")
-            .id
-        )
         credit_vat_reimbursement_amount = 0
         for line in lines:
             if line.box_edi_type in ("MOA", "QTY", "PCD"):
@@ -207,7 +202,7 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                     % (line.box_id.display_name, line.box_edi_type)
                 )
-            if line.box_id.id == vat_reimbursement_box_id:
+            if line.box_meaning_id == "vat_reimbursement":
                 credit_vat_reimbursement_amount = line.value
         if self.comment_dgfip:  # 5 lines of 512 chars max
             teledec_dict["3310CA3"]["BC"] = True  # mention expresse
