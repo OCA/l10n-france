@@ -265,19 +265,19 @@
                                         <div
                         class="alert alert-warning"
                         role="alert"
-                        attrs="{'invisible': [('negative_switch', '=', False)]}"
+                        attrs="{'invisible': [('box_negative', '=', False)]}"
                     >The logs lines below have a negative total, so they were moved from their original box(es) to this box and the sign of the total has been inverted.</div>
                                         <group name="main">
                                                 <field
                             name="box_id"
-                            domain="[('box_type', '=', 'manual')]"
+                            domain="[('manual', '=', True)]"
                         />
                                                 <field
                             name="box_edi_type"
                             invisible="1"
                         />
                                                 <field
-                            name="box_box_type"
+                            name="box_manual"
                             invisible="1"
                         />
                                                 <field
@@ -289,17 +289,17 @@
                             invisible="1"
                         />
                                                 <field
-                            name="negative_switch"
+                            name="box_negative"
                             invisible="1"
                         />
 
                                                 <field
                             name="value"
-                            attrs="{'invisible': ['|', ('box_box_type', '=', 'manual'), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                            attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
                         />
                                                 <field
                             name="value_float"
-                            attrs="{'invisible': ['|', ('box_box_type', '=', 'manual'), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                            attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
                         />
                                                 <field
                             name="value_bool"
@@ -311,7 +311,7 @@
                         />
                                                 <field
                             name="value_manual_int"
-                            attrs="{'invisible': ['|', ('box_box_type', '!=', 'manual'), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                            attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
                         />
                                                 <field
                             name="box_accounting_method"
@@ -319,11 +319,11 @@
                         />
                                                 <field
                             name="manual_account_id"
-                            attrs="{'invisible': ['|', ('box_box_type', '!=', 'manual'), ('box_accounting_method', '=', False)]}"
+                            attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_accounting_method', '=', False)]}"
                         />
                                                 <field
                             name="manual_analytic_account_id"
-                            attrs="{'invisible': ['|', ('box_box_type', '!=', 'manual'), ('box_accounting_method', '=', False)]}"
+                            attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_accounting_method', '=', False)]}"
                             groups="analytic.group_analytic_accounting"
                         />
                                         </group>
@@ -343,7 +343,7 @@
                                 <tree
                     decoration-info="box_display_type == 'section'"
                     decoration-success="box_display_type == 'sub_section'"
-                    decoration-danger="negative_switch == True"
+                    decoration-danger="box_negative == True"
                     limit="100"
                 >
                                                 <field name="box_form_code" />
@@ -354,11 +354,11 @@
                         invisible="1"
                     />
                                                 <field
-                        name="negative_switch"
+                        name="box_negative"
                         invisible="1"
                     />
                                                 <field
-                        name="box_box_type"
+                        name="box_manual"
                         invisible="1"
                     />
                                                 <field
@@ -373,7 +373,7 @@
                                                 <field
                         name="value_float"
                         optional="hide"
-                        attrs="{'invisible': ['|', ('box_box_type', '=', 'manual'), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                        attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
                     />
                                                 <field
                         name="value_bool"
@@ -396,7 +396,7 @@
                         <field name="arch" type="xml">
                                 <tree
                     decoration-info="compute_type == 'period_balance'"
-                    decoration-success="compute_type == 'balance'"
+                    decoration-success="compute_type in ('balance', 'balance_ratio', 'base_from_balance', 'base_from_balance_ratio')"
                     decoration-warning="compute_type == 'subtraction'"
                     decoration-danger="compute_type == 'adjustment'"
                 >
