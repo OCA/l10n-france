@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
 from odoo.tools import float_is_zero
 
 PUSH_RATE_PRECISION = 4
@@ -26,49 +26,9 @@ class L10nFrAccountVatBox(models.Model):
     code = fields.Char()
     name = fields.Char(string="Label", required=True)
     full_label = fields.Char(string="Full Label")
-    box_type = fields.Selection(
-        [
-            ("taxed_op_france", "Taxed Operations - France"),
-            (
-                "taxed_op_autoliq_extracom",
-                "Taxed Operations - Extracom Autoliquidation",
-            ),
-            (
-                "taxed_op_autoliq_intracom_service",
-                "Taxed Operations - Intracom Autoliquidation Services",
-            ),
-            (
-                "taxed_op_autoliq_intracom_product",
-                "Taxed Operations - Intracom Autoliquidation Products",
-            ),
-            ("untaxed_op_intracom_b2b", "Untaxed Operations - Intracom B2B"),
-            ("untaxed_op_intracom_b2c", "Untaxed Operations - Intracom B2C"),
-            ("untaxed_op_extracom", "Untaxed Operations - Extracom"),
-            ("untaxed_op_france_exo", "Untaxed Operations - France Exonerated"),
-            ("due_vat", "Due VAT Amount"),
-            ("due_vat_base", "Due VAT Base"),
-            ("due_vat_intracom_product", "Due VAT Intracom Products"),
-            ("due_vat_monaco", "Due VAT Monaco"),
-            ("due_vat_total", "Total Due VAT"),
-            ("no_push_total_credit", "Not Pushed Total Credit"),
-            ("no_push_total_debit", "Not Pushed Total Debit"),
-            ("end_total_debit", "End Total Credit"),
-            ("end_total_credit", "End Total Debit"),
-            ("credit_deferment", "Credit Deferment"),
-            ("deductible_vat_asset", "Deductible VAT Amount Asset"),
-            ("deductible_vat_other", "Deductible VAT Amount Other"),
-            ("deductible_vat_total", "Total Deductible VAT"),
-            ("vat_reimbursement", "VAT Reimbursement"),
-            ("manual", "Manual"),  # boxes that accountant can select at first step
-        ],
-        string="Type",
-    )
-    negative_switch_box_id = fields.Many2one(
-        "l10n.fr.account.vat.box",
-        string="Negative Switch Box",
-        help="If the amount of this box is negative, its lines will be transfered "
-        "to another box with a sign inversion.",
-    )
+    meaning_id = fields.Char(string="Meaningful ID")
+    manual = fields.Boolean()
+    negative = fields.Boolean()
     accounting_method = fields.Selection(
         [
             ("debit", "Debit"),
@@ -80,7 +40,6 @@ class L10nFrAccountVatBox(models.Model):
     due_vat_base_box_id = fields.Many2one(
         "l10n.fr.account.vat.box",
         string="Due VAT Base",
-        domain=[("box_type", "=", "due_vat_base")],
     )
     form_code = fields.Selection(
         [
@@ -139,7 +98,6 @@ class L10nFrAccountVatBox(models.Model):
     push_box_id = fields.Many2one(
         "l10n.fr.account.vat.box",
         string="Push Box",
-        domain=[("box_type", "=", "manual")],
     )
     push_rate = fields.Float(digits=(16, PUSH_RATE_PRECISION), string="Push Rate")
 
@@ -156,6 +114,11 @@ class L10nFrAccountVatBox(models.Model):
             "This EDI code already exists for this form.",
         ),
         ("nref_code_unique", "unique(nref_code)", "This N-REF code already exists."),
+        (
+            "meaning_id_unique",
+            "unique(meaning_id)",
+            "This meaningful ID already exists.",
+        ),
         (
             "due_vat_rate_positive",
             "CHECK(due_vat_rate >= 0)",
@@ -177,7 +140,6 @@ class L10nFrAccountVatBox(models.Model):
     def display_type_change(self):
         if self.display_type:
             self.code = False
-            self.box_type = False
             self.accounting_method = False
             self.due_vat_rate = False
             self.due_vat_base_box_id = False
@@ -195,7 +157,8 @@ class L10nFrAccountVatBox(models.Model):
         "edi_type",
         "display_type",
         "due_vat_base_box_id",
-        "box_type",
+        "meaning_id",
+        "manual",
         "accounting_method",
         "account_code",
         "account_id",
@@ -203,24 +166,24 @@ class L10nFrAccountVatBox(models.Model):
         "push_box_id",
         "push_rate",
         "push_sequence",
-        "negative_switch_box_id",
+        "negative",
     )
     def _check_box(self):  # noqa: C901
         for box in self:
             if box.display_type:
                 if (
-                    box.box_type
-                    or box.accounting_method
-                    or not float_is_zero(self.due_vat_rate, precision_digits=2)
-                    or self.due_vat_base_box_id
-                    or self.edi_code
-                    or self.edi_type
-                    or self.nref_code
+                    box.accounting_method
+                    or not float_is_zero(box.due_vat_rate, precision_digits=2)
+                    or box.due_vat_base_box_id
+                    or box.manual
+                    or box.edi_code
+                    or box.edi_type
+                    or box.nref_code
                     or box.print_page
                     or box.print_x
                     or box.print_y
                     or box.push_box_id
-                    or box.negative_switch_box_id
+                    or box.negative
                 ):
                     raise ValidationError(
                         _("The section or sub-section '%s' is not properly configured.")
@@ -235,24 +198,13 @@ class L10nFrAccountVatBox(models.Model):
                     raise ValidationError(
                         _("The box '%s' must have an EDI type.") % box.display_name
                     )
-                if box.negative_switch_box_id and box.edi_type != "MOA":
+                if box.negative and box.edi_type != "MOA":
                     raise ValidationError(
                         _(
-                            "The box '%s' has a negative switch box but it's EDI Type "
+                            "The box '%s' is a negative box but its EDI Type "
                             "is not 'MOA'."
                         )
                         % box.display_name
-                    )
-                if (
-                    box.negative_switch_box_id
-                    and box.negative_switch_box_id.edi_type != "MOA"
-                ):
-                    raise ValidationError(
-                        _(
-                            "The box '%s' is the negative switch box of '%s' but it's "
-                            "EDI Type is not 'MOA'."
-                        )
-                        % (box.negative_switch_box_id.display_name, box.display_name)
                     )
                 if not box.code and box.form_code == "3310CA3":
                     # on 3310-A, total boxes don't have a code
@@ -260,27 +212,20 @@ class L10nFrAccountVatBox(models.Model):
                         _("The box '%s' must have a code.") % box.display_name
                     )
                 print_data = [box.print_page, box.print_x, box.print_y]
-                any(print_data)
                 if box.form_code == "3310CA3" and not all(print_data):
                     raise ValidationError(
                         _("Missing print caracteristics on box '%s'.")
                         % box.display_name
                     )
-                if box.box_type == "due_vat":
+                if box.meaning_id and box.meaning_id.startswith(
+                    ("due_vat_regular", "due_vat_extracom_product")
+                ):
                     if not box.due_vat_base_box_id:
                         raise ValidationError(
                             _(
                                 "Missing Due VAT Base on box '%s' which is a Due VAT box."
                             )
                             % box.display_name
-                        )
-                    elif box.due_vat_base_box_id.box_type != "due_vat_base":
-                        raise ValidationError(
-                            _(
-                                "The Due VAT box '%s' has '%s' configured as "
-                                "Due VAT Base box, but it has a different type."
-                            )
-                            % (box.display_name, box.due_vat_base_box_id.display_name)
                         )
                     if box.accounting_method != "debit":
                         raise ValidationError(
@@ -304,23 +249,15 @@ class L10nFrAccountVatBox(models.Model):
                                 box.due_vat_base_box_id.print_y,
                             )
                         )
-                elif box.due_vat_base_box_id:
-                    raise ValidationError(
-                        _(
-                            "The field 'Due VAT Base' is set for box '%s' "
-                            "which is not a Due VAT box."
-                        )
-                        % box.display_name
-                    )
                 if (
-                    box.box_type
-                    and box.box_type.startswith("untaxed_op_")
+                    box.meaning_id
+                    and box.meaning_id.startswith("untaxed_op_")
                     and box.accounting_method
                 ):
                     raise ValidationError(
                         _(
                             "Box '%s' should not have an accounting method "
-                            "considering it's box type."
+                            "considering it's an untaxed operation."
                         )
                         % box.display_name
                     )
@@ -334,11 +271,11 @@ class L10nFrAccountVatBox(models.Model):
                             % box.display_name
                         )
                 if box.push_box_id:
-                    if box.push_box_id.box_type in ("manual", "no_push_total"):
+                    if box.push_box_id.manual:
                         raise ValidationError(
                             _(
                                 "Box '%s' has a push box '%s' that is configured "
-                                "as manual or not pushed total."
+                                "as manual."
                             )
                             % (box.display_name, box.push_box_id.display_name)
                         )
@@ -397,19 +334,3 @@ class L10nFrAccountVatBox(models.Model):
             if recs:
                 return recs.name_get()
         return super().name_search(name=name, args=args, operator=operator, limit=limit)
-
-    @api.model
-    def _box_from_single_box_type(self, box_type):
-        box = self.search([("box_type", "=", box_type)])
-        if len(box) != 1:
-            boxtype2label = dict(
-                self.fields_get("box_type", "selection")["box_type"]["selection"]
-            )
-            raise UserError(
-                _(
-                    "A single box with type '%s' should exists, "
-                    "but there are %d box(es) of that type. This should never happen."
-                )
-                % (boxtype2label[box_type], len(box))
-            )
-        return box

@@ -118,20 +118,29 @@ class TestFrAccountVatReturn(SavepointCase):
         expected_res = {
             "ca3_ca": 51510,  # A
             "ca3_kh": 2210,  # A3 HA intracom services
+            "ca3_dk": 2810,  # A4 HA extracom products
             "ca3_cc": 2410,  # B2 HA intracom products
-            "ca3_cg": 6710,  # B4 HA extracom
+            "ca3_cg": 3900,  # B4 HA extracom services
             "ca3_da": 750,  # E1 Extracom
             "ca3_db": 1400,  # E2 Autres opérations non imposables
             "ca3_dc": 150,  # F2 livraisons intracom
             ######
-            "ca3_fp": 730,  # base 20%
-            "ca3_gp": 146,  # montant collecté 20%
-            "ca3_fr": 810,  # base 10%
-            "ca3_gr": 81,  # montant collecté 10%
-            "ca3_fb": 28000,  # base 5,5%
-            "ca3_gb": 1540,  # montant collecté 5,5%
-            "ca3_mf": 33300,  # base 2,1%
-            "ca3_me": 699,  # montant collecté 2,1%
+            "ca3_fp": 530,  # base 20%
+            "ca3_gp": 106,  # montant collecté 20%
+            "ca3_fr": 700,  # base 10%
+            "ca3_gr": 70,  # montant collecté 10%
+            "ca3_fb": 27500,  # base 5,5%
+            "ca3_gb": 1512,  # montant collecté 5,5%
+            "ca3_mf": 31300,  # base 2,1%
+            "ca3_me": 657,  # montant collecté 2,1%
+            "ca3_lb": 200,  # base autoliq import 20%
+            "ca3_lc": 40,  # montant autoliq import 20%
+            "ca3_ld": 110,  # base autoliq import 10%
+            "ca3_le": 11,  # montant autoliq import 10%
+            "ca3_lh": 500,  # base autoliq import 5.5%
+            "ca3_lj": 28,  # montant autoliq import 5.5%
+            "ca3_lk": 2000,  # base autoliq import 2,1%
+            "ca3_ll": 42,  # montant autoliq import 2,1%
             "ca3_gh": 2466,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
@@ -258,22 +267,31 @@ class TestFrAccountVatReturn(SavepointCase):
         expected_res = {
             "ca3_ca": 40148,  # A
             "ca3_kh": 2210,  # A3 HA intracom services
+            "ca3_dk": 2810,  # A4 HA extracom products
             "ca3_cc": 2410,  # B2 HA intracom products
-            "ca3_cg": 6710,  # B4 HA extracom
+            "ca3_cg": 3900,  # B4 HA extracom services
             "ca3_db": 1400,  # E2 Autres opérations non imposables
             "ca3_dc": 150,  # F2 livraisons intracom
             "ca3_de": 1500,  # F8 régularisations
             # => replaces E1 because the extracom amount is negative
             ######
-            "ca3_fp": 688,  # base 20%
-            "ca3_gp": 138,  # montant collecté 20%
-            "ca3_fr": 740,  # base 10%
-            "ca3_gr": 74,  # montant collecté 10%
-            "ca3_fb": 23750,  # base 5,5%
-            "ca3_gb": 1306,  # montant collecté 5,5%
-            "ca3_mf": 26300,  # base 2,1%
-            "ca3_me": 552,  # montant collecté 2,1%
-            "ca3_gh": 2070,  # Total TVA collectée
+            "ca3_fp": 488,  # base 20%
+            "ca3_gp": 98,  # montant collecté 20%
+            "ca3_fr": 630,  # base 10%
+            "ca3_gr": 63,  # montant collecté 10%
+            "ca3_fb": 23250,  # base 5,5%
+            "ca3_gb": 1279,  # montant collecté 5,5%
+            "ca3_mf": 24300,  # base 2,1%
+            "ca3_me": 510,  # montant collecté 2,1%
+            "ca3_lb": 200,  # base autoliq import 20%
+            "ca3_lc": 40,  # montant autoliq import 20%
+            "ca3_ld": 110,  # base autoliq import 10%
+            "ca3_le": 11,  # montant autoliq import 10%
+            "ca3_lh": 500,  # base autoliq import 5.5%
+            "ca3_lj": 28,  # montant autoliq import 5.5%
+            "ca3_lk": 2000,  # base autoliq import 2,1%
+            "ca3_ll": 42,  # montant autoliq import 2,1%
+            "ca3_gh": 2071,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
             ######
@@ -282,9 +300,9 @@ class TestFrAccountVatReturn(SavepointCase):
             "ca3_hd": initial_credit_vat,  # report crédit TVA
             "ca3_hg": 1721,  # total VAT deduc
             ######
-            "ca3_ka": 349,  # TVA à payer (ligne 16 - 23)
-            "ca3_nd": 349,  # TVA nette due (ligne TD - X5)
-            "ca3_ke": 349,  # Total à payer
+            "ca3_ka": 350,  # TVA à payer (ligne 16 - 23)
+            "ca3_nd": 350,  # TVA nette due (ligne TD - X5)
+            "ca3_ke": 350,  # Total à payer
         }
         self._check_vat_return_result(vat_return, expected_res)
         move = vat_return.move_id
@@ -355,6 +373,26 @@ class TestFrAccountVatReturn(SavepointCase):
             {},
         )
         company._test_create_invoice_with_payment(
+            "out_refund",
+            self.start_date,
+            partner_dict["extracom"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 300},
+                {"product_id": product_dict["product"][100].id, "price_unit": 350},
+            ],
+            {},
+        )
+        company._test_create_invoice_with_payment(
+            "out_refund",
+            self.start_date,
+            partner_dict["intracom_b2b"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 10},
+            ],
+            {},
+        )
+
+        company._test_create_invoice_with_payment(
             "in_refund",
             self.start_date,
             partner_dict["france"],
@@ -381,10 +419,12 @@ class TestFrAccountVatReturn(SavepointCase):
         )
         vat_return.manual2auto()
         expected_res = {
+            "ca3_de": 660,  # F8
             "ca3_ce": 300,  # B5 regul
             "ca3_gg": 76,  # 15 TVA antérieurement déduite à reverser
             "ca3_gh": 76,  # Total TVA collectée
-            "ca3_hc": 50,  # TVA déduc biens et services
+            "ca3_hc": 50,  # Autre TVA à déduire
+            "ca3_hh": 50,  # dont regul TVA collectée
             "ca3_hd": initial_credit_vat,  # report crédit TVA
             "ca3_hg": 50 + initial_credit_vat,  # total VAT deduc
             ######
@@ -424,6 +464,6 @@ class TestFrAccountVatReturn(SavepointCase):
             ]
         )
         self.assertEqual(len(adj_log_line), 1)
-        adj_log_line.parent_id.box_id = self.env[
-            "l10n.fr.account.vat.box"
-        ]._box_from_single_box_type("taxed_op_france")
+        adj_log_line.parent_id.box_id = self.env["l10n.fr.account.vat.box"].search(
+            [("meaning_id", "=", "taxed_op_france")]
+        )
