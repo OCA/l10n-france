@@ -299,7 +299,7 @@ class L10nFrAccountVatBox(models.Model):
                         raise ValidationError(
                             _(
                                 "Box '%s' doesn't have a push box, "
-                                "so it's push rate should be 0."
+                                "so it's push sequence should be 0."
                             )
                             % box.display_name
                         )
