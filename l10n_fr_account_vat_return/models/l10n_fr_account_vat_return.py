@@ -1100,7 +1100,6 @@ class L10nFrAccountVatReturn(models.Model):
             "intracom": {},  # {2000: 54.80, 1000: 24.67, ...}
             "extracom": {},
         }
-        product_account_prefixes = self._get_product_account_prefixes()
         for autoliq_type in ["intracom", "extracom"]:
             rate2total = defaultdict(float)
             rate2product = defaultdict(float)
@@ -1143,21 +1142,9 @@ class L10nFrAccountVatReturn(models.Model):
                             rate_int = autoliq_tax2rate[tax]
                     if rate_int:
                         rate2total[rate_int] += line.balance
-                        # If we have a product, we use its type and is_accessory_cost
-                        # to determine if it's a product or service
-                        # If we don't have a product, we use the account
-                        # TODO move it to an inheritable method
-                        if line.product_id:
-                            if (
-                                line.product_id.type in ("product", "consu")
-                                or line.product_id.is_accessory_cost
-                            ):
-                                rate2product[rate_int] += line.balance
-                        else:
-                            if line.account_id.code.startswith(
-                                product_account_prefixes
-                            ):
-                                rate2product[rate_int] += line.balance
+                        product_or_service = line._fr_is_product_or_service()
+                        if product_or_service == "product":
+                            rate2product[rate_int] += line.balance
                     else:
                         raise UserError(
                             _(
@@ -1176,27 +1163,6 @@ class L10nFrAccountVatReturn(models.Model):
                 autoliq_rate2product_ratio[autoliq_type][rate_int] = productratio
 
         return autoliq_rate2product_ratio
-
-    @api.model
-    def _get_product_account_prefixes(self):
-        return (
-            "21",
-            "601",
-            "602",
-            "605",
-            "606",
-            "607",
-            "6091",
-            "6092",
-            "6095",
-            "6096",
-            "6097",
-            "6181",
-            "6183",
-            "6232",
-            "6234",
-            "6236",
-        )
 
     def _generate_taxed_op_and_due_vat_lines(self, speedy, type_rate2logs):
         # Create boxes 08, 09, 9B (columns base HT et Taxe due)
@@ -2286,7 +2252,6 @@ class L10nFrAccountVatReturnLineLog(models.Model):
         readonly=True,
     )
     compute_type = fields.Selection(
-        # TODO migration scripts ? Or remove field ?
         [
             ("period_balance", "Period Balance"),  # used for untaxed operations
             ("balance", "Ending Balance"),  # used for VAT boxes
