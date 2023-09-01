@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-19 09:57+0000\n"
-"PO-Revision-Date: 2022-06-19 09:57+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2023-09-03 13:40+0000\n"
+"Last-Translator: Claude R Perrin <claude@alpis.fr>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
@@ -24,11 +25,15 @@ msgid ""
 "\"Values set here are company-specific.\" groups=\"base.group_multi_company"
 "\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Télétransmission via Teledec.fr</span>\n"
+"                        <span class=\"fa fa-lg fa-building-o\" title=\"Values"
+" set here are company-specific.\" groups=\"base.group_multi_company\" role="
+"\"img\"/>"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ass
 msgid "Association"
-msgstr ""
+msgstr "Association"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
@@ -96,22 +101,22 @@ msgstr "E-mail manquant sur le partenaire '%s'."
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__arl
 msgid "EARL"
-msgstr ""
+msgstr "EARL"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ei
 msgid "EI"
-msgstr ""
+msgstr "EI"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__eir
 msgid "EIRL"
-msgstr ""
+msgstr "EIRL"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__erl
 msgid "EURL"
-msgstr ""
+msgstr "EURL"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
@@ -127,12 +132,12 @@ msgstr "Déclaration de TVA française (CA3)"
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__gec
 msgid "GAEC"
-msgstr ""
+msgstr "GAEC"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__gie
 msgid "GIE"
-msgstr ""
+msgstr "GIE"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
@@ -145,7 +150,7 @@ msgstr "Aller à la page de configuration"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_test_mode
@@ -215,42 +220,42 @@ msgstr "Paramètres requis pour la télétransmission de la CA3"
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sa
 msgid "SA"
-msgstr ""
+msgstr "SA"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__srl
 msgid "SARL"
-msgstr ""
+msgstr "SARL"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sas
 msgid "SAS"
-msgstr ""
+msgstr "SAS"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sasu
 msgid "SASU"
-msgstr ""
+msgstr "SASU"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sea
 msgid "SCEA"
-msgstr ""
+msgstr "SCEA"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sci
 msgid "SCI"
-msgstr ""
+msgstr "SCI"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__scm
 msgid "SCM"
-msgstr ""
+msgstr "SCM"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__slr
 msgid "SELARL"
-msgstr ""
+msgstr "SELARL"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
@@ -261,7 +266,7 @@ msgstr "Le SIRET n'est pas renseigné sur la société '%s'."
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__snc
 msgid "SNC"
-msgstr ""
+msgstr "SNC"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return__teledec_sent_datetime
@@ -389,3 +394,5 @@ msgstr ""
 msgid ""
 "You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
 msgstr ""
+"Vous vous apprêtez à transmettre votre déclaration de TVA via Teledec.fr. "
+"Confirmez-vous ?"
