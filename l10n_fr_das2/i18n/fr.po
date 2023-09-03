@@ -603,8 +603,8 @@ msgstr "Nombre d'erreurs"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Nombre de messages nécessitant une action"
+msgid "Number of messages requiring action"
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_error_counter
@@ -854,6 +854,9 @@ msgstr "Historique des échanges sur le site Web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Nombre de messages nécessitant une action"
 
 #~ msgid "Autre rémunérations"
 #~ msgstr "Autres rémunérations"
