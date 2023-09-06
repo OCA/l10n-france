@@ -251,7 +251,7 @@ class ResCompany(models.Model):
         if session is None:
             token = self._get_token(api_params)
             session = OAuth2Session(api_params["oauth_id"], token=token)
-        logger.info(
+        logger.debug(
             "Chorus API POST request to %s with login %s", url, api_params["login"]
         )
         logger.debug("Payload of the Chorus POST request: %s", payload)
