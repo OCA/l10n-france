@@ -33,6 +33,7 @@ ca3_de,3310CA3,290,,F8,DE,MOA,100119,True,negative_untaxed_op,False,,,,,,,,True,
 ca3_lr,3310CA3,295,,F9,LR,MOA,912152,True,,False,,,,,,,,,Opérations internes réalisées entre membres d’un assujetti unique,Opérations internes réalisées entre membres d’un assujetti unique,2,572,491
 ca3_section_tva_a_payer,3310CA3,300,section,B,,,,True,,False,,,,,,,,,DÉCOMPTE DE LA TVA À PAYER,DÉCOMPTE DE LA TVA À PAYER,,,
 ca3_sub_section_tva_brute,3310CA3,310,sub_section,,,,,True,,False,,,,,,,,,TVA BRUTE,TVA BRUTE,,,
+ca3_gh,3310CA3,530,,16,GH,MOA,,True,due_vat_total,False,,,,,,,,,Total de la TVA brute due (lignes 08 à 5B),Total général de la TVA brute due,3,572,817
 ca3_fp,3310CA3,320,,08-base,FP,MOA,904065,True,,False,,,,,,,,,France métropolitaine - Taux normal 20 % : base HT,Opérations imposables au taux normal de 20% en France métropolitaine : base HT,2,498,414
 ca3_gp,3310CA3,325,,08-taxe,GP,MOA,,True,due_vat_regular_2000,False,40,l10n_fr_account_vat_return.ca3_gh,,2000,l10n_fr_account_vat_return.ca3_fp,debit,,,France métropolitaine - Taux normal 20 % : taxe due,Opérations imposables au taux normal de 20% en France métropolitaine : taxe due,2,572,414
 ca3_fb,3310CA3,330,,09-base,FB,MOA,100078,True,,False,,,,,,,,,"France métropolitaine - Taux réduit 5,5 % : base HT","Opérations imposables au taux réduit de 5,5 % en France métropolitaine : base HT",2,498,400
@@ -81,10 +82,10 @@ ca3_gg,3310CA3,500,,15,GG,MOA,100087,True,negative_deductible_vat,False,40,l10n_
 ca3_ga,3310CA3,505,,15-dont-pp,GA,MOA,910761,True,,False,,,,,,,,True,TVA antérieurement déduite à reverser : dont TVA sur les produits pétroliers,"TVA antérieurement déduite à reverser, taxe due : dont TVA sur les produits pétroliers",2,326,50
 ca3_lq,3310CA3,510,,15-dont-pi,LQ,MOA,911609,True,,False,,,,,,,,True,TVA antérieurement déduite à reverser : dont TVA sur les produits importés hors produits pétroliers,"TVA antérieurement déduite à reverser, taxe due : dont TVA sur les produits importés hors produits pétroliers",2,387,35
 ca3_ks,3310CA3,520,,5B,KS,MOA,905877,True,,False,40,l10n_fr_account_vat_return.ca3_gh,,,,,,,"Sommes à ajouter, y compris acompte congés","Sommes à ajouter, y compris acompte congés",2,572,19
-ca3_gh,3310CA3,530,,16,GH,MOA,,True,due_vat_total,False,,,,,,,,,Total de la TVA brute due (lignes 08 à 5B),Total général de la TVA brute due,3,572,817
 ca3_gj,3310CA3,540,,17,GJ,MOA,100089,True,due_vat_intracom_product,False,,,,,,,,,Dont TVA sur acquisitions intra-communautaires,TVA brute sur acquisitions intra-communautaires,3,572,798
 ca3_gk,3310CA3,560,,18,GK,MOA,100105,True,due_vat_monaco,False,,,,,,,,,Dont TVA sur opérations à destination de Monaco,TVA brute due sur opérations à destination de Monaco.,3,572,782
 ca3_sub_section_tva_deductible,3310CA3,600,sub_section,,,,,True,,False,,,,,,,,,TVA DÉDUCTIBLE,TVA DÉDUCTIBLE,,,
+ca3_hg,3310CA3,700,,23,HG,MOA,,True,deductible_vat_total,False,,,,,,,,,Total de la TVA déductible (lignes 19 à 2C),Total de la TVA déductible,3,569,636
 ca3_ha,3310CA3,610,,19,HA,MOA,100090,True,deductible_vat_asset,False,40,l10n_fr_account_vat_return.ca3_hg,,,,credit,,,Biens constituant des immobilisations,TVA déductible sur biens constituant des immobilisations,3,572,745
 ca3_hb,3310CA3,620,,20,HB,MOA,100091,True,deductible_vat_other,False,40,l10n_fr_account_vat_return.ca3_hg,,,,credit,,,Autres biens et services,TVA déductible sur autres biens et services (déduction sur facture),3,572,726
 ca3_hc,3310CA3,630,,21,HC,MOA,100092,True,negative_due_vat,False,40,l10n_fr_account_vat_return.ca3_hg,,,,credit,,True,Autre TVA à déduire,"Autre TVA à déduire, omissions ou compléments de déductions",3,572,712
@@ -94,7 +95,6 @@ ca3_hh,3310CA3,660,,21-dont-col-ded,HH,MOA,100120,True,negative_due_vat_regular,
 ca3_hd,3310CA3,680,,22,HD,MOA,100093,True,credit_deferment,False,40,l10n_fr_account_vat_return.ca3_hg,,,,credit,44567,,Report du crédit apparaissant ligne 27 de la précédente déclaration,Report du crédit apparaissant sur la précédente déclaration,3,572,674
 ca3_ku,3310CA3,670,,2C,KU,MOA,905882,True,,False,40,l10n_fr_account_vat_return.ca3_hg,,,,,,,"Sommes à imputer, y compris acompte congés","Sommes à imputer, y compris acompte congés",3,572,656
 ca3_he,3310CA3,690,,22A,HE,PCD,100094,True,,False,,,,,,,,,Coefficient de taxation unique applicable pour la période s'il est différent de 100 %,Pourcentage de déduction applicable pour la période s'il est différent de 100 %,3,291,622
-ca3_hg,3310CA3,700,,23,HG,MOA,,True,deductible_vat_total,False,,,,,,,,,Total de la TVA déductible (lignes 19 à 2C),Total de la TVA déductible,3,569,636
 ca3_hf,3310CA3,710,,24,HF,MOA,909864,True,,False,,,,,,,,,Dont TVA déductible sur importations (hors produits pétroliers),Dont TVA déductible sur importations (hors produits pétroliers),3,572,614
 ca3_hl,3310CA3,720,,2E,HL,MOA,910763,True,,False,,,,,,,,,Dont TVA déductible sur les produits pétroliers,Dont TVA déductible sur les produits pétroliers,3,572,596
 ,,,,,,,,,,,,,,,,,,,,,,,
