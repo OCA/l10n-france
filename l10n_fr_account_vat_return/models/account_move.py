@@ -29,8 +29,8 @@ class AccountMove(models.Model):
         product_total = 0.0
         service_total = 0.0
         for line in self.invoice_line_ids:
-            if not line.display_type and line.product_id:
-                if line.product_id.type == "service":
+            if not line.display_type:
+                if line._fr_is_product_or_service() == "service":
                     service_total += line.price_subtotal
                 else:
                     product_total += line.price_subtotal

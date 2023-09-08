@@ -12,6 +12,7 @@ class AccountMoveLine(models.Model):
     def _fr_product_account_prefixes(self):
         return (
             "21",
+            # expenses
             "601",
             "602",
             "605",
@@ -27,6 +28,16 @@ class AccountMoveLine(models.Model):
             "6232",
             "6234",
             "6236",
+            # revenue
+            "701",
+            "702",
+            "703",
+            "707",
+            "7085",
+            "7091",
+            "7092",
+            "7093",
+            "7097",
         )
 
     def _fr_is_product_or_service(self):
