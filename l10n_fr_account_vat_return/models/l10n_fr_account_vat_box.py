@@ -21,11 +21,10 @@ class L10nFrAccountVatBox(models.Model):
             ("section", "Section"),
             ("sub_section", "Sub-Section"),
         ],
-        string="Display Type",
     )
     code = fields.Char()
     name = fields.Char(string="Label", required=True)
-    full_label = fields.Char(string="Full Label")
+    full_label = fields.Char()
     meaning_id = fields.Char(string="Meaningful ID")
     manual = fields.Boolean()
     negative = fields.Boolean()
@@ -34,7 +33,6 @@ class L10nFrAccountVatBox(models.Model):
             ("debit", "Debit"),
             ("credit", "Credit"),
         ],
-        string="Accounting Method",
     )
     due_vat_rate = fields.Integer(string="VAT Rate x100")
     due_vat_base_box_id = fields.Many2one(
@@ -76,7 +74,6 @@ class L10nFrAccountVatBox(models.Model):
     account_code = fields.Char(string="Generic Account Code")
     account_id = fields.Many2one(
         "account.account",
-        string="Account",
         company_dependent=True,
         domain="[('deprecated', '=', False), ('company_id', '=', current_company_id)]",
         help="If not set, Odoo will use the first account that starts with the "
@@ -95,11 +92,8 @@ class L10nFrAccountVatBox(models.Model):
     # 30 : Appendix to CA3
     # 40 : CA3 total TVA due + total TVA deduc
     # 100 : CA3 end : total à payer + crédit à reporter
-    push_box_id = fields.Many2one(
-        "l10n.fr.account.vat.box",
-        string="Push Box",
-    )
-    push_rate = fields.Float(digits=(16, PUSH_RATE_PRECISION), string="Push Rate")
+    push_box_id = fields.Many2one("l10n.fr.account.vat.box")
+    push_rate = fields.Float(digits=(16, PUSH_RATE_PRECISION))
 
     _sql_constraints = [
         ("sequence_unique", "unique(sequence)", "This sequence already exists."),
@@ -238,15 +232,15 @@ class L10nFrAccountVatBox(models.Model):
                     if box.print_y != box.due_vat_base_box_id.print_y:
                         raise ValidationError(
                             _(
-                                "Due VAT box '%s' has print Y %d whereas "
-                                "Base Due VAT box '%s' has print Y %d. "
-                                "They should be on the same line."
-                            )
-                            % (
-                                box.display_name,
-                                box.print_y,
-                                box.due_vat_base_box_id.display_name,
-                                box.due_vat_base_box_id.print_y,
+                                "Due VAT box '%(due_vat_box)s' has print Y "
+                                "%(due_vat_box_print_y)s whereas "
+                                "Base Due VAT box '%(due_vat_base_box)s' has print Y "
+                                "%(due_vat_base_box_print_y)s. "
+                                "They should be on the same line.",
+                                due_vat_box=box.display_name,
+                                due_vat_box_print_y=box.print_y,
+                                due_vat_base_box=box.due_vat_base_box_id.display_name,
+                                due_vat_base_box_print_y=box.due_vat_base_box_id.print_y,
                             )
                         )
                 if (
@@ -274,10 +268,11 @@ class L10nFrAccountVatBox(models.Model):
                     if box.push_box_id.manual:
                         raise ValidationError(
                             _(
-                                "Box '%s' has a push box '%s' that is configured "
-                                "as manual."
+                                "Box '%(box)s' has a push box '%(push_box)s' "
+                                "that is configured as manual.",
+                                box=box.display_name,
+                                push_box=box.push_box_id.display_name,
                             )
-                            % (box.display_name, box.push_box_id.display_name)
                         )
                     if not box.push_sequence:
                         raise ValidationError(
