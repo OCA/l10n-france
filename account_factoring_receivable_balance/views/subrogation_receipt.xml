@@ -114,7 +114,7 @@
                                     string="In currency"
                                 />
                             <field name="move_id" optional="show" />
-                            <field name="partner_bank_id" optional="show" />
+                            <field name="bank_id" optional="show" />
                             <field name="full_reconcile_id" optional="hide" />
                             <field
                                     name="account_id"

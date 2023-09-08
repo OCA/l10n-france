@@ -13,10 +13,11 @@ class AccountMoveLine(models.Model):
         string="Subrogation Receipt",
         check_company=True,
     )
-    partner_bank_id = fields.Many2one(
+    bank_id = fields.Many2one(
         comodel_name="res.bank",
         related="move_id.partner_bank_id.bank_id",
         string="Recipient Bank",
+        help="Bank of the partner",
     )
     partner_ref = fields.Char(string="Partn.", compute="_compute_partner_ref")
 
