@@ -30,17 +30,20 @@ class L10nFrAccountVatReturnReimbursement(models.TransientModel):
         if self.amount < self.min_amount:
             raise UserError(
                 _(
-                    "The reimbursement amount (%d €) cannot be under the minimum amount (%d €)."
+                    "The reimbursement amount (%(amount)d €) cannot be under "
+                    "the minimum amount (%(min_amount)d €).",
+                    amount=self.amount,
+                    min_amount=self.min_amount,
                 )
-                % (self.amount, self.min_amount)
             )
         if self.amount > self.vat_credit_total:
             raise UserError(
                 _(
-                    "The reimbursement amount (%d €) cannot be superior to the "
-                    "amount of the VAT credit (%d €)."
+                    "The reimbursement amount (%(amount)d €) cannot be superior to the "
+                    "amount of the VAT credit (%(vat_credit_amount)d €).",
+                    amount=self.amount,
+                    vat_credit_amount=self.vat_credit_total,
                 )
-                % (self.amount, self.vat_credit_total)
             )
         today = fields.Date.context_today(self)
         if self.reimbursement_type == "first":
