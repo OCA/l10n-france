@@ -998,7 +998,9 @@ class L10nFrAccountVatReturn(models.Model):
                         continue
                     ptype = "autoliq_%s_%s" % (autoliq_type, ps_type)
                     # Block B
-                    vat_note = _("VAT amount %s, %s ratio %.2f%%, %s VAT amount %s") % (
+                    vat_note = _(
+                        "VAT amount %s, %s ratio %.2f%% → %s VAT amount %s"
+                    ) % (
                         format_amount(self.env, total_vat_amount, speedy["currency"]),
                         ps_labels[ps_type],
                         ratio[ps_type],
@@ -1287,8 +1289,9 @@ class L10nFrAccountVatReturn(models.Model):
                     "compute_type": "computed_vat_amount",
                     "amount": vat_amount,
                     "origin_move_id": mline.move_id.id,
-                    "note": _("Monaco customer '%s', VAT amount %s")
+                    "note": _("%s partner %s from Monaco, VAT amount %s")
                     % (
+                        mline.move_id.name,
                         mline.partner_id.display_name,
                         format_amount(self.env, vat_amount, speedy["currency"]),
                     ),
@@ -1387,9 +1390,11 @@ class L10nFrAccountVatReturn(models.Model):
                 lambda x: not x.display_type and x.account_id.id in vat_account_ids
             ):
                 amount = speedy["currency"].round(line.balance) * vat_sign
-                note = _(
-                    "Invoice/refund is unpaid, Unpaid VAT amount %s"
-                ) % format_amount(self.env, amount, speedy["currency"])
+                note = _("%s (%s) is unpaid, Unpaid VAT amount %s") % (
+                    unpaid_inv.name,
+                    unpaid_inv.commercial_partner_id.display_name,
+                    format_amount(self.env, amount, speedy["currency"]),
+                )
                 account2logs[line.account_id].append(
                     {
                         "note": note,
@@ -1458,19 +1463,21 @@ class L10nFrAccountVatReturn(models.Model):
                     balance = line.balance * vat_sign
                     if fully_unpaid:
                         amount = speedy["currency"].round(balance)
-                        note = _(
-                            "Invoice/refund was unpaid on %s, Unpaid VAT amount %s"
-                        ) % (
+                        note = _("%s (%s) was unpaid on %s, Unpaid VAT amount %s") % (
+                            move.name,
+                            move.commercial_partner_id.display_name,
                             speedy["end_date_formatted"],
                             format_amount(self.env, amount, speedy["currency"]),
                         )
                     else:
                         amount = speedy["currency"].round(balance * unpaid_ratio)
                         note = _(
-                            "%d%% of the invoice/refund was unpaid on %s, "
-                            "VAT amount %s => Unpaid VAT amount %s"
+                            "%d%% of %s (%s) was unpaid on %s, "
+                            "VAT amount %s → Unpaid VAT amount %s"
                         ) % (
                             int(round(unpaid_ratio * 100)),
+                            move.name,
+                            move.commercial_partner_id.display_name,
                             speedy["end_date_formatted"],
                             format_amount(self.env, balance, speedy["currency"]),
                             format_amount(self.env, amount, speedy["currency"]),
@@ -2283,11 +2290,6 @@ class L10nFrAccountVatReturnLineLog(models.Model):
     amount = fields.Float(readonly=True)
     origin_move_id = fields.Many2one(
         "account.move", string="Source Invoice", readonly=True
-    )
-    origin_move_partner_id = fields.Many2one(
-        related="origin_move_id.commercial_partner_id",
-        string="Source Invoice Partner",
-        store=True,
     )
     note = fields.Char()
 
