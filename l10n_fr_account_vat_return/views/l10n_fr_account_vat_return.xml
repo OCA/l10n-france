@@ -404,22 +404,14 @@
                         name="parent_id"
                         invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
                     />
+                                                <field name="compute_type" />
                                                 <field name="account_id" />
                                                 <field name="amount" sum="1" />
-                                                <field name="compute_type" />
-                                                <field
-                        name="origin_move_id"
-                        optional="show"
-                    />
-                                                <field
-                        name="origin_move_partner_id"
-                        optional="hide"
-                    />
                                                 <field name="note" optional="show" />
                                                 <field
                         name="analytic_account_id"
                         groups="analytic.group_analytic_accounting"
-                        optional="show"
+                        optional="hide"
                         attrs="{'column_invisible': [('parent.box_accounting_method', '=', False)]}"
                     />
                                 </tree>
@@ -438,19 +430,15 @@
                             name="parent_id"
                             invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
                         />
+                                                <field name="compute_type" />
                                                 <field name="account_id" />
                                                 <field
                             name="analytic_account_id"
                             groups="analytic.group_analytic_accounting"
                         />
                                                 <field name="amount" />
-                                                <field name="compute_type" />
                                                 <field
                             name="origin_move_id"
-                            attrs="{'invisible': [('origin_move_id', '=', False)]}"
-                        />
-                                                <field
-                            name="origin_move_partner_id"
                             attrs="{'invisible': [('origin_move_id', '=', False)]}"
                         />
                                             </group>
