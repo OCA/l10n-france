@@ -805,18 +805,20 @@ class L10nFrAccountVatReturn(models.Model):
         # TODO Check that an account can't be used in both autoliq and non-autoliq?
         # COMPUTE LINES
         type_rate2logs = {
-            "regular_france": defaultdict(list),
-            # 'regular_france': {2000: {'vat': [logs], 1000: [logs], 550: [], 'base': [logs]}
-            "extracom_product_autoliq": defaultdict(list),
-            "regular_extracom_service_autoliq": defaultdict(list),
             "regular_intracom_product_autoliq": defaultdict(list),
             "regular_intracom_service_autoliq": defaultdict(list),
+            "extracom_product_autoliq": defaultdict(list),
+            "regular_extracom_service_autoliq": defaultdict(list),
+            "regular_france": defaultdict(list),
+            # 'regular_france': {2000: {'vat': [logs], 1000: [logs], 550: [], 'base': [logs]}
+            # I put regular_france at the end, so that intracom/extracom autoliq
+            # logs are not hidden at the end of the long list of unpaid_vat_on_payment logs
         }
 
-        # Compute Auto-liquidation extracom + intracom
-        self._generate_due_vat_autoliq(speedy, type_rate2logs)
         # Compute France and Monaco
         monaco_logs = self._generate_due_vat_france(speedy, type_rate2logs)
+        # Compute Auto-liquidation extracom + intracom
+        self._generate_due_vat_autoliq(speedy, type_rate2logs)
 
         # CREATE LINES
         # Boxes 08, 09, 9B
