@@ -23,7 +23,7 @@
                             <button
                                     type="action"
                                     name="%(l10n_fr_vat_exigibility_update_action)d"
-                                    string="Update"
+                                    string="Change VAT Exigibility"
                                     context="{'default_company_id': company_id}"
                                     class="oe_link"
                                     icon="fa-exchange"
