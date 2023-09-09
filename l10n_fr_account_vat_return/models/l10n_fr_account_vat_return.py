@@ -122,7 +122,7 @@ class L10nFrAccountVatReturn(models.Model):
         string="Show VAT Credit Reimbursement Button",
     )
     reimbursement_comment_dgfip = fields.Text(
-        string="Reimbursement Comment for DGFIP",
+        string="Reimbursement Comment for DGFiP",
         states={"sent": [("readonly", True)], "posted": [("readonly", True)]},
     )
     ca3_attachment_id = fields.Many2one("ir.attachment", string="CA3 Attachment")
@@ -133,7 +133,7 @@ class L10nFrAccountVatReturn(models.Model):
         related="ca3_attachment_id.name", string="CA3 Filename"
     )
     comment_dgfip = fields.Text(
-        string="Comment for DGFIP",
+        string="Comment for DGFiP",
         states={"sent": [("readonly", True)], "posted": [("readonly", True)]},
     )
     line_ids = fields.One2many(
@@ -182,8 +182,8 @@ class L10nFrAccountVatReturn(models.Model):
     def _check_comment_dgfip(self):
         max_comment = 5 * 512
         comment_fields = {
-            "comment_dgfip": _("Comment for DGFIP"),
-            "reimbursement_comment_dgfip": _("Reimbursement Comment for DGFIP"),
+            "comment_dgfip": _("Comment for DGFiP"),
+            "reimbursement_comment_dgfip": _("Reimbursement Comment for DGFiP"),
         }
         for rec in self:
             for field_name, field_label in comment_fields.items():
@@ -486,8 +486,8 @@ class L10nFrAccountVatReturn(models.Model):
             raise UserError(
                 _(
                     "There is/are %(count)d draft journal entry/entries "
-                    "dated before %(date)s. You should post this/these "
-                    "journal entry/entries or delete it/them.",
+                    "dated before %(date)s. You should post it/them "
+                    "or delete it/them.",
                     count=draft_move_count,
                     date=format_date(self.env, self.end_date),
                 )
@@ -783,7 +783,7 @@ class L10nFrAccountVatReturn(models.Model):
                 note = _(
                     "Adjustment to have "
                     "sum of taxed operations boxes %(taxed_op_boxes)s = "
-                    "sum of VAT base boxes %(due_vat_boxes)s. "
+                    "sum of due VAT base boxes %(due_vat_boxes)s. "
                     "Otherwise, DGFiP would reject the VAT return.",
                     taxed_op_boxes=taxed_op_codes_str,
                     due_vat_boxes=due_vat_base_codes_str,
@@ -953,10 +953,6 @@ class L10nFrAccountVatReturn(models.Model):
             speedy, autoliq_taxedop_type2accounts, autoliq_tax2rate
         )
 
-        ps_labels = {
-            "product": _("Product"),
-            "service": _("Service"),
-        }
         # autoliq_intracom_product_logs = []  # for box 17
         # Compute both block B and block A for autoliq intracom + extracom
         for autoliq_type, accounts in autoliq_taxedop_type2accounts.items():
@@ -986,19 +982,35 @@ class L10nFrAccountVatReturn(models.Model):
                     if ptype == "regular_extracom_product_autoliq":
                         ptype = "extracom_product_autoliq"
                     # Block B
-                    vat_note = _(
-                        "VAT amount %(total_vat_amount)s, "
-                        "%(product_or_service)s ratio %(ratio).2f%% "
-                        "→ %(product_or_service)s VAT amount %(vat_amount)s",
-                        total_vat_amount=format_amount(
-                            self.env, total_vat_amount, speedy["currency"]
-                        ),
-                        product_or_service=ps_labels[ps_type],
-                        ratio=ratio[ps_type],
-                        vat_amount=format_amount(
-                            self.env, vat_amount, speedy["currency"]
-                        ),
-                    )
+                    # For proper translation in other languges, product/service
+                    # cannot be a variable in the note field
+                    if ps_type == "product":
+                        vat_note = _(
+                            "VAT amount %(total_vat_amount)s, "
+                            "Product ratio %(ratio).2f%% "
+                            "→ Product VAT amount %(vat_amount)s",
+                            total_vat_amount=format_amount(
+                                self.env, total_vat_amount, speedy["currency"]
+                            ),
+                            ratio=ratio[ps_type],
+                            vat_amount=format_amount(
+                                self.env, vat_amount, speedy["currency"]
+                            ),
+                        )
+                    elif ps_type == "service":
+                        vat_note = _(
+                            "VAT amount %(total_vat_amount)s, "
+                            "Service ratio %(ratio).2f%% "
+                            "→ Service VAT amount %(vat_amount)s",
+                            total_vat_amount=format_amount(
+                                self.env, total_vat_amount, speedy["currency"]
+                            ),
+                            ratio=ratio[ps_type],
+                            vat_amount=format_amount(
+                                self.env, vat_amount, speedy["currency"]
+                            ),
+                        )
+
                     vat_log = {
                         "account_id": account.id,
                         "compute_type": "balance_ratio",
@@ -1251,7 +1263,7 @@ class L10nFrAccountVatReturn(models.Model):
                     "amount": base_amount,
                     "note": _(
                         "VAT amount %(vat_amount)s, Rate %(rate).2f%% → "
-                        "Base = %(base_amount)s",
+                        "Base %(base_amount)s",
                         vat_amount=format_amount(
                             self.env, line.value_float, speedy["currency"]
                         ),
@@ -1291,7 +1303,7 @@ class L10nFrAccountVatReturn(models.Model):
                     "amount": vat_amount,
                     "origin_move_id": mline.move_id.id,
                     "note": _(
-                        "%(invoice)s partner %(partner)s from Monaco, "
+                        "%(invoice)s of customer %(partner)s from Monaco, "
                         "VAT amount %(vat_amount)s",
                         invoice=mline.move_id.name,
                         partner=mline.partner_id.display_name,
