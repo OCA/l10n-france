@@ -43,5 +43,5 @@ class ResCompany(models.Model):
     fr_vat_teledec_test_mode = fields.Boolean(
         string="Teledec.fr Test Mode",
         help="If active, the request will be sent to the test serveur of "
-        "Teledec.fr and nothing will be retransmitted to DGFIP.",
+        "Teledec.fr and nothing will be retransmitted to DGFiP.",
     )
