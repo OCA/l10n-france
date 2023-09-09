@@ -6,29 +6,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-19 09:57+0000\n"
-"PO-Revision-Date: 2023-09-03 13:40+0000\n"
-"Last-Translator: Claude R Perrin <claude@alpis.fr>\n"
+"POT-Creation-Date: 2023-09-09 07:50+0000\n"
+"PO-Revision-Date: 2023-09-09 07:51+0000\n"
+"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"Plural-Forms: \n"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
 msgid ""
 "<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
-"                        <span class=\"fa fa-lg fa-building-o\" title="
-"\"Values set here are company-specific.\" groups=\"base.group_multi_company"
-"\" role=\"img\"/>"
+"                        <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Values set here are company-specific.\" groups=\"base."
+"group_multi_company\" role=\"img\"/>"
 msgstr ""
 "<span class=\"o_form_label\">Télétransmission via Teledec.fr</span>\n"
-"                        <span class=\"fa fa-lg fa-building-o\" title=\"Values"
-" set here are company-specific.\" groups=\"base.group_multi_company\" role="
-"\"img\"/>"
+"                        <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Values set here are company-specific.\" groups=\"base."
+"group_multi_company\" role=\"img\"/>"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ass
@@ -38,18 +37,18 @@ msgstr "Association"
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
-msgid "BIC is missing on the company bank account %s."
-msgstr "Le BIC est manquant sur le compte bancaire %s de la société."
+msgid "BIC is missing on the company bank account '%s'."
+msgstr "Le BIC est manquant sur le compte bancaire de la société \"%s\"."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Cannot teletransmit box '%s': box types '%s' are not supported for the "
-"moment."
+"Cannot teletransmit box '%(box)s': box types '%(box_edi_type)s' are not "
+"supported for the moment."
 msgstr ""
-"Impossible de télétransmettre la case '%s' : les types de case '%s' ne sont "
-"pas supportés actuellement."
+"Impossible de télétransmettre la case \"%(box)s\" : les types de case "
+"\"%(box_edi_type)s\" ne sont pas pris en charge pour le moment."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_res_company
@@ -71,7 +70,7 @@ msgstr "La forme juridique de la société n'est pas défini sur la société '%
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_res_config_settings
 msgid "Config Settings"
-msgstr "Page de configuration"
+msgstr "Configuration"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return__display_name
@@ -157,16 +156,16 @@ msgstr "ID"
 #: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_test_mode
 msgid ""
 "If active, the request will be sent to the test serveur of Teledec.fr and "
-"nothing will be retransmitted to DGFIP."
+"nothing will be retransmitted to DGFiP."
 msgstr ""
 "Si activé, la requête sera envoyée au serveur de test de Teledec.fr et rien "
-"ne sera retransmis à la DGFIP."
+"ne sera retransmis à la DGFiP."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Job position missing on partner '%s'."
-msgstr "Fonction manquante sur le partenaire '%s'."
+msgstr "Poste manquant sur le partenaire '%s'."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return____last_update
@@ -200,12 +199,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_email
 msgid "Must correspond to your login on the Teledec.fr website"
 msgstr "Doit correspondre à votre login sur le site web de Teledec.fr"
-
-#. module: l10n_fr_account_vat_return_teledec
-#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid "None"
-msgstr "Aucun"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__zzz
@@ -293,8 +286,10 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
-msgid "The VAT declaration '%s' has already been sent on %s."
-msgstr "La déclaration de TVA '%s' a déjà été envoyée le %s."
+msgid ""
+"The VAT declaration '%(vat_return)s' has already been sent on %(datetime)s."
+msgstr ""
+"La déclaration de TVA '%(vat_return)s' a déjà été envoyée le %(datetime)s."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
@@ -309,16 +304,16 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
-msgid "The company bank account %s is not an IBAN."
-msgstr "Le compte bancaire %s de la société n'est pas un IBAN."
+msgid "The company bank account '%s' is not an IBAN."
+msgstr "Le compte bancaire de la société \"%s\" n'est pas un IBAN."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
-msgid "The company bank account is not set on VAT return %s."
+msgid "The company bank account is not set on VAT return '%s'."
 msgstr ""
-"Le compte bancaire de la société n'est pas renseigné sur la déclaration de "
-"TVA %s."
+"Le compte bancaire de la société n'est pas défini dans la déclaration de TVA "
+"'%s'."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
@@ -344,11 +339,11 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"The request sent to Teledec.fr got an answer '%s' (it should have received "
-"'ok'). Error message: '%s'."
+"The request sent to Teledec.fr got an answer '%(answer)s' (it should have "
+"received 'ok'). Error message: '%(error)s'."
 msgstr ""
-"La requête envoyée à Teledec.fr a reçu une réponse '%s' (la réponse aurait "
-"dû être 'ok'). Message d'erreur : '%s'."
+"La requête envoyée à Teledec.fr a reçu une réponse '%(answer)s' (elle aurait "
+"dû recevoir 'ok'). Message d'erreur : '%(error)s'."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
@@ -394,5 +389,5 @@ msgstr ""
 msgid ""
 "You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
 msgstr ""
-"Vous vous apprêtez à transmettre votre déclaration de TVA via Teledec.fr. "
-"Confirmez-vous ?"
+"Vous êtes sur le point d'envoyer votre déclaration de TVA via Teledec.fr. "
+"Confirmez-vous l'envoi ?"
