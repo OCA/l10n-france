@@ -270,4 +270,4 @@ class SubrogationReceipt(models.Model):
         return super().unlink()
 
     def _get_company_id(self):
-        return self.env.user.company_id.id
+        return self.env.company.id
