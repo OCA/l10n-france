@@ -131,6 +131,7 @@
                                 name="company_id"
                                 groups="base.group_multi_company"
                             />
+                            <field name="company_id" invisible="1" />
                                                 <field name="bank_account_id" />
                                                     <field name="move_id" />
                                             </group>
@@ -325,9 +326,10 @@
                         attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_accounting_method', '=', False)], 'required': [('box_manual', '=', True), ('box_accounting_method', '!=', False)]}"
                     />
                                                 <field
-                        name="manual_analytic_account_id"
-                        attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_accounting_method', '=', False)]}"
+                        name="manual_analytic_distribution"
+                        widget="analytic_distribution"
                         groups="analytic.group_analytic_accounting"
+                        options="{'account_field': 'manual_account_id', 'business_domain': 'general'}"
                     />
                                         </group>
                                         <group
@@ -413,14 +415,16 @@
                 />
                                                 <field name="compute_type" />
                                                 <field name="account_id" />
-                                                <field name="amount" sum="1" />
-                                                <field name="note" optional="show" />
                                                 <field
-                    name="analytic_account_id"
+                    name="analytic_distribution"
                     groups="analytic.group_analytic_accounting"
                     optional="hide"
+                    widget="analytic_distribution"
                     attrs="{'column_invisible': [('parent.box_accounting_method', '=', False)]}"
+                    options="{'account_field': 'account_id', 'business_domain': 'general'}"
                 />
+                                                <field name="amount" sum="1" />
+                                                <field name="note" optional="show" />
                                 </tree>
                         </field>
                 </record>
@@ -440,8 +444,10 @@
                                                 <field name="compute_type" />
                                                 <field name="account_id" />
                                                 <field
-                        name="analytic_account_id"
+                        name="analytic_distribution"
+                        widget="analytic_distribution"
                         groups="analytic.group_analytic_accounting"
+                        options="{'account_field': 'account_id', 'business_domain': 'general'}"
                     />
                                                 <field name="amount" />
                                                 <field
