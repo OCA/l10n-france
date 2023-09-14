@@ -413,14 +413,14 @@
                 />
                                                 <field name="compute_type" />
                                                 <field name="account_id" />
-                                                <field name="amount" sum="1" />
-                                                <field name="note" optional="show" />
                                                 <field
                     name="analytic_account_id"
                     groups="analytic.group_analytic_accounting"
                     optional="hide"
                     attrs="{'column_invisible': [('parent.box_accounting_method', '=', False)]}"
                 />
+                                                <field name="amount" sum="1" />
+                                                <field name="note" optional="show" />
                                 </tree>
                         </field>
                 </record>
