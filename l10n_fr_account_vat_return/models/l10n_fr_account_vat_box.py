@@ -14,30 +14,31 @@ class L10nFrAccountVatBox(models.Model):
     _description = "France VAT Return (CA3) box"
     _order = "sequence, id"
 
-    sequence = fields.Integer(default=10)
+    sequence = fields.Integer(default=10, readonly=True)
     active = fields.Boolean(default=True)
     display_type = fields.Selection(
         [
             ("section", "Section"),
             ("sub_section", "Sub-Section"),
         ],
+        readonly=True,
     )
-    code = fields.Char()
+    code = fields.Char(readonly=True)
     name = fields.Char(string="Label", required=True)
-    full_label = fields.Char()
-    meaning_id = fields.Char(string="Meaningful ID")
-    manual = fields.Boolean()
-    negative = fields.Boolean()
+    full_label = fields.Char(readonly=True)
+    meaning_id = fields.Char(string="Meaningful ID", readonly=True)
+    manual = fields.Boolean(readonly=True)
+    negative = fields.Boolean(readonly=True)
     accounting_method = fields.Selection(
         [
             ("debit", "Debit"),
             ("credit", "Credit"),
         ],
+        readonly=True,
     )
-    due_vat_rate = fields.Integer(string="VAT Rate x100")
+    due_vat_rate = fields.Integer(string="VAT Rate x100", readonly=True)
     due_vat_base_box_id = fields.Many2one(
-        "l10n.fr.account.vat.box",
-        string="Due VAT Base",
+        "l10n.fr.account.vat.box", string="Due VAT Base", readonly=True
     )
     form_code = fields.Selection(
         [
@@ -46,8 +47,9 @@ class L10nFrAccountVatBox(models.Model):
         ],
         string="Form",
         required=True,
+        readonly=True,
     )
-    edi_code = fields.Char(string="EDI Code")
+    edi_code = fields.Char(string="EDI Code", readonly=True)
     # edi_code can't be required because of sections
     edi_type = fields.Selection(
         [
@@ -59,8 +61,9 @@ class L10nFrAccountVatBox(models.Model):
             ("NAD", "Name and address (NAD)"),
         ],
         string="EDI Type",
+        readonly=True,
     )
-    nref_code = fields.Char(string="N-REF Code")
+    nref_code = fields.Char(string="N-REF Code", readonly=True)
     print_page = fields.Selection(
         [
             ("1", "First Page"),
@@ -68,9 +71,10 @@ class L10nFrAccountVatBox(models.Model):
             ("3", "Third Page"),
         ],
         string="Page",
+        readonly=True,
     )
-    print_x = fields.Integer("Print Position X")
-    print_y = fields.Integer("Print Position Y")
+    print_x = fields.Integer("Print Position X", readonly=True)
+    print_y = fields.Integer("Print Position Y", readonly=True)
     account_code = fields.Char(string="Generic Account Code")
     account_id = fields.Many2one(
         "account.account",
@@ -80,20 +84,14 @@ class L10nFrAccountVatBox(models.Model):
         "Generic Account Code. If set, Odoo will ignore the Generic Account Code "
         "and use this account.",
     )
-    analytic_account_id = fields.Many2one(
-        "account.analytic.account",
-        string="Analytic Account",
-        company_dependent=True,
-        domain="[('company_id', 'in', (False, current_company_id))]",
-    )
-    push_sequence = fields.Integer()
+    push_sequence = fields.Integer(readonly=True)
     # 10: appendix lines
     # 20: totals cols appendix
     # 30 : Appendix to CA3
     # 40 : CA3 total TVA due + total TVA deduc
     # 100 : CA3 end : total à payer + crédit à reporter
-    push_box_id = fields.Many2one("l10n.fr.account.vat.box")
-    push_rate = fields.Float(digits=(16, PUSH_RATE_PRECISION))
+    push_box_id = fields.Many2one("l10n.fr.account.vat.box", readonly=True)
+    push_rate = fields.Float(digits=(16, PUSH_RATE_PRECISION), readonly=True)
 
     _sql_constraints = [
         ("sequence_unique", "unique(sequence)", "This sequence already exists."),
@@ -145,7 +143,6 @@ class L10nFrAccountVatBox(models.Model):
             self.print_y = False
             self.account_code = False
             self.account_id = False
-            self.analytic_account_id = False
 
     @api.constrains(
         "edi_type",
@@ -156,7 +153,6 @@ class L10nFrAccountVatBox(models.Model):
         "accounting_method",
         "account_code",
         "account_id",
-        "analytic_account_id",
         "push_box_id",
         "push_rate",
         "push_sequence",
@@ -256,7 +252,7 @@ class L10nFrAccountVatBox(models.Model):
                         % box.display_name
                     )
                 if not box.accounting_method:
-                    if box.account_code or box.account_id or box.analytic_account_id:
+                    if box.account_code or box.account_id:
                         raise ValidationError(
                             _(
                                 "Box '%s' doesn't have an accounting method, "
