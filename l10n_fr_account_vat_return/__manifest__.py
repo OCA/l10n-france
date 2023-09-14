@@ -4,14 +4,15 @@
 
 {
     "name": "France VAT Return",
-    "version": "14.0.4.0.0",
+    "version": "14.0.5.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
-    "summary": "VAT return for France: CA3, CA12, 3519",
+    "summary": "VAT return for France: CA3, 3310-A, 3519",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["l10n_fr", "l10n_fr_oca", "intrastat_base", "onchange_helper"],
+    "external_dependencies": {"python": ["pypdf>=3.1.0"]},
     "data": [
         "security/ir.model.access.csv",
         "security/ir_rule.xml",
