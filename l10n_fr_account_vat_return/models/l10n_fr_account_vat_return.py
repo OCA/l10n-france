@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import io
+import json
 import logging
 import textwrap
 from collections import defaultdict
@@ -329,6 +330,7 @@ class L10nFrAccountVatReturn(models.Model):
             "afpt_obj": self.env["account.fiscal.position.tax"],
             "afpa_obj": self.env["account.fiscal.position.account"],
             "at_obj": self.env["account.tax"],
+            "aadmo_obj": self.env["account.analytic.distribution.model"],
             "meaning_id2box": meaning_id2box,
             "box2value": {},  # used to speedy-up checks
             # used to create negative boxes at the end
@@ -656,8 +658,6 @@ class L10nFrAccountVatReturn(models.Model):
                             "note": note,
                             "amount": amount,
                             "account_id": account_id,
-                            "analytic_account_id": push_box.analytic_account_id.id
-                            or False,
                         },
                     )
                 )
@@ -1146,7 +1146,7 @@ class L10nFrAccountVatReturn(models.Model):
                         )
                     )
                 for line in move.invoice_line_ids.filtered(
-                    lambda x: not x.display_type
+                    lambda x: x.display_type == "product"
                 ):
                     rate_int = 0
                     for tax in line.tax_ids:
@@ -1364,7 +1364,7 @@ class L10nFrAccountVatReturn(models.Model):
         if in_or_out == "in":
             journal_type = "purchase"
             vat_sign = -1
-            account_type = "payable"
+            account_type = "liability_payable"
             common_move_domain += [
                 ("move_type", "in", ("in_invoice", "in_refund")),
                 ("fiscal_position_fr_vat_type", "=", "france_vendor_vat_on_payment"),
@@ -1372,7 +1372,7 @@ class L10nFrAccountVatReturn(models.Model):
         elif in_or_out == "out":
             journal_type = "sale"
             vat_sign = 1
-            account_type = "receivable"
+            account_type = "asset_receivable"
             common_move_domain += [
                 ("out_vat_on_payment", "=", True),
                 ("move_type", "in", ("out_invoice", "out_refund")),
@@ -1403,7 +1403,7 @@ class L10nFrAccountVatReturn(models.Model):
         )
         for unpaid_inv in unpaid_invs:
             for line in unpaid_inv.line_ids.filtered(
-                lambda x: not x.display_type and x.account_id.id in vat_account_ids
+                lambda x: x.display_type == "tax" and x.account_id.id in vat_account_ids
             ):
                 amount = speedy["currency"].round(line.balance) * vat_sign
                 note = _(
@@ -1433,7 +1433,7 @@ class L10nFrAccountVatReturn(models.Model):
         )
         # won't work when the invoice is paid next month by a refund
         payable_or_receivable_accounts = speedy["aa_obj"].search(
-            speedy["company_domain"] + [("internal_type", "=", account_type)]
+            speedy["company_domain"] + [("account_type", "=", account_type)]
         )
         # I want reconcile marks after first day of current month
         # But, to avoid trouble with timezones, I use '>=' self.end_date (and not '>')
@@ -1468,7 +1468,12 @@ class L10nFrAccountVatReturn(models.Model):
             # compute unpaid_amount on end_date
             unpaid_amount = move.amount_total  # initialize value
             fully_unpaid = True
-            for payment in move._get_reconciled_info_JSON_values():
+            pay_infos = (
+                isinstance(move.invoice_payments_widget, dict)
+                and move.invoice_payments_widget["content"]
+                or []
+            )
+            for payment in pay_infos:
                 if payment["date"] <= self.end_date and payment["amount"]:
                     unpaid_amount -= payment["amount"]
                     fully_unpaid = False
@@ -1476,7 +1481,8 @@ class L10nFrAccountVatReturn(models.Model):
             if not move.currency_id.is_zero(unpaid_amount):
                 unpaid_ratio = unpaid_amount / move.amount_total
                 for line in move.line_ids.filtered(
-                    lambda x: not x.display_type and x.account_id.id in vat_account_ids
+                    lambda x: x.display_type == "tax"
+                    and x.account_id.id in vat_account_ids
                 ):
                     balance = line.balance * vat_sign
                     if fully_unpaid:
@@ -1782,9 +1788,9 @@ class L10nFrAccountVatReturn(models.Model):
                         _("Account is missing on manual line '%s'.")
                         % line.box_id.display_name
                     )
-                account2amount[(account, line.manual_analytic_account_id)] += (
-                    line.value_manual_int * sign
-                )
+                account2amount[
+                    (account, json.dumps(line.manual_analytic_distribution))
+                ] += (line.value_manual_int * sign)
             else:
                 for log in line.log_ids:
                     assert log.account_id  # there is a python constrain on this
@@ -1794,7 +1800,7 @@ class L10nFrAccountVatReturn(models.Model):
                     if log.account_id.code.startswith("44567"):
                         lvals = {
                             "account_id": log.account_id.id,
-                            "analytic_account_id": log.analytic_account_id.id or False,
+                            "analytic_distribution": log.analytic_distribution,
                         }
                         amount = speedy["currency"].round(amount)
                         total += amount
@@ -1810,17 +1816,16 @@ class L10nFrAccountVatReturn(models.Model):
                         )
                     else:
                         account2amount[
-                            (log.account_id, log.analytic_account_id)
+                            (log.account_id, json.dumps(log.analytic_distribution))
                         ] += amount
-        for (account, analytic_account), amount in account2amount.items():
+        for (account, analytic_distribution_str), amount in account2amount.items():
+            analytic_distribution = json.loads(analytic_distribution_str)
             amount = speedy["currency"].round(amount)
             total += amount
             compare = speedy["currency"].compare_amounts(amount, 0)
             lvals = {
                 "account_id": account.id,
-                "analytic_account_id": analytic_account
-                and analytic_account.id
-                or False,
+                "analytic_distribution": analytic_distribution,
             }
             if compare > 0:
                 lvals["credit"] = amount
@@ -1832,21 +1837,21 @@ class L10nFrAccountVatReturn(models.Model):
         total_compare = speedy["currency"].compare_amounts(total, 0)
         total = speedy["currency"].round(total)
         if total_compare > 0:
+            analytic_dist = self.company_id.fr_vat_expense_analytic_distribution
             lvals_list.append(
                 {
                     "debit": total,
                     "account_id": speedy["expense_adjust_account"].id,
-                    "analytic_account_id": self.company_id.fr_vat_expense_analytic_account_id.id
-                    or False,
+                    "analytic_distribution": analytic_dist,
                 }
             )
         elif total_compare < 0:
+            analytic_dist = self.company_id.fr_vat_income_analytic_distribution
             lvals_list.append(
                 {
                     "credit": -total,
                     "account_id": speedy["income_adjust_account"].id,
-                    "analytic_account_id": self.company_id.fr_vat_income_analytic_account_id.id
-                    or False,
+                    "analytic_distribution": analytic_dist,
                 }
             )
 
@@ -2190,16 +2195,20 @@ class L10nFrAccountVatReturnLine(models.Model):
         check_company=True,
         readonly=False,
         store=True,
+        precompute=True,
         domain="[('company_id', '=', company_id), ('deprecated', '=', False)]",
     )
-    manual_analytic_account_id = fields.Many2one(
-        "account.analytic.account",
-        string="Analytic Account",
+    manual_analytic_distribution = fields.Json(
+        string="Analytic",
         compute="_compute_manual_account_id",
-        check_company=True,
         readonly=False,
         store=True,
-        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+        precompute=True,
+    )
+    analytic_precision = fields.Integer(
+        default=lambda self: self.env["decimal.precision"].precision_get(
+            "Percentage Analytic"
+        ),
     )
 
     # idea: field value_tree type fields.Char() that would agregate
@@ -2212,23 +2221,24 @@ class L10nFrAccountVatReturnLine(models.Model):
 
     @api.depends("box_id")
     def _compute_manual_account_id(self):
+        aadmo = self.env["account.analytic.distribution.model"]
         for line in self:
             manual_account_id = False
-            manual_analytic_account_id = False
+            manual_analytic_distribution = False
             if line.box_id and line.box_id.manual and line.parent_id:
                 account = line.parent_id._get_box_account(
                     line.box_id, raise_if_none=False, raise_if_not_unique=False
                 )
                 if account:
                     manual_account_id = account.id
-                manual_analytic_account_id = (
-                    line.with_company(
-                        line.parent_id.company_id.id
-                    ).box_id.analytic_account_id.id
-                    or False
-                )
+                    manual_analytic_distribution = aadmo._get_distribution(
+                        {
+                            "account_prefix": account.code,
+                            "company_id": line.parent_id.company_id.id,
+                        }
+                    )
             line.manual_account_id = manual_account_id
-            line.manual_analytic_account_id = manual_analytic_account_id
+            line.manual_analytic_distribution = manual_analytic_distribution
 
     @api.constrains("value_manual_int")
     def _check_values(self):
@@ -2306,11 +2316,16 @@ class L10nFrAccountVatReturnLineLog(models.Model):
     account_id = fields.Many2one(
         "account.account", string="Account", ondelete="restrict", readonly=True
     )
-    analytic_account_id = fields.Many2one(
-        "account.analytic.account",
-        string="Analytic Account",
-        ondelete="restrict",
+    # I don't inherit from analytic.mixin because I don't want analytic_distribution
+    # to have a compute method
+    analytic_distribution = fields.Json(
+        string="Analytic",
         readonly=True,
+    )
+    analytic_precision = fields.Integer(
+        default=lambda self: self.env["decimal.precision"].precision_get(
+            "Percentage Analytic"
+        ),
     )
     compute_type = fields.Selection(
         [
