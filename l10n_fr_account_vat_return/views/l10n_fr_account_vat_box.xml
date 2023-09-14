@@ -30,12 +30,8 @@
                             name="full_label"
                             groups="base.group_no_one"
                         />
-                                                <field name="meaning_id" />
-                                                <field name="due_vat_rate" />
-                                                <field name="due_vat_base_box_id" />
-                                                <field name="manual" />
                                                 <field
-                            name="negative"
+                            name="manual"
                             attrs="{'invisible': [('display_type', '!=', False)]}"
                         />
                                                 <field
@@ -50,20 +46,30 @@
                             name="account_id"
                             attrs="{'invisible': [('accounting_method', '=', False)]}"
                         />
+                                        </group>
+                                        <group name="technical" string="Technical">
+                                        <field name="meaning_id" />
                                                 <field
-                            name="analytic_account_id"
-                            attrs="{'invisible': [('accounting_method', '=', False)]}"
-                            groups="analytic.group_analytic_accounting"
+                            name="negative"
+                            attrs="{'invisible': [('display_type', '!=', False)]}"
                         />
                                                 <field name="sequence" />
-                                        </group>
-                                        <group
-                        name="compute"
-                        string="Push Compute"
-                        attrs="{'invisible': [('display_type', '!=', False)]}"
-                    >
-                                                <field name="push_sequence" />
-                                                <field name="push_box_id" />
+                                                <field
+                            name="due_vat_rate"
+                            attrs="{'invisible': [('display_type', '!=', False)]}"
+                        />
+                                                <field
+                            name="due_vat_base_box_id"
+                            attrs="{'invisible': [('display_type', '!=', False)]}"
+                        />
+                                                <field
+                            name="push_sequence"
+                            attrs="{'invisible': [('display_type', '!=', False)]}"
+                        />
+                                                <field
+                            name="push_box_id"
+                            attrs="{'invisible': [('display_type', '!=', False)]}"
+                        />
                                                 <label
                             for="push_rate"
                             attrs="{'invisible': [('push_box_id', '=', False)]}"
@@ -136,12 +142,6 @@
                     name="account_id"
                     attrs="{'invisible': [('accounting_method', '=', False)]}"
                     optional="hide"
-                />
-                                        <field
-                    name="analytic_account_id"
-                    attrs="{'invisible': [('accounting_method', '=', False)]}"
-                    optional="hide"
-                    groups="analytic.group_analytic_accounting"
                 />
                                         <field name="edi_code" optional="show" />
                                         <field name="edi_type" optional="hide" />

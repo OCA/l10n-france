@@ -4,7 +4,7 @@
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.tools import float_compare
 
 
@@ -34,17 +34,24 @@ class ResCompany(models.Model):
         ondelete="restrict",
         check_company=True,
     )
-    fr_vat_expense_analytic_account_id = fields.Many2one(
-        "account.analytic.account",
-        string="Analytic Account for Expense Adjustment",
-        ondelete="restrict",
-        check_company=True,
+    fr_vat_expense_analytic_distribution = fields.Json(
+        string="Analytic for Expense Adjustment",
+        compute="_compute_fr_vat_analytic_distribution",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
-    fr_vat_income_analytic_account_id = fields.Many2one(
-        "account.analytic.account",
-        string="Analytic Account for Income Adjustment",
-        ondelete="restrict",
-        check_company=True,
+    fr_vat_income_analytic_distribution = fields.Json(
+        string="Analytic for Income Adjustment",
+        compute="_compute_fr_vat_analytic_distribution",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+    analytic_precision = fields.Integer(
+        default=lambda self: self.env["decimal.precision"].precision_get(
+            "Percentage Analytic"
+        ),
     )
     fr_vat_bank_account_id = fields.Many2one(
         "res.partner.bank",
@@ -62,6 +69,24 @@ class ResCompany(models.Model):
             ("auto", _("Both (automatic)")),
         ]
         return res
+
+    def _compute_fr_vat_analytic_distribution(self):
+        aadmo = self.env["account.analytic.distribution.model"]
+        for company in self:
+            expense_distri = aadmo._get_distribution(
+                {
+                    "account_prefix": "658",
+                    "company_id": company.id,
+                }
+            )
+            income_distri = aadmo._get_distribution(
+                {
+                    "account_prefix": "758",
+                    "company_id": company.id,
+                }
+            )
+            company.fr_vat_expense_analytic_distribution = expense_distri
+            company.fr_vat_income_analytic_distribution = income_distri
 
     @api.model
     def _test_fr_vat_create_company(
@@ -84,7 +109,7 @@ class ResCompany(models.Model):
         )
         self.env.user.write({"company_ids": [(4, company.id)]})
         fr_chart_template = self.env.ref("l10n_fr_oca.l10n_fr_pcg_chart_template")
-        fr_chart_template._load(20.0, 20.0, company)
+        fr_chart_template._load(company)
         company._setup_l10n_fr_coa_vat_company()
         return company
 
@@ -117,7 +142,6 @@ class ResCompany(models.Model):
             "707100": "707500",
             "708510": "708550",
         }
-        revenue_type_id = self.env.ref("account.data_account_type_revenue").id
         for (src_acc_code, dest_acc_code) in exo_fp_account_map.items():
             src_account = aao.search(cdomain + [("code", "=", src_acc_code)], limit=1)
             assert src_account
@@ -126,7 +150,7 @@ class ResCompany(models.Model):
                     "company_id": self.id,
                     "code": dest_acc_code,
                     "name": "%s exonéré" % src_account.name,
-                    "user_type_id": revenue_type_id,
+                    "account_type": "income",
                     "reconcile": False,
                     "tax_ids": False,
                 }
@@ -189,31 +213,20 @@ class ResCompany(models.Model):
     ):
         self.ensure_one()
         amo = self.env["account.move"].with_company(self.id)
-        amlo = self.env["account.move.line"].with_company(self.id)
         apro = self.env["account.payment.register"]
-        journal_id = (
-            amo.with_context(default_move_type=move_type, company_id=self.id)
-            ._get_default_journal()
-            .id
-        )
         vals = {
             "company_id": self.id,
-            "journal_id": journal_id,
             "move_type": move_type,
             "invoice_date": date,
             "partner_id": partner.id,
             "currency_id": self.currency_id.id,
             "invoice_line_ids": [],
         }
-        vals = amo.play_onchanges(vals, ["partner_id"])
         for line in lines:
-            il_vals = dict(line, move_id=vals)
-            if "quantity" not in il_vals:
-                il_vals["quantity"] = 1
-            if line.get("product_id"):
-                il_vals = amlo.play_onchanges(il_vals, ["product_id"])
-            il_vals.pop("move_id")
-            vals["invoice_line_ids"].append((0, 0, il_vals))
+            if "quantity" not in line:
+                line["quantity"] = 1
+            line["display_type"] = "product"
+            vals["invoice_line_ids"].append(Command.create(line))
         move = amo.create(vals)
         if move_type in ("in_invoice", "in_refund") and force_in_vat_on_payment:
             move.write({"in_vat_on_payment": True})
@@ -222,20 +235,10 @@ class ResCompany(models.Model):
         bank_journal = self.env["account.journal"].search(
             [("type", "=", "bank"), ("company_id", "=", self.id)], limit=1
         )
-        if move_type in ("out_invoice", "in_refund"):
-            payment_method_id = self.env.ref(
-                "account.account_payment_method_manual_in"
-            ).id
-        else:
-            payment_method_id = self.env.ref(
-                "account.account_payment_method_manual_out"
-            ).id
         assert bank_journal
-        ctx = {"active_model": "account.move", "active_ids": [move.id]}
         for (pay_date, payment_ratio) in payments.items():
             vals = {
                 "journal_id": bank_journal.id,
-                "payment_method_id": payment_method_id,
                 "payment_date": pay_date,
             }
             if payment_ratio != "residual":
@@ -243,7 +246,9 @@ class ResCompany(models.Model):
                 vals["amount"] = self.currency_id.round(
                     move.amount_total * payment_ratio / 100
                 )
-            payment_wiz = apro.with_context(ctx).create(vals)
+            payment_wiz = apro.with_context(
+                active_model="account.move", active_ids=[move.id]
+            ).create(vals)
             payment_wiz.action_create_payments()
         return move
 

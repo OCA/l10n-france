@@ -42,7 +42,7 @@ class AccountMoveLine(models.Model):
 
     def _fr_is_product_or_service(self):
         self.ensure_one()
-        assert not self.display_type
+        assert self.display_type == "product"
         res = "service"
         if self.product_id:
             if (

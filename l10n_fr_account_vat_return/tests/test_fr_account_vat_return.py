@@ -9,11 +9,11 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import fields
 from odoo.tests import tagged
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
 @tagged("post_install", "-at_install")
-class TestFrAccountVatReturn(SavepointCase):
+class TestFrAccountVatReturn(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -77,7 +77,7 @@ class TestFrAccountVatReturn(SavepointCase):
                 "code": "635900",
                 "name": "Taxe spécifique",
                 "company_id": company.id,
-                "user_type_id": self.env.ref("account.data_account_type_expenses").id,
+                "account_type": "expense",
             }
         )
         self.env.ref("l10n_fr_account_vat_return.a_ud").with_company(company.id).write(
@@ -95,11 +95,7 @@ class TestFrAccountVatReturn(SavepointCase):
             [
                 ("code", "=", "635800"),
                 ("company_id", "=", company.id),
-                (
-                    "user_type_id",
-                    "=",
-                    self.env.ref("account.data_account_type_expenses").id,
-                ),
+                ("account_type", "=", "expense"),
             ],
             limit=1,
         )
