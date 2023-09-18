@@ -17,10 +17,10 @@ try:
 except ImportError:
     logger.debug('Cannot import requests-oauthlib')
 
-API_URL = "https://api.aife.economie.gouv.fr"
-QUALIF_API_URL = "https://sandbox-api.aife.economie.gouv.fr"
-TOKEN_URL = 'https://oauth.aife.economie.gouv.fr/api/oauth/token'
-QUALIF_TOKEN_URL = 'https://sandbox-oauth.aife.economie.gouv.fr/api/oauth/token'
+API_URL = "https://api.piste.gouv.fr"
+QUALIF_API_URL = "https://sandbox-api.piste.gouv.fr"
+TOKEN_URL = "https://oauth.piste.gouv.fr/api/oauth/token"
+QUALIF_TOKEN_URL = "https://sandbox-oauth.piste.gouv.fr/api/oauth/token"
 MARGIN_TOKEN_EXPIRY_SECONDS = 240
 
 
