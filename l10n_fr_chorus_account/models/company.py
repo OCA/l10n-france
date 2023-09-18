@@ -20,11 +20,12 @@ try:
 except ImportError:
     logger.debug("Cannot import requests-oauthlib")
 
-API_URL = "https://api.aife.economie.gouv.fr"
-QUALIF_API_URL = "https://sandbox-api.aife.economie.gouv.fr"
-TOKEN_URL = "https://oauth.aife.economie.gouv.fr/api/oauth/token"
-QUALIF_TOKEN_URL = "https://sandbox-oauth.aife.economie.gouv.fr/api/oauth/token"
+API_URL = "https://api.piste.gouv.fr"
+QUALIF_API_URL = "https://sandbox-api.piste.gouv.fr"
+TOKEN_URL = "https://oauth.piste.gouv.fr/api/oauth/token"
+QUALIF_TOKEN_URL = "https://sandbox-oauth.piste.gouv.fr/api/oauth/token"
 MARGIN_TOKEN_EXPIRY_SECONDS = 240
+TIMEOUT = 30
 
 
 class ResCompany(models.Model):
@@ -159,6 +160,7 @@ class ResCompany(models.Model):
                     "client_secret": oauth_secret,
                     "scope": "openid",
                 },
+                timeout=TIMEOUT,
             )
             logger.debug("_get_new_token HTTP answer code=%s", r.status_code)
         except requests.exceptions.ConnectionError as e:
@@ -257,7 +259,11 @@ class ResCompany(models.Model):
         logger.debug("Payload of the Chorus POST request: %s", payload)
         try:
             r = session.post(
-                url, verify=True, data=json.dumps(payload), headers=headers
+                url,
+                verify=True,
+                data=json.dumps(payload),
+                headers=headers,
+                timeout=TIMEOUT,
             )
         except requests.exceptions.ConnectionError as e:
             logger.error("Connection to %s failed. Error: %s", url, e)
