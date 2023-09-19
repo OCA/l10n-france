@@ -964,7 +964,15 @@ class L10nFrAccountVatReturn(models.Model):
                 if speedy["currency"].is_zero(total_vat_amount):
                     continue
                 rate_int = autoliq_vat_account2rate[account]
-                product_ratio = autoliq_rate2product_ratio[autoliq_type][rate_int]
+                # If you have a small residual amount in intracom/extracom autoliq accounts
+                # and you set it to 0 with a write-off at a date after the VAT period, you
+                # have 0 unreconciled move lines, but total_vat_amount != 0
+                # In such a corner case, there is not rate_int key in
+                # autoliq_rate2product_ratio[autoliq_type]
+                # => we consider product_ratio = 0% and service_ratio = 100%
+                product_ratio = autoliq_rate2product_ratio[autoliq_type].get(
+                    rate_int, 0
+                )
                 ratio = {
                     "product": product_ratio,
                     "service": 100 - product_ratio,
@@ -1128,23 +1136,27 @@ class L10nFrAccountVatReturn(models.Model):
                 ]
                 + speedy["base_domain_end"]
             )
-
-            autoliq_vat_moves = autoliq_vat_move_lines.move_id
-            for move in autoliq_vat_moves:
+            for autoliq_vat_move_line in autoliq_vat_move_lines:
+                move = autoliq_vat_move_line.move_id
                 if move.move_type not in ("in_invoice", "in_refund"):
                     raise UserError(
                         _(
-                            "Journal entry '%(move)s' is dated before (or on) "
-                            "%(end_date)s and has an unreconciled line with an "
+                            "Journal entry '%(move)s' dated %(date)s is inside or "
+                            "before the VAT period %(vat_period)s "
+                            "and has an unreconciled journal item with an "
                             "%(autoliq_type)s autoliquidation due VAT "
-                            "account, but it is not a supplier invoice/refund. "
-                            "That line with the intracom autoliquidation due VAT account "
-                            "should be reconciled.",
+                            "account '%(account)s', but it is not a supplier "
+                            "invoice/refund. That journal item should be reconciled.",
                             move=move.display_name,
+                            date=format_date(self.env, move.date),
+                            vat_period=self.name,
                             autoliq_type=autoliq_type,
-                            end_date=format_date(self.env, self.end_date),
+                            account=autoliq_vat_move_line.account_id.display_name,
                         )
                     )
+
+            autoliq_vat_moves = autoliq_vat_move_lines.move_id
+            for move in autoliq_vat_moves:
                 for line in move.invoice_line_ids.filtered(
                     lambda x: x.display_type == "product"
                 ):
@@ -1160,12 +1172,15 @@ class L10nFrAccountVatReturn(models.Model):
                     else:
                         raise UserError(
                             _(
-                                "There is a problem on the intracom vendor bill/refund '%s': "
+                                "There is a problem on the %(autoliq_type)s "
+                                "%(move_type)s '%(move)s': "
                                 "check that the invoice lines have a single autoliquidation "
                                 "tax, and not the old dual-tax system for autoliquidation "
-                                "which was used by Odoo up to version 12.0 included."
+                                "which was used by Odoo up to version 12.0 included.",
+                                move_type=speedy["movetype2label"][move.move_type],
+                                move=move.display_name,
+                                autoliq_type=autoliq_type,
                             )
-                            % move.display_name
                         )
 
             for rate_int, total in rate2total.items():
