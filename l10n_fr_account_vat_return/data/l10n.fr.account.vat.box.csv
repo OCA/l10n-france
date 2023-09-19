@@ -97,20 +97,17 @@ ca3_ku,3310CA3,670,,2C,KU,MOA,905882,True,,False,40,l10n_fr_account_vat_return.c
 ca3_he,3310CA3,690,,22A,HE,PCD,100094,True,,False,,,,,,,,,Coefficient de taxation unique applicable pour la période s'il est différent de 100 %,Pourcentage de déduction applicable pour la période s'il est différent de 100 %,3,291,622
 ca3_hf,3310CA3,710,,24,HF,MOA,909864,True,,False,,,,,,,,,Dont TVA déductible sur importations (hors produits pétroliers),Dont TVA déductible sur importations (hors produits pétroliers),3,572,614
 ca3_hl,3310CA3,720,,2E,HL,MOA,910763,True,,False,,,,,,,,,Dont TVA déductible sur les produits pétroliers,Dont TVA déductible sur les produits pétroliers,3,572,596
-,,,,,,,,,,,,,,,,,,,,,,,
 ca3_section_credit,3310CA3,800,section,,,,,True,,False,,,,,,,,,CRÉDIT,CRÉDIT,,,
 ca3_jc,3310CA3,890,,27,JC,MOA,100098,True,end_total_credit,False,,,,,,debit,44567,,Crédit à reporter (lignes 25 - 26 - AA),Crédit à reporter sur déclaration suivante,3,288,251
 ca3_ja,3310CA3,810,,25,JA,MOA,100096,True,no_push_total_credit,False,100,l10n_fr_account_vat_return.ca3_jc,,,,,,,Crédit de TVA (lignes 23 - 16),Crédit de TVA,3,288,548
 ca3_jb,3310CA3,820,,26,JB,MOA,100097,True,vat_reimbursement,False,100,l10n_fr_account_vat_return.ca3_jc,-100,,,debit,44583,,Remboursement de crédit demandé sur formulaire n°3519,Remboursement de crédit demandé sur formulaire n°3519,3,288,300
 ca3_kj,3310CA3,830,,AA,KJ,MOA,902351,True,,False,100,l10n_fr_account_vat_return.ca3_jc,-100,,,,,,Crédit de TVA transféré à la société tête de groupe,Crédit de TVA transféré à la société tête de groupe,3,288,277
-,,,,,,,,,,,,,,,,,,,,,,,
 ca3_section_taxe_a_payer,3310CA3,900,section,,,,,True,,False,,,,,,,,,TAXE À PAYER,TAXE À PAYER,,,
 ca3_ke,3310CA3,990,,32,KE,MOA,100103,True,end_total_debit,False,,,,,,,,,Total à payer (lignes 28 + 29 - AB),Total à payer,3,572,173
 ca3_nd,3310CA3,915,,28,ND,MOA,912255,True,,False,110,l10n_fr_account_vat_return.ca3_ke,,,,,,,TVA nette due (ligne TD - ligne X5),TVA nette due (ligne TD - ligne X5),3,572,277
 ca3_ka,3310CA3,910,,TD,KA,MOA,100099,True,no_push_total_debit,False,100,l10n_fr_account_vat_return.ca3_nd,,,,credit,44551,,TVA nette due (lignes 16 - 23),TVA nette due,3,572,548
 ca3_kb,3310CA3,920,,29,KB,MOA,100100,True,,False,110,l10n_fr_account_vat_return.ca3_ke,,,,credit,4470,,Report du montant de taxes assimilées calculées sur annexe 3310A,Report du montant de taxes assimilées calculées sur annexe 3310A,3,572,251
 ca3_kl,3310CA3,930,,AB,KL,MOA,902352,True,,False,110,l10n_fr_account_vat_return.ca3_ke,-100,,,,,,Total à payer acquitté par la société tête de groupe (lignes 28 + 29),Total à payer acquitté par la société tête de groupe,3,572,199
-,,,,,,,,,,,,,,,,,,,,,,,
 a_section_tva,3310A,2000,section,,,,,False,,False,,,,,,,,,RETENUE DE TVA SUR DROITS D’AUTEUR ET TVA DUE À UN TAUX PARTICULIER,,,,
 a_bn,3310A,2280,,,BN,MOA,,False,,False,,,,,,,,,Total lignes 35 à 46 : base HT (à reporter ligne 14 de la CA3),Total TVA sur droits d'auteurs et TVA due à taux particuliers : base HT (à reporter ligne 14 de la CA3),,,
 a_cn,3310A,2290,,,CN,MOA,,False,,False,,,,,,,,,Total lignes 35 à 46 : taxe due (à reporter ligne 14 de la CA3),Total TVA sur droits d'auteurs et TVA due à taux particuliers : taxe due (à reporter ligne 14 de la CA3),,,
