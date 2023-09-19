@@ -6,11 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-09 07:29+0000\n"
-"PO-Revision-Date: 2023-09-09 07:30+0000\n"
-"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
+"POT-Creation-Date: 2023-09-19 13:37+0000\n"
+"PO-Revision-Date: 2023-09-19 13:37+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -18,11 +17,14 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "%(invoice)s (%(partner)s) is unpaid, Unpaid VAT amount %(amount)s"
-msgstr "%(invoice)s (%(partner)s) est impayée, Montant de TVA impayée %(amount)s"
+msgstr ""
+"%(invoice)s (%(partner)s) est impayée, Montant de TVA impayée %(amount)s"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -34,6 +36,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "%(invoice)s of customer %(partner)s from Monaco, VAT amount %(vat_amount)s"
@@ -42,11 +45,13 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "%(start_note)s, Rate %(rate).2f%% → Base %(base_amount)s"
 msgstr "%(start_note)s, Taux %(rate).2f%% → Base %(base_amount)s"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -59,6 +64,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "%s (add)"
 msgstr "%s (ajout)"
@@ -67,13 +73,13 @@ msgstr "%s (ajout)"
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310a
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-A"
-msgstr "3310-A"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310ca3
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-CA3"
-msgstr "3310-CA3"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_return_start_company_uniq
@@ -92,16 +98,18 @@ msgstr "Compte"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Account '%(account)s' is used as due VAT account on several auto-liquidation "
-"taxes for different rates (%(rate1).2f%% and %(rate2).2f%%)."
+"Account '%(account)s' is used as due VAT account on several auto-liquidation"
+" taxes for different rates (%(rate1).2f%% and %(rate2).2f%%)."
 msgstr ""
 "Le compte \"%(account)s\" est utilisé comme compte de TVA due sur plusieurs "
 "taxes d'auto-liquidation pour différents taux (%(rate1).2f%% et "
 "%(rate2).2f%%)."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -113,15 +121,17 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "Account '%(account)s' is used on several sale VAT taxes for different rates "
 "(%(rate1).2f%% and %(rate2).2f%%)."
 msgstr ""
-"Le compte \"%(account)s\" est utilisé pour plusieurs taxes de TVA à la vente "
-"pour des taux différents (%(rate1).2f%% et %(rate2).2f%%)."
+"Le compte \"%(account)s\" est utilisé pour plusieurs taxes de TVA à la vente"
+" pour des taux différents (%(rate1).2f%% et %(rate2).2f%%)."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -132,6 +142,7 @@ msgstr ""
 "lettrable."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Account '%s' is present in the mapping of several fiscal positions."
@@ -145,6 +156,7 @@ msgid "Account Chart Template"
 msgstr "Modèle de plan comptable"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Account is missing on manual line '%s'."
@@ -194,15 +206,17 @@ msgstr "Ajustement"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Adjustment to have sum of taxed operations boxes %(taxed_op_boxes)s = sum of "
-"due VAT base boxes %(due_vat_boxes)s. Otherwise, DGFiP would reject the VAT "
-"return."
+"Adjustment to have sum of taxed operations boxes %(taxed_op_boxes)s = sum of"
+" due VAT base boxes %(due_vat_boxes)s. Otherwise, DGFiP would reject the VAT"
+" return."
 msgstr ""
 "Ajustement pour que la somme des cases des opérations taxées "
-"%(taxed_op_boxes)s soit égale à la somme des cases des bases de TVA due %(due_vat_boxes)s. "
-"Dans le cas contraire, la DGFiP rejetterait la déclaration de TVA."
+"%(taxed_op_boxes)s soit égale à la somme des cases des bases de TVA due "
+"%(due_vat_boxes)s. Dans le cas contraire, la DGFiP rejetterait la "
+"déclaration de TVA."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__amount
@@ -245,6 +259,7 @@ msgstr "Auto-liquidation"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "Auto-liquidation tax '%s' is not present in the tax mapping of any fiscal "
@@ -281,11 +296,13 @@ msgstr "Base depuis TVA sur les encaissements impayée"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Based on invoice"
 msgstr "TVA sur les débits"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Based on payment"
@@ -298,6 +315,7 @@ msgstr "Booléen (CCI/TBX)"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Both (automatic)"
 msgstr "Les deux (automatique)"
@@ -309,6 +327,7 @@ msgstr "Case"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid ""
 "Box '%(box)s' has a push box '%(push_box)s' that is configured as manual."
@@ -318,10 +337,11 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Box '%(box)s' is configured with Manual Account Code '%(account_code)s', but "
-"there are no accounts that start with this code in company '%(company)s'. "
+"Box '%(box)s' is configured with Manual Account Code '%(account_code)s', but"
+" there are no accounts that start with this code in company '%(company)s'. "
 "You may want to setup a specific account on that box."
 msgstr ""
 "La case '%(box)s' est configurée avec le code de compte manuel "
@@ -331,21 +351,24 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Box '%s' doesn't have a push box, so it's push rate should be 0."
 msgstr ""
-"La case '%s' n'est poussée sur aucune case, donc son taux de poussée devrait "
-"être à 0."
+"La case '%s' n'est poussée sur aucune case, donc son taux de poussée devrait"
+" être à 0."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Box '%s' doesn't have a push box, so it's push sequence should be 0."
 msgstr ""
-"La case '%s' n'est poussée sur aucune case, donc sa séquence de poussée doit "
-"être égale à 0."
+"La case '%s' n'est poussée sur aucune case, donc sa séquence de poussée doit"
+" être égale à 0."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid ""
@@ -357,6 +380,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Box '%s' has a push box but is missing a push sequence."
 msgstr ""
@@ -364,6 +388,7 @@ msgstr ""
 "poussée."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid ""
@@ -401,12 +426,13 @@ msgstr "Annuler"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "Cannot delete VAT return '%s' because it is not in 'Manual Lines' state."
 msgstr ""
-"Vous ne pouvez pas supprimer la déclaration de TVA '%s' car elle n'est pas à "
-"l'état 'Lignes manuelles'."
+"Vous ne pouvez pas supprimer la déclaration de TVA '%s' car elle n'est pas à"
+" l'état 'Lignes manuelles'."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_exigibility_update
@@ -427,7 +453,7 @@ msgstr "Chaîne de caractère (FTX)"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__code
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_code
 msgid "Code"
-msgstr "Code"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__reimbursement_comment_dgfip
@@ -436,6 +462,7 @@ msgid "Comment for DGFIP"
 msgstr "Commentaire pour la DGFIP"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__comment_dgfip
 #, python-format
@@ -510,7 +537,7 @@ msgstr "Montant de TVA calculé"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_res_config_settings
 msgid "Config Settings"
-msgstr "Configuration"
+msgstr "Page de configuration"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__create_uid
@@ -540,6 +567,7 @@ msgstr "Date de création"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "Creation Date is not set."
 msgstr "La date de création n'est pas renseignée."
@@ -557,11 +585,13 @@ msgstr "Remboursement de crédit de TVA"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Credit VAT Reimbursement removed."
 msgstr "Retrait de la demande de remboursement de crédit de TVA."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "Credit VAT reimbursement of %d € submitted."
@@ -628,6 +658,7 @@ msgstr "Base de TVA due"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid ""
 "Due VAT box '%(due_vat_box)s' has print Y %(due_vat_box_print_y)s whereas "
@@ -642,7 +673,7 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_form
 msgid "EDI"
-msgstr "EDI"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__edi_code
@@ -657,6 +688,7 @@ msgid "EDI Type"
 msgstr "Type EDI"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "EDI type not supported for box '%s'."
@@ -679,6 +711,7 @@ msgstr "Solde x ratio"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "Error in the generation of box '%s': it has an accounting method, so it "
@@ -689,13 +722,14 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "Error in the generation of the computation and accounting details of box "
 "'%s': this box has an accounting method but the account is not set."
 msgstr ""
-"Erreur dans la génération des paramètres de calcul et de comptabilisation de "
-"la case '%s' : cette case a une méthode de comptabilisation mais le compte "
+"Erreur dans la génération des paramètres de calcul et de comptabilisation de"
+" la case '%s' : cette case a une méthode de comptabilisation mais le compte "
 "n'est pas configuré."
 
 #. module: l10n_fr_account_vat_return
@@ -705,6 +739,7 @@ msgid "Event Date"
 msgstr "Date de survenance"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "Event Date is not set."
@@ -817,7 +852,7 @@ msgstr "Code comptable générique"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_exception_icon
@@ -844,14 +879,15 @@ msgstr "Si activé, des messages ont une erreur d'envoi."
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__account_id
 msgid ""
 "If not set, Odoo will use the first account that starts with the Generic "
-"Account Code. If set, Odoo will ignore the Generic Account Code and use this "
-"account."
+"Account Code. If set, Odoo will ignore the Generic Account Code and use this"
+" account."
 msgstr ""
 "Si non renseigné, Odoo utilisera le premier compte qui commence par le code "
-"comptable générique. Si renseigné, Odoo ignorera le code comptable générique "
-"et l'utilisera comme compte comptable."
+"comptable générique. Si renseigné, Odoo ignorera le code comptable générique"
+" et l'utilisera comme compte comptable."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #, python-format
 msgid ""
@@ -884,18 +920,19 @@ msgstr "Écriture comptable"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Journal entry '%(move)s' is dated before (or on) %(end_date)s and has an "
-"unreconciled line with an %(autoliq_type)s autoliquidation due VAT account, "
-"but it is not a supplier invoice/refund. That line with the intracom "
-"autoliquidation due VAT account should be reconciled."
+"Journal entry '%(move)s' dated %(date)s is inside or before the VAT period "
+"%(vat_period)s and has an unreconciled journal item with an %(autoliq_type)s"
+" autoliquidation due VAT account '%(account)s', but it is not a supplier "
+"invoice/refund. That journal item should be reconciled."
 msgstr ""
-"La pièce comptable \"%(move)s\" est datée d'avant le (ou du jour) "
-"%(end_date)s et comporte une ligne non lettrée avec un compte de TVA due à "
-"l'autoliquidation %(autoliq_type)s, mais il ne s'agit pas d'une facture/"
-"avoir fournisseur. Cette ligne avec le compte de TVA due à l'autoliquidation "
-"intracom doit être lettrée."
+"La pièce comptable \"%(move)s\" datée du %(date)s est comprise dans ou "
+"antérieure à la période de TVA %(vat_period)s et comporte une ligne non "
+"lettrée avec un compte d'autoliquidation de TVA %(autoliq_type)s "
+"\"%(account)s\" , mais il ne s'agit pas d'une facture/avoir "
+"fournisseur. Cette écriture comptable doit être lettrée."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_journal_id
@@ -904,6 +941,7 @@ msgid "Journal for VAT Journal Entry"
 msgstr "Journal pour l'OD de TVA"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Journal for VAT Journal Entry is not set on company '%s'."
@@ -1000,9 +1038,10 @@ msgstr "Erreur d'envoi du message"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_ids
 msgid "Messages"
-msgstr "Messages"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Missing Due VAT Base on box '%s' which is a Due VAT box."
@@ -1012,11 +1051,14 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Missing account mapping on fiscal position '%s'."
-msgstr "Table de correspondance des comptes vide sur la position fiscale '%s'."
+msgstr ""
+"La table de correspondance des comptes est vide sur la position fiscale '%s'."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Missing print caracteristics on box '%s'."
@@ -1081,12 +1123,14 @@ msgstr "Type de l'activité suivante"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"No account mapping on fiscal position <a href=# data-oe-model=account.fiscal."
-"position data-oe-id=%(fiscal_position_id)d>%(fiscal_position)s</a>. If this "
-"fiscal position is not only used for purchase but also for sale, you must "
-"configure an account mapping on revenue accounts."
+"No account mapping on fiscal position <a href=# data-oe-"
+"model=account.fiscal.position data-oe-"
+"id=%(fiscal_position_id)d>%(fiscal_position)s</a>. If this fiscal position "
+"is not only used for purchase but also for sale, you must configure an "
+"account mapping on revenue accounts."
 msgstr ""
 "Table de correspondance des comptes vide sur la position fiscale &lt;a "
 "href=# data-oe-model=account.fiscal.position data-oe-"
@@ -1103,12 +1147,12 @@ msgstr "Aucune section"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__note
 msgid "Note"
-msgstr "Note"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_line_log_form
 msgid "Notes"
-msgstr "Notes"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_needaction_counter
@@ -1137,6 +1181,7 @@ msgstr "Nombre de messages non lus"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "On box '%s', the Account Code is not set. You may want to setup a specific "
@@ -1146,6 +1191,7 @@ msgstr ""
 "spécifier un compte sur cette case."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1158,7 +1204,7 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__print_page
 msgid "Page"
-msgstr "Page"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_account_partial_reconcile
@@ -1218,11 +1264,6 @@ msgid "Push Box"
 msgstr "Case poussée"
 
 #. module: l10n_fr_account_vat_return
-#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_form
-msgid "Push Compute"
-msgstr "Calcul poussé"
-
-#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__push_rate
 msgid "Push Rate"
 msgstr "Taux poussé"
@@ -1255,6 +1296,7 @@ msgid "Reimbursement Comment for DGFIP"
 msgstr "Commentaire remboursement pour la DGFIP"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__reimbursement_comment_dgfip
 #, python-format
@@ -1301,7 +1343,7 @@ msgstr "Deuxième page"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__display_type__section
 msgid "Section"
-msgstr "Section"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__state__sent
@@ -1367,6 +1409,7 @@ msgstr "Taxe"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "Tax '%(tax)s' has an account for invoice (%(invoice_account)s) which is "
@@ -1379,6 +1422,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "Tax '%s' should have only one distribution line for credit notes configured "
@@ -1389,13 +1433,19 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Tax '%s' should have only one distribution line for invoices configured with "
-"an account and with '100%% of tax'."
+"Tax '%s' should have only one distribution line for invoices configured with"
+" an account and with '100%% of tax'."
 msgstr ""
 "La taxe '%s' ne devrait avoir qu'une seule ligne de distribution pour les "
 "factures configurée avec un compte comptable et avec '100%% de la taxe'."
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_form
+msgid "Technical"
+msgstr "Technique"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_account_fiscal_position_template
@@ -1419,6 +1469,7 @@ msgstr "Le taux de TVA due doit être inférieur à 10000."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "The Journal Entry of this VAT return has been cancelled. You should set it "
@@ -1429,21 +1480,24 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The Journal Entry of this VAT return has been deleted."
 msgstr "La pièce comptable de cette déclaration de TVA a été supprimée."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"The balance of account '%(account)s' is %(balance)s. In France, it should be "
-"a integer amount."
+"The balance of account '%(account)s' is %(balance)s. In France, it should be"
+" a integer amount."
 msgstr ""
 "Le solde du compte '%(account)s' est %(balance)s. En France, il devrait "
 "s'agir d'un montant entier."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1455,11 +1509,13 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' is a negative box but its EDI Type is not 'MOA'."
 msgstr "La case '%s' est une case négative mais son type EDI n'est pas 'MOA'."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' must have a code."
@@ -1467,11 +1523,13 @@ msgstr "La case '%s' doit avoir un code."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' must have an EDI code."
 msgstr "La case '%s' doit avoir un code EDI."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' must have an EDI type."
@@ -1479,11 +1537,13 @@ msgstr "La case '%s' doit avoir un type EDI."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "The creation date must be in the past."
 msgstr "La date de création doit être dans le passé."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #, python-format
 msgid "The date cannot be in the future."
@@ -1491,17 +1551,20 @@ msgstr "La date ne peut pas être dans le futur."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The declaration %s doesn't contain any line."
 msgstr "La déclaration %s ne contient aucune ligne."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "The event date must be in the past."
 msgstr "La date de l'évênement doit être dans le passé."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1513,10 +1576,11 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"The journal entry '%s' generated by the VAT return cannot be deleted because "
-"it is already posted."
+"The journal entry '%s' generated by the VAT return cannot be deleted because"
+" it is already posted."
 msgstr ""
 "La pièce comptable '%s' générée par la déclaration de TVA ne peut pas être "
 "supprimée car elle est déjà comptabilisée."
@@ -1533,25 +1597,28 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid ""
 "The reimbursement amount (%(amount)d €) cannot be superior to the amount of "
 "the VAT credit (%(vat_credit_amount)d €)."
 msgstr ""
-"Le montant du remboursement (%(amount)d €) ne peut être supérieur au montant "
-"du crédit de TVA (%(vat_credit_amount)d €)."
+"Le montant du remboursement (%(amount)d €) ne peut être supérieur au montant"
+" du crédit de TVA (%(vat_credit_amount)d €)."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid ""
 "The reimbursement amount (%(amount)d €) cannot be under the minimum amount "
 "(%(min_amount)d €)."
 msgstr ""
-"Le montant du remboursement (%(amount)d €) ne peut être inférieur au montant "
-"minimum (%(min_amount)d €)."
+"Le montant du remboursement (%(amount)d €) ne peut être inférieur au montant"
+" minimum (%(min_amount)d €)."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The section or sub-section '%s' is not properly configured."
@@ -1559,11 +1626,13 @@ msgstr "La section ou sous-section '%s' n'est pas correctement configurée."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The start date (%s) must be the first day of a quarter."
 msgstr "La date de début (%s) doit être le premier jour d'un trimestre."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The start date (%s) must be the first day of the month."
@@ -1571,11 +1640,13 @@ msgstr "La date de début (%s) doit être le premier jour d'un mois."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The value of line '%(box)s' (%(value)d) is negative."
 msgstr "La valeur de la ligne \"%(box)s\" (%(value)d) est négative."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The value of line '%(box)s' (%(value)d) is over 100."
@@ -1583,17 +1654,19 @@ msgstr "La valeur de la ligne \"%(box)s\" (%(value)d) est supérieure à 100."
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "There are %(account_count)s accounts whose code start with "
-"%(account_prefix)s in company '%(company)s' : %(account_list)s. Odoo expects "
-"to have only one."
+"%(account_prefix)s in company '%(company)s' : %(account_list)s. Odoo expects"
+" to have only one."
 msgstr ""
 "Il y a %(account_count)s comptes dont le code commence par "
 "%(account_prefix)s dans la société '%(company)s' : %(account_list)s. Odoo "
 "s'attend à ce qu'il n'y en ait qu'un seul."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1604,6 +1677,7 @@ msgstr ""
 "comptable de la société '%(company)s'. Ce scénario n'est pas supporté."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1618,6 +1692,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "There is a difference of %(diff)s € between taxed operation boxes "
@@ -1631,6 +1706,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "There is a problem on the intracom vendor bill/refund '%s': check that the "
@@ -1638,9 +1714,9 @@ msgid ""
 "system for autoliquidation which was used by Odoo up to version 12.0 "
 "included."
 msgstr ""
-"Il y a un problème sur la facture/avoir fournisseur intracommnautaire '%s' : "
-"vérifiez que les lignes de la facture ont une seule taxe d'autoliquidation, "
-"et non pas l'ancien système de double taxe d'autoliquidation qui était "
+"Il y a un problème sur la facture/avoir fournisseur intracommunautaire '%s' :"
+" vérifiez que les lignes de la facture ont une seule taxe d'autoliquidation,"
+" et non pas l'ancien système de double taxe d'autoliquidation qui était "
 "utilisé par Odoo jusqu'à la version 12.0 incluse."
 
 #. module: l10n_fr_account_vat_return
@@ -1649,6 +1725,7 @@ msgid "There is already a box at this position!"
 msgstr "Il y a déjà une case à cette position !"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1659,6 +1736,7 @@ msgstr ""
 "comptable de la société '%(company)s'."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1686,8 +1764,8 @@ msgstr "Ce code N-REF existe déjà."
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
 msgid ""
-"This VAT return has been marked as sent. Are you sure you want to go back to "
-"Manual Lines?"
+"This VAT return has been marked as sent. Are you sure you want to go back to"
+" Manual Lines?"
 msgstr ""
 "Cette déclaration de TVA a été marquée comme envoyée. Êtes-vous sûre que "
 "vous souhaitez revenir à l'étape des lignes manuelles ?"
@@ -1724,13 +1802,15 @@ msgstr "Cette séquence existe déjà."
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position__fr_vat_type
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position_template__fr_vat_type
 msgid "Type"
-msgstr "Type"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Type not set on fiscal position '%s'. It must be set on all fiscal positions."
+"Type not set on fiscal position '%s'. It must be set on all fiscal "
+"positions."
 msgstr ""
 "Le type n'est pas renseigné sur la position fiscale '%s'. Il doit être "
 "renseigné sur toutes les positions fiscales."
@@ -1828,25 +1908,28 @@ msgstr "Ligne de déclaration de TVA française (Ligne de CA3)"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "VAT amount %(total_vat_amount)s, Product ratio %(ratio).2f%% → Product VAT "
 "amount %(vat_amount)s"
 msgstr ""
-"Montant de TVA %(total_vat_amount)s, Ratio biens %(ratio).2f%% → "
-"Montant de TVA sur les biens %(vat_amount)s"
+"Montant de TVA %(total_vat_amount)s, Ratio biens %(ratio).2f%% → Montant de "
+"TVA sur les biens %(vat_amount)s"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "VAT amount %(total_vat_amount)s, Service ratio %(ratio).2f%% → Service VAT "
 "amount %(vat_amount)s"
 msgstr ""
-"Montant de TVA %(total_vat_amount)s, Ratio prestations de service %(ratio).2f%% → "
-"Montant de TVA sur prestations de service %(vat_amount)s"
+"Montant de TVA %(total_vat_amount)s, Ratio prestations de service "
+"%(ratio).2f%% → Montant de TVA sur prestations de service %(vat_amount)s"
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "VAT amount %(vat_amount)s, Rate %(rate).2f%% → Base %(base_amount)s"
@@ -1898,6 +1981,7 @@ msgstr "Historique des échanges sur le site Web"
 
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Wrong accounting method on Due VAT box '%s': it should be 'Debit'."
 msgstr ""
@@ -1905,6 +1989,7 @@ msgstr ""
 "devrait être 'Débit'."
 
 #. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #, python-format
 msgid "Wrong value for the new VAT exigibility."
