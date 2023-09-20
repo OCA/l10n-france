@@ -20,14 +20,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
 msgid ""
 "<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
-"                        <span class=\"fa fa-lg fa-building-o\" "
-"title=\"Values set here are company-specific.\" groups=\"base."
-"group_multi_company\" role=\"img\"/>"
+"                        <span class=\"fa fa-lg fa-building-o\" title="
+"\"Values set here are company-specific.\" groups=\"base.group_multi_company"
+"\" role=\"img\"/>"
 msgstr ""
 "<span class=\"o_form_label\">Télétransmission via Teledec.fr</span>\n"
-"                        <span class=\"fa fa-lg fa-building-o\" "
-"title=\"Values set here are company-specific.\" groups=\"base."
-"group_multi_company\" role=\"img\"/>"
+"                        <span class=\"fa fa-lg fa-building-o\" title="
+"\"Values set here are company-specific.\" groups=\"base.group_multi_company"
+"\" role=\"img\"/>"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ass
