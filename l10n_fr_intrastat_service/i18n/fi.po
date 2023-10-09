@@ -22,44 +22,48 @@ msgstr ""
 #: model:mail.template,subject:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid ""
 "\n"
-"                DES ${object.year_month} for ${object.company_id.name}\n"
+"                DES {{object.year_month}} for {{object.company_id.name}}\n"
 "            "
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:mail.template,body_html:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid ""
-"\n"
 "<p>I would like to remind you that we are approaching the deadline for the "
-"DES declaration for month ${object.year_month}.</p>\n"
+"DES declaration for month <strong t-out=\"object.year_month\">2022-01</"
+"strong>.</p>\n"
 "\n"
 "<p>As there were no DES for that month in Odoo, a draft declaration has been "
 "generated automatically.</p>\n"
 "\n"
-"% if ctx.get('exception'):\n"
+"<t t-if=\"ctx.get('exception')\">\n"
 "<p>When trying to generate the DES lines, the following error was "
 "encountered:</p>\n"
 "\n"
-"<p>${ctx.get('error_msg')}</p>\n"
+"<code><t t-out=\"ctx.get('error_msg')\">Missing VAT number on partner Azur.</"
+"t></code>\n"
 "\n"
-"<p>You should solve this error, then go to the menu <em>Invoicing > "
-"Reporting > Intrastat > DES</em>, open the declaration of month ${object."
-"year_month} and click on the button <em>Re-generate lines</em>.</p>\n"
+"<p>You should solve this error, then go to the menu <em>Invoicing &gt; "
+"Reporting &gt; Intrastat &gt; DES</em>, open the declaration of month <t t-"
+"out=\"object.year_month\">2022-01</t> and click on the button <em>Re-"
+"generate lines</em>.</p>\n"
 "\n"
-"% else:\n"
-"% if object.num_decl_lines > 0:\n"
-"<p>This draft DES contains ${object.num_decl_lines} ${object.num_decl_lines "
-"== 1 and 'line' or 'lines'} and the total amount is ${object.total_amount} "
-"${object.currency_id.symbol}.</p>\n"
-"% else:\n"
+"</t>\n"
+"<t t-else=\"\">\n"
+"<t t-if=\"object.num_decl_lines &gt; 0\">\n"
+"        <p>This draft DES contains <t t-out=\"object.num_decl_lines\">5</t> "
+"line(s) and the total amount is <t t-out=\"object.total_amount\">12,000</t> "
+"<t t-out=\"object.currency_id.symbol\">€</t>.</p>\n"
+"</t>\n"
+"<t t-else=\"\">\n"
 "<p>This draft DES generated automatically by Odoo doesn't contain any line.</"
 "p>\n"
-"% endif\n"
+"</t>\n"
 "\n"
-"<p>Go and check this declaration in the menu <em>Invoicing > Reporting > "
-"Intrastat > DES</em>.</p>\n"
+"<p>Go and check this declaration in the menu <em>Invoicing &gt; Reporting "
+"&gt; Intrastat &gt; DES</em>.</p>\n"
 "\n"
-"% endif\n"
+"</t>\n"
 "\n"
 "<p>\n"
 "-- <br/>\n"
@@ -187,14 +191,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__parent_id
 #: model:ir.ui.menu,name:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_menu
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_pivot
-#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_tree
 msgid "DES"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_graph
-msgid "DES Graph"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -204,8 +201,6 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__declaration_line_ids
-#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_line_tree
 msgid "DES Lines"
 msgstr ""
 
@@ -213,6 +208,7 @@ msgstr ""
 #: model:ir.actions.server,name:l10n_fr_intrastat_service.intrastat_service_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_fr_intrastat_service.intrastat_service_cron
 #: model:ir.cron,name:l10n_fr_intrastat_service.intrastat_service_cron
+#: model:mail.template,name:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid "DES Reminder"
 msgstr ""
 
@@ -234,7 +230,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__display_name
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__display_name
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_report_l10n_fr_intrastat_service_declaration_xlsx__display_name
 msgid "Display Name"
 msgstr "Nimi"
 
@@ -267,11 +262,6 @@ msgid "Followers"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -297,9 +287,13 @@ msgid "Group By"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__id
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_report_l10n_fr_intrastat_service_declaration_xlsx__id
 msgid "ID"
 msgstr "ID"
 
@@ -355,7 +349,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration____last_update
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_report_l10n_fr_intrastat_service_declaration_xlsx____last_update
 msgid "Last Modified on"
 msgstr "Viimeksi muokattu"
 
@@ -489,11 +482,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
-msgid "Search DES"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
