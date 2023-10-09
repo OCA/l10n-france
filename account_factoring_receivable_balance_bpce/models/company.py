@@ -15,7 +15,9 @@ class ResCompany(models.Model):
 
     bpce_factor_code = fields.Char(size=6, help="N° de compte chez PBCE")
     bpce_start_date = fields.Date(
-        string="Start Date", help="No account move will be selected before this date"
+        string="Start Date",
+        tracking=True,
+        help="No account move will be selected before this date",
     )
 
     def ui_configure_bpce_factoring_balance(self):

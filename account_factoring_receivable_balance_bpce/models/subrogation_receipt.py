@@ -87,7 +87,8 @@ class SubrogationReceipt(models.Model):
             partner_selection_field=partner_selection_field,
             currency=currency,
         )
-        domain = [("date", ">=", self.env.user.company_id.bpce_start_date)] + domain
+        if self.env.user.company_id.bpce_start_date:
+            domain = [("date", ">=", self.env.user.company_id.bpce_start_date)] + domain
         return domain
 
     def _get_bpce_header(self):
@@ -125,9 +126,10 @@ class SubrogationReceipt(models.Model):
         for line in self.line_ids:
             move = line.move_id
             partner = line.move_id.partner_id.commercial_partner_id
+            if not partner:
+                raise UserError(f"Pas de partenaire sur la pièce {line.move_id}")
             sequence += 1
             name = pad(move.name, 30, position="left")
-            # piece = pad(move.name, 30, position="left")
             p_type = get_type_piece(move)
             total = move.amount_total_in_currency_signed
             info = {
@@ -194,8 +196,8 @@ def get_type_piece(move):
                 lambda s: s.account_id.group_id == s.env.ref("l10n_fr.1_pcg_411")
             )
             for line in lines:
-                if max(line.debit, line.credit) == move.debit:
-                    if line.debit == move.debit:
+                if max(line.debit, line.credit) == move.amount_total:
+                    if line.debit == move.amount_total:
                         od_type = "D"
                     else:
                         od_type = "C"
