@@ -25,25 +25,11 @@ msgid "Cannot convert the field '%s' to ASCII"
 msgstr "Impossible de convertir le champ '%s' en ASCII"
 
 #. module: account_banking_fr_lcr
-#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"For the bank account '%s' of partner '%s', the Bank Account Type should be "
-"'IBAN'."
-msgstr ""
-"Pour le compte bancaire '%s' du partenaire '%s', le type de compte bancaire "
-"devrait être 'IBAN'."
-
-#. module: account_banking_fr_lcr
-#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line__id
-#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__id
-msgid "ID"
+"For the bank account '{acc_number}' of partner '{partner}', the Bank Account "
+"Type should be 'IBAN'."
 msgstr ""
 
 #. module: account_banking_fr_lcr
@@ -60,21 +46,18 @@ msgstr "LCR"
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is not "
-"a French IBAN."
-msgstr ""
-"Les LCR ne fonctionnent qu'avec des comptes bancaires français. L'IBAN '%s' "
-"du partenaire '%s' n'est pas un IBAN français."
-
-#. module: account_banking_fr_lcr
-#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order____last_update
-msgid "Last Modified on"
+"LCR are only for French bank accounts. The IBAN '{acc_number}' of partner "
+"'{partner}' is not a French IBAN."
 msgstr ""
 
 #. module: account_banking_fr_lcr
 #: model:account.payment.method,name:account_banking_fr_lcr.fr_lcr
 msgid "Lettre de Change Relevé"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_account_payment_method
+msgid "Payment Methods"
 msgstr ""
 
 #. module: account_banking_fr_lcr
@@ -86,11 +69,9 @@ msgstr "Ordre de paiement"
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"The currency of payment line '%s' is '%s'. To be included in a French LCR, "
-"the currency must be EUR."
+"The currency of payment line '{payment_line}' is '{currency}'. To be "
+"included in a French LCR, the currency must be EUR."
 msgstr ""
-"La monnaie de la ligne de paiement '%s' est '%s'. Pour être intégrée dans "
-"une LCR, la monnaie doit être EUR."
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
@@ -98,3 +79,27 @@ msgstr ""
 msgid "The field '%s' is empty or 0. It should have a non-null value."
 msgstr ""
 "Le champ '%s' est vide ou égal à 0. Il devrait avoir une valeur non nulle."
+
+#, python-format
+#~ msgid ""
+#~ "For the bank account '%s' of partner '%s', the Bank Account Type should "
+#~ "be 'IBAN'."
+#~ msgstr ""
+#~ "Pour le compte bancaire '%s' du partenaire '%s', le type de compte "
+#~ "bancaire devrait être 'IBAN'."
+
+#, python-format
+#~ msgid ""
+#~ "LCR are only for French bank accounts. The IBAN '%s' of partner '%s' is "
+#~ "not a French IBAN."
+#~ msgstr ""
+#~ "Les LCR ne fonctionnent qu'avec des comptes bancaires français. L'IBAN "
+#~ "'%s' du partenaire '%s' n'est pas un IBAN français."
+
+#, python-format
+#~ msgid ""
+#~ "The currency of payment line '%s' is '%s'. To be included in a French "
+#~ "LCR, the currency must be EUR."
+#~ msgstr ""
+#~ "La monnaie de la ligne de paiement '%s' est '%s'. Pour être intégrée dans "
+#~ "une LCR, la monnaie doit être EUR."
