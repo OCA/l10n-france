@@ -186,8 +186,7 @@ msgstr "El puerto %s del terminal de pago no es un puerto TCP válido."
 #. odoo-javascript
 #: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
 #, python-format
-msgid ""
-"Press the red button on the payment terminal to cancel the transaction."
+msgid "Press the red button on the payment terminal to cancel the transaction."
 msgstr "Pulse el botón rojo del terminal de pago para cancelar la transacción."
 
 #. module: l10n_fr_pos_caisse_ap_ip
