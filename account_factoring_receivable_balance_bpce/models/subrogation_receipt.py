@@ -87,8 +87,8 @@ class SubrogationReceipt(models.Model):
             partner_selection_field=partner_selection_field,
             currency=currency,
         )
-        if self.env.user.company_id.bpce_start_date:
-            domain = [("date", ">=", self.env.user.company_id.bpce_start_date)] + domain
+        if self.env.company.bpce_start_date:
+            domain = [("date", ">=", self.env.company.bpce_start_date)] + domain
         return domain
 
     def _get_bpce_header(self):
