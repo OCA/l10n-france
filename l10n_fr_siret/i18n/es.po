@@ -33,9 +33,13 @@ msgid "Companies"
 msgstr "Compañías"
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__company_registry
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__company_registry
+msgid "Company ID"
+msgstr ""
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__company_registry
 msgid "Company Registry"
 msgstr "Registro de la Compañía"
 
@@ -45,27 +49,9 @@ msgid "Contact"
 msgstr "Contacto"
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__display_name
-msgid "Display Name"
-msgstr "Mostrar Nombre"
-
-#. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "Duplicate warning: partner"
 msgstr "Aviso de duplicado: socio"
-
-#. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__id
-msgid "ID"
-msgstr "ID (identificación)"
-
-#. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr "Última Modificación el"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
@@ -101,16 +87,20 @@ msgid "SIRET"
 msgstr "SIRET"
 
 #. module: l10n_fr_siret
+#. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "SIRET '%s' is invalid."
 msgstr "SIRET '%s' es inválido."
 
 #. module: l10n_fr_siret
+#. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
-msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
-msgstr "El NIC '%s' es incorrecto: debe tener exactamente 5 dígitos."
+msgid ""
+"The NIC '{nic}' of partner '{partner_name}' is incorrect: it must have "
+"exactly 5 digits."
+msgstr ""
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__nic
@@ -124,16 +114,22 @@ msgstr ""
 "Francia. Compone los últimos 5 dígitos del número SIRET."
 
 #. module: l10n_fr_siret
+#. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
-msgid "The SIREN '%s' is incorrect: it must have exactly 9 digits."
-msgstr "El SIREN '%s' es incorrecto: debe tener exactamente 9 dígitos."
+msgid ""
+"The SIREN '{siren}' of partner '{partner_name}' is incorrect: it must have "
+"exactly 9 digits."
+msgstr ""
 
 #. module: l10n_fr_siret
+#. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
-msgid "The SIREN '%s' is invalid: the checksum is wrong."
-msgstr "La SIREN '%s' no es válida: la suma de comprobación es incorrecta."
+msgid ""
+"The SIREN '{siren}' of partner '{partner_name}' is invalid: the checksum is "
+"wrong."
+msgstr ""
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siren
@@ -147,10 +143,13 @@ msgstr ""
 "Se compone de las 9 primeras cifras del número SIRET."
 
 #. module: l10n_fr_siret
+#. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
-msgid "The SIRET '%s%s' is invalid: the checksum is wrong."
-msgstr "El SIRET '%s%s' no es válido: la suma de comprobación es incorrecta."
+msgid ""
+"The SIRET '{siret}' of partner '{partner_name}' is invalid: the checksum is "
+"wrong."
+msgstr ""
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
@@ -176,6 +175,32 @@ msgstr "El nombre del registro oficial donde se declaró esta empresa."
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "has the same <b>SIREN</b>."
 msgstr "tiene el mismo <b>SIREN</b>."
+
+#~ msgid "Display Name"
+#~ msgstr "Mostrar Nombre"
+
+#~ msgid "ID"
+#~ msgstr "ID (identificación)"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificación el"
+
+#, python-format
+#~ msgid "The NIC '%s' is incorrect: it must have exactly 5 digits."
+#~ msgstr "El NIC '%s' es incorrecto: debe tener exactamente 5 dígitos."
+
+#, python-format
+#~ msgid "The SIREN '%s' is incorrect: it must have exactly 9 digits."
+#~ msgstr "El SIREN '%s' es incorrecto: debe tener exactamente 9 dígitos."
+
+#, python-format
+#~ msgid "The SIREN '%s' is invalid: the checksum is wrong."
+#~ msgstr "La SIREN '%s' no es válida: la suma de comprobación es incorrecta."
+
+#, python-format
+#~ msgid "The SIRET '%s%s' is invalid: the checksum is wrong."
+#~ msgstr ""
+#~ "El SIRET '%s%s' no es válido: la suma de comprobación es incorrecta."
 
 #~ msgid "Partner"
 #~ msgstr "Empresa"
