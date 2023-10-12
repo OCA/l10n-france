@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-17 03:38+0000\n"
-"PO-Revision-Date: 2023-08-08 14:11+0000\n"
+"PO-Revision-Date: 2023-10-12 11:38+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
@@ -36,7 +36,7 @@ msgstr "Compañías"
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__company_registry
 msgid "Company ID"
-msgstr ""
+msgstr "ID de la compañía"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__company_registry
@@ -101,6 +101,8 @@ msgid ""
 "The NIC '{nic}' of partner '{partner_name}' is incorrect: it must have "
 "exactly 5 digits."
 msgstr ""
+"El NIC '{nic}' del socio '{nombre_socio}' es incorrecto: debe tener "
+"exactamente 5 dígitos."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__nic
@@ -121,6 +123,8 @@ msgid ""
 "The SIREN '{siren}' of partner '{partner_name}' is incorrect: it must have "
 "exactly 9 digits."
 msgstr ""
+"El SIREN '{siren}' del socio '{nombre_socio}' es incorrecto: debe tener "
+"exactamente 9 dígitos."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -130,6 +134,8 @@ msgid ""
 "The SIREN '{siren}' of partner '{partner_name}' is invalid: the checksum is "
 "wrong."
 msgstr ""
+"El SIREN '{siren}' del socio '{nombre_socio}' no es válido: la suma de "
+"comprobación es incorrecta."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siren
@@ -150,6 +156,8 @@ msgid ""
 "The SIRET '{siret}' of partner '{partner_name}' is invalid: the checksum is "
 "wrong."
 msgstr ""
+"El SIRET '{siret}' del socio '{partner_name}' no es válido: la suma de "
+"comprobación es incorrecta."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
