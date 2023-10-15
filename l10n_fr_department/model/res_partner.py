@@ -8,7 +8,7 @@ from odoo import models, fields, api
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    @api.depends('zip', 'country_id', 'country_id.code')
+    @api.depends('zip', 'country_id', 'country_id.code', "company_id.country_id")
     # If a department code changes, it will have to be manually recomputed
     def _compute_department(self):
         rcdo = self.env['res.country.department']
@@ -16,10 +16,13 @@ class ResPartner(models.Model):
             ('code', 'in', ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT'))]).ids
         for partner in self:
             dpt_id = False
+            country = partner.country_id or (
+                partner.company_id and partner.company_id.country_id
+            ) or False
             zipcode = partner.zip
             if (
-                    partner.country_id and
-                    partner.country_id.id in fr_country_ids and
+                    country and
+                    country.id in fr_country_ids and
                     zipcode and
                     len(zipcode) == 5):
                 zipcode = partner.zip.strip().replace(' ', '').rjust(5, '0')

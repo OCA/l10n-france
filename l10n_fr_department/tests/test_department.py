@@ -8,6 +8,9 @@ from odoo.tests.common import TransactionCase
 class TestFrDepartment(TransactionCase):
 
     def test_fr_department(self):
+        main_company = self.env.ref("base.main_company")
+        main_company.country_id = False
+
         rpo = self.env['res.partner']
         partner1 = rpo.create({
             'name': 'Akretion France',
@@ -15,6 +18,7 @@ class TestFrDepartment(TransactionCase):
             'zip': '69100',
             'city': 'Villeurbanne',
             'country_id': self.env.ref('base.fr').id,
+            'company_id': main_company.id,
         })
         self.assertEqual(
             partner1.department_id,
@@ -25,7 +29,20 @@ class TestFrDepartment(TransactionCase):
             'zip': '84330',
             'city': 'Le Barroux',
             'country_id': self.env.ref('base.fr').id,
+            'company_id': main_company.id,
         })
+        self.assertEqual(
+            partner2.department_id,
+            self.env.ref('l10n_fr_department.res_country_department_vaucluse'))
+
+        # Check if country is not defined on partner nor company
+        partner2.country_id = False
+        self.assertEqual(
+            partner2.department_id.id,
+            False)
+
+        # Check if country is not defined on partner but on company
+        main_company.country_id = self.env.ref('base.fr')
         self.assertEqual(
             partner2.department_id,
             self.env.ref('l10n_fr_department.res_country_department_vaucluse'))
