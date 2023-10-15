@@ -33,7 +33,7 @@ addon | version | maintainers | summary
 [l10n_fr_chorus_ubl](l10n_fr_chorus_ubl/) | 12.0.1.0.2 | [![alexis-via](https://github.com/alexis-via.png?size=30px)](https://github.com/alexis-via) | Generate Chorus-compliant UBL e-invoices
 [l10n_fr_cog](l10n_fr_cog/) | 12.0.1.0.0 |  | Add Code Officiel Géographique (COG) on countries
 [l10n_fr_das2](l10n_fr_das2/) | 12.0.1.0.1 |  | DAS2 (France)
-[l10n_fr_department](l10n_fr_department/) | 12.0.1.0.2 |  | Populate Database with French Departments (Départements)
+[l10n_fr_department](l10n_fr_department/) | 12.0.1.0.3 |  | Populate Database with French Departments (Départements)
 [l10n_fr_department_oversea](l10n_fr_department_oversea/) | 12.0.1.0.1 |  | Populate Database with overseas French Departments (Départements d'outre-mer)
 [l10n_fr_fec_oca](l10n_fr_fec_oca/) | 12.0.1.0.2 |  | Fichier d'Échange Informatisé (FEC) for France
 [l10n_fr_intrastat_product](l10n_fr_intrastat_product/) | 12.0.2.0.0 |  | DEB (Déclaration d'Échange de Biens) for France
