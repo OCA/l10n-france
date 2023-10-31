@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+<!--  Default taxes on accounts  -->
+<!-- We can't put this in account.account.template.csv because we need to load
+    taxes before, and taxes need to be loaded after account.account.template.csv -->
+
+<!-- Expenses -->
+    <record id="pcg_6011" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_60211" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_60221" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_60222" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_60223" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_60224" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_60225" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_60267" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_604" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_605" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6061" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6063" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6064" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6068" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6071" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_608" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6091" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6092" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6094" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6095" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6096" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6097" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6098" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_611" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6122" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6125" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6135" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6136" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6152" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6155" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6156" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6225" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6226" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6227" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6228" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6231" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6232" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6233" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6234" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6235" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6236" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6237" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6238" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6241" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6242" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6243" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6244" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6247" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+    <record id="pcg_6248" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
+    </record>
+
+
+<!-- Income -->
+    <record id="pcg_7011" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_sale_200')])]" />
+    </record>
+
+    <record id="pcg_702" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_sale_200')])]" />
+    </record>
+
+    <record id="pcg_703" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_sale_200')])]" />
+    </record>
+
+    <record id="pcg_7041" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_sale_200')])]" />
+    </record>
+
+    <record id="pcg_705" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_sale_200')])]" />
+    </record>
+
+    <record id="pcg_7061" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_sale_200')])]" />
+    </record>
+
+    <record id="pcg_7071" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_sale_200')])]" />
+    </record>
+
+    <record id="pcg_70851" model="account.account.template">
+      <field name="tax_ids" eval="[(6,0,[ref('tva_sale_200')])]" />
+    </record>
+
+
+</odoo>
