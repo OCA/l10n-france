@@ -4,10 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-09 07:28+0000\n"
-"PO-Revision-Date: 2023-09-09 07:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,15 +14,14 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "%(invoice)s (%(partner)s) is unpaid, Unpaid VAT amount %(amount)s"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -33,7 +30,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -41,15 +38,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "%(start_note)s, Rate %(rate).2f%% → Base %(base_amount)s"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -58,7 +54,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "%s (add)"
@@ -90,8 +86,7 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -100,8 +95,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -110,8 +104,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -120,8 +113,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -130,8 +122,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Account '%s' is present in the mapping of several fiscal positions."
@@ -143,8 +134,7 @@ msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Account is missing on manual line '%s'."
@@ -193,8 +183,7 @@ msgid "Adjustment"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -209,22 +198,29 @@ msgid "Amount"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__analytic_account_id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__manual_analytic_account_id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__analytic_account_id
-msgid "Analytic Account"
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__manual_analytic_distribution
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__analytic_distribution
+msgid "Analytic"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_expense_analytic_account_id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_expense_analytic_account_id
-msgid "Analytic Account for Expense Adjustment"
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__analytic_precision
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__analytic_precision
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__analytic_precision
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__analytic_precision
+msgid "Analytic Precision"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_income_analytic_account_id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_income_analytic_account_id
-msgid "Analytic Account for Income Adjustment"
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_expense_analytic_distribution
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_expense_analytic_distribution
+msgid "Analytic for Expense Adjustment"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_income_analytic_distribution
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_income_analytic_distribution
+msgid "Analytic for Income Adjustment"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -243,8 +239,7 @@ msgid "Auto-Liquidation"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -279,14 +274,14 @@ msgid "Base from Unpaid VAT on Payment"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Based on invoice"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Based on payment"
@@ -298,8 +293,7 @@ msgid "Boolean (CCI/TBX)"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
-#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Both (automatic)"
@@ -311,8 +305,7 @@ msgid "Box"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid ""
@@ -320,8 +313,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -331,21 +323,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Box '%s' doesn't have a push box, so it's push rate should be 0."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Box '%s' doesn't have a push box, so it's push sequence should be 0."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid ""
@@ -354,14 +346,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Box '%s' has a push box but is missing a push sequence."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid ""
@@ -396,8 +388,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -432,8 +423,7 @@ msgid "Comment for DGFIP"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__comment_dgfip
 #, python-format
@@ -534,8 +524,7 @@ msgid "Creation Date"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "Creation Date is not set."
@@ -553,14 +542,14 @@ msgid "Credit VAT Reimbursement"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Credit VAT Reimbursement removed."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "Credit VAT reimbursement of %d € submitted."
@@ -582,22 +571,12 @@ msgid "Debit"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_account__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_chart_template__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position_template__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_partial_reconcile__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -625,8 +604,7 @@ msgid "Due VAT Base"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid ""
@@ -653,8 +631,7 @@ msgid "EDI Type"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "EDI type not supported for box '%s'."
@@ -676,8 +653,7 @@ msgid "Ending Balance x Ratio"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -686,8 +662,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -702,8 +677,7 @@ msgid "Event Date"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "Event Date is not set."
@@ -734,11 +708,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_follower_ids
 msgid "Followers"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_channel_ids
-msgid "Followers (Channels)"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -799,22 +768,17 @@ msgid "Generic Account Code"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_account__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_chart_template__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position_template__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_move_line__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_partial_reconcile__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_tax__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__id
 msgid "ID"
 msgstr ""
 
@@ -830,7 +794,6 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_needaction
-#: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -848,8 +811,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #, python-format
 msgid ""
@@ -879,8 +841,7 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -897,8 +858,7 @@ msgid "Journal for VAT Journal Entry"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Journal for VAT Journal Entry is not set on company '%s'."
@@ -911,22 +871,12 @@ msgid "Label"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_account____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_chart_template____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position_template____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_partial_reconcile____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -996,21 +946,21 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Missing Due VAT Base on box '%s' which is a Due VAT box."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Missing account mapping on fiscal position '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Missing print caracteristics on box '%s'."
@@ -1074,8 +1024,7 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1113,7 +1062,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1122,13 +1071,7 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_unread_counter
-msgid "Number of unread messages"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1137,8 +1080,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1209,11 +1151,6 @@ msgid "Push Box"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_form
-msgid "Push Compute"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__push_rate
 msgid "Push Rate"
 msgstr ""
@@ -1246,8 +1183,7 @@ msgid "Reimbursement Comment for DGFIP"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__reimbursement_comment_dgfip
 #, python-format
@@ -1355,8 +1291,7 @@ msgid "Tax"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1366,8 +1301,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1376,13 +1310,17 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "Tax '%s' should have only one distribution line for invoices configured with"
 " an account and with '100%% of tax'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_form
+msgid "Technical"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1406,8 +1344,7 @@ msgid "The Due VAT rate must be under 10000."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1416,14 +1353,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The Journal Entry of this VAT return has been deleted."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1432,8 +1369,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1442,64 +1378,63 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' is a negative box but its EDI Type is not 'MOA'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' must have a code."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' must have an EDI code."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' must have an EDI type."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "The creation date must be in the past."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #, python-format
 msgid "The date cannot be in the future."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The declaration %s doesn't contain any line."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid "The event date must be in the past."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1508,7 +1443,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1524,8 +1459,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid ""
@@ -1534,8 +1468,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_account_vat_return_reimbursement.py:0
 #, python-format
 msgid ""
@@ -1544,43 +1477,42 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The section or sub-section '%s' is not properly configured."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The start date (%s) must be the first day of a quarter."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The start date (%s) must be the first day of the month."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The value of line '%(box)s' (%(value)d) is negative."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "The value of line '%(box)s' (%(value)d) is over 100."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1590,8 +1522,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1600,8 +1531,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1611,8 +1541,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1622,15 +1551,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"There is a problem on the intracom vendor bill/refund '%s': check that the "
-"invoice lines have a single autoliquidation tax, and not the old dual-tax "
-"system for autoliquidation which was used by Odoo up to version 12.0 "
-"included."
+"There is a problem on the %(autoliq_type)s %(move_type)s '%(move)s': check "
+"that the invoice lines have a single autoliquidation tax, and not the old "
+"dual-tax system for autoliquidation which was used by Odoo up to version "
+"12.0 included."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1639,8 +1567,7 @@ msgid "There is already a box at this position!"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1649,7 +1576,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1714,8 +1641,7 @@ msgid "Type"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1731,16 +1657,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__unpaid_vat_on_payment
 msgid "Unpaid VAT on Payment"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_unread_counter
-msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1814,8 +1730,7 @@ msgid "VAT Return Line for France (CA3 line)"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1824,8 +1739,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1834,8 +1748,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "VAT amount %(vat_amount)s, Rate %(rate).2f%% → Base %(base_amount)s"
@@ -1885,14 +1798,14 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Wrong accounting method on Due VAT box '%s': it should be 'Debit'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #, python-format
 msgid "Wrong value for the new VAT exigibility."
