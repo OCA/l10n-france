@@ -306,7 +306,6 @@ msgstr "Si activé, de nouveaux messages nécessitent votre attention."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
-#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si activé, des messages ont une erreur d'envoi."
 
@@ -472,11 +471,6 @@ msgid "Responsible User"
 msgstr "Utilisateur responsable"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erreur d'envoi du SMS"
-
-#. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__start_date
 msgid "Start Date"
 msgstr "Date de début"
@@ -563,6 +557,9 @@ msgstr "Export XML"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__attachment_name
 msgid "XML Filename"
 msgstr "Nom du fichier XML"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erreur d'envoi du SMS"
 
 #~ msgid "Number of messages which requires an action"
 #~ msgstr "Nombre de messages nécessitant une action"
