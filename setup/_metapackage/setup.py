@@ -13,6 +13,8 @@ setuptools.setup(
         'odoo-addon-account_statement_import_fr_cfonb>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_account_invoice_facturx>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_account_tax_unece>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_fr_account_vat_return>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_fr_account_vat_return_teledec>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_chorus_account>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_chorus_facturx>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_chorus_sale>=16.0dev,<16.1dev',
