@@ -401,7 +401,6 @@ msgstr "Si está marcada, nuevos mensajes requieren su atención."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_error
-#: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si está marcada, algunos mensajes tienen un error de entrega."
 
@@ -687,11 +686,6 @@ msgid "SIRET '%s' is invalid."
 msgstr "SIRET '%s' es inválido."
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Error en la entrega de SMS"
-
-#. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
 msgstr "¡El mismo socio utilizado en varias líneas!"
@@ -855,6 +849,9 @@ msgstr "Historial de la comunicación en la página web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Año"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Error en la entrega de SMS"
 
 #~ msgid "Number of messages which requires an action"
 #~ msgstr "Números de mensajes que requieren una acción"
