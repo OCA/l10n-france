@@ -101,7 +101,7 @@ msgid ""
 "The NIC '{nic}' of partner '{partner_name}' is incorrect: it must have "
 "exactly 5 digits."
 msgstr ""
-"El NIC '{nic}' del socio '{nombre_socio}' es incorrecto: debe tener "
+"El NIC '{nic}' del socio '{partner_name}' es incorrecto: debe tener "
 "exactamente 5 dígitos."
 
 #. module: l10n_fr_siret
@@ -123,7 +123,7 @@ msgid ""
 "The SIREN '{siren}' of partner '{partner_name}' is incorrect: it must have "
 "exactly 9 digits."
 msgstr ""
-"El SIREN '{siren}' del socio '{nombre_socio}' es incorrecto: debe tener "
+"El SIREN '{siren}' del socio '{partner_name}' es incorrecto: debe tener "
 "exactamente 9 dígitos."
 
 #. module: l10n_fr_siret
@@ -134,7 +134,7 @@ msgid ""
 "The SIREN '{siren}' of partner '{partner_name}' is invalid: the checksum is "
 "wrong."
 msgstr ""
-"El SIREN '{siren}' del socio '{nombre_socio}' no es válido: la suma de "
+"El SIREN '{siren}' del socio '{partner_name}' no es válido: la suma de "
 "comprobación es incorrecta."
 
 #. module: l10n_fr_siret
