@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,14 +14,14 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_oca
-#: model:account.fiscal.position,note:l10n_fr_oca.4_fiscal_position_template_intraeub2b
+#: model_terms:account.fiscal.position,note:l10n_fr_oca.4_fiscal_position_template_intraeub2b
 msgid ""
 "French VAT exemption according to articles 262 ter I (for products) and/or "
 "283-2 (for services) of \"CGI\""
 msgstr ""
 
 #. module: l10n_fr_oca
-#: model:account.fiscal.position,note:l10n_fr_oca.4_fiscal_position_template_import_export
+#: model_terms:account.fiscal.position,note:l10n_fr_oca.4_fiscal_position_template_import_export
 msgid "French VAT exemption according to articles 291, 294 and 262 I of \"CGI\""
 msgstr ""
 
