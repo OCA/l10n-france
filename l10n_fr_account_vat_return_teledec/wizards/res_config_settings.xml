@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="res_config_settings_view_form" model="ir.ui.view">
+    <field name="model">res.config.settings</field>
+    <field
+            name="inherit_id"
+            ref="l10n_fr_account_vat_return.res_config_settings_view_form"
+        />
+    <field name="arch" type="xml">
+        <xpath expr="//div[@id='fr_vat']" position="inside">
+            <div class="col-xs-12 col-md-12 o_setting_box">
+                <div class="o_setting_left_pane" />
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Teletransmission via Teledec.fr</span>
+                    <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                            role="img"
+                        />
+                    <div class="text-muted">
+                            Parameters required for the teletransmission of CA3
+                    </div>
+                    <div class="row" id="fr_vat_teledec_email">
+                        <label for="fr_vat_teledec_email" class="col-md-3" />
+                        <field name="fr_vat_teledec_email" />
+                    </div>
+                    <div class="row" id="fr_vat_teledec_legal_representative">
+                        <label
+                                for="fr_vat_teledec_legal_representative_id"
+                                class="col-md-3"
+                            />
+                        <field name="fr_vat_teledec_legal_representative_id" />
+                    </div>
+                    <div class="row" id="fr_vat_teledec_legal_form">
+                        <label for="fr_vat_teledec_legal_form" class="col-md-3" />
+                        <field name="fr_vat_teledec_legal_form" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-12 o_setting_box">
+                <div class="o_setting_left_pane">
+                    <div class="row" id="fr_vat_teledec_test_mode">
+                        <field name="fr_vat_teledec_test_mode" />
+                    </div>
+                </div>
+                <div class="o_setting_right_pane">
+                    <div class="row">
+                        <label for="fr_vat_teledec_test_mode" class="col-md-5" />
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="res_config_settings_view_form" model="ir.ui.view">
+    <field name="model">res.config.settings</field>
+    <field name="inherit_id" ref="account.res_config_settings_view_form" />
+    <field name="arch" type="xml">
+        <xpath expr="//div[@name='default_taxes_setting_container']" position="after">
+            <h2>France VAT</h2>
+            <div class="row mt16 o_settings_container" id="fr_vat">
+                <div class="col-xs-12 col-md-12 o_setting_box">
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <div class="row" id="fr_vat_exigibility">
+                            <label for="fr_vat_exigibility" class="col-md-3" />
+                            <field name="fr_vat_exigibility" class="col-md-3" />
+                            <button
+                                    type="action"
+                                    name="%(l10n_fr_vat_exigibility_update_action)d"
+                                    string="Change VAT Exigibility"
+                                    context="{'default_company_id': company_id}"
+                                    class="oe_link"
+                                    icon="fa-exchange"
+                                />
+                        </div>
+                        <div class="row" id="fr_vat_periodicity">
+                            <label for="fr_vat_periodicity" class="col-md-3" />
+                            <field name="fr_vat_periodicity" />
+                    </div>
+                        <div class="row" id="fr_vat_bank_account_id">
+                            <label for="fr_vat_bank_account_id" class="col-md-3" />
+                            <field name="fr_vat_bank_account_id" />
+                            <field name="fr_vat_company_partner_id" invisible="1" />
+                        </div>
+                        <div class="row" id="fr_vat_journal_id">
+                            <label for="fr_vat_journal_id" class="col-md-3" />
+                            <field name="fr_vat_journal_id" />
+                        </div>
+                        <div
+                                class="row"
+                                id="fr_vat_expense_analytic_distribution"
+                                groups="analytic.group_analytic_accounting"
+                            >
+                            <label
+                                    for="fr_vat_expense_analytic_distribution"
+                                    class="col-md-3"
+                                />
+                            <field
+                                    name="fr_vat_expense_analytic_distribution"
+                                    widget="analytic_distribution"
+                                    options="{'business_domain': 'general'}"
+                                />
+                        </div>
+                        <div
+                                class="row"
+                                id="fr_vat_income_analytic_distribution"
+                                groups="analytic.group_analytic_accounting"
+                            >
+                            <label
+                                    for="fr_vat_income_analytic_distribution"
+                                    class="col-md-3"
+                                />
+                            <field
+                                    name="fr_vat_income_analytic_distribution"
+                                    widget="analytic_distribution"
+                                    options="{'business_domain': 'general'}"
+                                />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-12 o_setting_box">
+                    <div class="o_setting_left_pane">
+                        <div class="row">
+                            <field name="fr_vat_update_lock_dates" />
+                        </div>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <div class="row">
+                            <label for="fr_vat_update_lock_dates" class="col-md-5" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>

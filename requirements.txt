@@ -1,5 +1,6 @@
 # generated from manifests external_dependencies
 pgpy
+pypdf>=3.1.0
 python-stdnum
 python-stdnum>=1.18
 requests
