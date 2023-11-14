@@ -104,12 +104,12 @@ class AccountBankStatementImport(models.TransientModel):
             rec_type = line[0:2]
             line_bank_code = line[2:7]
             line_guichet_code = line[11:16]
-            line_account_number = line[21:32]
+            line_account_number = line[21:31]
             # Some LCL files are invalid: they leave decimals and
             # currency fields empty on lines that start with '01' and '07',
             # so I give default values in the code for those fields
-            line_currency_code = line[16:19] != "   " and line[16:19] or "EUR"
-            decimals = line[19:20] != " " and int(line[19:20]) or 2
+            line_currency_code = line[16:19] != "   " and line[16:19] or "TND"
+            decimals = line[19:20] != " " and int(line[19:20]) or 3
             date_cfonb_str = line[34:40]
             date_dt = False
             date_str = False
@@ -118,7 +118,7 @@ class AccountBankStatementImport(models.TransientModel):
             if date_cfonb_str != "      ":
                 date_dt = datetime.strptime(date_cfonb_str, "%d%m%y")
                 date_str = fields.Date.to_string(date_dt)
-            assert decimals == 2, "We use 2 decimals in France!"
+            assert decimals == 3, "We use 3 decimals in Tunisia!"
 
             if i == 1:
                 bank_code = line_bank_code
