@@ -16,15 +16,25 @@
                 expr="//field[@name='order_line']/form//field[@name='tax_id']"
                 position="after"
             >
+                <field name="ecotaxe_line_ids" colspan="2">
+                    <tree editable="bottom">
+                        <field name="ecotaxe_classification_id" />
+                        <field name="force_ecotaxe_unit" />
+                        <field name="ecotaxe_amount_unit" />
+                        <field name="ecotaxe_amount_total" />
+                    </tree>
+                </field>
                 <field name="subtotal_ecotaxe" />
-                <field name="unit_ecotaxe_amount" />
+                <field name="ecotaxe_amount_unit" />
+
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='tax_id']"
                 position="after"
             >
                 <field name="subtotal_ecotaxe" optional="show" />
-                <field name="unit_ecotaxe_amount" optional="hide" />
+                <field name="ecotaxe_amount_unit" optional="hide" />
+                <field name="ecotaxe_line_ids" invisible="1" />
             </xpath>
         </field>
     </record>

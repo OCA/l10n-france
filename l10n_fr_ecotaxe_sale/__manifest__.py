@@ -10,6 +10,9 @@
     "category": "Localization/Account Taxes",
     "license": "AGPL-3",
     "depends": ["l10n_fr_ecotaxe", "sale"],
-    "data": ["views/sale_view.xml"],
+    "data": [
+        "views/sale_view.xml",
+        "security/ir.model.access.csv",
+    ],
     "installable": True,
 }
