@@ -6,7 +6,7 @@
 import logging
 
 from dateutil.relativedelta import relativedelta
-from lxml import etree
+from lxml import etree, objectify
 from stdnum.vatin import is_valid
 
 from odoo import _, api, fields, models
@@ -292,32 +292,24 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             raise UserError(
                 _("Missing VAT number on company '%s'.") % self.company_id.display_name
             )
-        my_company_vat = self.company_id.partner_id.vat.replace(" ", "")
+        my_company_vat = self.company_id.partner_id.vat
 
         # Tech spec of XML export are available here :
         # https://www.douane.gouv.fr/sites/default/files/uploads/files/2020-10/ManuelDesXML.pdf # noqa
-        root = etree.Element("fichier_des")
-        decl = etree.SubElement(root, "declaration_des")
-        num_des = etree.SubElement(decl, "num_des")
-        num_des.text = self.year_month.replace("-", "")
-        num_tva = etree.SubElement(decl, "num_tvaFr")
-        num_tva.text = my_company_vat
-        mois_des = etree.SubElement(decl, "mois_des")
-        mois_des.text = self.year_month[5:7]
-        # month 2 digits
-        an_des = etree.SubElement(decl, "an_des")
-        an_des.text = self.year_month[:4]
+        root = objectify.Element("fichier_des")
+        decl = objectify.SubElement(root, "declaration_des")
+        decl.num_des = self.year_month.replace("-", "")
+        decl.num_tvaFr = my_company_vat
+        decl.mois_des = str(self.start_date.month).zfill(2)
+        decl.an_des = str(self.start_date.year)
         line = 0
         # we now go through each service line
         for sline in self.declaration_line_ids:
             line += 1  # increment line number
-            ligne_des = etree.SubElement(decl, "ligne_des")
-            numlin_des = etree.SubElement(ligne_des, "numlin_des")
-            numlin_des.text = str(line)
-            valeur = etree.SubElement(ligne_des, "valeur")
-            valeur.text = str(sline.amount_company_currency)
-            partner_des = etree.SubElement(ligne_des, "partner_des")
-            vat = sline.partner_vat.replace(" ", "")
+            ligne_des = objectify.SubElement(decl, "ligne_des")
+            ligne_des.numlin_des = str(line)
+            ligne_des.valeur = str(sline.amount_company_currency)
+            vat = sline.partner_vat
             if not vat:
                 raise UserError(
                     _("Missing VAT number on partner '%s'.")
@@ -332,7 +324,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     )
                     % vat
                 )
-            partner_des.text = vat
+            ligne_des.partner_des = vat
         return root
 
     def generate_xml(self):
@@ -341,6 +333,8 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         if not self.declaration_line_ids:
             return
         root = self._generate_des_xml_root()
+        objectify.deannotate(root, xsi_nil=True)
+        etree.cleanup_namespaces(root)
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
