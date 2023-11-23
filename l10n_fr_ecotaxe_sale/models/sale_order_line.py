@@ -50,8 +50,30 @@ class SaleOrderLine(models.Model):
             self.ecotaxe_line_ids = [(5,)]  # Remove all ecotaxe classification
         else:
             ecotax_cls_vals = []
-            for ecotax_cls in self.product_id.ecotaxe_classification_ids:
+            for ecotaxeline_prod in self.product_id.ecotaxe_line_product_ids:
                 ecotax_cls_vals.append(
-                    (0, 0, {"ecotaxe_classification_id": ecotax_cls.id})
+                    (
+                        0,
+                        0,
+                        {
+                            "ecotaxe_classification_id": ecotaxeline_prod.ecotaxe_classification_id.id,
+                            "force_ecotaxe_unit": ecotaxeline_prod.force_ecotaxe_amount,
+                        },
+                    )
                 )
             self.ecotaxe_line_ids = ecotax_cls_vals
+
+    def edit_ecotaxe_lines(self):
+        view = {
+            "name": ("Ecotaxe classification"),
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "sale.order.line",
+            "view_id": self.env.ref(
+                "l10n_fr_ecotaxe_sale.view_sale_line_ecotaxe_form"
+            ).id,
+            "type": "ir.actions.act_window",
+            "target": "new",
+            "res_id": self.id,
+        }
+        return view
