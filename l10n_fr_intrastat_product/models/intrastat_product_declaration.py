@@ -6,7 +6,7 @@ import logging
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
-from lxml import etree
+from lxml import etree, objectify
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -157,9 +157,8 @@ class IntrastatProductDeclaration(models.Model):
         my_company_currency = self.company_id.currency_id.name
         eu_countries = self.env.ref("base.europe").country_ids
 
-        root = etree.Element("INSTAT")
-        envelope = etree.SubElement(root, "Envelope")
-        envelope_id = etree.SubElement(envelope, "envelopeId")
+        root = objectify.Element("INSTAT")
+        envelope = objectify.SubElement(root, "Envelope")
         if not self.company_id.fr_intrastat_accreditation:
             self.message_post(
                 body=_(
@@ -170,47 +169,37 @@ class IntrastatProductDeclaration(models.Model):
                 % self.company_id.display_name
             )
             return
-        envelope_id.text = self.company_id.fr_intrastat_accreditation
-        create_date_time = etree.SubElement(envelope, "DateTime")
-        create_date = etree.SubElement(create_date_time, "date")
+        envelope.envelopeId = self.company_id.fr_intrastat_accreditation
+        create_date_time = objectify.SubElement(envelope, "DateTime")
         now_user_tz = fields.Datetime.context_timestamp(self, datetime.now())
-        create_date.text = datetime.strftime(now_user_tz, "%Y-%m-%d")
-        create_time = etree.SubElement(create_date_time, "time")
-        create_time.text = datetime.strftime(now_user_tz, "%H:%M:%S")
-        party = etree.SubElement(envelope, "Party", partyType="PSI", partyRole="PSI")
-        party_id = etree.SubElement(party, "partyId")
-        party_id.text = my_company_identifier
-        party_name = etree.SubElement(party, "partyName")
-        party_name.text = self.company_id.name
-        software_used = etree.SubElement(envelope, "softwareUsed")
-        software_used.text = "Odoo"
-        declaration = etree.SubElement(envelope, "Declaration")
-        declaration_id = etree.SubElement(declaration, "declarationId")
-        declaration_id.text = self.year_month.replace("-", "")
-        reference_period = etree.SubElement(declaration, "referencePeriod")
-        reference_period.text = self.year_month
-        psi_id = etree.SubElement(declaration, "PSIId")
-        psi_id.text = my_company_identifier
-        function = etree.SubElement(declaration, "Function")
-        function_code = etree.SubElement(function, "functionCode")
-        function_code.text = "O"
-        declaration_type_code = etree.SubElement(declaration, "declarationTypeCode")
+        create_date_time.date = datetime.strftime(now_user_tz, "%Y-%m-%d")
+        create_date_time.time = datetime.strftime(now_user_tz, "%H:%M:%S")
+        party = objectify.SubElement(
+            envelope, "Party", partyType="PSI", partyRole="PSI"
+        )
+        party.partyId = my_company_identifier
+        party.partyName = self.company_id.name
+        envelope.softwareUsed = "Odoo"
+        declaration = objectify.SubElement(envelope, "Declaration")
+        declaration.declarationId = self.year_month.replace("-", "")
+        declaration.referencePeriod = self.year_month
+        declaration.PSIId = my_company_identifier
+        function = objectify.SubElement(declaration, "Function")
+        function.functionCode = "O"  # O = Déclaration originelle
         level2letter = {
             "standard": "4",
             "extended": "5",  # EMEBI 2022: stat + fisc, 2 in 1 combo
         }
         assert self.reporting_level in level2letter
-        declaration_type_code.text = level2letter[self.reporting_level]
-        flow_code = etree.SubElement(declaration, "flowCode")
+        declaration.declarationTypeCode = level2letter[self.reporting_level]
         type2letter = {
             "arrivals": "A",
             "dispatches": "D",
         }
         assert self.declaration_type in type2letter
-        flow_code.text = type2letter[self.declaration_type]
-        currency_code = etree.SubElement(declaration, "currencyCode")
+        declaration.flowCode = type2letter[self.declaration_type]
         assert my_company_currency == "EUR", "Company currency must be 'EUR'"
-        currency_code.text = my_company_currency
+        declaration.currencyCode = my_company_currency
 
         # THEN, the fields which vary from a line to the next
         if not self.declaration_line_ids:
@@ -222,6 +211,8 @@ class IntrastatProductDeclaration(models.Model):
             line += 1  # increment line number
             pline._generate_xml_line(declaration, eu_countries, line)
 
+        objectify.deannotate(root, xsi_nil=True)
+        etree.cleanup_namespaces(root)
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
@@ -417,60 +408,51 @@ class IntrastatProductDeclarationLine(models.Model):
         assert self.fr_regime_id, "Missing Intrastat Type"
         transaction = self.transaction_id
         regime = self.fr_regime_id
-        item = etree.SubElement(parent_node, "Item")
-        item_number = etree.SubElement(item, "itemNumber")
-        item_number.text = str(line_number)
+        item = objectify.SubElement(parent_node, "Item")
+        item.itemNumber = str(line_number)
         # START of elements which are only required in "detailed" level
         if decl.reporting_level == "extended" and not regime.is_fiscal_only:
-            cn8 = etree.SubElement(item, "CN8")
-            cn8_code = etree.SubElement(cn8, "CN8Code")
+            cn8 = objectify.SubElement(item, "CN8")
             if not self.hs_code_id:
                 raise UserError(_("Missing H.S. code on line %d.") % line_number)
             # local_code is required=True, so no need to check it
-            cn8_code.text = self.hs_code_id.local_code
+            cn8.CN8Code = self.hs_code_id.local_code
             # We fill SUCode only if the H.S. code requires it
             iunit_id = self.intrastat_unit_id
             if iunit_id:
-                su_code = etree.SubElement(cn8, "SUCode")
-                su_code.text = iunit_id.fr_xml_label or iunit_id.name
+                cn8.SUCode = iunit_id.fr_xml_label or iunit_id.name
 
-            src_dest_country = etree.SubElement(item, "MSConsDestCode")
             if not self.src_dest_country_code:
                 raise UserError(
                     _("Missing Country Code of Origin/Destination on line %d.")
                     % line_number
                 )
-            src_dest_country.text = self.src_dest_country_code
+            item.MSConsDestCode = self.src_dest_country_code
 
             # EMEBI 2022 : origin country is now for arrival AND dispatches
-            country_origin = etree.SubElement(item, "countryOfOriginCode")
             if not self.product_origin_country_code:
                 raise UserError(
                     _("Missing product country of origin code on line %d.")
                     % line_number
                 )
-            country_origin.text = self.product_origin_country_code
+            item.countryOfOriginCode = self.product_origin_country_code
 
-            weight = etree.SubElement(item, "netMass")
             if not self.weight:
                 raise UserError(_("Missing weight on line %d.") % line_number)
-            weight.text = str(self.weight)
+            item.netMass = str(self.weight)
 
             if iunit_id:
-                quantity_in_SU = etree.SubElement(item, "quantityInSU")
                 if not self.suppl_unit_qty:
                     raise UserError(_("Missing quantity on line %d.") % line_number)
-                quantity_in_SU.text = str(self.suppl_unit_qty)
+                item.quantityInSU = str(self.suppl_unit_qty)
 
         # START of elements that are part of all EMEBIs
-        invoiced_amount = etree.SubElement(item, "invoicedAmount")
         if not self.amount_company_currency:
             raise UserError(_("Missing fiscal value on line %d.") % line_number)
-        invoiced_amount.text = str(self.amount_company_currency)
+        item.invoicedAmount = str(self.amount_company_currency)
         # EMEBI 2022 : Partner VAT now required for all dispatches with
         # some exceptions for regime 29 in case of B2C
         if decl.declaration_type == "dispatches":
-            partner_vat = etree.SubElement(item, "partnerId")
             if not self.vat and regime.code != "29":
                 raise UserError(_("Missing VAT number on line %d.") % line_number)
             if self.vat and self.vat.startswith("GB") and decl.year >= "2021":
@@ -482,33 +464,24 @@ class IntrastatProductDeclarationLine(models.Model):
                     )
                     % {"vat": self.vat, "line_number": line_number}
                 )
-            partner_vat.text = self.vat and self.vat.replace(" ", "") or ""
+            item.partnerId = self.vat or ""
         # Code régime is on all EMEBIs
-        statistical_procedure_code = etree.SubElement(item, "statisticalProcedureCode")
-        statistical_procedure_code.text = regime.code
+        item.statisticalProcedureCode = regime.code
 
         # START of elements which are only required in "detailed" level
         if decl.reporting_level == "extended" and not regime.is_fiscal_only:
-            transaction_nature = etree.SubElement(item, "NatureOfTransaction")
-            transaction_nature_a = etree.SubElement(
-                transaction_nature, "natureOfTransactionACode"
-            )
-            transaction_nature_a.text = transaction.code[0]
-            transaction_nature_b = etree.SubElement(
-                transaction_nature, "natureOfTransactionBCode"
-            )
+            transaction_nature = objectify.SubElement(item, "NatureOfTransaction")
+            transaction_nature.natureOfTransactionACode = transaction.code[0]
             if len(transaction.code) != 2:
                 raise UserError(
                     _("Transaction code on line %d should have 2 digits.") % line_number
                 )
-            transaction_nature_b.text = transaction.code[1]
-            mode_of_transport_code = etree.SubElement(item, "modeOfTransportCode")
+            transaction_nature.natureOfTransactionBCode = transaction.code[1]
             if not self.transport_id:
                 raise UserError(
                     _("Mode of transport is not set on line %d.") % line_number
                 )
-            mode_of_transport_code.text = str(self.transport_id.code)
-            region_code = etree.SubElement(item, "regionCode")
+            item.modeOfTransportCode = str(self.transport_id.code)
             if not self.region_code:
                 raise UserError(_("Region Code is not set on line %d.") % line_number)
-            region_code.text = self.region_code
+            item.regionCode = self.region_code
