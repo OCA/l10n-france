@@ -127,7 +127,13 @@ class IntrastatProductDeclaration(models.Model):
                 if invoice.intrastat_fiscal_position == "b2b":
                     regime_code = 21
                 elif invoice.intrastat_fiscal_position == "b2c":
-                    regime_code = 29
+                    # 29 is only for EMEBI (extended),
+                    # not for the fiscal declaration (standard)
+                    if self.reporting_level == "standard":
+                        line_vals.clear()
+                        return
+                    else:
+                        regime_code = 29
             if regime_code:
                 regime = self.env.ref(
                     "l10n_fr_intrastat_product.fr_regime_%d" % regime_code
@@ -211,8 +217,7 @@ class IntrastatProductDeclaration(models.Model):
             line += 1  # increment line number
             pline._generate_xml_line(declaration, eu_countries, line)
 
-        objectify.deannotate(root, xsi_nil=True)
-        etree.cleanup_namespaces(root)
+        objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
