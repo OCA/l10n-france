@@ -77,3 +77,23 @@ class SaleOrderLine(models.Model):
             "res_id": self.id,
         }
         return view
+
+    def _prepare_invoice_line(self, **optional_values):
+        """Create equivalente ecotaxe_line_ids for account move line
+        from sale order line ecotaxe_line_ids .
+        """
+        res = super()._prepare_invoice_line(**optional_values)
+        ecotax_cls_vals = []
+        for ecotaxeline in self.ecotaxe_line_ids:
+            ecotax_cls_vals.append(
+                (
+                    0,
+                    0,
+                    {
+                        "ecotaxe_classification_id": ecotaxeline.ecotaxe_classification_id.id,
+                        "force_ecotaxe_unit": ecotaxeline.force_ecotaxe_unit,
+                    },
+                )
+            )
+        res["ecotaxe_line_ids"] = ecotax_cls_vals
+        return res
