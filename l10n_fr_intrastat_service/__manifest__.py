@@ -4,7 +4,7 @@
 
 {
     "name": "DES",
-    "version": "16.0.1.3.0",
+    "version": "16.0.1.4.0",
     "category": "Localisation/Report Intrastat",
     "license": "AGPL-3",
     "summary": "Module for Intrastat service reporting (DES) for France",
