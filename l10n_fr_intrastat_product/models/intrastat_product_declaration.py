@@ -116,30 +116,28 @@ class L10nFrIntrastatProductDeclaration(models.Model):
             inv = inv_line.move_id
             commercial_partner = inv.commercial_partner_id
             eu_countries = self.env.ref("base.europe").country_ids
-            if (
-                commercial_partner.country_id not in eu_countries
-                and not commercial_partner.intrastat_fiscal_representative_id
-            ):
-                line_notes = [
-                    _("Missing fiscal representative on partner '%s'.")
-                    % commercial_partner.display_name
-                ]
-                self._format_line_note(inv_line, notedict, line_notes)
-            else:
-                fiscal_rep = commercial_partner.intrastat_fiscal_representative_id
-                if not fiscal_rep.vat:
+            if commercial_partner.country_id not in eu_countries:
+                if not commercial_partner.intrastat_fiscal_representative_id:
                     line_notes = [
-                        _(
-                            "Missing VAT number on partner '{fiscal_rep}' which is the "
-                            "fiscal representative of partner '{partner}'."
-                        ).format(
-                            fiscal_rep=fiscal_rep.display_name,
-                            partner=commercial_partner.display_name,
-                        )
+                        _("Missing fiscal representative on partner '%s'.")
+                        % commercial_partner.display_name
                     ]
                     self._format_line_note(inv_line, notedict, line_notes)
                 else:
-                    line_vals["vat"] = fiscal_rep.vat
+                    fiscal_rep = commercial_partner.intrastat_fiscal_representative_id
+                    if not fiscal_rep.vat:
+                        line_notes = [
+                            _(
+                                "Missing VAT number on partner '{fiscal_rep}' which is the "
+                                "fiscal representative of partner '{partner}'."
+                            ).format(
+                                fiscal_rep=fiscal_rep.display_name,
+                                partner=commercial_partner.display_name,
+                            )
+                        ]
+                        self._format_line_note(inv_line, notedict, line_notes)
+                    else:
+                        line_vals["vat"] = fiscal_rep.vat
         dpt = self._get_fr_department(inv_line, notedict)
         line_vals["fr_department_id"] = dpt and dpt.id or False
         return res
