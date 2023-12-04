@@ -50,13 +50,15 @@ class SaleOrderLine(models.Model):
             self.ecotaxe_line_ids = [(5,)]  # Remove all ecotaxe classification
             ecotax_cls_vals = []
             for ecotaxeline_prod in self.product_id.ecotaxe_line_product_ids:
+                classif_id = ecotaxeline_prod.ecotaxe_classification_id.id
+                forced_amount = ecotaxeline_prod.force_ecotaxe_amount
                 ecotax_cls_vals.append(
                     (
                         0,
                         0,
                         {
-                            "ecotaxe_classification_id": ecotaxeline_prod.ecotaxe_classification_id.id,
-                            "force_ecotaxe_unit": ecotaxeline_prod.force_ecotaxe_amount,
+                            "ecotaxe_classification_id": classif_id,
+                            "force_ecotaxe_unit": forced_amount,
                         },
                     )
                 )
