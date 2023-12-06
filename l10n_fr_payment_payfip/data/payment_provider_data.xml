@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="payment_provider_payfip" model="payment.provider">
+        <field name="name">PayFIP</field>
+        <field name="display_as">Module PayFIP</field>
+        <field name="code">payfip</field>
+        <field name="image_128" type="base64" file="l10n_fr_payment_payfip/static/src/img/payfip_icon.png"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="redirect_form_view_id" ref="redirect_form"/>
+        <field name="payfip_customer_number">dummy</field>
+        <field name="pre_msg">
+            <![CDATA[<p>You will be redirected to the PayFIP website after clicking on the payment button.</p>]]>
+        </field>
+    </record>
+    <record id="payment_method_payfip" model="account.payment.method">
+        <field name="name">PayFip</field>
+        <field name="code">payfip</field>
+        <field name="payment_type">inbound</field>
+    </record>
+</odoo>
