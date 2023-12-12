@@ -47,6 +47,8 @@
                     <group name="Informations" col="4">
                         <field name="code" />
                         <field name="account_ecotaxe_categ_id" />
+                        <field name="ecotaxe_sector_id" />
+                        <field name="ecotaxe_collector_id" />
                         <field name="ecotaxe_product_status" />
                         <field name="ecotaxe_supplier_status" />
                         <field name="ecotaxe_deb_code" />

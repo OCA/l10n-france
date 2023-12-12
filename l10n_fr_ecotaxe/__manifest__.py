@@ -17,6 +17,8 @@
         "security/ir_rule.xml",
         "security/ir.model.access.csv",
         "views/account_ecotaxe_category_view.xml",
+        "views/ecotaxe_sector_view.xml",
+        "views/ecotaxe_collector_view.xml",
         "views/account_ecotaxe_classification_view.xml",
         "views/account_move_view.xml",
         "views/product_template_view.xml",
