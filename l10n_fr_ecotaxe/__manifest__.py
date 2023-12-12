@@ -20,6 +20,7 @@
         "views/account_ecotaxe_classification_view.xml",
         "views/account_move_view.xml",
         "views/product_template_view.xml",
+        "views/product_view.xml",
     ],
     "installable": True,
 }

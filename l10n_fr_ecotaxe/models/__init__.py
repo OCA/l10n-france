@@ -6,3 +6,4 @@ from . import ecotaxe_line_product
 from . import product_template
 from . import ecotaxe_line_mixin
 from . import account_move_line_ecotaxe
+from . import product_product

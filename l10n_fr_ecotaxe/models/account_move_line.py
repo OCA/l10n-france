@@ -48,7 +48,7 @@ class AcountMoveLine(models.Model):
         if self.product_id:
             self.ecotaxe_line_ids = [(5,)]  # Remove all ecotaxe classification
             ecotax_cls_vals = []
-            for ecotaxeline_prod in self.product_id.ecotaxe_line_product_ids:
+            for ecotaxeline_prod in self.product_id.all_ecotaxe_line_product_ids:
                 classif_id = ecotaxeline_prod.ecotaxe_classification_id.id
                 forced_amount = ecotaxeline_prod.force_ecotaxe_amount
                 ecotax_cls_vals.append(
