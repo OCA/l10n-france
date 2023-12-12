@@ -22,7 +22,6 @@
                     </field>
                 </div>
                 <field name="ecotaxe_amount" />
-
             </xpath>
         </field>
     </record>

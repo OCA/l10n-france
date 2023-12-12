@@ -14,6 +14,7 @@ class EcotaxeLineProduct(models.Model):
     product_tmplt_id = fields.Many2one(
         "product.template", string="Product Template", readonly=True
     )
+    product_id = fields.Many2one("product.product", string="Product", readonly=True)
     currency_id = fields.Many2one(related="product_tmplt_id.currency_id", readonly=True)
     ecotaxe_classification_id = fields.Many2one(
         "account.ecotaxe.classification",
@@ -40,12 +41,13 @@ class EcotaxeLineProduct(models.Model):
 
             if ecotax_cls.ecotaxe_type == "weight_based":
                 amt = ecotax_cls.ecotaxe_coef * (
-                    ecotaxeline.product_tmplt_id.weight or 0.0
+                    ecotaxeline.product_tmplt_id.weight
+                    or ecotaxeline.product_id.weight
+                    or 0.0
                 )
             else:
                 amt = ecotax_cls.default_fixed_ecotaxe
             # force ecotaxe amount
             if ecotaxeline.force_ecotaxe_amount:
                 amt = ecotaxeline.force_ecotaxe_amount
-
             ecotaxeline.ecotaxe_amount = amt

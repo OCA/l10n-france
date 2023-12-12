@@ -141,6 +141,49 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         )
         return tmpl.product_variant_ids[0]
 
+    @classmethod
+    def _make_product_variants(cls, ecotax_classification):
+        """Creates a product variants with given ecotax classification
+        Returns the newly created template variants
+        """
+        size_attr = cls.env["product.attribute"].create(
+            {
+                "name": "Size",
+                "create_variant": "always",
+                "value_ids": [(0, 0, {"name": "S"}), (0, 0, {"name": "M"})],
+            }
+        )
+
+        tmpl = cls.env["product.template"].create(
+            {
+                "name": " - ".join(["Product", ecotax_classification.name]),
+                "ecotaxe_line_product_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "ecotaxe_classification_id": ecotax_classification.id,
+                        },
+                    )
+                ],
+                # For the sake of simplicity, every product will have a price
+                # and weight of 100
+                "list_price": 100.00,
+                "weight": 100.00,
+                "attribute_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "attribute_id": size_attr.id,
+                            "value_ids": [(6, 0, size_attr.value_ids.ids)],
+                        },
+                    )
+                ],
+            }
+        )
+        return tmpl.product_variant_ids
+
     @staticmethod
     def _set_invoice_lines_random_quantities(invoice) -> list:
         """For each invoice line, sets a random qty between 1 and 10
@@ -342,4 +385,53 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
             invoice,
             {"amount_ecotaxe": 2.0 * new_qty, "amount_total": 100.0 * new_qty},
             [{"ecotaxe_amount_unit": 2.0, "subtotal_ecotaxe": 2.0 * new_qty}],
+        )
+
+    def test_06_product_variants(self):
+        """
+        Data:
+            A product template with two variants
+        Test Case:
+            Add additional ecotax line to one variant
+        Expected result:
+            The additional ecotax line is not associated  to second variant
+            the all ecotax lines of the variant contains both the ecotax
+            line of the product template and the additional ecotax line
+        """
+        variants = self._make_product_variants(self.ecotax_fixed)
+        self.assertEqual(len(variants), 2)
+        variant_1 = variants[0]
+        variant_2 = variants[1]
+        self.assertEqual(
+            variant_1.all_ecotaxe_line_product_ids,
+            variant_2.all_ecotaxe_line_product_ids,
+        )
+        variant_1.additional_ecotaxe_line_product_ids = [
+            (
+                0,
+                0,
+                {
+                    "ecotaxe_classification_id": self.ecotax_weight.id,
+                },
+            )
+        ]
+        all_additional_ecotaxe = (
+            variant_1.additional_ecotaxe_line_product_ids
+            | variant_1.product_tmpl_id.ecotaxe_line_product_ids
+        )
+        self.assertEqual(
+            len(variant_1.all_ecotaxe_line_product_ids),
+            2,
+        )
+        self.assertEqual(
+            len(variant_2.all_ecotaxe_line_product_ids),
+            1,
+        )
+        self.assertEqual(
+            variant_1.all_ecotaxe_line_product_ids,
+            all_additional_ecotaxe,
+        )
+        self.assertEqual(
+            variant_2.all_ecotaxe_line_product_ids,
+            variant_2.product_tmpl_id.ecotaxe_line_product_ids,
         )
