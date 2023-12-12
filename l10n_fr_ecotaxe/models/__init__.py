@@ -7,3 +7,5 @@ from . import product_template
 from . import ecotaxe_line_mixin
 from . import account_move_line_ecotaxe
 from . import product_product
+from . import ecotaxe_sector
+from . import ecotaxe_collector

@@ -28,6 +28,14 @@ class AccountEcotaxeClassification(models.Model):
         comodel_name="account.ecotaxe.category",
         string="Ecotaxe category",
     )
+    ecotaxe_sector_id = fields.Many2one(
+        comodel_name="ecotaxe.sector",
+        string="Ecotaxe sector",
+    )
+    ecotaxe_collector_id = fields.Many2one(
+        comodel_name="ecotaxe.collector",
+        string="Ecotaxe collector",
+    )
     active = fields.Boolean(default=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
