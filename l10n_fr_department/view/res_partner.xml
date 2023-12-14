@@ -28,7 +28,7 @@
                 <field
                     name="country_department_id"
                     class="o_address_country"
-                    attrs="{'invisible': [('country_department_id', '=', False)]}"
+                    invisible="country_department_id == False"
                 />
             </field>
             <xpath
@@ -38,7 +38,7 @@
                 <field
                     name="country_department_id"
                     class="o_address_country"
-                    attrs="{'invisible': [('country_department_id', '=', False)]}"
+                    invisible="country_department_id == False"
                 />
             </xpath>
         </field>
