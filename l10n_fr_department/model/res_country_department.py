@@ -45,6 +45,6 @@ class ResCountryDepartment(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            dname = "{} ({})".format(rec.name, rec.code)
+            dname = f"{rec.name} ({rec.code})"
             res.append((rec.id, dname))
         return res
