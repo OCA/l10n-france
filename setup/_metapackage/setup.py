@@ -29,6 +29,7 @@ setuptools.setup(
         'odoo-addon-l10n_fr_mis_reports>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_oca>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_pos_caisse_ap_ip>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_fr_pos_cert_update_draft_order_line>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_siret>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_siret_lookup>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_state>=16.0dev,<16.1dev',
