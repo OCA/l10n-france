@@ -1,67 +1,50 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
     <!-- Add the SIREN and RC -->
     <record model="ir.ui.view" id="res_partner_form_l10n_fr">
         <field name="name">res.partner.form.siret</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="l10n_fr.res_partner_form_l10n_fr" />
+        <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <field name="siret" position="attributes">
-                <attribute
-                    name="attrs"
-                    operation="update"
-                >{'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}</attribute>
-            </field>
-            <field name="siret" position="after">
-                <field
-                    name="siren"
-                    attrs="{'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
-                />
-                <field
-                    name="nic"
-                    attrs="{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
-                />
-                <field name="parent_is_company" invisible="1" />
-            </field>
-            <field name="company_registry" position="attributes">
-                <attribute name="attrs" operation="update">
-                    {'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}
-                </attribute>
-            </field>
-            <field name="child_ids" position="attributes">
-                <attribute name="context" operation="update">
-                    {'default_nic': nic}
-                </attribute>
-            </field>
-            <xpath
-                expr="//field[@name='child_ids']/form//field[@name='comment']"
-                position="before"
-            >
-                <field
-                    name="nic"
-                    attrs="{'invisible': [('type','in', ('contact', 'private'))]}"
-                />
-                <field
-                    name="siret"
-                    attrs="{'invisible': [('type','in', ('contact', 'private'))]}"
-                    readonly="1"
-                />
+            <xpath expr="//field[@name='siret']" position="attributes">
+                <attribute name="readonly">[('parent_id', '!=', False)]</attribute>
+                <attribute name="invisible">[('is_company', '=', False), ('parent_is_company', '=', False)]</attribute>
             </xpath>
-            <div
-                attrs="{'invisible': [('same_vat_partner_id', '=', False)]}"
-                position="after"
-            >
-                <div
-                    class="alert alert-warning"
-                    role="alert"
-                    attrs="{'invisible': [('same_siren_partner_id', '=', False)]}"
-                >
-                        Duplicate warning: partner <field
-                        name="same_siren_partner_id"
-                    /> has the same <b>SIREN</b>.
+            <xpath expr="//field[@name='siret']" position="after">
+                <field name="siren">
+                    <attribute name="readonly">[('parent_id', '!=', False)]</attribute>
+                    <attribute name="invisible">[('is_company', '=', False), ('parent_is_company', '=', False)]</attribute>
+                </field>
+                <field name="nic">
+                    <attribute name="invisible">[('is_company', '=', False), ('parent_is_company', '=', False)]</attribute>
+                </field>
+                <field name="parent_is_company" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </xpath>
+            <xpath expr="//field[@name='company_registry']" position="attributes">
+                <attribute name="readonly">[('parent_id', '!=', False)]</attribute>
+                <attribute name="invisible">[('is_company', '=', False), ('parent_is_company', '=', False)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']" position="attributes">
+                <attribute name="context">{'default_nic': 'nic'}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']/form//field[@name='comment']" position="before">
+                <field name="nic">
+                    <attribute name="invisible">[('type','in', ('contact', 'private'))]</attribute>
+                </field>
+                <field name="siret">
+                    <attribute name="invisible">[('type','in', ('contact', 'private'))]</attribute>
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </xpath>
+            <xpath expr="//field[@name='same_vat_partner_id']" position="after">
+                <div class="alert alert-warning" role="alert">
+                    <field name="same_siren_partner_id" invisible="1"/>
+                    Duplicate warning: partner <field name="same_siren_partner_id"/> has the same <b>SIREN</b>.
                 </div>
-            </div>
+            </xpath>
         </field>
     </record>
 
