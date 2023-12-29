@@ -19,28 +19,37 @@
             </filter>
         </field>
     </record>
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="name">l10n_fr_department.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree" />
+        <field name="arch" type="xml">
+            <field name="state_id" position="before">
+                <field
+                    name="country_department_id"
+                    optional="hide"
+                    string="Department"
+                />
+            </field>
+        </field>
+    </record>
+
     <record id="view_partner_form" model="ir.ui.view">
         <field name="name">l10n_fr_department.partner.address</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <field name="country_id" position="before">
+            <!-- The layout of the address block in the partner form view is too fragile to add
+                the field country_department_id inside it. And, as country_department_id is a computed
+                field, it can be displayed elsewhere -->
+            <xpath expr="//div[hasclass('o_address_format')]/.." position="inside">
                 <field
                     name="country_department_id"
-                    class="o_address_country"
-                    attrs="{'invisible': [('country_department_id', '=', False)]}"
+                    invisible="not country_department_id"
+                    groups="base.group_no_one"
+                    string="Department"
                 />
-            </field>
-            <xpath
-                expr="//field[@name='child_ids']/form//field[@name='country_id']"
-                position="before"
-            >
-                <field
-                    name="country_department_id"
-                    class="o_address_country"
-                    attrs="{'invisible': [('country_department_id', '=', False)]}"
-                />
-            </xpath>
+                </xpath>
         </field>
     </record>
 </odoo>

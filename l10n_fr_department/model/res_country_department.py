@@ -42,9 +42,21 @@ class ResCountryDepartment(models.Model):
     ]
 
     @api.depends("name", "code")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for rec in self:
             dname = f"{rec.name} ({rec.code})"
-            res.append((rec.id, dname))
-        return res
+            rec.display_name = dname
+
+    @api.model
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        if domain is None:
+            domain = []
+        if name and operator == "ilike":
+            ids = list(
+                self._search([("code", "=", name)] + domain, limit=limit, order=order)
+            )
+            if ids:
+                return ids
+        return super()._name_search(
+            name, domain=domain, operator=operator, limit=limit, order=order
+        )
