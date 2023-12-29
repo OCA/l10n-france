@@ -27,7 +27,7 @@ def create_fr_state_xmlid(cr):
 
 def generic_create_state_xmlid(cr, module_name, data_file):
     """This method is also used by l10n_fr_state and l10n_fr_department_oversea"""
-    f = file_open("%s/%s" % (module_name, data_file), "rb")
+    f = file_open(f"{module_name}/{data_file}", "rb")
     xml_root = etree.parse(f)
     data = {}  # key = xmlid, value = {"code": "GP", "country_id": "base.gp"}
     for record in xml_root.xpath("//record"):
