@@ -93,10 +93,13 @@ promote its widespread use.
 .. |maintainer-legalsylvain| image:: https://github.com/legalsylvain.png?size=40px
     :target: https://github.com/legalsylvain
     :alt: legalsylvain
+.. |maintainer-alexis-via| image:: https://github.com/alexis-via.png?size=40px
+    :target: https://github.com/alexis-via
+    :alt: alexis-via
 
-Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-legalsylvain| 
+|maintainer-legalsylvain| |maintainer-alexis-via| 
 
 This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_state>`_ project on GitHub.
 
