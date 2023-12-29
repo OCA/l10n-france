@@ -11,9 +11,55 @@ except ImportError:
 
 
 class Partner(models.Model):
-    """Add the French official company identity numbers SIREN, NIC and SIRET"""
-
     _inherit = "res.partner"
+
+    siren = fields.Char(
+        string="SIREN",
+        size=9,
+        tracking=50,
+        help="The SIREN number is the official identity "
+        "number of the company in France. It composes "
+        "the first 9 digits of the SIRET number.",
+    )
+    nic = fields.Char(
+        string="NIC",
+        size=5,
+        tracking=51,
+        help="The NIC number is the official rank number "
+        "of this office in the company in France. It "
+        "composes the last 5 digits of the SIRET "
+        "number.",
+    )
+    # the original SIRET field is definied in l10n_fr
+    # We add an inverse method to make it easier to copy/paste a SIRET
+    # from an external source to the partner form view of Odoo
+    siret = fields.Char(
+        compute="_compute_siret",
+        inverse="_inverse_siret",
+        store=True,
+        precompute=True,
+        readonly=False,
+        help="The SIRET number is the official identity number of this "
+        "company's office in France. It is composed of the 9 digits "
+        "of the SIREN number and the 5 digits of the NIC number, ie. "
+        "14 digits.",
+    )
+    # company_registry is native since v16, cf
+    # https://github.com/OCA/l10n-france/issues/501
+    # Should we rename it... or stop using it ?
+    # company_registry = fields.Char(
+    #    help="The name of official registry where this company was declared.",
+    # )
+
+    parent_is_company = fields.Boolean(
+        related="parent_id.is_company", string="Parent is a Company"
+    )
+    same_siren_partner_id = fields.Many2one(
+        "res.partner",
+        compute="_compute_same_siren_partner_id",
+        string="Partner with same SIREN",
+        compute_sudo=True,
+    )
 
     @api.depends("siren", "nic")
     def _compute_siret(self):
@@ -38,6 +84,31 @@ class Partner(models.Model):
                     raise ValidationError(_("SIRET '%s' is invalid.") % rec.siret)
             else:
                 rec.write({"siren": False, "nic": False})
+
+    @api.depends("siren", "company_id")
+    def _compute_same_siren_partner_id(self):
+        # Inspired by same_vat_partner_id from 'base' module
+        for partner in self:
+            same_siren_partner_id = False
+            if partner.siren and not partner.parent_id:
+                domain = [
+                    ("siren", "=", partner.siren),
+                    ("parent_id", "=", False),
+                ]
+                if partner.company_id:
+                    domain += [
+                        "|",
+                        ("company_id", "=", False),
+                        ("company_id", "=", partner.company_id.id),
+                    ]
+                # use _origin to deal with onchange()
+                partner_id = partner._origin.id
+                if partner_id:
+                    domain.append(("id", "!=", partner_id))
+                same_siren_partner_id = (
+                    self.with_context(active_test=False).search(domain, limit=1)
+                ).id or False
+            partner.same_siren_partner_id = same_siren_partner_id
 
     @api.constrains("siren", "nic")
     def _check_siret(self):
@@ -94,73 +165,3 @@ class Partner(models.Model):
         res = super()._address_fields()
         res.append("nic")
         return res
-
-    siren = fields.Char(
-        string="SIREN",
-        size=9,
-        tracking=50,
-        help="The SIREN number is the official identity "
-        "number of the company in France. It composes "
-        "the first 9 digits of the SIRET number.",
-    )
-    nic = fields.Char(
-        string="NIC",
-        size=5,
-        tracking=51,
-        help="The NIC number is the official rank number "
-        "of this office in the company in France. It "
-        "composes the last 5 digits of the SIRET "
-        "number.",
-    )
-    # the original SIRET field is definied in l10n_fr
-    # We add an inverse method to make it easier to copy/paste a SIRET
-    # from an external source to the partner form view of Odoo
-    siret = fields.Char(
-        compute="_compute_siret",
-        inverse="_inverse_siret",
-        store=True,
-        precompute=True,
-        readonly=False,
-        help="The SIRET number is the official identity number of this "
-        "company's office in France. It is composed of the 9 digits "
-        "of the SIREN number and the 5 digits of the NIC number, ie. "
-        "14 digits.",
-    )
-    company_registry = fields.Char(
-        help="The name of official registry where this company was declared.",
-    )
-
-    parent_is_company = fields.Boolean(
-        related="parent_id.is_company", string="Parent is a Company"
-    )
-    same_siren_partner_id = fields.Many2one(
-        "res.partner",
-        compute="_compute_same_siren_partner_id",
-        string="Partner with same SIREN",
-        compute_sudo=True,
-    )
-
-    @api.depends("siren", "company_id")
-    def _compute_same_siren_partner_id(self):
-        # Inspired by same_vat_partner_id from 'base' module
-        for partner in self:
-            same_siren_partner_id = False
-            if partner.siren and not partner.parent_id:
-                domain = [
-                    ("siren", "=", partner.siren),
-                    ("parent_id", "=", False),
-                ]
-                if partner.company_id:
-                    domain += [
-                        "|",
-                        ("company_id", "=", False),
-                        ("company_id", "=", partner.company_id.id),
-                    ]
-                # use _origin to deal with onchange()
-                partner_id = partner._origin.id
-                if partner_id:
-                    domain.append(("id", "!=", partner_id))
-                same_siren_partner_id = (
-                    self.with_context(active_test=False).search(domain, limit=1)
-                ).id or False
-            partner.same_siren_partner_id = same_siren_partner_id
