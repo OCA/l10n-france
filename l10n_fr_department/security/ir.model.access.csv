@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_res_country_department_all,Read access to res.country.department to everybody,model_res_country_department,,1,0,0,0
+access_res_country_department_user,Read access to res.country.department to employee group,model_res_country_department,base.group_user,1,0,0,0
+access_res_country_department_portal,Read access to res.country.department to portal group,model_res_country_department,base.group_portal,1,0,0,0
+access_res_country_department_public,Read access to res.country.department to public group,model_res_country_department,base.group_public,1,0,0,0
 access_res_country_department_manager,Full access to res.country.department to System user,model_res_country_department,base.group_system,1,1,1,1

@@ -14,7 +14,7 @@ from odoo.addons.l10n_fr_state.pre_init_hook import generic_create_state_xmlid
 #  constraint unique(country_id, code) of res.country.state.
 
 
-def create_fr_oversea_state_xmlid(cr):
+def create_fr_oversea_state_xmlid(env):
     generic_create_state_xmlid(
-        cr, "l10n_fr_department_oversea", "data/res_country_state.xml"
+        env, "l10n_fr_department_oversea", "data/res_country_state.xml"
     )
