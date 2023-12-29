@@ -7,13 +7,10 @@ import logging
 
 from stdnum.fr.siret import is_valid
 
-from odoo import SUPERUSER_ID, api
-
 logger = logging.getLogger(__name__)
 
 
-def set_siren_nic(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def set_siren_nic(env):
     partners = (
         env["res.partner"]
         .with_context(active_test=False)

@@ -8,26 +8,22 @@
         <field name="inherit_id" ref="l10n_fr.res_partner_form_l10n_fr" />
         <field name="arch" type="xml">
             <field name="siret" position="attributes">
+                <attribute name="readonly">parent_id != False</attribute>
                 <attribute
-                    name="attrs"
-                    operation="update"
-                >{'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}</attribute>
+                    name="invisible"
+                >'FR' not in fiscal_country_codes or (not is_company and not parent_is_company)</attribute>
             </field>
             <field name="siret" position="after">
                 <field
                     name="siren"
-                    attrs="{'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
+                    readonly="parent_id != False"
+                    invisible="'FR' not in fiscal_country_codes or (not is_company and not parent_is_company)"
                 />
                 <field
                     name="nic"
-                    attrs="{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
+                    invisible="'FR' not in fiscal_country_codes or (not is_company and not parent_is_company)"
                 />
                 <field name="parent_is_company" invisible="1" />
-            </field>
-            <field name="company_registry" position="attributes">
-                <attribute name="attrs" operation="update">
-                    {'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}
-                </attribute>
             </field>
             <field name="child_ids" position="attributes">
                 <attribute name="context" operation="update">
@@ -40,22 +36,21 @@
             >
                 <field
                     name="nic"
-                    attrs="{'invisible': [('type','in', ('contact', 'private'))]}"
+                    invisible="'FR' not in fiscal_country_codes or type in ('contact', 'private')"
                 />
                 <field
                     name="siret"
-                    attrs="{'invisible': [('type','in', ('contact', 'private'))]}"
+                    invisible="'FR' not in fiscal_country_codes or type in ('contact', 'private')"
                     readonly="1"
                 />
+                <field name="fiscal_country_codes" invisible="1" />
             </xpath>
-            <div
-                attrs="{'invisible': [('same_vat_partner_id', '=', False)]}"
-                position="after"
-            >
+            <div name="warning_tax" position="after">
                 <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('same_siren_partner_id', '=', False)]}"
+                    name="warn_duplicate_siren"
+                    invisible="not same_siren_partner_id"
                 >
                         Duplicate warning: partner <field
                         name="same_siren_partner_id"
