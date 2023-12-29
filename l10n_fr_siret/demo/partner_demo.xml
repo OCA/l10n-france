@@ -6,10 +6,16 @@
 -->
 <odoo noupdate="1">
 
-    <record id="base.res_partner_12" model="res.partner">  <!-- C2C -->
+    <record id="c2c_france" model="res.partner">
+        <field name="name">Camptocamp France SAS</field>
+        <field name="is_company" eval="True" />
+        <field name="street">18 rue du Lac Saint André</field>
+        <field name="zip">73370</field>
+        <field name="city">Le Bourget-du-Lac</field>
+        <field name="country_id" ref="base.fr" />
+        <field name="website">https://www.camptocamp.com/</field>
         <field name="siren">433698578</field>
-        <field name="nic">00039</field>
-        <field name="company_registry">Chambery</field>
+        <field name="nic">00054</field>
     </record>
 
 </odoo>
