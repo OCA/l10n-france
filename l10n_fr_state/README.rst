@@ -17,13 +17,13 @@ French States (Régions)
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_state
+    :target: https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_state
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-16-0/l10n-france-16-0-l10n_fr_state
+    :target: https://translation.odoo-community.org/projects/l10n-france-17-0/l10n-france-17-0-l10n_fr_state
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -33,12 +33,16 @@ states (*Régions françaises*), but only the french states of mainland.
 If you need the overseas states, please install the module
 *l10n_fr_department_oversea*.
 
-In the past, the module was using 3166-2:FR codifications
-without country prefix (more detail on `Wikipedia
-<http://fr.wikipedia.org/wiki/ISO_3166-2:FR>`_), but unfortunately this
-codification hasn't been updated since 2013, so we can't
-use it with the new organisation of regions that was introduced on January 1st 2016. So we switched to
-the INSEE codification, cf `Wikipedia (Codes_géographiques_de_la_France) <https://fr.wikipedia.org/wiki/Codes_g%C3%A9ographiques_de_la_France>`_ ; by the way, this codification is also used by `geonames.org <http://www.geonames.org/>`_.
+In the past, the module was using 3166-2:FR codifications without
+country prefix (more detail on
+`Wikipedia <http://fr.wikipedia.org/wiki/ISO_3166-2:FR>`__), but
+unfortunately this codification hasn't been updated since 2013, so we
+can't use it with the new organisation of regions that was introduced on
+January 1st 2016. So we switched to the INSEE codification, cf
+`Wikipedia
+(Codes_géographiques_de_la_France) <https://fr.wikipedia.org/wiki/Codes_g%C3%A9ographiques_de_la_France>`__
+; by the way, this codification is also used by
+`geonames.org <http://www.geonames.org/>`__.
 
 **Table of contents**
 
@@ -51,7 +55,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_state%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_state%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -59,21 +63,22 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * GRAP
 * Akretion
 * Nicolas JEUDY
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Sylvain LE GAL (`Twitter <https://twitter.com/legalsylvain>`_), GRAP (Groupement Régional Alimentaire de Proximité)
-* Alexis de Lattre <alexis.delattre@akretion.com>
-* Nicolas JEUDY <https://github.com/njeudy>
+-  Sylvain LE GAL (`Twitter <https://twitter.com/legalsylvain>`__), GRAP
+   (Groupement Régional Alimentaire de Proximité)
+-  Alexis de Lattre <alexis.delattre@akretion.com>
+-  Nicolas JEUDY <https://github.com/njeudy>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -93,6 +98,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-legalsylvain| 
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_state>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_state>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
