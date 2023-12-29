@@ -6,7 +6,6 @@ import logging
 
 from lxml import etree
 
-from odoo import SUPERUSER_ID, api
 from odoo.tools import file_open
 
 logger = logging.getLogger(__name__)
@@ -21,11 +20,11 @@ logger = logging.getLogger(__name__)
 #  constraint unique(country_id, code) of res.country.state.
 
 
-def create_fr_state_xmlid(cr):
-    generic_create_state_xmlid(cr, "l10n_fr_state", "data/res_country_state.xml")
+def create_fr_state_xmlid(env):
+    generic_create_state_xmlid(env, "l10n_fr_state", "data/res_country_state.xml")
 
 
-def generic_create_state_xmlid(cr, module_name, data_file):
+def generic_create_state_xmlid(env, module_name, data_file):
     """This method is also used by l10n_fr_state and l10n_fr_department_oversea"""
     f = file_open(f"{module_name}/{data_file}", "rb")
     xml_root = etree.parse(f)
@@ -37,7 +36,6 @@ def generic_create_state_xmlid(cr, module_name, data_file):
             xfield_dict = xfield.attrib
             data[xmlid][xfield_dict["name"]] = xfield_dict.get("ref") or xfield.text
     logger.debug("generic_create_state_xmlid data=%s", data)
-    env = api.Environment(cr, SUPERUSER_ID, {})
     for xmlid, state_data in data.items():
         country_id = env.ref(state_data["country_id"]).id
         state = env["res.country.state"].search(
