@@ -6,7 +6,6 @@ import logging
 
 from lxml import etree
 
-from odoo import SUPERUSER_ID, api
 from odoo.tools import file_open
 
 logger = logging.getLogger(__name__)
@@ -14,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 # Countries data is provided in the base module with noupdate="1"
 # That's why we need this post-install script
-def set_fr_cog(cr, registry):
+def set_fr_cog(env):
     f = file_open("l10n_fr_cog/data/country.xml", "rb")
     xml_root = etree.parse(f)
     data = {}
@@ -25,7 +24,6 @@ def set_fr_cog(cr, registry):
             if xfield.attrib and xfield.attrib.get("name") == "fr_cog":
                 data[xmlid] = int(xfield.text)
     logger.debug("set_fr_cog data=%s", data)
-    env = api.Environment(cr, SUPERUSER_ID, {})
     for xmlid, fr_cog in data.items():
         country = env.ref(xmlid)
         country.fr_cog = fr_cog
