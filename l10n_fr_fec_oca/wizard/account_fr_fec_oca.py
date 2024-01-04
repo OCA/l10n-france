@@ -220,9 +220,7 @@ class AccountFrFecOca(models.TransientModel):
         """
         }
         if self.partner_identifier == "ref":
-            aux_dict[
-                "auxnum"
-            ] = """
+            aux_dict["auxnum"] = """
             CASE WHEN rp.ref IS null OR rp.ref = ''
             THEN COALESCE('ID' || rp.id, '')
             ELSE REGEXP_REPLACE(replace(rp.ref, '|', '/'), '[\\t\\r\\n]', ' ', 'g')
@@ -235,42 +233,39 @@ class AccountFrFecOca(models.TransientModel):
             aux_sql = (
                 """
             CASE WHEN aa.account_type IN ('asset_receivable', 'liability_payable')
-            THEN %(auxnum)s
+            THEN (auxnum)
             ELSE ''
             END
             AS CompAuxNum,
             CASE WHEN aa.account_type IN ('asset_receivable', 'liability_payable')
-            THEN %(auxlib)s
+            THEN (auxlib)
             ELSE ''
             END
             AS CompAuxLib,
             """
-                % aux_dict
-            )
+            ).format(**aux_dict)
         elif self.partner_option == "accounts":
             sql_args["partner_account_ids"] = tuple(self.partner_account_ids.ids)
             aux_sql = (
                 """
             CASE WHEN aa.id IN %%(partner_account_ids)s
-            THEN %(auxnum)s
+            THEN (auxnum)
             ELSE ''
             END
             AS CompAuxNum,
             CASE WHEN aa.id IN %%(partner_account_ids)s
-            THEN %(auxlib)s
+            THEN (auxlib)
             ELSE ''
             END
             AS CompAuxLib,
             """
-                % aux_dict
-            )
+            ).format(**aux_dict)
         else:
             aux_sql = (
                 """
-            %(auxnum)s AS CompAuxNum, %(auxlib)s AS CompAuxLib,
+            (auxnum) AS CompAuxNum, (auxlib) AS CompAuxLib,
             """
-                % aux_dict
-            )
+            ).format(**aux_dict)
         return aux_sql
 
     # flake8: noqa: C901
@@ -619,7 +614,7 @@ class AccountFrFecOca(models.TransientModel):
             {
                 "fec_data": base64.encodebytes(fecvalue),
                 # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
-                "filename": "%sFEC%s%s.txt" % (siren, end_date, suffix),
+                "filename": f"{siren}FEC{end_date}{suffix}.txt",
             }
         )
 

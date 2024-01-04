@@ -369,22 +369,28 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:62e3ba6acd131ca7f67f0db848a84e8980510d624605cc9fe9df203c3c7fcc70
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_fec_oca"><img alt="OCA/l10n-france" src="https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-france-16-0/l10n-france-16-0-l10n_fr_fec_oca"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Ce module permet de générer le fichier FEC tel que définit par l’arrêté du 29
-Juillet 2013 portant modification des dispositions de l’article <a class="reference external" href="https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000018567134&amp;cidTexte=LEGITEXT000006069583">A. 47 A-1 du
-livre des procédures fiscales</a>.</p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_fec_oca"><img alt="OCA/l10n-france" src="https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-france-17-0/l10n-france-17-0-l10n_fr_fec_oca"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&amp;target_branch=17.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>Ce module permet de générer le fichier FEC tel que définit par l’arrêté
+du 29 Juillet 2013 portant modification des dispositions de l’article
+<a class="reference external" href="https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000018567134&amp;cidTexte=LEGITEXT000006069583">A. 47 A-1 du livre des procédures
+fiscales</a>.</p>
 <p>Cet arrêté prévoit l’obligation pour les sociétés ayant une comptabilité
 informatisée de pouvoir fournir à l’administration fiscale un fichier
-regroupant l’ensemble des écritures comptables de l’exercice. Le format de ce
-fichier, appelé <em>FEC</em>, est définit dans l’arrêté.</p>
-<p>Le détail du format du FEC est spécifié dans le bulletin officiel des finances publiques <cite>BOI-CF-IOR-60-40-20-20131213 &lt;http://bofip.impots.gouv.fr/bofip/9028-PGP.html?identifiant=BOI-CF-IOR-60-40-20-20131213&gt;</cite> du 13 Décembre 2013. Ce module implémente le fichier
-FEC au format texte et non au format XML, car le format texte sera facilement
-lisible et vérifiable par le comptable en utilisant un tableur.</p>
-<p>La structure du fichier FEC généré par ce module a été vérifiée avec le logiciel
-<em>Test Compta Demat</em> version 1_00_10b disponible sur
-<cite>le site de la direction générale des finances publiques &lt;http://www.economie.gouv.fr/dgfip/outil-test-des-fichiers-des-ecritures-comptables-fec&gt;</cite>
+regroupant l’ensemble des écritures comptables de l’exercice. Le format
+de ce fichier, appelé <em>FEC</em>, est définit dans l’arrêté.</p>
+<p>Le détail du format du FEC est spécifié dans le bulletin officiel des
+finances publiques BOI-CF-IOR-60-40-20-20131213
+&lt;<a class="reference external" href="http://bofip.impots.gouv.fr/bofip/9028-PGP.html?identifiant=BOI-CF-IOR-60-40-20-20131213">http://bofip.impots.gouv.fr/bofip/9028-PGP.html?identifiant=BOI-CF-IOR-60-40-20-20131213</a>&gt;
+du 13 Décembre 2013. Ce module implémente le fichier FEC au format texte
+et non au format XML, car le format texte sera facilement lisible et
+vérifiable par le comptable en utilisant un tableur.</p>
+<p>La structure du fichier FEC généré par ce module a été vérifiée avec le
+logiciel <em>Test Compta Demat</em> version 1_00_10b disponible sur le site de
+la direction générale des finances publiques
+&lt;<a class="reference external" href="http://www.economie.gouv.fr/dgfip/outil-test-des-fichiers-des-ecritures-comptables-fec">http://www.economie.gouv.fr/dgfip/outil-test-des-fichiers-des-ecritures-comptables-fec</a>&gt;
 en utilisant une base de donnée Odoo réelle.</p>
-<p>Ce module est un fork du module <em>l10n_fr_fec</em> des addons officiels. Il ajoute plusieurs options pour la génération du FEC:</p>
+<p>Ce module est un fork du module <em>l10n_fr_fec</em> des addons officiels. Il
+ajoute plusieurs options pour la génération du FEC:</p>
 <ul class="simple">
 <li>choix de l’encodage des caractères,</li>
 <li>choix du séparateur de champ,</li>
@@ -406,14 +412,15 @@ en utilisant une base de donnée Odoo réelle.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-1">Usage</a></h1>
-<p>Pour générer le <em>FEC</em>, allez dans le menu <em>Invoicing &gt; Reporting &gt; France &gt; FEC (OCA)</em> qui va démarrer l’assistant de génération du FEC.</p>
+<p>Pour générer le <em>FEC</em>, allez dans le menu <em>Invoicing &gt; Reporting &gt;
+France &gt; FEC (OCA)</em> qui va démarrer l’assistant de génération du FEC.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-france/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_fec_oca%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_fec_oca%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -440,7 +447,7 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
 <p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
 <p><a class="reference external image-reference" href="https://github.com/alexis-via"><img alt="alexis-via" src="https://github.com/alexis-via.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_fec_oca">OCA/l10n-france</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_fec_oca">OCA/l10n-france</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>
