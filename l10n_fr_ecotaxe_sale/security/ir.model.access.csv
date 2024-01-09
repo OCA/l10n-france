@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ecotaxe_line_product_sale_readonly,ecotaxe.line.product readonly,l10n_fr_ecotaxe.model_ecotaxe_line_product,sales_team.group_sale_salesman,1,0,0,0
+access_account_move_line_ecotaxe_readonly_sale_user,account.move.line.ecotaxe readonly sale user,l10n_fr_ecotaxe.model_account_move_line_ecotaxe,sales_team.group_sale_salesman,1,0,0,0
 ir_model_access_sale_order_line_ecotaxe_group_sale_salesman,Read Full acess to model_sale_order_line_ecotaxe to group sale_salesman,model_sale_order_line_ecotaxe,sales_team.group_sale_salesman,1,1,1,1
