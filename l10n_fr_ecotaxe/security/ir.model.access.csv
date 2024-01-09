@@ -7,5 +7,7 @@ ir_model_access_account_ecotaxe_classification_user,Read access account_ecotaxe_
 ir_model_access_account_ecotaxe_category_user,Read access to account.ecotaxe.category to group invoice,model_account_ecotaxe_category,account.group_account_invoice,1,0,0,0
 ir_model_access_ecotaxe_sector_user,Read access to ecotaxe.sector to group invoice,model_ecotaxe_sector,account.group_account_invoice,1,0,0,0
 ir_model_access_ecotaxe_collector_user,Read access to ecotaxe.collector to group invoice,model_ecotaxe_collector,account.group_account_invoice,1,0,0,0
+access_account_move_line_ecotaxe_readonly,account.move.line.ecotaxe readonly,model_account_move_line_ecotaxe,account.group_account_readonly,1,0,0,0
 ir_model_access_account_move_line_ecotaxe_group_invoice,Read Full acess to model_account_move_line_ecotaxe to group invoice,model_account_move_line_ecotaxe,account.group_account_invoice,1,1,1,1
 ir_model_access_ecotaxe_line_product_group_invoice,Read Full acess to model_ecotaxe_line_product to group invoice,model_ecotaxe_line_product,account.group_account_invoice,1,1,1,1
+access_ecotaxe_line_product_readonly,ecotaxe.line.product readonly,model_ecotaxe_line_product,account.group_account_readonly,1,0,0,0
