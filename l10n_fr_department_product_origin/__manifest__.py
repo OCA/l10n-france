@@ -3,7 +3,7 @@
 # @author Julien WESTE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
-    "name": "Origin Information for Products (French Departments)",
+    "name": "Product Origin (French Departments)",
     "version": "16.0.1.0.0",
     "category": "Sales",
     "author": "GRAP,Odoo Community Association (OCA)",
@@ -13,9 +13,6 @@
     "data": [
         "views/view_product_product.xml",
         "views/view_product_template.xml",
-    ],
-    "demo": [
-        "demo/product_product.xml",
     ],
     "installable": True,
 }

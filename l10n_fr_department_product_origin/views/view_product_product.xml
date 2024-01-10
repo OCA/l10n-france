@@ -12,7 +12,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="inherit_id" ref="product_origin.view_product_product_form" />
         <field name="arch" type="xml">
             <field name="state_id" position="after">
-                <field name="department_id" />
+                <field name="department_id_domain" invisible="1" />
+                <field name="department_id" domain="department_id_domain" />
              </field>
         </field>
     </record>
@@ -25,7 +26,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         />
         <field name="arch" type="xml">
             <field name="state_id" position="after">
-                <field name="department_id" />
+                <field name="department_id_domain" invisible="1" />
+                <field name="department_id" domain="department_id_domain" />
              </field>
         </field>
     </record>
