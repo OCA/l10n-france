@@ -4,10 +4,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Origin Information for Products (French Departments)",
-    "version": "12.0.1.1.1",
+    "version": "16.0.1.0.0",
     "category": "Sales",
-    "author": "GRAP",
-    "website": "https://github.com/grap/grap-odoo-business",
+    "author": "GRAP,Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
     "depends": ["product_origin", "l10n_fr_department"],
     "data": [
@@ -17,6 +17,5 @@
     "demo": [
         "demo/product_product.xml",
     ],
-    "images": [],
     "installable": True,
 }
