@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2012 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+@author Julien WESTE
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+    <record id="product_origin.biere_pilat_75cl" model="product.product">
+        <field name="state_id" ref="l10n_fr_state.res_country_state_auvergne"/>
+        <field name="department_id" ref="l10n_fr_department.res_country_department_loire"/>
+    </record>
+
+</odoo>
