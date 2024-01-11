@@ -13,8 +13,16 @@
                 expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
                 position="after"
             >
-                <field name="subtotal_ecotaxe" optional="show" attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
-                <field name="ecotaxe_amount_unit" optional="hide" attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                <field
+                    name="subtotal_ecotaxe"
+                    optional="show"
+                    attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"
+                />
+                <field
+                    name="ecotaxe_amount_unit"
+                    optional="hide"
+                    attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"
+                />
             </xpath>
             <xpath
                 expr="//field[@name='invoice_line_ids']/tree/field[last()]"
@@ -39,7 +47,11 @@
                 expr="//field[@name='invoice_line_ids']/form/sheet/field[@name='name']"
                 position="after"
             >
-                <field name="ecotaxe_line_ids" colspan="2" attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}">
+                <field
+                    name="ecotaxe_line_ids"
+                    colspan="2"
+                    attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"
+                >
                     <tree editable="bottom">
                         <field name="ecotaxe_classification_id" />
                         <field name="force_ecotaxe_unit" />
@@ -47,12 +59,21 @@
                         <field name="ecotaxe_amount_total" />
                     </tree>
                 </field>
-                <field name="subtotal_ecotaxe" attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
-                <field name="ecotaxe_amount_unit" attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                <field
+                    name="subtotal_ecotaxe"
+                    attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"
+                />
+                <field
+                    name="ecotaxe_amount_unit"
+                    attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"
+                />
             </xpath>
             <xpath expr="//field[@name='tax_totals']" position="after">
-                    <field name="amount_ecotaxe" class="oe_subtotal_footer_separator"
-                           attrs="{'invisible': [ '|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt')), ('amount_ecotaxe', '=', 0)]}"/>
+                    <field
+                    name="amount_ecotaxe"
+                    class="oe_subtotal_footer_separator"
+                    attrs="{'invisible': [ '|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt')), ('amount_ecotaxe', '=', 0)]}"
+                />
             </xpath>
         </field>
     </record>

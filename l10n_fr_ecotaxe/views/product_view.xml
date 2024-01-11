@@ -51,5 +51,30 @@
             </group>
         </field>
     </record>
-
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="name">usability.product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ecotaxe_line_product_ids']/.." position="after">
+                <label
+                    for="additional_ecotaxe_line_product_ids"
+                    string="Additional Ecotaxe classif"
+                />
+                    <div>
+                        <field
+                        name="additional_ecotaxe_line_product_ids"
+                        colspan="2"
+                        nolabel="1"
+                    >
+                            <tree editable="bottom">
+                                <field name="ecotaxe_classification_id" />
+                                <field name="force_ecotaxe_amount" />
+                                <field name="ecotaxe_amount" />
+                            </tree>
+                        </field>
+                    </div>
+            </xpath>
+        </field>
+    </record>
 </odoo>

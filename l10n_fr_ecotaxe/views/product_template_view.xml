@@ -11,7 +11,10 @@
         <field name="arch" type="xml">
 
             <xpath expr="//label[@for='list_price']" position="before">
-                <label for="ecotaxe_line_product_ids" string="Ecotaxe classification" />
+                <label
+                    for="ecotaxe_line_product_ids"
+                    string="Product Template Ecotaxe classif"
+                />
                 <div>
                     <field name="ecotaxe_line_product_ids" colspan="2" nolabel="1">
                         <tree editable="bottom">
