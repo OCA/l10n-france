@@ -51,3 +51,16 @@ class EcotaxeLineProduct(models.Model):
             if ecotaxeline.force_ecotaxe_amount:
                 amt = ecotaxeline.force_ecotaxe_amount
             ecotaxeline.ecotaxe_amount = amt
+
+    _sql_constraints = [
+        (
+            "unique_ecotaxe_classification_id_by_product",
+            "UNIQUE(ecotaxe_classification_id, product_id)",
+            "Only one ecotaxe classification occurrence by product",
+        ),
+        (
+            "unique_ecotaxe_classification_id_by_product_tmpl",
+            "UNIQUE(ecotaxe_classification_id, product_tmplt_id)",
+            "Only one ecotaxe classification occurrence by product Template",
+        ),
+    ]
