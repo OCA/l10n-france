@@ -334,7 +334,7 @@ class AccountFrFecOca(models.TransientModel):
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
             MIN(aa.code) AS CompteNum,
-            replace(replace(MIN(aa.name), '|', '/'), '\t', '') AS CompteLib,
+            replace(replace(MIN(aa.name::text), '|', '/'), '\t', '') AS CompteLib,
             '' AS CompAuxNum,
             '' AS CompAuxLib,
             '-' AS PieceRef,
@@ -461,7 +461,7 @@ class AccountFrFecOca(models.TransientModel):
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
             MIN(aa.code) AS CompteNum,
-            replace(MIN(aa.name), '|', '/') AS CompteLib,
+            replace(MIN(aa.name::text), '|', '/') AS CompteLib,
         """
             + aux_fields_ini_bal
             + """
