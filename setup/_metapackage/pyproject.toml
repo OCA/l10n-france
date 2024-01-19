@@ -1,10 +1,11 @@
 [project]
 name = "odoo-addons-oca-l10n-france"
-version = "17.0.20240119.1"
+version = "17.0.20240119.2"
 dependencies = [
     "odoo-addon-l10n_fr_cog>=17.0dev,<17.1dev",
     "odoo-addon-l10n_fr_department>=17.0dev,<17.1dev",
     "odoo-addon-l10n_fr_department_oversea>=17.0dev,<17.1dev",
+    "odoo-addon-l10n_fr_hr_check_ssnid>=17.0dev,<17.1dev",
     "odoo-addon-l10n_fr_state>=17.0dev,<17.1dev",
 ]
 classifiers=[
