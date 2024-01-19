@@ -333,8 +333,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         if not self.declaration_line_ids:
             return
         root = self._generate_des_xml_root()
-        objectify.deannotate(root, xsi_nil=True)
-        etree.cleanup_namespaces(root)
+        objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
