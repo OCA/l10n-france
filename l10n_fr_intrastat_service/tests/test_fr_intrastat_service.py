@@ -8,40 +8,39 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
 from odoo.tools import float_compare
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class TestFrIntrastatService(TransactionCase):
+class TestFrIntrastatService(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        # Set company country to France
-        # Using base.main_company is more difficult now because
-        # its currency is USD
-        # So I decided to create another company from scratch
-        cls.company = cls.env["res.company"].create(
+        cls.fr_test_company = cls.setup_company_data(
+            "Akretion France",
+            chart_template=chart_template_ref,
+            country_id=cls.env.ref("base.fr").id,
+            vat="FR86792377731",
+        )
+        cls.company = cls.fr_test_company["company"]
+        cls.user.write(
             {
-                "name": "Akretion France",
-                "street": "27 rue Henri Rolland",
-                "zip": "69100",
-                "city": "Villeurbanne",
-                "country_id": cls.env.ref("base.fr").id,
-                "vat": "FR86792377731",
+                "company_ids": [Command.link(cls.company.id)],
+                "company_id": cls.company.id,
             }
         )
-        cls.env.company.chart_template_id.try_loading(company=cls.company)
-        cls.env.user.write({"company_ids": [(4, cls.company.id)]})
-        cls.env.user.write({"company_id": cls.company.id})
         cls.fp_eu_b2b = cls.env["account.fiscal.position"].create(
             {
                 "name": "EU B2B",
                 "intrastat": "b2b",
                 "vat_required": True,
+                "company_id": cls.company.id,
             }
         )
         cls.move_model = cls.env["account.move"]
@@ -70,18 +69,7 @@ class TestFrIntrastatService(TransactionCase):
                 "company_id": False,
             }
         )
-        cls.account_revenue = cls.account_account_model.search(
-            [("code", "=", "706000"), ("company_id", "=", cls.company.id)], limit=1
-        )
-        if not cls.account_revenue:
-            cls.account_revenue = cls.account_account_model.create(
-                {
-                    "code": "706000",
-                    "name": "Service Sales - (test)",
-                    "user_type_id": cls.ref("account.data_account_type_revenue"),
-                    "company_id": cls.company.id,
-                }
-            )
+        cls.account_revenue = cls.fr_test_company["default_account_revenue"]
 
         # create first invoice
         date = datetime.today() + relativedelta(day=5, months=-1)
@@ -208,4 +196,4 @@ class TestFrIntrastatService(TransactionCase):
         self.assertEqual(des.state, "draft")
 
     def test_cron(self):
-        self.env["l10n.fr.intrastat.service.declaration"]._scheduler_reminder()
+        self.env["l10n.fr.intrastat.service.declaration"].sudo()._scheduler_reminder()

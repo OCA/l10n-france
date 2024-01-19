@@ -11,7 +11,7 @@ from odoo.addons.report_xlsx_helper.report.report_xlsx_format import (
 
 
 class IntrastatServiceDeclarationXlsx(models.AbstractModel):
-    _name = "report.l10n.fr.intrastat.service.declaration.xlsx"
+    _name = "report.l10n_fr_intrastat_service.xlsx"
     _inherit = "report.report_xlsx.abstract"
     _description = "DES XLSX Export"
 
@@ -55,7 +55,7 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
                     "value": _("Invoice"),
                 },
                 "line": {
-                    "value": self._render("line.move_id.name or ''"),
+                    "value": self._render("line.move_id.display_name or ''"),
                 },
                 "width": 20,
             },
