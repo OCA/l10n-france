@@ -1,0 +1,135 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_department
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__country_id
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "Country"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__country_department_id
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_users__country_department_id
+msgid "Country Department"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__country_id
+msgid "Country of the related state"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model,name:l10n_fr_department.model_res_country_department
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
+msgid "Department"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__code
+msgid "Department Code"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__name
+msgid "Department Name"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.actions.act_window,name:l10n_fr_department.action_view_country_department_tree
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_state__department_ids
+#: model:ir.ui.menu,name:l10n_fr_department.menu_res_country_department
+msgid "Departments"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_state__department_ids
+msgid "Departments related to this state"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "Name or Code"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__state_id
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_country_department_search
+msgid "State"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__state_id
+msgid "State related to the current department"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__code
+msgid "The department code (ISO 3166-2 codification)"
+msgstr ""
+
+#. module: l10n_fr_department
+#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_uniq
+msgid "You cannot have two departments with the same code!"
+msgstr ""
