@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2024 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="xlsx_report" model="ir.actions.report">
+    <field name="name">DES Excel</field>
+    <field name="model">l10n.fr.intrastat.service.declaration</field>
+    <field name="report_type">xlsx</field>
+    <field name="report_name">l10n_fr_intrastat_service.xlsx</field>
+    <field name="report_file">l10n_fr_intrastat_service.xlsx</field>
+    <field name="print_report_name">'DES-' + object.year_month</field>
+</record>
+
+
+</odoo>
