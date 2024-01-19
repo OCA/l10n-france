@@ -4,7 +4,7 @@
 
 {
     "name": "DES",
-    "version": "16.0.1.4.0",
+    "version": "17.0.1.0.0",
     "category": "Localisation/Report Intrastat",
     "license": "AGPL-3",
     "summary": "Module for Intrastat service reporting (DES) for France",
@@ -15,6 +15,7 @@
     "external_dependencies": {"python": ["stdnum"]},
     "data": [
         "security/ir.model.access.csv",
+        "report/report.xml",
         "views/intrastat_service_view.xml",
         "data/ir_cron.xml",
         "data/mail_template.xml",

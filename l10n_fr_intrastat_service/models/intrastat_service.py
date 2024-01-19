@@ -26,13 +26,11 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         "res.company",
         string="Company",
         required=True,
-        states={"done": [("readonly", True)]},
         default=lambda self: self.env.company,
     )
     start_date = fields.Date(
         required=True,
         default=lambda self: self._default_start_date(),
-        states={"done": [("readonly", True)]},
     )
     end_date = fields.Date(compute="_compute_dates", store=True)
     year_month = fields.Char(
@@ -42,7 +40,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         "l10n.fr.intrastat.service.declaration.line",
         "parent_id",
         string="DES Lines",
-        states={"done": [("readonly", True)]},
         copy=False,
     )
     num_decl_lines = fields.Integer(
@@ -94,17 +91,17 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
 
     @api.depends("declaration_line_ids.amount_company_currency")
     def _compute_numbers(self):
-        rg_res = self.env["l10n.fr.intrastat.service.declaration.line"].read_group(
+        rg_res = self.env["l10n.fr.intrastat.service.declaration.line"]._read_group(
             [("parent_id", "in", self.ids)],
-            ["parent_id", "amount_company_currency"],
-            ["parent_id"],
+            groupby=["parent_id"],
+            aggregates=["amount_company_currency:sum", "id:count"],
         )
         data = {
-            x["parent_id"][0]: {
-                "total_amount": x["amount_company_currency"],
-                "num_decl_lines": x["parent_id_count"],
+            decl.id: {
+                "total_amount": total_amount,
+                "num_decl_lines": line_count,
             }
-            for x in rg_res
+            for (decl, total_amount, line_count) in rg_res
         }
         for rec in self:
             rec.total_amount = data.get(rec.id, {}).get("total_amount", 0)
@@ -139,11 +136,9 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         return super().unlink()
 
     @api.depends("year_month")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for rec in self:
-            res.append((rec.id, "DES %s" % rec.year_month))
-        return res
+            rec.display_name = "DES %s" % rec.year_month
 
     def _prepare_domain(self):
         self.ensure_one()
@@ -428,16 +423,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     )
         logger.info("End of the DES reminder")
         return
-
-    def create_xlsx(self):
-        action = {
-            "type": "ir.actions.report",
-            "report_type": "xlsx",
-            "report_name": "l10n.fr.intrastat.service.declaration.xlsx",
-            "context": dict(self.env.context),
-            "data": {"dynamic_report": True},
-        }
-        return action
 
 
 class L10nFrIntrastatServiceDeclarationLine(models.Model):

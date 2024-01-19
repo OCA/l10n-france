@@ -16,22 +16,26 @@
                         name="generate_service_lines"
                         string="Generate Lines from Invoices"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="btn-primary"
                     />
                     <button
                         name="done"
                         string="Confirm"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="btn-primary"
                     />
-                    <button name="create_xlsx" type="object" string="Excel Export" />
+                    <button
+                        name="%(xlsx_report)d"
+                        type="action"
+                        string="Excel Export"
+                    />
                     <button
                         name="back2draft"
                         string="Back to Draft"
                         type="object"
-                        states="done"
+                        invisible="state != 'done'"
                         confirm="Are you sure you want to go back to draft?"
                     />
                     <field name="state" widget="statusbar" />
@@ -45,7 +49,7 @@
                     </div>
                     <group name="top-block">
                         <group name="properties-1">
-                            <field name="start_date" />
+                            <field name="start_date" readonly="state == 'done'" />
                             <field name="end_date" />
                             <field name="attachment_datas" filename="attachment_name" />
                             <field name="attachment_name" invisible="1" />
@@ -58,11 +62,17 @@
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
+                                readonly="state == 'done'"
                             />
                         </group>
                     </group>
                     <group name="lines">
-                        <field name="declaration_line_ids" nolabel="1" colspan="2" />
+                        <field
+                            name="declaration_line_ids"
+                            nolabel="1"
+                            colspan="2"
+                            readonly="state == 'done'"
+                        />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
