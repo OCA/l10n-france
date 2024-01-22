@@ -93,7 +93,7 @@ class PosPaymentMethod(models.Model):
         msg_list += list(msg_dict.items())
         msg_str = "".join(
             [
-                "%s%s%s" % (tag, str(len(value)).zfill(3), value)
+                "".join([tag, str(len(value)).zfill(3), value])
                 for (tag, value) in msg_list
             ]
         )
@@ -118,8 +118,9 @@ class PosPaymentMethod(models.Model):
                 cur_num = cur.numeric  # it returns a string
             except Exception as e:
                 logger.error(
-                    "pycountry doesn't support currency '%s'. Error: %s"
-                    % (currency.name, e)
+                    "pycountry doesn't support currency '%s'. Error: %s",
+                    currency.name,
+                    e,
                 )
                 return False
         # CJ identifiant protocole concert : no interest, but required
@@ -352,7 +353,7 @@ class PosPaymentMethod(models.Model):
         transaction_tags = ["AA", "AB", "AC", "AI", "CD"]
         transaction_id = "|".join(
             [
-                "%s-%s" % (tag, answer_dict[tag])
+                "-".join([tag, answer_dict[tag]])
                 for tag in transaction_tags
                 if answer_dict.get(tag)
             ]

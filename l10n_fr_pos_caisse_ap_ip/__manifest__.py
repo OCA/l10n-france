@@ -4,7 +4,7 @@
 
 {
     "name": "POS: Caisse-AP payment protocol for France",
-    "version": "16.0.1.0.0",
+    "version": "17.0.1.0.0",
     "category": "Point of Sale",
     "license": "AGPL-3",
     "summary": "Add support for Caisse-AP payment protocol used in France",
@@ -16,9 +16,9 @@
         "views/pos_payment_method.xml",
     ],
     "assets": {
-        "point_of_sale.assets": [
-            "l10n_fr_pos_caisse_ap_ip/static/src/js/models.js",
-            "l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js",
+        "point_of_sale._assets_pos": [
+            "l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js",
+            "l10n_fr_pos_caisse_ap_ip/static/src/overrides/models/models.esm.js",
         ],
     },
     "installable": True,

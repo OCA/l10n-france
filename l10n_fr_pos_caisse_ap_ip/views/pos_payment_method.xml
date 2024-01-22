@@ -14,15 +14,18 @@
         <field name="use_payment_terminal" position="after">
             <field
                     name="fr_caisse_ap_ip_address"
-                    attrs="{'invisible': [('use_payment_terminal', '!=', 'fr-caisse_ap_ip')], 'required': [('use_payment_terminal', '=', 'fr-caisse_ap_ip')]}"
+                    invisible="use_payment_terminal != 'fr-caisse_ap_ip'"
+                    required="use_payment_terminal == 'fr-caisse_ap_ip'"
                 />
             <field
                     name="fr_caisse_ap_ip_port"
-                    attrs="{'invisible': [('use_payment_terminal', '!=', 'fr-caisse_ap_ip')], 'required': [('use_payment_terminal', '=', 'fr-caisse_ap_ip')]}"
+                    invisible="use_payment_terminal != 'fr-caisse_ap_ip'"
+                    required="use_payment_terminal == 'fr-caisse_ap_ip'"
                 />
             <field
                     name="fr_caisse_ap_ip_mode"
-                    attrs="{'invisible': [('use_payment_terminal', '!=', 'fr-caisse_ap_ip')], 'required': [('use_payment_terminal', '=', 'fr-caisse_ap_ip')]}"
+                    invisible="use_payment_terminal != 'fr-caisse_ap_ip'"
+                    required="use_payment_terminal == 'fr-caisse_ap_ip'"
                 />
         </field>
     </field>
