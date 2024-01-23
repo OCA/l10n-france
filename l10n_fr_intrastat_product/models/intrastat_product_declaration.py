@@ -166,15 +166,14 @@ class IntrastatProductDeclaration(models.Model):
         root = objectify.Element("INSTAT")
         envelope = objectify.SubElement(root, "Envelope")
         if not self.company_id.fr_intrastat_accreditation:
-            self.message_post(
-                body=_(
-                    "No XML file generated because the <b>Customs Accreditation "
-                    "Identifier</b> is not set on the accounting configuration "
-                    "page of the company '%s'."
+            msg = (
+                _(
+                    "The Customs Accreditation "
+                    "Identifier is not set for the company '%s'."
                 )
                 % self.company_id.display_name
             )
-            return
+            self._account_config_warning(msg)
         envelope.envelopeId = self.company_id.fr_intrastat_accreditation
         create_date_time = objectify.SubElement(envelope, "DateTime")
         now_user_tz = fields.Datetime.context_timestamp(self, datetime.now())
@@ -212,10 +211,8 @@ class IntrastatProductDeclaration(models.Model):
             raise UserError(
                 _("No declaration lines. You probably forgot to generate " "them !")
             )
-        line = 0
         for pline in self.declaration_line_ids:
-            line += 1  # increment line number
-            pline._generate_xml_line(declaration, eu_countries, line)
+            pline._generate_xml_line(declaration, eu_countries)
 
         objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
         xml_bytes = etree.tostring(
@@ -406,20 +403,21 @@ class IntrastatProductDeclarationLine(models.Model):
     )
 
     # flake8: noqa: C901
-    # TODO update error message to avoid quoting declaration line number
-    def _generate_xml_line(self, parent_node, eu_countries, line_number):
+    def _generate_xml_line(self, parent_node, eu_countries):
         self.ensure_one()
         decl = self.parent_id
         assert self.fr_regime_id, "Missing Intrastat Type"
         transaction = self.transaction_id
         regime = self.fr_regime_id
         item = objectify.SubElement(parent_node, "Item")
-        item.itemNumber = str(line_number)
+        item.itemNumber = str(self.line_number)
         # START of elements which are only required in "detailed" level
         if decl.reporting_level == "extended" and not regime.is_fiscal_only:
             cn8 = objectify.SubElement(item, "CN8")
             if not self.hs_code_id:
-                raise UserError(_("Missing H.S. code on line %d.") % line_number)
+                raise UserError(
+                    _("Missing H.S. code on declaration line %d.") % self.line_number
+                )
             # local_code is required=True, so no need to check it
             cn8.CN8Code = self.hs_code_id.local_code
             # We fill SUCode only if the H.S. code requires it
@@ -429,45 +427,59 @@ class IntrastatProductDeclarationLine(models.Model):
 
             if not self.src_dest_country_code:
                 raise UserError(
-                    _("Missing Country Code of Origin/Destination on line %d.")
-                    % line_number
+                    _(
+                        "Missing country code of origin/destination on declaration line %d."
+                    )
+                    % self.line_number
                 )
             item.MSConsDestCode = self.src_dest_country_code
 
             # EMEBI 2022 : origin country is now for arrival AND dispatches
             if not self.product_origin_country_code:
                 raise UserError(
-                    _("Missing product country of origin code on line %d.")
-                    % line_number
+                    _("Missing product country of origin code on declaration line %d.")
+                    % self.line_number
                 )
             item.countryOfOriginCode = self.product_origin_country_code
 
+            # no need for float_is_zero() because weight is an integer on decl lines
             if not self.weight:
-                raise UserError(_("Missing weight on line %d.") % line_number)
+                raise UserError(
+                    _("Missing weight on declaration line %d.") % self.line_number
+                )
             item.netMass = str(self.weight)
 
             if iunit_id:
+                # no need for float_is_zero() because suppl_unit_qty is an integer
+                # on declaration lines
                 if not self.suppl_unit_qty:
-                    raise UserError(_("Missing quantity on line %d.") % line_number)
+                    raise UserError(
+                        _("Missing quantity on declaration line %d.") % self.line_number
+                    )
                 item.quantityInSU = str(self.suppl_unit_qty)
 
         # START of elements that are part of all EMEBIs
         if not self.amount_company_currency:
-            raise UserError(_("Missing fiscal value on line %d.") % line_number)
+            raise UserError(
+                _("Missing fiscal value on declaration line %d.") % self.line_number
+            )
         item.invoicedAmount = str(self.amount_company_currency)
         # EMEBI 2022 : Partner VAT now required for all dispatches with
         # some exceptions for regime 29 in case of B2C
         if decl.declaration_type == "dispatches":
             if not self.vat and regime.code != "29":
-                raise UserError(_("Missing VAT number on line %d.") % line_number)
+                raise UserError(
+                    _("Missing VAT number on declaration line %d.") % self.line_number
+                )
             if self.vat and self.vat.startswith("GB") and decl.year >= "2021":
                 raise UserError(
                     _(
-                        "Bad VAT number '%(vat)s' on line %(line_number)d. "
+                        "Bad VAT number '%(vat)s' on declaration line %(line_number)d. "
                         "Brexit took place on January 1st 2021 and companies "
-                        "in Northern Ireland have a new VAT number starting with 'XI'."
+                        "in Northern Ireland have a new VAT number starting with 'XI'.",
+                        vat=self.vat,
+                        line_number=self.line_number,
                     )
-                    % {"vat": self.vat, "line_number": line_number}
                 )
             item.partnerId = self.vat or ""
         # Code régime is on all EMEBIs
@@ -475,18 +487,27 @@ class IntrastatProductDeclarationLine(models.Model):
 
         # START of elements which are only required in "detailed" level
         if decl.reporting_level == "extended" and not regime.is_fiscal_only:
+            if not transaction:
+                raise UserError(
+                    _("Missing intrastat transaction on declaration line %d.")
+                    % self.line_number
+                )
+            if len(transaction.code) != 2 or not transaction.code.isdigit():
+                raise UserError(
+                    _("Transaction code on declaration line %d should have 2 digits.")
+                    % self.line_number
+                )
             transaction_nature = objectify.SubElement(item, "NatureOfTransaction")
             transaction_nature.natureOfTransactionACode = transaction.code[0]
-            if len(transaction.code) != 2:
-                raise UserError(
-                    _("Transaction code on line %d should have 2 digits.") % line_number
-                )
             transaction_nature.natureOfTransactionBCode = transaction.code[1]
             if not self.transport_id:
                 raise UserError(
-                    _("Mode of transport is not set on line %d.") % line_number
+                    _("Missing mode of transport on declaration line %d.")
+                    % self.line_number
                 )
             item.modeOfTransportCode = str(self.transport_id.code)
             if not self.region_code:
-                raise UserError(_("Region Code is not set on line %d.") % line_number)
+                raise UserError(
+                    _("Missing region code on declaration line %d.") % self.line_number
+                )
             item.regionCode = self.region_code
