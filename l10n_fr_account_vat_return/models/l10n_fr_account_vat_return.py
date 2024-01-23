@@ -1136,30 +1136,39 @@ class L10nFrAccountVatReturn(models.Model):
                 ]
                 + speedy["base_domain_end"]
             )
-            for autoliq_vat_move_line in autoliq_vat_move_lines:
-                move = autoliq_vat_move_line.move_id
-                if move.move_type not in ("in_invoice", "in_refund"):
+            for line in autoliq_vat_move_lines:
+                if line.journal_id.type != "purchase":
                     raise UserError(
                         _(
                             "Journal entry '%(move)s' dated %(date)s is inside or "
                             "before the VAT period %(vat_period)s "
                             "and has an unreconciled journal item with an "
                             "%(autoliq_type)s autoliquidation due VAT "
-                            "account '%(account)s', but it is not a supplier "
-                            "invoice/refund. That journal item should be reconciled.",
-                            move=move.display_name,
-                            date=format_date(self.env, move.date),
+                            "account '%(account)s' in journal '%(journal)s' which "
+                            "is not a purchase journal. That journal item should be "
+                            "reconciled.",
+                            move=line.move_id.display_name,
+                            date=format_date(self.env, line.date),
                             vat_period=self.name,
                             autoliq_type=autoliq_type,
-                            account=autoliq_vat_move_line.account_id.display_name,
+                            account=line.account_id.display_name,
+                            journal=line.journal_id.display_name,
                         )
                     )
 
             autoliq_vat_moves = autoliq_vat_move_lines.move_id
             for move in autoliq_vat_moves:
-                for line in move.invoice_line_ids.filtered(
-                    lambda x: x.display_type == "product"
-                ):
+                is_invoice = move.is_invoice()
+                if is_invoice:
+                    lines = move.invoice_line_ids.filtered(lambda x: x.display_type == "product")
+                else:
+                    # In case we have an entry in the purchase journal which is not an invoice
+                    # While in v14 hr_expense created entries in the purchase journal
+                    # with move_type = 'entry', in v16 it creates entries with move_type = 'in_invoice'
+                    lines = move.line_ids.filtered(
+                        lambda x: x.account_id.code.startswith("6")
+                    )
+                for line in lines:
                     rate_int = 0
                     for tax in line.tax_ids:
                         if tax in autoliq_tax2rate:
@@ -1169,7 +1178,7 @@ class L10nFrAccountVatReturn(models.Model):
                         product_or_service = line._fr_is_product_or_service()
                         if product_or_service == "product":
                             rate2product[rate_int] += line.balance
-                    else:
+                    elif is_invoice:
                         raise UserError(
                             _(
                                 "There is a problem on the %(autoliq_type)s "
