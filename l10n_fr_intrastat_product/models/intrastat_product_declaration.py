@@ -50,7 +50,8 @@ class IntrastatProductDeclaration(models.Model):
             ):
                 raise ValidationError(
                     _(
-                        "In France, an arrival EMEBI cannot have a 'standard' reporting level."
+                        "In France, an arrival EMEBI cannot have a 'standard' "
+                        "reporting level."
                     )
                 )
 
@@ -428,7 +429,8 @@ class IntrastatProductDeclarationLine(models.Model):
             if not self.src_dest_country_code:
                 raise UserError(
                     _(
-                        "Missing country code of origin/destination on declaration line %d."
+                        "Missing country code of origin/destination on "
+                        "declaration line %d."
                     )
                     % self.line_number
                 )
