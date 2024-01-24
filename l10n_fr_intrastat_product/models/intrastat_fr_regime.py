@@ -36,9 +36,6 @@ class IntrastatFrRegime(models.Model):
     ]
 
     @api.depends("code", "name")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for rec in self:
-            name = "%s. %s" % (rec.code, rec.name)
-            res.append((rec.id, name))
-        return res
+            rec.display_name = f"{rec.code}. {rec.name}"
