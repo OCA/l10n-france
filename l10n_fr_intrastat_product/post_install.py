@@ -4,13 +4,10 @@
 
 import logging
 
-from odoo import SUPERUSER_ID, api
-
 logger = logging.getLogger(__name__)
 
 
-def set_fr_company_intrastat(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def set_fr_company_intrastat(env):
     imdo = env["ir.model.data"]
     afpo = env["account.fiscal.position"]
     fr_id = env.ref("base.fr").id

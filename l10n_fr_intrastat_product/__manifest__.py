@@ -4,7 +4,7 @@
 
 {
     "name": "EMEBI",
-    "version": "16.0.1.3.0",
+    "version": "17.0.1.0.0",
     "category": "Localisation/Report Intrastat",
     "license": "AGPL-3",
     "summary": "EMEBI (ex-DEB) for France",
@@ -18,7 +18,6 @@
     ],
     "data": [
         "security/ir.model.access.csv",
-        "data/account_fiscal_position_template.xml",
         "data/intrastat_fr_regime.xml",
         "views/intrastat_product_declaration.xml",
         "views/intrastat_fr_regime.xml",
