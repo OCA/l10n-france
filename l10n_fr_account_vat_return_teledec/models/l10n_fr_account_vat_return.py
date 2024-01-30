@@ -289,10 +289,11 @@ class L10nFrAccountVatReturn(models.Model):
                 )
             )
         test_mode = self.company_id.fr_vat_teledec_test_mode
-        prefix = test_mode and "http://stage" or "https://www"
+        prefix = test_mode and "https://stage" or "https://www"
         url = "%s.teledec.fr/service/declaration-marque-blanche" % prefix
         teledec_dict = self._prepare_json_teledec()
         teledec_str = json.dumps(teledec_dict)
+        teledec_bytes = teledec_str.encode("utf-8")
         priv_key = tools.config.get("teledec_private_key")
         if not priv_key:
             raise UserError(
@@ -303,7 +304,7 @@ class L10nFrAccountVatReturn(models.Model):
             )
         hash_obj = hmac.new(
             priv_key.encode("utf-8"),
-            msg=teledec_str.encode("utf-8"),
+            msg=teledec_bytes,
             digestmod=hashlib.sha256,
         )
         params = {"hash": hash_obj.hexdigest()}
@@ -342,10 +343,23 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                 ) from None
             self.write({"teledec_sent_datetime": fields.Datetime.now()})
+            filename = "teledec_data-%s.json" % teledec_dict["auth"][
+                "timestamp"
+            ].replace(":", "-")
+            attach = self.env["ir.attachment"].create(
+                {
+                    "name": filename,
+                    "raw": teledec_bytes,
+                }
+            )
             self.message_post(
                 body=_(
                     "VAT return successfully sent to "
-                    '<a href="https://teledec.fr/">Teledec.fr</a>.'
+                    '<a href="https://teledec.fr/">Teledec.fr</a>. '
+                    "Technical data sent: <a href=# data-oe-model=ir.attachment "
+                    "data-oe-id=%(attach_id)s>%(attach_name)s</a>",
+                    attach_id=attach.id,
+                    attach_name=attach.name,
                 )
             )
             self.auto2sent()
