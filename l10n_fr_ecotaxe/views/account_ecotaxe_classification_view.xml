@@ -20,8 +20,8 @@
                     name="default_fixed_ecotaxe"
                     attrs="{'invisible': [['ecotaxe_type', '!=', 'fixed']]}"
                 />
-                <field name="account_ecotaxe_categ_id" />
-                <field name="ecotaxe_product_status" />
+                <field name="categ_id" />
+                <field name="product_status" />
             </tree>
         </field>
     </record>
@@ -46,13 +46,13 @@
                     </div>
                     <group name="Informations" col="4">
                         <field name="code" />
-                        <field name="account_ecotaxe_categ_id" />
-                        <field name="ecotaxe_sector_id" />
-                        <field name="ecotaxe_collector_id" />
-                        <field name="ecotaxe_product_status" />
-                        <field name="ecotaxe_supplier_status" />
-                        <field name="ecotaxe_deb_code" />
-                        <field name="ecotaxe_scale_code" />
+                        <field name="categ_id" />
+                        <field name="sector_id" />
+                        <field name="collector_id" />
+                        <field name="product_status" />
+                        <field name="supplier_status" />
+                        <field name="emebi_code" />
+                        <field name="scale_code" />
                         <field name="company_id" groups="base.group_multi_company" />
                         <field name="active" invisible="1" />
                     </group>

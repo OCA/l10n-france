@@ -129,7 +129,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
                         0,
                         0,
                         {
-                            "ecotaxe_classification_id": ecotax_classification.id,
+                            "classification_id": ecotax_classification.id,
                         },
                     )
                 ],
@@ -162,7 +162,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
                         0,
                         0,
                         {
-                            "ecotaxe_classification_id": ecotax_classification.id,
+                            "classification_id": ecotax_classification.id,
                         },
                     )
                 ],
@@ -264,7 +264,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
             - line ecotax total amount: 10.0
         """
         product = self._make_product(self.ecotax_fixed)
-        product.ecotaxe_line_product_ids[0].force_ecotaxe_amount = 10
+        product.ecotaxe_line_product_ids[0].force_amount = 10
         invoice = self._make_invoice(products=product)
         self._run_checks(
             invoice,
@@ -325,7 +325,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         """
         default_fixed_product = self._make_product(self.ecotax_fixed)
         manual_fixed_product = self._make_product(self.ecotax_fixed)
-        manual_fixed_product.ecotaxe_line_product_ids[0].force_ecotaxe_amount = 10
+        manual_fixed_product.ecotaxe_line_product_ids[0].force_amount = 10
         weight_based_product = self._make_product(self.ecotax_weight)
         invoice = self._make_invoice(
             products=default_fixed_product | manual_fixed_product | weight_based_product
@@ -374,7 +374,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         """
         product = self._make_product(self.ecotax_fixed)
         invoice = self._make_invoice(products=product)
-        invoice.invoice_line_ids[0].ecotaxe_line_ids.force_ecotaxe_unit = 2
+        invoice.invoice_line_ids[0].ecotaxe_line_ids.force_amount_unit = 2
         self._run_checks(
             invoice,
             {"amount_ecotaxe": 2.0, "amount_total": 100.0},
@@ -411,7 +411,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
                 0,
                 0,
                 {
-                    "ecotaxe_classification_id": self.ecotax_weight.id,
+                    "classification_id": self.ecotax_weight.id,
                 },
             )
         ]

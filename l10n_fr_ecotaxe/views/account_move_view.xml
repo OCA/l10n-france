@@ -36,10 +36,10 @@
                 />
                     <field name="ecotaxe_line_ids" invisible="1">
                         <tree editable="bottom">
-                            <field name="ecotaxe_classification_id" />
-                            <field name="force_ecotaxe_unit" />
-                            <field name="ecotaxe_amount_unit" />
-                            <field name="ecotaxe_amount_total" />
+                            <field name="classification_id" />
+                            <field name="force_amount_unit" />
+                            <field name="amount_unit" />
+                            <field name="amount_total" />
                         </tree>
                     </field>
                 </xpath>
@@ -53,10 +53,10 @@
                     attrs="{'invisible': [('parent.move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"
                 >
                     <tree editable="bottom">
-                        <field name="ecotaxe_classification_id" />
-                        <field name="force_ecotaxe_unit" />
-                        <field name="ecotaxe_amount_unit" />
-                        <field name="ecotaxe_amount_total" />
+                        <field name="classification_id" />
+                        <field name="force_amount_unit" />
+                        <field name="amount_unit" />
+                        <field name="amount_total" />
                     </tree>
                 </field>
                 <field
@@ -146,11 +146,11 @@
                         <page string="Ecotaxe lines" name="ecotaxe_line">
                                 <field name="ecotaxe_line_ids" nolabel="1">
                                    <tree editable="bottom">
-                                        <field name="ecotaxe_classification_id" />
-                                        <field name="force_ecotaxe_unit" />
-                                        <field name="ecotaxe_amount_unit" />
+                                        <field name="classification_id" />
+                                        <field name="force_amount_unit" />
+                                        <field name="amount_unit" />
                                         <field
-                                        name="ecotaxe_amount_total"
+                                        name="amount_total"
                                         sum="Total Ecotaxe"
                                     />
                                    </tree>

@@ -22,7 +22,7 @@ class ProductProduct(models.Model):
         "ecotaxe.line.product",
         compute="_compute_all_ecotaxe_line_product_ids",
         search="_search_all_ecotaxe_line_product_ids",
-        string="Additional ecotaxe lines",
+        string="All ecotaxe lines",
     )
     ecotaxe_amount = fields.Monetary(
         compute="_compute_product_ecotaxe",
@@ -52,24 +52,24 @@ class ProductProduct(models.Model):
 
     @api.depends(
         "all_ecotaxe_line_product_ids",
-        "all_ecotaxe_line_product_ids.ecotaxe_classification_id",
-        "all_ecotaxe_line_product_ids.ecotaxe_classification_id.ecotaxe_type",
-        "all_ecotaxe_line_product_ids.ecotaxe_classification_id.ecotaxe_coef",
-        "all_ecotaxe_line_product_ids.force_ecotaxe_amount",
+        "all_ecotaxe_line_product_ids.classification_id",
+        "all_ecotaxe_line_product_ids.classification_id.ecotaxe_type",
+        "all_ecotaxe_line_product_ids.classification_id.ecotaxe_coef",
+        "all_ecotaxe_line_product_ids.force_amount",
         "weight",
     )
     def _compute_product_ecotaxe(self):
         for product in self:
             amount_ecotaxe = 0.0
             for ecotaxeline_prod in product.all_ecotaxe_line_product_ids:
-                ecotax_cls = ecotaxeline_prod.ecotaxe_classification_id
+                ecotax_cls = ecotaxeline_prod.classification_id
                 ecotaxe_line = 0.0
                 if ecotax_cls.ecotaxe_type == "weight_based":
                     ecotaxe_line = ecotax_cls.ecotaxe_coef * (product.weight or 0.0)
                 else:
                     ecotaxe_line = ecotax_cls.default_fixed_ecotaxe
                 # force ecotaxe amount by line
-                if ecotaxeline_prod.force_ecotaxe_amount:
-                    ecotaxe_line = ecotaxeline_prod.force_ecotaxe_amount
+                if ecotaxeline_prod.force_amount:
+                    ecotaxe_line = ecotaxeline_prod.force_amount
                 amount_ecotaxe += ecotaxe_line
             product.ecotaxe_amount = amount_ecotaxe
