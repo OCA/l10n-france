@@ -23,9 +23,9 @@
                             readonly="1"
                         >
                             <tree editable="bottom">
-                                <field name="ecotaxe_classification_id" />
-                                <field name="force_ecotaxe_amount" />
-                                <field name="ecotaxe_amount" />
+                                <field name="classification_id" />
+                                <field name="force_amount" />
+                                <field name="amount" />
                             </tree>
                         </field>
                     </div>
@@ -40,9 +40,9 @@
                             nolabel="1"
                         >
                             <tree editable="bottom">
-                                <field name="ecotaxe_classification_id" />
-                                <field name="force_ecotaxe_amount" />
-                                <field name="ecotaxe_amount" />
+                                <field name="classification_id" />
+                                <field name="force_amount" />
+                                <field name="amount" />
                             </tree>
                         </field>
                     </div>
@@ -68,10 +68,22 @@
                         nolabel="1"
                     >
                             <tree editable="bottom">
-                                <field name="ecotaxe_classification_id" />
-                                <field name="force_ecotaxe_amount" />
-                                <field name="ecotaxe_amount" />
+                                <field name="classification_id" />
+                                <field name="force_amount" />
+                                <field name="amount" />
                             </tree>
+                        </field>
+                    </div>
+            </xpath>
+            <xpath expr="//label[@for='standard_price']" position="before">
+                <label for="all_ecotaxe_line_product_ids" string="Ecotaxe classif" />
+                    <div>
+                        <field
+                        name="all_ecotaxe_line_product_ids"
+                        colspan="2"
+                        nolabel="1"
+                        widget="many2many_tags"
+                    >
                         </field>
                     </div>
             </xpath>

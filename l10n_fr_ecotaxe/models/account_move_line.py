@@ -24,13 +24,13 @@ class AcountMoveLine(models.Model):
     @api.depends(
         "move_id.currency_id",
         "ecotaxe_line_ids",
-        "ecotaxe_line_ids.ecotaxe_amount_unit",
-        "ecotaxe_line_ids.ecotaxe_amount_total",
+        "ecotaxe_line_ids.amount_unit",
+        "ecotaxe_line_ids.amount_total",
     )
     def _compute_ecotaxe(self):
         for line in self:
-            unit = sum(line.ecotaxe_line_ids.mapped("ecotaxe_amount_unit"))
-            subtotal_ecotaxe = sum(line.ecotaxe_line_ids.mapped("ecotaxe_amount_total"))
+            unit = sum(line.ecotaxe_line_ids.mapped("amount_unit"))
+            subtotal_ecotaxe = sum(line.ecotaxe_line_ids.mapped("amount_total"))
 
             if line.move_id.currency_id:
                 unit = line.move_id.currency_id.round(unit)
@@ -49,15 +49,15 @@ class AcountMoveLine(models.Model):
             self.ecotaxe_line_ids = [(5,)]  # Remove all ecotaxe classification
             ecotax_cls_vals = []
             for ecotaxeline_prod in self.product_id.all_ecotaxe_line_product_ids:
-                classif_id = ecotaxeline_prod.ecotaxe_classification_id.id
-                forced_amount = ecotaxeline_prod.force_ecotaxe_amount
+                classif_id = ecotaxeline_prod.classification_id.id
+                forced_amount = ecotaxeline_prod.force_amount
                 ecotax_cls_vals.append(
                     (
                         0,
                         0,
                         {
-                            "ecotaxe_classification_id": classif_id,
-                            "force_ecotaxe_unit": forced_amount,
+                            "classification_id": classif_id,
+                            "force_amount_unit": forced_amount,
                         },
                     )
                 )

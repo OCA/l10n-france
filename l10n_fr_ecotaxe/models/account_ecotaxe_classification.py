@@ -24,15 +24,15 @@ class AccountEcotaxeClassification(models.Model):
     )
     ecotaxe_coef = fields.Float(digits="Ecotaxe")
     default_fixed_ecotaxe = fields.Float(help="Default fixed ecotaxe amount.")
-    account_ecotaxe_categ_id = fields.Many2one(
+    categ_id = fields.Many2one(
         comodel_name="account.ecotaxe.category",
-        string="Ecotaxe category",
+        string="Category",
     )
-    ecotaxe_sector_id = fields.Many2one(
+    sector_id = fields.Many2one(
         comodel_name="ecotaxe.sector",
         string="Ecotaxe sector",
     )
-    ecotaxe_collector_id = fields.Many2one(
+    collector_id = fields.Many2one(
         comodel_name="ecotaxe.collector",
         string="Ecotaxe collector",
     )
@@ -45,12 +45,11 @@ class AccountEcotaxeClassification(models.Model):
         " company. Otherwise, this Fiscal Classification will be available"
         " for all companies.",
     )
-    ecotaxe_product_status = fields.Selection(
+    product_status = fields.Selection(
         [("M", "Menager"), ("P", "Professionnel")],
-        string="Product Status",
         required=True,
     )
-    ecotaxe_supplier_status = fields.Selection(
+    supplier_status = fields.Selection(
         [
             ("FAB", "Fabricant"),
             ("REV", "Revendeur sous sa marque"),
@@ -58,7 +57,6 @@ class AccountEcotaxeClassification(models.Model):
             ("IMP", "Importateur"),
             ("DIS", "Vendeur à distance"),
         ],
-        string="Supplier Status",
         required=True,
         help="FAB ==> Fabricant : est établi en France et fabrique des EEE\n"
         "sous son propre nom ou sa propre marque, ou fait concevoir ou\n"
@@ -75,8 +73,8 @@ class AccountEcotaxeClassification(models.Model):
         "membre ou dans un pays tiers et vend en France des EEE par\n"
         "communication à distance",
     )
-    ecotaxe_deb_code = fields.Char()
-    ecotaxe_scale_code = fields.Char()
+    emebi_code = fields.Char()
+    scale_code = fields.Char()
 
     @api.onchange("ecotaxe_type")
     def _onchange_ecotaxe_type(self):

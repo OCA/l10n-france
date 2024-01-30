@@ -16,28 +16,38 @@ class EcotaxeLineProduct(models.Model):
     )
     product_id = fields.Many2one("product.product", string="Product", readonly=True)
     currency_id = fields.Many2one(related="product_tmplt_id.currency_id", readonly=True)
-    ecotaxe_classification_id = fields.Many2one(
+    classification_id = fields.Many2one(
         "account.ecotaxe.classification",
-        string="Ecotaxe Classification",
+        string="Classification",
     )
-    force_ecotaxe_amount = fields.Monetary(
-        help="Force ecotaxe.\n" "Allow to substitute default Ecotaxe Classification\n"
+    force_amount = fields.Monetary(
+        help="Force ecotaxe amount.\n"
+        "Allow to substitute default Ecotaxe Classification\n"
     )
-    ecotaxe_amount = fields.Monetary(
+    amount = fields.Monetary(
         compute="_compute_ecotaxe",
-        help="Ecotaxe Amount total computed form Classification or forced ecotaxe amount",
+        help="Ecotaxe Amount computed form Classification or forced ecotaxe amount",
         store=True,
     )
+    display_name = fields.Char(compute="_compute_display_name")
+
+    @api.depends("classification_id", "amount")
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = "%s (%s)" % (
+                rec.classification_id.name,
+                rec.amount,
+            )
 
     @api.depends(
-        "ecotaxe_classification_id",
-        "ecotaxe_classification_id.ecotaxe_type",
-        "ecotaxe_classification_id.ecotaxe_coef",
-        "force_ecotaxe_amount",
+        "classification_id",
+        "classification_id.ecotaxe_type",
+        "classification_id.ecotaxe_coef",
+        "force_amount",
     )
     def _compute_ecotaxe(self):
         for ecotaxeline in self:
-            ecotax_cls = ecotaxeline.ecotaxe_classification_id
+            ecotax_cls = ecotaxeline.classification_id
 
             if ecotax_cls.ecotaxe_type == "weight_based":
                 amt = ecotax_cls.ecotaxe_coef * (
@@ -48,19 +58,19 @@ class EcotaxeLineProduct(models.Model):
             else:
                 amt = ecotax_cls.default_fixed_ecotaxe
             # force ecotaxe amount
-            if ecotaxeline.force_ecotaxe_amount:
-                amt = ecotaxeline.force_ecotaxe_amount
-            ecotaxeline.ecotaxe_amount = amt
+            if ecotaxeline.force_amount:
+                amt = ecotaxeline.force_amount
+            ecotaxeline.amount = amt
 
     _sql_constraints = [
         (
-            "unique_ecotaxe_classification_id_by_product",
-            "UNIQUE(ecotaxe_classification_id, product_id)",
+            "unique_classification_id_by_product",
+            "UNIQUE(classification_id, product_id)",
             "Only one ecotaxe classification occurrence by product",
         ),
         (
-            "unique_ecotaxe_classification_id_by_product_tmpl",
-            "UNIQUE(ecotaxe_classification_id, product_tmplt_id)",
+            "unique_classification_id_by_product_tmpl",
+            "UNIQUE(classification_id, product_tmplt_id)",
             "Only one ecotaxe classification occurrence by product Template",
         ),
     ]
