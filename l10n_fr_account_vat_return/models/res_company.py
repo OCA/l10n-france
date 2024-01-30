@@ -790,3 +790,40 @@ class ResCompany(models.Model):
             ],
             {start_date: "residual"},
         )
+        # Add a cutoff move in a misc journal, to check that it doesn't impact
+        # the amounts for the untaxed operations (E1 Extracom)
+        self._test_create_cutoff_move(start_date)
+
+    def _test_create_cutoff_move(self, start_date):
+        cdomain = [("company_id", "=", self.id)]
+        aao = self.env["account.account"]
+        pca_account = aao.search(cdomain + [("code", "=like", "487%")], limit=1)
+        assert pca_account
+        export_income_account = aao.search(cdomain + [("code", "=", "707400")], limit=1)
+        assert export_income_account
+        amount = 555.55
+        move = self.env["account.move"].create(
+            {
+                "date": start_date,
+                "journal_id": self.fr_vat_journal_id.id,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "account_id": export_income_account.id,
+                            "debit": amount,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "account_id": pca_account.id,
+                            "credit": amount,
+                        },
+                    ),
+                ],
+            }
+        )
+        move.action_post()
