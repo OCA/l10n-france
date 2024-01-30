@@ -95,21 +95,42 @@ class ResCompany(models.Model):
         # I write this method here and not in the test,
         # because it can be very useful for demos too
         self = self.sudo()
-        company = self.create(
-            {
-                "name": company_name or "FR Company VAT",
-                "fr_vat_exigibility": fr_vat_exigibility,
-                "street": "42 rue du logiciel libre",
-                "zip": "69009",
-                "city": "Lyon",
-                "country_id": self.env.ref("base.fr").id,
-                "siret": "77788899100018",
-                "vat": "FR51777888991",
-            }
-        )
+        company_vals = {
+            "name": company_name or "FR Company VAT",
+            "fr_vat_exigibility": fr_vat_exigibility,
+            "street": "42 rue du logiciel libre",
+            "zip": "69009",
+            "city": "Lyon",
+            "country_id": self.env.ref("base.fr").id,
+            "siret": "77788899100018",
+            "vat": "FR51777888991",
+        }
+        if hasattr(self, "siren"):
+            company_vals.update(
+                {
+                    "siren": company_vals["siret"][:9],
+                    "nic": company_vals["siret"][9:],
+                }
+            )
+            company_vals.pop("siret")
+        company = self.create(company_vals)
         self.env.user.write({"company_ids": [(4, company.id)]})
         fr_chart_template = self.env.ref("l10n_fr_oca.l10n_fr_pcg_chart_template")
         fr_chart_template._load(company)
+        bank = self.env["res.bank"].create(
+            {
+                "name": "Qonto",
+                "bic": "QNTOFRP1XXX",
+            }
+        )
+        self.env["res.partner.bank"].create(
+            {
+                "acc_number": "FR4712122323343445455656676",
+                "partner_id": company.partner_id.id,
+                "company_id": company.id,
+                "bank_id": bank.id,
+            }
+        )
         company._setup_l10n_fr_coa_vat_company()
         return company
 
@@ -124,7 +145,12 @@ class ResCompany(models.Model):
         od_journal = self.env["account.journal"].search(
             cdomain + [("type", "=", "general")], limit=1
         )
-        self.write({"fr_vat_journal_id": od_journal.id})
+        self.write(
+            {
+                "fr_vat_journal_id": od_journal.id,
+                "fr_vat_bank_account_id": self.partner_id.bank_ids[0].id,
+            }
+        )
         # activate all taxes
         ato.search(cdomain + [("active", "=", False)]).write({"active": True})
         # Create France exo FP
