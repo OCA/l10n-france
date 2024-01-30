@@ -278,9 +278,13 @@ class L10nFrAccountVatReturn(models.Model):
         self.ensure_one()
         company_domain = [("company_id", "=", self.company_id.id)]
         base_domain = company_domain + [("parent_state", "=", "posted")]
-        base_domain_period = base_domain + [
+        sale_journals = self.env["account.journal"].search(
+            company_domain + [("type", "=", "sale")]
+        )
+        base_domain_period_sale = base_domain + [
             ("date", ">=", self.start_date),
             ("date", "<=", self.end_date),
+            ("journal_id", "in", sale_journals.ids),
         ]
         base_domain_end = base_domain + [("date", "<=", self.end_date)]
         vat_tax_domain = company_domain + [
@@ -311,7 +315,7 @@ class L10nFrAccountVatReturn(models.Model):
             "currency": self.company_id.currency_id,
             "company_domain": company_domain,
             "base_domain": base_domain,
-            "base_domain_period": base_domain_period,
+            "base_domain_period_sale": base_domain_period_sale,
             "base_domain_end": base_domain_end,
             "sale_regular_vat_tax_domain": sale_regular_vat_tax_domain,
             "purchase_vat_tax_domain": purchase_vat_tax_domain,
@@ -1315,7 +1319,7 @@ class L10nFrAccountVatReturn(models.Model):
                 ("account_id", "in", sale_vat_accounts.ids),
                 ("balance", "!=", 0),
             ]
-            + speedy["base_domain_period"]
+            + speedy["base_domain_period_sale"]
         )
         monaco_box_logs = []
         for mline in mc_mlines:
@@ -1721,13 +1725,13 @@ class L10nFrAccountVatReturn(models.Model):
             # create the declaration lines
             logs = []
             for account in accounts:
-                balance = account._fr_vat_get_balance("base_domain_period", speedy)
+                balance = account._fr_vat_get_balance("base_domain_period_sale", speedy)
                 if not speedy["currency"].is_zero(balance):
                     logs.append(
                         {
                             "amount": balance * -1,
                             "account_id": account.id,
-                            "compute_type": "period_balance",
+                            "compute_type": "period_balance_sale",
                         }
                     )
             self._create_line(
@@ -2353,7 +2357,11 @@ class L10nFrAccountVatReturnLineLog(models.Model):
     )
     compute_type = fields.Selection(
         [
-            ("period_balance", "Period Balance"),  # used for untaxed operations
+            # previously used for untaxed operations (until 01/2024). I keep it for the
+            # the old log lines
+            ("period_balance", "Period Balance"),
+            # used for untaxed operations, starting 02/2024
+            ("period_balance_sale", "Period Balance in Sale Journal"),
             ("balance", "Ending Balance"),  # used for VAT boxes
             ("balance_ratio", "Ending Balance x Ratio"),  # used for VAT boxes
             ("unpaid_vat_on_payment", "Unpaid VAT on Payment"),  # used for VAT boxes
