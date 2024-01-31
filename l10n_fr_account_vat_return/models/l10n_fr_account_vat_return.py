@@ -904,7 +904,14 @@ class L10nFrAccountVatReturn(models.Model):
             sale_vat_account2rate[sale_vat_account] = rate_int
             sale_vat_accounts |= sale_vat_account
 
-        assert sale_vat_accounts
+        if not sale_vat_accounts:
+            raise UserError(
+                _(
+                    "There are no regular sale taxes with UNECE Tax Type set to 'VAT' "
+                    "in company '%s'."
+                )
+                % self.company_id.display_name
+            )
         return sale_vat_accounts, sale_vat_account2rate
 
     def _generate_due_vat_france(self, speedy, type_rate2logs):
