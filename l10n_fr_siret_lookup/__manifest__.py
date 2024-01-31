@@ -5,7 +5,7 @@
 {
     "name": "SIRET Lookup",
     "summary": "Lookup partner via an API on the SIRENE directory",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.1.0",
     "category": "Partner",
     "website": "https://github.com/OCA/l10n-france",
     "author": "Le Filament, Akretion, Odoo Community Association (OCA)",
@@ -14,7 +14,7 @@
     "depends": [
         "l10n_fr_siret",
     ],
-    "external_dependencies": {"python": ["requests", "python-stdnum>=1.18"]},
+    "external_dependencies": {"python": ["requests", "python-stdnum"]},
     "data": [
         "wizard/fr_siret_lookup_view.xml",
         "views/res_partner.xml",
