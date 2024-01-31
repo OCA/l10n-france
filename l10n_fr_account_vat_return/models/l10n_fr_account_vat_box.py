@@ -196,13 +196,22 @@ class L10nFrAccountVatBox(models.Model):
                         )
                         % box.display_name
                     )
-                if not box.code and box.form_code == "3310CA3":
+                if (
+                    not box.code
+                    and box.form_code == "3310CA3"
+                    and box.edi_type == "MOA"
+                ):
                     # on 3310-A, total boxes don't have a code
                     raise ValidationError(
                         _("The box '%s' must have a code.") % box.display_name
                     )
                 print_data = [box.print_page, box.print_x, box.print_y]
-                if box.form_code == "3310CA3" and not all(print_data):
+                if (
+                    box.form_code == "3310CA3"
+                    and box.active
+                    and not all(print_data)
+                    and box.code
+                ):
                     raise ValidationError(
                         _("Missing print caracteristics on box '%s'.")
                         % box.display_name
