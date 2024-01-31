@@ -14,7 +14,7 @@
     "depends": [
         "l10n_fr_siret",
     ],
-    "external_dependencies": {"python": ["requests", "python-stdnum>=1.18"]},
+    "external_dependencies": {"python": ["requests", "python-stdnum"]},
     "data": [
         "wizard/fr_siret_lookup_view.xml",
         "views/res_partner.xml",

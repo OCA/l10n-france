@@ -2,7 +2,6 @@
 pyfrdas2>=0.4
 pypdf>=3.1.0
 python-stdnum
-python-stdnum>=1.18
 requests
 requests_oauthlib
 unidecode
