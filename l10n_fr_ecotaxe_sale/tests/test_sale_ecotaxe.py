@@ -38,7 +38,7 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
                 0,
                 0,
                 {
-                    "ecotaxe_classification_id": cls.ecotaxe_classification1.id,
+                    "classification_id": cls.ecotaxe_classification1.id,
                 },
             )
         ]
@@ -48,7 +48,7 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
                 0,
                 0,
                 {
-                    "ecotaxe_classification_id": cls.ecotaxe_classification2.id,
+                    "classification_id": cls.ecotaxe_classification2.id,
                 },
             )
         ]
@@ -83,7 +83,7 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
         )
         # I assign a product with fixed ecotaxte to sale line
         self.sale_line1 = self.sale.order_line[0]
-        self.product_a.ecotaxe_line_product_ids[0].force_ecotaxe_amount = 1.5
+        self.product_a.ecotaxe_line_product_ids[0].force_amount = 1.5
         # make sure to have 1 tax and fix tax rate
         self.sale_line1.tax_id = self.sale_line1.tax_id[0]
         self.sale_line1.tax_id.amount = 20
@@ -91,7 +91,7 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
         self.assertEqual(self.product_a.ecotaxe_amount, 1.5)
         self.sale_line1.product_uom_qty = 4
         self.sale_line1._onchange_product_ecotaxe_line()
-        self.assertEqual(self.sale_line1.ecotaxe_amount_unit, 1.5)
+        self.assertEqual(self.sale_line1.amount_unit, 1.5)
         self.assertEqual(self.sale_line1.subtotal_ecotaxe, 6.0)
         self.assertEqual(self.sale.amount_total, 4800.0)
         self.assertEqual(self.sale.amount_ecotaxe, 6.0)
@@ -113,7 +113,7 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
         self.sale_line1._compute_ecotaxe()
         self.assertEqual(self.product_b.ecotaxe_amount, 16)
         self.sale_line1.product_uom_qty = 3
-        self.assertEqual(self.sale_line1.ecotaxe_amount_unit, 16)
+        self.assertEqual(self.sale_line1.amount_unit, 16)
         self.assertEqual(self.sale_line1.subtotal_ecotaxe, 48)
         self.assertEqual(self.sale.amount_total, 720.0)
         self.assertEqual(self.sale.amount_ecotaxe, 48)
@@ -145,7 +145,7 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
         self.assertEqual(self.product_a.ecotaxe_amount, 2.4)
         self.sale_line1.product_uom_qty = 3
         self.sale_line1._onchange_product_ecotaxe_line()
-        self.assertEqual(self.sale_line1.ecotaxe_amount_unit, 2.4)
+        self.assertEqual(self.sale_line1.amount_unit, 2.4)
         self.assertAlmostEqual(self.sale_line1.subtotal_ecotaxe, 7.2)
         self.sale_line2._onchange_product_ecotaxe_line()
         self.assertEqual(self.sale_line2.ecotaxe_amount_unit, 16)
