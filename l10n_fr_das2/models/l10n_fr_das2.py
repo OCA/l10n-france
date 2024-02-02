@@ -13,6 +13,8 @@ from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.misc import format_amount, format_date
 
+from .fantoir import FANTOIR_MAP
+
 logger = logging.getLogger(__name__)
 
 try:
@@ -392,7 +394,7 @@ class L10nFrDas2(models.Model):
                     value = int(value)
                 except Exception:
                     raise UserError(
-                        _("Failed to convert field '%s' (partner %s) " "to integer.")
+                        _("Failed to convert field '%s' (partner %s) to integer.")
                         % (field_name, partner.display_name)
                     )
             value = str(value)
@@ -425,16 +427,92 @@ class L10nFrDas2(models.Model):
             value = value.ljust(size, " ")
         return value
 
+    @api.model
+    def _prepare_street(self, street):
+        # Only for partner.street, NOT for street2
+        street = street and street.strip()
+        if not street:
+            return self._prepare_field("Street", "", "0000", 32)
+        street = street.replace(",", " ")
+        street = street.replace(".", " ")
+        # replace all multi-spaces by one space
+        street = " ".join(street.split())
+
+        abbrev = {
+            "av": "avenue",
+            "bd": "boulevard",
+            "bld": "boulevard",
+            "ch": "chemin",
+            "all": "allée",
+        }
+        for short, long in abbrev.items():
+            street = street.replace(" " + short + " ", " " + long + " ")
+
+        bis = " "
+        bismap = {  # keys have a space as final letter
+            "bis": "B",
+            "ter": "T",
+            "quarter": "Q",
+        }
+
+        # split on digit
+        number = ""
+        ini_street = street
+        for _index, char in enumerate(street):
+            if char.isalpha():
+                break
+        number = street[:_index]
+        number = number.strip()
+        street = street[_index:]
+        if len(number) > 4:
+            number = ""
+            street = ini_street
+        street_lower = street.lower()
+        for bis_entry, bis_char in bismap.items():
+            if street_lower.startswith(bis_entry + " "):
+                bis = bis_char
+                street = street[len(bis_entry) + 1 :]
+        # if 1 letter and space
+        if len(street) > 2 and list(street)[0].isalpha() and list(street)[1] == " ":
+            bis = list(street)[0]
+            street = street[2:]
+
+        fantoir_map = {}
+        for street_type, code in FANTOIR_MAP.items():
+            fantoir_map[unidecode(street_type).lower()] = code
+
+        street_type_code = ""
+        street_lower_uni = unidecode(street).lower()
+        for street_type, code in fantoir_map.items():
+            if street_lower_uni.startswith(street_type + " "):
+                street_type_code = code
+                street = street[len(street_type) + 1 :]
+                break
+
+        if len(street) > 21:
+            street = street[-21:]
+        assert len(bis) == 1
+        number_str = self._prepare_field("Number", False, number, 4, numeric=True)
+        street_formatted = self._prepare_field("Street", False, street, 21)
+        street_type_code_formatted = self._prepare_field(
+            "Street Type", False, street_type_code, 4
+        )
+        cstreet = (
+            number_str + bis + " " + street_type_code_formatted + " " + street_formatted
+        )
+        assert len(cstreet) == 32
+        return cstreet
+
     def _prepare_address(self, partner):
         cstreet2 = self._prepare_field("Street2", partner, partner.street2, 32)
-        cstreet = self._prepare_field("Street", partner, partner.street, 32)
-        # specs section 5.4 : only bureau distributeur and code postal are
+        cstreet = self._prepare_street(partner.street)
+        # specs say only bureau distributeur and code postal are
         # required. And they say it is tolerated to set city as
         # bureau distributeur
         # And we don't set the commune field because we put the same info
-        # in bureau distributeur (section 5.4.1.3)
-        # specs section 5.4 and 5.4.1.2.b: it is possible to set the field
-        # "Adresse voie" without structuration on 32 chars => that's what we do
+        # in bureau distributeur
+        # specs 2024 : we now have to have structured adresses with a separation
+        # for the number, bis/ter and street name. We'll do our best to comply with that.
         if not partner.city:
             raise UserError(_("Missing city on partner '%s'.") % partner.display_name)
         if partner.country_id and partner.country_id.code not in FRANCE_CODES:
@@ -737,12 +815,22 @@ class L10nFrDas2(models.Model):
         if encryption in ("prod", "test"):
             prefix = "DSAL_"
             file_ext = "txt.gz.gpg"
-            key_path = (
-                "l10n_fr_das2/pgp_keys/DGFIP_TIERSDECLARANTS_%s.asc"
-                % encryption.upper()
+            key_path = "l10n_fr_das2/pgp_keys/%s-DGFIP_TIERSDECLARANTS_%s.asc" % (
+                self.year,
+                encryption.upper(),
             )
-            with tools.file_open(key_path, mode="rb") as key_file:
-                key_file_blob = key_file.read()
+            try:
+                with tools.file_open(key_path, mode="rb") as key_file:
+                    key_file_blob = key_file.read()
+            except FileNotFoundError as e:
+                raise UserError(
+                    _(
+                        "The encryption key is not available in the DAS2 module for year "
+                        "%(year)s: the file %(key_path)s is missing.",
+                        key_path=key_path,
+                        year=self.year,
+                    )
+                ) from e
             pubkey = pgpy.PGPKey.from_blob(key_file_blob)[0]
             file_content_compressed = gzip.compress(file_content_encoded)
             to_encrypt_object = pgpy.PGPMessage.new(file_content_compressed)
