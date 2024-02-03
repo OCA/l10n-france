@@ -57,6 +57,8 @@ msgstr "Creat el"
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_department
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_partner_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_partner_tree
 #: model_terms:ir.ui.view,arch_db:l10n_fr_department.view_res_partner_filter
 msgid "Department"
 msgstr ""
@@ -97,11 +99,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__id
 msgid "ID"
 msgstr "ID"
-
-#. module: l10n_fr_department
-#: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department____last_update
-msgid "Last Modified on"
-msgstr ""
 
 #. module: l10n_fr_department
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_country_department__write_uid
