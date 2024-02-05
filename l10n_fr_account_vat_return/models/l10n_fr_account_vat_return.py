@@ -1888,6 +1888,7 @@ class L10nFrAccountVatReturn(models.Model):
             account = line.account_id
             domain = speedy["base_domain_end"] + [
                 ("account_id", "=", account.id),
+                ("reconciled", "=", False),
                 ("full_reconcile_id", "=", False),
                 ("move_id", "not in", excluded_line_ids),
             ]
