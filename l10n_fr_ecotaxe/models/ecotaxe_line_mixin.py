@@ -19,15 +19,18 @@ class EcotaxeLineMixin(models.AbstractModel):
         "account.ecotaxe.classification",
         string="Classification",
     )
-    amount_unit = fields.Monetary(
+    amount_unit = fields.Float(
+        digits="Ecotaxe",
         compute="_compute_ecotaxe",
         help="Ecotaxe Amount computed form Classification or Manuel ecotaxe",
         store=True,
     )
-    force_amount_unit = fields.Monetary(
-        help="Force ecotaxe.\n" "Allow to subtite default Ecotaxe Classification\n"
+    force_amount_unit = fields.Float(
+        digits="Ecotaxe",
+        help="Force ecotaxe.\n" "Allow to subtite default Ecotaxe Classification\n",
     )
-    amount_total = fields.Monetary(
+    amount_total = fields.Float(
+        digits="Ecotaxe",
         compute="_compute_ecotaxe",
         help="Ecotaxe Amount total computed form Classification or forced ecotaxe amount",
         store=True,

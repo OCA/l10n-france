@@ -23,8 +23,13 @@ class ProductProduct(models.Model):
         compute="_compute_all_ecotaxe_line_product_ids",
         search="_search_all_ecotaxe_line_product_ids",
         string="All ecotaxe lines",
+        help="Contain all ecotaxes classification defined in product template"
+        "and the additionnal\n"
+        "ecotaxes defined in product variant. For more details"
+        "see the product variant accounting tab",
     )
-    ecotaxe_amount = fields.Monetary(
+    ecotaxe_amount = fields.Float(
+        digits="Ecotaxe",
         compute="_compute_product_ecotaxe",
         help="Ecotaxe Amount computed form all ecotaxe line classification",
         store=True,

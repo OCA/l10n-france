@@ -14,8 +14,11 @@ class AcountMoveLine(models.Model):
         string="Ecotaxe lines",
         copy=True,
     )
-    subtotal_ecotaxe = fields.Float(store=True, compute="_compute_ecotaxe")
+    subtotal_ecotaxe = fields.Float(
+        digits="Ecotaxe", store=True, compute="_compute_ecotaxe"
+    )
     ecotaxe_amount_unit = fields.Float(
+        digits="Ecotaxe",
         string="Ecotaxe Unit.",
         store=True,
         compute="_compute_ecotaxe",
@@ -32,9 +35,6 @@ class AcountMoveLine(models.Model):
             unit = sum(line.ecotaxe_line_ids.mapped("amount_unit"))
             subtotal_ecotaxe = sum(line.ecotaxe_line_ids.mapped("amount_total"))
 
-            if line.move_id.currency_id:
-                unit = line.move_id.currency_id.round(unit)
-                subtotal_ecotaxe = line.move_id.currency_id.round(subtotal_ecotaxe)
             line.update(
                 {
                     "ecotaxe_amount_unit": unit,

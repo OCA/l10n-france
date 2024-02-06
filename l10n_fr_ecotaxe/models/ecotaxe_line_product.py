@@ -20,11 +20,13 @@ class EcotaxeLineProduct(models.Model):
         "account.ecotaxe.classification",
         string="Classification",
     )
-    force_amount = fields.Monetary(
+    force_amount = fields.Float(
+        digits="Ecotaxe",
         help="Force ecotaxe amount.\n"
-        "Allow to substitute default Ecotaxe Classification\n"
+        "Allow to substitute default Ecotaxe Classification\n",
     )
-    amount = fields.Monetary(
+    amount = fields.Float(
+        digits="Ecotaxe",
         compute="_compute_ecotaxe",
         help="Ecotaxe Amount computed form Classification or forced ecotaxe amount",
         store=True,

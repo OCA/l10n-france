@@ -25,8 +25,8 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
                 "name": "Fixed Ecotax",
                 "ecotaxe_type": "fixed",
                 "default_fixed_ecotaxe": 5.0,
-                "ecotaxe_product_status": "M",
-                "ecotaxe_supplier_status": "FAB",
+                "product_status": "M",
+                "supplier_status": "FAB",
             }
         )
         # 2- Weight-based ecotax
@@ -35,8 +35,8 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
                 "name": "Weight Based Ecotax",
                 "ecotaxe_type": "weight_based",
                 "ecotaxe_coef": 0.04,
-                "ecotaxe_product_status": "P",
-                "ecotaxe_supplier_status": "FAB",
+                "product_status": "P",
+                "supplier_status": "FAB",
             }
         )
 

@@ -14,7 +14,8 @@ class ProductTemplate(models.Model):
         string="Ecotaxe lines",
         copy=True,
     )
-    ecotaxe_amount = fields.Monetary(
+    ecotaxe_amount = fields.Float(
+        digits="Ecotaxe",
         compute="_compute_ecotaxe",
         help="Ecotaxe Amount computed form Classification",
         store=True,
