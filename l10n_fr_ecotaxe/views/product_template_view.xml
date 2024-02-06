@@ -11,7 +11,7 @@
         <field name="inherit_id" ref="account.product_template_form_view" />
         <field name="arch" type="xml">
             <group name="properties" position="after">
-                <group name="ecotaxe" colspan="2">
+                <group name="ecotaxe" col="4">
                     <label
                         for="ecotaxe_line_product_ids"
                         string="Product Template Ecotaxe classif"

@@ -22,8 +22,16 @@ class AccountEcotaxeClassification(models.Model):
         "the ecotaxe coef must take into account\n"
         "the weight unit of measure (kg by default)",
     )
-    ecotaxe_coef = fields.Float(digits="Ecotaxe")
-    default_fixed_ecotaxe = fields.Float(help="Default fixed ecotaxe amount.")
+    ecotaxe_coef = fields.Float(
+        digits="Ecotaxe", compute="_compute_ecotaxe_vals", readonly=False, store=True
+    )
+    default_fixed_ecotaxe = fields.Float(
+        digits="Ecotaxe",
+        help="Default fixed ecotaxe amount.",
+        compute="_compute_ecotaxe_vals",
+        readonly=False,
+        store=True,
+    )
     categ_id = fields.Many2one(
         comodel_name="account.ecotaxe.category",
         string="Category",
@@ -76,9 +84,10 @@ class AccountEcotaxeClassification(models.Model):
     emebi_code = fields.Char()
     scale_code = fields.Char()
 
-    @api.onchange("ecotaxe_type")
-    def _onchange_ecotaxe_type(self):
-        if self.ecotaxe_type == "weight_based":
-            self.default_fixed_ecotaxe = 0
-        if self.ecotaxe_type == "fixed":
-            self.ecotaxe_coef = 0
+    @api.depends("ecotaxe_type")
+    def _compute_ecotaxe_vals(self):
+        for classif in self:
+            if classif.ecotaxe_type == "weight_based":
+                classif.default_fixed_ecotaxe = 0
+            if classif.ecotaxe_type == "fixed":
+                classif.ecotaxe_coef = 0

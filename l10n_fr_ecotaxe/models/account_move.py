@@ -9,8 +9,11 @@ from odoo.tools.misc import formatLang
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    amount_ecotaxe = fields.Monetary(
-        string="Included Ecotaxe", store=True, compute="_compute_ecotaxe"
+    amount_ecotaxe = fields.Float(
+        digits="Ecotaxe",
+        string="Included Ecotaxe",
+        store=True,
+        compute="_compute_ecotaxe",
     )
 
     @api.depends("invoice_line_ids.subtotal_ecotaxe")
