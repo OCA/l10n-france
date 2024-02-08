@@ -15,8 +15,11 @@ class SaleOrderLine(models.Model):
         string="Ecotaxe lines",
         copy=True,
     )
-    subtotal_ecotaxe = fields.Float(store=True, compute="_compute_ecotaxe")
+    subtotal_ecotaxe = fields.Float(
+        digits="Ecotaxe", store=True, compute="_compute_ecotaxe"
+    )
     ecotaxe_amount_unit = fields.Float(
+        digits="Ecotaxe",
         string="ecotaxe Unit.",
         store=True,
         compute="_compute_ecotaxe",
@@ -33,9 +36,6 @@ class SaleOrderLine(models.Model):
             unit = sum(line.ecotaxe_line_ids.mapped("amount_unit"))
             subtotal_ecotaxe = sum(line.ecotaxe_line_ids.mapped("amount_total"))
 
-            if line.currency_id:
-                unit = line.currency_id.round(unit)
-                subtotal_ecotaxe = line.currency_id.round(subtotal_ecotaxe)
             line.update(
                 {
                     "ecotaxe_amount_unit": unit,
