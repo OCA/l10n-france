@@ -10,7 +10,10 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     amount_ecotaxe = fields.Float(
-        string="Included Ecotaxe", store=True, compute="_compute_ecotaxe"
+        digits="Ecotaxe",
+        string="Included Ecotaxe",
+        store=True,
+        compute="_compute_ecotaxe",
     )
 
     @api.depends("order_line.subtotal_ecotaxe")
