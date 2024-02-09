@@ -2,11 +2,8 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import SUPERUSER_ID, api
 
-
-def lcr_set_unece(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def lcr_set_unece(env):
     lcr = env.ref("account_banking_fr_lcr.fr_lcr")
     if lcr:
         # This module doesn't depend on account_payment_unece
@@ -18,4 +15,3 @@ def lcr_set_unece(cr, registry):
             )
             if lcr_unece:
                 lcr.write({"unece_id": lcr_unece.id})
-    return

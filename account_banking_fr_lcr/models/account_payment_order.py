@@ -27,7 +27,7 @@ class AccountPaymentOrder(models.Model):
         """This function is designed to be inherited."""
         if not field_value:
             raise UserError(
-                _("The field '%s' is empty or 0. It should have a non-null " "value.")
+                _("The field '%s' is empty or 0. It should have a non-null value.")
                 % field_name
             )
         try:
@@ -78,24 +78,20 @@ class AccountPaymentOrder(models.Model):
             raise UserError(
                 _(
                     "For the bank account '%(acc_number)s' of partner '%(partner)s', "
-                    "the Bank Account Type should be 'IBAN'."
+                    "the Bank Account Type should be 'IBAN'.",
+                    acc_number=partner_bank.acc_number,
+                    partner=partner_bank.partner_id.display_name,
                 )
-                % {
-                    "acc_number": partner_bank.acc_number,
-                    "partner": partner_bank.partner_id.display_name,
-                }
             )
         iban = partner_bank.sanitized_acc_number
         if iban[0:2] != "FR":
             raise UserError(
                 _(
                     "LCR are only for French bank accounts. The IBAN '%(acc_number)s' "
-                    "of partner '%(partner)s' is not a French IBAN."
+                    "of partner '%(partner)s' is not a French IBAN.",
+                    acc_number=partner_bank.acc_number,
+                    partner=partner_bank.partner_id.display_name,
                 )
-                % {
-                    "acc_number": partner_bank.acc_number,
-                    "partner": partner_bank.partner_id.display_name,
-                }
             )
         assert len(iban) == 27, "French IBANs must have 27 caracters"
         return {
@@ -105,7 +101,6 @@ class AccountPaymentOrder(models.Model):
             "cle_rib": iban[25:27],
         }
 
-    @api.model
     def _prepare_first_cfonb_line(self):
         """Generate the header line of the CFONB file"""
         code_enregistrement = "03"
@@ -118,6 +113,14 @@ class AccountPaymentOrder(models.Model):
         raison_sociale_cedant = self._prepare_lcr_field(
             "Raison sociale du cédant", self.company_id.name, 24
         )
+        if not self.company_partner_bank_id.bank_id:
+            raise UserError(
+                _(
+                    "The bank is not set on bank account '%(bank_account)s' of the company '%(company)s'.",
+                    bank_account=self.company_partner_bank_id.display_name,
+                    company=self.company_id.display_name,
+                )
+            )
         domiciliation_bancaire_cedant = self._prepare_lcr_field(
             "Domiciliation bancaire du cédant",
             self.company_partner_bank_id.bank_id.name,
@@ -152,10 +155,8 @@ class AccountPaymentOrder(models.Model):
             ]
         )
         assert len(cfonb_line) == 160, "LCR CFONB line must have 160 chars"
-        cfonb_line += "\r\n"
         return cfonb_line
 
-    @api.model
     def _prepare_cfonb_line(self, line, transactions_count):
         """Generate each debit line of the CFONB file"""
         # I use French variable names because the specs are in French
@@ -206,7 +207,6 @@ class AccountPaymentOrder(models.Model):
             ]
         )
         assert len(cfonb_line) == 160, "LCR CFONB line must have 160 chars"
-        cfonb_line += "\r\n"
         return cfonb_line
 
     def _prepare_final_cfonb_line(self, total_amount, transactions_count):
@@ -235,7 +235,8 @@ class AccountPaymentOrder(models.Model):
         if self.payment_method_id.code != "fr_lcr":
             return super().generate_payment_file()
 
-        cfonb_string = self._prepare_first_cfonb_line()
+        cfonb_lines = []
+        cfonb_lines.append(self._prepare_first_cfonb_line())
         total_amount = 0.0
         transactions_count = 0
         eur_currency = self.env.ref("base.EUR")
@@ -246,18 +247,18 @@ class AccountPaymentOrder(models.Model):
                     _(
                         "The currency of payment line '%(payment_line)s' is "
                         "'%(currency)s'. To be included in a French LCR, "
-                        "the currency must be EUR."
+                        "the currency must be EUR.",
+                        payment_line=line.display_name,
+                        currency=line.currency_id.name,
                     )
-                    % {
-                        "payment_line": line.display_name,
-                        "currency": line.currency_id.name,
-                    }
                 )
             transactions_count += 1
-            cfonb_string += self._prepare_cfonb_line(line, transactions_count)
+            cfonb_lines.append(self._prepare_cfonb_line(line, transactions_count))
             total_amount += line.amount
 
-        cfonb_string += self._prepare_final_cfonb_line(total_amount, transactions_count)
+        cfonb_lines.append(
+            self._prepare_final_cfonb_line(total_amount, transactions_count)
+        )
 
         filename = "LCR_%s.txt" % self.name.replace("/", "-")
-        return (cfonb_string.encode("ascii"), filename)
+        return ("\r\n".join(cfonb_lines).encode("ascii"), filename)
