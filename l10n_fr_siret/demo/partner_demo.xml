@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2014-2021 Akretion France
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <record id="c2c_france" model="res.partner">
+        <field name="name">Camptocamp France SAS</field>
+        <field name="is_company" eval="True" />
+        <field name="street">18 rue du Lac Saint André</field>
+        <field name="zip">73370</field>
+        <field name="city">Le Bourget-du-Lac</field>
+        <field name="country_id" ref="base.fr" />
+        <field name="website">https://www.camptocamp.com/</field>
+        <field name="siren">433698578</field>
+        <field name="nic">00054</field>
+    </record>
+
+</odoo>
