@@ -31,17 +31,6 @@ msgid "Companies"
 msgstr "Firmaer"
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__company_registry
-msgid "Company ID"
-msgstr ""
-
-#. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__company_registry
-msgid "Company Registry"
-msgstr "Firmaregister"
-
-#. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_partner
 msgid "Contact"
 msgstr ""
@@ -156,16 +145,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__company_registry
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__company_registry
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__company_registry
-msgid "The name of official registry where this company was declared."
-msgstr ""
-
-#. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "has the same <b>SIREN</b>."
 msgstr ""
+
+#~ msgid "Company Registry"
+#~ msgstr "Firmaregister"
 
 #, python-format
 #~ msgid "The SIREN '%s' is invalid: the checksum is wrong."
