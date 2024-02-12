@@ -19,6 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_fr_intrastat_service
+#: model:ir.actions.report,print_report_name:l10n_fr_intrastat_service.xlsx_report
+msgid "'DES-' + object.year_month"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
 #: model:mail.template,body_html:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
@@ -189,6 +194,11 @@ msgid "DES"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
+#: model:ir.actions.report,name:l10n_fr_intrastat_service.xlsx_report
+msgid "DES Excel"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
 #: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration_line
 msgid "DES Line"
 msgstr ""
@@ -200,13 +210,12 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.server,name:l10n_fr_intrastat_service.intrastat_service_cron_ir_actions_server
-#: model:ir.cron,cron_name:l10n_fr_intrastat_service.intrastat_service_cron
 #: model:mail.template,name:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid "DES Reminder"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model,name:l10n_fr_intrastat_service.model_report_l10n_fr_intrastat_service_declaration_xlsx
+#: model:ir.model,name:l10n_fr_intrastat_service.model_report_l10n_fr_intrastat_service_xlsx
 msgid "DES XLSX Export"
 msgstr ""
 
@@ -301,6 +310,7 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -333,12 +343,6 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration____last_update
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__write_uid
 msgid "Last Updated by"
@@ -349,11 +353,6 @@ msgstr "Zuletzt aktualisiert von"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__write_date
 msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
-
-#. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_main_attachment_id
-msgid "Main Attachment"
-msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
@@ -463,6 +462,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
+msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
