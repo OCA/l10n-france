@@ -14,7 +14,7 @@
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["l10n_fr", "account", "date_range"],
     "external_dependencies": {
-        "python": ["unicodecsv", "unidecode"],
+        "python": ["unidecode"],
     },
     "data": [
         "security/ir.model.access.csv",
