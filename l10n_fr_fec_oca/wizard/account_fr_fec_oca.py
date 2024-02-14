@@ -13,8 +13,9 @@
 # pylint: skip-file
 
 import base64
-import io
+import csv
 import logging
+from io import StringIO
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessDenied, UserError
@@ -26,10 +27,6 @@ try:
     from unidecode import unidecode
 except ImportError:
     logger.debug("Cannot import unidecode")
-try:
-    import unicodecsv
-except ImportError:
-    logger.debug("Cannot import unicodecsv")
 
 
 class AccountFrFecOca(models.TransientModel):
@@ -617,7 +614,9 @@ class AccountFrFecOca(models.TransientModel):
         siren = self._get_siren(company)
         self.write(
             {
-                "fec_data": base64.encodebytes(fecvalue),
+                "fec_data": base64.encodebytes(
+                    fecvalue.encode(self.encoding, errors="replace")
+                ),
                 # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
                 "filename": "%sFEC%s%s.txt" % (siren, end_date, suffix),
             }
@@ -644,24 +643,19 @@ class AccountFrFecOca(models.TransientModel):
 
         @return the value of the file
         """
-        fecfile = io.BytesIO()
         encoding = self.encoding
-        delimiter = self.delimiter
-        if delimiter == "tab":
-            delimiter = "\t"
-        writer = unicodecsv.writer(
-            fecfile,
-            delimiter=delimiter,
-            lineterminator="\r\n",
-            encoding=encoding,
-            errors="replace",
-        )
-        for row in rows:
-            if encoding == "ascii":
-                for j, _cell_content in enumerate(row):
-                    row[j] = unidecode(row[j])
-            writer.writerow(row)
+        delimiter = self.delimiter == "tab" and "\t" or self.delimiter
+        with StringIO() as fecfile:
+            writer = csv.writer(
+                fecfile,
+                delimiter=delimiter,
+                lineterminator="\r\n",
+            )
+            for row in rows:
+                if encoding == "ascii":
+                    for j, _cell_content in enumerate(row):
+                        row[j] = unidecode(row[j])
+                writer.writerow(row)
 
-        fecvalue = fecfile.getvalue()
-        fecfile.close()
+            fecvalue = fecfile.getvalue()
         return fecvalue
