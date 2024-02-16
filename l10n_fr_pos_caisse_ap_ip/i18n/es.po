@@ -153,7 +153,7 @@ msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-javascript
-#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js:0
 #, python-format
 msgid "No answer from the payment terminal in the given time."
 msgstr "No hay respuesta del terminal de pago en el tiempo dado."
@@ -165,7 +165,7 @@ msgstr "Forma de pago"
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-javascript
-#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js:0
 #, python-format
 msgid "Payment Terminal Error"
 msgstr "Error de terminal de pago"
@@ -184,7 +184,7 @@ msgstr "El puerto %s del terminal de pago no es un puerto TCP válido."
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-javascript
-#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js:0
 #, python-format
 msgid "Press the red button on the payment terminal to cancel the transaction."
 msgstr "Pulse el botón rojo del terminal de pago para cancelar la transacción."
