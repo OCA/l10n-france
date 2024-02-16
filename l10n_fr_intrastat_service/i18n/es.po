@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-26 02:41+0000\n"
-"PO-Revision-Date: 2023-09-20 11:09+0000\n"
+"PO-Revision-Date: 2024-02-16 21:34+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
@@ -22,7 +22,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.report,print_report_name:l10n_fr_intrastat_service.xlsx_report
 msgid "'DES-' + object.year_month"
-msgstr ""
+msgstr "'DES-' + object.year_month"
 
 #. module: l10n_fr_intrastat_service
 #: model:mail.template,body_html:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
@@ -244,7 +244,7 @@ msgstr "DES"
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.report,name:l10n_fr_intrastat_service.xlsx_report
 msgid "DES Excel"
-msgstr ""
+msgstr "DES Excel"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model,name:l10n_fr_intrastat_service.model_l10n_fr_intrastat_service_declaration_line
