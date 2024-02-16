@@ -1,0 +1,243 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_pos_caisse_ap_ip
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-04 21:43+0000\n"
+"PO-Revision-Date: 2023-07-04 21:47+0000\n"
+"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "Application %(label)s (code %(code)s)"
+msgstr "Application %(label)s (code %(code)s)"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid ""
+"Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value %(request_val)s in "
+"the query and %(answer_val)s in the answer, but these values should be "
+"identical. This should never happen!"
+msgstr ""
+"Protocole Caisse AP sur IP : Le tag %(label)s (%(tag)s) a pour valeur "
+"%(request_val)s dans la requête et %(answer_val)s dans la réponse, alors que "
+"ces valeurs devraient être identiques. Cela ne devrait jamais arriver !"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid ""
+"Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value %(request_val)s in "
+"the request and %(answer_val)s in the answer, but these values should be "
+"identical. This should never happen!"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid ""
+"Caisse AP IP protocol: tag %s is required but it is not present in the "
+"answer from the terminal. This should never happen!"
+msgstr ""
+"Protocole Caisse AP sur IP : le tag %s est obligatoire mais il n'est pas "
+"présent dans la réponse du terminal. Cela ne devrait jamais arriver !"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "Caisse AP over IP (France only)"
+msgstr "Caisse AP sur IP (France uniquement)"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_address
+msgid "Caisse-AP Payment Terminal IP Address"
+msgstr "Adresse IP du terminal de paiement Caisse-AP"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_port
+msgid "Caisse-AP Payment Terminal Port"
+msgstr "Port du terminal de paiement Caisse-AP"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid ""
+"Caisse-AP payment terminal IP address is not set on payment method '%s'."
+msgstr ""
+"L'adresse IP du terminal de paiement Caisse-AP n'est pas définie sur la "
+"méthode de paiement '%s'."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "Caisse-AP payment terminal port is not set on payment method '%s'."
+msgstr ""
+"Le port du terminal de paiement Caisse-AP n'est pas défini sur la méthode de "
+"paiement '%s'."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__card
+msgid "Card"
+msgstr "Carte"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "Card type: %s"
+msgstr "Type de carte : %s"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__check
+msgid "Check"
+msgstr "Vérifier"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "Empty answer from payment terminal. This should never happen."
+msgstr ""
+"La réponse du terminal de paiement est vide. Cela ne devrait jamais arriver."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid ""
+"Error in the communication with the payment terminal: the action statuts is "
+"invalid (AE=%s). This should never happen!"
+msgstr ""
+"Erreur dans la communication avec le terminal de paiement : le statut de "
+"l'action n'est pas valide (AE=%s). Cela ne devrait jamais arriver !"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid ""
+"Failed to connect to the payment terminal on %(ip_addr)s:%(port)s\n"
+"%(error)s"
+msgstr ""
+"Échec de la connexion au terminal de paiement sur %(ip_addr)s:%(port)s\n"
+"%(error)s"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,help:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_address
+msgid ""
+"IP address or DNS name of the payment terminal that support Caisse-AP "
+"protocol over IP"
+msgstr ""
+"Adresse IP ou nom DNS du terminal de paiement qui supporte le protocole "
+"Caisse-AP sur IP"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-javascript
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
+#, python-format
+msgid "No answer from the payment terminal in the given time."
+msgstr "Pas de réponse du terminal de paiement dans le délai imparti."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_mode
+msgid "Payment Mode"
+msgstr "Mode de paiement"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-javascript
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
+#, python-format
+msgid "Payment Terminal Error"
+msgstr "Erreur du terminal de paiement"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model,name:l10n_fr_pos_caisse_ap_ip.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr "Modes de paiement du point de vente"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "Port %s for the payment terminal is not a valid TCP port."
+msgstr "Le port %s du terminal de paiement n'est pas un port TCP valide."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-javascript
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/js/payment_caisse_ap_ip.js:0
+#, python-format
+msgid "Press the red button on the payment terminal to cancel the transaction."
+msgstr ""
+"Appuyez sur le bouton rouge du terminal de paiement pour annuler la "
+"transaction."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "Read mode: %(label)s (code %(code)s)"
+msgstr "Mode de lecture : %(label)s (code %(code)s)"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,help:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_port
+msgid ""
+"TCP port of the payment terminal that support Caisse-AP protocol over IP"
+msgstr ""
+"Port TCP du terminal de paiement qui supporte le protocole Caisse-AP sur IP"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "The payment transaction has failed."
+msgstr "Le paiement a échoué."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "The payment transaction has failed: %s"
+msgstr "Le paiement a échoué : %s"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "You are tying to send a null amount to the payment terminal!"
+msgstr "Vous essayez d'envoyer un montant nul au terminal de paiement !"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid ""
+"You are tying to send amount %s cents to the payment terminal, but it is "
+"over the maximum!"
+msgstr ""
+"Vous essayez d'envoyer le montant %s centimes au terminal de paiement, mais "
+"il est supérieur au maximum !"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
+msgid "unknown"
+msgstr "inconnu"
