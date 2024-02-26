@@ -301,6 +301,11 @@ class L10nFrAccountVatReturn(models.Model):
                 "selection"
             ]
         )
+        fp_frvattype2label = dict(
+            self.env["account.fiscal.position"].fields_get("fr_vat_type", "selection")[
+                "fr_vat_type"
+            ]["selection"]
+        )
         meaning_id2box = {}
         for box in self.env["l10n.fr.account.vat.box"].search(
             [("meaning_id", "!=", False)]
@@ -319,6 +324,7 @@ class L10nFrAccountVatReturn(models.Model):
             "end_date_formatted": format_date(self.env, self.end_date),
             "start_date_formatted": format_date(self.env, self.start_date),
             "movetype2label": movetype2label,
+            "fp_frvattype2label": fp_frvattype2label,
             "line_obj": self.env["l10n.fr.account.vat.return.line"],
             "log_obj": self.env["l10n.fr.account.vat.return.line.log"],
             "box_obj": self.env["l10n.fr.account.vat.box"],
@@ -1104,6 +1110,25 @@ class L10nFrAccountVatReturn(models.Model):
                     % tax.display_name
                 )
             autoliq_type = tax_map.position_id.fr_vat_type
+            if autoliq_type not in ("intracom_b2b", "extracom"):
+                raise UserError(
+                    _(
+                        "The autoliquidation tax '%(tax)s' is set on the tax mapping "
+                        "of fiscal position '%(fp)s' which is configured with type "
+                        "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be configured "
+                        "on fiscal positions with type '%(fp_fr_vat_type_intracom_b2b)s' "
+                        "or '%(fp_fr_vat_type_extracom)s'.",
+                        tax=tax.display_name,
+                        fp=tax_map.position_id.display_name,
+                        fp_fr_vat_type=speedy["fp_frvattype2label"][autoliq_type],
+                        fp_fr_vat_type_intracom_b2b=speedy["fp_frvattype2label"][
+                            "intracom_b2b"
+                        ],
+                        fp_fr_vat_type_extracom=speedy["fp_frvattype2label"][
+                            "extracom"
+                        ],
+                    )
+                )
             if autoliq_type == "intracom_b2b":
                 autoliq_type = "intracom"
             autoliq_taxedop_type2accounts[autoliq_type] |= account
