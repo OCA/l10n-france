@@ -826,8 +826,8 @@ msgstr ""
 msgid ""
 "Journal entry '%(move)s' dated %(date)s is inside or before the VAT period "
 "%(vat_period)s and has an unreconciled journal item with an %(autoliq_type)s"
-" autoliquidation due VAT account '%(account)s', but it is not a supplier "
-"invoice/refund. That journal item should be reconciled."
+" autoliquidation due VAT account '%(account)s' in journal '%(journal)s' "
+"which is not a purchase journal. That journal item should be reconciled."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1103,6 +1103,11 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__period_balance
 msgid "Period Balance"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__period_balance_sale
+msgid "Period Balance in Sale Journal"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1493,6 +1498,14 @@ msgstr ""
 msgid ""
 "There are %(count)d accounts %(account_code)s %(account_name)s in the chart "
 "of account of company '%(company)s'. This scenario is not supported."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"There are no regular sale taxes with UNECE Tax Type set to 'VAT' in company "
+"'%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
