@@ -352,7 +352,8 @@ msgstr ""
 #, python-format
 msgid ""
 "VAT return successfully sent to <a "
-"href=\"https://teledec.fr/\">Teledec.fr</a>."
+"href=\"https://teledec.fr/\">Teledec.fr</a>. Technical data sent: <a href=# "
+"data-oe-model=ir.attachment data-oe-id=%(attach_id)s>%(attach_name)s</a>"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
