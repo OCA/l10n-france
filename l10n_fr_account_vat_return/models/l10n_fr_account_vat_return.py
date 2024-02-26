@@ -9,7 +9,6 @@ import textwrap
 from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
-from pypdf import PdfReader, PdfWriter
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
@@ -23,6 +22,11 @@ from odoo.tools.misc import format_amount, format_date
 from .l10n_fr_account_vat_box import PUSH_RATE_PRECISION
 
 logger = logging.getLogger(__name__)
+
+try:
+    from pypdf import PdfReader, PdfWriter
+except (ImportError, IOError) as err:
+    logger.debug(err)
 
 MINIMUM_AMOUNT = 760
 MINIMUM_END_YEAR_AMOUNT = 150
@@ -1171,11 +1175,14 @@ class L10nFrAccountVatReturn(models.Model):
             for move in autoliq_vat_moves:
                 is_invoice = move.is_invoice()
                 if is_invoice:
-                    lines = move.invoice_line_ids.filtered(lambda x: x.display_type == "product")
+                    lines = move.invoice_line_ids.filtered(
+                        lambda x: x.display_type == "product"
+                    )
                 else:
                     # In case we have an entry in the purchase journal which is not an invoice
                     # While in v14 hr_expense created entries in the purchase journal
-                    # with move_type = 'entry', in v16 it creates entries with move_type = 'in_invoice'
+                    # with move_type = 'entry', in v16 it creates entries
+                    # with move_type = 'in_invoice'
                     lines = move.line_ids.filtered(
                         lambda x: x.account_id.code.startswith("6")
                     )
