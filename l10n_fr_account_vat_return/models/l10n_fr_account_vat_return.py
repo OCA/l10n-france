@@ -8,7 +8,6 @@ import textwrap
 from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
-from pypdf import PdfReader, PdfWriter
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
@@ -22,6 +21,11 @@ from odoo.tools.misc import format_amount, format_date
 from .l10n_fr_account_vat_box import PUSH_RATE_PRECISION
 
 logger = logging.getLogger(__name__)
+
+try:
+    from pypdf import PdfReader, PdfWriter
+except (ImportError, IOError) as err:
+    logger.debug(err)
 
 MINIMUM_AMOUNT = 760
 MINIMUM_END_YEAR_AMOUNT = 150
