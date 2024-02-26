@@ -9,7 +9,6 @@ import textwrap
 from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
-from pypdf import PdfReader, PdfWriter
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
@@ -23,6 +22,11 @@ from odoo.tools.misc import format_amount, format_date
 from .l10n_fr_account_vat_box import PUSH_RATE_PRECISION
 
 logger = logging.getLogger(__name__)
+
+try:
+    from pypdf import PdfReader, PdfWriter
+except (ImportError, IOError) as err:
+    logger.debug(err)
 
 MINIMUM_AMOUNT = 760
 MINIMUM_END_YEAR_AMOUNT = 150
@@ -278,9 +282,13 @@ class L10nFrAccountVatReturn(models.Model):
         self.ensure_one()
         company_domain = [("company_id", "=", self.company_id.id)]
         base_domain = company_domain + [("parent_state", "=", "posted")]
-        base_domain_period = base_domain + [
+        sale_journals = self.env["account.journal"].search(
+            company_domain + [("type", "=", "sale")]
+        )
+        base_domain_period_sale = base_domain + [
             ("date", ">=", self.start_date),
             ("date", "<=", self.end_date),
+            ("journal_id", "in", sale_journals.ids),
         ]
         base_domain_end = base_domain + [("date", "<=", self.end_date)]
         vat_tax_domain = company_domain + [
@@ -311,7 +319,7 @@ class L10nFrAccountVatReturn(models.Model):
             "currency": self.company_id.currency_id,
             "company_domain": company_domain,
             "base_domain": base_domain,
-            "base_domain_period": base_domain_period,
+            "base_domain_period_sale": base_domain_period_sale,
             "base_domain_end": base_domain_end,
             "sale_regular_vat_tax_domain": sale_regular_vat_tax_domain,
             "purchase_vat_tax_domain": purchase_vat_tax_domain,
@@ -900,7 +908,14 @@ class L10nFrAccountVatReturn(models.Model):
             sale_vat_account2rate[sale_vat_account] = rate_int
             sale_vat_accounts |= sale_vat_account
 
-        assert sale_vat_accounts
+        if not sale_vat_accounts:
+            raise UserError(
+                _(
+                    "There are no regular sale taxes with UNECE Tax Type set to 'VAT' "
+                    "in company '%s'."
+                )
+                % self.company_id.display_name
+            )
         return sale_vat_accounts, sale_vat_account2rate
 
     def _generate_due_vat_france(self, speedy, type_rate2logs):
@@ -1136,30 +1151,42 @@ class L10nFrAccountVatReturn(models.Model):
                 ]
                 + speedy["base_domain_end"]
             )
-            for autoliq_vat_move_line in autoliq_vat_move_lines:
-                move = autoliq_vat_move_line.move_id
-                if move.move_type not in ("in_invoice", "in_refund"):
+            for line in autoliq_vat_move_lines:
+                if line.journal_id.type != "purchase":
                     raise UserError(
                         _(
                             "Journal entry '%(move)s' dated %(date)s is inside or "
                             "before the VAT period %(vat_period)s "
                             "and has an unreconciled journal item with an "
                             "%(autoliq_type)s autoliquidation due VAT "
-                            "account '%(account)s', but it is not a supplier "
-                            "invoice/refund. That journal item should be reconciled.",
-                            move=move.display_name,
-                            date=format_date(self.env, move.date),
+                            "account '%(account)s' in journal '%(journal)s' which "
+                            "is not a purchase journal. That journal item should be "
+                            "reconciled.",
+                            move=line.move_id.display_name,
+                            date=format_date(self.env, line.date),
                             vat_period=self.name,
                             autoliq_type=autoliq_type,
-                            account=autoliq_vat_move_line.account_id.display_name,
+                            account=line.account_id.display_name,
+                            journal=line.journal_id.display_name,
                         )
                     )
 
             autoliq_vat_moves = autoliq_vat_move_lines.move_id
             for move in autoliq_vat_moves:
-                for line in move.invoice_line_ids.filtered(
-                    lambda x: x.display_type == "product"
-                ):
+                is_invoice = move.is_invoice()
+                if is_invoice:
+                    lines = move.invoice_line_ids.filtered(
+                        lambda x: x.display_type == "product"
+                    )
+                else:
+                    # In case we have an entry in the purchase journal which is not an invoice
+                    # While in v14 hr_expense created entries in the purchase journal
+                    # with move_type = 'entry', in v16 it creates entries
+                    # with move_type = 'in_invoice'
+                    lines = move.line_ids.filtered(
+                        lambda x: x.account_id.code.startswith("6")
+                    )
+                for line in lines:
                     rate_int = 0
                     for tax in line.tax_ids:
                         if tax in autoliq_tax2rate:
@@ -1169,7 +1196,7 @@ class L10nFrAccountVatReturn(models.Model):
                         product_or_service = line._fr_is_product_or_service()
                         if product_or_service == "product":
                             rate2product[rate_int] += line.balance
-                    else:
+                    elif is_invoice:
                         raise UserError(
                             _(
                                 "There is a problem on the %(autoliq_type)s "
@@ -1306,7 +1333,7 @@ class L10nFrAccountVatReturn(models.Model):
                 ("account_id", "in", sale_vat_accounts.ids),
                 ("balance", "!=", 0),
             ]
-            + speedy["base_domain_period"]
+            + speedy["base_domain_period_sale"]
         )
         monaco_box_logs = []
         for mline in mc_mlines:
@@ -1712,13 +1739,13 @@ class L10nFrAccountVatReturn(models.Model):
             # create the declaration lines
             logs = []
             for account in accounts:
-                balance = account._fr_vat_get_balance("base_domain_period", speedy)
+                balance = account._fr_vat_get_balance("base_domain_period_sale", speedy)
                 if not speedy["currency"].is_zero(balance):
                     logs.append(
                         {
                             "amount": balance * -1,
                             "account_id": account.id,
-                            "compute_type": "period_balance",
+                            "compute_type": "period_balance_sale",
                         }
                     )
             self._create_line(
@@ -2344,7 +2371,11 @@ class L10nFrAccountVatReturnLineLog(models.Model):
     )
     compute_type = fields.Selection(
         [
-            ("period_balance", "Period Balance"),  # used for untaxed operations
+            # previously used for untaxed operations (until 01/2024). I keep it for the
+            # the old log lines
+            ("period_balance", "Period Balance"),
+            # used for untaxed operations, starting 02/2024
+            ("period_balance_sale", "Period Balance in Sale Journal"),
             ("balance", "Ending Balance"),  # used for VAT boxes
             ("balance_ratio", "Ending Balance x Ratio"),  # used for VAT boxes
             ("unpaid_vat_on_payment", "Unpaid VAT on Payment"),  # used for VAT boxes
