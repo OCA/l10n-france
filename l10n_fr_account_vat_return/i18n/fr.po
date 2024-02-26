@@ -892,14 +892,9 @@ msgstr "Écriture comptable"
 msgid ""
 "Journal entry '%(move)s' dated %(date)s is inside or before the VAT period "
 "%(vat_period)s and has an unreconciled journal item with an %(autoliq_type)s "
-"autoliquidation due VAT account '%(account)s', but it is not a supplier "
-"invoice/refund. That journal item should be reconciled."
+"autoliquidation due VAT account '%(account)s' in journal '%(journal)s' which "
+"is not a purchase journal. That journal item should be reconciled."
 msgstr ""
-"La pièce comptable \"%(move)s\" datée du %(date)s est comprise dans ou "
-"antérieure à la période de TVA %(vat_period)s et comporte une ligne non "
-"lettrée avec un compte d'autoliquidation de TVA %(autoliq_type)s "
-"\"%(account)s\" , mais il ne s'agit pas d'une facture/avoir fournisseur. "
-"Cette écriture comptable doit être lettrée."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_journal_id
@@ -1094,11 +1089,10 @@ msgid ""
 "configure an account mapping on revenue accounts."
 msgstr ""
 "Table de correspondance des comptes vide sur la position fiscale <a href=# "
-"data-oe-model=account.fiscal.position data-oe-"
-"id=%(fiscal_position_id)d>%(fiscal_position)s</a> . Si cette position "
-"fiscale n'est pas seulement utilisée pour l'achat mais aussi pour la vente, "
-"vous devez configurer une table de correspondance des comptes sur les "
-"comptes de produits."
+"data-oe-model=account.fiscal.position data-oe-id=%(fiscal_position_id)d>"
+"%(fiscal_position)s</a> . Si cette position fiscale n'est pas seulement "
+"utilisée pour l'achat mais aussi pour la vente, vous devez configurer une "
+"table de correspondance des comptes sur les comptes de produits."
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
@@ -1189,6 +1183,11 @@ msgstr "Période"
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__period_balance
 msgid "Period Balance"
 msgstr "Variation sur la période"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__period_balance_sale
+msgid "Period Balance in Sale Journal"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
@@ -1617,6 +1616,14 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
+"There are no regular sale taxes with UNECE Tax Type set to 'VAT' in company "
+"'%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
 "There are still On Payment taxes in company '%s'. To handle on payment VAT, "
 "this module uses a different implementation than the native solution based "
 "on a configuration parameter on taxes."
@@ -1921,6 +1928,19 @@ msgstr "Mauvaise valeur pour le nouveau régime de TVA."
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__12
 msgid "Yearly"
 msgstr "Annuelle"
+
+#, python-format
+#~ msgid ""
+#~ "Journal entry '%(move)s' dated %(date)s is inside or before the VAT "
+#~ "period %(vat_period)s and has an unreconciled journal item with an "
+#~ "%(autoliq_type)s autoliquidation due VAT account '%(account)s', but it is "
+#~ "not a supplier invoice/refund. That journal item should be reconciled."
+#~ msgstr ""
+#~ "La pièce comptable \"%(move)s\" datée du %(date)s est comprise dans ou "
+#~ "antérieure à la période de TVA %(vat_period)s et comporte une ligne non "
+#~ "lettrée avec un compte d'autoliquidation de TVA %(autoliq_type)s "
+#~ "\"%(account)s\" , mais il ne s'agit pas d'une facture/avoir fournisseur. "
+#~ "Cette écriture comptable doit être lettrée."
 
 #, python-format
 #~ msgid ""
