@@ -1354,6 +1354,16 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
+"The autoliquidation tax '%(tax)s' is set on the tax mapping of fiscal "
+"position '%(fp)s' which is configured with type '%(fp_fr_vat_type)s'. "
+"Autoliquidation taxes should only be configured on fiscal positions with "
+"type '%(fp_fr_vat_type_intracom_b2b)s' or '%(fp_fr_vat_type_extracom)s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
 "The balance of account '%(account)s' is %(balance)s. In France, it should be"
 " a integer amount."
 msgstr ""
