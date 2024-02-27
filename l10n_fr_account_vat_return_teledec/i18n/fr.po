@@ -378,10 +378,9 @@ msgstr "Numéro de TVA non renseigné sur la société '%s'."
 #, python-format
 msgid ""
 "VAT return successfully sent to <a href=\"https://teledec.fr/\">Teledec.fr</"
-"a>."
+"a>. Technical data sent: <a href=# data-oe-model=ir.attachment data-oe-id="
+"%(attach_id)s>%(attach_name)s</a>"
 msgstr ""
-"Déclaration de TVA envoyée avec succès à <a href=\"https://teledec.fr/"
-"\">Teledec.fr</a>."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.l10n_fr_account_vat_return_form
@@ -390,6 +389,14 @@ msgid ""
 msgstr ""
 "Vous êtes sur le point d'envoyer votre déclaration de TVA via Teledec.fr. "
 "Confirmez-vous l'envoi ?"
+
+#, python-format
+#~ msgid ""
+#~ "VAT return successfully sent to <a href=\"https://teledec.fr/\">Teledec."
+#~ "fr</a>."
+#~ msgstr ""
+#~ "Déclaration de TVA envoyée avec succès à <a href=\"https://teledec.fr/"
+#~ "\">Teledec.fr</a>."
 
 #~ msgid ""
 #~ "<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
