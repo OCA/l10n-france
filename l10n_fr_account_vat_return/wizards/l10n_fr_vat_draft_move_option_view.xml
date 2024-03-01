@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2024 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="l10n_fr_vat_draft_move_option_form" model="ir.ui.view">
+        <field name="model">l10n.fr.vat.draft.move.option</field>
+        <field name="arch" type="xml">
+            <form>
+                <div name="msg" colspan="2">There is/are <field
+                        name="draft_move_count"
+                        class="oe_inline"
+                    /> draft journal entry/entries dated before <field
+                        name="end_date"
+                        class="oe_inline"
+                    />. You can either: <ul>
+                    <li>edit the draft journal entry/entries,</li>
+                    <li>ignore it/them and continue to process the VAT return.</li></ul>
+                </div>
+                <group name="draft_moves">
+                    <field name="fr_vat_return_id" invisible="1" />
+                    <field
+                        name="draft_move_ids"
+                        colspan="2"
+                        nolabel="1"
+                        context="{'tree_view_ref': 'account.view_move_tree'}"
+                    />
+                </group>
+                <footer>
+                    <button
+                        type="object"
+                        string="Edit Draft Journal Entries"
+                        name="option_show"
+                        class="btn-primary"
+                    />
+                    <button
+                        type="object"
+                        string="Ignore and Continue"
+                        name="option_continue"
+                        class="btn-primary"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_fr_vat_draft_move_option_action" model="ir.actions.act_window">
+        <field name="name">Draft Entries: Edit Draft Journal Entries or Continue</field>
+        <field name="res_model">l10n.fr.vat.draft.move.option</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
