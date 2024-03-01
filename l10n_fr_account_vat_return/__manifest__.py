@@ -19,6 +19,7 @@
         "wizards/l10n_fr_vat_exigibility_update_view.xml",
         "wizards/res_config_settings.xml",
         "wizards/l10n_fr_account_vat_return_reimbursement_view.xml",
+        "wizards/l10n_fr_vat_draft_move_option_view.xml",
         "views/l10n_fr_account_vat_box.xml",
         "views/l10n_fr_account_vat_return.xml",
         "views/account_fiscal_position.xml",
