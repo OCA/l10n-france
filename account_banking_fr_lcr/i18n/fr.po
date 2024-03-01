@@ -74,6 +74,15 @@ msgstr "Ordre de paiement"
 #: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
 #, python-format
 msgid ""
+"The bank is not set on bank account '%(bank_account)s' of the company "
+"'%(company)s'."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid ""
 "The currency of payment line '%(payment_line)s' is '%(currency)s'. To be "
 "included in a French LCR, the currency must be EUR."
 msgstr ""
