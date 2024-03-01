@@ -402,7 +402,9 @@ class L10nFrAccountVatReturn(models.Model):
         self.ensure_one()
         assert self.state == "manual"
         speedy = self._prepare_speedy()
-        self._setup_data_pre_check(speedy)
+        action = self._setup_data_pre_check(speedy)
+        if action:
+            return action
         self._delete_move_and_attachments()  # should not be necessary at that step
         self._generate_operation_untaxed(speedy)
         self._generate_due_vat(speedy)
@@ -493,21 +495,54 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _setup_data_pre_check(self, speedy):
         self.ensure_one()
-        # Block if there are draft moves before end_date
-        draft_move_count = speedy["am_obj"].search_count(
+        # Block if move of previous VAT return is in draft
+        previous_vat_return = self.search(
+            speedy["company_domain"] + [("start_date", "<", self.start_date)],
+            limit=1,
+            order="start_date desc",
+        )
+        if (
+            previous_vat_return
+            and previous_vat_return.move_id
+            and previous_vat_return.move_id.state == "draft"
+        ):
+            raise UserError(
+                _(
+                    "The journal entry of the previous VAT return '%s' is in draft. "
+                    "You must post it before continuing to process this VAT return "
+                    "(or cancel it if you encoded and posted the journal entry of "
+                    "the previous VAT return manually)."
+                )
+                % previous_vat_return.display_name
+            )
+        # Warn if there are draft moves before end_date (block if option
+        # 'Update Lock Date upon VAT Return Validation' is enabled)
+        draft_moves = speedy["am_obj"].search(
             [("date", "<=", self.end_date), ("state", "=", "draft")]
             + speedy["company_domain"]
         )
-        if draft_move_count:
-            raise UserError(
-                _(
-                    "There is/are %(count)d draft journal entry/entries "
-                    "dated before %(date)s. You should post it/them "
-                    "or delete it/them.",
-                    count=draft_move_count,
-                    date=format_date(self.env, self.end_date),
+        if draft_moves:
+            if self.company_id.fr_vat_update_lock_dates:
+                raise UserError(
+                    _(
+                        "There is/are %(count)d draft journal entry/entries "
+                        "dated before %(date)s. You should post it/them, "
+                        "delete it/them or postpone it/them.",
+                        count=len(draft_moves),
+                        date=format_date(self.env, self.end_date),
+                    )
                 )
-            )
+            elif not self._context.get("fr_vat_return_draft_force_continue"):
+                action = self.env["ir.actions.actions"]._for_xml_id(
+                    "l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_action"
+                )
+                action["context"] = dict(
+                    self._context,
+                    default_draft_move_ids=draft_moves.ids,
+                    default_draft_move_count=len(draft_moves),
+                    default_fr_vat_return_id=self.id,
+                )
+                return action
         bad_fp = speedy["afp_obj"].search(
             speedy["company_domain"] + [("fr_vat_type", "=", False)], limit=1
         )
@@ -532,6 +567,7 @@ class L10nFrAccountVatReturn(models.Model):
                 )
                 % self.company_id.display_name
             )
+        return None
 
     def _generate_ca3_bottom_totals(self, speedy):
         # Process the END of CA3 by hand
