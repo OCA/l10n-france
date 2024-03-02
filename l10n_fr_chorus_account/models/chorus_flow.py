@@ -234,7 +234,7 @@ class ChorusFlow(models.Model):
                     raise UserError(
                         _(
                             "The Chorus Invoice Identifiers are already set "
-                            "for flow %s"
+                            "for flow %s."
                         )
                         % flow.name
                     )

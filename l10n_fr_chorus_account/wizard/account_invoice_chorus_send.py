@@ -52,7 +52,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
                         "On invoice '%(invoice)s', the transmit method is "
                         "'%(transmit_method)s'. To be able "
                         "to send it to Chorus Pro, the transmit method must be "
-                        "'Chorus'."
+                        "'Chorus Pro'."
                     )
                     % {
                         "invoice": invoice.display_name,
