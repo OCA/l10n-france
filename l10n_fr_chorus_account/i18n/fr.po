@@ -99,8 +99,8 @@ msgstr "Annuler"
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
-msgid "Cannot get Chorus Identifier on a contact (%s)"
-msgstr "Impossible de récupérer l'identifiant Chorus sur le contact (%s)"
+msgid "Cannot get Chorus Identifier on partner '%s'."
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_check_commitment_number
@@ -410,8 +410,8 @@ msgstr ""
 #, python-format
 msgid "Error in the request to get a new token via PISTE. HTTP error code: %s."
 msgstr ""
-"Erreur dans la demande d'obtention d'un nouveau jeton via PISTE. Code d’"
-"erreur HTTP : %s."
+"Erreur dans la demande d'obtention d'un nouveau jeton via PISTE. Code "
+"d’erreur HTTP : %s."
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__attachment_id
@@ -465,16 +465,11 @@ msgstr "ID"
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_company__fr_chorus_check_commitment_number
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_check_commitment_number
 msgid ""
-"If enabled, Odoo will check the commitment number ('engagement juridique' in "
-"French) upon invoice validation. It corresponds to the 'customer order "
-"reference' in the administrative tongue. It will also check it upon sale "
-"order validation if the module l10n_fr_chorus_sale is installed."
+"If enabled, Odoo will check the commitment number upon invoice validation. "
+"This commitment number must be set in the field 'Customer Reference' of the "
+"invoice. It will also check it upon sale order validation if the module "
+"l10n_fr_chorus_sale is installed."
 msgstr ""
-"Si cette option est activée, Odoo vérifiera le numéro d’engagement juridique "
-"lors de la validation de la facture. Il correspond à la « référence de "
-"commande client » dans la langue administrative. Il le vérifiera également "
-"lors de la validation de la commande client si le module l10n_fr_chorus_sale "
-"est installé."
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__group_chorus_api
@@ -538,8 +533,8 @@ msgstr "Pièce comptable"
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_bank_statement_line__chorus_status_date
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__chorus_status_date
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__chorus_status_date
-msgid "Last Chorus Invoice Status Date"
-msgstr "Date de la dernière mise à jour du statut Chorus"
+msgid "Last Chorus Invoice Status Update"
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send____last_update
@@ -571,13 +566,12 @@ msgstr "Dernière mise à jour le"
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_company.py:0
 #, python-format
-msgid "Missing Chorus API parameters on the company %s"
-msgstr "Paramètres de l'API Chorus manquants sur la société '%s'."
+msgid "Missing Chorus API parameters on the company '%s'."
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/chorus_partner_service.py:0
-#: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
 msgid "Missing Chorus Identifier on partner %s."
 msgstr "Impossible de récupérer l'identifiant Chorus du partenaire '%s'."
@@ -604,15 +598,15 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/account_move.py:0
 #, python-format
-msgid "Missing Chorus Invoice Identifier on invoice '%s'"
-msgstr "Identifiant de facture Chorus manquant sur la facture '%s'."
+msgid "Missing Chorus Invoice Identifier on invoice '%s'."
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
-msgid "Missing Info Required for Chorus on partner %s."
-msgstr "Informations requises pour Chorus manquant sur le partenaire '%s'."
+msgid "Missing Info Required for Chorus on partner '%s'."
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -627,19 +621,19 @@ msgstr ""
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
-#: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
-#, python-format
-msgid "Missing SIRET on partner %s"
-msgstr "SIRET manquant sur le partenaire '%s'."
-
-#. module: l10n_fr_chorus_account
-#. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_company.py:0
 #, python-format
 msgid "Missing SIRET on partner '%(partner)s' linked to company '%(company)s'."
 msgstr ""
 "SIRET manquant sur le partenaire '%(partner)s' lié à la société "
 "'%(company)s'."
+
+#. module: l10n_fr_chorus_account
+#. odoo-python
+#: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
+#, python-format
+msgid "Missing SIRET on partner '%s'."
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -655,19 +649,16 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_company.py:0
 #, python-format
-msgid "Missing key 'chorus_api_oauth_id' in Odoo server configuration file"
+msgid "Missing key 'chorus_api_oauth_id' in Odoo server configuration file."
 msgstr ""
-"Clé 'chorus_api_oauth_id' manquante dans le fichier de configuration du "
-"serveur Odoo."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_company.py:0
 #, python-format
-msgid "Missing key 'chorus_api_oauth_secret' in Odoo server configuration file"
+msgid ""
+"Missing key 'chorus_api_oauth_secret' in Odoo server configuration file."
 msgstr ""
-"Clé 'chorus_api_oauth_secret' manquante dans le fichier de configuration du "
-"serveur Odoo."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -808,11 +799,11 @@ msgid ""
 "Account' should be set on the customer invoice."
 msgstr ""
 "Sur la facture '%(invoice)s', les informations de compte bancaire de "
-"l'émetteur (%(company)s) sont manquantes. Pour cela, vous avez deux options :"
-" soit le mode de paiement de la facture doit être configuré avec 'Lien vers "
-"compte bancaire' = 'fixe' et le journal de banque associé doit avoir un "
-"'Compte bancaire' configuré, soit le champ 'Compte bancaire' doit être "
-"renseigné sur la facture client."
+"l'émetteur (%(company)s) sont manquantes. Pour cela, vous avez deux "
+"options : soit le mode de paiement de la facture doit être configuré avec "
+"'Lien vers compte bancaire' = 'fixe' et le journal de banque associé doit "
+"avoir un 'Compte bancaire' configuré, soit le champ 'Compte bancaire' doit "
+"être renseigné sur la facture client."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -820,19 +811,16 @@ msgstr ""
 #, python-format
 msgid ""
 "On invoice '%(invoice)s', the transmit method is '%(transmit_method)s'. To "
-"be able to send it to Chorus Pro, the transmit method must be 'Chorus'."
+"be able to send it to Chorus Pro, the transmit method must be 'Chorus Pro'."
 msgstr ""
-"Sur la facture '%(invoice)s', le mode d'envoi est '%(transmit_method)s'. "
-"Pour pouvoir l’envoyer sur Chorus Pro, le mode d'envoi doit être 'Chorus "
-"Pro'."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_partner.py:0
 #, python-format
-msgid "On partner %s, the invoice transmit method is not set to Chorus"
+msgid ""
+"On partner '%s', the invoice transmit method is not set to 'Chorus Pro'."
 msgstr ""
-"Sur le partenaire '%s', le mode d'envoi des factures n'est pas 'Chorus Pro'."
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
@@ -1002,17 +990,15 @@ msgstr ""
 #, python-format
 msgid ""
 "The Chorus Invoice Format is not configured on the Accounting Configuration "
-"page of company '%s'"
+"page of company '%s'."
 msgstr ""
-"Le format de facture Chorus n'est pas configuré sur la page de configuration "
-"de la facturation de la société '%s'."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/chorus_flow.py:0
 #, python-format
-msgid "The Chorus Invoice Identifiers are already set for flow %s"
-msgstr "Les identifiants de facture Chorus sont déjà définis pour le flux %s."
+msgid "The Chorus Invoice Identifiers are already set for flow %s."
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -1047,8 +1033,8 @@ msgid ""
 "and update it in the menu Accounting > Configuration > Configuration."
 msgstr ""
 "La date d’expiration du mot de passe technique de l’API Chorus est %s. Vous "
-"devez vous connecter à Chorus Pro, générer un nouveau mot de passe pour l’"
-"utilisateur technique et le mettre à jour dans le menu Facturation > "
+"devez vous connecter à Chorus Pro, générer un nouveau mot de passe pour "
+"l’utilisateur technique et le mettre à jour dans le menu Facturation > "
 "Configuration > Configuration."
 
 #. module: l10n_fr_chorus_account
@@ -1094,8 +1080,8 @@ msgid ""
 "<br/><i>%s</i><br/>You should fix the error and send this invoice to Chorus "
 "Pro again."
 msgstr ""
-"Cette facture a été <b>rejetée par Chorus Pro</b> pour la raison suivante :<"
-"br/><i>%s</i><br/>Vous devez corriger l’erreur et envoyer à nouveau cette "
+"Cette facture a été <b>rejetée par Chorus Pro</b> pour la raison suivante :"
+"<br/><i>%s</i><br/>Vous devez corriger l’erreur et envoyer à nouveau cette "
 "facture sur Chorus Pro."
 
 #. module: l10n_fr_chorus_account
@@ -1155,6 +1141,82 @@ msgid "[{{ object.name }}] Action needed to continue to use the Chorus Pro API"
 msgstr ""
 "[{{ object.name }}] Action nécessaire pour continuer d'utiliser l'API Chorus "
 "Pro"
+
+#, python-format
+#~ msgid "Cannot get Chorus Identifier on a contact (%s)"
+#~ msgstr "Impossible de récupérer l'identifiant Chorus sur le contact (%s)"
+
+#~ msgid ""
+#~ "If enabled, Odoo will check the commitment number ('engagement juridique' "
+#~ "in French) upon invoice validation. It corresponds to the 'customer order "
+#~ "reference' in the administrative tongue. It will also check it upon sale "
+#~ "order validation if the module l10n_fr_chorus_sale is installed."
+#~ msgstr ""
+#~ "Si cette option est activée, Odoo vérifiera le numéro d’engagement "
+#~ "juridique lors de la validation de la facture. Il correspond à la « "
+#~ "référence de commande client » dans la langue administrative. Il le "
+#~ "vérifiera également lors de la validation de la commande client si le "
+#~ "module l10n_fr_chorus_sale est installé."
+
+#~ msgid "Last Chorus Invoice Status Date"
+#~ msgstr "Date de la dernière mise à jour du statut Chorus"
+
+#, python-format
+#~ msgid "Missing Chorus API parameters on the company %s"
+#~ msgstr "Paramètres de l'API Chorus manquants sur la société '%s'."
+
+#, python-format
+#~ msgid "Missing Chorus Invoice Identifier on invoice '%s'"
+#~ msgstr "Identifiant de facture Chorus manquant sur la facture '%s'."
+
+#, python-format
+#~ msgid "Missing Info Required for Chorus on partner %s."
+#~ msgstr "Informations requises pour Chorus manquant sur le partenaire '%s'."
+
+#, python-format
+#~ msgid "Missing SIRET on partner %s"
+#~ msgstr "SIRET manquant sur le partenaire '%s'."
+
+#, python-format
+#~ msgid "Missing key 'chorus_api_oauth_id' in Odoo server configuration file"
+#~ msgstr ""
+#~ "Clé 'chorus_api_oauth_id' manquante dans le fichier de configuration du "
+#~ "serveur Odoo."
+
+#, python-format
+#~ msgid ""
+#~ "Missing key 'chorus_api_oauth_secret' in Odoo server configuration file"
+#~ msgstr ""
+#~ "Clé 'chorus_api_oauth_secret' manquante dans le fichier de configuration "
+#~ "du serveur Odoo."
+
+#, python-format
+#~ msgid ""
+#~ "On invoice '%(invoice)s', the transmit method is '%(transmit_method)s'. "
+#~ "To be able to send it to Chorus Pro, the transmit method must be 'Chorus'."
+#~ msgstr ""
+#~ "Sur la facture '%(invoice)s', le mode d'envoi est '%(transmit_method)s'. "
+#~ "Pour pouvoir l’envoyer sur Chorus Pro, le mode d'envoi doit être 'Chorus "
+#~ "Pro'."
+
+#, python-format
+#~ msgid "On partner %s, the invoice transmit method is not set to Chorus"
+#~ msgstr ""
+#~ "Sur le partenaire '%s', le mode d'envoi des factures n'est pas 'Chorus "
+#~ "Pro'."
+
+#, python-format
+#~ msgid ""
+#~ "The Chorus Invoice Format is not configured on the Accounting "
+#~ "Configuration page of company '%s'"
+#~ msgstr ""
+#~ "Le format de facture Chorus n'est pas configuré sur la page de "
+#~ "configuration de la facturation de la société '%s'."
+
+#, python-format
+#~ msgid "The Chorus Invoice Identifiers are already set for flow %s"
+#~ msgstr ""
+#~ "Les identifiants de facture Chorus sont déjà définis pour le flux %s."
 
 #~ msgid "Chorus Invoice Indentifier"
 #~ msgstr "Identifiant de facture Chorus"
