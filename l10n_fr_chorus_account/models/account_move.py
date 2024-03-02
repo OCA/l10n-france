@@ -72,7 +72,7 @@ class AccountMove(models.Model):
         string="Chorus Invoice Status", readonly=True, copy=False, tracking=True
     )
     chorus_status_date = fields.Datetime(
-        string="Last Chorus Invoice Status Date", readonly=True, copy=False
+        string="Last Chorus Invoice Status Update", readonly=True, copy=False
     )
     chorus_attachment_ids = fields.Many2many(
         "ir.attachment",
@@ -243,7 +243,7 @@ class AccountMove(models.Model):
             raise UserError(
                 _(
                     "The Chorus Invoice Format is not configured on the "
-                    "Accounting Configuration page of company '%s'"
+                    "Accounting Configuration page of company '%s'."
                 )
                 % self[0].company_id.display_name
             )
@@ -314,7 +314,7 @@ class AccountMove(models.Model):
             if not inv.chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Chorus Invoice Identifier on invoice '%s'")
+                        _("Missing Chorus Invoice Identifier on invoice '%s'.")
                         % inv.display_name
                     )
                 logger.warning(
