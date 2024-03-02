@@ -124,7 +124,7 @@ class ResPartner(models.Model):
             if partner.parent_id:
                 if raise_if_ko:
                     raise UserError(
-                        _("Cannot get Chorus Identifier on a contact (%s)")
+                        _("Cannot get Chorus Identifier on partner '%s'.")
                         % partner.display_name
                     )
                 else:
@@ -135,7 +135,7 @@ class ResPartner(models.Model):
             if not partner.nic or not partner.siren:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing SIRET on partner %s") % partner.display_name
+                        _("Missing SIRET on partner '%s'.") % partner.display_name
                     )
                 else:
                     logger.warning(
@@ -149,8 +149,8 @@ class ResPartner(models.Model):
                 if raise_if_ko:
                     raise UserError(
                         _(
-                            "On partner %s, the invoice transmit method "
-                            "is not set to Chorus"
+                            "On partner '%s', the invoice transmit method "
+                            "is not set to 'Chorus Pro'."
                         )
                         % partner.display_name
                     )
@@ -308,7 +308,7 @@ class ResPartner(models.Model):
             if not partner.fr_chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Chorus Identifier on partner %s.")
+                        _("Missing Chorus Identifier on partner '%s'.")
                         % partner.display_name
                     )
                 else:
@@ -320,7 +320,7 @@ class ResPartner(models.Model):
             if not partner.fr_chorus_required:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Info Required for Chorus on partner %s.")
+                        _("Missing Info Required for Chorus on partner '%s'.")
                         % partner.display_name
                     )
                 else:
