@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2024-03-04 21:36+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -20,6 +22,7 @@ msgstr ""
 #, python-format
 msgid "%(invoice)s (%(partner)s) is unpaid, Unpaid VAT amount %(amount)s"
 msgstr ""
+"%(invoice)s%(partner)s está impagado, Importe del IVA impagado%(amount)s"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -29,6 +32,8 @@ msgid ""
 "%(invoice)s (%(partner)s) was unpaid on %(date)s, Unpaid VAT amount "
 "%(amount)s"
 msgstr ""
+"%(invoice)s %(partner)s fue impagado el %(date)s , Importe del IVA impagado "
+"%(amount)s"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -37,13 +42,14 @@ msgstr ""
 msgid ""
 "%(invoice)s of customer %(partner)s from Monaco, VAT amount %(vat_amount)s"
 msgstr ""
+"%(invoice)s de clientes %(partner)s de Mónaco, importe del IVA %(vat_amount)s"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "%(start_note)s, Rate %(rate).2f%% → Base %(base_amount)s"
-msgstr ""
+msgstr "%(start_note)s, Tasa %(rate).2f%% → Base %(base_amount)s"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -53,30 +59,35 @@ msgid ""
 "%(unpaid_ratio)d%% of %(invoice)s (%(partner)s) was unpaid on %(date)s, VAT "
 "amount %(total_vat_amount)s → Unpaid VAT amount %(unpaid_vat_amount)s"
 msgstr ""
+"%(unpaid_ratio)d de %(invoice)s %(partner)s fue impagado el %(date)s, "
+"importe del IVA%(total_vat_amount)s → Importe del IVA no pagado "
+"%(unpaid_vat_amount)s"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "%s (add)"
-msgstr ""
+msgstr "%s (añadir)"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310a
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-A"
-msgstr ""
+msgstr "3310-A"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310ca3
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-CA3"
-msgstr ""
+msgstr "3310-CA3"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_return_start_company_uniq
 msgid "A VAT return with the same start date already exists in this company!"
 msgstr ""
+"¡En esta empresa ya existe una declaración de IVA con la misma fecha de "
+"inicio!"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_account_account
@@ -84,7 +95,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__manual_account_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__account_id
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -94,6 +105,9 @@ msgid ""
 "Account '%(account)s' is used as due VAT account on several auto-liquidation"
 " taxes for different rates (%(rate1).2f%% and %(rate2).2f%%)."
 msgstr ""
+"La cuenta '%(account)s' se utiliza como cuenta de IVA adeudado en varios "
+"impuestos de liquidación automática para diferentes tasas (%(rate1).2f%% y "
+"%(rate2).2f%%)."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -103,6 +117,8 @@ msgid ""
 "Account '%(account)s' is used for several kinds of deductible VAT taxes "
 "(%(type1)s and %(type2)s)."
 msgstr ""
+"La cuenta '%(account)s' se utiliza para varios tipos de impuestos de IVA "
+"deducibles (%(type1)s y %(type2)s)."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -112,6 +128,8 @@ msgid ""
 "Account '%(account)s' is used on several sale VAT taxes for different rates "
 "(%(rate1).2f%% and %(rate2).2f%%)."
 msgstr ""
+"La cuenta '%(account)s' se utiliza en varios impuestos de IVA sobre las "
+"ventas para diferentes tasas (%(rate1).2f%% y %(rate2).2f%%)."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -121,6 +139,8 @@ msgid ""
 "Account '%s' is an account for autoliquidation, so it's reconcile option "
 "must be enabled."
 msgstr ""
+"La cuenta '%s' es una cuenta para autoliquidación, por lo que su opción de "
+"conciliación debe estar activada."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -128,60 +148,62 @@ msgstr ""
 #, python-format
 msgid "Account '%s' is present in the mapping of several fiscal positions."
 msgstr ""
+"La cuenta \"%s\" está presente en la asignación de varias posiciones "
+"fiscales."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_account_chart_template
 msgid "Account Chart Template"
-msgstr ""
+msgstr "Plantilla de Plan Contable"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Account is missing on manual line '%s'."
-msgstr ""
+msgstr "Falta la cuenta en la línea manual '%s'."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__accounting_method
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_accounting_method
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "Accounting Method"
-msgstr ""
+msgstr "Método Contable"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Accion necesaria"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__active
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Actividades"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Decoración de Excepción de Actividad"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Estado de la Actividad"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Icono Tipo de Actividad"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__adjustment
 msgid "Adjustment"
-msgstr ""
+msgstr "Ajuste"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -192,17 +214,20 @@ msgid ""
 " due VAT base boxes %(due_vat_boxes)s. Otherwise, DGFiP would reject the VAT"
 " return."
 msgstr ""
+"Ajuste para tener suma de casillas de operaciones gravadas %(taxed_op_boxes)"
+"s = suma de casillas base de IVA adeudado %(due_vat_boxes)s. En caso "
+"contrario, la DGFiP rechazaría la declaración del IVA."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__amount
 msgid "Amount"
-msgstr ""
+msgstr "Importe"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__manual_analytic_distribution
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__analytic_distribution
 msgid "Analytic"
-msgstr ""
+msgstr "Analítica"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__analytic_precision
@@ -210,34 +235,34 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__analytic_precision
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__analytic_precision
 msgid "Analytic Precision"
-msgstr ""
+msgstr "Precisión Analítica"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_expense_analytic_distribution
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_expense_analytic_distribution
 msgid "Analytic for Expense Adjustment"
-msgstr ""
+msgstr "Análisis para Ajuste de Gastos"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_income_analytic_distribution
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_income_analytic_distribution
 msgid "Analytic for Income Adjustment"
-msgstr ""
+msgstr "Analítica para el Ajuste de los Ingresos"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_form
 msgid "Archived"
-msgstr ""
+msgstr "Archivado"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Recuento de Adjuntos"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_tax__fr_vat_autoliquidation
 msgid "Auto-Liquidation"
-msgstr ""
+msgstr "Auto-Liquidación"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -247,63 +272,65 @@ msgid ""
 "Auto-liquidation tax '%s' is not present in the tax mapping of any fiscal "
 "position."
 msgstr ""
+"El impuesto de autoliquidación \"%s\" no está presente en la asignación de "
+"impuestos de ninguna posición fiscal."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__state__auto
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_search
 msgid "Automatic Lines"
-msgstr ""
+msgstr "Líneas Automáticas"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
 msgid "Back to Manual Lines"
-msgstr ""
+msgstr "Volver a Líneas Manuales"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__base_from_balance
 msgid "Base from Ending Balance"
-msgstr ""
+msgstr "Base del Balance Final"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__base_from_balance_ratio
 msgid "Base from Ending Balance x Ratio"
-msgstr ""
+msgstr "Base del Saldo Final x Ratio"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__base_from_unpaid_vat_on_payment
 msgid "Base from Unpaid VAT on Payment"
-msgstr ""
+msgstr "Base del IVA Impagado en el Pago"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Based on invoice"
-msgstr ""
+msgstr "Basado en la factura"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Based on payment"
-msgstr ""
+msgstr "Basado en el pago"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__edi_type__cci_tbx
 msgid "Boolean (CCI/TBX)"
-msgstr ""
+msgstr "Booleano (CCI/TBX)"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
 #, python-format
 msgid "Both (automatic)"
-msgstr ""
+msgstr "Ambos (automático)"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_id
 msgid "Box"
-msgstr ""
+msgstr "Caja"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -312,6 +339,8 @@ msgstr ""
 msgid ""
 "Box '%(box)s' has a push box '%(push_box)s' that is configured as manual."
 msgstr ""
+"La casilla '%(box)s' tiene una casilla push '%(push_box)s' que está "
+"configurada como manual."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -322,6 +351,10 @@ msgid ""
 " there are no accounts that start with this code in company '%(company)s'. "
 "You may want to setup a specific account on that box."
 msgstr ""
+"El buzón \"%(box)s\" está configurado con el código de cuenta manual \""
+"%(account_code)s\", pero no hay cuentas que empiecen por este código en la "
+"empresa \"%(company)s\". Es posible que desee configurar una cuenta "
+"específica en esa casilla."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -329,6 +362,8 @@ msgstr ""
 #, python-format
 msgid "Box '%s' doesn't have a push box, so it's push rate should be 0."
 msgstr ""
+"La caja '%s' no tiene una caja push, por lo que su tasa de push debería ser "
+"0."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -336,6 +371,8 @@ msgstr ""
 #, python-format
 msgid "Box '%s' doesn't have a push box, so it's push sequence should be 0."
 msgstr ""
+"La caja '%s' no tiene una caja push, por lo que su secuencia push debería "
+"ser 0."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -345,6 +382,8 @@ msgid ""
 "Box '%s' doesn't have an accounting method, so it should not have any "
 "accounting parameter."
 msgstr ""
+"La casilla '%s' no tiene método contable, por lo que no debería tener ningún "
+"parámetro contable."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -352,6 +391,7 @@ msgstr ""
 #, python-format
 msgid "Box '%s' has a push box but is missing a push sequence."
 msgstr ""
+"La casilla '%s' tiene una casilla push pero le falta una secuencia push."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -361,32 +401,34 @@ msgid ""
 "Box '%s' should not have an accounting method considering it's an untaxed "
 "operation."
 msgstr ""
+"La casilla '%s' no debería tener método contable al tratarse de una "
+"operación no gravada."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__box
 msgid "Box Value"
-msgstr ""
+msgstr "Valor de la Caja"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__ca3_attachment_id
 msgid "CA3 Attachment"
-msgstr ""
+msgstr "Anexo CA3"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__ca3_attachment_datas
 msgid "CA3 File"
-msgstr ""
+msgstr "Archivo CA3"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__ca3_attachment_name
 msgid "CA3 Filename"
-msgstr ""
+msgstr "Nombre de archivo CA3"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_reimbursement_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_exigibility_update_form
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -395,33 +437,35 @@ msgstr ""
 msgid ""
 "Cannot delete VAT return '%s' because it is not in 'Manual Lines' state."
 msgstr ""
+"No se puede eliminar la declaración de IVA '%s' porque no está en estado "
+"'Líneas Manuales'."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_exigibility_update
 msgid "Change Company VAT Exigibility"
-msgstr ""
+msgstr "Modificación del Régimen de IVA de las Empresas"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.res_config_settings_view_form
 msgid "Change VAT Exigibility"
-msgstr ""
+msgstr "Modificación del Régimen de IVA"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__edi_type__ftx
 msgid "Char (FTX)"
-msgstr ""
+msgstr "Carácter (FTX)"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__code
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_code
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__reimbursement_comment_dgfip
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
 msgid "Comment for DGFIP"
-msgstr ""
+msgstr "Comentario para DGFIP"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -429,12 +473,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__comment_dgfip
 #, python-format
 msgid "Comment for DGFiP"
-msgstr ""
+msgstr "Comentario para DGFiP"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Compañías"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__company_id
@@ -442,24 +486,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__company_id
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_search
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__bank_account_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_bank_account_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_bank_account_id
 msgid "Company Bank Account"
-msgstr ""
+msgstr "Cuenta bancaria de la compañía"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__company_currency_id
 msgid "Company Currency"
-msgstr ""
+msgstr "Divisa de la Compañía"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__company_partner_id
 msgid "Company Partner"
-msgstr ""
+msgstr "Empresa Asociada"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_res_company__fr_vat_bank_account_id
@@ -467,21 +511,23 @@ msgstr ""
 msgid ""
 "Company bank account used to pay VAT or receive credit VAT reimbursements."
 msgstr ""
+"Cuenta bancaria de la empresa utilizada para pagar el IVA o recibir "
+"reembolsos del IVA a crédito."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__log_ids
 msgid "Computation Details"
-msgstr ""
+msgstr "Detalles del Cálculo"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_line_form
 msgid "Computation and Accounting Details"
-msgstr ""
+msgstr "Cómputo y Detalles Contables"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__compute_type
 msgid "Compute Type"
-msgstr ""
+msgstr "Tipo de cálculo"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_account_vat_return_line_log
