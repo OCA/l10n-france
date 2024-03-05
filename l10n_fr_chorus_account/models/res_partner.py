@@ -378,7 +378,7 @@ class ResPartner(models.Model):
                 # I match on code instead of chorus_identifier
                 # because Services can be created manually at the beginning
                 # before we start using the API
-                for (ccode, cdata) in res.items():
+                for ccode, cdata in res.items():
                     if existing_res.get(ccode):
                         existing_p = existing_res[ccode]
                         if (
