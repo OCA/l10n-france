@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
@@ -13,13 +13,11 @@ logger = logging.getLogger(__name__)
 class AccountInvoiceChorusSend(models.TransientModel):
     _name = "account.invoice.chorus.send"
     _description = "Send several invoices to Chorus"
+    _check_company_auto = True
 
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        assert (
-            self._context.get("active_model") == "account.move"
-        ), "Wrong active_model, should be account.move"
         assert self._context.get("active_ids"), "Missing active_ids in ctx"
         invoices = self.env["account.move"].browse(self._context.get("active_ids"))
         company = False
@@ -77,11 +75,11 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     )
             else:
                 company = invoice.company_id
-                company._check_chorus_invoice_format()
 
+        company._check_chorus_invoice_format()
         res.update(
             {
-                "invoice_ids": [(6, 0, invoices.ids)],
+                "invoice_ids": [Command.set(invoices.ids)],
                 "invoice_count": len(invoices),
                 "company_id": company.id,
             }
@@ -89,53 +87,24 @@ class AccountInvoiceChorusSend(models.TransientModel):
         return res
 
     invoice_ids = fields.Many2many(
-        "account.move", string="Invoices to Send", readonly=True
+        "account.move",
+        string="Invoices to Send",
+        readonly=True,
+        check_company=True,
     )
     invoice_count = fields.Integer(string="Number of Invoices", readonly=True)
     company_id = fields.Many2one("res.company", string="Company", readonly=True)
     chorus_invoice_format = fields.Selection(
-        related="company_id.fr_chorus_invoice_format", readonly=True
+        related="company_id.fr_chorus_invoice_format"
     )
 
     def run(self):
-        logger.info("Starting to send invoices IDs %s to Chorus", self.invoice_ids.ids)
-        company = self.company_id
-        api_params = company.chorus_get_api_params(raise_if_ko=True)
-        url_path = "factures/v1/deposer/flux"
-        payload = self.invoice_ids.prepare_chorus_deposer_flux_payload()
-        attach = self.env["ir.attachment"].create(
-            {
-                "name": payload.get("nomFichier"),
-                "datas": payload.get("fichierFlux"),
-            }
-        )
-        logger.info(
-            "Start to send invoice IDs %s via Chorus %sWS",
-            self.invoice_ids.ids,
-            api_params["qualif"] and "QUALIF. " or "",
-        )
-        answer, session = company.chorus_post(api_params, url_path, payload)
-        if answer and answer.get("numeroFluxDepot"):
-            flow = self.env["chorus.flow"].create(
-                {
-                    "name": answer["numeroFluxDepot"],
-                    "date": answer.get("dateDepot"),
-                    "syntax": company.fr_chorus_invoice_format,
-                    "attachment_id": attach.id,
-                    "company_id": company.id,
-                    "initial_invoice_ids": self.invoice_ids.ids,
-                }
-            )
-            self.invoice_ids.write(
-                {
-                    "chorus_flow_id": flow.id,
-                    "is_move_sent": True,
-                }
-            )
-            action = (
-                self.env.ref("l10n_fr_chorus_account.chorus_flow_action")
-                .sudo()
-                .read()[0]
+        self.ensure_one()
+        action = {}
+        flow = self.invoice_ids._fr_chorus_send()
+        if flow and self._context.get("show_flow"):
+            action = self.env["ir.actions.actions"]._for_xml_id(
+                "l10n_fr_chorus_account.chorus_flow_action"
             )
             action.update(
                 {
@@ -144,5 +113,4 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     "res_id": flow.id,
                 }
             )
-            return action
-        return
+        return action

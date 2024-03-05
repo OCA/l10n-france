@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2017-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">chorus.account.res.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <block id="invoicing_settings" position="after">
+                <block id="fr_chorus" title="Chorus Pro">
+                    <setting
+                        id="fr_chorus_api"
+                        string="Chorus Pro API"
+                        help="Send electronic invoices to the French administration directly from Odoo via the Chorus Pro API"
+                    >
+                        <field name="group_chorus_api" />
+                    </setting>
+                    <setting
+                        id="fr_chorus_invoice_format"
+                        invisible="not group_chorus_api"
+                        string="Chorus Invoice Format"
+                        help="Select the format of the invoices sent to Chorus Pro"
+                    >
+                        <field name="fr_chorus_invoice_format" />
+                    </setting>
+                    <setting
+                        id="fr_chorus_check_commitment_number"
+                        invisible="not group_chorus_api"
+                        string="Check Commitment Numbers"
+                        help="This feature is experimental. Feedback welcomed."
+                    >
+                        <field name="fr_chorus_check_commitment_number" />
+                    </setting>
+                    <setting
+                        id="fr_chorus_api_login"
+                        invisible="not group_chorus_api"
+                        string="Technical User Login"
+                    >
+                        <field name="fr_chorus_api_login" />
+                    </setting>
+                    <setting
+                        id="fr_chorus_api_password"
+                        invisible="not group_chorus_api"
+                        string="Technical User Password"
+                    >
+                        <field name="fr_chorus_api_password" password="1" />
+                    </setting>
+                    <setting
+                        id="fr_chorus_pwd_expiry_date"
+                        invisible="not group_chorus_api"
+                        string="Technical User Password Expiry Date"
+                    >
+                        <field name="fr_chorus_pwd_expiry_date" />
+                    </setting>
+                    <setting
+                        id="fr_chorus_expiry_remind_user_ids"
+                        invisible="not group_chorus_api"
+                        string="Users Receiving the Expiry Reminder"
+                    >
+                        <field
+                            name="fr_chorus_expiry_remind_user_ids"
+                            widget="many2many_tags"
+                        />
+                    </setting>
+                    <setting
+                        id="fr_chorus_qualif"
+                        invisible="not group_chorus_api"
+                        string="Test Mode"
+                        help="Use the Chorus Pro qualification plateform instead of the production plateform"
+                    >
+                        <field name="fr_chorus_qualif" />
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>
