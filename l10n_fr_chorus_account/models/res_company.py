@@ -31,8 +31,12 @@ TIMEOUT = 30
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    fr_chorus_api_login = fields.Char(string="Chorus Technical User Login")
-    fr_chorus_api_password = fields.Char(string="Chorus Technical User Password")
+    fr_chorus_api_login = fields.Char(
+        string="Chorus Technical User Login", groups="base.group_system"
+    )
+    fr_chorus_api_password = fields.Char(
+        string="Chorus Technical User Password", groups="base.group_system"
+    )
     fr_chorus_qualif = fields.Boolean(
         "Chorus Test Mode", help="Use the Chorus Pro qualification website"
     )
@@ -70,7 +74,7 @@ class ResCompany(models.Model):
         )
         return env_fields
 
-    def chorus_get_piste_api_oauth_identifiers(self, raise_if_ko=False):
+    def _chorus_get_piste_api_oauth_identifiers(self, raise_if_ko=False):
         """Inherit this method if you want to configure your Chorus certificates
         elsewhere or have per-company Chorus certificates"""
         self.ensure_one()
@@ -97,21 +101,21 @@ class ResCompany(models.Model):
                 return False
         return (oauth_id, oauth_secret)
 
-    def chorus_get_api_params(self, raise_if_ko=False):
+    def _chorus_get_api_params(self, raise_if_ko=False):
         self.ensure_one()
         api_params = {}
-        oauth_identifiers = self.chorus_get_piste_api_oauth_identifiers(
+        oauth_identifiers = self._chorus_get_piste_api_oauth_identifiers(
             raise_if_ko=raise_if_ko
         )
         if (
             self.fr_chorus_invoice_format
-            and self.fr_chorus_api_login
-            and self.fr_chorus_api_password
+            and self.sudo().fr_chorus_api_login
+            and self.sudo().fr_chorus_api_password
             and oauth_identifiers
         ):
             api_params = {
-                "login": self.fr_chorus_api_login,
-                "password": self.fr_chorus_api_password,
+                "login": self.sudo().fr_chorus_api_login,
+                "password": self.sudo().fr_chorus_api_password,
                 "qualif": self.fr_chorus_qualif,
                 "oauth_id": oauth_identifiers[0],
                 "oauth_secret": oauth_identifiers[1],
@@ -243,11 +247,11 @@ class ResCompany(models.Model):
         return token
 
     @api.model
-    def chorus_post(self, api_params, url_path, payload, session=None):
+    def _chorus_post(self, api_params, url_path, payload, session=None):
         url_base = api_params["qualif"] and QUALIF_API_URL or API_URL
-        url = "%s/cpro/%s" % (url_base, url_path)
+        url = f"{url_base}/cpro/{url_path}"
         auth = (api_params["login"], api_params["password"])
-        auth_piste = "%s:%s" % auth
+        auth_piste = ":".join(auth)
         auth_piste_b64 = base64.b64encode(auth_piste.encode("utf8"))
         headers = {
             "Content-type": "application/json;charset=utf-8",
@@ -291,7 +295,9 @@ class ResCompany(models.Model):
         if r.status_code != 200:
             logger.error(
                 "Chorus API webservice answered with HTTP status code=%s and "
-                "content=%s" % (r.status_code, r.text)
+                "content=%s",
+                r.status_code,
+                r.text,
             )
             raise UserError(
                 _(
@@ -316,13 +322,17 @@ class ResCompany(models.Model):
         logger.info("Starting the Chorus Pro API expiry reminder cron")
         today_dt = fields.Date.from_string(fields.Date.context_today(self))
         limit_date = fields.Date.to_string(today_dt + relativedelta(days=15))
-        companies = self.env["res.company"].search(
-            [
-                ("fr_chorus_api_password", "!=", False),
-                ("fr_chorus_api_login", "!=", False),
-                ("fr_chorus_pwd_expiry_date", "!=", False),
-                ("fr_chorus_pwd_expiry_date", "<=", limit_date),
-            ]
+        companies = (
+            self.env["res.company"]
+            .sudo()
+            .search(
+                [
+                    ("fr_chorus_api_password", "!=", False),
+                    ("fr_chorus_api_login", "!=", False),
+                    ("fr_chorus_pwd_expiry_date", "!=", False),
+                    ("fr_chorus_pwd_expiry_date", "<=", limit_date),
+                ]
+            )
         )
         mail_tpl = self.env.ref(
             "l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template"
@@ -385,7 +395,7 @@ class ResCompany(models.Model):
             )
         if (
             cpartner.fr_chorus_required in ("service", "service_and_engagement")
-            and not invoice_partner.chorus_service_ok()
+            and not invoice_partner._chorus_service_ok()
         ):
             raise UserError(
                 _(
@@ -435,7 +445,7 @@ class ResCompany(models.Model):
                 )
             self._chorus_check_commitment_number(source_object, client_order_ref)
         if cpartner.fr_chorus_required == "service_or_engagement":
-            if not invoice_partner.chorus_service_ok():
+            if not invoice_partner._chorus_service_ok():
                 if not client_order_ref:
                     raise UserError(
                         _(
@@ -504,14 +514,14 @@ class ResCompany(models.Model):
         assert client_order_ref
         company_identifier = self.partner_id.fr_chorus_identifier
         assert company_identifier
-        api_params = self.chorus_get_api_params()
+        api_params = self._chorus_get_api_params()
         url_path = "engagementsJuridiques/v1/rechercher"
         payload = {
             "structureReceptriceEngagementJuridique": str(company_identifier),
             "numeroEngagementJuridique": client_order_ref,
             "etatCourantEngagementJuridique": "COMMANDE",
         }
-        answer, session = self.chorus_post(
+        answer, session = self._chorus_post(
             api_params, url_path, payload, session=session
         )
         if answer.get("listeEngagementJuridique"):
