@@ -46,15 +46,17 @@ class ResPartner(models.Model):
     )
 
     def _compute_fr_chorus_service_count(self):
-        rg_res = self.env["chorus.partner.service"].read_group(
-            [("partner_id", "in", self.ids)], ["partner_id"], ["partner_id"]
+        rg_res = self.env["chorus.partner.service"]._read_group(
+            [("partner_id", "in", self.ids)],
+            groupby=["partner_id"],
+            aggregates=["__count"],
         )
-        mapped_data = {x["partner_id"][0]: x["partner_id_count"] for x in rg_res}
+        mapped_data = {partner.id: srv_count for (partner, srv_count) in rg_res}
         for partner in self:
             partner.fr_chorus_service_count = mapped_data.get(partner.id, 0)
 
     @api.constrains("fr_chorus_service_id", "name", "parent_id")
-    def check_fr_chorus_service(self):
+    def _check_fr_chorus_service(self):
         for partner in self:
             if partner.fr_chorus_service_id:
                 if not partner.parent_id:
@@ -94,7 +96,7 @@ class ResPartner(models.Model):
                         }
                     )
 
-    def fr_chorus_api_structures_rechercher(self, api_params, session=None):
+    def _fr_chorus_api_structures_rechercher(self, api_params, session=None):
         url_path = "structures/v1/rechercher"
         payload = {
             "structure": {
@@ -102,7 +104,7 @@ class ResPartner(models.Model):
                 "typeIdentifiantStructure": "SIRET",
             },
         }
-        answer, session = self.env["res.company"].chorus_post(
+        answer, session = self.env["res.company"]._chorus_post(
             api_params, url_path, payload, session=session
         )
         res = False
@@ -163,7 +165,7 @@ class ResPartner(models.Model):
                     continue
             company = partner.company_id or self.env.company
             if company not in company2api:
-                api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
+                api_params = company._chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
                     continue
                 company2api[company] = api_params
@@ -172,7 +174,7 @@ class ResPartner(models.Model):
         for partner in partners:
             company = partner.company_id or self.env.company
             api_params = company2api[company]
-            (res, session) = partner.fr_chorus_api_structures_rechercher(
+            (res, session) = partner._fr_chorus_api_structures_rechercher(
                 api_params, session
             )
             if res:
@@ -194,10 +196,10 @@ class ResPartner(models.Model):
                         partner.siret,
                     )
 
-    def fr_chorus_api_structures_consulter(self, api_params, session):
+    def _fr_chorus_api_structures_consulter(self, api_params, session):
         url_path = "structures/v1/consulter"
         payload = {"idStructureCPP": self.fr_chorus_identifier}
-        answer, session = self.env["res.company"].chorus_post(
+        answer, session = self.env["res.company"]._chorus_post(
             api_params, url_path, payload, session=session
         )
         res = False
@@ -237,7 +239,7 @@ class ResPartner(models.Model):
                     continue
             company = partner.company_id or self.env.company
             if company not in company2api:
-                api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
+                api_params = company._chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
                     continue
                 company2api[company] = api_params
@@ -246,19 +248,19 @@ class ResPartner(models.Model):
         for partner in partners:
             company = partner.company_id or self.env.company
             api_params = company2api[company]
-            (res, session) = partner.fr_chorus_api_structures_consulter(
+            (res, session) = partner._fr_chorus_api_structures_consulter(
                 api_params, session
             )
             if res:
                 partner.write({"fr_chorus_required": res})
 
-    def fr_chorus_api_rechercher_services(self, api_params, session):
+    def _fr_chorus_api_rechercher_services(self, api_params, session):
         url_path = "structures/v1/rechercher/services"
         payload = {
             "idStructure": self.fr_chorus_identifier,
             "parametresRechercherServicesStructure": {"nbResultatsParPage": 10000},
         }
-        answer, session = self.env["res.company"].chorus_post(
+        answer, session = self.env["res.company"]._chorus_post(
             api_params, url_path, payload, session=session
         )
         res = {}
@@ -331,7 +333,7 @@ class ResPartner(models.Model):
                     continue
             company = partner.company_id or self.env.company
             if company not in company2api:
-                api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
+                api_params = company._chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
                     continue
                 company2api[company] = api_params
@@ -362,7 +364,7 @@ class ResPartner(models.Model):
         for partner in partners:
             company = partner.company_id or self.env.company
             api_params = company2api[company]
-            (res, session) = partner.fr_chorus_api_rechercher_services(
+            (res, session) = partner._fr_chorus_api_rechercher_services(
                 api_params, session
             )
             if res:
@@ -443,7 +445,7 @@ class ResPartner(models.Model):
         ).fr_chorus_identifier_and_required_button()
         logger.info("End Chorus partner cron")
 
-    def chorus_service_ok(self):
+    def _chorus_service_ok(self):
         # Method used upon SO or invoice validation
         self.ensure_one()
         if (

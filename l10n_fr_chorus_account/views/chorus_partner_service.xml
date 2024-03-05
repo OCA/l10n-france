@@ -10,6 +10,12 @@
         <field name="model">chorus.partner.service</field>
         <field name="arch" type="xml">
             <form>
+                <widget
+                    name="web_ribbon"
+                    title="Archived"
+                    bg_color="bg-danger"
+                    invisible="active"
+                />
                 <group name="main">
                     <field
                         name="partner_id"
@@ -18,7 +24,7 @@
                     <field name="code" />
                     <field name="name" />
                     <field name="engagement_required" />
-                    <field name="active" />
+                    <field name="active" invisible="1" />
                     <field
                         name="chorus_identifier"
                         groups="l10n_fr_chorus_account.group_chorus_api"

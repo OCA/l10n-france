@@ -45,6 +45,7 @@ class ChorusFlow(models.Model):
         "chorus_flow_id",
         "move_id",
         string="Initial Invoices",
+        readonly=True,
         help="Invoices in the flow before potential rejections",
     )
     invoice_ids = fields.One2many(
@@ -72,28 +73,25 @@ class ChorusFlow(models.Model):
             )
 
     @api.depends("name", "status_display")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for flow in self:
             name = flow.name
             if flow.status_display:
-                status = flow.status_display
-                name = "%s (%s)" % (name, status)
-            res.append((flow.id, name))
-        return res
+                name = f"{name} ({flow.status_display})"
+            flow.display_name = name
 
     @api.model
     def syntax_odoo2chorus(self):
         return {}
 
-    def chorus_api_consulter_cr(self, api_params, session=None):
+    def _chorus_api_consulter_cr(self, api_params, session=None):
         self.ensure_one()
         payload = {
             "numeroFluxDepot": self.name,
         }
         # The webservice 'consulterCR' is broken for Factur-X (1/5/2018)
         # So I switch to 'consulterCRDetaille' which works fine for all formats
-        answer, session = self.env["res.company"].chorus_post(
+        answer, session = self.env["res.company"]._chorus_post(
             api_params, "transverses/v1/consulterCRDetaille", payload, session=session
         )
         res = {}
@@ -149,9 +147,11 @@ class ChorusFlow(models.Model):
                                 % error.get("libelleErreurDP")
                             )
                             invoice.sudo().write({"chorus_flow_id": False})
+            if not notes and answer.get("libelle") != "TRA_MSG_00.000":
+                notes = answer.get("libelle")
             res = {
                 "status": answer.get("etatCourantDepotFlux"),
-                "notes": notes or answer.get("libelle"),
+                "notes": notes,
             }
         return (res, session)
 
@@ -164,7 +164,7 @@ class ChorusFlow(models.Model):
         for flow in self:
             company = flow.company_id
             if company not in company2api:
-                api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
+                api_params = company._chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
                     continue
                 company2api[company] = api_params
@@ -172,7 +172,7 @@ class ChorusFlow(models.Model):
         session = None
         for flow in flows:
             api_params = company2api[flow.company_id]
-            flow_vals, session = flow.chorus_api_consulter_cr(
+            flow_vals, session = flow._chorus_api_consulter_cr(
                 api_params, session=session
             )
             if flow_vals:
@@ -180,13 +180,13 @@ class ChorusFlow(models.Model):
                 flow.write(flow_vals)
         logger.info("End of the update of chorus flow status")
 
-    def chorus_api_rechercher_fournisseur(self, api_params, session=None):
+    def _chorus_api_rechercher_fournisseur(self, api_params, session=None):
         self.ensure_one()
         url_path = "factures/v1/rechercher/fournisseur"
         payload = {
             "numeroFluxDepot": self.name,
         }
-        answer, session = self.env["res.company"].chorus_post(
+        answer, session = self.env["res.company"]._chorus_post(
             api_params, url_path, payload
         )
         invnum2chorus = {}
@@ -244,7 +244,7 @@ class ChorusFlow(models.Model):
                 continue
             company = flow.company_id
             if company not in company2api:
-                api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
+                api_params = company._chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
                     continue
                 company2api[company] = api_params
@@ -252,7 +252,7 @@ class ChorusFlow(models.Model):
         session = None
         for flow in flows:
             api_params = company2api[flow.company_id]
-            invnum2chorus, session = flow.chorus_api_rechercher_fournisseur(
+            invnum2chorus, session = flow._chorus_api_rechercher_fournisseur(
                 api_params, session=session
             )
             if invnum2chorus:
