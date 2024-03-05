@@ -6,7 +6,7 @@
     "name": "L10n FR Chorus",
     "summary": "Generate Chorus-compliant e-invoices and transmit them "
     "via the Chorus API",
-    "version": "16.0.1.2.0",
+    "version": "17.0.1.0.0",
     "category": "French Localization",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
@@ -28,7 +28,7 @@
         "views/chorus_flow.xml",
         "views/chorus_partner_service.xml",
         "views/res_partner.xml",
-        "views/config_settings.xml",
+        "views/res_config_settings.xml",
         "views/account_move.xml",
     ],
     "demo": ["demo/demo.xml"],

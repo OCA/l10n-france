@@ -9,7 +9,7 @@ import tarfile
 import time
 from io import BytesIO
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.misc import formatLang
 
@@ -79,8 +79,6 @@ class AccountMove(models.Model):
         "account_move_chorus_ir_attachment_rel",
         string="Chorus Attachments",
         copy=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     @api.constrains("chorus_attachment_ids", "transmit_method_id")
@@ -238,7 +236,7 @@ class AccountMove(models.Model):
         self.ensure_one()
         return False
 
-    def prepare_chorus_deposer_flux_payload(self):
+    def _prepare_chorus_deposer_flux_payload(self):
         if not self[0].company_id.fr_chorus_invoice_format:
             raise UserError(
                 _(
@@ -249,29 +247,23 @@ class AccountMove(models.Model):
             )
         chorus_invoice_format = self[0].company_id.fr_chorus_invoice_format
         short_format = chorus_invoice_format[4:]
-        file_extension = chorus_invoice_format[:3]
+        file_ext = chorus_invoice_format[:3]
         syntaxe_flux = self.env["chorus.flow"].syntax_odoo2chorus()[
             chorus_invoice_format
         ]
         if len(self) == 1:
             chorus_file_content = self.chorus_get_invoice(chorus_invoice_format)
-            filename = "%s_chorus_facture_%s.%s" % (
-                short_format,
-                self.name.replace("/", "-"),
-                file_extension,
-            )
+            inv_name = self.name.replace("/", "-")
+            filename = f"{short_format}_chorus_facture_{inv_name}.{file_ext}"
         else:
-            filename = "%s_chorus_lot_factures.tar.gz" % short_format
+            filename = f"{short_format}_chorus_lot_factures.tar.gz"
             tarfileobj = BytesIO()
             with tarfile.open(fileobj=tarfileobj, mode="w:gz") as tar:
                 for inv in self:
                     inv_file_data = inv.chorus_get_invoice(chorus_invoice_format)
                     invfileio = BytesIO(inv_file_data)
-                    invfilename = "%s_chorus_facture_%s.%s" % (
-                        short_format,
-                        inv.name.replace("/", "-"),
-                        file_extension,
-                    )
+                    inv_name = inv.name.replace("/", "-")
+                    invfilename = f"{short_format}_chorus_facture_{inv_name}.{file_ext}"
                     tarinfo = tarfile.TarInfo(name=invfilename)
                     tarinfo.size = len(inv_file_data)
                     tarinfo.mtime = int(time.time())
@@ -287,12 +279,12 @@ class AccountMove(models.Model):
         }
         return payload
 
-    def chorus_api_consulter_historique(self, api_params, session=None):
+    def _chorus_api_consulter_historique(self, api_params, session=None):
         url_path = "factures/v1/consulter/historique"
         payload = {
             "idFacture": self.chorus_identifier,
         }
-        answer, session = self.env["res.company"].chorus_post(
+        answer, session = self.env["res.company"]._chorus_post(
             api_params, url_path, payload, session=session
         )
         res = False
@@ -323,7 +315,7 @@ class AccountMove(models.Model):
                 continue
             company = inv.company_id
             if company not in company2api:
-                api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
+                api_params = company._chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
                     continue
                 company2api[company] = api_params
@@ -331,7 +323,7 @@ class AccountMove(models.Model):
         session = None
         for invoice in invoices:
             api_params = company2api[invoice.company_id]
-            inv_status, session = invoice.chorus_api_consulter_historique(
+            inv_status, session = invoice._chorus_api_consulter_historique(
                 api_params, session
             )
             if inv_status:
@@ -342,3 +334,47 @@ class AccountMove(models.Model):
                     }
                 )
         logger.info("End of the update of chorus invoice status")
+
+    def _fr_chorus_send(self):
+        company = self[0].company_id
+        for invoice in self:
+            assert invoice.state == "posted"
+            assert invoice.move_type in ("out_invoice", "out_refund")
+            assert invoice.transmit_method_code == "fr-chorus"
+            assert not invoice.chorus_flow_id
+            assert invoice.company_id == company
+        company._check_chorus_invoice_format()
+        api_params = company._chorus_get_api_params(raise_if_ko=True)
+        url_path = "factures/v1/deposer/flux"
+        payload = self._prepare_chorus_deposer_flux_payload()
+        attach = self.env["ir.attachment"].create(
+            {
+                "name": payload.get("nomFichier"),
+                "datas": payload.get("fichierFlux"),
+            }
+        )
+        logger.info(
+            "Start to send invoice IDs %s via Chorus %sWS",
+            self.ids,
+            api_params["qualif"] and "QUALIF. " or "",
+        )
+        answer, session = company._chorus_post(api_params, url_path, payload)
+        flow = False
+        if answer and answer.get("numeroFluxDepot"):
+            flow = self.env["chorus.flow"].create(
+                {
+                    "name": answer["numeroFluxDepot"],
+                    "date": answer.get("dateDepot"),
+                    "syntax": company.fr_chorus_invoice_format,
+                    "attachment_id": attach.id,
+                    "company_id": company.id,
+                    "initial_invoice_ids": [Command.set(self.ids)],
+                }
+            )
+            self.write(
+                {
+                    "chorus_flow_id": flow.id,
+                    "is_move_sent": True,
+                }
+            )
+        return flow

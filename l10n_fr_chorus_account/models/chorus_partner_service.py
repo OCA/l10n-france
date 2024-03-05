@@ -29,7 +29,7 @@ class ChorusPartnerService(models.Model):
     engagement_required = fields.Boolean()
 
     @api.constrains("code")
-    def service_factures_publiques_dont_use(self):
+    def _check_service_factures_publiques_dont_use(self):
         # As explained on
         # https://communaute.chorus-pro.gouv.fr/documentation/
         # guide-dutilisation-de-lannuaire-des-structures-publiques-dans-chorus-pro/
@@ -48,12 +48,10 @@ class ChorusPartnerService(models.Model):
                 )
 
     @api.depends("code", "name")
-    def name_get(self):
-        res = []
-        for partner in self:
-            name = "[%s] %s" % (partner.code, partner.name or "-")
-            res.append((partner.id, name))
-        return res
+    def _compute_display_name(self):
+        for service in self:
+            name = f"[{service.code}] {service.name or '-'}"
+            service.display_name = name
 
     _sql_constraints = [
         (
@@ -64,29 +62,38 @@ class ChorusPartnerService(models.Model):
     ]
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=80):
-        if args is None:
-            args = []
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        if domain is None:
+            domain = []
         if name and operator == "ilike":
-            srvs = self.search([("code", "=", name)] + args, limit=limit)
-            if srvs:
-                return srvs.name_get()
-            srvs = self.search(
-                ["|", ("code", "ilike", name), ("name", "ilike", name)] + args,
-                limit=limit,
+            ids = list(
+                self._search(
+                    [("code", "=ilike", name)] + domain, limit=limit, order=order
+                )
             )
-            if srvs:
-                return srvs.name_get()
-        return super().name_search(name=name, args=args, operator=operator, limit=limit)
+            if ids:
+                return ids
+            ids = list(
+                self._search(
+                    ["|", ("code", "ilike", name), ("name", "ilike", name)] + domain,
+                    limit=limit,
+                    order=order,
+                )
+            )
+            if ids:
+                return ids
+        return super()._name_search(
+            name, domain=domain, operator=operator, limit=limit, order=order
+        )
 
-    def api_consulter_service(self, api_params, session):
+    def _api_consulter_service(self, api_params, session):
         assert self.chorus_identifier
         url_path = "structures/v1/consulter/service"
         payload = {
             "idStructure": self.partner_id.fr_chorus_identifier,
             "idService": self.chorus_identifier,
         }
-        answer, session = self.env["res.company"].chorus_post(
+        answer, session = self.env["res.company"]._chorus_post(
             api_params, url_path, payload, session=session
         )
         res = {}
@@ -142,7 +149,7 @@ class ChorusPartnerService(models.Model):
                     continue
             company = partner.company_id or self.env.company
             if company not in company2api:
-                api_params = company.chorus_get_api_params(raise_if_ko=raise_if_ko)
+                api_params = company._chorus_get_api_params(raise_if_ko=raise_if_ko)
                 if not api_params:
                     continue
                 company2api[company] = api_params
@@ -152,6 +159,6 @@ class ChorusPartnerService(models.Model):
             partner = service.partner_id
             company = partner.company_id or self.env.company
             api_params = company2api[company]
-            (res, session) = service.api_consulter_service(api_params, session)
+            (res, session) = service._api_consulter_service(api_params, session)
             if res:
                 service.write({"engagement_required": res.get("engagement_required")})

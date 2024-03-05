@@ -24,7 +24,7 @@ class ResCompany(models.Model):
                 _(
                     "For company '%s', if you select 'Factur-X' as 'Chorus "
                     "Invoice Format', then you should also select 'Factur-X' as "
-                    "'Format' in the section 'Electronic Invoices'."
+                    "electronic invoice format in the section 'Customer Invoices'."
                 )
                 % self.display_name
             )
