@@ -17,20 +17,30 @@ L10n FR Chorus
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_chorus_account
+    :target: https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_chorus_account
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-16-0/l10n-france-16-0-l10n_fr_chorus_account
+    :target: https://translation.odoo-community.org/projects/l10n-france-17-0/l10n-france-17-0-l10n_fr_chorus_account
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This is the base module for the support of `Chorus Pro <https://chorus-pro.gouv.fr/>`_, the electronic invoicing plateform of the French administration. Chorus Pro specifications are available on `Chorus Pro Community website <https://communaute-chorus-pro.finances.gouv.fr/>`_. All the suppliers of the French administration must send their invoices through Chorus Pro. To know more about Chorus and the obligation to send electronic invoices to the French administration, read `the dedicated page <https://www.economie.gouv.fr/entreprises/marches-publics-facture-electronique>`_ on the website of the Ministry of Economic Affairs.
+This is the base module for the support of `Chorus
+Pro <https://chorus-pro.gouv.fr/>`__, the electronic invoicing plateform
+of the French administration. Chorus Pro specifications are available on
+`Chorus Pro Community
+website <https://communaute-chorus-pro.finances.gouv.fr/>`__. All the
+suppliers of the French administration must send their invoices through
+Chorus Pro. To know more about Chorus and the obligation to send
+electronic invoices to the French administration, read `the dedicated
+page <https://www.economie.gouv.fr/entreprises/marches-publics-facture-electronique>`__
+on the website of the Ministry of Economic Affairs.
 
-To be able to generate an electronic invoice for Chorus, you need the module *l10n_fr_chorus_factur-x* or *l10n_fr_chorus_ubl*.
+To be able to generate an electronic invoice for Chorus, you need the
+module *l10n_fr_chorus_factur-x* or *l10n_fr_chorus_ubl*.
 
 **Table of contents**
 
@@ -42,33 +52,76 @@ Configuration
 
 On the customers that you invoice via Chorus, you must:
 
-* enter their *SIRET* (*Accounting* tab),
-* select *Chorus* as *Customer Invoice Transmission Method* (*Accounting* tab),
-* select the *Info Required for Chorus* to the value that you obtained from Chorus (menu *Rechercher Structure Publique*),
-* if the service is a required information for that customer in Chorus, you must create the Chorus service and then create an invoicing contact and select the related *Chorus Service* and make sure that this contact is used as *Customer* on the invoice.
+-  enter their *SIRET* (*Accounting* tab),
+-  select *Chorus* as *Customer Invoice Transmission Method*
+   (*Accounting* tab),
+-  select the *Info Required for Chorus* to the value that you obtained
+   from Chorus (menu *Rechercher Structure Publique*),
+-  if the service is a required information for that customer in Chorus,
+   you must create the Chorus service and then create an invoicing
+   contact and select the related *Chorus Service* and make sure that
+   this contact is used as *Customer* on the invoice.
 
-If you want to use the Chorus API to easily send invoices to Chorus from Odoo, you must:
+If you want to use the Chorus API to easily send invoices to Chorus from
+Odoo, you must:
 
-* edit the Odoo server configuration file and add two keys *chorus_api_oauth_id* and *chorus_api_oauth_secret* that contain your Oauth client ID and client secret obtained via `PISTE <https://piste.gouv.fr/>`_. Don't forget to restart the Odoo server after the update of its configuration file.
+-  edit the Odoo server configuration file and add two keys
+   *chorus_api_oauth_id* and *chorus_api_oauth_secret* that contain your
+   Oauth client ID and client secret obtained via
+   `PISTE <https://piste.gouv.fr/>`__. Don't forget to restart the Odoo
+   server after the update of its configuration file.
+-  in the menu *Accounting > Configuration > Settings*, in the section
+   *Chorus API*, enable the option *Use Chorus API*, which will add all
+   users to the *Chorus API* group. Then set the additional
+   configuration parameters for Chorus API that will be prompted on the
+   settings page.
 
-* in the menu *Accounting > Configuration > Settings*, in the section *Chorus API*, enable the option *Use Chorus API*, which will add all users to the *Chorus API* group. Then set the additional configuration parameters for Chorus API that will be prompted on the settings page.
-
-In the menu *Settings > Technical > Automation > Scheduled Actions*, you should also activate the 3 scheduled actions related to Chorus Pro.
+In the menu *Settings > Technical > Automation > Scheduled Actions*, you
+should also activate the 3 scheduled actions related to Chorus Pro.
 
 Usage
 =====
 
-On the customer form view of a French public administration, in the *Accounting* tab, set the *Customer Invoice Transmission Method* to *Chorus Pro*. You will then see a new section *Chorus Pro*. In this section, you should set the *Info required for Chorus* and, if the administration is *Service required*, you must create the Chorus services.
+On the customer form view of a French public administration, in the
+*Accounting* tab, set the *Customer Invoice Transmission Method* to
+*Chorus Pro*. You will then see a new section *Chorus Pro*. In this
+section, you should set the *Info required for Chorus* and, if the
+administration is *Service required*, you must create the Chorus
+services.
 
-If you enabled the Chorus API, just click on the button *Update Info Required for Chorus* and it will set the field *Info required for Chorus* and download all the Chorus services of that administration.
+If you enabled the Chorus API, just click on the button *Update Info
+Required for Chorus* and it will set the field *Info required for
+Chorus* and download all the Chorus services of that administration.
 
-When you try to validate a customer invoice/refund for a customer for which you send the invoices via Chorus Pro, it will check the value of the field *Info required for Chorus* and check that this invoice has an order reference or/and a Chorus service if required for that customer.
+When you try to validate a customer invoice/refund for a customer for
+which you send the invoices via Chorus Pro, it will check the value of
+the field *Info required for Chorus* and check that this invoice has an
+order reference or/and a Chorus service if required for that customer.
 
-If you enabled the Chorus API, you should see a button *Send to Chorus* on validated customer invoices and refunds that have a transmission method set to *Chorus Pro*. You can also select several customer invoices/refunds and do *Action > Send to Chorus Pro*.
+If you enabled the Chorus API, you should see a button *Send to Chorus*
+on validated customer invoices and refunds that have a transmission
+method set to *Chorus Pro*. You can also select several customer
+invoices/refunds and do *Action > Send to Chorus Pro*.
 
-Sending an invoice via the Chorus API creates a Chorus Flow, cf menu *Accounting > Configuration > Chorus Pro > Chorus Flows* (it is not really a configuration thing... so we could argue that it should not be in the configuration menu !). You can click on the button *Update Flow Status* to refresh the status of the flow, until it reaches the status *IN_INTEGRE*. Then, click on the button *Get Chorus Invoice Identifiers* to get the technical identifiers of the invoice in Chorus (and write it on the invoice in Odoo) and get the status of the invoice in Chorus. Eventually, on the invoice, you can click on the button *Update Chorus Invoice Status* to refresh the *Chorus Invoice Status*. All these actions to refresh the status of the Chorus flows and of the invoice are automated via the *Scheduled Action* named *Chorus Pro Invoice Status Update*. So, if that scheduled action is active, you should not have to manually perform the actions described in this paragraph.
+Sending an invoice via the Chorus API creates a Chorus Flow, cf menu
+*Accounting > Configuration > Chorus Pro > Chorus Flows* (it is not
+really a configuration thing... so we could argue that it should not be
+in the configuration menu !). You can click on the button *Update Flow
+Status* to refresh the status of the flow, until it reaches the status
+*IN_INTEGRE*. Then, click on the button *Get Chorus Invoice Identifiers*
+to get the technical identifiers of the invoice in Chorus (and write it
+on the invoice in Odoo) and get the status of the invoice in Chorus.
+Eventually, on the invoice, you can click on the button *Update Chorus
+Invoice Status* to refresh the *Chorus Invoice Status*. All these
+actions to refresh the status of the Chorus flows and of the invoice are
+automated via the *Scheduled Action* named *Chorus Pro Invoice Status
+Update*. So, if that scheduled action is active, you should not have to
+manually perform the actions described in this paragraph.
 
-In the list view of customer invoices, you can group by *Chorus Status*: that way, you get on overview of the status of all the invoices you sent to Chorus Pro, and you can easily spot if an invoice has been refused for example.
+In the list view of customer invoices, you can group by *Chorus Status*:
+that way, you get on overview of the status of all the invoices you sent
+to Chorus Pro, and you can easily spot if an invoice has been refused
+for example.
 
 Bug Tracker
 ===========
@@ -76,7 +129,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_chorus_account%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_chorus_account%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -84,17 +137,17 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Alexis de Lattre <alexis.delattre@akretion.com>
+-  Alexis de Lattre <alexis.delattre@akretion.com>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -114,6 +167,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-alexis-via| 
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_chorus_account>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_chorus_account>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
