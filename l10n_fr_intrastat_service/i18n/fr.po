@@ -368,7 +368,6 @@ msgstr "Si coché, des nouveaux messages requièrent votre attention."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
-#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si coché, certains messages ont une erreur d’envoi."
 
@@ -534,11 +533,6 @@ msgid "Responsible User"
 msgstr "Utilisateur Responsable"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erreur de livraison du SMS"
-
-#. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_search
 msgid "Search DES"
 msgstr "Rechercher DES"
@@ -635,6 +629,9 @@ msgstr "Export XML"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__attachment_name
 msgid "XML Filename"
 msgstr "Nom de fichier XML"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erreur de livraison du SMS"
 
 #~ msgid "11"
 #~ msgstr "11"
