@@ -450,7 +450,7 @@ class L10nFrDas2(models.Model):
             )
             raw_commune = partner.city
             if partner.zip:
-                raw_commune = "{} {}".format(partner.zip, partner.city)
+                raw_commune = f"{partner.zip} {partner.city}"
             commune = self._prepare_field("Commune", partner, raw_commune, 26, True)
             caddress = (
                 cstreet2
