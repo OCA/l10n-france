@@ -840,7 +840,6 @@ msgstr "Si activé, de nouveaux messages nécessitent votre attention."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_has_error
-#: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si activé, des messages ont une erreur d'envoi."
 
@@ -1291,11 +1290,6 @@ msgstr "Utilisateur responsable"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__line_ids
 msgid "Return Lines"
 msgstr "Lignes de déclaration"
-
-#. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__print_page__2
