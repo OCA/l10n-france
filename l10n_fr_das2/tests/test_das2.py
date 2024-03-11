@@ -3,46 +3,92 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 
 @tagged("post_install", "-at_install")
-class TestFrDas2(TransactionCase):
-    def test_street(self):
-        test_map = {
-            "": "0000                            ",
-            " 7 rue Henri Rolland ": "0007  RUE  Henri Rolland        ",
-            "27, rue Henri Rolland": "0027  RUE  Henri Rolland        ",
-            "27,rue Henri Rolland": "0027  RUE  Henri Rolland        ",
-            "55A rue du Tonkin": "0055A RUE  du Tonkin            ",
-            "55 A rue du Tonkin": "0055A RUE  du Tonkin            ",
-            "55.A rue du Tonkin": "0055A RUE  du Tonkin            ",
-            "55AB rue du Tonkin": "0055       AB rue du Tonkin     ",
-            "35bis, rue Montgolfier": "0035B RUE  Montgolfier          ",
-            "35 bis, rue Montgolfier": "0035B RUE  Montgolfier          ",
-            "35BIS, rue Montgolfier": "0035B RUE  Montgolfier          ",
-            "35 BIS rue Montgolfier": "0035B RUE  Montgolfier          ",
-            "27ter, rue René Coty": "0027T RUE  René Coty            ",
-            "27 Quarter rue René Coty": "0027Q RUE  René Coty            ",
-            "1242 chemin des Bauges": "1242  CHE  des Bauges           ",
-            "12242 RD 123": "0000       12242 RD 123         ",
-            "122 rue du Général de division Tartempion": "0122  RUE  e division Tartempion",
-            "Kirchenstrasse 177": "0000       Kirchenstrasse 177   ",
-            "Place des Carmélites": "0000  PL   des Carmélites       ",
-            "123 Bismark avenue": "0123       Bismark avenue       ",
-            "42, avenue des Etats-Unis": "0042  AV   des Etats-Unis       ",
-            "455 quai Arloing": "0455  QUAI Arloing              ",
-            "route nationale 13": "0000  N    13                   ",
-            "34 av. Barthelemy Buyer": "0034  AV   Barthelemy Buyer     ",
-            "34 av Barthelemy Buyer": "0034  AV   Barthelemy Buyer     ",
-            "4 bld des Belges": "0004  BD   des Belges           ",
-            "4 bd des Belges": "0004  BD   des Belges           ",
-            "12 allée des cavatines": "0012  ALL  des cavatines        ",
-            "12 all.  des cavatines": "0012  ALL  des cavatines        ",
-            "7 montée des soldats": "0007  MTE  des soldats          ",
-        }
+class TestFrDas2(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.company = cls.env["res.company"].create(
+            {
+                "name": "Test company DAS2",
+                "street": "42, rue de la paix",
+                "zip": "69100",
+                "city": "Villeurbanne",
+                "country_id": cls.env.ref("base.fr").id,
+                "currency_id": cls.env.ref("base.EUR").id,
+                "siren": "792377731",
+                "nic": "00023",
+                "ape": "6202Z",
+            }
+        )
+        cls.env.user.phone = "+33742124212"
+        cls.partner1 = cls.env["res.partner"].create(
+            {
+                "is_company": True,
+                "name": "Mon expert comptable préféré",
+                "street": "42 rue du chiffre",
+                "zip": "69009",
+                "city": "Lyon",
+                "country_id": cls.env.ref("base.fr").id,
+                "email": "experts@comptables.example.com",
+                "fr_das2_type": "fee",
+                "fr_das2_job": "Expert comptable",
+                "siren": "555555556",
+                "nic": "00011",
+            }
+        )
+        cls.partner2 = cls.env["res.partner"].create(
+            {
+                "is_company": True,
+                "name": "Mon avocat",
+                "street": "12 rue du tribunal",
+                "zip": "69009",
+                "city": "Lyon",
+                "country_id": cls.env.ref("base.fr").id,
+                "email": "avocat@example.com",
+                "fr_das2_type": "fee",
+                "fr_das2_job": "Avocat",
+                "siren": "666666664",
+                "nic": "00014",
+            }
+        )
 
-        for street, result in test_map.items():
-            self.assertEqual(len(result), 32)
-            res = self.env["l10n.fr.das2"]._prepare_street(street)
-            self.assertEqual(res, result)
+    def test_das2(self):
+        decl = self.env["l10n.fr.das2"].create(
+            {
+                "year": 2023,
+                "company_id": self.company.id,
+                "payment_journal_ids": [],
+            }
+        )
+        self.assertEqual(self.partner1.siret, "55555555600011")
+        self.env["l10n.fr.das2.line"].create(
+            {
+                "partner_id": self.partner1.id,
+                "parent_id": decl.id,
+                "fee_amount": 2000,
+            }
+        )
+        self.env["l10n.fr.das2.line"].create(
+            {
+                "partner_id": self.partner2.id,
+                "parent_id": decl.id,
+                "fee_amount": 3123,
+            }
+        )
+        self.assertEqual(decl.state, "draft")
+        decl.done()
+        self.assertEqual(decl.state, "done")
+        self.assertTrue(decl.attachment_id)
+        self.assertTrue(
+            decl.attachment_id.name.startswith(
+                f"DSAL_{decl.year}_{decl.company_id.siren}_000_"
+            )
+        )
+        self.assertTrue(decl.attachment_id.name.endswith(".txt.gz.gpg"))
+        self.assertTrue(decl.unencrypted_attachment_id)
+        self.assertTrue(decl.unencrypted_attachment_id.name.endswith(".txt"))
