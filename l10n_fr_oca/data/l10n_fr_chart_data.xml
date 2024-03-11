@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Chart template -->
+    <!-- pylint:disable=xml-duplicate-record-id,duplicate-xml-record-id -->
     <record id="l10n_fr_pcg_chart_template" model="account.chart.template">
         <field name="name">Plan Comptable Général by OCA (France)</field>
         <field name="currency_id" ref="base.EUR" />
