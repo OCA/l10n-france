@@ -17,30 +17,26 @@
                         name="generate_lines"
                         string="Generate Lines"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="btn-primary"
                     />
                 <button
                         name="back2draft"
                         string="Back to Draft"
                         type="object"
-                        states="done"
+                        invisible="state != 'done'"
                         confirm="Are you sure you want to go back to draft?"
                     />
                 <button
                         name="done"
                         string="Validate"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="btn-primary"
                     />
                 <field name="state" widget="statusbar" />
             </header>
-            <div
-                    class="alert alert-warning"
-                    role="alert"
-                    attrs="{'invisible': [('warning_msg', '=', False)]}"
-                >
+            <div class="alert alert-warning" role="alert" invisible="not warning_msg">
                 <field name="warning_msg" />
             </div>
             <sheet>
@@ -59,10 +55,14 @@
                 </div>
                 <group name="main">
                     <group name="main-left">
-                        <field name="year" />
-                        <field name="dads_type" />
-                        <field name="payment_journal_ids" widget="many2many_tags" />
-                        <field name="contact_id" />
+                        <field name="year" readonly="state != 'draft'" />
+                        <field name="dads_type" readonly="state != 'draft'" />
+                        <field
+                                name="payment_journal_ids"
+                                widget="many2many_tags"
+                                readonly="state != 'draft'"
+                            />
+                        <field name="contact_id" readonly="state != 'draft'" />
                     </group>
                     <group name="main-right">
                         <field name="currency_id" invisible="1" />
@@ -74,12 +74,17 @@
                         <field
                                 name="company_id"
                                 groups="base.group_multi_company"
-                                widget="selection"
+                                readonly="state != 'draft'"
                             />
                     </group>
                 </group>
                 <group name="lines">
-                    <field name="line_ids" nolabel="1" colspan="2" />
+                    <field
+                            name="line_ids"
+                            nolabel="1"
+                            colspan="2"
+                            readonly="state != 'draft'"
+                        />
                 </group>
             </sheet>
             <div class="oe_chatter">
@@ -99,7 +104,7 @@
         <tree>
             <field name="year" decoration-bf="1" />
             <field name="company_id" groups="base.group_multi_company" />
-            <field name="currency_id" invisible="1" />
+            <field name="currency_id" column_invisible="1" />
             <field
                     name="state"
                     decoration-success="state == 'done'"
@@ -147,58 +152,73 @@
                             name="partner_id"
                             context="{'show_address': 1}"
                             options="{'always_reload': 1}"
+                            readonly="state != 'draft'"
                         />
-                    <field name="partner_siret" />
-                    <field name="job" />
+                    <field name="partner_siret" readonly="state != 'draft'" />
+                    <field name="job" readonly="state != 'draft'" />
                     <field name="total_amount" />
                     <field name="currency_id" invisible="1" />
                     <field name="to_declare" />
                     <field name="state" invisible="1" />
                 </group>
                 <group name="right">
-                    <field name="fee_amount" />
-                    <field name="commission_amount" />
-                    <field name="brokerage_amount" />
-                    <field name="discount_amount" />
-                    <field name="attendance_fee_amount" />
-                    <field name="copyright_royalties_amount" />
-                    <field name="licence_royalties_amount" />
-                    <field name="other_income_amount" />
-                    <field name="allowance_amount" />
+                    <field name="fee_amount" readonly="state != 'draft'" />
+                    <field name="commission_amount" readonly="state != 'draft'" />
+                    <field name="brokerage_amount" readonly="state != 'draft'" />
+                    <field name="discount_amount" readonly="state != 'draft'" />
+                    <field name="attendance_fee_amount" readonly="state != 'draft'" />
+                    <field
+                            name="copyright_royalties_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field
+                            name="licence_royalties_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field name="other_income_amount" readonly="state != 'draft'" />
+                    <field name="allowance_amount" readonly="state != 'draft'" />
                     <field
                             name="allowance_fixed"
-                            attrs="{'invisible': [('allowance_amount', '=', 0)]}"
+                            invisible="not allowance_amount"
+                            readonly="state != 'draft'"
                         />
                     <field
                             name="allowance_real"
-                            attrs="{'invisible': [('allowance_amount', '=', 0)]}"
+                            invisible="not allowance_amount"
+                            readonly="state != 'draft'"
                         />
                     <field
                             name="allowance_employer"
-                            attrs="{'invisible': [('allowance_amount', '=', 0)]}"
+                            invisible="not allowance_amount"
+                            readonly="state != 'draft'"
                         />
-                    <field name="benefits_in_kind_amount" />
+                    <field name="benefits_in_kind_amount" readonly="state != 'draft'" />
                     <field
                             name="benefits_in_kind_food"
-                            attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
                         />
                     <field
                             name="benefits_in_kind_accomodation"
-                            attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
                         />
                     <field
                             name="benefits_in_kind_car"
-                            attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
                         />
                     <field
                             name="benefits_in_kind_other"
-                            attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
                         />
                     <field
                             name="benefits_in_kind_nict"
-                            attrs="{'invisible': [('benefits_in_kind_amount', '=', 0)]}"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
                         />
-                    <field name="withholding_tax_amount" />
+                    <field name="withholding_tax_amount" readonly="state != 'draft'" />
                 </group>
                 <group name="note" string="Notes" colspan="2">
                     <field name="note" nolabel="1" colspan="2" />
@@ -227,9 +247,9 @@
             <field name="allowance_amount" sum="1" optional="show" />
             <field name="withholding_tax_amount" sum="1" optional="show" />
             <field name="total_amount" sum="1" />
-            <field name="currency_id" invisible="1" />
+            <field name="currency_id" column_invisible="1" />
             <field name="to_declare" />
-            <field name="state" invisible="1" />
+            <field name="state" column_invisible="1" />
         </tree>
     </field>
 </record>
