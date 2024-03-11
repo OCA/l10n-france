@@ -777,7 +777,12 @@ class L10nFrDas2Line(models.Model):
         required=True,
     )
     partner_siret = fields.Char(
-        string="SIRET", size=14, states={"done": [("readonly", True)]}
+        compute="_compute_partner_siret",
+        store=True,
+        readonly=False,
+        string="SIRET",
+        size=14,
+        states={"done": [("readonly", True)]},
     )
     company_id = fields.Many2one(related="parent_id.company_id", store=True)
     currency_id = fields.Many2one(
@@ -853,7 +858,12 @@ class L10nFrDas2Line(models.Model):
     state = fields.Selection(related="parent_id.state", store=True)
     note = fields.Html()
     job = fields.Char(
-        string="Profession", size=30, states={"done": [("readonly", True)]}
+        compute="_compute_job",
+        store=True,
+        readonly=False,
+        string="Profession",
+        size=30,
+        states={"done": [("readonly", True)]},
     )
 
     _sql_constraints = [
@@ -945,16 +955,20 @@ class L10nFrDas2Line(models.Model):
             line.to_declare = to_declare
             line.total_amount = total_amount
 
+    @api.depends("partner_id")
+    def _compute_partner_siret(self):
+        for line in self:
+            if line.partner_id and line.partner_id.siren and line.partner_id.nic:
+                line.partner_siret = line.partner_id.siret
+
+    @api.depends("partner_id")
+    def _compute_job(self):
+        for line in self:
+            if line.partner_id and line.partner_id.fr_das2_job:
+                line.job = line.partner_id.fr_das2_job
+
     @api.constrains("partner_siret")
     def check_siret(self):
         for line in self:
             if line.partner_siret and not is_valid(line.partner_siret):
                 raise ValidationError(_("SIRET '%s' is invalid.") % line.partner_siret)
-
-    @api.onchange("partner_id")
-    def partner_id_change(self):
-        if self.partner_id:
-            if self.partner_id.siren and self.partner_id.nic:
-                self.partner_siret = self.partner_id.siret
-            if self.partner_id.fr_das2_job:
-                self.job = self.partner_id.fr_das2_job
