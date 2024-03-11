@@ -6,6 +6,7 @@ import base64
 import logging
 from datetime import datetime
 
+from markupsafe import Markup
 from pyfrdas2 import format_street_block, generate_file
 from stdnum.fr.siret import is_valid
 
@@ -55,7 +56,6 @@ class L10nFrDas2(models.Model):
 
     year = fields.Integer(
         required=True,
-        states={"done": [("readonly", True)]},
         tracking=True,
         default=lambda self: self._default_year(),
         index=True,
@@ -74,7 +74,6 @@ class L10nFrDas2(models.Model):
         "res.company",
         ondelete="cascade",
         required=True,
-        states={"done": [("readonly", True)]},
         default=lambda self: self.env.company,
     )
     currency_id = fields.Many2one(
@@ -88,14 +87,12 @@ class L10nFrDas2(models.Model):
         required=True,
         default=lambda self: self._default_payment_journals(),
         domain="[('company_id', '=', company_id)]",
-        states={"done": [("readonly", True)]},
         check_company=True,
     )
     line_ids = fields.One2many(
         "l10n.fr.das2.line",
         "parent_id",
         string="Lines",
-        states={"done": [("readonly", True)]},
     )
     partner_declare_threshold = fields.Integer(
         string="Partner Declaration Threshold", readonly=True
@@ -107,7 +104,6 @@ class L10nFrDas2(models.Model):
         ],
         "DADS Type",
         required=True,
-        states={"done": [("readonly", True)]},
         tracking=True,
         default=lambda self: self._default_dads_type(),
     )
@@ -115,7 +111,6 @@ class L10nFrDas2(models.Model):
     contact_id = fields.Many2one(
         "res.partner",
         string="Administrative Contact",
-        states={"done": [("readonly", True)]},
         default=lambda self: self.env.user.partner_id.id,
         tracking=True,
         help="Contact in the company for the fiscal administration: the name, "
@@ -167,11 +162,9 @@ class L10nFrDas2(models.Model):
         return last_year
 
     @api.depends("year")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for rec in self:
-            res.append((rec.id, "DAS2 %s" % rec.year))
-        return res
+            rec.display_name = f"DAS2 {rec.year}"
 
     def done(self):
         self.ensure_one()
@@ -182,9 +175,11 @@ class L10nFrDas2(models.Model):
                 encryption = "test"
             else:
                 encryption = "prod"
-            msg = (
-                _("DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key.")
-                % encryption
+            msg = Markup(
+                _(
+                    "DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key.",
+                    encryption=encryption,
+                )
             )
 
             attach = self.generate_file_and_attach(encryption=encryption)
@@ -311,7 +306,6 @@ class L10nFrDas2(models.Model):
         amlo = self.env["account.move.line"]
         aao = self.env["account.account"]
         ajo = self.env["account.journal"]
-        rpo = self.env["res.partner"]
         company = self.company_id
         purchase_journals = ajo.search(
             [("type", "=", "purchase"), ("company_id", "=", company.id)]
@@ -332,7 +326,7 @@ class L10nFrDas2(models.Model):
                 ("code", "=like", "6516%"),
             ]
         )
-        rg_res = amlo.read_group(
+        rg_res = amlo._read_group(
             [
                 ("company_id", "=", company.id),
                 ("date", ">=", "%d-10-01" % (self.year - 1)),
@@ -346,7 +340,7 @@ class L10nFrDas2(models.Model):
                 ("display_type", "=", "product"),
             ],
             ["partner_id"],
-            ["partner_id"],
+            ["__count"],
         )
         msg = False
         msg_post = _("DAS2 lines generated. ")
@@ -358,7 +352,7 @@ class L10nFrDas2(models.Model):
             )
             msg_post += msg
             for rg_re in rg_res:
-                partner = rpo.browse(rg_re["partner_id"][0])
+                partner = rg_re[0]
                 msg_post += (
                     '<li><a href="#" data-oe-model="res.partner" '
                     'data-oe-id="%d">%s</a></li>' % (partner.id, partner.display_name)
@@ -366,7 +360,7 @@ class L10nFrDas2(models.Model):
                 msg += "<li>%s</li>" % partner.display_name
             msg_post += "</ul>"
             msg += "</ul>"
-        self.message_post(body=msg_post)
+        self.message_post(body=Markup(msg_post))
         self.write({"warning_msg": msg})
 
     @api.model
@@ -604,12 +598,11 @@ class L10nFrDas2(models.Model):
                 + "0" * 10
                 + " " * 245
             )
-        rg = self.env["l10n.fr.das2.line"].read_group(
-            [("parent_id", "=", self.id)], AMOUNT_FIELDS, []
+        rg = self.env["l10n.fr.das2.line"]._read_group(
+            [("parent_id", "=", self.id)], [], [f"{x}:sum" for x in AMOUNT_FIELDS]
         )[0]
         total_fields_list = [
-            self._prepare_field(x, cpartner, rg[x], 12, numeric=True)
-            for x in AMOUNT_FIELDS
+            self._prepare_field(x, cpartner, x, 12, numeric=True) for x in rg
         ]
         contact_name = self._prepare_field(
             "Administrative contact name", contact, contact.name, 50
@@ -774,7 +767,6 @@ class L10nFrDas2Line(models.Model):
         string="Supplier",
         ondelete="restrict",
         domain=[("parent_id", "=", False)],
-        states={"done": [("readonly", True)]},
         required=True,
     )
     partner_siret = fields.Char(
@@ -784,7 +776,6 @@ class L10nFrDas2Line(models.Model):
         readonly=False,
         string="SIRET",
         size=14,
-        states={"done": [("readonly", True)]},
     )
     company_id = fields.Many2one(related="parent_id.company_id", store=True)
     currency_id = fields.Many2one(
@@ -792,39 +783,17 @@ class L10nFrDas2Line(models.Model):
         store=True,
         string="Company Currency",
     )
-    fee_amount = fields.Integer(
-        string="Honoraires et vacations", states={"done": [("readonly", True)]}
-    )
-    commission_amount = fields.Integer(
-        string="Commissions", states={"done": [("readonly", True)]}
-    )
-    brokerage_amount = fields.Integer(
-        string="Courtages", states={"done": [("readonly", True)]}
-    )
-    discount_amount = fields.Integer(
-        string="Ristournes", states={"done": [("readonly", True)]}
-    )
-    attendance_fee_amount = fields.Integer(
-        string="Jetons de présence", states={"done": [("readonly", True)]}
-    )
-    copyright_royalties_amount = fields.Integer(
-        string="Droits d'auteur", states={"done": [("readonly", True)]}
-    )
-    licence_royalties_amount = fields.Integer(
-        string="Droits d'inventeur", states={"done": [("readonly", True)]}
-    )
-    other_income_amount = fields.Integer(
-        string="Autres rémunérations", states={"done": [("readonly", True)]}
-    )
-    allowance_amount = fields.Integer(
-        string="Indemnités et remboursements", states={"done": [("readonly", True)]}
-    )
-    benefits_in_kind_amount = fields.Integer(
-        string="Avantages en nature", states={"done": [("readonly", True)]}
-    )
-    withholding_tax_amount = fields.Integer(
-        string="Retenue à la source", states={"done": [("readonly", True)]}
-    )
+    fee_amount = fields.Integer(string="Honoraires et vacations")
+    commission_amount = fields.Integer(string="Commissions")
+    brokerage_amount = fields.Integer(string="Courtages")
+    discount_amount = fields.Integer(string="Ristournes")
+    attendance_fee_amount = fields.Integer(string="Jetons de présence")
+    copyright_royalties_amount = fields.Integer(string="Droits d'auteur")
+    licence_royalties_amount = fields.Integer(string="Droits d'inventeur")
+    other_income_amount = fields.Integer(string="Autres rémunérations")
+    allowance_amount = fields.Integer(string="Indemnités et remboursements")
+    benefits_in_kind_amount = fields.Integer(string="Avantages en nature")
+    withholding_tax_amount = fields.Integer(string="Retenue à la source")
     total_amount = fields.Integer(
         compute="_compute_total_amount",
         store=True,
@@ -833,30 +802,14 @@ class L10nFrDas2Line(models.Model):
     to_declare = fields.Boolean(
         compute="_compute_total_amount", readonly=True, store=True
     )
-    allowance_fixed = fields.Boolean(
-        "Allocation forfaitaire", states={"done": [("readonly", True)]}
-    )
-    allowance_real = fields.Boolean(
-        "Sur frais réels", states={"done": [("readonly", True)]}
-    )
-    allowance_employer = fields.Boolean(
-        "Prise en charge directe par l'employeur", states={"done": [("readonly", True)]}
-    )
-    benefits_in_kind_food = fields.Boolean(
-        "Nourriture", states={"done": [("readonly", True)]}
-    )
-    benefits_in_kind_accomodation = fields.Boolean(
-        "Logement", states={"done": [("readonly", True)]}
-    )
-    benefits_in_kind_car = fields.Boolean(
-        "Voiture", states={"done": [("readonly", True)]}
-    )
-    benefits_in_kind_other = fields.Boolean(
-        "Autres", states={"done": [("readonly", True)]}
-    )
-    benefits_in_kind_nict = fields.Boolean(
-        "Outils issus des NTIC", states={"done": [("readonly", True)]}
-    )
+    allowance_fixed = fields.Boolean("Allocation forfaitaire")
+    allowance_real = fields.Boolean("Sur frais réels")
+    allowance_employer = fields.Boolean("Prise en charge directe par l'employeur")
+    benefits_in_kind_food = fields.Boolean("Nourriture")
+    benefits_in_kind_accomodation = fields.Boolean("Logement")
+    benefits_in_kind_car = fields.Boolean("Voiture")
+    benefits_in_kind_other = fields.Boolean("Autres")
+    benefits_in_kind_nict = fields.Boolean("Outils issus des NTIC")
     state = fields.Selection(related="parent_id.state", store=True)
     note = fields.Html()
     job = fields.Char(
@@ -866,7 +819,6 @@ class L10nFrDas2Line(models.Model):
         readonly=False,
         string="Profession",
         size=30,
-        states={"done": [("readonly", True)]},
     )
 
     _sql_constraints = [
