@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=duplicate-xml-record-id -->
 <odoo>
     <record id="l10n_fr_pcg_chart_template" model="account.chart.template">
       <field name="property_account_receivable_id" ref="fr_pcg_recv" />
