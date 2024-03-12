@@ -61,6 +61,11 @@ msgid "%s (add)"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid ". You can either:"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310a
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-A"
@@ -503,6 +508,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__create_uid
 msgid "Created by"
 msgstr ""
@@ -513,6 +519,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__create_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__create_date
 msgid "Created on"
 msgstr ""
@@ -576,6 +583,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__display_name
 msgid "Display Name"
 msgstr ""
@@ -596,6 +604,21 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
 msgid "Do you confirm the removal of the credit VAT reimbursement?"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.actions.act_window,name:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_action
+msgid "Draft Entries: Edit Draft Journal Entries or Continue"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__draft_move_ids
+msgid "Draft Journal Entries"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__draft_move_count
+msgid "Draft Move Count"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -638,7 +661,13 @@ msgid "EDI type not supported for box '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "Edit Draft Journal Entries"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__end_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__end_date
 msgid "End Date"
 msgstr ""
 
@@ -686,6 +715,16 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_account_vat_return_reimbursement
 msgid "FR VAT Reimbursement (3519)"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__fr_vat_return_id
+msgid "FR VAT Return"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_draft_move_option
+msgid "FR VAT Return: show or continue"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -778,6 +817,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__id
 msgid "ID"
 msgstr ""
@@ -817,6 +857,11 @@ msgstr ""
 msgid ""
 "If you don't want to change the VAT Exigibility of company '%s', click on "
 "the Cancel button."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "Ignore and Continue"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -876,6 +921,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -886,6 +932,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -896,6 +943,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__write_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__write_date
 msgid "Last Updated on"
 msgstr ""
@@ -1468,6 +1516,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The journal entry of the previous VAT return '%s' is in draft. You must post"
+" it before continuing to process this VAT return (or cancel it if you "
+"encoded and posted the journal entry of the previous VAT return manually)."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_line_form
 msgid ""
 "The logs lines below have a negative total, so they were moved from their "
@@ -1601,12 +1659,17 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "There is/are"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "There is/are %(count)d draft journal entry/entries dated before %(date)s. "
-"You should post it/them or delete it/them."
+"You should post it/them, delete it/them or postpone it/them."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1840,4 +1903,19 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__vat_periodicity__12
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__12
 msgid "Yearly"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "draft journal entry/entries dated before"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "edit the draft journal entry/entries,"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "ignore it/them and continue to process the VAT return."
 msgstr ""
