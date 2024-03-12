@@ -71,6 +71,11 @@ msgid "%s (add)"
 msgstr "%s (añadir)"
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid ". You can either:"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310a
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-A"
@@ -102,8 +107,8 @@ msgstr "Cuenta"
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Account '%(account)s' is used as due VAT account on several auto-liquidation"
-" taxes for different rates (%(rate1).2f%% and %(rate2).2f%%)."
+"Account '%(account)s' is used as due VAT account on several auto-liquidation "
+"taxes for different rates (%(rate1).2f%% and %(rate2).2f%%)."
 msgstr ""
 "La cuenta '%(account)s' se utiliza como cuenta de IVA adeudado en varios "
 "impuestos de liquidación automática para diferentes tasas (%(rate1).2f%% y "
@@ -210,13 +215,14 @@ msgstr "Ajuste"
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Adjustment to have sum of taxed operations boxes %(taxed_op_boxes)s = sum of"
-" due VAT base boxes %(due_vat_boxes)s. Otherwise, DGFiP would reject the VAT"
-" return."
+"Adjustment to have sum of taxed operations boxes %(taxed_op_boxes)s = sum of "
+"due VAT base boxes %(due_vat_boxes)s. Otherwise, DGFiP would reject the VAT "
+"return."
 msgstr ""
-"Ajuste para tener suma de casillas de operaciones gravadas %(taxed_op_boxes)"
-"s = suma de casillas base de IVA adeudado %(due_vat_boxes)s. En caso "
-"contrario, la DGFiP rechazaría la declaración del IVA."
+"Ajuste para tener suma de casillas de operaciones gravadas "
+"%(taxed_op_boxes)s = suma de casillas base de IVA adeudado "
+"%(due_vat_boxes)s. En caso contrario, la DGFiP rechazaría la declaración del "
+"IVA."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__amount
@@ -347,12 +353,12 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Box '%(box)s' is configured with Manual Account Code '%(account_code)s', but"
-" there are no accounts that start with this code in company '%(company)s'. "
+"Box '%(box)s' is configured with Manual Account Code '%(account_code)s', but "
+"there are no accounts that start with this code in company '%(company)s'. "
 "You may want to setup a specific account on that box."
 msgstr ""
-"El buzón \"%(box)s\" está configurado con el código de cuenta manual \""
-"%(account_code)s\", pero no hay cuentas que empiecen por este código en la "
+"El buzón \"%(box)s\" está configurado con el código de cuenta manual "
+"\"%(account_code)s\", pero no hay cuentas que empiecen por este código en la "
 "empresa \"%(company)s\". Es posible que desee configurar una cuenta "
 "específica en esa casilla."
 
@@ -552,6 +558,7 @@ msgstr "Ajustes Config"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__create_uid
 msgid "Created by"
 msgstr "Creado por"
@@ -562,6 +569,7 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__create_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__create_date
 msgid "Created on"
 msgstr "Creado el"
@@ -625,6 +633,7 @@ msgstr "Débito"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__display_name
 msgid "Display Name"
 msgstr "Mostrar Nombre"
@@ -646,6 +655,21 @@ msgstr "¿Confirma que ha validado la declaración del IVA en impots.gouv.fr?"
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
 msgid "Do you confirm the removal of the credit VAT reimbursement?"
 msgstr "¿Confirma la supresión del crédito de devolución del IVA?"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.actions.act_window,name:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_action
+msgid "Draft Entries: Edit Draft Journal Entries or Continue"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__draft_move_ids
+msgid "Draft Journal Entries"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__draft_move_count
+msgid "Draft Move Count"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__due_vat_base_box_id
@@ -691,7 +715,13 @@ msgid "EDI type not supported for box '%s'."
 msgstr "No se admite el tipo EDI para la casilla '%s'."
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "Edit Draft Journal Entries"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__end_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__end_date
 msgid "End Date"
 msgstr "Fecha finalización"
 
@@ -745,6 +775,16 @@ msgstr "La fecha del evento no está fijada."
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_account_vat_return_reimbursement
 msgid "FR VAT Reimbursement (3519)"
 msgstr "FR Reembolso del IVA (3519)"
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__fr_vat_return_id
+msgid "FR VAT Return"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_draft_move_option
+msgid "FR VAT Return: show or continue"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__print_page__1
@@ -836,6 +876,7 @@ msgstr "Tiene Mensaje"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__id
 msgid "ID"
 msgstr "ID"
@@ -864,8 +905,8 @@ msgstr "Si está marcado los nuevos mensajes requieren su atención."
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__account_id
 msgid ""
 "If not set, Odoo will use the first account that starts with the Generic "
-"Account Code. If set, Odoo will ignore the Generic Account Code and use this"
-" account."
+"Account Code. If set, Odoo will ignore the Generic Account Code and use this "
+"account."
 msgstr ""
 "Si no se establece, Odoo usará la primera cuenta que comience con el Código "
 "Genérico de Cuenta. Si se establece, Odoo ignorará el Código Genérico de "
@@ -881,6 +922,11 @@ msgid ""
 msgstr ""
 "Si no desea cambiar la Exigibilidad del IVA de la empresa '%s', haga clic en "
 "el botón Cancelar."
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "Ignore and Continue"
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__value_manual_int
@@ -909,9 +955,9 @@ msgstr "Elemento de diario"
 #, python-format
 msgid ""
 "Journal entry '%(move)s' dated %(date)s is inside or before the VAT period "
-"%(vat_period)s and has an unreconciled journal item with an %(autoliq_type)s"
-" autoliquidation due VAT account '%(account)s' in journal '%(journal)s' "
-"which is not a purchase journal. That journal item should be reconciled."
+"%(vat_period)s and has an unreconciled journal item with an %(autoliq_type)s "
+"autoliquidation due VAT account '%(account)s' in journal '%(journal)s' which "
+"is not a purchase journal. That journal item should be reconciled."
 msgstr ""
 "El asiento '%(move)s' con fecha %(date)s está dentro o antes del periodo de "
 "IVA %(vat_period)s y tiene un asiento no conciliado con una cuenta de IVA "
@@ -944,6 +990,7 @@ msgstr "Etiqueta"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update____last_update
 msgid "Last Modified on"
 msgstr "Última Modificación el"
@@ -954,6 +1001,7 @@ msgstr "Última Modificación el"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__write_uid
 msgid "Last Updated by"
 msgstr "Última modificación por"
@@ -964,6 +1012,7 @@ msgstr "Última modificación por"
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__write_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__write_date
 msgid "Last Updated on"
 msgstr "Última Actualización el"
@@ -1097,17 +1146,16 @@ msgstr "Tipo próxima actividad"
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"No account mapping on fiscal position <a href=# data-oe-"
-"model=account.fiscal.position data-oe-"
-"id=%(fiscal_position_id)d>%(fiscal_position)s</a>. If this fiscal position "
-"is not only used for purchase but also for sale, you must configure an "
-"account mapping on revenue accounts."
+"No account mapping on fiscal position <a href=# data-oe-model=account.fiscal."
+"position data-oe-id=%(fiscal_position_id)d>%(fiscal_position)s</a>. If this "
+"fiscal position is not only used for purchase but also for sale, you must "
+"configure an account mapping on revenue accounts."
 msgstr ""
 "No hay asignación de cuentas en la posición fiscal <a href=# data-oe-"
-"model=cuenta.fiscal.posición data-oe-"
-"id=%(fiscal_position_id)d>%(fiscal_position)s</a>. Si esta posición fiscal "
-"no sólo se utiliza para la compra, sino también para la venta, debe "
-"configurar una asignación de cuentas en las cuentas de ingresos."
+"model=cuenta.fiscal.posición data-oe-id=%(fiscal_position_id)d>"
+"%(fiscal_position)s</a>. Si esta posición fiscal no sólo se utiliza para la "
+"compra, sino también para la venta, debe configurar una asignación de "
+"cuentas en las cuentas de ingresos."
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
@@ -1406,8 +1454,8 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Tax '%s' should have only one distribution line for invoices configured with"
-" an account and with '100%% of tax'."
+"Tax '%s' should have only one distribution line for invoices configured with "
+"an account and with '100%% of tax'."
 msgstr ""
 "El impuesto '%s' debería tener sólo una línea de distribución para facturas "
 "configuradas con una cuenta y con '100%% de impuestos'."
@@ -1468,16 +1516,16 @@ msgstr ""
 "El impuesto de autoliquidación '%(tax)s' se establece en la asignación de "
 "impuestos de la posición fiscal '%(fp)s' que está configurada con el tipo "
 "'%(fp_fr_vat_type)s'. Los impuestos de autoliquidación sólo deben "
-"configurarse en posiciones fiscales con el tipo \""
-"%(fp_fr_vat_type_intracom_b2b)s\" o \"%(fp_fr_vat_type_extracom)s\"."
+"configurarse en posiciones fiscales con el tipo "
+"\"%(fp_fr_vat_type_intracom_b2b)s\" o \"%(fp_fr_vat_type_extracom)s\"."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"The balance of account '%(account)s' is %(balance)s. In France, it should be"
-" a integer amount."
+"The balance of account '%(account)s' is %(balance)s. In France, it should be "
+"a integer amount."
 msgstr ""
 "El saldo de la cuenta '%(account)s' es %(balance)s. En Francia, debe ser un "
 "importe entero."
@@ -1565,11 +1613,21 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"The journal entry '%s' generated by the VAT return cannot be deleted because"
-" it is already posted."
+"The journal entry '%s' generated by the VAT return cannot be deleted because "
+"it is already posted."
 msgstr ""
 "El asiento '%s' generado por la declaración de IVA no puede borrarse porque "
 "ya está contabilizado."
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The journal entry of the previous VAT return '%s' is in draft. You must post "
+"it before continuing to process this VAT return (or cancel it if you encoded "
+"and posted the journal entry of the previous VAT return manually)."
+msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_line_form
@@ -1644,8 +1702,8 @@ msgstr "El valor de la línea '%(box)s' (%(value)d) es superior a 100."
 #, python-format
 msgid ""
 "There are %(account_count)s accounts whose code start with "
-"%(account_prefix)s in company '%(company)s' : %(account_list)s. Odoo expects"
-" to have only one."
+"%(account_prefix)s in company '%(company)s' : %(account_list)s. Odoo expects "
+"to have only one."
 msgstr ""
 "Hay %(account_count)s cuentas cuyo código comienza con %(account_prefix)s en "
 "la empresa '%(company)s': %(account_list)s. Odoo espera tener sólo uno."
@@ -1731,15 +1789,18 @@ msgstr ""
 "cuentas de la empresa '%(company)s'."
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "There is/are"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
 "There is/are %(count)d draft journal entry/entries dated before %(date)s. "
-"You should post it/them or delete it/them."
+"You should post it/them, delete it/them or postpone it/them."
 msgstr ""
-"Hay %(count)d borrador de asiento/entradas con fecha anterior a %(date)s. "
-"Debe contabilizarlo/s o eliminarlo/s."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__print_page__3
@@ -1759,8 +1820,8 @@ msgstr "Este código N-REF ya existe."
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
 msgid ""
-"This VAT return has been marked as sent. Are you sure you want to go back to"
-" Manual Lines?"
+"This VAT return has been marked as sent. Are you sure you want to go back to "
+"Manual Lines?"
 msgstr ""
 "Esta declaración de IVA se ha marcado como enviada. ¿Estás seguro de que "
 "quieres volver a Líneas Manuales?"
@@ -1804,8 +1865,7 @@ msgstr "Tipo"
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Type not set on fiscal position '%s'. It must be set on all fiscal "
-"positions."
+"Type not set on fiscal position '%s'. It must be set on all fiscal positions."
 msgstr ""
 "Tipo no establecido en la posición fiscal '%s'. Debe establecerse en todas "
 "las posiciones fiscales."
@@ -1982,3 +2042,26 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__12
 msgid "Yearly"
 msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "draft journal entry/entries dated before"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "edit the draft journal entry/entries,"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "ignore it/them and continue to process the VAT return."
+msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "There is/are %(count)d draft journal entry/entries dated before %(date)s. "
+#~ "You should post it/them or delete it/them."
+#~ msgstr ""
+#~ "Hay %(count)d borrador de asiento/entradas con fecha anterior a %(date)s. "
+#~ "Debe contabilizarlo/s o eliminarlo/s."
