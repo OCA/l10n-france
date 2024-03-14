@@ -145,13 +145,10 @@ msgstr "Introductions"
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid ""
-"Bad VAT number '%(vat)s' on line %(line_number)d. Brexit took place on "
-"January 1st 2021 and companies in Northern Ireland have a new VAT number "
-"starting with 'XI'."
+"Bad VAT number '%(vat)s' on declaration line %(line_number)d. Brexit took "
+"place on January 1st 2021 and companies in Northern Ireland have a new VAT "
+"number starting with 'XI'."
 msgstr ""
-"Mauvais numéro de TVA '%(vat)s' sur la ligne %(line_number)d. Le Brexit a eu "
-"lieu le 1er janvier 2021 et les entreprises d'Irlande du Nord ont un nouveau "
-"numéro de TVA commençant par 'XI'."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__code
@@ -324,22 +321,22 @@ msgstr "Dernière mise à jour le"
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing Country Code of Origin/Destination on line %d."
-msgstr "Code pays d'origine/destination manquant sur la ligne %d."
+msgid "Missing H.S. code on declaration line %d."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing H.S. code on line %d."
-msgstr "Code S.H. manquant sur la ligne %d."
+msgid "Missing VAT number on declaration line %d."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing VAT number on line %d."
-msgstr "Numéro de TVA manquant sur la ligne %d."
+msgid "Missing country code of origin/destination on declaration line %d."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -356,8 +353,22 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing fiscal value on line %d."
-msgstr "Valeur fiscale manquante sur la ligne %d."
+msgid "Missing fiscal value on declaration line %d."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
+#, python-format
+msgid "Missing intrastat transaction on declaration line %d."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
+#, python-format
+msgid "Missing mode of transport on declaration line %d."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -370,29 +381,29 @@ msgstr "Partenaire manquant sur l'entrepôt \"%s\"."
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing product country of origin code on line %d."
-msgstr "Code du pays d'origine de l'article manquant sur la ligne %d."
+msgid "Missing product country of origin code on declaration line %d."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing quantity on line %d."
-msgstr "Quantité manquante sur la ligne %d."
+msgid "Missing quantity on declaration line %d."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing weight on line %d."
-msgstr "Poids manquant sur la ligne %d."
+msgid "Missing region code on declaration line %d."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Mode of transport is not set on line %d."
-msgstr "Mode de transport manquant sur la ligne %d."
+msgid "Missing weight on declaration line %d."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__name
@@ -403,18 +414,6 @@ msgstr "Nom"
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_search
 msgid "Name or Code"
 msgstr "Nom ou code"
-
-#. module: l10n_fr_intrastat_product
-#. odoo-python
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
-msgid ""
-"No XML file generated because the <b>Customs Accreditation Identifier</b> is "
-"not set on the accounting configuration page of the company '%s'."
-msgstr ""
-"Aucun fichier XML n'est généré car le <b>numéro d'habilitation délivré par "
-"la douane</b> n'est pas défini sur la page de configuration de la "
-"comptabilité de la société \"%s\"."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -465,8 +464,8 @@ msgstr "Codes régime"
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Region Code is not set on line %d."
-msgstr "Le code régional n'est pas défini sur la ligne %d."
+msgid "The Customs Accreditation Identifier is not set for the company '%s'."
+msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -504,10 +503,8 @@ msgstr "Total fiscal dans la devise de la société de la déclaration."
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Transaction code on line %d should have 2 digits."
+msgid "Transaction code on declaration line %d should have 2 digits."
 msgstr ""
-"Le code 'nature de la transaction' sur la ligne %d doit être composé de 2 "
-"chiffres."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_fr_regime__fiscal_value_multiplier
@@ -529,6 +526,67 @@ msgstr ""
 "EMEBI {{dict(object.fields_get('declaration_type', 'selection')"
 "['declaration_type']['selection'])[object.declaration_type]}} {{object."
 "year_month}} pour {{object.company_id.name}}"
+
+#, python-format
+#~ msgid ""
+#~ "Bad VAT number '%(vat)s' on line %(line_number)d. Brexit took place on "
+#~ "January 1st 2021 and companies in Northern Ireland have a new VAT number "
+#~ "starting with 'XI'."
+#~ msgstr ""
+#~ "Mauvais numéro de TVA '%(vat)s' sur la ligne %(line_number)d. Le Brexit a "
+#~ "eu lieu le 1er janvier 2021 et les entreprises d'Irlande du Nord ont un "
+#~ "nouveau numéro de TVA commençant par 'XI'."
+
+#, python-format
+#~ msgid "Missing Country Code of Origin/Destination on line %d."
+#~ msgstr "Code pays d'origine/destination manquant sur la ligne %d."
+
+#, python-format
+#~ msgid "Missing H.S. code on line %d."
+#~ msgstr "Code S.H. manquant sur la ligne %d."
+
+#, python-format
+#~ msgid "Missing VAT number on line %d."
+#~ msgstr "Numéro de TVA manquant sur la ligne %d."
+
+#, python-format
+#~ msgid "Missing fiscal value on line %d."
+#~ msgstr "Valeur fiscale manquante sur la ligne %d."
+
+#, python-format
+#~ msgid "Missing product country of origin code on line %d."
+#~ msgstr "Code du pays d'origine de l'article manquant sur la ligne %d."
+
+#, python-format
+#~ msgid "Missing quantity on line %d."
+#~ msgstr "Quantité manquante sur la ligne %d."
+
+#, python-format
+#~ msgid "Missing weight on line %d."
+#~ msgstr "Poids manquant sur la ligne %d."
+
+#, python-format
+#~ msgid "Mode of transport is not set on line %d."
+#~ msgstr "Mode de transport manquant sur la ligne %d."
+
+#, python-format
+#~ msgid ""
+#~ "No XML file generated because the <b>Customs Accreditation Identifier</b> "
+#~ "is not set on the accounting configuration page of the company '%s'."
+#~ msgstr ""
+#~ "Aucun fichier XML n'est généré car le <b>numéro d'habilitation délivré "
+#~ "par la douane</b> n'est pas défini sur la page de configuration de la "
+#~ "comptabilité de la société \"%s\"."
+
+#, python-format
+#~ msgid "Region Code is not set on line %d."
+#~ msgstr "Le code régional n'est pas défini sur la ligne %d."
+
+#, python-format
+#~ msgid "Transaction code on line %d should have 2 digits."
+#~ msgstr ""
+#~ "Le code 'nature de la transaction' sur la ligne %d doit être composé de 2 "
+#~ "chiffres."
 
 #~ msgid ""
 #~ "'0' for procedure codes 19 and 29, '-1' for procedure code 25, '1' for "
