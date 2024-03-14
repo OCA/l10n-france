@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
-import gzip
 import logging
 from datetime import datetime
 
+from pyfrdas2 import format_street_block, generate_file
 from stdnum.fr.siret import is_valid
 
 from odoo import _, api, fields, models, tools
@@ -14,17 +14,6 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools.misc import format_amount, format_date
 
 logger = logging.getLogger(__name__)
-
-try:
-    from unidecode import unidecode
-except ImportError:
-    unidecode = False
-    logger.debug("Cannot import unidecode")
-try:
-    import pgpy
-except ImportError:
-    pgpy = False
-    logger.debug("Cannot import pgpy")
 
 
 FRANCE_CODES = (
@@ -199,10 +188,10 @@ class L10nFrDas2(models.Model):
                 % encryption
             )
 
-            attach = self.generate_file(encryption=encryption)
+            attach = self.generate_file_and_attach(encryption=encryption)
             self.message_post(body=msg)
             # also generate a clear file, for audit purposes
-            unencrypted_attach = self.generate_file(encryption="none")
+            unencrypted_attach = self.generate_file_and_attach(encryption="none")
             vals.update(
                 {
                     "attachment_id": attach.id,
@@ -310,11 +299,8 @@ class L10nFrDas2(models.Model):
                 field_name: amount_int,
                 "parent_id": self.id,
                 "partner_id": partner.id,
-                "job": partner.fr_das2_job,
                 "note": "<ul>%s</ul>" % note,
             }
-            if partner.siren and partner.nic:
-                res["partner_siret"] = partner.siret
         return res
 
     def generate_warning_msg(self, das2_partners):
@@ -392,7 +378,7 @@ class L10nFrDas2(models.Model):
                     value = int(value)
                 except Exception:
                     raise UserError(
-                        _("Failed to convert field '%s' (partner %s) " "to integer.")
+                        _("Failed to convert field '%s' (partner %s) to integer.")
                         % (field_name, partner.display_name)
                     )
             value = str(value)
@@ -427,14 +413,14 @@ class L10nFrDas2(models.Model):
 
     def _prepare_address(self, partner):
         cstreet2 = self._prepare_field("Street2", partner, partner.street2, 32)
-        cstreet = self._prepare_field("Street", partner, partner.street, 32)
-        # specs section 5.4 : only bureau distributeur and code postal are
+        cstreet = format_street_block(partner.street)
+        # specs say only bureau distributeur and code postal are
         # required. And they say it is tolerated to set city as
         # bureau distributeur
         # And we don't set the commune field because we put the same info
-        # in bureau distributeur (section 5.4.1.3)
-        # specs section 5.4 and 5.4.1.2.b: it is possible to set the field
-        # "Adresse voie" without structuration on 32 chars => that's what we do
+        # in bureau distributeur
+        # specs 2024 : we now have to have structured adresses with a separation
+        # for the number, bis/ter and street name. We'll do our best to comply with that.
         if not partner.city:
             raise UserError(_("Missing city on partner '%s'.") % partner.display_name)
         if partner.country_id and partner.country_id.code not in FRANCE_CODES:
@@ -684,7 +670,7 @@ class L10nFrDas2(models.Model):
         file_content = "\r\n".join(flines) + "\r\n"
         return file_content
 
-    def generate_file(self, encryption="prod"):
+    def generate_file_and_attach(self, encryption="prod"):
         self.ensure_one()
         assert encryption in ("prod", "test", "none")
         company = self.company_id
@@ -734,39 +720,19 @@ class L10nFrDas2(models.Model):
                 )
             )
 
-        if encryption in ("prod", "test"):
-            prefix = "DSAL_"
-            file_ext = "txt.gz.gpg"
-            key_path = (
-                "l10n_fr_das2/pgp_keys/DGFIP_TIERSDECLARANTS_%s.asc"
-                % encryption.upper()
+        try:
+            file_bytes_result, filename = generate_file(
+                file_content_encoded, self.year, company.siren, encryption=encryption
             )
-            with tools.file_open(key_path, mode="rb") as key_file:
-                key_file_blob = key_file.read()
-            pubkey = pgpy.PGPKey.from_blob(key_file_blob)[0]
-            file_content_compressed = gzip.compress(file_content_encoded)
-            to_encrypt_object = pgpy.PGPMessage.new(file_content_compressed)
-            file_content_final = bytes(pubkey.encrypt(to_encrypt_object))
-        else:
-            file_content_final = file_content_encoded
-            prefix = "UNENCRYPTED_DAS2_for_audit-"
-            file_ext = "txt"
-
-        user_local_datetime = fields.Datetime.context_timestamp(self, datetime.now())
-        filename = "%(prefix)s%(year)s_%(siren)s_000_%(gentime)s.%(file_ext)s" % {
-            "prefix": prefix,
-            "year": self.year,
-            "siren": company.siren,
-            "gentime": user_local_datetime.strftime("%Y%m%d%H%M%S"),
-            "file_ext": file_ext,
-        }
+        except Exception as e:
+            raise UserError(e)
 
         attach = self.env["ir.attachment"].create(
             {
                 "name": filename,
                 "res_id": self.id,
                 "res_model": self._name,
-                "datas": base64.encodebytes(file_content_final),
+                "datas": base64.encodebytes(file_bytes_result),
             }
         )
         return attach
@@ -799,7 +765,12 @@ class L10nFrDas2Line(models.Model):
         required=True,
     )
     partner_siret = fields.Char(
-        string="SIRET", size=14, states={"done": [("readonly", True)]}
+        compute="_compute_partner_siret",
+        store=True,
+        readonly=False,
+        string="SIRET",
+        size=14,
+        states={"done": [("readonly", True)]},
     )
     company_id = fields.Many2one(related="parent_id.company_id", store=True)
     currency_id = fields.Many2one(
@@ -876,7 +847,12 @@ class L10nFrDas2Line(models.Model):
     state = fields.Selection(related="parent_id.state", store=True)
     note = fields.Html()
     job = fields.Char(
-        string="Profession", size=30, states={"done": [("readonly", True)]}
+        compute="_compute_job",
+        store=True,
+        readonly=False,
+        string="Profession",
+        size=30,
+        states={"done": [("readonly", True)]},
     )
 
     _sql_constraints = [
@@ -968,16 +944,20 @@ class L10nFrDas2Line(models.Model):
             line.to_declare = to_declare
             line.total_amount = total_amount
 
+    @api.depends("partner_id")
+    def _compute_partner_siret(self):
+        for line in self:
+            if line.partner_id and line.partner_id.siren and line.partner_id.nic:
+                line.partner_siret = line.partner_id.siret
+
+    @api.depends("partner_id")
+    def _compute_job(self):
+        for line in self:
+            if line.partner_id and line.partner_id.fr_das2_job:
+                line.job = line.partner_id.fr_das2_job
+
     @api.constrains("partner_siret")
     def check_siret(self):
         for line in self:
             if line.partner_siret and not is_valid(line.partner_siret):
                 raise ValidationError(_("SIRET '%s' is invalid.") % line.partner_siret)
-
-    @api.onchange("partner_id")
-    def partner_id_change(self):
-        if self.partner_id:
-            if self.partner_id.siren and self.partner_id.nic:
-                self.partner_siret = self.partner_id.siret
-            if self.partner_id.fr_das2_job:
-                self.job = self.partner_id.fr_das2_job
