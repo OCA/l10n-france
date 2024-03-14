@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="l10n_fr_das2_form" model="ir.ui.view">
+    <field name="name">l10n.fr.das2.form</field>
+    <field name="model">l10n.fr.das2</field>
+    <field name="arch" type="xml">
+        <form>
+            <header>
+                <button
+                        name="generate_lines"
+                        string="Generate Lines"
+                        type="object"
+                        invisible="state != 'draft'"
+                        class="btn-primary"
+                    />
+                <button
+                        name="back2draft"
+                        string="Back to Draft"
+                        type="object"
+                        invisible="state != 'done'"
+                        confirm="Are you sure you want to go back to draft?"
+                    />
+                <button
+                        name="done"
+                        string="Validate"
+                        type="object"
+                        invisible="state != 'draft'"
+                        class="btn-primary"
+                    />
+                <field name="state" widget="statusbar" />
+            </header>
+            <div class="alert alert-warning" role="alert" invisible="not warning_msg">
+                <field name="warning_msg" />
+            </div>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button
+                            name="button_lines_fullscreen"
+                            class="oe_stat_button"
+                            icon="fa-building-o"
+                            type="object"
+                            help="List view of lines"
+                        >
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_text">Lines Fullscreen</span>
+                        </div>
+                    </button>
+                </div>
+                <group name="main">
+                    <group name="main-left">
+                        <field name="year" readonly="state != 'draft'" />
+                        <field name="dads_type" readonly="state != 'draft'" />
+                        <field
+                                name="payment_journal_ids"
+                                widget="many2many_tags"
+                                readonly="state != 'draft'"
+                            />
+                        <field name="contact_id" readonly="state != 'draft'" />
+                    </group>
+                    <group name="main-right">
+                        <field name="currency_id" invisible="1" />
+                        <field name="partner_declare_threshold" />
+                        <field name="attachment_datas" filename="attachment_name" />
+                        <field name="attachment_id" invisible="1" />
+                        <field name="attachment_name" invisible="1" />
+                        <field name="company_id" invisible="1" />
+                        <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                readonly="state != 'draft'"
+                            />
+                    </group>
+                </group>
+                <group name="lines">
+                    <field
+                            name="line_ids"
+                            nolabel="1"
+                            colspan="2"
+                            readonly="state != 'draft'"
+                        />
+                </group>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers" />
+                <field name="activity_ids" widget="mail_activity" />
+                <field name="message_ids" widget="mail_thread" />
+            </div>
+        </form>
+    </field>
+</record>
+
+
+<record id="l10n_fr_das2_tree" model="ir.ui.view">
+    <field name="name">l10n.fr.das2.tree</field>
+    <field name="model">l10n.fr.das2</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="year" decoration-bf="1" />
+            <field name="company_id" groups="base.group_multi_company" />
+            <field name="currency_id" column_invisible="1" />
+            <field
+                    name="state"
+                    decoration-success="state == 'done'"
+                    decoration-info="state == 'draft'"
+                    widget="badge"
+                />
+        </tree>
+    </field>
+</record>
+
+<record id="l10n_fr_das2_search" model="ir.ui.view">
+    <field name="name">l10n.fr.das2.search</field>
+    <field name="model">l10n.fr.das2</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="year" />
+            <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
+            <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
+        </search>
+    </field>
+</record>
+
+<record id="l10n_fr_das2_action" model="ir.actions.act_window">
+    <field name="name">DAS2</field>
+    <field name="res_model">l10n.fr.das2</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="l10n_fr_das2_menu"
+        parent="l10n_fr.account_reports_fr_statements_menu"
+        action="l10n_fr_das2_action"
+        sequence="20"
+    />
+
+
+<record id="l10n_fr_das2_line_form" model="ir.ui.view">
+    <field name="name">l10n.fr.das2.line.form</field>
+    <field name="model">l10n.fr.das2.line</field>
+    <field name="arch" type="xml">
+        <form>
+            <group name="main">
+                <group name="left">
+                    <field
+                            name="partner_id"
+                            context="{'show_address': 1}"
+                            options="{'always_reload': 1}"
+                            readonly="state != 'draft'"
+                        />
+                    <field name="partner_siret" readonly="state != 'draft'" />
+                    <field name="job" readonly="state != 'draft'" />
+                    <field name="total_amount" />
+                    <field name="currency_id" invisible="1" />
+                    <field name="to_declare" />
+                    <field name="state" invisible="1" />
+                </group>
+                <group name="right">
+                    <field name="fee_amount" readonly="state != 'draft'" />
+                    <field name="commission_amount" readonly="state != 'draft'" />
+                    <field name="brokerage_amount" readonly="state != 'draft'" />
+                    <field name="discount_amount" readonly="state != 'draft'" />
+                    <field name="attendance_fee_amount" readonly="state != 'draft'" />
+                    <field
+                            name="copyright_royalties_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field
+                            name="licence_royalties_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field name="other_income_amount" readonly="state != 'draft'" />
+                    <field name="allowance_amount" readonly="state != 'draft'" />
+                    <field
+                            name="allowance_fixed"
+                            invisible="not allowance_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field
+                            name="allowance_real"
+                            invisible="not allowance_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field
+                            name="allowance_employer"
+                            invisible="not allowance_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field name="benefits_in_kind_amount" readonly="state != 'draft'" />
+                    <field
+                            name="benefits_in_kind_food"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field
+                            name="benefits_in_kind_accomodation"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field
+                            name="benefits_in_kind_car"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field
+                            name="benefits_in_kind_other"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field
+                            name="benefits_in_kind_nict"
+                            invisible="not benefits_in_kind_amount"
+                            readonly="state != 'draft'"
+                        />
+                    <field name="withholding_tax_amount" readonly="state != 'draft'" />
+                </group>
+                <group name="note" string="Notes" colspan="2">
+                    <field name="note" nolabel="1" colspan="2" />
+                </group>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="l10n_fr_das2_line_tree" model="ir.ui.view">
+    <field name="name">l10n.fr.das2.line.tree</field>
+    <field name="model">l10n.fr.das2.line</field>
+    <field name="arch" type="xml">
+        <tree decoration-muted="to_declare == False">
+            <field name="partner_id" />
+            <field name="partner_siret" optional="show" />
+            <field name="job" optional="show" />
+            <field name="fee_amount" sum="1" optional="show" />
+            <field name="commission_amount" sum="1" optional="show" />
+            <field name="brokerage_amount" sum="1" optional="show" />
+            <field name="discount_amount" sum="1" optional="show" />
+            <field name="attendance_fee_amount" sum="1" optional="show" />
+            <field name="copyright_royalties_amount" sum="1" optional="show" />
+            <field name="licence_royalties_amount" sum="1" optional="show" />
+            <field name="other_income_amount" sum="1" optional="show" />
+            <field name="allowance_amount" sum="1" optional="show" />
+            <field name="withholding_tax_amount" sum="1" optional="show" />
+            <field name="total_amount" sum="1" />
+            <field name="currency_id" column_invisible="1" />
+            <field name="to_declare" />
+            <field name="state" column_invisible="1" />
+        </tree>
+    </field>
+</record>
+
+<record id="l10n_fr_das2_line_search" model="ir.ui.view">
+    <field name="name">l10n.fr.das2.line.search</field>
+    <field name="model">l10n.fr.das2.line</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="partner_id" />
+            <separator />
+            <filter
+                    name="to_declare"
+                    string="To Declare"
+                    domain="[('to_declare', '=', True)]"
+                />
+        </search>
+    </field>
+</record>
+
+
+<record id="l10n_fr_das2_line_action" model="ir.actions.act_window">
+    <field name="name">DAS2 Lines</field>
+    <field name="res_model">l10n.fr.das2.line</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+
+</odoo>
