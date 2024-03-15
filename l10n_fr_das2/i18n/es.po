@@ -272,8 +272,9 @@ msgstr "Archivo DAS2 eliminado."
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key."
-msgstr "Archivo DAS2 generado. Cifrado con la clave PGP <b>%s</b> de DGFiP."
+msgid ""
+"DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key."
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2_line
@@ -297,6 +298,13 @@ msgstr "Línea de declaración"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__display_name
 msgid "Display Name"
 msgstr "Mostrar Nombre"
+
+#. module: l10n_fr_das2
+#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
+msgid ""
+"Don't modify unless you are notified of an update of the threshold by the "
+"french tax administration"
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__l10n_fr_das2__state__done
@@ -401,6 +409,7 @@ msgstr "Si está marcada, nuevos mensajes requieren su atención."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_error
+#: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si está marcada, algunos mensajes tienen un error de entrega."
 
@@ -437,12 +446,6 @@ msgid "La société verse des salaires"
 msgstr "La empresa no paga salarios"
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line____last_update
-msgid "Last Modified on"
-msgstr "Última modificación el"
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__write_uid
 msgid "Last Updated by"
@@ -468,11 +471,6 @@ msgstr "Vista de lista de líneas"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_accomodation
 msgid "Logement"
 msgstr "Vivienda"
-
-#. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Archivo adjunto principal"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_has_error
@@ -686,6 +684,11 @@ msgid "SIRET '%s' is invalid."
 msgstr "SIRET '%s' es inválido."
 
 #. module: l10n_fr_das2
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Error en la entrega de SMS"
+
+#. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
 msgstr "¡El mismo socio utilizado en varias líneas!"
@@ -850,8 +853,15 @@ msgstr "Historial de la comunicación en la página web"
 msgid "Year"
 msgstr "Año"
 
-#~ msgid "SMS Delivery error"
-#~ msgstr "Error en la entrega de SMS"
+#, python-format
+#~ msgid "DAS2 file generated. Encrypted with DGFiP's <b>%s</b> PGP key."
+#~ msgstr "Archivo DAS2 generado. Cifrado con la clave PGP <b>%s</b> de DGFiP."
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última modificación el"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Archivo adjunto principal"
 
 #~ msgid "Number of messages which requires an action"
 #~ msgstr "Números de mensajes que requieren una acción"
