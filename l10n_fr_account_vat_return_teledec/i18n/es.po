@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2024-03-18 02:20+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
@@ -20,18 +22,22 @@ msgid ""
 "<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
 "                    <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" groups=\"base.group_multi_company\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Teletransmisión vía Teledec.fr</span>\n"
+"                                               <span class=\"fa fa-lg fa-"
+"building-o\" title=\"Values set here are company-specific.\" groups=\"base."
+"group_multi_company\" role=\"img\"/>"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ass
 msgid "Association"
-msgstr ""
+msgstr "Asociación"
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "BIC is missing on the company bank account '%s'."
-msgstr ""
+msgstr "Falta el BIC en la cuenta bancaria de la empresa '%s'."
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
@@ -41,11 +47,13 @@ msgid ""
 "Cannot teletransmit box '%(box)s': box types '%(box_edi_type)s' are not "
 "supported for the moment."
 msgstr ""
+"No se puede teletransmitir la casilla '%(box)s: los tipos de casilla "
+"'%(box_edi_type)s' no son compatibles por el momento."
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_legal_form
