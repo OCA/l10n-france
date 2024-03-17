@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-05 01:24+0000\n"
+"PO-Revision-Date: 2024-03-18 02:19+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -73,7 +73,7 @@ msgstr "%s (añadir)"
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid ". You can either:"
-msgstr ""
+msgstr ". Usted puede:"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310a
@@ -659,17 +659,17 @@ msgstr "¿Confirma la supresión del crédito de devolución del IVA?"
 #. module: l10n_fr_account_vat_return
 #: model:ir.actions.act_window,name:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_action
 msgid "Draft Entries: Edit Draft Journal Entries or Continue"
-msgstr ""
+msgstr "Borrador de entradas: Editar asientos preliminares o Continuar"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__draft_move_ids
 msgid "Draft Journal Entries"
-msgstr ""
+msgstr "Borrador de entradas de diario"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__draft_move_count
 msgid "Draft Move Count"
-msgstr ""
+msgstr "Proyecto de Recuento de Movimientos"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__due_vat_base_box_id
@@ -717,7 +717,7 @@ msgstr "No se admite el tipo EDI para la casilla '%s'."
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid "Edit Draft Journal Entries"
-msgstr ""
+msgstr "Editar borradores de entradas de diario"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__end_date
@@ -779,12 +779,12 @@ msgstr "FR Reembolso del IVA (3519)"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__fr_vat_return_id
 msgid "FR VAT Return"
-msgstr ""
+msgstr "FR Declaración de IVA"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_draft_move_option
 msgid "FR VAT Return: show or continue"
-msgstr ""
+msgstr "FR Declaración de IVA: mostrar o continuar"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__print_page__1
@@ -926,7 +926,7 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid "Ignore and Continue"
-msgstr ""
+msgstr "Ignorar y continuar"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__value_manual_int
@@ -1628,6 +1628,10 @@ msgid ""
 "it before continuing to process this VAT return (or cancel it if you encoded "
 "and posted the journal entry of the previous VAT return manually)."
 msgstr ""
+"El asiento de la declaración de IVA anterior '%s' está en borrador. Debe "
+"contabilizarlo antes de continuar procesando esta declaración de IVA (o "
+"cancelarlo si codificó y contabilizó manualmente el asiento de la "
+"declaración de IVA anterior)."
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_line_form
@@ -1791,7 +1795,7 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid "There is/are"
-msgstr ""
+msgstr "Existe/existen"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -1801,6 +1805,8 @@ msgid ""
 "There is/are %(count)d draft journal entry/entries dated before %(date)s. "
 "You should post it/them, delete it/them or postpone it/them."
 msgstr ""
+"Hay %(count)d borrador de asiento/entradas con fecha anterior a %(date)s. "
+"Debe contabilizarlo/s, eliminarlo/s o aplazarlo/s."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__print_page__3
@@ -2006,22 +2012,22 @@ msgstr "Valor"
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__value_bool
 msgid "Value (Y/N)"
-msgstr ""
+msgstr "Valor (S/N)"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__value_float
 msgid "Value Before Rounding"
-msgstr ""
+msgstr "Valor Antes de redondear"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Mensajes de la Página Web"
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Historial de la comunicación en el sitio web"
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
@@ -2029,34 +2035,36 @@ msgstr ""
 #, python-format
 msgid "Wrong accounting method on Due VAT box '%s': it should be 'Debit'."
 msgstr ""
+"Método contable incorrecto en la casilla de IVA vencido '%s': debería ser "
+"'Adeudo'."
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_exigibility_update.py:0
 #, python-format
 msgid "Wrong value for the new VAT exigibility."
-msgstr ""
+msgstr "Valor incorrecto para la nueva exigibilidad del IVA."
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__vat_periodicity__12
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__12
 msgid "Yearly"
-msgstr ""
+msgstr "Anualmente"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid "draft journal entry/entries dated before"
-msgstr ""
+msgstr "proyecto de registro/registros del diario con fecha anterior a"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid "edit the draft journal entry/entries,"
-msgstr ""
+msgstr "editar la/las entrada/s de borrador de diario,"
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid "ignore it/them and continue to process the VAT return."
-msgstr ""
+msgstr "ignorarlo y seguir tramitando la declaración del IVA."
 
 #, python-format
 #~ msgid ""
