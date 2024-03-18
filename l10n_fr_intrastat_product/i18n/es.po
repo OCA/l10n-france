@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-26 02:41+0000\n"
-"PO-Revision-Date: 2023-09-20 11:09+0000\n"
+"PO-Revision-Date: 2024-03-18 15:37+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
@@ -160,6 +160,9 @@ msgid ""
 "place on January 1st 2021 and companies in Northern Ireland have a new VAT "
 "number starting with 'XI'."
 msgstr ""
+"Número de IVA incorrecto '%(vat)s' en la línea de declaración %(line_number)"
+"d. El Brexit tuvo lugar el 1 de enero de 2021 y las empresas de Irlanda del "
+"Norte tienen un nuevo número de IVA que empieza por \"XI\"."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__code
@@ -332,14 +335,14 @@ msgstr "Última actualización el"
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing H.S. code on declaration line %d."
-msgstr ""
+msgstr "Falta código H.S. en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing VAT number on declaration line %d."
-msgstr ""
+msgstr "Falta el número de IVA en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -347,6 +350,7 @@ msgstr ""
 #, python-format
 msgid "Missing country code of origin/destination on declaration line %d."
 msgstr ""
+"Falta el código de país de origen/destino en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -364,21 +368,21 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing fiscal value on declaration line %d."
-msgstr ""
+msgstr "Falta valor fiscal en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing intrastat transaction on declaration line %d."
-msgstr ""
+msgstr "Falta transacción intrastat en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing mode of transport on declaration line %d."
-msgstr ""
+msgstr "Falta el modo de transporte en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -393,27 +397,29 @@ msgstr "Falta socio en el almacén '%s'."
 #, python-format
 msgid "Missing product country of origin code on declaration line %d."
 msgstr ""
+"Falta el código del país de origen del producto en la línea de declaración "
+"%d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing quantity on declaration line %d."
-msgstr ""
+msgstr "Falta cantidad en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing region code on declaration line %d."
-msgstr ""
+msgstr "Falta código de región en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing weight on declaration line %d."
-msgstr ""
+msgstr "Falta peso en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__name
@@ -475,6 +481,8 @@ msgstr "Códigos de régimen"
 #, python-format
 msgid "The Customs Accreditation Identifier is not set for the company '%s'."
 msgstr ""
+"El identificador de acreditación aduanera no está configurado para la "
+"empresa \"%s\"."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -514,6 +522,7 @@ msgstr "Importe fiscal total en la divisa de la empresa de la declaración."
 #, python-format
 msgid "Transaction code on declaration line %d should have 2 digits."
 msgstr ""
+"El código de transacción en la línea de declaración %d debe tener 2 dígitos."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_fr_regime__fiscal_value_multiplier
