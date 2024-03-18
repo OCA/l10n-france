@@ -82,6 +82,7 @@ msgid "All the selected invoices must be in the same company"
 msgstr "Todas las facturas seleccionadas deben pertenecer a la misma compañía"
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Archived"
 msgstr "Archivado"
@@ -106,6 +107,7 @@ msgstr "No se puede obtener el identificador de coro del socio '%s'."
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_check_commitment_number
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_check_commitment_number
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid "Check Commitment Numbers"
 msgstr "Comprobar los números de compromiso"
 
@@ -151,6 +153,7 @@ msgstr "Identificador de Coro"
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__chorus_invoice_format
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_invoice_format
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_invoice_format
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid "Chorus Invoice Format"
 msgstr "Formato de factura de Coro"
 
@@ -190,19 +193,16 @@ msgstr "API de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_api_expiry_reminder_cron_ir_actions_server
-#: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_api_expiry_reminder_cron
 msgid "Chorus Pro API Expiry Reminder Email"
 msgstr "Correo electrónico de recordatorio de caducidad de la API de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_flow_cron_ir_actions_server
-#: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_flow_cron
 msgid "Chorus Pro Invoice Status Update"
 msgstr "Actualización del estado de la factura de Coro Pro"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_partner_cron_ir_actions_server
-#: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_partner_cron
 msgid "Chorus Pro Partner Update"
 msgstr "Actualización de socios de Coro Pro"
 
@@ -545,13 +545,6 @@ msgid "Last Chorus Invoice Status Update"
 msgstr "Última actualización del estado de la factura de Chorus"
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send____last_update
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow____last_update
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service____last_update
-msgid "Last Modified on"
-msgstr "Última modificación el"
-
-#. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status_date
 msgid "Last Status Update"
 msgstr "Última actualización de estado"
@@ -702,6 +695,7 @@ msgstr "Ninguno/a"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__notes
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Notes"
 msgstr "Notas"
 
@@ -823,9 +817,9 @@ msgid ""
 "On invoice '%(invoice)s', the transmit method is '%(transmit_method)s'. To "
 "be able to send it to Chorus Pro, the transmit method must be 'Chorus Pro'."
 msgstr ""
-"En la factura '%(invoice)s', el método de transmisión es '%(transmit_method)"
-"s'. Para poder enviarla a Chorus Pro, el método de transmisión debe ser "
-"'Chorus Pro'."
+"En la factura '%(invoice)s', el método de transmisión es "
+"'%(transmit_method)s'. Para poder enviarla a Chorus Pro, el método de "
+"transmisión debe ser 'Chorus Pro'."
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -901,6 +895,11 @@ msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Select the format of the invoices sent to Chorus Pro"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid ""
 "Send electronic invoices to the French administration directly from Odoo via "
 "the Chorus Pro API"
@@ -960,6 +959,21 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Technical User Login"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Technical User Password"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Technical User Password Expiry Date"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_company.py:0
 #, python-format
@@ -984,6 +998,11 @@ msgstr ""
 "Fallo técnico al intentar obtener un nuevo símbolo de PISTE.\n"
 "\n"
 "Detalles del error: %s"
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Test Mode"
+msgstr ""
 
 #. module: l10n_fr_chorus_account
 #. odoo-python
@@ -1090,6 +1109,11 @@ msgid "This Chorus service code already exists for that partner!"
 msgstr "¡Este código de servicio Coro ya existe para ese socio!"
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "This feature is experimental. Feedback welcomed."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/chorus_flow.py:0
 #, python-format
@@ -1131,6 +1155,13 @@ msgid "Use Chorus Pro API"
 msgstr "Utilizar la API de Coro Pro"
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid ""
+"Use the Chorus Pro qualification plateform instead of the production "
+"plateform"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_company__fr_chorus_qualif
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_qualif
 msgid "Use the Chorus Pro qualification website"
@@ -1139,6 +1170,7 @@ msgstr "Utilice la página web de cualificación de Coro Pro"
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_expiry_remind_user_ids
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_expiry_remind_user_ids
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid "Users Receiving the Expiry Reminder"
 msgstr "Usuarios que reciben el recordatorio de caducidad"
 
@@ -1158,6 +1190,9 @@ msgstr ""
 msgid "[{{ object.name }}] Action needed to continue to use the Chorus Pro API"
 msgstr ""
 "{{ object.name }}] Acción necesaria para seguir utilizando la API Coro Pro"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última modificación el"
 
 #, python-format
 #~ msgid "Cannot get Chorus Identifier on a contact (%s)"
