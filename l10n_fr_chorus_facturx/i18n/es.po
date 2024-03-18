@@ -50,18 +50,25 @@ msgstr "Sintaxis del Flujo"
 
 #. module: l10n_fr_chorus_facturx
 #. odoo-python
-#: code:addons/l10n_fr_chorus_facturx/models/company.py:0
+#: code:addons/l10n_fr_chorus_facturx/models/res_company.py:0
 #, python-format
 msgid ""
 "For company '%s', if you select 'Factur-X' as 'Chorus Invoice Format', then "
-"you should also select 'Factur-X' as 'Format' in the section 'Electronic "
-"Invoices'."
+"you should also select 'Factur-X' as electronic invoice format in the "
+"section 'Customer Invoices'."
 msgstr ""
-"Para la empresa \"%s\", si selecciona \"Factur-X\" como \"Formato de factura "
-"de Coro\", también deberá seleccionar \"Factur-X\" como \"Formato\" en la "
-"sección \"Facturas electrónicas\"."
 
 #. module: l10n_fr_chorus_facturx
 #: model:ir.model,name:l10n_fr_chorus_facturx.model_account_move
 msgid "Journal Entry"
 msgstr "Entrada diaria"
+
+#, python-format
+#~ msgid ""
+#~ "For company '%s', if you select 'Factur-X' as 'Chorus Invoice Format', "
+#~ "then you should also select 'Factur-X' as 'Format' in the section "
+#~ "'Electronic Invoices'."
+#~ msgstr ""
+#~ "Para la empresa \"%s\", si selecciona \"Factur-X\" como \"Formato de "
+#~ "factura de Coro\", también deberá seleccionar \"Factur-X\" como \"Formato"
+#~ "\" en la sección \"Facturas electrónicas\"."
