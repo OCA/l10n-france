@@ -53,12 +53,12 @@ msgstr ""
 
 #. module: l10n_fr_chorus_facturx
 #. odoo-python
-#: code:addons/l10n_fr_chorus_facturx/models/company.py:0
+#: code:addons/l10n_fr_chorus_facturx/models/res_company.py:0
 #, python-format
 msgid ""
 "For company '%s', if you select 'Factur-X' as 'Chorus Invoice Format', then "
-"you should also select 'Factur-X' as 'Format' in the section 'Electronic "
-"Invoices'."
+"you should also select 'Factur-X' as electronic invoice format in the "
+"section 'Customer Invoices'."
 msgstr ""
 
 #. module: l10n_fr_chorus_facturx
