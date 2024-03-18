@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  Source : https://www.banque-france.fr/system/files/2023-08/banque_de_france_espace_declarants_note_technique_dgs_ndeg_16-02_v1.1.pdf
+  section 3.2
+-->
+<odoo noupdate="1">
+
+<record id="e01" model="account.pain.regulatory.reporting">
+    <field name="code">E01</field>
+    <field
+            name="name"
+        >Biens (marchandises générales, avitaillement, travail à façon et négoce)</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e02" model="account.pain.regulatory.reporting">
+    <field name="code">E02</field>
+    <field name="name">Services de transport (maritimes, aériens et autres)</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e03" model="account.pain.regulatory.reporting">
+    <field name="code">E03</field>
+    <field name="name">Services informatiques et de communication</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e04" model="account.pain.regulatory.reporting">
+    <field name="code">E04</field>
+    <field name="name">Services de construction</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e05" model="account.pain.regulatory.reporting">
+    <field name="code">E05</field>
+    <field
+            name="name"
+        >Redevances et droits de licence, acquisition / cession et utilisation de droits d’exploiter des ressources, de droits de franchise et d’autres droits de propriété</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e06" model="account.pain.regulatory.reporting">
+    <field name="code">E06</field>
+    <field name="name">Services liés au tourisme</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e07" model="account.pain.regulatory.reporting">
+    <field name="code">E07</field>
+    <field
+            name="name"
+        >Autres services (y compris services aux entreprises et aux professionnels)</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e08" model="account.pain.regulatory.reporting">
+    <field name="code">E08</field>
+    <field
+            name="name"
+        >Revenus d’investissement (y compris dividendes et intérêts)</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e09" model="account.pain.regulatory.reporting">
+    <field name="code">E09</field>
+    <field
+            name="name"
+        >Transferts courants (y compris l’envoi de fonds, salaires et rémunérations, pensions)</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e10" model="account.pain.regulatory.reporting">
+    <field name="code">E10</field>
+    <field
+            name="name"
+        >Investissements intra-groupes (participations, prêts, dépôts et règlements intervenant dans le cadre de procédures de netting)</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e11" model="account.pain.regulatory.reporting">
+    <field name="code">E11</field>
+    <field
+            name="name"
+        >Désinvestissements intra-groupes (participations, prêts, dépôts et règlements intervenant dans le cadre de procédures de netting)</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e12" model="account.pain.regulatory.reporting">
+    <field name="code">E12</field>
+    <field name="name">Opérations sur actifs immobiliers</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e13" model="account.pain.regulatory.reporting">
+    <field name="code">E13</field>
+    <field
+            name="name"
+        >Titres de dettes et actions (valeurs mobilières de placement et titres immobilisés) à l’exclusion des participations</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e14" model="account.pain.regulatory.reporting">
+    <field name="code">E14</field>
+    <field name="name">Instruments financiers dérivés</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+<record id="e15" model="account.pain.regulatory.reporting">
+    <field name="code">E15</field>
+    <field name="name">Prêts et emprunts hors-groupe</field>
+    <field name="country_id" ref="base.fr" />
+</record>
+
+</odoo>
