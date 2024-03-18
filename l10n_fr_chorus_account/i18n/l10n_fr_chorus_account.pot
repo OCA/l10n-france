@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -48,6 +48,7 @@ msgid "All the selected invoices must be in the same company"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Archived"
 msgstr ""
@@ -72,6 +73,7 @@ msgstr ""
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_check_commitment_number
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_check_commitment_number
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid "Check Commitment Numbers"
 msgstr ""
 
@@ -117,6 +119,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__chorus_invoice_format
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_invoice_format
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_invoice_format
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid "Chorus Invoice Format"
 msgstr ""
 
@@ -156,19 +159,16 @@ msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_api_expiry_reminder_cron_ir_actions_server
-#: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_api_expiry_reminder_cron
 msgid "Chorus Pro API Expiry Reminder Email"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_flow_cron_ir_actions_server
-#: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_flow_cron
 msgid "Chorus Pro Invoice Status Update"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model:ir.actions.server,name:l10n_fr_chorus_account.chorus_partner_cron_ir_actions_server
-#: model:ir.cron,cron_name:l10n_fr_chorus_account.chorus_partner_cron
 msgid "Chorus Pro Partner Update"
 msgstr ""
 
@@ -479,13 +479,6 @@ msgid "Last Chorus Invoice Status Update"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send____last_update
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow____last_update
-#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__status_date
 msgid "Last Status Update"
 msgstr ""
@@ -624,6 +617,7 @@ msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__notes
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Notes"
 msgstr ""
 
@@ -780,6 +774,11 @@ msgstr ""
 
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Select the format of the invoices sent to Chorus Pro"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid ""
 "Send electronic invoices to the French administration directly from Odoo via"
 " the Chorus Pro API"
@@ -837,6 +836,21 @@ msgid "Status"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Technical User Login"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Technical User Password"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Technical User Password Expiry Date"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/res_company.py:0
 #, python-format
@@ -854,6 +868,11 @@ msgid ""
 "Technical failure when trying to get a new token from PISTE.\n"
 "\n"
 "Error details: %s"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "Test Mode"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -941,6 +960,11 @@ msgid "This Chorus service code already exists for that partner!"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid "This feature is experimental. Feedback welcomed."
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #. odoo-python
 #: code:addons/l10n_fr_chorus_account/models/chorus_flow.py:0
 #, python-format
@@ -977,6 +1001,13 @@ msgid "Use Chorus Pro API"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
+msgid ""
+"Use the Chorus Pro qualification plateform instead of the production "
+"plateform"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_company__fr_chorus_qualif
 #: model:ir.model.fields,help:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_qualif
 msgid "Use the Chorus Pro qualification website"
@@ -985,6 +1016,7 @@ msgstr ""
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_company__fr_chorus_expiry_remind_user_ids
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_config_settings__fr_chorus_expiry_remind_user_ids
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.res_config_settings_view_form
 msgid "Users Receiving the Expiry Reminder"
 msgstr ""
 
