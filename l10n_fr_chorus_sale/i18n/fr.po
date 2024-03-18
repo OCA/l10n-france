@@ -24,8 +24,8 @@ msgstr "Code"
 #. module: l10n_fr_chorus_sale
 #: model:ir.model.fields,help:l10n_fr_chorus_sale.field_sale_order__invoice_transmit_method_code
 msgid ""
-"Do not modify the code of an existing Transmit Method because it may be used"
-" to identify a particular transmit method."
+"Do not modify the code of an existing Transmit Method because it may be used "
+"to identify a particular transmit method."
 msgstr ""
 "Ne pas modifier le code d'un mode d'envoi existant car il peut être utilisé "
 "pour identifier un mode d'envoi spécifique."
