@@ -649,7 +649,8 @@ class AccountFrFecOca(models.TransientModel):
         for row in rows:
             if encoding == "ascii":
                 for j, _cell_content in enumerate(row):
-                    row[j] = unidecode(row[j])
+                    if row[j]:
+                        row[j] = unidecode(row[j])
             writer.writerow(row)
 
         fecvalue = fecfile.getvalue()
