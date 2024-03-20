@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_account_config_settings" model="ir.ui.view">
+        <field
+            name="name"
+        >l10n_fr_intrastat_product.account.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="intrastat_product.view_res_config_settings" />
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='intrastat-accessory_costs']" position="after">
+                <setting
+                    id="intrastat-fr_intrastat_accreditation"
+                    invisible="country_code != 'FR'"
+                >
+                    <div class="content-group">
+                        <div class="row mt16">
+                            <label
+                                for="fr_intrastat_accreditation"
+                                class="col-lg-5 o_light_label"
+                            />
+                            <field name="fr_intrastat_accreditation" />
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
