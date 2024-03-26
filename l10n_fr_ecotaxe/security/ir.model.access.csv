@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ir_model_access_account_ecotaxe_classification_manager,Full access account_ecotaxe_classification to accountant,model_account_ecotaxe_classification,account.group_account_manager,1,1,1,1
+ir_model_access_account_ecotaxe_category_manager,Full access to account.ecotaxe.category to accoutant,model_account_ecotaxe_category,account.group_account_manager,1,1,1,1
+ir_model_access_ecotaxe_sector_manager,Full access to ecotaxe.sector to accoutant,model_ecotaxe_sector,account.group_account_manager,1,1,1,1
+ir_model_access_ecotaxe_collector_manager,Full access to ecotaxe.collector to accoutant,model_ecotaxe_collector,account.group_account_manager,1,1,1,1
+ir_model_access_account_ecotaxe_classification_user,Read access account_ecotaxe_classification to group invoice,model_account_ecotaxe_classification,account.group_account_invoice,1,0,0,0
+ir_model_access_account_ecotaxe_category_user,Read access to account.ecotaxe.category to group invoice,model_account_ecotaxe_category,account.group_account_invoice,1,0,0,0
+ir_model_access_ecotaxe_sector_user,Read access to ecotaxe.sector to group invoice,model_ecotaxe_sector,account.group_account_invoice,1,0,0,0
+ir_model_access_ecotaxe_collector_user,Read access to ecotaxe.collector to group invoice,model_ecotaxe_collector,account.group_account_invoice,1,0,0,0
+access_account_move_line_ecotaxe_readonly,account.move.line.ecotaxe readonly,model_account_move_line_ecotaxe,account.group_account_readonly,1,0,0,0
+ir_model_access_account_move_line_ecotaxe_group_invoice,Read Full acess to model_account_move_line_ecotaxe to group invoice,model_account_move_line_ecotaxe,account.group_account_invoice,1,1,1,1
+ir_model_access_ecotaxe_line_product_group_invoice,Read Full acess to model_ecotaxe_line_product to group invoice,model_ecotaxe_line_product,account.group_account_invoice,1,1,1,1
+access_ecotaxe_line_product_readonly,ecotaxe.line.product readonly,model_ecotaxe_line_product,account.group_account_readonly,1,0,0,0
