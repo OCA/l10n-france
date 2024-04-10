@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="payment_icon_cc_cb" model="payment.icon">
+        <field name="sequence">300</field>
+        <field name="name">CB</field>
+        <field name="image" type="base64" file="payment_monetico/static/img/cb.png" />
+    </record>
+
+</odoo>

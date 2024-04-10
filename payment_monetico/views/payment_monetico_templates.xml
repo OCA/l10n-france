@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2024 Akretion (http://www.akretion.com).
+    @author Florian Mounier <florian.mounier@akretion.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <template id="redirect_form">
+        <form t-att-action="api_url" method="post">
+            <input type="hidden" name="version" t-att-value="version" />
+            <input type="hidden" name="TPE" t-att-value="TPE" />
+            <input
+                type="hidden"
+                name="contexte_commande"
+                t-att-value="contexte_commande"
+            />
+            <input type="hidden" name="date" t-att-value="date" />
+            <input type="hidden" name="montant" t-att-value="montant" />
+            <input type="hidden" name="reference" t-att-value="reference" />
+            <input type="hidden" name="MAC" t-att-value="MAC" />
+            <input type="hidden" name="url_retour_ok" t-att-value="url_retour_ok" />
+            <input type="hidden" name="url_retour_err" t-att-value="url_retour_err" />
+            <input type="hidden" name="lgue" t-att-value="lgue" />
+            <input type="hidden" name="societe" t-att-value="societe" />
+            <input type="hidden" name="mail" t-att-value="mail" />
+        </form>
+    </template>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2024 Akretion (http://www.akretion.com).
+    @author Florian Mounier <florian.mounier@akretion.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">Monetico Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+        <group name="provider_credentials" position='inside'>
+                <group attrs="{'invisible': [('code', '!=', 'monetico')]}">
+                    <field
+                        name="monetico_ept"
+                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                    />
+                    <field
+                        name="monetico_company_code"
+                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                    />
+                    <field
+                        name="monetico_secret"
+                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                        password="True"
+                    />
+                    <field
+                        name="monetico_test_url"
+                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                        groups='base.group_no_one'
+                    />
+                    <field
+                        name="monetico_prod_url"
+                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                        groups='base.group_no_one'
+                    />
+                    <field
+                        name="monetico_version"
+                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                    />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
