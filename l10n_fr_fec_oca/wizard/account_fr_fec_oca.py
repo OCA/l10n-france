@@ -524,7 +524,7 @@ class AccountFrFecOca(models.TransientModel):
             + """
             CASE
                 WHEN am.ref IS null OR am.ref = ''
-                THEN '-'
+                THEN REGEXP_REPLACE(replace(am.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g')
                 ELSE REGEXP_REPLACE(replace(am.ref, '|', '/'), '[\\t\\r\\n]', ' ', 'g')
             END AS PieceRef,
             TO_CHAR(am.date, 'YYYYMMDD') AS PieceDate,
