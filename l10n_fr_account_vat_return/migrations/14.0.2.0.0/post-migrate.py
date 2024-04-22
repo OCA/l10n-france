@@ -58,6 +58,10 @@ def migrate(env, version):
                     partner.display_name,
                     company.name,
                 )
+        # ERROR: The code below updates fiscal_position_id of account_move via SQL,
+        # so I should have also set the related stored field
+        # 'fiscal_position_fr_vat_type' via this script.
+        # I fixed this mistake by the migration script of version 14.0.6.1.1.
         openupgrade.logged_query(
             env.cr,
             "UPDATE account_move SET fiscal_position_id=%%s "
