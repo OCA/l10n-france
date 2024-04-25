@@ -47,6 +47,8 @@ Contributors
 
 * Sébastien Beau <sebastien.beau@akretion.com>
 * Alexis de Lattre <alexis.delattre@akretion.com>
+- [Binhex](https://binhex.cloud//com):
+  - David Luis Mora \<<d.luis@binhex.cloud>\>
 
 Maintainer
 ----------
