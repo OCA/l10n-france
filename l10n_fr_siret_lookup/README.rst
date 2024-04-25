@@ -17,34 +17,44 @@ SIRET Lookup
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_siret_lookup
+    :target: https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_siret_lookup
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-16-0/l10n-france-16-0-l10n_fr_siret_lookup
+    :target: https://translation.odoo-community.org/projects/l10n-france-17-0/l10n-france-17-0-l10n_fr_siret_lookup
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This modules updates partner fields via the `SIRENE database <https://data.opendatasoft.com>`. It uses the dataset *economicref-france-sirene-v3* of `opendatasoft <https://public.opendatasoft.com/explore/dataset/economicref-france-sirene-v3/information/>`. It computes a theorical VAT number from the SIREN and then checks the validity of the VAT number on `VIES <https://ec.europa.eu/taxation_customs/vies/>`_ (if invalid, the VAT number is discarded).
+This modules updates partner fields via the SIRENE database
+<`https://data.opendatasoft.com\\> <https://data.opendatasoft.com\>>`__.
+It uses the dataset *economicref-france-sirene-v3* of opendatasoft
+<`https://public.opendatasoft.com/explore/dataset/economicref-france-sirene-v3/information/\\> <https://public.opendatasoft.com/explore/dataset/economicref-france-sirene-v3/information/\>>`__.
+It computes a theorical VAT number from the SIREN and then checks the
+validity of the VAT number on
+`VIES <https://ec.europa.eu/taxation_customs/vies/>`__ (if invalid, the
+VAT number is discarded).
 
 The module supports 2 scenarios:
 
-* update of an existing partner via the menu *Action > SIREN Lookup*,
-* creation of a new partner: start by setting the VAT number field, the SIREN field or SIRET field and Odoo will set the other fields. For usability purposes, it also work when you write the VAT number, SIREN or SIRET in the company name field.
+-  update of an existing partner via the menu *Action > SIREN Lookup*,
+-  creation of a new partner: start by setting the VAT number field, the
+   SIREN field or SIRET field and Odoo will set the other fields. For
+   usability purposes, it also work when you write the VAT number, SIREN
+   or SIRET in the company name field.
 
 In the 2 scenarios, it will update the following fields:
 
-* Company Name
-* Street
-* Postal Code
-* City
-* Country
-* SIREN and NIC (i.e. SIRET)
-* VAT Number
-* Language (creation scenario only)
+-  Company Name
+-  Street
+-  Postal Code
+-  City
+-  Country
+-  SIREN and NIC (i.e. SIRET)
+-  VAT Number
+-  Language (creation scenario only)
 
 **Table of contents**
 
@@ -54,11 +64,17 @@ In the 2 scenarios, it will update the following fields:
 Usage
 =====
 
-To update an existing parter, go to the partner form view and click on *Action > SIREN Lookup*.
+To update an existing parter, go to the partner form view and click on
+*Action > SIREN Lookup*.
 
-By default, the search field is filled with Company name. To get more accurate results, you may want to add the City name where the company is registered. Then click on *Lookup*.
+By default, the search field is filled with Company name. To get more
+accurate results, you may want to add the City name where the company is
+registered. Then click on *Lookup*.
 
-A list of company is displayed. You may want to click on one in order to see corresponding information or directly selecting company from tree view. Once a company is selected, the partner information is updated and a message is logged in the chatter.
+A list of company is displayed. You may want to click on one in order to
+see corresponding information or directly selecting company from tree
+view. Once a company is selected, the partner information is updated and
+a message is logged in the chatter.
 
 Bug Tracker
 ===========
@@ -66,7 +82,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_siret_lookup%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_siret_lookup%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -74,27 +90,27 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Le Filament
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Benjamin Rivier <benjamin-filament> (https://le-filament.com)
-* Remi Cazenave <remi-filament> (https://le-filament.com)
-* Alexis de Lattre <alexis.delattre@akretion.com>
+-  Benjamin Rivier <benjamin-filament> (https://le-filament.com)
+-  Remi Cazenave <remi-filament> (https://le-filament.com)
+-  Alexis de Lattre <alexis.delattre@akretion.com>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
 The development of this module has been financially supported by:
 
-* Le Filament
+-  Le Filament
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -117,6 +133,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-remi-filament| |maintainer-alexis-via| 
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_siret_lookup>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/17.0/l10n_fr_siret_lookup>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
