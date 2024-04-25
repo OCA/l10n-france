@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="SIREN Lookup via opendatasoft.com">
             <group name="company">
-                <field name="partner_id" />
+                <field name="partner_id" readonly="True" />
                 <field name="name" />
                 <button
                         class="btn-primary"
@@ -16,7 +16,7 @@
                         colspan="2"
                     />
                 </group><group string="Search Results" name="lines">
-                <field name="line_ids" nolabel="1" colspan="2">
+                <field name="line_ids" nolabel="1" colspan="2" readonly="True">
                     <tree>
                         <field name="name" />
                         <field name="street" optional="show" />

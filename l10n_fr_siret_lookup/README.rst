@@ -101,6 +101,9 @@ Contributors
 -  Benjamin Rivier <benjamin-filament> (https://le-filament.com)
 -  Remi Cazenave <remi-filament> (https://le-filament.com)
 -  Alexis de Lattre <alexis.delattre@akretion.com>
+-  `Binhex <https://binhex.cloud//com>`__:
+
+   -  David Luis Mora <d.luis@binhex.cloud>
 
 Other credits
 -------------

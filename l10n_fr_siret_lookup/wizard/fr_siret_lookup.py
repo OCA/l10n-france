@@ -12,10 +12,8 @@ class FrSiretLookup(models.TransientModel):
     _description = "Get values from companies"
 
     name = fields.Char(string="Name to Search", required=True)
-    line_ids = fields.One2many(
-        "fr.siret.lookup.line", "wizard_id", string="Results", readonly=True
-    )
-    partner_id = fields.Many2one("res.partner", readonly=True, required=True)
+    line_ids = fields.One2many("fr.siret.lookup.line", "wizard_id", string="Results")
+    partner_id = fields.Many2one("res.partner", required=True)
 
     @api.model
     def default_get(self, fields_list):
