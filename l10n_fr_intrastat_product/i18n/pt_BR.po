@@ -990,13 +990,7 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__total_amount
-msgid "Total Fiscal Amount"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_l10n_fr_intrastat_product_declaration__total_amount
-msgid "Total fiscal amount in company currency of the declaration."
+msgid "Total Amount"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
