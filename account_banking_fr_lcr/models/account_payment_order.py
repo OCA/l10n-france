@@ -152,7 +152,8 @@ class AccountPaymentOrder(models.Model):
             ]
         )
         assert len(cfonb_line) == 160, "LCR CFONB line must have 160 chars"
-        cfonb_line += "\r\n"
+        if self.payment_method_id.fr_lcr_use_crlf:
+            cfonb_line += "\r\n"
         return cfonb_line
 
     @api.model
@@ -206,7 +207,8 @@ class AccountPaymentOrder(models.Model):
             ]
         )
         assert len(cfonb_line) == 160, "LCR CFONB line must have 160 chars"
-        cfonb_line += "\r\n"
+        if self.payment_method_id.fr_lcr_use_crlf:
+            cfonb_line += "\r\n"
         return cfonb_line
 
     def _prepare_final_cfonb_line(self, total_amount, transactions_count):
