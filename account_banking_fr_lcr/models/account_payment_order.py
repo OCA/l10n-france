@@ -116,7 +116,8 @@ class AccountPaymentOrder(models.Model):
         if not self.company_partner_bank_id.bank_id:
             raise UserError(
                 _(
-                    "The bank is not set on bank account '%(bank_account)s' of the company '%(company)s'.",
+                    "The bank is not set on bank account '%(bank_account)s'"
+                    " of the company '%(company)s'.",
                     bank_account=self.company_partner_bank_id.display_name,
                     company=self.company_id.display_name,
                 )

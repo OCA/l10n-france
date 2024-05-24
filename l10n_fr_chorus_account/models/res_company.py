@@ -377,7 +377,8 @@ class ResCompany(models.Model):
         if not company_partner.siren or not company_partner.nic:
             raise UserError(
                 _(
-                    "Missing SIRET on partner '%(partner)s' linked to company '%(company)s'."
+                    "Missing SIRET on partner '%(partner)s'"
+                    " linked to company '%(company)s'."
                 )
                 % {
                     "partner": company_partner.display_name,
@@ -415,8 +416,10 @@ class ResCompany(models.Model):
             if not client_order_ref:
                 raise UserError(
                     _(
-                        "Partner '%(partner)s' is configured as Engagement required for "
-                        "Chorus Pro, so the 'Customer Reference' of %(obj_display_name)s must "
+                        "Partner '%(partner)s' is configured "
+                        "as Engagement required for "
+                        "Chorus Pro, so the 'Customer Reference' "
+                        "of %(obj_display_name)s must "
                         "contain a commitment number."
                     )
                     % {
@@ -432,7 +435,8 @@ class ResCompany(models.Model):
             if not client_order_ref:
                 raise UserError(
                     _(
-                        "Partner '%(partner)s' is linked to Chorus service '%(service)s' "
+                        "Partner '%(partner)s' "
+                        "is linked to Chorus service '%(service)s' "
                         "which is configured with 'Engagement Required', so the "
                         "'Customer Reference' of %(obj_display_name)s must "
                         "contain a commitment number."

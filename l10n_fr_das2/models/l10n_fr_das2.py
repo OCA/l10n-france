@@ -177,7 +177,8 @@ class L10nFrDas2(models.Model):
                 encryption = "prod"
             msg = Markup(
                 _(
-                    "DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key.",
+                    "DAS2 file generated. Encrypted with DGFiP's"
+                    " <b>%(encryption)s</b> PGP key.",
                     encryption=encryption,
                 )
             )
@@ -426,7 +427,8 @@ class L10nFrDas2(models.Model):
         # And we don't set the commune field because we put the same info
         # in bureau distributeur
         # specs 2024 : we now have to have structured adresses with a separation
-        # for the number, bis/ter and street name. We'll do our best to comply with that.
+        # for the number, bis/ter and street name.
+        # We'll do our best to comply with that.
         if not partner.city:
             raise UserError(_("Missing city on partner '%s'.") % partner.display_name)
         if partner.country_id and partner.country_id.code not in FRANCE_CODES:
@@ -668,7 +670,8 @@ class L10nFrDas2(models.Model):
                 raise UserError(
                     _(
                         "One of the lines has a length of %(length)d. "
-                        "All lines should have a length of 672. Line: %(line_content)s.",
+                        "All lines should have a length of 672. "
+                        "Line: %(line_content)s.",
                         length=len(fline),
                         line_content=fline,
                     )
