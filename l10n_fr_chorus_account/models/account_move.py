@@ -83,7 +83,7 @@ class AccountMove(models.Model):
 
     @api.constrains("chorus_attachment_ids", "transmit_method_id")
     def _check_chorus_attachments(self):
-        # https://communaute.chorus-pro.gouv.fr/pieces-jointes-dans-chorus-pro-quelques-regles-a-respecter/  # noqa: B950
+        # https://communaute.chorus-pro.gouv.fr/pieces-jointes-dans-chorus-pro-quelques-regles-a-respecter/ # noqa: B950,E501
         for move in self:
             if (
                 move.move_type in ("out_invoice", "out_refund")
@@ -94,9 +94,11 @@ class AccountMove(models.Model):
                     if len(attach.name) > CHORUS_FILENAME_MAX:
                         raise ValidationError(
                             _(
-                                "On Chorus Pro, the attachment filename is %(filename_max)s "
-                                "caracters maximum (extension included). The "
-                                "filename '%(filename)s' has %(filename_size)s caracters."
+                                "On Chorus Pro, the attachment filename"
+                                " is %(filename_max)s caracters maximum"
+                                " (extension included)."
+                                " The filename '%(filename)s' has %(filename_size)s"
+                                " caracters."
                             )
                             % {
                                 "filename_max": CHORUS_FILENAME_MAX,
@@ -119,7 +121,8 @@ class AccountMove(models.Model):
                             _(
                                 "On Chorus Pro, the allowed formats for the "
                                 "attachments are the following: %(extension_list)s.\n"
-                                "The attachment '%(filename)s' is not part of this list."
+                                "The attachment '%(filename)s'"
+                                " is not part of this list."
                             )
                             % {
                                 "extension_list": ", ".join(CHORUS_ALLOWED_FORMATS),
@@ -135,7 +138,8 @@ class AccountMove(models.Model):
                     if filesize_mo >= CHORUS_FILESIZE_MAX_MO:
                         raise ValidationError(
                             _(
-                                "On Chorus Pro, each attachment cannot exceed %(size_max)s Mb. "
+                                "On Chorus Pro, each attachment"
+                                " cannot exceed %(size_max)s Mb. "
                                 "The attachment '%(filename)s' weights %(size)s Mb."
                             )
                             % {
