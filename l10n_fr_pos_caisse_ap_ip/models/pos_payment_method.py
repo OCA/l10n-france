@@ -212,7 +212,8 @@ class PosPaymentMethod(models.Model):
                 logger.debug("Answer received from payment terminal: %s", answer)
         except Exception as e:
             error_msg = _(
-                "Failed to connect to the payment terminal on %(ip_addr)s:%(port)s\n%(error)s",
+                "Failed to connect to the payment terminal"
+                " on %(ip_addr)s:%(port)s\n%(error)s",
                 ip_addr=ip_addr,
                 port=port,
                 error=e,
