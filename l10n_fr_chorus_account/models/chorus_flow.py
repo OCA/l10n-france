@@ -139,7 +139,8 @@ class ChorusFlow(models.Model):
                         if invoice:
                             invoice.message_post(
                                 body=_(
-                                    "This invoice has been <b>rejected by Chorus Pro</b> "
+                                    "This invoice has been "
+                                    "<b>rejected by Chorus Pro</b> "
                                     "for the following reason:<br/><i>%s</i><br/>"
                                     "You should fix the error and send this invoice to "
                                     "Chorus Pro again."
