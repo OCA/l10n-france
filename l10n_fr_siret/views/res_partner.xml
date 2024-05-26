@@ -24,11 +24,6 @@
                 />
                 <field name="parent_is_company" invisible="1" />
             </field>
-            <field name="company_registry" position="attributes">
-                <attribute name="attrs" operation="update">
-                    {'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}
-                </attribute>
-            </field>
             <field name="child_ids" position="attributes">
                 <attribute name="context" operation="update">
                     {'default_nic': nic}
