@@ -9,48 +9,44 @@
                         name="action_compute_lines"
                         type="object"
                         string="Compute"
-                        attrs="{'invisible': [('state', '!=', 'draft')]}"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                     />
                 <button
                         name="action_confirm"
                         type="object"
                         string="Confirm"
-                        attrs="{'invisible': ['|', ('item_ids', '=', False), ('state', '!=', 'draft')]}"
+                        invisible="not item_ids or state != 'draft'"
                     />
                 <button
                         name="action_post"
                         type="object"
                         string="Post"
-                        attrs="{'invisible': [('state', '!=', 'confirmed')]}"
+                        invisible="state != 'confirmed'"
                         class="oe_highlight"
                     />
                 <button
                         name="action_goto_moves"
                         type="object"
-                        attrs="{'invisible': [('item_ids', '=', False)]}"
+                        invisible="not item_ids"
                         string="See account moves"
                     />
                 <field name="state" widget="statusbar" />
             </header>
             <sheet>
-                <group name="journal" col="2">
+                <div class="oe_title" name="journal">
                     <h2>
                         <label name="Journal" for="factor_journal_id" />
                         <field name="factor_journal_id" />
                     </h2>
-                </group>
-                <group name="main" col="4">
-                    <group
-                            name="left"
-                            colspan="2"
-                            attrs="{'invisible': [('factor_journal_id', '=', False)]}"
-                        >
+                </div>
+                <group name="main">
+                    <group name="left" invisible="not factor_journal_id">
                         <field name="factor_type" />
                         <field name="target_date" />
                         <field
                                 name="date"
-                                attrs="{'invisible': [('date', '=', False)]}"
+                                invisible="not date"
                             />
                         <field name="statement_date" />
                         <field name="currency_id" invisible="1" />
@@ -59,22 +55,19 @@
                                 widget="monetary"
                                 options="{'currency_field': 'currency_id', 'field_digits': True}"
                             />
+                        <field name="company_id" invisible="1" />
                         <field name="company_id" groups="base.group_multi_company" />
                     </group>
-                    <group
-                            name="right"
-                            colspan="2"
-                            attrs="{'invisible': [('state', '=', 'draft')]}"
-                        >
+                    <group name="right" invisible="state == 'draft'">
                         <field name="holdback_amount" />
                         <separator string="Expenses" colspan="2" />
                         <field name="expense_untaxed_amount" string="Untaxed Amount" />
                         <field name="expense_tax_amount" string="Tax Amount" />
                     </group>
-                    <group col="4">
+                    <group colspan="4">
                         <separator
                                 string="Comment"
-                                attrs="{'invisible': [('comment', '!=', '')]}"
+                                invisible="comment != ''"
                                 colspan="4"
                             />
                         <field name="comment" nolabel="1" colspan="4" />
@@ -83,7 +76,7 @@
                 <group
                         name="o2m"
                         col="1"
-                        attrs="{'invisible': [('factor_journal_id', '=', False)]}"
+                        invisible="not factor_journal_id"
                     >
                     <field name="item_ids" nolabel="1">
                         <tree>

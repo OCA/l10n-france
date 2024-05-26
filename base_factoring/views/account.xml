@@ -15,17 +15,10 @@
                 expr="//page[@name='bank_account']//field[@name='currency_id']"
                 position="after"
             >
-                <field
-                    name="factor_type"
-                    attrs="{'invisible': [('type', 'not in', ('general', 'bank'))]}"
-                />
+                <field name="factor_type" invisible="type not in ('general', 'bank')" />
             </xpath>
             <xpath expr="//page[last()]" position="after">
-                <page
-                    name="factor"
-                    string="Factor"
-                    attrs="{'invisible': [('factor_type', '=', False)]}"
-                />
+                <page name="factor" string="Factor" invisible="factor_type == False" />
             </xpath>
         </field>
     </record>
