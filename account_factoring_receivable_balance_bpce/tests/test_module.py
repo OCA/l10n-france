@@ -18,7 +18,6 @@ from odoo.tests.common import TransactionCase
 # @tagged("+nice")
 @tagged("-at_install", "post_install")
 class TestB(TransactionCase):
-
     # @classmethod
     # def setUpClass(cls):
     #     super().setUpClass()
