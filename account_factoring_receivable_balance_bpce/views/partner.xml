@@ -2,7 +2,7 @@
 
     <record id="view_partner_property_form" model="ir.ui.view">
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base_factoring.view_partner_property_form" />
+        <field name="inherit_id" ref="account_factoring_receivable_balance.view_partner_property_form" />
         <field name="arch" type="xml">
             <xpath
                 expr="//page[@name='accounting']//group[@name='factoring']"
