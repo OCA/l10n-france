@@ -185,7 +185,7 @@
 
 <menuitem
         id="subrogation_receipt_menu"
-        parent="base_factoring.factoring_menu"
+        parent="factoring_menu"
         action="subrogation_receipt_action"
     />
 

@@ -1,2 +1,0 @@
-- Add factor_type on journal
-- Define base xml views for factor

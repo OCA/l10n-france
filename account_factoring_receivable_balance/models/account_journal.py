@@ -8,7 +8,7 @@ from odoo import fields, models
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
-    factor_type = fields.Selection(string="Factor", selection_add=[("", "")])
+    factor_type = fields.Selection(string="Factor", selection=[("", "")])
     factoring_receivable_account_id = fields.Many2one(
         comodel_name="account.account", string="Receivable Account"
     )
