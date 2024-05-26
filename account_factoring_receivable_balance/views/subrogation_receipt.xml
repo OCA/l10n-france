@@ -44,10 +44,7 @@
                     <group name="left" invisible="not factor_journal_id">
                         <field name="factor_type" />
                         <field name="target_date" />
-                        <field
-                                name="date"
-                                invisible="not date"
-                            />
+                        <field name="date" invisible="not date" />
                         <field name="statement_date" />
                         <field name="currency_id" invisible="1" />
                         <field
@@ -73,11 +70,7 @@
                         <field name="comment" nolabel="1" colspan="4" />
                     </group>
                 </group>
-                <group
-                        name="o2m"
-                        col="1"
-                        invisible="not factor_journal_id"
-                    >
+                <group name="o2m" col="1" invisible="not factor_journal_id">
                     <field name="item_ids" nolabel="1">
                         <tree>
                             <field name="id" optional="hide" />
