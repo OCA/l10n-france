@@ -32,7 +32,8 @@ class EcotaxeLineMixin(models.AbstractModel):
     amount_total = fields.Float(
         digits="Ecotaxe",
         compute="_compute_ecotaxe",
-        help="Ecotaxe Amount total computed form Classification or forced ecotaxe amount",
+        help="Ecotaxe Amount total computed form Classification "
+        "or forced ecotaxe amount",
         store=True,
     )
     quantity = fields.Float(digits="Product Unit of Measure", readonly=True)

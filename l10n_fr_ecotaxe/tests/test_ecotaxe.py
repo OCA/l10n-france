@@ -14,8 +14,8 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("-at_install", "post_install")
 class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref="l10n_fr.l10n_fr_pcg_chart_template"):
-        super().setUpClass(chart_template_ref)
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # ECOTAXES
@@ -206,7 +206,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         self.assertEqual(inv.amount_total, inv_expected_amounts["amount_total"])
         self.assertEqual(len(inv.invoice_line_ids), len(inv_lines_expected_amounts))
         for inv_line, inv_line_expected_amounts in zip(
-            inv.invoice_line_ids, inv_lines_expected_amounts
+            inv.invoice_line_ids, inv_lines_expected_amounts, strict=True
         ):
             self.assertEqual(
                 inv_line.ecotaxe_amount_unit,

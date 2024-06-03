@@ -6,7 +6,8 @@ from odoo import api, fields, models
 
 
 class EcotaxeLineProduct(models.Model):
-    """class for objects which can be used to save mutili ecotaxe calssification  by product."""
+    """class for objects which can be used to save
+    multi ecotaxe classification by product."""
 
     _name = "ecotaxe.line.product"
     _description = "Ecotaxe Line product"
@@ -28,7 +29,7 @@ class EcotaxeLineProduct(models.Model):
     amount = fields.Float(
         digits="Ecotaxe",
         compute="_compute_ecotaxe",
-        help="Ecotaxe Amount computed form Classification or forced ecotaxe amount",
+        help="Ecotaxe Amount computed form Classification or " "forced ecotaxe amount",
         store=True,
     )
     display_name = fields.Char(compute="_compute_display_name")
@@ -36,10 +37,7 @@ class EcotaxeLineProduct(models.Model):
     @api.depends("classification_id", "amount")
     def _compute_display_name(self):
         for rec in self:
-            rec.display_name = "%s (%s)" % (
-                rec.classification_id.name,
-                rec.amount,
-            )
+            rec.display_name = f"{rec.classification_id.name} {rec.amount}"
 
     @api.depends(
         "classification_id",
