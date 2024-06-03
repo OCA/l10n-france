@@ -10,8 +10,9 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("-at_install", "post_install")
 class TestsaleEcotaxe(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref=""):
-        super(TestsaleEcotaxe, cls).setUpClass(chart_template_ref)
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.ecotaxe_classification = cls.env["account.ecotaxe.classification"]
         cls.ecotaxe_classification1 = cls.ecotaxe_classification.create(
@@ -19,8 +20,8 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
                 "name": "Fixed Ecotaxe",
                 "ecotaxe_type": "fixed",
                 "default_fixed_ecotaxe": 2.4,
-                "ecotaxe_product_status": "M",
-                "ecotaxe_supplier_status": "FAB",
+                "product_status": "M",
+                "supplier_status": "FAB",
             }
         )
         cls.ecotaxe_classification2 = cls.ecotaxe_classification.create(
@@ -28,14 +29,25 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
                 "name": "Weight based",
                 "ecotaxe_type": "weight_based",
                 "ecotaxe_coef": 0.04,
-                "ecotaxe_product_status": "P",
-                "ecotaxe_supplier_status": "FAB",
+                "product_status": "P",
+                "supplier_status": "FAB",
+            }
+        )
+        cls.ecotaxe_line_product = cls.env["ecotaxe.line.product"]
+        cls.ecotaxe_line_product1 = cls.ecotaxe_line_product.create(
+            {
+                "classification_id": cls.ecotaxe_classification1.id,
+                "product_id": cls.product_a.id,
+            }
+        )
+        cls.ecotaxe_line_product2 = cls.ecotaxe_line_product.create(
+            {
+                "classification_id": cls.ecotaxe_classification2.id,
+                "product_id": cls.product_b.id,
             }
         )
         cls.product_a.weight = 100
-        cls.product_a.ecotaxe_classification_id = cls.ecotaxe_classification1.id
         cls.product_b.weight = 400
-        cls.product_b.ecotaxe_classification_id = cls.ecotaxe_classification2.id
 
     def create_sale_partner(self, partner_id, product_id, sale_amount=0.00):
         order = self.env["sale.order"].create(
@@ -57,7 +69,7 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
 
         return order
 
-    def test_01_manual_fixed_ecotaxe(self):
+    def test_01_fixed_ecotaxes(self):
         """Tests multiple lines with fixed ecotaxes"""
         # in order to test the correct assignment of fixed ecotaxe
         # I create a customer sale.
@@ -65,9 +77,11 @@ class TestsaleEcotaxe(AccountTestInvoicingCommon):
         self.sale = self.create_sale_partner(
             sale_amount=100.00, partner_id=partner12, product_id=self.product_a
         )
-        # I assign a product with fixed ecotaxte to sale line
+        # ecotaxe amount should be equal to ``default_fixed_ecotaxe``
+        self.assertEqual(self.product_a.ecotaxe_amount, 2.4)
+        # we force an amount for ``all_ecotaxe_line_product_ids``
+        self.product_a.all_ecotaxe_line_product_ids.force_amount = 1.5
         self.sale_line1 = self.sale.order_line[0]
-        self.product_a.manual_fixed_ecotaxe = 1.5
         # make sure to have 1 tax and fix tax rate
         self.sale_line1.tax_id = self.sale_line1.tax_id[0]
         self.sale_line1.tax_id.amount = 20

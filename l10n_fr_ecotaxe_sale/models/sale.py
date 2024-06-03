@@ -6,7 +6,6 @@ from odoo import api, fields, models
 
 
 class SaleOrderLine(models.Model):
-
     _inherit = "sale.order.line"
 
     subtotal_ecotaxe = fields.Float(store=True, compute="_compute_ecotaxe")
@@ -28,7 +27,6 @@ class SaleOrderLine(models.Model):
 
 
 class SaleOrder(models.Model):
-
     _inherit = "sale.order"
 
     amount_ecotaxe = fields.Float(
