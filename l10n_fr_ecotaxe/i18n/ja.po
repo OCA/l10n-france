@@ -29,11 +29,73 @@ msgid "Account Ecotaxe Classification"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__account_move_line_id
+msgid "Account move line"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_account_move_line_ecotaxe
+msgid "Account move line ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__active
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__active
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__active
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__active
 msgid "Active"
 msgstr "有効"
 
 #. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.product_variant_easy_edit_view
+msgid "Additional Ecotaxe classif"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_product__additional_ecotaxe_line_product_ids
+msgid "Additional ecotaxe lines"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_product__all_ecotaxe_line_product_ids
+msgid "All ecotaxe lines"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__amount
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__amount_total
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__amount_total
+msgid "Amount Total"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__amount_unit
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__amount_unit
+msgid "Amount Unit"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_category_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_collector_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_sector_form
+msgid "Archived"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__categ_id
+msgid "Category"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__classification_id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__classification_id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__classification_id
 #: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_search
 msgid "Classification"
 msgstr ""
@@ -49,6 +111,16 @@ msgid "Click to start a new Ecotaxe category."
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
+#: model_terms:ir.actions.act_window,help:l10n_fr_ecotaxe.action_ecotaxe_collector
+msgid "Click to start a new Ecotaxe collector."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.actions.act_window,help:l10n_fr_ecotaxe.action_ecotaxe_sector
+msgid "Click to start a new Ecotaxe sector."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__code
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__code
 msgid "Code"
@@ -60,16 +132,40 @@ msgid "Company"
 msgstr "会社"
 
 #. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_product__all_ecotaxe_line_product_ids
+msgid ""
+"Contain all ecotaxes classification defined in product templateand the "
+"additionnal\n"
+"ecotaxes defined in product variant. For more detailssee the product variant "
+"accounting tab"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__create_uid
 msgid "Created by"
 msgstr "作成者"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__create_date
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__create_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__create_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__create_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__create_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__create_date
 msgid "Created on"
 msgstr "作成日"
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__currency_id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__currency_id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__currency_id
+msgid "Currency"
+msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__default_fixed_ecotaxe
@@ -83,12 +179,23 @@ msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__description
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__description
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_line_ecotaxe_form
 msgid "Description"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_line_ecotaxe_form
+msgid "Disc.%"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__display_name
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__display_name
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__display_name
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__display_name
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__display_name
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__display_name
 msgid "Display Name"
 msgstr "表示名"
 
@@ -99,15 +206,35 @@ msgid "Ecotaxe Amount"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_product__ecotaxe_amount
 #: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_template__ecotaxe_amount
 msgid "Ecotaxe Amount computed form Classification"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__amount_unit
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__amount_unit
+msgid "Ecotaxe Amount computed form Classification or Manuel ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_ecotaxe_line_product__amount
+msgid "Ecotaxe Amount computed form Classification or forced ecotaxe amount"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_product__ecotaxe_amount
+msgid "Ecotaxe Amount computed form all ecotaxe line classification"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__amount_total
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__amount_total
+msgid ""
+"Ecotaxe Amount total computed form Classification or forced ecotaxe amount"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
 #: model:ir.actions.act_window,name:l10n_fr_ecotaxe.action_ecotaxe_classification
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_product__ecotaxe_classification_id
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_template__ecotaxe_classification_id
 #: model:ir.ui.menu,name:l10n_fr_ecotaxe.menu_ecotaxe_classification
 msgid "Ecotaxe Classification"
 msgstr ""
@@ -118,13 +245,18 @@ msgid "Ecotaxe Coef"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_deb_code
-msgid "Ecotaxe Deb Code"
+#: model:ir.model,name:l10n_fr_ecotaxe.model_ecotaxe_line_mixin
+msgid "Ecotaxe Line Mixin"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_scale_code
-msgid "Ecotaxe Scale Code"
+#: model:ir.model,name:l10n_fr_ecotaxe.model_ecotaxe_line_product
+msgid "Ecotaxe Line product"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_ecotaxe_sector
+msgid "Ecotaxe Sector"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
@@ -133,20 +265,47 @@ msgid "Ecotaxe Type"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line__unit_ecotaxe_amount
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line__ecotaxe_amount_unit
 msgid "Ecotaxe Unit."
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.actions.act_window,name:l10n_fr_ecotaxe.action_ecotaxe_category
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__account_ecotaxe_categ_id
 #: model:ir.ui.menu,name:l10n_fr_ecotaxe.menu_ecotaxe_category
 msgid "Ecotaxe category"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.product_template_form_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.product_normal_form_view
+msgid "Ecotaxe classif"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.product_variant_easy_edit_view
 msgid "Ecotaxe classification"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.actions.act_window,name:l10n_fr_ecotaxe.action_ecotaxe_collector
+#: model:ir.model,name:l10n_fr_ecotaxe.model_ecotaxe_collector
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__collector_id
+#: model:ir.ui.menu,name:l10n_fr_ecotaxe.menu_ecotaxe_collector
+msgid "Ecotaxe collector"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line__ecotaxe_line_ids
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_product__ecotaxe_line_product_ids
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_template__ecotaxe_line_product_ids
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_line_ecotaxe_form
+msgid "Ecotaxe lines"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.actions.act_window,name:l10n_fr_ecotaxe.action_ecotaxe_sector
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__sector_id
+#: model:ir.ui.menu,name:l10n_fr_ecotaxe.menu_ecotaxe_sector
+msgid "Ecotaxe sector"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
@@ -155,7 +314,17 @@ msgid "Ecotaxes settings"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_supplier_status
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_form_inherit
+msgid "Edit Ecotaxe"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__emebi_code
+msgid "Emebi Code"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_ecotaxe_classification__supplier_status
 msgid ""
 "FAB ==> Fabricant : est établi en France et fabrique des EEE\n"
 "sous son propre nom ou sa propre marque, ou fait concevoir ou\n"
@@ -174,7 +343,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__fab
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__supplier_status__fab
 msgid "Fabricant"
 msgstr ""
 
@@ -185,6 +354,32 @@ msgid "Fixed"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__force_amount
+msgid "Force Amount"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__force_amount_unit
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__force_amount_unit
+msgid "Force Amount Unit"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_ecotaxe_line_product__force_amount
+msgid ""
+"Force ecotaxe amount.\n"
+"Allow to substitute default Ecotaxe Classification\n"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__force_amount_unit
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__force_amount_unit
+msgid ""
+"Force ecotaxe.\n"
+"Allow to subtite default Ecotaxe Classification\n"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
 #: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_search
 msgid "Group By"
 msgstr "グループ化"
@@ -192,6 +387,10 @@ msgstr "グループ化"
 #. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__id
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__id
 msgid "ID"
 msgstr "ID"
 
@@ -203,11 +402,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__imp
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__supplier_status__imp
 msgid "Importateur"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
+#. odoo-python
 #: code:addons/l10n_fr_ecotaxe/models/account_move.py:0
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_bank_statement_line__amount_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move__amount_ecotaxe
@@ -217,7 +417,7 @@ msgid "Included Ecotaxe"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__int
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__supplier_status__int
 msgid "Introducteur"
 msgstr ""
 
@@ -232,68 +432,110 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category____last_update
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification____last_update
-msgid "Last Modified on"
-msgstr "最終更新日"
-
-#. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__write_uid
 msgid "Last Updated by"
 msgstr "最終更新者"
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__write_date
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__write_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__write_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__write_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__write_date
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__write_date
 msgid "Last Updated on"
 msgstr "最終更新日"
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_product__manual_fixed_ecotaxe
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_product_template__manual_fixed_ecotaxe
-msgid "Manual Fixed Ecotaxe"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_product__manual_fixed_ecotaxe
-#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_product_template__manual_fixed_ecotaxe
-msgid ""
-"Manual Fixed ecotaxe.\n"
-"Allow to subtite default Ecotaxe Classification\n"
-msgstr ""
-
-#. module: l10n_fr_ecotaxe
-#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_product_status__m
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__product_status__m
 msgid "Menager"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_category__name
 #: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__name
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__name
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_sector__name
 #: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_category_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_classification_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_collector_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_sector_form
 msgid "Name"
 msgstr "名前"
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_product_status
-msgid "Product Status"
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_line_ecotaxe_form
+msgid "Note"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.constraint,message:l10n_fr_ecotaxe.constraint_ecotaxe_line_product_unique_classification_id_by_product
+msgid "Only one ecotaxe classification occurrence by product"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.constraint,message:l10n_fr_ecotaxe.constraint_ecotaxe_line_product_unique_classification_id_by_product_tmpl
+msgid "Only one ecotaxe classification occurrence by product Template"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_collector__partner_id
+msgid "Partner"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
 #: model:ir.model,name:l10n_fr_ecotaxe.model_product_template
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__product_id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__product_id
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__product_status
+msgid "Product Status"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_product__product_tmplt_id
 msgid "Product Template"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_product_status__p
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.product_template_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.product_variant_easy_edit_view
+msgid "Product Template Ecotaxe classif"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model,name:l10n_fr_ecotaxe.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__product_status__p
 msgid "Professionnel"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__rev
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__quantity
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_ecotaxe_line_mixin__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__supplier_status__rev
 msgid "Revendeur sous sa marque"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__scale_code
+msgid "Scale Code"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
@@ -304,6 +546,21 @@ msgstr ""
 #. module: l10n_fr_ecotaxe
 #: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_category_search
 msgid "Search Ecotaxe category"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_collector_search
+msgid "Search Ecotaxe collector"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_sector_search
+msgid "Search Ecotaxe sector"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_line_ecotaxe_form
+msgid "Section"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
@@ -320,8 +577,30 @@ msgid "Subtotal Ecotaxe"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__ecotaxe_supplier_status
+#: model:ir.model.fields,field_description:l10n_fr_ecotaxe.field_account_ecotaxe_classification__supplier_status
 msgid "Supplier Status"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_line_ecotaxe_form
+msgid "Tax excl."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_line_ecotaxe_form
+msgid "Tax incl."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model:ir.model.fields,help:l10n_fr_ecotaxe.field_account_move_line_ecotaxe__quantity
+msgid ""
+"The optional quantity expressed by this line, eg: number of product sold. "
+"The quantity is not a legal requirement but is very useful for some reports."
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.view_move_line_ecotaxe_form
+msgid "Total Ecotaxe"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
@@ -330,13 +609,14 @@ msgid "Type"
 msgstr "タイプ"
 
 #. module: l10n_fr_ecotaxe
+#. odoo-python
 #: code:addons/l10n_fr_ecotaxe/models/account_move.py:0
 #, python-format
 msgid "Untaxed Amount"
 msgstr ""
 
 #. module: l10n_fr_ecotaxe
-#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__ecotaxe_supplier_status__dis
+#: model:ir.model.fields.selection,name:l10n_fr_ecotaxe.selection__account_ecotaxe_classification__supplier_status__dis
 msgid "Vendeur à distance"
 msgstr ""
 
@@ -350,6 +630,19 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_category_search
 msgid "category"
 msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_collector_search
+msgid "collector"
+msgstr ""
+
+#. module: l10n_fr_ecotaxe
+#: model_terms:ir.ui.view,arch_db:l10n_fr_ecotaxe.ecotaxe_sector_search
+msgid "sector"
+msgstr ""
+
+#~ msgid "Last Modified on"
+#~ msgstr "最終更新日"
 
 #~ msgid "Invoice"
 #~ msgstr "請求書"
