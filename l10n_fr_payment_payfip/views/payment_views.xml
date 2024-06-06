@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">provider.form.payfip</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position='inside'>
+                <group attrs="{'invisible': [('code', '!=', 'payfip')]}">
+                    <field name="payfip_customer_number" />
+                    <field name="payfip_base_url"/>
+                    <field name="payfip_notification_url"/>
+                    <field name="payfip_redirect_url"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="payfip_transaction_form" model="ir.ui.view">
+        <field name="name">Add operation identifier from PayFIP provider</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form"/>
+        <field name="arch" type="xml">
+            <xpath expr='//sheet' position='inside'>
+                      <group>
+                        <group>
+                            <field name="payfip_operation_identifier"/>
+                            <field name="payfip_sent_to_webservice"/>
+                            <field name="payfip_return_url" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="payfip_state"/>
+                            <field name="payfip_amount"/>
+                        </group>
+                      </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="transaction_list_payfip" model="ir.ui.view">
+        <field name="name">Add decorators for PayFIP transactions</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-muted">provider_code == 'payfip' and payfip_state == False</attribute>
+                <attribute name="decoration-danger">provider_code == 'payfip' and payfip_state != False and payfip_amount != amount</attribute>
+            </xpath>
+            <xpath expr="//tree" position="inside">
+                <field name="provider_code" invisible="1"/>
+                <field name="payfip_state" invisible="1"/>
+                <field name="payfip_amount" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
