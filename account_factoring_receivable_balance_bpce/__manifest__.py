@@ -20,5 +20,7 @@
         "views/partner.xml",
         "views/company.xml",
     ],
-    "demo": [],
+    "demo": [
+        "views/company_demo.xml",
+    ],
 }
