@@ -17,8 +17,8 @@ class SubrogationReceipt(models.Model):
 
     def _prepare_factor_file_bpce(self):
         self.ensure_one()
-        name = "BPCE_%s_%s_%s.txt" % (
-            self._sanitize_filepath("%s" % fields.Date.today()),
+        name = "BPCE_{}_{}_{}.txt".format(
+            self._sanitize_filepath(f"{fields.Date.today()}"),
             self.id,
             self._sanitize_filepath(self.company_id.name),
         )
@@ -34,8 +34,8 @@ class SubrogationReceipt(models.Model):
         if not self.company_id.bpce_factor_code:
             # pylint: disable=C8107
             raise UserError(
-                "Vous devez mettre le code du factor dans la société '%s'.\n"
-                "Champ dans l'onglet 'Factor'" % self.env.company.name
+                "Vous devez mettre le code du factor dans la société '{}'.\n"
+                "Champ dans l'onglet 'Factor'".format(self.env.company.name)
             )
         if not self.statement_date:
             # pylint: disable=C8107
@@ -45,9 +45,9 @@ class SubrogationReceipt(models.Model):
         check_column_size(header)
         ender = self._get_bpce_ender(max_row, balance)
         check_column_size(ender)
-        raw_data = (
-            "%s%s%s%s%s%s" % (header, RETURN, body, RETURN, ender, RETURN)
-        ).replace("False", "    ")
+        raw_data = (f"{header}{RETURN}{body}{RETURN}{ender}{RETURN}").replace(
+            "False", "    "
+        )
         data = clean_string(raw_data)
         # check there is no regression in colmuns position
         check_column_position(raw_data, self.factor_journal_id, False)
@@ -64,7 +64,7 @@ class SubrogationReceipt(models.Model):
             # pylint: disable=C8107
             raise UserError(
                 "Erreur dans le calul de la balance :"
-                "\n - erp : %s\n - fichier : %s" % (total_in_erp, balance)
+                f"\n - erp : {total_in_erp}\n - fichier : {balance}"
             )
         self.write({"balance": balance})
         # non ascii chars are replaced
@@ -180,7 +180,7 @@ class SubrogationReceipt(models.Model):
 
 def get_piece_factor(name, p_type):
     if not p_type:
-        return "%s%s" % (name[:15], pad(" ", 15))
+        return "{}{}".format(name[:15], pad(" ", 15))
     return name[:30]
 
 
@@ -204,10 +204,8 @@ def get_type_piece(move):
                     break
             if not od_type:
                 # pylint: disable=C8107
-                raise UserError(
-                    "Impossible de déterminer le type de l'OD %s" % move.name
-                )
-            p_type = "OD%s" % od_type
+                raise UserError(f"Impossible de déterminer le type de l'OD {move.name}")
+            p_type = f"OD{od_type}"
     elif move_type == "out_invoice":
         p_type = "FAC"
     elif move_type == "out_refund":
@@ -222,9 +220,9 @@ def bpce_date(date_field):
 
 def pad(string, pad, end=" ", position="right"):
     "Complete string by leading `end` string from `position`"
-    if isinstance(end, (int, float)):
+    if isinstance(end, int | float):
         end = str(end)
-    if isinstance(string, (int, float)):
+    if isinstance(string, int | float):
         string = str(string)
     if position == "right":
         string = string.rjust(pad, end)
@@ -244,7 +242,7 @@ def clean_string(string):
 
 
 def debug(content, suffix=""):
-    mpath = "/odoo/subrog%s.txt" % suffix
+    mpath = f"/odoo/subrog{suffix}.txt"
     with open(mpath, "wb") as f:
         if isinstance(content, str):
             content = bytes(content, "ascii", "replace")
@@ -258,14 +256,14 @@ def check_column_size(string, fstring=None, info=None):
             fstring = fstring.format(**info)
             strings = fstring.split("|")
             for mystr in strings:
-                strings[strings.index(mystr)] = "%s(%s)" % (mystr, len(mystr))
+                strings[strings.index(mystr)] = f"{mystr}({len(mystr)})"
             fstring = "|".join(strings)
         else:
             fstring = ""
         # pylint: disable=C8107
         raise UserError(
-            "La ligne suivante contient %s caractères au lieu de 275\n\n%s"
-            "\n\nDebugging string:\n%s" % (len(string), string, fstring)
+            "La ligne suivante contient {} caractères au lieu de 275\n\n{}"
+            "\n\nDebugging string:\n{}s".format(len(string), string, fstring)
         )
 
 
