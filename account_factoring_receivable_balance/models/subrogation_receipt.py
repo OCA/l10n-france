@@ -99,14 +99,9 @@ class SubrogationReceipt(models.Model):
             )
 
     @api.model
-    def _get_domain_for_factor(
-        self, factor_type, partner_selection_field=None, currency=None
-    ):
-        """partner_selection_field is a field on partners to guess
-        which account data need to be retrieved.
-        You have to create it in your own factor module
-
-        Query example for debugging purpose:
+    def _get_domain_for_factor(self, factor_type, factor_journal, currency=None):
+        """
+        Query example for debugging purpose: # FIXME
 
         SELECT l.id, l.name, l.date, l.create_date, l.debit, p2.name, s.target_date
          , l.partner_id, o.res_id, l.subrogation_id
@@ -131,14 +126,15 @@ class SubrogationReceipt(models.Model):
             self._get_customer_accounts(),
             ("full_reconcile_id", "=", False),
             (
-                "partner_id.commercial_partner_id.%s" % partner_selection_field,
-                "=",
-                True,
+                "partner_id.commercial_partner_id.factor_journal_id" "=",
+                factor_journal.id,
             ),
             "|",
             ("move_id.partner_bank_id", "=", bank_journal.bank_account_id.id),
             ("move_id.partner_bank_id", "=", False),
         ]
+        if factor_journal.factor_start_date:
+            domain.append([("date", ">=", factor_journal.factor_start_date)])
         return domain
 
     @api.model
@@ -165,17 +161,12 @@ class SubrogationReceipt(models.Model):
             "%s%s" % (account.code.replace("0", ""), "%"),  # noqa: UP031
         )
 
-    def _get_partner_field(self):
-        "Inherit to define your own fields depending of your factor module"
-        self.ensure_one()
-        return None
-
     def action_compute_lines(self):
         self.ensure_one()
         journal = self.factor_journal_id
         domain = self._get_domain_for_factor(
-            self.factor_type,
-            partner_selection_field=self._get_partner_field(),
+            self.factor_type,  # TODO: this is a redundant argument!
+            self.factor_journal_id,
             currency=journal.currency_id,
         )
         self.line_ids.write({"subrogation_id": False})

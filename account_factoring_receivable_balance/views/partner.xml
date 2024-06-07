@@ -12,7 +12,9 @@
                     name="factoring"
                     string="Factoring"
                     groups="account.group_account_invoice"
-                />
+                >
+                    <field name="factor_journal_id" />
+                </group>
             </xpath>
         </field>
     </record>
