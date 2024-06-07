@@ -9,6 +9,11 @@ class AccountJournal(models.Model):
     _inherit = "account.journal"
 
     factor_type = fields.Selection(string="Factor", selection=[("", "")])
+    factor_code = fields.Char(help="Account Number for factor company")
+    factor_start_date = fields.Date(
+        tracking=True,
+        help="No account move will be selected before this date",
+    )
     factoring_receivable_account_id = fields.Many2one(
         comodel_name="account.account", string="Receivable Account"
     )

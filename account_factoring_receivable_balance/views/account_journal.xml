@@ -21,11 +21,13 @@
                 <page name="factor" string="Factor" invisible="not factor_type">
                     <group name="receivable_balance" string="Receiveable Balance">
                         <group name="balance_left">
+                            <field name="factor_code" />
                             <field name="factoring_receivable_account_id" />
                             <field name="factoring_current_account_id" />
                             <field name="factoring_holdback_account_id" />
                         </group>
                         <group name="balance_right">
+                            <field name="factor_start_date" />
                             <field name="factoring_pending_recharging_account_id" />
                             <field name="factoring_expense_account_id" />
                         </group>
