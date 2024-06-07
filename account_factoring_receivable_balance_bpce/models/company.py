@@ -124,7 +124,7 @@ class ResCompany(models.Model):
             ["4672", "Factoring Holdback", revenue_type_id],
             ["4673", "Factoring Recharging", revenue_type_id],
         ):
-            code = "%s%s" % (acco[0], currency.symbol)
+            code = f"{acco[0]}{currency.symbol}"
             values = {"code": code, "name": acco[1], "user_type_id": acco[2]}
             values.update(vals)
             acc[code] = self.env["account.account"].create(values)
