@@ -6,8 +6,8 @@
     "version": "17.0.1.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
-    "author": "Akretion",
-    "website": "https://github.com/akretion/odoo-factoring",
+    "author": "Akretion,Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/l10n-france",
     "maintainers": [
         "bealdav",
         "alexis-via",

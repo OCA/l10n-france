@@ -92,7 +92,7 @@ class SubrogationReceipt(models.Model):
     @api.depends("factor_journal_id", "date")
     def _compute_display_name(self):
         for rec in self:
-            rec.display_name = "%s %s %s" % (
+            rec.display_name = "{} {} {}".format(
                 rec.factor_type,
                 rec.currency_id.name,
                 rec.date or rec._fields["state"].selection[0][1],
@@ -161,7 +161,8 @@ class SubrogationReceipt(models.Model):
         return (
             "account_id.code",
             "like",
-            "%s%s" % (account.code.replace("0", ""), "%"),
+            # FIXME!
+            "%s%s" % (account.code.replace("0", ""), "%"),  # noqa: UP031
         )
 
     def _get_partner_field(self):
