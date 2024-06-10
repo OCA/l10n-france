@@ -9,5 +9,6 @@ class Partner(models.Model):
 
     factor_journal_id = fields.Many2one(
         comodel_name="account.journal",
+        domain="[('factor_type', '!=', False)]",
         help="Select the factoring service for this partner.",
     )
