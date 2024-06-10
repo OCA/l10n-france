@@ -126,7 +126,7 @@ class SubrogationReceipt(models.Model):
             self._get_customer_accounts(),
             ("full_reconcile_id", "=", False),
             (
-                "partner_id.commercial_partner_id.factor_journal_id" "=",
+                "partner_id.commercial_partner_id.factor_journal_id", "=",
                 factor_journal.id,
             ),
             "|",
@@ -134,7 +134,7 @@ class SubrogationReceipt(models.Model):
             ("move_id.partner_bank_id", "=", False),
         ]
         if factor_journal.factor_start_date:
-            domain.append([("date", ">=", factor_journal.factor_start_date)])
+            domain.append(("date", ">=", factor_journal.factor_start_date))
         return domain
 
     @api.model
