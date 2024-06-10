@@ -24,33 +24,3 @@ msgstr ""
 #: model:account.fiscal.position,note:l10n_fr_oca.4_fiscal_position_template_import_export
 msgid "French VAT exemption according to articles 291, 294 and 262 I of \"CGI\""
 msgstr ""
-
-#. module: l10n_fr_oca
-#: model:account.tax.group,name:l10n_fr_oca.tax_group_tva_0
-msgid "TVA 0%"
-msgstr ""
-
-#. module: l10n_fr_oca
-#: model:account.tax.group,name:l10n_fr_oca.tax_group_tva_10
-msgid "TVA 10%"
-msgstr ""
-
-#. module: l10n_fr_oca
-#: model:account.tax.group,name:l10n_fr_oca.tax_group_tva_21
-msgid "TVA 2,1%"
-msgstr ""
-
-#. module: l10n_fr_oca
-#: model:account.tax.group,name:l10n_fr_oca.tax_group_tva_20
-msgid "TVA 20%"
-msgstr ""
-
-#. module: l10n_fr_oca
-#: model:account.tax.group,name:l10n_fr_oca.tax_group_tva_55
-msgid "TVA 5,5%"
-msgstr ""
-
-#. module: l10n_fr_oca
-#: model:account.tax.group,name:l10n_fr_oca.tax_group_tva_85
-msgid "TVA 8,5%"
-msgstr ""

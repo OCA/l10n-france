@@ -12,7 +12,7 @@
         <field name="sequence" eval="10" />
         <field name="type_tax_use">sale</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -61,7 +61,7 @@
         <field name="type_tax_use">sale</field>
         <field name="active" eval="0" />
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_10" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_10" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -110,7 +110,7 @@
         <field name="type_tax_use">sale</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_85" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_85" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -159,7 +159,7 @@
         <field name="type_tax_use">sale</field>
         <field name="active" eval="0" />
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_55" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_55" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -208,7 +208,7 @@
         <field name="type_tax_use">sale</field>
         <field name="active" eval="0" />
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_21" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_21" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -257,7 +257,7 @@
         <field name="amount_type">percent</field>
         <field name="sequence" eval="50" />
         <field name="type_tax_use">sale</field>
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="active" eval="0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
@@ -305,7 +305,7 @@
         <field name="sequence" eval="60" />
         <field name="type_tax_use">sale</field>
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_10" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_10" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -353,7 +353,7 @@
         <field name="sequence" eval="70" />
         <field name="type_tax_use">sale</field>
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_85" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_85" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -401,7 +401,7 @@
         <field name="sequence" eval="80" />
         <field name="type_tax_use">sale</field>
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_55" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_55" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -450,7 +450,7 @@
         <field name="sequence" eval="90" />
         <field name="type_tax_use">sale</field>
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_21" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_21" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -499,7 +499,7 @@
         <field name="sequence" eval="100" />
         <field name="type_tax_use">sale</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_0" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
         <field
@@ -543,7 +543,7 @@
         <field name="sequence" eval="110" />
         <field name="type_tax_use">sale</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_0" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
         <field
@@ -587,7 +587,7 @@
         <field name="sequence" eval="120" />
         <field name="type_tax_use">sale</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_0" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_e" />
         <field
@@ -632,7 +632,7 @@
         <field name="sequence" eval="200" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -680,7 +680,7 @@
         <field name="sequence" eval="210" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_10" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_10" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -728,7 +728,7 @@
         <field name="sequence" eval="220" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_55" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_55" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -776,7 +776,7 @@
         <field name="sequence" eval="230" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_21" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_21" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -825,7 +825,7 @@
         <field name="amount_type">percent</field>
         <field name="sequence" eval="240" />
         <field name="type_tax_use">purchase</field>
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -873,7 +873,7 @@
         <field name="amount_type">percent</field>
         <field name="sequence" eval="250" />
         <field name="type_tax_use">purchase</field>
-        <field name="tax_group_id" ref="tax_group_tva_10" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_10" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -921,7 +921,7 @@
         <field name="amount_type">percent</field>
         <field name="sequence" eval="260" />
         <field name="type_tax_use">purchase</field>
-        <field name="tax_group_id" ref="tax_group_tva_55" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_55" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -969,7 +969,7 @@
         <field name="amount_type">percent</field>
         <field name="sequence" eval="270" />
         <field name="type_tax_use">purchase</field>
-        <field name="tax_group_id" ref="tax_group_tva_21" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_21" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_s" />
         <field
@@ -1018,7 +1018,7 @@
         <field name="sequence" eval="280" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field
             name="invoice_repartition_line_ids"
@@ -1066,7 +1066,7 @@
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_10" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_10" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field
             name="invoice_repartition_line_ids"
@@ -1114,7 +1114,7 @@
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_55" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_55" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field
             name="invoice_repartition_line_ids"
@@ -1165,7 +1165,7 @@
         <field name="sequence" eval="310" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
         <field
@@ -1228,7 +1228,7 @@
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_10" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_10" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
         <field
@@ -1291,7 +1291,7 @@
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_55" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_55" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
         <field
@@ -1354,7 +1354,7 @@
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_21" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_21" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
         <field
@@ -1419,7 +1419,7 @@
         <field name="sequence" eval="350" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
         <field
@@ -1484,7 +1484,7 @@
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_10" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_10" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
         <field
@@ -1549,7 +1549,7 @@
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_55" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_55" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
         <field
@@ -1614,7 +1614,7 @@
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
         <field name="active" eval="0" />
-        <field name="tax_group_id" ref="tax_group_tva_21" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_21" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
         <field
@@ -1679,7 +1679,7 @@
         <field name="sequence" eval="400" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_0" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_0" />
         <field name="active" eval="0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field
@@ -1722,7 +1722,7 @@
         <field name="sequence" eval="500" />
         <field name="type_tax_use">purchase</field>
         <field name="include_base_amount" eval="1" />
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="active" eval="0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field
@@ -1786,7 +1786,7 @@
         <field name="sequence" eval="510" />
         <field name="price_include" eval="1" />
         <field name="type_tax_use">purchase</field>
-        <field name="tax_group_id" ref="tax_group_tva_20" />
+        <field name="tax_group_id" ref="l10n_fr.tax_group_tva_20" />
         <field name="active" eval="0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field
