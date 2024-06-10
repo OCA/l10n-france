@@ -40,7 +40,7 @@
                         <field name="factor_journal_id" />
                     </h2>
                 </div>
-                <group name="main">
+                <group name="main" colspan="2">
                     <group name="left" invisible="not factor_journal_id">
                         <field name="factor_type" />
                         <field name="target_date" />
@@ -70,62 +70,62 @@
                         <field name="comment" nolabel="1" colspan="4" />
                     </group>
                 </group>
-                <group name="o2m" col="1" invisible="not factor_journal_id">
-                    <field name="item_ids" nolabel="1">
+
+                    <field name="item_ids">
                         <tree>
                             <field name="id" optional="hide" />
                             <field name="create_date" optional="hide" />
                             <field name="date" optional="show" />
                             <field
-                                    name="journal_id"
-                                    options="{&quot;no_open&quot;:True}"
-                                />
+                                name="journal_id"
+                                options="{&quot;no_open&quot;:True}"
+                            />
                             <field name="partner_id" optional="hide" />
                             <field name="partner_ref" optional="show" />
                             <field name="statement_id" invisible="1" />
                             <field name="ref" optional="show" />
                             <field name="name" optional="show" />
                             <field
-                                    name="tax_ids"
-                                    widget="many2many_tags"
-                                    width="0.5"
-                                    optional="hide"
-                                />
+                                name="tax_ids"
+                                widget="many2many_tags"
+                                width="0.5"
+                                optional="hide"
+                            />
                             <field name="debit" sum="Total Debit" />
                             <field name="credit" sum="Total Credit" />
                             <field
-                                    name="amount_currency"
-                                    groups="base.group_multi_currency"
-                                    optional="show"
-                                    string="In currency"
-                                />
+                                name="amount_currency"
+                                groups="base.group_multi_currency"
+                                optional="show"
+                                string="In currency"
+                            />
                             <field name="move_id" optional="show" />
                             <field name="bank_id" optional="show" />
                             <field name="full_reconcile_id" optional="hide" />
                             <field
-                                    name="account_id"
-                                    optional="hide"
-                                    groups="account.group_account_readonly"
-                                />
+                                name="account_id"
+                                optional="hide"
+                                groups="account.group_account_readonly"
+                            />
                             <field
-                                    name="currency_id"
-                                    readonly="1"
-                                    groups="base.group_multi_currency"
-                                    optional="hide"
-                                    string="Original Currency"
-                                />
+                                name="currency_id"
+                                readonly="1"
+                                groups="base.group_multi_currency"
+                                optional="hide"
+                                string="Original Currency"
+                            />
                             <field
-                                    name="tax_tag_ids"
-                                    widget="many2many_tags"
-                                    width="0.5"
-                                    optional="hide"
-                                />
+                                name="tax_tag_ids"
+                                widget="many2many_tags"
+                                width="0.5"
+                                optional="hide"
+                            />
                             <field name="date_maturity" optional="hide" />
                             <field name="company_currency_id" invisible="1" />
                             <field name="parent_state" invisible="1" />
                         </tree>
                     </field>
-                </group>
+
             </sheet>
             <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers" />
