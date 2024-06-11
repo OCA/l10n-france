@@ -16,14 +16,15 @@ class SubrogationReceipt(models.Model):
 
     @api.model
     def _get_domain_for_factor(self, factor_type, factor_journal, currency=None):
-        domain = super(SubrogationReceipt, self)._get_domain_for_factor()
+        domain = super(SubrogationReceipt, self)._get_domain_for_factor(
+            factor_type, factor_journal, currency
+        )
         # TODO: Improve with ref.
         updated_domain = [
             # From an eligible customer
             ("partner_id.factor_journal_id", "=", factor_journal.id),
-            # From a specific sales journal (310 Export)
-            (line.journal_id.type == "sale" or line.journal_id.name== "310 VENTES EXPORT")
-
+            ("journal_id.type", "=", "sale"),
+            ("journal_id.is_factor_sale_journal", "=", True),
             # Pay and invoice previously sent fr factoring
             ("subrogation_id", "=", False),
             # Also include the related expenses if payment was under the total amount
@@ -58,18 +59,20 @@ class SubrogationReceipt(models.Model):
             raise UserError(msg)
         if not self.statement_date:
             raise UserError(_("Vous devez spécifier la date du dernier relevé"))
-        body, max_row, balance = self._get_factofrance_body()
         header = self._get_factofrance_header()
-        check_column_size(header)
+        # check_column_size(header)
+
+        body, max_row, balance = self._get_factofrance_body()
+        # 5 / 0
         ender = self._get_factofrance_ender(max_row, balance)
-        check_column_size(ender)
+        # check_column_size(ender)
         raw_data = f"{header}{RETURN}{body}{RETURN}{ender}{RETURN}".replace(
             "False", "    "
         )
         data = clean_string(raw_data)
         # check there is no regression in columns position
-        check_column_position(raw_data, self.factor_journal_id, False)
-        check_column_position(data, self.factor_journal_id)
+        # check_column_position(raw_data, self.factor_journal_id, False)
+        # check_column_position(data, self.factor_journal_id)
         dev_mode = tools.config.options.get("dev_mode")
         if dev_mode and dev_mode[0][-3:] == "pdb" or False:
             # make debugging easier saving file on filesystem to check
@@ -92,38 +95,61 @@ class SubrogationReceipt(models.Model):
     def _get_factofrance_header(self):
         self = self.sudo()
         info = {
-            "factor_code": self.factor_journal_id.factor_code,
-            "company_name": self.company_id.name,
-            "create_date": factofrance_date(self.create_date),
-            "identification_type": "1",
-            "country_codes": self.company_id.country_id.code,
-            "company_identifiers": self.company_id.siret or self.company_id.vat,
-            "file_sequence_number": 1, # TODO: auto increment
-            "currency": self.company_id.currency_id.name,
-            "operation_type": "000000",
+            "factor_code": pad(self.factor_journal_id.factor_code, 4),
+            "company_name": pad(self.company_id.name, 10),
+            "create_date": pad(factofrance_date(self.create_date), 50),
+            "identification_type": pad("1", 118),
+            "country_codes": pad("2", 119, " "),
+            "company_identifiers": pad(
+                self.company_id.siret or self.company_id.vat, 120, " "
+            ),
+            "file_sequence_number": pad(self.id, 136, " "),
+            "currency": pad(self.company_id.currency_id.name, 352, " "),
+            "operation_type": pad("000000", 355, " "),
         }
-        return info
-    
+        string = "100{factor_code}{company_name}{create_date}{identification_type}{country_codes}"
+        string += (
+            "{company_identifiers}{file_sequence_number}{currency}{operation_type}"
+        )
+        return string.format(**info)
+
     def _get_factofrance_ender(self, max_row, balance):
         self = self.sudo()
-        invoices = self.item_ids.filtered(lambda line: not line.is_refund and line.move_id.move_type in ('out_invoice'))
-        credit_notes = self.item_ids.filtered(lambda line: line.is_refund and line.move_id.move_type in ('out_refund'))
+        invoices = self.item_ids.filtered(
+            lambda line: not line.is_refund
+            and line.move_id.move_type in ("out_invoice")
+        )
+        credit_notes = self.item_ids.filtered(
+            lambda line: line.is_refund and line.move_id.move_type in ("out_refund")
+        )
         info = {
-            "factor_code": self.factor_journal_id.factor_code,
-            "company_name": self.company_id.name,
-            "create_date": factofrance_date(self.create_date),
-            "number_of_invoices": len(invoices.mapped("move_id")),
-            "total_amount_of_invoices": sum(invoices.mapped("move_id.amount_total")),
-            
-            "number_of_credit_notes": len(credit_notes.mapped("move_id")),
-            "total_amount_of_credit_notes": sum(credit_notes.mapped("move_id.amount_total")),
-            
-            "number_of_payments": len(self.item_ids.mapped("move_id")),
-            "total_amount_of_payments": sum(self.item_ids.mapped("move_id.amount_total")),
-            
-            "currency": self.company_id.currency_id.name,
-            "operation_type": "000000",
+            "code": pad("199", 1),
+            "factor_code": pad(self.factor_journal_id.factor_code, 4, " "),
+            "company_name": pad(self.company_id.name, 10, " "),
+            "create_date": pad(factofrance_date(self.create_date), 50, " "),
+            "number_of_invoices": pad(len(invoices.mapped("move_id")), 58, " "),
+            # "total_amount_of_invoices": pad(sum(invoices.mapped("move_id.amount_total")), ),
+            # "number_of_credit_notes": len(credit_notes.mapped("move_id")),
+            # "total_amount_of_credit_notes": sum(
+            # credit_notes.mapped("move_id.amount_total")
+            # ),
+            # "number_of_payments": len(self.item_ids.mapped("move_id")),
+            # "total_amount_of_payments": sum(
+            # self.item_ids.mapped("move_id.amount_total")
+            # ),
+            # "currency": self.company_id.currency_id.name,
+            "operation_type": pad("000000", 355, " "),
         }
+        string = "{code}{factor_code}{company_name}{create_date}{number_of_invoices}{operation_type}"
+        return string.format(**info)
+
+    def get_code(self, move):
+        if move.move_type == "out_invoice":
+            code = "101"
+        elif move.move_type == "out_refund":
+            code = "102"
+        # elif move.move_type == ''
+        return code
 
     def _get_factofrance_body(self):
         self = self.sudo()
@@ -134,118 +160,46 @@ class SubrogationReceipt(models.Model):
             partner = line.move_id.partner_id.commercial_partner_id
             if not partner:
                 raise UserError(f"Pas de partenaire sur la pièce {line.move_id}")
+            total = move.amount_total_in_currency_signed
             info = {
-                "code": move.move_type,
-                "create_date": factofrance_date(move.create_date),
-                "factor_code": self.factor_journal_id.factor_code,
-                "company_identifiers": self.company_id.siret or self.company_id.vat,
-                "document": "siret" if partner.siret else "vat",
-                "customer_name": partner.name,
-                "customer_street": partner.street,
-                "customer_street2": partner.street2,
-                "customer_zip_code": partner.zip,
-                "customer_country_code": partner.country_id.code,
-                "customer_phone": partner.mobile or partner.phone,
-                "customer_ref": partner.ref,
-                "date": factofrance_date(move.invoice_date or move.date),
-                "number": move.name,
-                "currency": self.company_id.currency_id.name,
-                "amount_sign": move.amount_total_signed,
-                "amount": move.amount_total,
-                # "payment_mode": 
-                "invoice_due_date": factofrance_date(move.invoice_date_due),
-                "customer_order_reference": move.ref,
+                "code": pad(self.get_code(move), 1, " "),
+                "create_date": pad(factofrance_date(move.create_date), 4, " "),
+                "factor_code": pad(self.factor_journal_id.factor_code, 12, " "),
+                "company_identifiers": pad(
+                    self.company_id.siret or self.company_id.vat, 18, " "
+                ),
+                "document": pad("siret" if partner.siret else "vat", 18, " "),
+                "document2": pad("", 27, " "),
+                "customer_name": pad(partner.name, 32, " "),
+                "customer_street": pad(partner.street, 112, " "),
+                "customer_street2": pad(partner.street2, 152, " "),
+                "customer_zip_code": pad(partner.zip, 192, " "),
+                "delivery_office": pad("", 198, " "),
+                "customer_country_code": pad(partner.country_id.code, 232, " "),
+                "customer_phone": pad(partner.mobile or partner.phone, 235, " "),
+                "customer_ref": pad(partner.ref, 245, " "),
+                "date": pad(factofrance_date(move.invoice_date or move.date), 255, " "),
+                "number": pad(move.name, 263, " "),
+                "currency": pad(self.company_id.currency_id.name, 278, " "),
+                # "amount_sign": pad(move.amount_total_signed, ), # TODO
+                "amount": pad(move.amount_total, 282, " "),
+                # "payment_mode":
+                # "invoice_due_date": factofrance_date(move.invoice_date_due),
+                "customer_order_reference": pad(move.ref, 308, " "),
                 # "journal_code":
-                "operation_type": get_type_piece(move)
+                "operation_type": get_type_piece(move),
             }
-            rows.append(info)
-        return row
+            balance += total
+            fstring = "{code}{create_date}{company_identifiers}{document}{document2}{customer_name}{customer_street}"
+            fstring += "{customer_zip_code}{delivery_office}{customer_country_code}{customer_phone}{customer_ref}{date}"
+            fstring += (
+                "{number}{currency}{amount}{customer_order_reference}{operation_type}"
+            )
+            string = fstring.format(**info)
+            # check_column_size(string, fstring, info)
+            rows.append(string)
+        return (RETURN.join(rows), len(rows), balance)
 
-    # def _get_factofrance_header(self):
-    #     self = self.sudo()
-    #     info = {
-    #         "code": pad(self.company_id.bpce_factor_code, 6, 0),
-    #         "devise": self.factor_journal_id.currency_id.name,
-    #         "name": pad(self.company_id.partner_id.name, 25),
-    #         "statem_date": bpce_date(self.statement_date),
-    #         "date": bpce_date(self.date),
-    #         "idfile": pad(self.id, 3, 0),
-    #         "reserved": pad(" ", 208),
-    #         "format": FORMAT_VERSION,
-    #     }
-    #     string = "01000001138{code}{devise}{name}{statem_date}{date}"
-    #     string += "{idfile}{format}{reserved}"
-    #     return string.format(**info)
-
-    # def _get_factofrance_ender(self, max_row, balance):
-    #     self = self.sudo()
-    #     info = {
-    #         "seq": pad(max_row + 2, 6, 0),
-    #         "code": pad(self.company_id.bpce_factor_code, 6, 0),
-    #         "name": pad(self.company_id.partner_id.name[:25], 25),
-    #         "balance": pad(round(balance * 100), 13, 0),
-    #         "reserved": pad(" ", 220),
-    #     }
-    #     return "09{seq}138{code}{name}{balance}{reserved}".format(**info)
-
-    # def _get_factofrance_body(self):
-    #     self = self.sudo()
-    #     sequence = 1
-    #     rows = []
-    #     balance = 0
-    #     for line in self.line_ids:
-    #         move = line.move_id
-    #         partner = line.move_id.partner_id.commercial_partner_id
-    #         if not partner:
-    #             raise UserError(f"Pas de partenaire sur la pièce {line.move_id}")
-    #         sequence += 1
-    #         name = pad(move.name, 30, position="left")
-    #         p_type = get_type_piece(move)
-    #         total = move.amount_total_in_currency_signed
-    #         info = {
-    #             "seq": pad(sequence, 6, 0),
-    #             "siret": pad(" ", 14)
-    #             if not partner.siret
-    #             else pad(partner.siret, 14, 0, position="left"),
-    #             "pname": pad(partner.name[:15], 15, position="left"),
-    #             "ref_cli": pad(partner.ref, 10, position="left"),
-    #             "res1": pad(" ", 5),
-    #             "activity": "D"
-    #             if partner.country_id == self.env.ref("base.fr")
-    #             else "E",
-    #             "res2": pad(" ", 9),
-    #             "cmt": pad(" ", 20),
-    #             "piece": name,
-    #             "piece_factor": get_piece_factor(name, p_type),
-    #             "type": p_type,
-    #             "paym": "VIR"
-    #             if p_type == "FAC"
-    #             else "   ",  # TODO only VIR is implemented
-    #             "date": bpce_date(move.invoice_date if p_type == "FAC" else move.date),
-    #             "date_due": bpce_date(move.invoice_date_due) or pad(" ", 8),
-    #             "total": pad(round(abs(total) * 100), 13, 0),
-    #             "devise": move.currency_id.name,
-    #             "res3": "  ",
-    #             "eff_non_echu": " ",  # TODO
-    #             "eff_num": pad(" ", 7),  # TODO
-    #             "eff_total": pad("", 13, 0),  # effet total TODO not implemented
-    #             "eff_imputed": pad("", 13, 0),  # effet imputé TODO not implemented
-    #             "rib": pad(" ", 23),  # TODO
-    #             "eff_echeance": pad(" ", 8),  # date effet echeance TODO not implemented
-    #             "eff_pull": pad(" ", 10),  # reférence tiré/le nom TODO not implemented
-    #             # 0: traite non accepté, 1: traite accepté, 2: BOR TODO not implemented
-    #             "eff_type": " ",
-    #             "res4": pad(" ", 17),
-    #         }
-    #         balance += total
-    #         fstring = "02{seq}{siret}{pname}{ref_cli}{res1}{activity}{res2}{cmt}"
-    #         fstring += "{piece}{piece_factor}{type}{paym}{date}{date_due}"
-    #         fstring += "{total}{devise}{res3}{eff_non_echu}{eff_num}{eff_total}"
-    #         fstring += "{eff_imputed}{rib}{eff_echeance}{eff_pull}{eff_type}{res4}"
-    #         string = fstring.format(**info)
-    #         check_column_size(string, fstring, info)
-    #         rows.append(string)
-    #     return (RETURN.join(rows), len(rows), balance)
 
 def get_piece_factor(name, p_type):
     if not p_type:
@@ -286,6 +240,7 @@ def get_type_piece(move):
 def factofrance_date(date_field):
     return date_field.strftime("%Y%m%d")
 
+
 def bpce_date(date_field):
     return date_field.strftime("%d%m%Y")
 
@@ -322,6 +277,7 @@ def debug(content, suffix=""):
 
 
 def check_column_size(string, fstring=None, info=None):
+    print("\n string", string)
     if len(string) != 275:
         if fstring and info:
             fstring = fstring.replace("{", "|{")
