@@ -1,0 +1,13 @@
+<odoo>
+
+    <record id="view_account_journal_form_inherit_factofr" model="ir.ui.view">
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="is_factor_sale_journal" invisible="type != 'sale'" />
+            </field>
+        </field>
+    </record>
+</odoo>
+

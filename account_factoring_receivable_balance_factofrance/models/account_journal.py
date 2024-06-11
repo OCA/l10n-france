@@ -11,3 +11,6 @@ class AccountJournal(models.Model):
         selection_add=[("factofrance", "FactoFrance")],
         ondelete={"factofrance": "set null"},
     )
+    is_factor_sale_journal = fields.Boolean(
+        string='Is Factor Sale Journal (310 Export)',
+    )
