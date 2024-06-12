@@ -1,6 +1,5 @@
 # © 2024 Open Source Integrators, Daniel Reis
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-
 from odoo import fields, models
 
 
@@ -10,7 +9,4 @@ class AccountJournal(models.Model):
     factor_type = fields.Selection(
         selection_add=[("factofrance", "FactoFrance")],
         ondelete={"factofrance": "set null"},
-    )
-    is_factor_sale_journal = fields.Boolean(
-        string='Is Factor Sale Journal (310 Export)',
     )

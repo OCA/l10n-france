@@ -16,7 +16,7 @@ class SubrogationReceipt(models.Model):
 
     @api.model
     def _get_domain_for_factor(self, factor_type, factor_journal, currency=None):
-        domain = super(SubrogationReceipt, self)._get_domain_for_factor(
+        domain = super()._get_domain_for_factor(
             factor_type, factor_journal, currency
         )
         # TODO: Improve with ref.
@@ -24,8 +24,7 @@ class SubrogationReceipt(models.Model):
             # From an eligible customer
             ("partner_id.factor_journal_id", "=", factor_journal.id),
             ("journal_id.type", "=", "sale"),
-            ("journal_id.is_factor_sale_journal", "=", True),
-            # Pay and invoice previously sent fr factoring
+            # Pay and invoice previously sent for factoring
             ("subrogation_id", "=", False),
             # Also include the related expenses if payment was under the total amount
             ("payment_id", "=", False),
