@@ -13,12 +13,12 @@
         <field name="arch" type="xml">
 
             <field name="type" position="after">
-                <field name="factor_type" invisible="type not in ('general', 'bank')" />
+                <field name="factor_type" invisible="type not in ('bank')" />
             </field>
 
             <xpath expr="//page[last()]" position="after">
                 <page name="factor" string="Factor" invisible="not factor_type">
-                    <group name="receivable_balance" string="Receiveable Balance">
+                    <group name="receivable_balance" string="Receivable Balance">
                         <group name="balance_left">
                             <field name="factor_code" />
                             <field name="factoring_receivable_account_id" />

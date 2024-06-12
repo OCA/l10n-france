@@ -17,7 +17,8 @@ class SubrogationReceipt(models.Model):
     factor_journal_id = fields.Many2one(
         comodel_name="account.journal",
         string="Journal",
-        domain="[('factor_type', '!=', False), ('type', '=', 'general')]",
+        domain="[('factor_type', '!=', False),"
+               "('type', '=', 'bank')]",
         check_company=True,
         required=True,
     )
@@ -171,7 +172,9 @@ class SubrogationReceipt(models.Model):
         )
         self.line_ids.write({"subrogation_id": False})
         lines = self.env["account.move.line"].search(
-            domain + [("move_id.currency_id", "=", journal.currency_id.id)]
+            domain + [("move_id.currency_id", "=", (journal.currency_id and
+                       journal.currency_id.id or
+                       journal.company_id.currency_id.id))]
         )
         lines.write({"subrogation_id": self.id})
         vals = {"item_ids": [(6, 0, lines.ids)]}
@@ -180,7 +183,6 @@ class SubrogationReceipt(models.Model):
                 [
                     ("journal_id.factor_type", "=", self.factor_type),
                     ("journal_id.currency_id", "=", self.currency_id.id),
-                    ("state", "=", "confirm"),
                 ],
                 limit=1,
                 order="date DESC",
@@ -189,7 +191,7 @@ class SubrogationReceipt(models.Model):
                 vals["statement_date"] = statement.date
         if self.item_ids:
             vals["balance"] = sum(self.item_ids.mapped("amount_currency"))
-        self.write(vals)
+        return self.write(vals)
 
     def _get_bank_journal(self, factor_type, currency=None):
         """Get matching bank journal
