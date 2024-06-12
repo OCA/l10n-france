@@ -63,13 +63,13 @@ class SubrogationReceipt(models.Model):
         # check_column_size(header)
 
         body, max_row, balance = self._get_factofrance_body()
-        # 5 / 0
         ender = self._get_factofrance_ender(max_row, balance)
         # check_column_size(ender)
         raw_data = f"{header}{RETURN}{body}{RETURN}{ender}{RETURN}".replace(
             "False", "    "
         )
-        data = clean_string(raw_data)
+        # data = clean_string(raw_data)
+        data = raw_data
         # check there is no regression in columns position
         # check_column_position(raw_data, self.factor_journal_id, False)
         # check_column_position(data, self.factor_journal_id)
@@ -94,24 +94,42 @@ class SubrogationReceipt(models.Model):
 
     def _get_factofrance_header(self):
         self = self.sudo()
-        info = {
-            "factor_code": pad(self.factor_journal_id.factor_code, 4),
-            "company_name": pad(self.company_id.name, 10),
-            "create_date": pad(factofrance_date(self.create_date), 50),
-            "identification_type": pad("1", 118),
-            "country_codes": pad("2", 119, " "),
-            "company_identifiers": pad(
-                self.company_id.siret or self.company_id.vat, 120, " "
-            ),
-            "file_sequence_number": pad(self.id, 136, " "),
-            "currency": pad(self.company_id.currency_id.name, 352, " "),
-            "operation_type": pad("000000", 355, " "),
-        }
-        string = "100{factor_code}{company_name}{create_date}{identification_type}{country_codes}"
-        string += (
-            "{company_identifiers}{file_sequence_number}{currency}{operation_type}"
+
+        factor_code = str(self.factor_journal_id.factor_code).ljust(4, " ")
+        company_name = self.company_id.name.ljust(40, " ")
+        create_date = factofrance_date(self.create_date).ljust(8, " ")
+        identification_type = "1".ljust(1, " ")
+        country_codes = "2".ljust(1, " ")
+        company_identifiers = (self.company_id.siret or self.company_id.vat).ljust(
+            14, " "
         )
-        return string.format(**info)
+        file_sequence_number = str(self.id).ljust(16, " ")
+        currency = self.company_id.currency_id.name.ljust(3, " ")
+        operation_type = "000000".ljust(6, " ")
+
+        # Create a list with the header parts, initially filled with spaces
+        header_parts = [" "] * 360
+
+        # Insert each value at the specified position
+        header_parts[0:2] = "100"
+        header_parts[
+            3:7
+        ] = factor_code  # Position 4 (0-based index 3) to 7 (not inclusive)
+        header_parts[9:49] = company_name  # Position 10 to 49
+        header_parts[49:56] = create_date  # Position 50 to 56
+        header_parts[117] = identification_type  # Position 118
+        header_parts[118] = country_codes  # Position 119
+        header_parts[119:133] = company_identifiers  # Position 120 to 133
+        header_parts[135:151] = file_sequence_number  # Position 136 to 151
+        header_parts[351:354] = currency  # Position 352 to 354
+        header_parts[354:360] = operation_type  # Position 355 to 360
+
+        # Join the list into a single string
+        header = "".join(header_parts)
+
+        return header
+
+        # return string.format(**info)
 
     def _get_factofrance_ender(self, max_row, balance):
         self = self.sudo()
@@ -123,11 +141,11 @@ class SubrogationReceipt(models.Model):
             lambda line: line.is_refund and line.move_id.move_type in ("out_refund")
         )
         info = {
-            "code": pad("199", 1),
-            "factor_code": pad(self.factor_journal_id.factor_code, 4, " "),
-            "company_name": pad(self.company_id.name, 10, " "),
-            "create_date": pad(factofrance_date(self.create_date), 50, " "),
-            "number_of_invoices": pad(len(invoices.mapped("move_id")), 58, " "),
+            "code": "199",
+            "factor_code": str(self.factor_journal_id.factor_code),
+            "company_name": self.company_id.name,
+            "create_date": factofrance_date(self.create_date),
+            # "number_of_invoices": str(len(invoices.mapped("move_id"))),
             # "total_amount_of_invoices": pad(sum(invoices.mapped("move_id.amount_total")), ),
             # "number_of_credit_notes": len(credit_notes.mapped("move_id")),
             # "total_amount_of_credit_notes": sum(
@@ -138,10 +156,18 @@ class SubrogationReceipt(models.Model):
             # self.item_ids.mapped("move_id.amount_total")
             # ),
             # "currency": self.company_id.currency_id.name,
-            "operation_type": pad("000000", 355, " "),
+            "operation_type": "000000",
         }
-        string = "{code}{factor_code}{company_name}{create_date}{number_of_invoices}{operation_type}"
-        return string.format(**info)
+        end_parts = [" "] * 360
+        end_parts[0:2] = info.get("code")
+        end_parts[2:8] = info.get("factor_code")
+        end_parts[9:49] = info.get("company_name")
+        end_parts[49:57] = info.get("create_date")
+        end_parts[354:357] = info.get("operation_type")
+        # Join the list into a single string
+        end = "".join(end_parts)
+
+        return end
 
     def get_code(self, move):
         if move.move_type == "out_invoice":
@@ -161,43 +187,65 @@ class SubrogationReceipt(models.Model):
             if not partner:
                 raise UserError(f"Pas de partenaire sur la pièce {line.move_id}")
             total = move.amount_total_in_currency_signed
+
             info = {
-                "code": pad(self.get_code(move), 1, " "),
-                "create_date": pad(factofrance_date(move.create_date), 4, " "),
-                "factor_code": pad(self.factor_journal_id.factor_code, 12, " "),
-                "company_identifiers": pad(
-                    self.company_id.siret or self.company_id.vat, 18, " "
-                ),
-                "document": pad("siret" if partner.siret else "vat", 18, " "),
-                "document2": pad("", 27, " "),
-                "customer_name": pad(partner.name, 32, " "),
-                "customer_street": pad(partner.street, 112, " "),
-                "customer_street2": pad(partner.street2, 152, " "),
-                "customer_zip_code": pad(partner.zip, 192, " "),
-                "delivery_office": pad("", 198, " "),
-                "customer_country_code": pad(partner.country_id.code, 232, " "),
-                "customer_phone": pad(partner.mobile or partner.phone, 235, " "),
-                "customer_ref": pad(partner.ref, 245, " "),
-                "date": pad(factofrance_date(move.invoice_date or move.date), 255, " "),
-                "number": pad(move.name, 263, " "),
-                "currency": pad(self.company_id.currency_id.name, 278, " "),
-                # "amount_sign": pad(move.amount_total_signed, ), # TODO
-                "amount": pad(move.amount_total, 282, " "),
-                # "payment_mode":
-                # "invoice_due_date": factofrance_date(move.invoice_date_due),
-                "customer_order_reference": pad(move.ref, 308, " "),
-                # "journal_code":
-                "operation_type": get_type_piece(move),
+                "code": str(self.get_code(move)) or " ",
+                "create_date": factofrance_date(move.create_date) or " ",
+                "factor_code": str(self.factor_journal_id.factor_code) or " ",
+                "company_identifiers": self.company_id.siret
+                or self.company_id.vat
+                or " ",
+                "document": "siret" if partner.siret else "vat",
+                "document2": " ",
+                "customer_name": partner.name.ljust(40, " ") or " ",
+                "customer_street": partner.street.ljust(40, " ") or " ",
+                "customer_street2": partner.street2
+                and partner.street2.ljust(40, " ")
+                or "".ljust(40, " "),
+                "customer_zip_code": partner.zip or " ",
+                "delivery_office": " ",
+                "customer_country_code": partner.country_id.code or " ",
+                "customer_phone": partner.mobile or partner.phone or " ",
+                "customer_ref": partner.ref
+                and partner.ref.ljust(10, " ")
+                or "".ljust(10, " "),
+                "date": factofrance_date(move.invoice_date or move.date) or " ",
+                "number": move.name[:15].ljust(15, " "),
+                "currency": self.company_id.currency_id.name or " ",
+                "account_sign": "+" if move.move_type == "out_invoice" else "-",
+                "amount": str(move.amount_total).ljust(15, " ") or " ",
+                "invoice_date_due": factofrance_date(move.invoice_date_due) or " ",
+                "customer_order_reference": move.ref
+                and move.ref.ljust(40, " ")
+                or "".ljust(40, " "),
+                "operation_type": get_type_piece(move) or " ",
             }
             balance += total
-            fstring = "{code}{create_date}{company_identifiers}{document}{document2}{customer_name}{customer_street}"
-            fstring += "{customer_zip_code}{delivery_office}{customer_country_code}{customer_phone}{customer_ref}{date}"
-            fstring += (
-                "{number}{currency}{amount}{customer_order_reference}{operation_type}"
-            )
-            string = fstring.format(**info)
-            # check_column_size(string, fstring, info)
-            rows.append(string)
+            line = [" "] * 361
+            line[0:2] = info.get("code")
+            line[3:10] = info.get("create_date")
+            line[17:24] = info.get("document")
+            line[26:30] = info.get("document2")
+            line[31:70] = info.get("customer_name")
+            line[111:150] = info.get("customer_street")
+            line[151:190] = info.get("customer_street2")
+            line[191:196] = info.get("customer_zip_code")
+            line[197:230] = info.get("delivery_office")
+            line[231:233] = info.get("customer_country_code")
+            line[234:243] = info.get("customer_phone")[:10]
+            line[244:253] = info.get("customer_ref")
+            line[254:261] = info.get("date")
+            line[262:276] = info.get("number")
+            line[277:279] = info.get("currency")
+            line[280:280] = info.get("account_sign")
+            line[281:295] = info.get("amount")
+            line[299:306] = info.get("invoice_date_due")
+            line[317:356] = info.get("customer_order_reference")
+            line[357:360] = info.get("operation_type")
+
+            formatted_string = "".join(line)
+
+            rows.append(formatted_string)
         return (RETURN.join(rows), len(rows), balance)
 
 
@@ -241,23 +289,6 @@ def factofrance_date(date_field):
     return date_field.strftime("%Y%m%d")
 
 
-def bpce_date(date_field):
-    return date_field.strftime("%d%m%Y")
-
-
-def pad(string, pad, end=" ", position="right"):
-    "Complete string by leading `end` string from `position`"
-    if isinstance(end, int | float):
-        end = str(end)
-    if isinstance(string, int | float):
-        string = str(string)
-    if position == "right":
-        string = string.rjust(pad, end)
-    else:
-        string = string.ljust(pad, end)
-    return string
-
-
 def clean_string(string):
     """Remove all except [A-Z], space, \r, \n
     https://www.rapidtables.com/code/text/ascii-table.html"""
@@ -276,23 +307,23 @@ def debug(content, suffix=""):
         f.write(content)
 
 
-def check_column_size(string, fstring=None, info=None):
-    print("\n string", string)
-    if len(string) != 275:
-        if fstring and info:
-            fstring = fstring.replace("{", "|{")
-            fstring = fstring.format(**info)
-            strings = fstring.split("|")
-            for mystr in strings:
-                strings[strings.index(mystr)] = f"{mystr}({len(mystr)})"
-            fstring = "|".join(strings)
-        else:
-            fstring = ""
-        # pylint: disable=C8107
-        raise UserError(
-            "La ligne suivante contient {} caractères au lieu de 275\n\n{}"
-            "\n\nDebugging string:\n{}s".format(len(string), string, fstring)
-        )
+# def check_column_size(string, fstring=None, info=None):
+#     print("\n string", string)
+#     if len(string) != 358:
+#         if fstring and info:
+#             fstring = fstring.replace("{", "|{")
+#             fstring = fstring.format(**info)
+#             strings = fstring.split("|")
+#             for mystr in strings:
+#                 strings[strings.index(mystr)] = f"{mystr}({len(mystr)})"
+#             fstring = "|".join(strings)
+#         else:
+#             fstring = ""
+#         # pylint: disable=C8107
+#         raise UserError(
+#             "La ligne suivante contient {} caractères au lieu de 275\n\n{}"
+#             "\n\nDebugging string:\n{}s".format(len(string), string, fstring)
+#         )
 
 
 def check_column_position(content, factor_journal, final=True):
