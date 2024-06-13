@@ -4,7 +4,7 @@
 import base64
 import re
 
-from odoo import _, api, fields, models, tools
+from odoo import _, api, fields, models, tools, Command
 from odoo.exceptions import UserError
 
 FORMAT_VERSION = "7.0"
@@ -16,9 +16,7 @@ class SubrogationReceipt(models.Model):
 
     @api.model
     def _get_domain_for_factor(self, factor_type, factor_journal, currency=None):
-        domain = super()._get_domain_for_factor(
-            factor_type, factor_journal, currency
-        )
+        domain = super()._get_domain_for_factor(factor_type, factor_journal, currency)
         # TODO: Improve with ref.
         updated_domain = [
             # From an eligible customer
@@ -176,11 +174,34 @@ class SubrogationReceipt(models.Model):
         # elif move.move_type == ''
         return code
 
+    def action_compute_lines(self):
+        res = super().action_compute_lines()
+
+        amls = self.env["account.move.line"].search(
+            [
+                ("date", ">=", self.target_date),
+                ("parent_state", "=", "posted"),
+                ("payment_id", "!=", False),
+                # ("full_reconcile_id", "=", False),
+                (
+                    "partner_id.commercial_partner_id.factor_journal_id",
+                    "=",
+                    self.factor_journal_id.id,
+                ),
+                ("partner_id.factor_journal_id", "=", self.factor_journal_id.id),
+                ("subrogation_id", "=", False),
+            ]
+        )
+        self.write({"item_ids": [Command.link(aml.id) for aml in amls]})
+        amls.write({"subrogation_id": self.id})
+
+        return res
+
     def _get_factofrance_body(self):
         self = self.sudo()
         rows = []
         balance = 0
-        for line in self.line_ids:
+        for line in self.line_ids.filtered(lambda l: not l.payment_id):
             move = line.move_id
             partner = line.move_id.partner_id.commercial_partner_id
             if not partner:
