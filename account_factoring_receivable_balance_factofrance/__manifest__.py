@@ -11,6 +11,6 @@
         "account_factoring_receivable_balance",
         "l10n_fr",
     ],
-    "data": ["views/account_journal.xml",],
+    "data": [],
     "demo": [],
 }
