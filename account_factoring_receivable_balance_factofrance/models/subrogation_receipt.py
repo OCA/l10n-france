@@ -38,6 +38,30 @@ class SubrogationReceipt(models.Model):
             "datas": self._prepare_factor_file_data_factofrance(),
         }
 
+    def action_confirm(self):
+        super().action_confirm()
+        if self.factor_type == "factofrance":
+            data = self._prepare_factor_file("factofrance_payment")
+            if data:
+                self.env["ir.attachment"].create(data)
+
+    def _prepare_factor_file_factofrance_payment(self):
+        self.ensure_one()
+        name = "F{}_{}_{}_{}.txt".format(  # TODO!
+            self._sanitize_filepath(f"{fields.Date.today()}"),
+            self.id,
+            self._sanitize_filepath(self.company_id.name),
+            "payment",
+        )
+        return {
+            "name": name,
+            "res_id": self.id,
+            "res_model": self._name,
+            "datas": self.with_context(
+                is_payment=True
+            )._prepare_factor_file_data_factofrance(),
+        }
+
     def _prepare_factor_file_data_factofrance(self):
         self.ensure_one()
         if not self.factor_journal_id.factor_code:
@@ -61,9 +85,6 @@ class SubrogationReceipt(models.Model):
         )
         # data = clean_string(raw_data)
         data = raw_data
-        # check there is no regression in columns position
-        # check_column_position(raw_data, self.factor_journal_id, False)
-        # check_column_position(data, self.factor_journal_id)
         dev_mode = tools.config.options.get("dev_mode")
         if dev_mode and dev_mode[0][-3:] == "pdb" or False:
             # make debugging easier saving file on filesystem to check
@@ -71,13 +92,6 @@ class SubrogationReceipt(models.Model):
             debug(data)
             # pylint: disable=C8107
             raise UserError("See files /odoo/subrog*.txt")
-        total_in_erp = sum(self.line_ids.mapped("amount_currency"))
-        if round(balance, 2) != round(total_in_erp, 2):
-            # pylint: disable=C8107
-            raise UserError(
-                "Erreur dans le calul de la balance :"
-                f"\n - erp : {total_in_erp}\n - fichier : {balance}"
-            )
         self.write({"balance": balance})
         # non ascii chars are replaced
         data = bytes(data, "ascii", "replace").replace(b"?", b" ")
@@ -154,18 +168,23 @@ class SubrogationReceipt(models.Model):
         end_parts[2:8] = info.get("factor_code")
         end_parts[9:49] = info.get("company_name")
         end_parts[49:57] = info.get("create_date")
+        end_parts[58:353] = "".ljust(395, " ")
         end_parts[354:357] = info.get("operation_type")
         # Join the list into a single string
         end = "".join(end_parts)
 
         return end
 
-    def get_code(self, move):
+    def get_code(self, move, line):
+        code = ""
         if move.move_type == "out_invoice":
             code = "101"
         elif move.move_type == "out_refund":
             code = "102"
-        # elif move.move_type == ''
+        elif move.move_type == "entry":
+            code = "103"
+            if line.account_id.account_type == "expense":
+                code = "104"
         return code
 
     def action_compute_lines(self):
@@ -198,7 +217,11 @@ class SubrogationReceipt(models.Model):
         self = self.sudo()
         rows = []
         balance = 0
-        for line in self.line_ids.filtered(lambda l: not l.payment_id):
+        lines = self.line_ids.filtered(lambda l: not l.payment_id)
+        print("\n self._context.get('is_payment')", self._context.get("is_payment"))
+        if self._context.get("is_payment"):
+            lines = self.line_ids.filtered(lambda l: l.payment_id)
+        for line in lines:
             move = line.move_id
             partner = line.move_id.partner_id.commercial_partner_id
             if not partner:
@@ -206,7 +229,7 @@ class SubrogationReceipt(models.Model):
             total = move.amount_total_in_currency_signed
 
             info = {
-                "code": str(self.get_code(move)) or " ",
+                "code": str(self.get_code(move, line)) or " ",
                 "create_date": factofrance_date(move.create_date) or " ",
                 "factor_code": str(self.factor_journal_id.factor_code) or " ",
                 "company_identifiers": self.company_id.siret
@@ -214,8 +237,12 @@ class SubrogationReceipt(models.Model):
                 or " ",
                 "document": "siret" if partner.siret else "vat",
                 "document2": " ",
-                "customer_name": partner.name.ljust(40, " ") or " ",
-                "customer_street": partner.street.ljust(40, " ") or " ",
+                "customer_name": partner.name
+                and partner.name.ljust(40, " ")
+                or "".ljust(40, " "),
+                "customer_street": partner.street
+                and partner.street.ljust(40, " ")
+                or " ",
                 "customer_street2": partner.street2
                 and partner.street2.ljust(40, " ")
                 or "".ljust(40, " "),
@@ -230,12 +257,12 @@ class SubrogationReceipt(models.Model):
                 "number": move.name[:15].ljust(15, " "),
                 "currency": self.company_id.currency_id.name or " ",
                 "account_sign": "+" if move.move_type == "out_invoice" else "-",
-                "amount": str(move.amount_total).ljust(15, " ") or " ",
+                "amount": str(line.debit or line.credit).rjust(15, "0") or " ",
                 "invoice_date_due": factofrance_date(move.invoice_date_due) or " ",
                 "customer_order_reference": move.ref
                 and move.ref.ljust(40, " ")
                 or "".ljust(40, " "),
-                "operation_type": get_type_piece(move) or " ",
+                "operation_type": get_type_piece(move, line) or " ",
             }
             balance += total
             line = [" "] * 361
@@ -272,28 +299,14 @@ def get_piece_factor(name, p_type):
     return name[:30]
 
 
-def get_type_piece(move):
+def get_type_piece(move, line):
     journal_type = move.journal_id.type
-    p_type = False
+    p_type = "  "
     move_type = move.move_type
     if move_type == "entry":
-        if journal_type == "general":
-            # TODO : improve
-            od_type = False
-            lines = move.line_ids.filtered(
-                lambda s: s.account_id.group_id == s.env.ref("l10n_fr.1_pcg_411")
-            )
-            for line in lines:
-                if max(line.debit, line.credit) == move.amount_total:
-                    if line.debit == move.amount_total:
-                        od_type = "D"
-                    else:
-                        od_type = "C"
-                    break
-            if not od_type:
-                # pylint: disable=C8107
-                raise UserError(f"Impossible de déterminer le type de l'OD {move.name}")
-            p_type = f"OD{od_type}"
+        p_type = "VIR"
+        if line.account_id.account_type == "expense":
+            p_type = "AJC"
     elif move_type == "out_invoice":
         p_type = "FAC"
     elif move_type == "out_refund":
