@@ -218,7 +218,6 @@ class SubrogationReceipt(models.Model):
         rows = []
         balance = 0
         lines = self.line_ids.filtered(lambda l: not l.payment_id)
-        print("\n self._context.get('is_payment')", self._context.get("is_payment"))
         if self._context.get("is_payment"):
             lines = self.line_ids.filtered(lambda l: l.payment_id)
         for line in lines:
