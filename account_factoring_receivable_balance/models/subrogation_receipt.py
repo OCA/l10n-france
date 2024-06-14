@@ -17,8 +17,7 @@ class SubrogationReceipt(models.Model):
     factor_journal_id = fields.Many2one(
         comodel_name="account.journal",
         string="Journal",
-        domain="[('factor_type', '!=', False),"
-               "('type', '=', 'bank')]",
+        domain="[('factor_type', '!=', False)," "('type', '=', 'bank')]",
         check_company=True,
         required=True,
     )
@@ -126,8 +125,10 @@ class SubrogationReceipt(models.Model):
             ("parent_state", "=", "posted"),
             self._get_customer_accounts(),
             ("full_reconcile_id", "=", False),
+            ("subrogation_id", "=", False),
             (
-                "partner_id.commercial_partner_id.factor_journal_id", "=",
+                "partner_id.commercial_partner_id.factor_journal_id",
+                "=",
                 factor_journal.id,
             ),
             "|",
@@ -172,9 +173,18 @@ class SubrogationReceipt(models.Model):
         )
         self.line_ids.write({"subrogation_id": False})
         lines = self.env["account.move.line"].search(
-            domain + [("move_id.currency_id", "=", (journal.currency_id and
-                       journal.currency_id.id or
-                       journal.company_id.currency_id.id))]
+            domain
+            + [
+                (
+                    "move_id.currency_id",
+                    "=",
+                    (
+                        journal.currency_id
+                        and journal.currency_id.id
+                        or journal.company_id.currency_id.id
+                    ),
+                )
+            ]
         )
         lines.write({"subrogation_id": self.id})
         vals = {"item_ids": [(6, 0, lines.ids)]}
