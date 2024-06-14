@@ -1,6 +1,5 @@
 # © 2024 Open Source Integrators, Daniel Reis
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-
 import base64
 import re
 
@@ -19,11 +18,6 @@ class SubrogationReceipt(models.Model):
         domain = super()._get_domain_for_factor(factor_type, factor_journal, currency)
         # TODO: Improve with ref.
         updated_domain = [
-            # From an eligible customer
-            ("partner_id.factor_journal_id", "=", factor_journal.id),
-            ("journal_id.type", "=", "sale"),
-            # Pay and invoice previously sent for factoring
-            ("subrogation_id", "=", False),
             # Also include the related expenses if payment was under the total amount
             ("payment_id", "=", False),
         ]
@@ -192,9 +186,11 @@ class SubrogationReceipt(models.Model):
                 ("subrogation_id", "=", False),
             ]
         )
+        # Exclude lines with credit in bank journal
+        amls = amls.filtered(
+            lambda aml: aml.journal_id.type != 'bank' or aml.credit == 0)
         self.write({"item_ids": [Command.link(aml.id) for aml in amls]})
         amls.write({"subrogation_id": self.id})
-
         return res
 
     def _get_factofrance_body(self):
