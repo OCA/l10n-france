@@ -19,7 +19,8 @@
         "security/ir.model.access.csv",
         "security/misc.xml",
         "views/account_journal.xml",
-        "views/partner.xml",
+        "views/account_move_line.xml",
+        "views/res_partner.xml",
         "views/subrogation_receipt.xml",
     ],
 }
