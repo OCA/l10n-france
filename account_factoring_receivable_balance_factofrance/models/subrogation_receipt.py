@@ -3,7 +3,7 @@
 import base64
 import re
 
-from odoo import _, api, fields, models, tools, Command
+from odoo import Command, _, api, fields, models, tools
 from odoo.exceptions import UserError
 
 FORMAT_VERSION = "7.0"
@@ -188,7 +188,8 @@ class SubrogationReceipt(models.Model):
         )
         # Exclude lines with credit in bank journal
         amls = amls.filtered(
-            lambda aml: aml.journal_id.type != 'bank' or aml.credit == 0)
+            lambda aml: aml.journal_id.type != "bank" or aml.credit == 0
+        )
         self.write({"item_ids": [Command.link(aml.id) for aml in amls]})
         amls.write({"subrogation_id": self.id})
         return res
