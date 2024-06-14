@@ -1,5 +1,5 @@
 # generated from manifests external_dependencies
-pyfrdas2
+pyfrdas2>=0.4
 python-stdnum
 python-stdnum>=1.18
 requests_oauthlib

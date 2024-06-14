@@ -16,14 +16,13 @@
         "l10n_fr_cog",
     ],
     "external_dependencies": {
-        "python": ["stdnum", "pyfrdas2"],
+        "python": ["stdnum", "pyfrdas2>=0.4"],
     },
     "data": [
         "security/das2_security.xml",
         "security/ir.model.access.csv",
         "views/l10n_fr_das2.xml",
         "views/res_partner.xml",
-        "views/res_config_settings.xml",
     ],
     "demo": ["demo/demo.xml"],
     "installable": True,
