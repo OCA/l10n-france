@@ -257,7 +257,7 @@ class SubrogationReceipt(models.Model):
                 "currency": self.company_id.currency_id.name or " ",
                 "account_sign": "+" if move.move_type == "out_invoice" else "-",
                 "amount": str(line.debit or line.credit).rjust(15, "0") or " ",
-                "invoice_date_due": factofrance_date(move.invoice_date_due) or " ",
+                "invoice_date_due": factofrance_date(move.invoice_date_due) if move.move_type == "out_invoice" else "".ljust(11, " ") or " ",
                 "customer_order_reference": move.ref
                 and move.ref.ljust(40, " ")
                 or "".ljust(40, " "),
@@ -282,7 +282,10 @@ class SubrogationReceipt(models.Model):
             line[277:279] = info.get("currency")
             line[280:280] = info.get("account_sign")
             line[281:295] = info.get("amount")
-            line[299:306] = info.get("invoice_date_due")
+            if move.move_type == "out_invoice":
+                line[299:306] = info.get("invoice_date_due")
+            else:
+                line[297:306] = info.get("invoice_date_due")
             line[317:356] = info.get("customer_order_reference")
             line[357:360] = info.get("operation_type")
 
