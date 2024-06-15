@@ -14,7 +14,7 @@
     "category": "French localisation",
     "depends": ["account_payment_order"],
     "external_dependencies": {"python": ["unidecode"]},
-    "data": ["data/account_payment_method.xml"],
+    "data": ["data/account_payment_method.xml", "views/account_payment_mode.xml"],
     "demo": ["demo/lcr_demo.xml"],
     "post_init_hook": "lcr_set_unece",
     "installable": True,

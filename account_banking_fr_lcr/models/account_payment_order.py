@@ -17,6 +17,11 @@ except ImportError:
     unidecode = False
 
 LCR_DATE_FORMAT = "%d%m%y"
+LCR_TYPE_CODES = {
+    "not_accepted": "0",
+    "accepted": "1",
+    "promissory_note": "2",
+}
 
 
 class AccountPaymentOrder(models.Model):
@@ -155,7 +160,6 @@ class AccountPaymentOrder(models.Model):
         cfonb_line += "\r\n"
         return cfonb_line
 
-    @api.model
     def _prepare_cfonb_line(self, line, transactions_count):
         """Generate each debit line of the CFONB file"""
         # I use French variable names because the specs are in French
@@ -174,7 +178,12 @@ class AccountPaymentOrder(models.Model):
             )
         else:
             nom_banque = " " * 24
-        code_acceptation = "0"
+        if not self.payment_mode_id.fr_lcr_type:
+            raise UserError(
+                _("The LCR type is not set on payment mode '%s'.")
+                % self.payment_mode_id.display_name
+            )
+        code_acceptation = LCR_TYPE_CODES[self.payment_mode_id.fr_lcr_type]
         montant_centimes = str(round(line.amount * 100))
         zero_montant_centimes = montant_centimes.zfill(12)
         today_dt = fields.Date.context_today(self)
