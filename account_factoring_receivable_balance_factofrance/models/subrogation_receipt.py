@@ -170,13 +170,11 @@ class SubrogationReceipt(models.Model):
 
     def action_compute_lines(self):
         res = super().action_compute_lines()
-
         amls = self.env["account.move.line"].search(
             [
-                ("date", ">=", self.target_date),
+                ("date", "<=", self.target_date),
                 ("parent_state", "=", "posted"),
                 ("payment_id", "!=", False),
-                # ("full_reconcile_id", "=", False),
                 (
                     "partner_id.commercial_partner_id.factor_journal_id",
                     "=",
