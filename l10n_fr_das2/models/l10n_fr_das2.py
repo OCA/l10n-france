@@ -6,7 +6,11 @@ import base64
 import logging
 from datetime import datetime
 
-from pyfrdas2 import format_street_block, generate_file
+from pyfrdas2 import (
+    format_street_block,
+    generate_file,
+    get_partner_declaration_threshold,
+)
 from stdnum.fr.siret import is_valid
 
 from odoo import _, api, fields, models, tools
@@ -99,7 +103,9 @@ class L10nFrDas2(models.Model):
         states={"done": [("readonly", True)]},
     )
     partner_declare_threshold = fields.Integer(
-        string="Partner Declaration Threshold", readonly=True
+        compute="_compute_partner_declare_threshold",
+        store=True,
+        string="Partner Declaration Threshold",
     )
     dads_type = fields.Selection(
         [
@@ -141,6 +147,14 @@ class L10nFrDas2(models.Model):
             "A DAS2 already exists for that year!",
         )
     ]
+
+    @api.depends("year")
+    def _compute_partner_declare_threshold(self):
+        for rec in self:
+            if rec.year:
+                rec.partner_declare_threshold = get_partner_declaration_threshold(
+                    rec.year
+                )
 
     @api.model
     def _default_dads_type(self):
@@ -240,15 +254,6 @@ class L10nFrDas2(models.Model):
                 _("Company '%s' is configured with currency '%s'. " "It should be EUR.")
                 % (company.display_name, company.currency_id.name)
             )
-        if company.fr_das2_partner_declare_threshold <= 0:
-            raise UserError(
-                _(
-                    "The DAS2 partner declaration threshold is not set on "
-                    "company '%s'."
-                )
-                % company.display_name
-            )
-        self.partner_declare_threshold = company.fr_das2_partner_declare_threshold
         das2_partners = self.env["res.partner"].search(
             [("parent_id", "=", False), ("fr_das2_type", "!=", False)]
         )
