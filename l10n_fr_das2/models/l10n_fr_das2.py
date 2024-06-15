@@ -99,7 +99,10 @@ class L10nFrDas2(models.Model):
         string="Lines",
     )
     partner_declare_threshold = fields.Integer(
-        string="Partner Declaration Threshold", readonly=True
+        compute="_compute_partner_declare_threshold",
+        store=True,
+        precompute=True,
+        string="Partner Declaration Threshold",
     )
     dads_type = fields.Selection(
         [
@@ -139,6 +142,14 @@ class L10nFrDas2(models.Model):
             "A DAS2 already exists for that year!",
         )
     ]
+
+    @api.depends("year")
+    def _compute_partner_declare_threshold(self):
+        for rec in self:
+            if rec.year:
+                rec.partner_declare_threshold = get_partner_declaration_threshold(
+                    rec.year
+                )
 
     @api.model
     def _default_dads_type(self):
@@ -244,9 +255,6 @@ class L10nFrDas2(models.Model):
                     currency=company.currency_id.name,
                 )
             )
-        self.write(
-            {"partner_declare_threshold": get_partner_declaration_threshold(self.year)}
-        )
         das2_partners = self.env["res.partner"].search(
             [("parent_id", "=", False), ("fr_das2_type", "!=", False)]
         )
