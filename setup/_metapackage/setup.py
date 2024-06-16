@@ -22,6 +22,7 @@ setuptools.setup(
         'odoo-addon-l10n_fr_das2>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_department>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_department_oversea>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_fr_department_product_origin>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_fec_oca>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_hr_check_ssnid>=16.0dev,<16.1dev',
         'odoo-addon-l10n_fr_intrastat_product>=16.0dev,<16.1dev',
