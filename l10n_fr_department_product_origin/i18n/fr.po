@@ -1,0 +1,60 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * l10n_fr_department_product_origin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-11 22:24+0000\n"
+"PO-Revision-Date: 2024-01-11 22:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_department_product_origin
+#: model:ir.model.fields,field_description:l10n_fr_department_product_origin.field_product_product__department_id_domain
+#: model:ir.model.fields,field_description:l10n_fr_department_product_origin.field_product_template__department_id_domain
+msgid "Department Id Domain"
+msgstr ""
+
+#. module: l10n_fr_department_product_origin
+#: model:ir.model.fields,field_description:l10n_fr_department_product_origin.field_product_product__department_id
+#: model:ir.model.fields,field_description:l10n_fr_department_product_origin.field_product_template__department_id
+#: model_terms:ir.ui.view,arch_db:l10n_fr_department_product_origin.product_template_search_view
+msgid "Department of Origin"
+msgstr "Département de fabricdation"
+
+#. module: l10n_fr_department_product_origin
+#: model:ir.model,name:l10n_fr_department_product_origin.model_product_template
+msgid "Product"
+msgstr "Produit"
+
+#. module: l10n_fr_department_product_origin
+#: model:ir.model,name:l10n_fr_department_product_origin.model_product_product
+msgid "Product Variant"
+msgstr "Variante de produit"
+
+#. module: l10n_fr_department_product_origin
+#: model:ir.model.fields,help:l10n_fr_department_product_origin.field_product_product__department_id_domain
+#: model:ir.model.fields,help:l10n_fr_department_product_origin.field_product_template__department_id_domain
+msgid ""
+"Technical field, used to compute dynamically department domain depending on "
+"the state."
+msgstr ""
+"Champ technique, utilisé pour calculer dynamiquement le domaine du département, "
+"en fonction de la région."
+
+#. module: l10n_fr_department_product_origin
+#. odoo-python
+#: code:addons/l10n_fr_department_product_origin/models/product_product.py:0
+#: code:addons/l10n_fr_department_product_origin/models/product_template.py:0
+#, python-format
+msgid ""
+"The department '%(department_name)s' doesn't belong to the state "
+"'%(state_name)s'"
+msgstr ""
+"Le département '%(department_name)s' n'appartient pas à la région '%(state_name)s'"

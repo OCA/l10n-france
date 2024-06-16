@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Copyright (C) 2012 - Today: GRAP (http://www.grap.coop)
+@author Julien Weste
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+    <record id="view_product_product_form" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product_origin.view_product_product_form" />
+        <field name="arch" type="xml">
+            <field name="state_id" position="after">
+                <field name="department_id_domain" invisible="1" />
+                <field name="department_id" domain="department_id_domain" />
+             </field>
+        </field>
+    </record>
+
+    <record id="view_product_product_form_variant" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field
+            name="inherit_id"
+            ref="product_origin.view_product_product_form_variant"
+        />
+        <field name="arch" type="xml">
+            <field name="state_id" position="after">
+                <field name="department_id_domain" invisible="1" />
+                <field name="department_id" domain="department_id_domain" />
+             </field>
+        </field>
+    </record>
+
+</odoo>
