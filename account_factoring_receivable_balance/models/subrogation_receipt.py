@@ -141,27 +141,7 @@ class SubrogationReceipt(models.Model):
 
     @api.model
     def _get_customer_accounts(self):
-        """We may also us:
-        res = self.env["res.partner"].default_get(['property_account_receivable_id'])
-        self.env["account.account"].browse(res["property_account_receivable_id"])
-
-        but we are not sure that the user default one is the same
-        """
-        property_ = self.env["ir.property"].search(
-            [
-                ("name", "=", "property_account_receivable_id"),
-                ("company_id", "=", self._get_company_id()),
-                ("res_id", "=", False),
-            ]
-        )
-        id_ = property_.value_reference[property_.value_reference.find(",") + 1 :]
-        account = self.env["account.account"].browse(int(id_))
-        return (
-            "account_id.code",
-            "like",
-            # FIXME!
-            "%s%s" % (account.code.replace("0", ""), "%"),  # noqa: UP031
-        )
+        return ("account_id.account_type", "=", "asset_receivable")
 
     def action_compute_lines(self):
         self.ensure_one()
