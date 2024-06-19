@@ -135,11 +135,6 @@ msgid "Commissions"
 msgstr "Commissions"
 
 #. module: l10n_fr_das2
-#: model:ir.model,name:l10n_fr_das2.model_res_company
-msgid "Companies"
-msgstr "Sociétés"
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__company_id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__company_id
 msgid "Company"
@@ -172,11 +167,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__currency_id
 msgid "Company Currency"
 msgstr "Devise de la société"
-
-#. module: l10n_fr_das2
-#: model:ir.model,name:l10n_fr_das2.model_res_config_settings
-msgid "Config Settings"
-msgstr "Configuration"
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_res_partner
@@ -226,7 +216,6 @@ msgstr "Type de DADS"
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_action
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2
 #: model:ir.ui.menu,name:l10n_fr_das2.l10n_fr_das2_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
 msgid "DAS2"
@@ -242,12 +231,6 @@ msgstr "Métier pour la DAS2"
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_line_action
 msgid "DAS2 Lines"
 msgstr "Lignes DAS2"
-
-#. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__fr_das2_partner_declare_threshold
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__fr_das2_partner_declare_threshold
-msgid "DAS2 Partner Declaration Threshold"
-msgstr "Seuil de déclaration par bénéficiaire pour la DAS2"
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__parent_id
@@ -730,21 +713,6 @@ msgstr "La DAS2 n'a pas de lignes."
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "The DAS2 partner declaration threshold is not set on company '%s'."
-msgstr ""
-"Le seuil de déclaration du bénéficiaire pour la DAS2 n'est pas défini sur la "
-"société '%s'."
-
-#. module: l10n_fr_das2
-#: model:ir.model.constraint,message:l10n_fr_das2.constraint_res_company_fr_das2_partner_declare_threshold_positive
-msgid "The DAS2 partner declaration threshold must be positive!"
-msgstr ""
-"Le seuil de déclaration du bénéficiaire pour la DAS2 doit être positif !"
-
-#. module: l10n_fr_das2
-#. odoo-python
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
-#, python-format
 msgid "The email is not set on the administrative contact partner '%s'."
 msgstr "E-mail manquant sur le partenaire contact administratif '%s'."
 
@@ -848,6 +816,25 @@ msgstr "Historique des échanges sur le site Web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#~ msgid "Companies"
+#~ msgstr "Sociétés"
+
+#~ msgid "Config Settings"
+#~ msgstr "Configuration"
+
+#~ msgid "DAS2 Partner Declaration Threshold"
+#~ msgstr "Seuil de déclaration par bénéficiaire pour la DAS2"
+
+#, python-format
+#~ msgid "The DAS2 partner declaration threshold is not set on company '%s'."
+#~ msgstr ""
+#~ "Le seuil de déclaration du bénéficiaire pour la DAS2 n'est pas défini sur "
+#~ "la société '%s'."
+
+#~ msgid "The DAS2 partner declaration threshold must be positive!"
+#~ msgstr ""
+#~ "Le seuil de déclaration du bénéficiaire pour la DAS2 doit être positif !"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Erreur d'envoi du SMS"
