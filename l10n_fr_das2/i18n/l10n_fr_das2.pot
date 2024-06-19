@@ -127,11 +127,6 @@ msgid "Commissions"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model:ir.model,name:l10n_fr_das2.model_res_company
-msgid "Companies"
-msgstr ""
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__company_id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__company_id
 msgid "Company"
@@ -159,11 +154,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__currency_id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__currency_id
 msgid "Company Currency"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model:ir.model,name:l10n_fr_das2.model_res_config_settings
-msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -212,7 +202,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_action
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2
 #: model:ir.ui.menu,name:l10n_fr_das2.l10n_fr_das2_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
 msgid "DAS2"
@@ -227,12 +216,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_line_action
 msgid "DAS2 Lines"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__fr_das2_partner_declare_threshold
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__fr_das2_partner_declare_threshold
-msgid "DAS2 Partner Declaration Threshold"
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -698,18 +681,6 @@ msgstr ""
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid "The DAS2 has no lines."
-msgstr ""
-
-#. module: l10n_fr_das2
-#. odoo-python
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
-#, python-format
-msgid "The DAS2 partner declaration threshold is not set on company '%s'."
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model:ir.model.constraint,message:l10n_fr_das2.constraint_res_company_fr_das2_partner_declare_threshold_positive
-msgid "The DAS2 partner declaration threshold must be positive!"
 msgstr ""
 
 #. module: l10n_fr_das2
