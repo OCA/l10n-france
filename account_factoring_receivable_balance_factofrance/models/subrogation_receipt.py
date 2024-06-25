@@ -13,6 +13,20 @@ RETURN = "\r\n"
 class SubrogationReceipt(models.Model):
     _inherit = "subrogation.receipt"
 
+    name = fields.Char(
+        required=True,
+        copy=False,
+        readonly=False,
+        default=lambda self: _("New"),
+    )
+    file_type = fields.Selection(
+        [("101_102", "Only 101-102"), ("103_104", "Only 103-104"), ("both", "Both")]
+    )
+
+    @api.onchange("file_type")
+    def onchange_file_type(self):
+        self.line_ids = self.item_ids = [(6, 0, [])]
+
     @api.model
     def _get_domain_for_factor(self, factor_type, factor_journal, currency=None):
         domain = super()._get_domain_for_factor(factor_type, factor_journal, currency)
@@ -27,9 +41,11 @@ class SubrogationReceipt(models.Model):
         "Entry-point to generate the factor file"
         self.ensure_one()
         name = "F{}_{}_{}.txt".format(  # TODO!
+            self._sanitize_filepath(self.name),
+            self._sanitize_filepath(
+                dict(self._fields["file_type"].selection).get(self.file_type)
+            ),
             self._sanitize_filepath(f"{fields.Date.today()}"),
-            self.id,
-            self._sanitize_filepath(self.company_id.name),
         )
         return {
             "name": name,
@@ -39,28 +55,15 @@ class SubrogationReceipt(models.Model):
         }
 
     def action_confirm(self):
+        if self.name == _("New"):
+            self.name = self.env["ir.sequence"].next_by_code("factoring.receivable")
         super().action_confirm()
-        if self.factor_type == "factofrance":
-            data = self._prepare_factor_file("factofrance_payment")
-            if data:
-                self.env["ir.attachment"].create(data)
 
-    def _prepare_factor_file_factofrance_payment(self):
-        self.ensure_one()
-        name = "F{}_{}_{}_{}.txt".format(  # TODO!
-            self._sanitize_filepath(f"{fields.Date.today()}"),
-            self.id,
-            self._sanitize_filepath(self.company_id.name),
-            "payment",
-        )
-        return {
-            "name": name,
-            "res_id": self.id,
-            "res_model": self._name,
-            "datas": self.with_context(
-                is_payment=True
-            )._prepare_factor_file_data_factofrance(),
-        }
+    def action_draft(self):
+        self.state = "draft"
+        self.env["ir.attachment"].search(
+            [("res_id", "=", self.id), ("res_model", "=", self._name)]
+        ).unlink()
 
     def _prepare_factor_file_data_factofrance(self):
         self.ensure_one()
@@ -189,35 +192,38 @@ class SubrogationReceipt(models.Model):
 
     def action_compute_lines(self):
         res = super().action_compute_lines()
-        amls = self.env["account.move.line"].search(
-            [
-                ("date", "<=", self.target_date),
-                ("parent_state", "=", "posted"),
-                ("payment_id", "!=", False),
-                (
-                    "partner_id.commercial_partner_id.factor_journal_id",
-                    "=",
-                    self.factor_journal_id.id,
-                ),
-                ("partner_id.factor_journal_id", "=", self.factor_journal_id.id),
-                ("subrogation_id", "=", False),
-            ]
-        )
-        # Exclude lines with credit in bank journal
-        amls = amls.filtered(
-            lambda aml: aml.journal_id.type != "bank" or aml.credit == 0
-        )
-        self.write({"item_ids": [Command.link(aml.id) for aml in amls]})
-        amls.write({"subrogation_id": self.id})
+        if self.file_type != "101_102":
+            if self.file_type != "both":
+                self.item_ids.write({"subrogation_id": False})
+                self.line_ids = self.item_ids = [(6, 0, [])]
+
+            amls = self.env["account.move.line"].search(
+                [
+                    ("date", "<=", self.target_date),
+                    ("parent_state", "=", "posted"),
+                    ("payment_id", "!=", False),
+                    (
+                        "partner_id.commercial_partner_id.factor_journal_id",
+                        "=",
+                        self.factor_journal_id.id,
+                    ),
+                    ("partner_id.factor_journal_id", "=", self.factor_journal_id.id),
+                    ("subrogation_id", "=", False),
+                ]
+            )
+            # Exclude lines with credit in bank journal
+            amls = amls.filtered(
+                lambda aml: aml.journal_id.type != "bank" or aml.credit == 0
+            )
+            self.write({"item_ids": [Command.link(aml.id) for aml in amls]})
+            amls.write({"subrogation_id": self.id})
         return res
 
     def _get_factofrance_body(self):
         self = self.sudo()
         rows = []
         balance = 0
-        lines = self.line_ids.filtered(lambda l: not l.payment_id)
-        if self._context.get("is_payment"):
-            lines = self.line_ids.filtered(lambda l: l.payment_id)
+        lines = self.line_ids
         for line in lines:
             move = line.move_id
             partner = line.move_id.partner_id.commercial_partner_id
@@ -254,8 +260,13 @@ class SubrogationReceipt(models.Model):
                 "number": move.name[:15].ljust(15, " "),
                 "currency": self.company_id.currency_id.name or " ",
                 "account_sign": "+" if move.move_type == "out_invoice" else "-",
-                "amount": str(line.debit or line.credit).rjust(15, "0") or " ",
-                "invoice_date_due": factofrance_date(move.invoice_date_due) if move.move_type == "out_invoice" else "".ljust(11, " ") or " ",
+                "amount": (str(line.debit or line.credit).replace(".", "")).rjust(
+                    15, "0"
+                )
+                or " ",
+                "invoice_date_due": factofrance_date(move.invoice_date_due)
+                if move.move_type == "out_invoice"
+                else "".ljust(11, " ") or " ",
                 "customer_order_reference": move.ref
                 and move.ref.ljust(40, " ")
                 or "".ljust(40, " "),
