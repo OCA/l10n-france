@@ -1,0 +1,27 @@
+<odoo>
+	<record id="subrogation_receipt_form_inherit" model="ir.ui.view">
+		<field name="name">subrogation_receipt_form_inherit</field>
+        <field name="model">subrogation.receipt</field>
+        <field name="inherit_id" ref="account_factoring_receivable_balance.subrogation_receipt_form"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//button[@name='action_confirm']" position="after">
+        		<button name="action_draft" type="object" string="Draft" invisible="state == 'draft'"/>
+        	</xpath>
+            <xpath expr="//field[@name='factor_type']" position="before">
+                <field name="name" readonly="1" string="Document No."/>
+            </xpath>
+            <xpath expr="//field[@name='factor_type']" position="after">
+                <field name="file_type" required="factor_type == 'factofrance'" readonly="state !='draft'"/>
+            </xpath>
+            <xpath expr="//button[@name='action_post']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='item_ids']/tree/field[@name='partner_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+            <xpath expr="//field[@name='item_ids']/tree/field[@name='partner_ref']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
