@@ -7,30 +7,42 @@
                 <header>
                     <button
                         name="action_compute_lines"
+                        id="action_compute_lines_highlighted"
                         type="object"
                         string="Compute"
-                        invisible="state != 'draft'"
+                        invisible="not(state == 'draft' and not item_ids)"
                         class="oe_highlight"
+                    />
+                    <button
+                        name="action_compute_lines"
+                        id="action_compute_lines"
+                        type="object"
+                        string="Compute"
+                        invisible="not(state == 'draft' and item_ids)"
                     />
                     <button
                         name="action_confirm"
                         type="object"
                         string="Confirm"
-                        invisible="not item_ids or state != 'draft'"
+                        invisible="not(state =='draft' and item_ids)"
+                        class="oe_highlight"
                     />
                     <button
                         name="action_post"
                         type="object"
                         string="Post"
-                        invisible="state != 'confirmed'"
+                        invisible="not(state == 'confirmed')"
                         class="oe_highlight"
                     />
+                    <!-- TODO: view items is now a smart button;
+                    repurpose to show Factoring JEs generated
                     <button
                         name="action_goto_moves"
                         type="object"
                         invisible="not item_ids"
                         string="See account moves"
                     />
+                    -->
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -50,28 +62,31 @@
                     <div class="oe_title" name="journal">
                         <h2>
                             <label name="Journal" for="factor_journal_id" />
-                            <field name="factor_journal_id" />
+                            <field
+                                name="factor_journal_id"
+                                readonly="state != 'draft'"
+                            />
                         </h2>
                     </div>
-                    <group name="main" colspan="2">
+                    <group name="main" colspan="2" readonly="state != 'draft'">
                         <group name="left" invisible="not factor_journal_id">
                             <field name="factor_type" />
                             <field name="target_date" />
-                            <field name="date" invisible="not date" />
                             <field name="statement_date" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="company_id" invisible="1" />
                             <field name="currency_id" invisible="1" />
+                        </group>
+                        <group name="right" invisible="state == 'draft'">
+                            <field name="date" invisible="not date" />
                             <field
                                 name="balance"
                                 widget="monetary"
                                 options="{'currency_field': 'currency_id', 'field_digits': True}"
                             />
-                            <field name="company_id" invisible="1" />
-                            <field
-                                name="company_id"
-                                groups="base.group_multi_company"
-                            />
-                        </group>
-                        <group name="right" invisible="state == 'draft'">
                             <field name="holdback_amount" />
                             <separator string="Expenses" colspan="2" />
                             <field
@@ -90,60 +105,66 @@
                         </group>
                     </group>
 
+                    <notebook>
+                        <page name="lines" string="Lines">>
+
                         <field name="item_ids" colspan="4">
                             <tree>
                                 <field name="id" optional="hide" />
                                 <field name="create_date" optional="hide" />
                                 <field name="date" optional="show" />
                                 <field
-                                name="journal_id"
-                                options="{&quot;no_open&quot;:True}"
-                            />
-                                <field name="partner_id" optional="hide" />
+                                        name="journal_id"
+                                        options="{&quot;no_open&quot;:True}"
+                                    />
+                                <field name="partner_id" optional="show" />
                                 <field name="partner_ref" optional="show" />
                                 <field name="statement_id" invisible="1" />
                                 <field name="ref" optional="show" />
                                 <field name="name" optional="show" />
                                 <field
-                                name="tax_ids"
-                                widget="many2many_tags"
-                                width="0.5"
-                                optional="hide"
-                            />
+                                        name="tax_ids"
+                                        widget="many2many_tags"
+                                        width="0.5"
+                                        optional="hide"
+                                    />
                                 <field name="debit" sum="Total Debit" />
                                 <field name="credit" sum="Total Credit" />
                                 <field
-                                name="amount_currency"
-                                groups="base.group_multi_currency"
-                                optional="show"
-                                string="In currency"
-                            />
+                                        name="amount_currency"
+                                        groups="base.group_multi_currency"
+                                        optional="show"
+                                        string="In currency"
+                                    />
                                 <field name="move_id" optional="show" />
                                 <field name="bank_id" optional="show" />
                                 <field name="full_reconcile_id" optional="hide" />
                                 <field
-                                name="account_id"
-                                optional="hide"
-                                groups="account.group_account_readonly"
-                            />
+                                        name="account_id"
+                                        optional="hide"
+                                        groups="account.group_account_readonly"
+                                    />
                                 <field
-                                name="currency_id"
-                                readonly="1"
-                                groups="base.group_multi_currency"
-                                optional="hide"
-                                string="Original Currency"
-                            />
+                                        name="currency_id"
+                                        readonly="1"
+                                        groups="base.group_multi_currency"
+                                        optional="hide"
+                                        string="Original Currency"
+                                    />
                                 <field
-                                name="tax_tag_ids"
-                                widget="many2many_tags"
-                                width="0.5"
-                                optional="hide"
-                            />
+                                        name="tax_tag_ids"
+                                        widget="many2many_tags"
+                                        width="0.5"
+                                        optional="hide"
+                                    />
                                 <field name="date_maturity" optional="hide" />
                                 <field name="company_currency_id" invisible="1" />
                                 <field name="parent_state" invisible="1" />
                             </tree>
                         </field>
+
+                        </page>
+                    </notebook>
 
                 </sheet>
                 <div class="oe_chatter">
