@@ -11,7 +11,7 @@ class ResPartner(models.Model):
     @api.constrains("factor_journal_id", "ref", "siret")
     def _constrains_factor_journal_id(self):
         for rec in self:
-            is_factofrance = rec.factor_journal_id == "factofrance"
+            is_factofrance = rec.factor_journal_id.factor_type == "factofrance"
             if is_factofrance and (not rec.ref or not rec.siret):
                 msg = _(
                     "Les balances clients gérées par FactoFrance doivent avoir "
