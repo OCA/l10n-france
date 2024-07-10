@@ -35,7 +35,7 @@ class PayFIPController(http.Controller):
                 'payfip_sent_to_webservice': True,
             })
             return werkzeug.utils.redirect('{url}?idop={idop}'.format(
-                url="https://www.tipi.budget.gouv.fr/tpa/paiementws.web",
+                url="https://www.payfip.gouv.fr/tpa/paiementws.web",
                 idop=tx.payfip_operation_identifier,
             ))
         else:
