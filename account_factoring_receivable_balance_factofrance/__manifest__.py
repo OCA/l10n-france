@@ -11,6 +11,8 @@
         "account_factoring_receivable_balance",
         "l10n_fr",
     ],
-    "data": ["data/subrogation_seq.xml", "views/subrogation_receipt_views.xml"],
-    "demo": [],
+    "data": [
+        "data/subrogation_seq.xml",
+        "views/subrogation_receipt_views.xml",
+    ],
 }
