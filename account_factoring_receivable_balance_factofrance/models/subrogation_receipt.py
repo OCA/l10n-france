@@ -3,7 +3,7 @@
 import base64
 import re
 
-from odoo import Command, _, api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 RETURN = "\r\n"
@@ -19,7 +19,11 @@ class SubrogationReceipt(models.Model):
         default=lambda self: _("New"),
     )
     file_type = fields.Selection(
-        [("101_102", "Only 101-102"), ("103_104", "Only 103-104"), ("both", "Both")]
+        [
+            ("101_102", _("Remise de factures")),
+            ("103_104", _("Lettrages")),
+            ("both", _("Remise de factures et lettrages")),
+        ]
     )
 
     @api.onchange("file_type")
@@ -27,13 +31,10 @@ class SubrogationReceipt(models.Model):
         self.line_ids = self.item_ids = [(6, 0, [])]
 
     @api.model
-    def _get_domain_for_factor(self, factor_type, factor_journal, currency=None):
-        domain = super()._get_domain_for_factor(factor_type, factor_journal, currency)
-        # TODO: Improve with ref.
-        updated_domain = [
-            # Also include the related expenses if payment was under the total amount
-            ("payment_id", "=", False),
-        ]
+    def _get_domain_for_factor(self):
+        domain = super()._get_domain_for_factor()
+        # Also include the related expenses if payment was under the total amount
+        updated_domain = [("payment_id", "=", False)]
         return domain + updated_domain
 
     def _prepare_factor_file_factofrance(self):
@@ -109,47 +110,41 @@ class SubrogationReceipt(models.Model):
         operation_type = "000000".ljust(6, " ")
 
         # Create a list with the header parts, initially filled with spaces
-        header_parts = [" "] * 360
-        header_parts[0:2] = "100"
-        header_parts[3:7] = factor_code  # Position 4 to 7 (not inclusive)
-        header_parts[9:49] = company_name  # Position 10 to 49
-        header_parts[49:56] = confirm_date  # Position 50 to 56
-        header_parts[117] = identification_type  # Position 118
-        header_parts[118] = country_codes  # Position 119
-        header_parts[119:133] = company_identifiers  # Position 120 to 133
-        header_parts[135:137] = file_sequence_number  # Position 136 to 139
-        header_parts[351:353] = currency  # Position 352 to 354
-        header_parts[354:360] = operation_type  # Position 355 to 360
-
-        # Join the list into a single string
-        header = "".join(header_parts)
+        header = " " * 360
+        header = set_column(header, 1, 3, "100")
+        header = set_column(header, 4, 6, factor_code)
+        header = set_column(header, 10, 40, company_name)
+        header = set_column(header, 50, 8, confirm_date)
+        header = set_column(header, 118, 1, identification_type)
+        header = set_column(header, 119, 1, country_codes)
+        header = set_column(header, 120, 16, company_identifiers)
+        header = set_column(header, 136, 3, file_sequence_number)
+        header = set_column(header, 352, 3, currency)
+        header = set_column(header, 355, 6, operation_type)
         return header
 
     def _get_factofrance_ender(self, totals):
-        info = {
-            "code": "199",
-            "factor_code": str(self.factor_journal_id.factor_code),
-            "company_name": self.company_id.name,
-            "confirm_date": factofrance_date(self.date),
-            "currency": self.company_id.currency_id.name,
-            "operation_type": "000000",
-        }
-        end_parts = [" "] * 360
-        end_parts[0:2] = info.get("code")
-        end_parts[3:8] = info.get("factor_code")
-        end_parts[9:49] = info.get("company_name")
-        end_parts[49:56] = info.get("confirm_date")
-        end_parts[57:60] = get_column(totals["number_of_invoices"], 4)
-        end_parts[61:75] = get_column(totals["total_amount_of_invoices"], 15)
-        end_parts[76:79] = get_column(totals["number_of_credit_notes"], 4)
-        end_parts[80:94] = get_column(totals["total_amount_of_credit_notes"], 15)
-        end_parts[95:98] = get_column(totals["number_of_payments"], 4)
-        end_parts[99:113] = get_column(totals["total_amount_of_payments"], 15)
-        end_parts[351:353] = info.get("currency")
-        end_parts[354:357] = info.get("operation_type")
-        # Join the list into a single string
-        end = "".join(end_parts)
+        factor_code = str(self.factor_journal_id.factor_code)
+        company_name = self.company_id.name
+        confirm_date = factofrance_date(self.date)
+        currency = self.company_id.currency_id.name
+        operation_type = "000000"
 
+        end = " " * 360
+        end = set_column(end, 1, 3, "199")
+        end = set_column(end, 4, 6, factor_code)
+        end = set_column(end, 10, 40, company_name)
+        end = set_column(end, 50, 8, confirm_date)
+        end = set_column(end, 58, 4, totals["number_of_invoices"])
+        end = set_column(end, 62, 15, totals["total_amount_of_invoices"])
+        end = set_column(end, 77, 4, totals["number_of_credit_notes"])
+        end = set_column(end, 81, 15, totals["total_amount_of_credit_notes"])
+        end = set_column(end, 96, 4, totals["number_of_payments"])
+        end = set_column(end, 100, 15, totals["total_amount_of_payments"])
+        end = set_column(end, 134, 4, totals.get("number_of_garanties", 0))
+        end = set_column(end, 138, 15, totals.get("total_amount_of_garantie", 0.0))
+        end = set_column(end, 352, 3, currency)
+        end = set_column(end, 355, 6, operation_type)
         return end
 
     def get_code(self, move, line):
@@ -164,34 +159,33 @@ class SubrogationReceipt(models.Model):
                 code = "104"
         return code
 
-    def action_compute_lines(self):
-        res = super().action_compute_lines()
-        if self.file_type != "101_102":
-            if self.file_type != "both":
-                self.item_ids.write({"subrogation_id": False})
-                self.line_ids = self.item_ids = [(6, 0, [])]
+    def _get_domain_payments(self):
+        return [
+            ("date", "<=", self.target_date),
+            ("parent_state", "=", "posted"),
+            ("payment_id", "!=", False),
+            (
+                "partner_id.commercial_partner_id.factor_journal_id",
+                "=",
+                self.factor_journal_id.id,
+            ),
+            ("partner_id.factor_journal_id", "=", self.factor_journal_id.id),
+            ("subrogation_id", "=", False),
+        ]
 
-            amls = self.env["account.move.line"].search(
-                [
-                    ("date", "<=", self.target_date),
-                    ("parent_state", "=", "posted"),
-                    ("payment_id", "!=", False),
-                    (
-                        "partner_id.commercial_partner_id.factor_journal_id",
-                        "=",
-                        self.factor_journal_id.id,
-                    ),
-                    ("partner_id.factor_journal_id", "=", self.factor_journal_id.id),
-                    ("subrogation_id", "=", False),
-                ]
-            )
+    def _get_factor_lines(self):
+        lines = super()._get_factor_lines()
+        if self.file_type == "103_104":
+            lines = self.env["account.move.line"]
+        if self.file_type != "101_102":
+            domain = self._get_domain_payments()
+            amls = self.env["account.move.line"].search(domain)
             # Exclude lines with credit in bank journal
             amls = amls.filtered(
                 lambda aml: aml.journal_id.type != "bank" or aml.credit == 0
             )
-            self.write({"item_ids": [Command.link(aml.id) for aml in amls]})
-            amls.write({"subrogation_id": self.id})
-        return res
+            lines |= amls
+        return lines
 
     def _prepare_factofrance_body(self):
         rows = []
@@ -266,33 +260,29 @@ class SubrogationReceipt(models.Model):
     def _get_factofrance_body(self, rows_info):
         rows = []
         for info in rows_info:
-            line = [" "] * 361
-            line[0:2] = info.get("code")
-            line[3:10] = factofrance_date(self.date)
-            line[11:16] = info.get("factor_code")
-            line[17:25] = info.get("document")
-            line[26:30] = info.get("document2")
-            line[31:70] = info.get("customer_name")
-            line[111:190] = info.get("customer_address")
-            # line[111:150] = info.get("customer_street")
-            # line[151:190] = info.get("customer_street2")
-            line[191:196] = info.get("customer_zip_code")
-            line[197:230] = info.get("delivery_office")
-            line[231:233] = info.get("customer_country_code")
-            line[234:243] = info.get("customer_phone")[:10]
-            line[244:253] = info.get("customer_ref")
-            line[254:261] = info.get("date")
-            line[262:276] = info.get("number")
-            line[277:279] = info.get("currency")
-            line[280:280] = info.get("account_sign")
-            line[281:295] = info.get("amount")
-            line[296:298] = info.get("payment_mode")
-            line[299:306] = info.get("invoice_date_due")
-            line[307:316] = info.get("customer_order_reference")
-            line[357:360] = info.get("operation_type")
-
-            formatted_string = "".join(line)
-            rows.append(formatted_string)
+            line = " " * 360
+            line = set_column(line, 1, 3, info["code"])
+            line = set_column(line, 4, 8, factofrance_date(self.date))
+            line = set_column(line, 12, 6, info["factor_code"])
+            line = set_column(line, 18, 9, info["document"])
+            line = set_column(line, 27, 5, info["document2"])
+            line = set_column(line, 32, 40, info["customer_name"])
+            line = set_column(line, 112, 40 + 40, info["customer_address"])
+            line = set_column(line, 192, 6, info["customer_zip_code"])
+            line = set_column(line, 198, 34, info["delivery_office"])
+            line = set_column(line, 232, 3, info["customer_country_code"])
+            line = set_column(line, 235, 10, info["customer_phone"])
+            line = set_column(line, 245, 10, info["customer_ref"])
+            line = set_column(line, 255, 8, info["date"])
+            line = set_column(line, 263, 15, info["number"])
+            line = set_column(line, 278, 3, info["currency"])
+            line = set_column(line, 281, 1, info["account_sign"])
+            line = set_column(line, 282, 15, info["amount"])
+            line = set_column(line, 297, 3, info["payment_mode"])
+            line = set_column(line, 300, 8, info["invoice_date_due"])
+            line = set_column(line, 308, 10, info["customer_order_reference"])
+            line = set_column(line, 358, 3, info["operation_type"])
+            rows.append(line)
         return RETURN.join(rows)
 
 
@@ -325,8 +315,14 @@ def get_column(value, size):
             res = str(round(value * 100) or 0).rjust(size, "0")
             res = res[-size:]
     else:
-        res = str(value).ljust(size, " ")
+        res = clean_string(str(value)).ljust(size, " ")
         res = res[:size]
+    return res
+
+
+def set_column(line, position, length, value):
+    value_str = get_column(value, length)
+    res = line[: position - 1] + value_str + line[position + length - 1 :]
     return res
 
 
