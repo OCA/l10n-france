@@ -27,6 +27,10 @@
                         </group>
                         <group name="balance_right">
                             <field name="factor_start_date" />
+                            <field
+                                name="factor_invoice_journal_ids"
+                                widget="many2many_tags"
+                            />
                             <field name="factoring_pending_recharging_account_id" />
                             <field name="factoring_expense_account_id" />
                         </group>
