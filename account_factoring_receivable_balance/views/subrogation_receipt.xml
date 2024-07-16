@@ -10,7 +10,7 @@
                         id="action_compute_lines_highlighted"
                         type="object"
                         string="Compute"
-                        invisible="not(state == 'draft' and not item_ids)"
+                        invisible="not(state == 'draft' and not line_ids)"
                         class="oe_highlight"
                     />
                     <button
@@ -18,13 +18,13 @@
                         id="action_compute_lines"
                         type="object"
                         string="Compute"
-                        invisible="not(state == 'draft' and item_ids)"
+                        invisible="not(state == 'draft' and line_ids)"
                     />
                     <button
                         name="action_confirm"
                         type="object"
                         string="Confirm"
-                        invisible="not(state =='draft' and item_ids)"
+                        invisible="not(state =='draft' and line_ids)"
                         class="oe_highlight"
                     />
                     <button
@@ -39,7 +39,7 @@
                     <button
                         name="action_goto_moves"
                         type="object"
-                        invisible="not item_ids"
+                        invisible="not line_ids"
                         string="See account moves"
                     />
                     -->
@@ -108,7 +108,7 @@
                     <notebook>
                         <page name="lines" string="Lines">>
 
-                        <field name="item_ids" colspan="4">
+                        <field name="line_ids" colspan="4" readonly="state != 'draft'">
                             <tree>
                                 <field name="id" optional="hide" />
                                 <field name="create_date" optional="hide" />
