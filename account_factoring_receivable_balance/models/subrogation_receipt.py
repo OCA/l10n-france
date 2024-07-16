@@ -63,9 +63,6 @@ class SubrogationReceipt(models.Model):
         comodel_name="account.move.line",
         inverse_name="subrogation_id",
     )
-    item_ids = fields.Many2many(
-        comodel_name="account.move.line",
-    )
 
     @api.constrains("factor_journal_id", "state", "company_id")
     def _check_draft_per_journal(self):
@@ -147,9 +144,6 @@ class SubrogationReceipt(models.Model):
     def action_compute_lines(self):
         self.ensure_one()
         self.line_ids.write({"subrogation_id": False})
-        lines = self._get_factor_lines()
-        lines.write({"subrogation_id": self.id})
-        vals = {"item_ids": [(6, 0, lines.ids)]}
         if not self.statement_date:
             statement = self.env["account.bank.statement"].search(
                 [
@@ -160,10 +154,12 @@ class SubrogationReceipt(models.Model):
                 order="date DESC",
             )
             if statement:
-                vals["statement_date"] = statement.date
-        if self.item_ids:
-            vals["balance"] = sum(self.item_ids.mapped("amount_currency"))
-        return self.write(vals)
+                self.statement_date = statement.date
+        lines = self._get_factor_lines()
+        lines.write({"subrogation_id": self.id})
+        if self.line_ids:
+            self.balance = sum(self.line_ids.mapped("amount_currency"))
+        return True
 
     def _get_bank_journal(self, factor_type, currency=None):
         """Get matching bank journal
