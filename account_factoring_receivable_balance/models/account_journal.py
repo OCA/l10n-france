@@ -14,6 +14,14 @@ class AccountJournal(models.Model):
         tracking=True,
         help="No account move will be selected before this date",
     )
+    factor_invoice_journal_ids = fields.Many2many(
+        string="Limit Factoring to Journals",
+        comodel_name="account.journal",
+        relation="account_journal_factor_invoice_rel",
+        column1="factor_journal_id",
+        column2="sale_journal_id",
+        help="Journals to limit Factoring to. Leave blank to allow all journals",
+    )
     factoring_receivable_account_id = fields.Many2one(
         comodel_name="account.account", string="Receivable Account"
     )

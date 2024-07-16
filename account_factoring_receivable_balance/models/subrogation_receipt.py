@@ -62,26 +62,22 @@ class SubrogationReceipt(models.Model):
     line_ids = fields.One2many(
         comodel_name="account.move.line",
         inverse_name="subrogation_id",
-        readonly=True,
     )
     item_ids = fields.Many2many(
         comodel_name="account.move.line",
-        readonly=True,
     )
 
     @api.constrains("factor_journal_id", "state", "company_id")
     def _check_draft_per_journal(self):
         for rec in self:
-            if (
-                self.search_count(
-                    [
-                        ("factor_journal_id", "=", rec.factor_journal_id.id),
-                        ("state", "=", "draft"),
-                        ("company_id", "=", rec._get_company_id()),
-                    ]
-                )
-                > 1
-            ):
+            count_drafts = self.search_count(
+                [
+                    ("factor_journal_id", "=", rec.factor_journal_id.id),
+                    ("state", "=", "draft"),
+                    ("company_id", "=", rec._get_company_id()),
+                ]
+            )
+            if count_drafts > 1:
                 raise UserError(
                     _(
                         "You already have a Draft Subrogation with "
@@ -99,25 +95,11 @@ class SubrogationReceipt(models.Model):
             )
 
     @api.model
-    def _get_domain_for_factor(self, factor_type, factor_journal, currency=None):
-        """
-        Query example for debugging purpose: # FIXME
-
-        SELECT l.id, l.name, l.date, l.create_date, l.debit, p2.name, s.target_date
-         , l.partner_id, o.res_id, l.subrogation_id
-        FROM account_move_line l
-          LEFT JOIN account_account a ON l.account_id = a.id
-          LEFT JOIN subrogation_receipt s ON s.id = l.subrogation_id
-          LEFT JOIN res_partner p1 ON p1.id = l.partner_id
-          LEFT JOIN res_partner p2 ON p2.id = p1.commercial_partner_id
-          LEFT JOIN ir_property o ON o.company_id = 1 and o.fields_id = 10102
-            and o.res_id = 'res.partner,' || p2.id
-        WHERE l.date > '2022-06-01' and l.date <= '2022-07-26'
-         and a.code like '4111%' and parent_state = 'posted'
-         and l.subrogation_id > 0
-        ORDER BY id DESC
-
-        """
+    def _get_domain_for_factor(self):
+        journal = self.factor_journal_id
+        factor_type = self.factor_type
+        factor_journal = self.factor_journal_id
+        currency = journal.currency_id
         bank_journal = self._get_bank_journal(factor_type, currency=currency)
         domain = [
             ("date", "<=", self.target_date),
@@ -135,37 +117,37 @@ class SubrogationReceipt(models.Model):
             ("move_id.partner_bank_id", "=", bank_journal.bank_account_id.id),
             ("move_id.partner_bank_id", "=", False),
         ]
+        domain += [
+            (
+                "move_id.currency_id",
+                "=",
+                (
+                    journal.currency_id
+                    and journal.currency_id.id
+                    or journal.company_id.currency_id.id
+                ),
+            )
+        ]
         if factor_journal.factor_start_date:
             domain.append(("date", ">=", factor_journal.factor_start_date))
+        invoice_journals = self.factor_journal_id.factor_invoice_journal_ids
+        if invoice_journals:
+            domain.append(("journal_id", "in", invoice_journals.ids))
         return domain
 
     @api.model
     def _get_customer_accounts(self):
         return ("account_id.account_type", "=", "asset_receivable")
 
+    def _get_factor_lines(self):
+        domain = self._get_domain_for_factor()
+        lines = self.env["account.move.line"].search(domain)
+        return lines
+
     def action_compute_lines(self):
         self.ensure_one()
-        journal = self.factor_journal_id
-        domain = self._get_domain_for_factor(
-            self.factor_type,  # TODO: this is a redundant argument!
-            self.factor_journal_id,
-            currency=journal.currency_id,
-        )
         self.line_ids.write({"subrogation_id": False})
-        lines = self.env["account.move.line"].search(
-            domain
-            + [
-                (
-                    "move_id.currency_id",
-                    "=",
-                    (
-                        journal.currency_id
-                        and journal.currency_id.id
-                        or journal.company_id.currency_id.id
-                    ),
-                )
-            ]
-        )
+        lines = self._get_factor_lines()
         lines.write({"subrogation_id": self.id})
         vals = {"item_ids": [(6, 0, lines.ids)]}
         if not self.statement_date:
@@ -186,6 +168,8 @@ class SubrogationReceipt(models.Model):
     def _get_bank_journal(self, factor_type, currency=None):
         """Get matching bank journal
         You may override to have a dedicated mapping"""
+        factor_type = self.factor_type
+        currency = self.factor_journal_id.currency_id
         domain = [("type", "=", "bank"), ("factor_type", "=", factor_type)]
         if currency:
             domain += [("currency_id", "=", currency.id)]
