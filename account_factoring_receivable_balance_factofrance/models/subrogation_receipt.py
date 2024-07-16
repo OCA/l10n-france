@@ -26,10 +26,6 @@ class SubrogationReceipt(models.Model):
         ]
     )
 
-    @api.onchange("file_type")
-    def onchange_file_type(self):
-        self.line_ids = self.item_ids = [(6, 0, [])]
-
     @api.model
     def _get_domain_for_factor(self):
         domain = super()._get_domain_for_factor()
@@ -198,7 +194,7 @@ class SubrogationReceipt(models.Model):
             "total_amount_of_payments": 0.00,
             "balance": 0.00,
         }
-        for line in self.item_ids:
+        for line in self.line_ids:
             move = line.move_id
             partner = line.move_id.partner_id.commercial_partner_id
             if not partner:
