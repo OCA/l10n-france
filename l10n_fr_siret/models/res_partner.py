@@ -56,8 +56,14 @@ class Partner(models.Model):
     )
     same_siren_partner_id = fields.Many2one(
         "res.partner",
-        compute="_compute_same_siren_partner_id",
+        compute="_compute_same_siren_siret_partner_id",
         string="Partner with same SIREN",
+        compute_sudo=True,
+    )
+    same_siret_partner_id = fields.Many2one(
+        "res.partner",
+        compute="_compute_same_siren_siret_partner_id",
+        string="Partner with same SIRET",
         compute_sudo=True,
     )
 
@@ -85,30 +91,50 @@ class Partner(models.Model):
             else:
                 rec.write({"siren": False, "nic": False})
 
-    @api.depends("siren", "company_id")
-    def _compute_same_siren_partner_id(self):
-        # Inspired by same_vat_partner_id from 'base' module
+    @api.depends("siren", "siret", "company_id")
+    def _compute_same_siren_siret_partner_id(self):
         for partner in self:
             same_siren_partner_id = False
+            same_siret_partner_id = False
+
             if partner.siren and not partner.parent_id:
-                domain = [
-                    ("siren", "=", partner.siren),
-                    ("parent_id", "=", False),
-                ]
-                if partner.company_id:
-                    domain += [
-                        "|",
-                        ("company_id", "=", False),
-                        ("company_id", "=", partner.company_id.id),
-                    ]
-                # use _origin to deal with onchange()
-                partner_id = partner._origin.id
-                if partner_id:
-                    domain.append(("id", "!=", partner_id))
+                domain = partner._get_same_siren_siret_partner_id_domain("siren")
+                same_siren_partner = partner._find_same_siren_siret_partner(domain)
                 same_siren_partner_id = (
-                    self.with_context(active_test=False).search(domain, limit=1)
-                ).id or False
+                    same_siren_partner.id if same_siren_partner else False
+                )
+
+            if partner.siret and not partner.parent_id:
+                domain = partner._get_same_siren_siret_partner_id_domain("siret")
+                same_siret_partner = partner._find_same_siren_siret_partner(domain)
+                same_siret_partner_id = (
+                    same_siret_partner.id if same_siret_partner else False
+                )
+
             partner.same_siren_partner_id = same_siren_partner_id
+            partner.same_siret_partner_id = same_siret_partner_id
+
+    def _get_same_siren_siret_partner_id_domain(self, field):
+        self.ensure_one()
+        domain = [
+            (field, "=", getattr(self, field)),
+            ("parent_id", "=", False),
+        ]
+        if self.company_id:
+            domain += [
+                "|",
+                ("company_id", "=", False),
+                ("company_id", "=", self.company_id.id),
+            ]
+        # use _origin to deal with onchange()
+        partner_id = self._origin.id
+        if partner_id:
+            domain.append(("id", "!=", partner_id))
+        return domain
+
+    def _find_same_siren_siret_partner(self, domain):
+        self.ensure_one()
+        return self.with_context(active_test=False).search(domain, limit=1)
 
     @api.constrains("siren", "nic")
     def _check_siret(self):

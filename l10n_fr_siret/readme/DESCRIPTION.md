@@ -9,7 +9,8 @@ partners, but it doesn't verify its validity. This module
 - multi-site companies have a single SIREN and one SIRET per site i.e.
   one NIC per site. This module allows to enter a specific NIC on child
   partners.
-- it adds a warning banner on the partner form view if another partner
-  has the same SIREN.
+- it adds a warning banner on the partner form view either
+  - if another partner has the same SIRET,
+  - or if another partner has the same SIREN but different SIRET.
 
 ![](static/description/partner_duplicate_warning.png)

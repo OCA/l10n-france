@@ -49,8 +49,18 @@
                 <div
                     class="alert alert-warning"
                     role="alert"
+                    name="warn_duplicate_siret"
+                    invisible="not same_siret_partner_id"
+                >
+                        Duplicate warning: partner <field
+                        name="same_siret_partner_id"
+                    /> has the same <b>SIRET</b>.
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
                     name="warn_duplicate_siren"
-                    invisible="not same_siren_partner_id"
+                    invisible="same_siret_partner_id or not same_siren_partner_id"
                 >
                         Duplicate warning: partner <field
                         name="same_siren_partner_id"
