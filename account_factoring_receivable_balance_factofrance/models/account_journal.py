@@ -10,3 +10,6 @@ class AccountJournal(models.Model):
         selection_add=[("factofrance", "FactoFrance")],
         ondelete={"factofrance": "set null"},
     )
+    partner_identification_type = fields.Selection(
+        selection=[("1", "1 SIRET"), ("4", "4 TVA")],
+    )

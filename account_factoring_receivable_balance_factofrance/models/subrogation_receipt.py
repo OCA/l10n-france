@@ -36,7 +36,7 @@ class SubrogationReceipt(models.Model):
     def _prepare_factor_file_factofrance(self):
         "Entry-point to generate the factor file"
         self.ensure_one()
-        name = "F{}_{}_{}.txt".format(  # TODO!
+        name = "F{}_{}_{}.txt".format(
             self._sanitize_filepath(self.name),
             self._sanitize_filepath(
                 dict(self._fields["file_type"].selection).get(self.file_type)
@@ -60,9 +60,6 @@ class SubrogationReceipt(models.Model):
 
     def action_draft(self):
         self.write({"state": "draft"})
-        self.env["ir.attachment"].search(
-            [("res_id", "in", self.ids), ("res_model", "=", self._name)]
-        ).unlink()
 
     def _prepare_factor_file_data_factofrance(self):
         self.ensure_one()
@@ -76,34 +73,26 @@ class SubrogationReceipt(models.Model):
             raise UserError(msg)
         if not self.statement_date:
             raise UserError(_("Vous devez spécifier la date du dernier relevé"))
-        header = self._get_factofrance_header()
-        # check_column_size(header)
 
+        header = self._get_factofrance_header()
         rows, totals = self._prepare_factofrance_body()
         body = self._get_factofrance_body(rows)
         ender = self._get_factofrance_ender(totals)
         self.balance = totals["balance"]
-        # check_column_size(ender)
-        raw_data = RETURN.join([header, body, ender])
-        data = clean_string(raw_data)
-        # non ascii chars are replaced
-        data = bytes(data, "ascii", "replace").replace(b"?", b" ")
-        return base64.b64encode(data)
+        raw_data = RETURN.join([header, body, ender]) + RETURN
+        ansi_data = raw_data.encode("latin-1")
+        return base64.b64encode(ansi_data)
 
     def _get_factofrance_header(self):
-        self = self.sudo()
-
-        factor_code = str(self.factor_journal_id.factor_code).ljust(4, " ")
-        company_name = self.company_id.name.ljust(40, " ")
+        factor_code = self.factor_journal_id.factor_code
+        company_name = self.company_id.name
         confirm_date = factofrance_date(self.date)
-        identification_type = "1"
+        identification_type = self.factor_journal_id.partner_identification_type or "1"
         country_codes = "2"
-        company_identifiers = get_column(
-            self.company_id.siret or self.company_id.vat, 14
-        )
+        company_identifiers = self.company_id.siret or self.company_id.vat
         file_sequence_number = ("000" + self.name)[-3:]
-        currency = self.company_id.currency_id.name.ljust(3, " ")
-        operation_type = "000000".ljust(6, " ")
+        currency = self.company_id.currency_id.name
+        operation_type = "000000"
 
         # Create a list with the header parts, initially filled with spaces
         header = " " * 360
@@ -143,18 +132,6 @@ class SubrogationReceipt(models.Model):
         end = set_column(end, 355, 6, operation_type)
         return end
 
-    def get_code(self, move, line):
-        code = ""
-        if move.move_type == "out_invoice":
-            code = "101"
-        elif move.move_type == "out_refund":
-            code = "102"
-        elif move.move_type == "entry":
-            code = "103"
-            if line.account_id.account_type == "expense":
-                code = "104"
-        return code
-
     def _get_domain_payments(self):
         return [
             ("date", "<=", self.target_date),
@@ -183,6 +160,29 @@ class SubrogationReceipt(models.Model):
             lines |= amls
         return lines
 
+    def _get_line_code_type_sign(self, line):
+        move = line.move_id
+        if move.move_type == "out_invoice":
+            code, op_type, sign = "101", "FAC", 1
+        elif move.move_type == "out_refund":
+            code, op_type, sign = "102", "AVO", 1
+        elif line.account_id.account_type.startswith("asset"):
+            code, op_type, sign = "103", "VIR", -1
+        else:
+            code, op_type, sign = "104", "AJC", -1
+        return code, op_type, sign
+
+    def _get_line_due_date(self, line, op_type):
+        due_date = None
+        if op_type in ["FAC", "AVO"]:
+            due_date = line.date_maturity
+        elif op_type in ["VIR"]:
+            payments = line.move_id.payment_ids
+            paid_invoice_lines = payments.reconciled_invoice_ids.line_ids
+            due_dates = [x for x in paid_invoice_lines.mapped("date_maturity") if x]
+            due_date = due_dates and max(due_dates)
+        return due_date
+
     def _prepare_factofrance_body(self):
         rows = []
         totals = {
@@ -196,12 +196,15 @@ class SubrogationReceipt(models.Model):
         }
         for line in self.line_ids:
             move = line.move_id
+            journal = self.factor_journal_id
             partner = line.move_id.partner_id.commercial_partner_id
             if not partner:
                 raise UserError(f"Pas de partenaire sur la pièce {line.move_id}")
 
-            code = self.get_code(move, line)
-            amount = line.debit or line.credit
+            code, op_type, sign = self._get_line_code_type_sign(line)
+            due_date = self._get_line_due_date(line, op_type)
+            amount = (line.debit - line.credit) * sign
+
             if code == "101":
                 totals["number_of_invoices"] += 1
                 totals["total_amount_of_invoices"] += amount
@@ -213,13 +216,17 @@ class SubrogationReceipt(models.Model):
                 totals["total_amount_of_payments"] += amount
             totals["balance"] += line.balance
 
+            identification_type = journal.partner_identification_type
             info = {
                 "code": code or " ",
                 "confirm_date": factofrance_date(self.date),
-                "factor_code": str(self.factor_journal_id.factor_code) or " ",
-                "document": partner.siret or partner.vat or "0",
-                "document2": " ",
-                "customer_name": (partner.name or " ").ljust(40, " "),
+                "factor_code": str(journal.factor_code),
+                "document": (
+                    (partner.siret or "0")
+                    if identification_type == "1"
+                    else (partner.vat or "0")
+                ),
+                "customer_name": partner.name or "",
                 "customer_address": " ".join(
                     x for x in [partner.street, partner.street2, partner.street3] if x
                 ),
@@ -229,26 +236,23 @@ class SubrogationReceipt(models.Model):
                 # "customer_street2": partner.street2
                 # and partner.street2.ljust(40, " ")
                 # or "".ljust(40, " "),
-                "customer_zip_code": partner.zip or " ",
-                "delivery_office": partner.city or " ",
-                "customer_country_code": partner.country_id.code or " ",
-                "customer_phone": partner.mobile or partner.phone or " ",
-                "customer_ref": partner.ref
-                and partner.ref.ljust(10, " ")
-                or "".ljust(10, " "),
+                "customer_zip_code": partner.zip or "",
+                "delivery_office": partner.city or "",
+                "customer_country_code": partner.country_id.code or "",
+                "customer_phone": (partner.phone or partner.mobile or "").replace(
+                    " ", ""
+                ),
+                "customer_ref": partner.ref or "",
                 "date": factofrance_date(move.invoice_date or move.date),
-                "number": get_column(move.name.replace("/", ""), 15),
-                "currency": self.company_id.currency_id.name or " ",
-                "account_sign": "+" if move.move_type == "out_invoice" else "-",
-                "amount": (str(amount).replace(".", "")).rjust(15, "0") or " ",
+                "number": move.payment_reference or move.name,
+                "currency": self.company_id.currency_id.name or "",
+                "account_sign": "-" if amount < 0 else "+",
+                "amount": abs(amount),
                 "payment_mode": "VIR",
-                "invoice_date_due": factofrance_date(move.invoice_date_due)
-                if move.move_type == "out_invoice"
-                else "".ljust(11, " ") or " ",
-                "customer_order_reference": move.ref
-                and move.ref.ljust(40, " ")
-                or "".ljust(40, " "),
-                "operation_type": get_type_piece(move, line) or " ",
+                "date_due": factofrance_date(due_date),
+                "customer_order_reference": move.ref or "",
+                "operation_type": op_type,
+                "move_type": move.move_type,
             }
             rows.append(info)
         return rows, totals
@@ -260,8 +264,7 @@ class SubrogationReceipt(models.Model):
             line = set_column(line, 1, 3, info["code"])
             line = set_column(line, 4, 8, factofrance_date(self.date))
             line = set_column(line, 12, 6, info["factor_code"])
-            line = set_column(line, 18, 9, info["document"])
-            line = set_column(line, 27, 5, info["document2"])
+            line = set_column(line, 18, 9 + 5, info["document"])
             line = set_column(line, 32, 40, info["customer_name"])
             line = set_column(line, 112, 40 + 40, info["customer_address"])
             line = set_column(line, 192, 6, info["customer_zip_code"])
@@ -272,29 +275,17 @@ class SubrogationReceipt(models.Model):
             line = set_column(line, 255, 8, info["date"])
             line = set_column(line, 263, 15, info["number"])
             line = set_column(line, 278, 3, info["currency"])
-            line = set_column(line, 281, 1, info["account_sign"])
+            line = set_column(line, 281, 1, info["account_sign"], noformat=True)
             line = set_column(line, 282, 15, info["amount"])
-            line = set_column(line, 297, 3, info["payment_mode"])
-            line = set_column(line, 300, 8, info["invoice_date_due"])
-            line = set_column(line, 308, 10, info["customer_order_reference"])
+            if info["move_type"].startswith("out"):
+                line = set_column(line, 297, 3, info["payment_mode"])
+                line = set_column(line, 300, 8, info["date_due"])
+                line = set_column(line, 308, 10, info["customer_order_reference"])
+            else:
+                line = set_column(line, 297, 8, info["date_due"])
             line = set_column(line, 358, 3, info["operation_type"])
             rows.append(line)
         return RETURN.join(rows)
-
-
-def get_type_piece(move, line):
-    p_type = "  "
-    move_type = move.move_type
-    if move_type == "entry":
-        p_type = "VIR"
-        if line.account_id.account_type == "expense":
-            p_type = "AJC"
-    elif move_type == "out_invoice":
-        p_type = "FAC"
-    elif move_type == "out_refund":
-        p_type = "AVO"
-    assert len(p_type) == 3
-    return p_type
 
 
 def get_column(value, size):
@@ -316,42 +307,23 @@ def get_column(value, size):
     return res
 
 
-def set_column(line, position, length, value):
-    value_str = get_column(value, length)
+def set_column(line, position, length, value, noformat=False):
+    value_str = value if noformat else get_column(value, length)
     res = line[: position - 1] + value_str + line[position + length - 1 :]
     return res
 
 
 def factofrance_date(date_value):
-    return date_value.strftime("%Y%m%d") if date_value else " "
+    return date_value.strftime("%Y%m%d") if date_value else ""
 
 
 def clean_string(string):
     """Remove all except [A-Z], space, \r, \n
     https://www.rapidtables.com/code/text/ascii-table.html"""
     string = string.upper()
-    string = re.sub(r"[\x21-\x2F]|[\x3A-\x40]|[\x5E-\x7F]|\x0A\x0D", r" ", string)
+    string = re.sub(r"[\x21-\x2F]|[\x3A-\x40]|[\x5E-\x7F]|\x0A\x0D", r"", string)
     string = string.replace("False", "    ")
     return string
-
-
-# def check_column_size(string, fstring=None, info=None):
-#     print("\n string", string)
-#     if len(string) != 358:
-#         if fstring and info:
-#             fstring = fstring.replace("{", "|{")
-#             fstring = fstring.format(**info)
-#             strings = fstring.split("|")
-#             for mystr in strings:
-#                 strings[strings.index(mystr)] = f"{mystr}({len(mystr)})"
-#             fstring = "|".join(strings)
-#         else:
-#             fstring = ""
-#         # pylint: disable=C8107
-#         raise UserError(
-#             "La ligne suivante contient {} caractères au lieu de 275\n\n{}"
-#             "\n\nDebugging string:\n{}s".format(len(string), string, fstring)
-#         )
 
 
 def check_column_position(content, factor_journal, final=True):
