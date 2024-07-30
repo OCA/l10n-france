@@ -13,6 +13,7 @@
     ],
     "data": [
         "data/subrogation_seq.xml",
+        "views/account_journal.xml",
         "views/subrogation_receipt_views.xml",
     ],
 }
