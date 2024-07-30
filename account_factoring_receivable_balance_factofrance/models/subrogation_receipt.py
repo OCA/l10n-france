@@ -174,13 +174,8 @@ class SubrogationReceipt(models.Model):
 
     def _get_line_due_date(self, line, op_type):
         due_date = None
-        if op_type in ["FAC", "AVO"]:
+        if op_type in ["FAC", "AVO", "VIR"]:
             due_date = line.date_maturity
-        elif op_type in ["VIR"]:
-            payments = line.move_id.payment_ids
-            paid_invoice_lines = payments.reconciled_invoice_ids.line_ids
-            due_dates = [x for x in paid_invoice_lines.mapped("date_maturity") if x]
-            due_date = due_dates and max(due_dates)
         return due_date
 
     def _prepare_factofrance_body(self):
