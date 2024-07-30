@@ -198,7 +198,8 @@ class SubrogationReceipt(models.Model):
                 rec.date = fields.Date.today()
                 data = self._prepare_factor_file(rec.factor_type)
                 if data:
-                    self.env["ir.attachment"].create(data)
+                    attachment = self.env["ir.attachment"].create(data)
+                    self.message_post(attachment_ids=attachment.ids)
 
     def action_post(self):
         for rec in self:
