@@ -86,7 +86,7 @@ class AcquirerMonetico(models.Model):
         billing = dict(
             firstName=values.get("billing_partner_first_name"),
             lastName=values.get("billing_partner_last_name"),
-            mobilePhone=values.get("billing_partner_phone"),
+            mobilePhone=None,  # TODO Format correctly values.get("billing_partner_phone"),
             addressLine1=values.get("billing_partner_address"),
             city=values.get("billing_partner_city"),
             postalCode=values.get("billing_partner_zip"),
