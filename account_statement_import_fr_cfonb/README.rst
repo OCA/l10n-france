@@ -17,22 +17,30 @@ Import French CFONB Bank Statements
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/16.0/account_statement_import_fr_cfonb
+    :target: https://github.com/OCA/l10n-france/tree/17.0/account_statement_import_fr_cfonb
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-16-0/l10n-france-16-0-account_statement_import_fr_cfonb
+    :target: https://translation.odoo-community.org/projects/l10n-france-17-0/l10n-france-17-0-account_statement_import_fr_cfonb
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module allows you to import the text-based French CFONB bank statements files in Odoo.
+This module allows you to import the text-based French CFONB bank
+statements files in Odoo.
 
-The specifications are available on the `official CFONB website <https://www.cfonb.org>`_ under the section *Espace documentaire > Organisation des échanges > Restituation d'information*. The document is named *Relevé de compte sur support informatique* (`direct link <https://www.cfonb.org/fichiers/20130612113947_7_4_Releve_de_Compte_sur_support_informatique_2004_07.pdf>`_).
+The specifications are available on the `official CFONB
+website <https://www.cfonb.org>`__ under the section *Espace
+documentaire > Organisation des échanges > Restituation d'information*.
+The document is named *Relevé de compte sur support informatique*
+(`direct
+link <https://www.cfonb.org/fichiers/20130612113947_7_4_Releve_de_Compte_sur_support_informatique_2004_07.pdf>`__).
 
-Since Odoo v14, multi-account CFONB files are supported. When you import such a file, several bank statements will be generated: one for each bank account.
+Since Odoo v14, multi-account CFONB files are supported. When you import
+such a file, several bank statements will be generated: one for each
+bank account.
 
 **Table of contents**
 
@@ -42,7 +50,9 @@ Since Odoo v14, multi-account CFONB files are supported. When you import such a 
 Usage
 =====
 
-In the dashboard of the *Invoicing* menu, click on the button *Import Statements* on any bank statement journal and follow the instructions of the wizard.
+In the dashboard of the *Invoicing* menu, click on the button *Import
+Statements* on any bank statement journal and follow the instructions of
+the wizard.
 
 Bug Tracker
 ===========
@@ -50,7 +60,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20account_statement_import_fr_cfonb%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20account_statement_import_fr_cfonb%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -58,17 +68,17 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Alexis de Lattre <alexis.delattre@akretion.com>
+-  Alexis de Lattre <alexis.delattre@akretion.com>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -88,6 +98,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-alexis-via| 
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/16.0/account_statement_import_fr_cfonb>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/17.0/account_statement_import_fr_cfonb>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

@@ -95,12 +95,7 @@ class AccountStatementImport(models.TransientModel):
             # currency fields empty on lines that start with '01' and '07',
             # so I give default values in the code for those fields
             currency_code = line[16:19] != "   " and line[16:19] or "EUR"
-            account_key = "{}-{}-{}-{}".format(
-                bank_code,
-                guichet_code,
-                account_number,
-                currency_code,
-            )
+            account_key = f"{bank_code}-{guichet_code}-{account_number}-{currency_code}"
             decimals = line[19:20] == " " and 2 or int(line[19:20])
             # decimals=2 for EUR, 0 for XPF
             date_cfonb_str = line[34:40]
