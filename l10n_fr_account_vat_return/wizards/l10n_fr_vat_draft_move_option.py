@@ -2,7 +2,8 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.tools.misc import format_date
 
 
 class L10nFrVatDraftMoveOption(models.TransientModel):
@@ -47,6 +48,12 @@ class L10nFrVatDraftMoveOption(models.TransientModel):
 
     def option_continue(self):
         self.ensure_one()
-        self.with_context(
-            fr_vat_return_draft_force_continue=True
-        ).fr_vat_return_id.manual2auto()
+        self.fr_vat_return_id.write({"ignore_draft_moves": True})
+        self.fr_vat_return_id.message_post(
+            body=_(
+                "Ignoring %(count)s draft journal entries dated before %(end_date)s.",
+                count=self.draft_move_count,
+                end_date=format_date(self.env, self.end_date),
+            )
+        )
+        return self.fr_vat_return_id.manual2auto()

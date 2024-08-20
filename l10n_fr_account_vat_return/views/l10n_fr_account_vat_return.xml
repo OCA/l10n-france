@@ -165,6 +165,17 @@
                                 colspan="2"
                             />
                                                 </page>
+                                                <page
+                            name="autoliq_lines"
+                            string="Autoliquidation Lines"
+                            attrs="{'invisible': [('autoliq_line_ids', '=', [])]}"
+                        >
+                                                        <field
+                                name="autoliq_line_ids"
+                                colspan="2"
+                                nolabel="1"
+                            />
+                                                </page>
                                         </notebook>
                                         </sheet>
                                         <div class="oe_chatter">
@@ -183,7 +194,7 @@
                         <field name="model">l10n.fr.account.vat.return</field>
                         <field name="arch" type="xml">
                                 <tree>
-                                        <field name="name" />
+                                        <field name="name" decoration-bf="1" />
                                         <field name="start_date" optional="hide" />
                                         <field name="end_date" optional="hide" />
                                         <field
@@ -465,5 +476,149 @@
                                 </form>
                         </field>
                 </record>
+
+                <record
+        id="l10n_fr_account_vat_return_autoliq_line_form"
+        model="ir.ui.view"
+    >
+                        <field
+            name="model"
+        >l10n.fr.account.vat.return.autoliq.line</field>
+                        <field name="arch" type="xml">
+                                <form>
+                                        <group name="main">
+                                                <group
+                        name="move_line"
+                        string="Journal Item"
+                    >
+                                                        <field
+                            name="parent_id"
+                            invisible="not context.get('l10n_fr_account_vat_return_autoliq_line_main_view')"
+                        />
+                                                        <field name="move_line_id" />
+                                                        <field name="move_id" />
+                                                        <field name="journal_id" />
+                                                        <field name="date" />
+                                                        <field name="ref" />
+                                                        <field name="label" />
+                                                        <field name="account_id" />
+                                                        <field name="partner_id" />
+                                                        <field name="debit" />
+                                                        <field name="credit" />
+                                                        <field
+                            name="company_currency_id"
+                            invisible="1"
+                        />
+                                                        <field
+                            name="company_id"
+                            invisible="1"
+                        />
+                                                </group>
+                                                <group
+                        name="result"
+                        string="Information for VAT Return"
+                    >
+                                                        <field name="autoliq_type" />
+                                                        <field name="compute_type" />
+                                                        <label for="product_ratio" />
+                                                        <div name="product_ratio">
+                                                            <field
+                                name="product_ratio"
+                                class="oe_inline"
+                            /> %
+                                                        </div>
+                                                        <field
+                            name="vat_rate_int"
+                            groups="base.group_no_one"
+                        />
+                                                </group>
+                                            </group>
+                                    </form>
+                                    </field>
+                            </record>
+
+                <record
+        id="l10n_fr_account_vat_return_autoliq_line_tree"
+        model="ir.ui.view"
+    >
+                        <field
+            name="model"
+        >l10n.fr.account.vat.return.autoliq.line</field>
+                        <field name="arch" type="xml">
+                                <tree>
+                                                        <field
+                    name="parent_id"
+                    invisible="not context.get('l10n_fr_account_vat_return_autoliq_line_main_view')"
+                />
+                                                        <field
+                    name="autoliq_type"
+                    widget="badge"
+                    decoration-warning="autoliq_type == 'intracom'"
+                    decoration-danger="autoliq_type == 'extracom'"
+                />
+                                                        <field
+                    name="compute_type"
+                    optional="show"
+                    widget="badge"
+                    decoration-info="compute_type == 'auto'"
+                    decoration-success="compute_type == 'manual'"
+                />
+                                                        <field
+                    name="vat_rate_int"
+                    groups="base.group_no_one"
+                    optional="hide"
+                />
+                                                        <field name="move_line_id" />
+                                                        <field
+                    name="move_id"
+                    optional="hide"
+                />
+                                                        <field
+                    name="journal_id"
+                    optional="hide"
+                />
+                                                        <field
+                    name="date"
+                    optional="show"
+                />
+                                                        <field
+                    name="ref"
+                    optional="hide"
+                />
+                                                        <field
+                    name="label"
+                    optional="hide"
+                />
+                                                        <field name="account_id" />
+                                                        <field
+                    name="partner_id"
+                    optional="show"
+                />
+                                                        <field
+                    name="debit"
+                    optional="show"
+                />
+                                                        <field
+                    name="credit"
+                    optional="show"
+                />
+                                                        <field
+                    name="company_currency_id"
+                    invisible="1"
+                />
+                                                        <field
+                    name="company_id"
+                    invisible="1"
+                />
+                                                        <field
+                    name="product_ratio"
+                    string="Product Ratio (%)"
+                    decoration-bf="1"
+                />
+                                    </tree>
+                                    </field>
+                            </record>
+
+
 
 </odoo>
