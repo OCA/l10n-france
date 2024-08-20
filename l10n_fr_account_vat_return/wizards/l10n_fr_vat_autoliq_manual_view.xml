@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2024 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="l10n_fr_vat_autoliq_manual_form" model="ir.ui.view">
+        <field name="model">l10n.fr.vat.autoliq.manual</field>
+        <field name="arch" type="xml">
+            <form>
+                    <div
+                    name="msg"
+                    colspan="2"
+                >Odoo could not automatically compute the distribution between product and services on the journal items below that have a VAT autoliquidation account. Please indicate manually for each journal item below if the autoliquidation is related to a product or a service (you can also select 'mix' and indicate a percentage for the product part).
+                </div>
+                <group name="lines">
+                        <field name="line_ids" colspan="2" nolabel="1">
+                        <tree editable="bottom" create="0" delete="0">
+                            <field name="autoliq_line_id" invisible="1" />
+                            <field
+                                name="autoliq_type"
+                                optional="show"
+                                widget="badge"
+                                decoration-warning="autoliq_type == 'intracom'"
+                                decoration-danger="autoliq_type == 'extracom'"
+                            />
+                            <field name="move_line_id" />
+                            <field name="date" />
+                            <field name="journal_id" optional="hide" />
+                            <field name="ref" optional="hide" />
+                            <field name="label" optional="hide" />
+                            <field name="account_id" />
+                            <field name="partner_id" optional="hide" />
+                            <field name="debit" />
+                            <field name="credit" />
+                            <field name="option" required="1" />
+                            <field
+                                name="product_ratio"
+                                attrs="{'required': [('option', '=', 'mix')], 'invisible': [('option', '!=', 'mix')]}"
+                            />
+                            <field name="company_currency_id" invisible="1" />
+                        </tree>
+                    </field>
+                    <field name="fr_vat_return_id" invisible="1" />
+                </group>
+                <footer>
+                    <button
+                        type="object"
+                        string="Validate"
+                        name="run"
+                        class="btn-primary"
+                    />
+                    <button special="cancel" string="Cancel" class="btn-default" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_fr_vat_autoliq_manual_action" model="ir.actions.act_window">
+        <field name="name">Autoliquidation: Select product or service</field>
+        <field name="res_model">l10n.fr.vat.autoliq.manual</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -8,6 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -30,29 +31,39 @@ class TestFrAccountVatReturn(TransactionCase):
             company_name="FR Company VAT on_payment", fr_vat_exigibility="on_payment"
         )
 
-    def _check_vat_return_result(self, vat_return, result):
+    def _check_vat_return_result(self, vat_return, box_result, move_result):
         box2value = {}
         for line in vat_return.line_ids.filtered(
             lambda x: not x.box_display_type and x.box_edi_type == "MOA"
         ):
             box2value[(line.box_form_code, line.box_edi_code)] = line.value
-        for box_xmlid, expected_value in result.items():
+        for box_xmlid, expected_value in box_result.items():
             box = self.env.ref("l10n_fr_account_vat_return.%s" % box_xmlid)
             real_valuebox = box2value.pop((box.form_code, box.edi_code))
             self.assertEqual(real_valuebox, expected_value)
         self.assertFalse(box2value)
+        move = vat_return.move_id
+        company = vat_return.company_id
+        self.assertTrue(move)
+        self.assertTrue(move.ref)
+        if vat_return.state in ("auto", "sent"):
+            self.assertEqual(move.state, "draft")
+        elif vat_return.state == "posted":
+            self.assertEqual(move.state, "posted")
+        self.assertEqual(move.date, vat_return.end_date)
+        self.assertEqual(move.journal_id, company.fr_vat_journal_id)
 
-    def _move_to_dict(self, move):
-        assert move
-        currency = move.company_id.currency_id
+        currency = company.currency_id
         move_dict = defaultdict(float)
         for line in move.line_ids:
             move_dict[line.account_id.code] += line.balance
+        for account_code, amount in move_result.items():
+            self.assertFalse(currency.compare_amounts(move_dict[account_code], amount))
+        # Check that 758 and 658 have an amount under 1 €
         self.assertEqual(
             currency.compare_amounts(move_dict.get("758000", 0) * -1, 1), -1
         )
         self.assertEqual(currency.compare_amounts(move_dict.get("658000", 0), 1), -1)
-        return move_dict
 
     def test_vat_return_on_invoice(self):
         company = self.on_invoice_company
@@ -111,7 +122,7 @@ class TestFrAccountVatReturn(TransactionCase):
         )
         vat_return.manual2auto()
         self.assertEqual(vat_return.state, "auto")
-        expected_res = {
+        box_result = {
             "ca3_ca": 51510,  # A
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_dk": 2810,  # A4 HA extracom products
@@ -155,27 +166,29 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_ja": 2566,  # credit TVA (ligne 23 - 16)
             "ca3_jc": 2566,  # crédit à reporter
         }
-        self._check_vat_return_result(vat_return, expected_res)
-        move = vat_return.move_id
-        self.assertTrue(move)
-        self.assertEqual(move.state, "draft")
-        self.assertEqual(move.date, vat_return.end_date)
-        self.assertEqual(move.journal_id, company.fr_vat_journal_id)
-        move_dict = self._move_to_dict(move)
-        self.assertFalse(
-            currency.compare_amounts(move_dict["447000"], expected_res["ca3_kb"] * -1)
-        )
-        self.assertFalse(
-            currency.compare_amounts(
-                move_dict["445670"], expected_res["ca3_jc"] - expected_res["ca3_hd"]
-            )
-        )
-        self.assertFalse(
-            currency.compare_amounts(move_dict["635800"], expected_res["a_kj"])
-        )
-        self.assertFalse(
-            currency.compare_amounts(move_dict["635900"], expected_res["a_ud"])
-        )
+        move_result = {
+            "445711": 46,
+            "445712": 28,
+            "445713": 1265,
+            "445714": 588,
+            "445620": -1065,
+            "445660": -94.6,
+            "445201": 40,
+            "445202": 22,
+            "445203": 110,
+            "445204": 46.2,
+            "445662": -218.2,
+            "445301": 60,
+            "445302": 31,
+            "445303": 165,
+            "445304": 65.1,
+            "445663": -321.1,
+            "447000": box_result["ca3_kb"] * -1,
+            "445670": box_result["ca3_jc"] - box_result["ca3_hd"],
+            "635800": box_result["a_kj"],
+            "635900": box_result["a_ud"],
+        }
+        self._check_vat_return_result(vat_return, box_result, move_result)
 
         # Test reimbursement
         self.assertTrue(vat_return.reimbursement_show_button)
@@ -190,34 +203,30 @@ class TestFrAccountVatReturn(TransactionCase):
             }
         )
         reimb_wiz.validate()
-        reimb_expected_res = dict(expected_res)
-        reimb_expected_res.update(
+        reimb_box_result = dict(box_result)
+        reimb_box_result.update(
             {
                 "ca3_jb": reimbursement_amount,
-                "ca3_jc": expected_res["ca3_jc"] - reimbursement_amount,
+                "ca3_jc": box_result["ca3_jc"] - reimbursement_amount,
             }
         )
-        self._check_vat_return_result(vat_return, reimb_expected_res)
+        reimb_move_result = dict(move_result)
+        reimb_move_result.update(
+            {
+                "445830": reimbursement_amount,
+                "445670": reimb_box_result["ca3_jc"] - initial_credit_vat,
+            }
+        )
+        # 445670: Do not mix the balance of the move and the balance of the
+        # account. The balance of the account must be equal to
+        # reimb_box_result["ca3_jc"]
+        self._check_vat_return_result(vat_return, reimb_box_result, reimb_move_result)
         self.assertEqual(vat_return.reimbursement_type, reimbursement_type)
         self.assertEqual(
             vat_return.reimbursement_first_creation_date, self.first_creation_date
         )
-        move = vat_return.move_id
-        move_dict = self._move_to_dict(move)
-        self.assertFalse(
-            currency.compare_amounts(move_dict["445830"], reimbursement_amount)
-        )
-        # 445670: Do not mix the balance of the move and the balance of the
-        # account. The balance of the account must be equal to
-        # reimb_expected_res["ca3_jc"]
-        self.assertFalse(
-            currency.compare_amounts(
-                initial_credit_vat + move_dict["445670"], reimb_expected_res["ca3_jc"]
-            )
-        )
         vat_return.remove_credit_vat_reimbursement()
-        move = vat_return.move_id
-        self._check_vat_return_result(vat_return, expected_res)
+        self._check_vat_return_result(vat_return, box_result, move_result)
         self.assertFalse(vat_return.reimbursement_type)
         self.assertFalse(vat_return.reimbursement_first_creation_date)
         vat_return.print_ca3()
@@ -225,7 +234,7 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")
-        self.assertEqual(move.state, "posted")
+        self._check_vat_return_result(vat_return, box_result, move_result)
         aao = self.env["account.account"]
         speedy = vat_return._prepare_speedy()
         bal_zero_accounts = ["445711", "445712", "445713", "445714", "445715"]
@@ -237,7 +246,7 @@ class TestFrAccountVatReturn(TransactionCase):
             balance = acc._fr_vat_get_balance("base_domain_end", speedy)
             self.assertTrue(currency.is_zero(balance))
         must_be_reconciled = bal_zero_accounts + ["445620"]
-        for line in move.line_ids:
+        for line in vat_return.move_id.line_ids:
             if line.account_id.code in must_be_reconciled:
                 self.assertTrue(line.full_reconcile_id)
 
@@ -260,7 +269,7 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(vat_return.state, "manual")
         vat_return.manual2auto()
         self.assertEqual(vat_return.state, "auto")
-        expected_res = {
+        box_result = {
             "ca3_ca": 40148,  # A
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_dk": 2810,  # A4 HA extracom products
@@ -300,25 +309,33 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_nd": 350,  # TVA nette due (ligne TD - X5)
             "ca3_ke": 350,  # Total à payer
         }
-        self._check_vat_return_result(vat_return, expected_res)
-        move = vat_return.move_id
-        self.assertTrue(move)
-        self.assertEqual(move.state, "draft")
-        self.assertEqual(move.date, vat_return.end_date)
-        self.assertEqual(move.journal_id, company.fr_vat_journal_id)
-        move_dict = self._move_to_dict(move)
-        self.assertFalse(
-            currency.compare_amounts(move_dict["445510"], expected_res["ca3_ke"] * -1)
-        )
-        self.assertFalse(
-            currency.compare_amounts(move_dict["445670"], initial_credit_vat * -1)
-        )
+        move_result = {
+            "445711": 37.5,
+            "445712": 21,
+            "445713": 1031.25,
+            "445714": 441,
+            "445620": -1065,
+            "445660": -94.6,
+            "445201": 40,
+            "445202": 22,
+            "445203": 110,
+            "445204": 46.2,
+            "445662": -218.2,
+            "445301": 60,
+            "445302": 31,
+            "445303": 165,
+            "445304": 65.1,
+            "445663": -321.1,
+            "445510": box_result["ca3_ke"] * -1,
+            "445670": initial_credit_vat * -1,
+        }
+        self._check_vat_return_result(vat_return, box_result, move_result)
         vat_return.print_ca3()
         vat_return.auto2sent()
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")
-        self.assertEqual(move.state, "posted")
+        self._check_vat_return_result(vat_return, box_result, move_result)
         aao = self.env["account.account"]
         speedy = vat_return._prepare_speedy()
         acc2bal = {
@@ -336,7 +353,7 @@ class TestFrAccountVatReturn(TransactionCase):
             real_bal = acc._fr_vat_get_balance("base_domain_end", speedy)
             self.assertFalse(currency.compare_amounts(real_bal, expected_bal))
         must_be_reconciled = ["445620"]
-        for line in move.line_ids:
+        for line in vat_return.move_id.line_ids:
             if line.account_id.code in must_be_reconciled:
                 self.assertTrue(line.full_reconcile_id)
 
@@ -414,7 +431,7 @@ class TestFrAccountVatReturn(TransactionCase):
             }
         )
         vat_return.manual2auto()
-        expected_res = {
+        box_result = {
             "ca3_de": 660,  # F8
             "ca3_ce": 300,  # B5 regul
             "ca3_gg": 76,  # 15 TVA antérieurement déduite à reverser
@@ -427,7 +444,21 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_ja": initial_credit_vat - 76 + 50,  # Crédit TVA
             "ca3_jc": initial_credit_vat - 76 + 50,  # Crédit TVA
         }
-        self._check_vat_return_result(vat_return, expected_res)
+        move_result = {
+            "445711": -40,
+            "445712": -10,
+            "445660": 21,
+            "445620": 55,
+            "445670": box_result["ca3_jc"] - box_result["ca3_hd"],
+        }
+        self._check_vat_return_result(vat_return, box_result, move_result)
+        # Test that if box 15 has bad accounting method, the error is catched
+        vat_return.back_to_manual()
+        self.env.ref("l10n_fr_account_vat_return.ca3_gg").write(
+            {"accounting_method": "debit"}
+        )
+        with self.assertRaises(UserError):
+            vat_return.manual2auto()
 
     def test_vat_return_on_invoice_with_adjustment(self):
         company = self.on_invoice_company
