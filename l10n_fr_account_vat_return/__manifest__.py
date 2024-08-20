@@ -4,7 +4,7 @@
 
 {
     "name": "France VAT Return",
-    "version": "14.0.6.1.1",
+    "version": "14.0.7.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "summary": "VAT return for France: CA3, 3310-A, 3519",
@@ -20,6 +20,7 @@
         "wizards/res_config_settings.xml",
         "wizards/l10n_fr_account_vat_return_reimbursement_view.xml",
         "wizards/l10n_fr_vat_draft_move_option_view.xml",
+        "wizards/l10n_fr_vat_autoliq_manual_view.xml",
         "views/l10n_fr_account_vat_box.xml",
         "views/l10n_fr_account_vat_return.xml",
         "views/account_fiscal_position.xml",

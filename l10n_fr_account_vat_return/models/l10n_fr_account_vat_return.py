@@ -15,7 +15,7 @@ from reportlab.platypus import Paragraph
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import date_utils, float_is_zero, float_round
+from odoo.tools import date_utils, float_compare, float_is_zero, float_round
 from odoo.tools.misc import format_amount, format_date
 
 from .l10n_fr_account_vat_box import PUSH_RATE_PRECISION
@@ -147,6 +147,14 @@ class L10nFrAccountVatReturn(models.Model):
         readonly=True,
         states={"manual": [("readonly", False)]},
     )
+    autoliq_line_ids = fields.One2many(
+        "l10n.fr.account.vat.return.autoliq.line",
+        "parent_id",
+        string="Autoliquidation Lines",
+        readonly=True,
+    )
+    ignore_draft_moves = fields.Boolean()  # technical field, not displayed
+    autoliq_manual_done = fields.Boolean()  # technical field, not displayed
 
     _sql_constraints = [
         (
@@ -334,6 +342,7 @@ class L10nFrAccountVatReturn(models.Model):
             "fp_frvattype2label": fp_frvattype2label,
             "line_obj": self.env["l10n.fr.account.vat.return.line"],
             "log_obj": self.env["l10n.fr.account.vat.return.line.log"],
+            "autoliq_line_obj": self.env["l10n.fr.account.vat.return.autoliq.line"],
             "box_obj": self.env["l10n.fr.account.vat.box"],
             "aa_obj": self.env["account.account"],
             "am_obj": self.env["account.move"],
@@ -352,7 +361,110 @@ class L10nFrAccountVatReturn(models.Model):
         speedy["bank_cash_journals"] = speedy["aj_obj"].search(
             speedy["company_domain"] + [("type", "in", ("bank", "cash"))]
         )
+        self._autoliq_prepare_speedy(speedy)
         return speedy
+
+    def _autoliq_prepare_speedy(self, speedy):
+        speedy.update(
+            {
+                "autoliq_taxedop_type2accounts": {
+                    "intracom": speedy["aa_obj"],  # recordset 445201, 445202, 445203
+                    "extracom": speedy["aa_obj"],  # recordset 445301, 445302, 445303
+                },
+                "autoliq_vat_account2rate": {},
+                # {445201: 2000, 445202: 1000, 445203: 55, 445301: 2000,  }
+                "autoliq_tax2rate": {},
+                # {TVA 20% intracom (achats): 2000, TVA 10% intracom (achats): 1000, }
+            }
+        )
+        autoliq_vat_taxes = speedy["at_obj"].search(
+            speedy["purchase_autoliq_vat_tax_domain"]
+        )
+        for tax in autoliq_vat_taxes:
+            lines = tax.invoice_repartition_line_ids.filtered(
+                lambda x: x.repartition_type == "tax"
+                and x.account_id
+                and int(x.factor_percent) == -100
+            )
+            if len(lines) != 1:
+                raise UserError(
+                    _(
+                        "On the autoliquidation tax '%(tax)s', the distribution for "
+                        "invoices should have only one line -100% of tax, and not "
+                        "%(count)s.",
+                        tax=tax.display_name,
+                        count=len(lines),
+                    )
+                )
+            account = lines.account_id
+            rate_int = int(tax.amount * 100)
+            speedy["autoliq_tax2rate"][tax] = rate_int
+            if (
+                account in speedy["autoliq_vat_account2rate"]
+                and speedy["autoliq_vat_account2rate"][account] != rate_int
+            ):
+                raise UserError(
+                    _(
+                        "Account '%(account)s' is used as due VAT account on several "
+                        "autoliquidation taxes for different rates "
+                        "(%(rate1).2f%% and %(rate2).2f%%).",
+                        account=account.display_name,
+                        rate1=rate_int / 100,
+                        rate2=speedy["autoliq_vat_account2rate"][account] / 100,
+                    )
+                )
+            # Since May 2023, the new strategy to separate goods vs services
+            # for intracom autoliq base is by analyzing unreconciled lines,
+            # and not by analysing the VAT period only (which requires that the balance
+            # of the account is 0 at the start of the period).
+            # So the minimum is to make sure that the account has reconcile=True !
+            if not account.reconcile:
+                raise UserError(
+                    _(
+                        "Account '%s' is an account for autoliquidation, "
+                        "so it's reconcile option must be enabled."
+                    )
+                    % account.display_name
+                )
+            speedy["autoliq_vat_account2rate"][account] = rate_int
+            tax_map = speedy["afpt_obj"].search(
+                [
+                    ("tax_dest_id", "=", tax.id),
+                    ("company_id", "=", speedy["company_id"]),
+                ],
+                limit=1,
+            )
+            if not tax_map:
+                raise UserError(
+                    _(
+                        "Autoliquidation tax '%s' is not present in the tax mapping "
+                        "of any fiscal position."
+                    )
+                    % tax.display_name
+                )
+            autoliq_type = tax_map.position_id.fr_vat_type
+            if autoliq_type not in ("intracom_b2b", "extracom"):
+                raise UserError(
+                    _(
+                        "The autoliquidation tax '%(tax)s' is set on the tax mapping "
+                        "of fiscal position '%(fp)s' which is configured with type "
+                        "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be configured "
+                        "on fiscal positions with type '%(fp_fr_vat_type_intracom_b2b)s' "
+                        "or '%(fp_fr_vat_type_extracom)s'.",
+                        tax=tax.display_name,
+                        fp=tax_map.position_id.display_name,
+                        fp_fr_vat_type=speedy["fp_frvattype2label"][autoliq_type],
+                        fp_fr_vat_type_intracom_b2b=speedy["fp_frvattype2label"][
+                            "intracom_b2b"
+                        ],
+                        fp_fr_vat_type_extracom=speedy["fp_frvattype2label"][
+                            "extracom"
+                        ],
+                    )
+                )
+            if autoliq_type == "intracom_b2b":
+                autoliq_type = "intracom"
+            speedy["autoliq_taxedop_type2accounts"][autoliq_type] |= account
 
     def _get_adjust_accounts(self, speedy):
         # This is the method to inherit if you want to select the appropriate
@@ -424,10 +536,15 @@ class L10nFrAccountVatReturn(models.Model):
     def back_to_manual(self):
         self.ensure_one()
         assert self.state in ("auto", "sent")
+        self.autoliq_line_ids.unlink()
         # del auto lines
         self.line_ids.filtered(lambda x: not x.box_manual).unlink()
         self._delete_move_and_attachments()
-        vals = {"state": "manual"}
+        vals = {
+            "state": "manual",
+            "ignore_draft_moves": False,
+            "autoliq_manual_done": False,
+        }
         if self.reimbursement_type:
             vals.update(self._prepare_remove_credit_vat_reimbursement())
         self.write(vals)
@@ -530,7 +647,7 @@ class L10nFrAccountVatReturn(models.Model):
                         date=format_date(self.env, self.end_date),
                     )
                 )
-            elif not self._context.get("fr_vat_return_draft_force_continue"):
+            elif not self.ignore_draft_moves:
                 action = self.env["ir.actions.actions"]._for_xml_id(
                     "l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_action"
                 )
@@ -565,7 +682,100 @@ class L10nFrAccountVatReturn(models.Model):
                 )
                 % self.company_id.display_name
             )
-        return None
+        action = self._generate_autoliq_lines(speedy)
+        return action
+
+    def _generate_autoliq_lines(self, speedy):
+        self.ensure_one()
+        action = False
+        if self.autoliq_manual_done:
+            return action
+        elif self.autoliq_line_ids:
+            self.autoliq_line_ids.unlink()
+
+        for autoliq_type in ("intracom", "extracom"):
+            autoliq_vat_move_lines = speedy["aml_obj"].search(
+                [
+                    (
+                        "account_id",
+                        "in",
+                        speedy["autoliq_taxedop_type2accounts"][autoliq_type].ids,
+                    ),
+                    ("balance", "!=", 0),
+                    ("full_reconcile_id", "=", False),
+                ]
+                + speedy["base_domain_end"]
+            )
+            for line in autoliq_vat_move_lines:
+                if line.journal_id.type == "sale":
+                    raise UserError(
+                        _(
+                            "The journal item '%(line)s' has the autoliquidation "
+                            "VAT account '%(account)s' and is in the sale journal "
+                            "'%(journal)s'. Autoliquidation VAT accounts should "
+                            "never be found in sale journals.",
+                            line=line.display_name,
+                            account=line.account_id.display_name,
+                            journal=line.journal_id.display_name,
+                        )
+                    )
+                total = 0.0
+                product_subtotal = 0.0
+                move = line.move_id
+                rate_int = speedy["autoliq_vat_account2rate"][line.account_id]
+                is_invoice = move.is_invoice()
+                if is_invoice:
+                    other_lines = move.invoice_line_ids.filtered(
+                        lambda x: not x.display_type
+                    )
+                else:
+                    # hr_expense creates entries in the purchase journal
+                    # which are not invoices
+                    other_lines = move.line_ids.filtered(
+                        lambda x: not x.display_type
+                        and x.id != line.id
+                        and x.account_id.code.startswith("6")
+                    )
+                for oline in other_lines:
+                    for tax in oline.tax_ids:
+                        if (
+                            tax in speedy["autoliq_tax2rate"]
+                            and speedy["autoliq_tax2rate"][tax] == rate_int
+                        ):
+                            total += oline.balance
+                            product_or_service = oline._fr_is_product_or_service()
+                            if product_or_service == "product":
+                                product_subtotal += oline.balance
+                            break
+                vals = {
+                    "parent_id": self.id,
+                    "move_line_id": line.id,
+                    "autoliq_type": autoliq_type,
+                    "vat_rate_int": rate_int,
+                }
+                if speedy["currency"].is_zero(total):
+                    vals["compute_type"] = "manual"
+                    autoliq_line = speedy["autoliq_line_obj"].create(vals)
+                    if not action:
+                        action = self.env["ir.actions.actions"]._for_xml_id(
+                            "l10n_fr_account_vat_return.l10n_fr_vat_autoliq_manual_action"
+                        )
+                        action["context"] = {
+                            "default_fr_vat_return_id": self.id,
+                            "default_line_ids": [],
+                        }
+                    action["context"]["default_line_ids"].append(
+                        (0, 0, {"autoliq_line_id": autoliq_line.id})
+                    )
+                else:
+                    vals.update(
+                        {
+                            "compute_type": "auto",
+                            "product_ratio": round(100 * product_subtotal / total, 2),
+                        }
+                    )
+                    speedy["autoliq_line_obj"].create(vals)
+        return action
 
     def _generate_ca3_bottom_totals(self, speedy):
         # Process the END of CA3 by hand
@@ -867,7 +1077,7 @@ class L10nFrAccountVatReturn(models.Model):
 
         # Compute France and Monaco
         monaco_logs = self._generate_due_vat_france(speedy, type_rate2logs)
-        # Compute Auto-liquidation extracom + intracom
+        # Compute Autoliquidation extracom + intracom
         self._generate_due_vat_autoliq(speedy, type_rate2logs)
 
         # CREATE LINES
@@ -998,21 +1208,34 @@ class L10nFrAccountVatReturn(models.Model):
         return monaco_logs
 
     def _generate_due_vat_autoliq(self, speedy, type_rate2logs):
-        (
-            autoliq_taxedop_type2accounts,
-            autoliq_vat_account2rate,
-            autoliq_tax2rate,
-        ) = self._generate_due_vat_prepare_autoliq_struct(speedy)
-
         # compute bloc "opérations imposables" / Intracom
         # Split product/service
-        autoliq_rate2product_ratio = self._compute_autoliq_rate2product_ratio(
-            speedy, autoliq_taxedop_type2accounts, autoliq_tax2rate
-        )
-
+        autoliq_rate2product_ratio = {
+            "intracom": {},  # {2000: {'total': 200.0, 'product_subtotal': 112.80}}
+            "extracom": {},
+        }
+        for line in self.autoliq_line_ids:
+            if line.vat_rate_int not in autoliq_rate2product_ratio[line.autoliq_type]:
+                autoliq_rate2product_ratio[line.autoliq_type][
+                    line.vat_rate_int
+                ] = defaultdict(float)
+            # If the implementation was perfect, we would not have to use abs() !
+            # But, in the current implementation, we take the balance of the autoliq VAT
+            # account and we apply a product ratio. With this implementation, we don't
+            # handle the case where autoliq product > 0 and autoliq service < 0
+            # (or the opposite) which would require a special treatment.
+            # abs() introduces a distortion when we have positive and negative amounts
+            # in the autoliq lines. But, if we don't use it, we can have a ratio > 100
+            balance = abs(line.move_line_id.balance)
+            autoliq_rate2product_ratio[line.autoliq_type][line.vat_rate_int][
+                "total"
+            ] += balance
+            autoliq_rate2product_ratio[line.autoliq_type][line.vat_rate_int][
+                "product_subtotal"
+            ] += speedy["currency"].round(balance * line.product_ratio / 100)
         # autoliq_intracom_product_logs = []  # for box 17
         # Compute both block B and block A for autoliq intracom + extracom
-        for autoliq_type, accounts in autoliq_taxedop_type2accounts.items():
+        for autoliq_type, accounts in speedy["autoliq_taxedop_type2accounts"].items():
             # autoliq_type is 'intracom' or 'extracom'
             for account in accounts:
                 total_vat_amount = (
@@ -1020,16 +1243,28 @@ class L10nFrAccountVatReturn(models.Model):
                 )
                 if speedy["currency"].is_zero(total_vat_amount):
                     continue
-                rate_int = autoliq_vat_account2rate[account]
+                rate_int = speedy["autoliq_vat_account2rate"][account]
                 # If you have a small residual amount in intracom/extracom autoliq accounts
                 # and you set it to 0 with a write-off at a date after the VAT period, you
                 # have 0 unreconciled move lines, but total_vat_amount != 0
                 # In such a corner case, there is not rate_int key in
                 # autoliq_rate2product_ratio[autoliq_type]
                 # => we consider product_ratio = 0% and service_ratio = 100%
-                product_ratio = autoliq_rate2product_ratio[autoliq_type].get(
-                    rate_int, 0
-                )
+                product_ratio = 0
+                if rate_int in autoliq_rate2product_ratio[autoliq_type]:
+                    rate_data = autoliq_rate2product_ratio[autoliq_type][rate_int]
+                    product_ratio = round(
+                        100 * rate_data["product_subtotal"] / rate_data["total"], 2
+                    )
+                    assert float_compare(product_ratio, 100, precision_digits=2) <= 0
+                    assert float_compare(product_ratio, 0, precision_digits=2) >= 0
+                else:
+                    logger.warning(
+                        "rate_int %s not in autoliq_rate2product_ratio[%s]. "
+                        "This can happen only in a very rare scenario.",
+                        rate_int,
+                        autoliq_type,
+                    )
                 ratio = {
                     "product": product_ratio,
                     "service": 100 - product_ratio,
@@ -1083,197 +1318,6 @@ class L10nFrAccountVatReturn(models.Model):
                         "note": vat_note,
                     }
                     type_rate2logs[ptype][rate_int].append(vat_log)
-
-    def _generate_due_vat_prepare_autoliq_struct(self, speedy):
-        autoliq_taxedop_type2accounts = {
-            "intracom": speedy["aa_obj"],  # recordset 445201, 445202, 445203
-            "extracom": speedy["aa_obj"],  # recordset 445301, 445302, 445303
-        }
-        autoliq_vat_account2rate = (
-            {}
-        )  # {445201: 2000, 445202: 1000, 445203: 55, 445301: 2000,  }
-        autoliq_tax2rate = (
-            {}
-        )  # {TVA 20% intracom (achats): 2000, TVA 10% intracom (achats): 1000, }
-        autoliq_vat_taxes = speedy["at_obj"].search(
-            speedy["purchase_autoliq_vat_tax_domain"]
-        )
-        for tax in autoliq_vat_taxes:
-            lines = tax.invoice_repartition_line_ids.filtered(
-                lambda x: x.repartition_type == "tax"
-                and x.account_id
-                and int(x.factor_percent) == -100
-            )
-            if len(lines) != 1:
-                raise UserError(
-                    _(
-                        "On the autoliquidation tax '%(tax)s', the distribution for "
-                        "invoices should have only one line -100% of tax, and not "
-                        "%(count)s.",
-                        tax=tax.display_name,
-                        count=len(lines),
-                    )
-                )
-            account = lines.account_id
-            rate_int = int(tax.amount * 100)
-            autoliq_tax2rate[tax] = rate_int
-            if (
-                account in autoliq_vat_account2rate
-                and autoliq_vat_account2rate[account] != rate_int
-            ):
-                raise UserError(
-                    _(
-                        "Account '%(account)s' is used as due VAT account on several "
-                        "auto-liquidation taxes for different rates "
-                        "(%(rate1).2f%% and %(rate2).2f%%).",
-                        account=account.display_name,
-                        rate1=rate_int / 100,
-                        rate2=autoliq_vat_account2rate[account] / 100,
-                    )
-                )
-            # Since May 2023, the new strategy to separate goods vs services
-            # for intracom autoliq base is by analyzing unreconciled lines,
-            # and not by analysing the VAT period only (which requires that the balance
-            # of the account is 0 at the start of the period).
-            # So the minimum is to make sure that the account has reconcile=True !
-            if not account.reconcile:
-                raise UserError(
-                    _(
-                        "Account '%s' is an account for autoliquidation, "
-                        "so it's reconcile option must be enabled."
-                    )
-                    % account.display_name
-                )
-            autoliq_vat_account2rate[account] = rate_int
-            tax_map = speedy["afpt_obj"].search(
-                [
-                    ("tax_dest_id", "=", tax.id),
-                    ("company_id", "=", speedy["company_id"]),
-                ],
-                limit=1,
-            )
-            if not tax_map:
-                raise UserError(
-                    _(
-                        "Auto-liquidation tax '%s' is not present in the tax mapping "
-                        "of any fiscal position."
-                    )
-                    % tax.display_name
-                )
-            autoliq_type = tax_map.position_id.fr_vat_type
-            if autoliq_type not in ("intracom_b2b", "extracom"):
-                raise UserError(
-                    _(
-                        "The autoliquidation tax '%(tax)s' is set on the tax mapping "
-                        "of fiscal position '%(fp)s' which is configured with type "
-                        "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be configured "
-                        "on fiscal positions with type '%(fp_fr_vat_type_intracom_b2b)s' "
-                        "or '%(fp_fr_vat_type_extracom)s'.",
-                        tax=tax.display_name,
-                        fp=tax_map.position_id.display_name,
-                        fp_fr_vat_type=speedy["fp_frvattype2label"][autoliq_type],
-                        fp_fr_vat_type_intracom_b2b=speedy["fp_frvattype2label"][
-                            "intracom_b2b"
-                        ],
-                        fp_fr_vat_type_extracom=speedy["fp_frvattype2label"][
-                            "extracom"
-                        ],
-                    )
-                )
-            if autoliq_type == "intracom_b2b":
-                autoliq_type = "intracom"
-            autoliq_taxedop_type2accounts[autoliq_type] |= account
-        return (
-            autoliq_taxedop_type2accounts,
-            autoliq_vat_account2rate,
-            autoliq_tax2rate,
-        )
-
-    def _compute_autoliq_rate2product_ratio(
-        self, speedy, autoliq_taxedop_type2accounts, autoliq_tax2rate
-    ):
-        autoliq_rate2product_ratio = {
-            "intracom": {},  # {2000: 54.80, 1000: 24.67, ...}
-            "extracom": {},
-        }
-        for autoliq_type in ["intracom", "extracom"]:
-            rate2total = defaultdict(float)
-            rate2product = defaultdict(float)
-
-            autoliq_vat_move_lines = speedy["aml_obj"].search(
-                [
-                    (
-                        "account_id",
-                        "in",
-                        autoliq_taxedop_type2accounts[autoliq_type].ids,
-                    ),
-                    ("balance", "!=", 0),
-                    ("full_reconcile_id", "=", False),
-                ]
-                + speedy["base_domain_end"]
-            )
-            for line in autoliq_vat_move_lines:
-                if line.journal_id.type != "purchase":
-                    raise UserError(
-                        _(
-                            "Journal entry '%(move)s' dated %(date)s is inside or "
-                            "before the VAT period %(vat_period)s "
-                            "and has an unreconciled journal item with an "
-                            "%(autoliq_type)s autoliquidation due VAT "
-                            "account '%(account)s' in journal '%(journal)s' which "
-                            "is not a purchase journal. That journal item should be "
-                            "reconciled.",
-                            move=line.move_id.display_name,
-                            date=format_date(self.env, line.date),
-                            vat_period=self.name,
-                            autoliq_type=autoliq_type,
-                            account=line.account_id.display_name,
-                            journal=line.journal_id.display_name,
-                        )
-                    )
-
-            autoliq_vat_moves = autoliq_vat_move_lines.move_id
-            for move in autoliq_vat_moves:
-                is_invoice = move.is_invoice()
-                if is_invoice:
-                    lines = move.invoice_line_ids.filtered(lambda x: not x.display_type)
-                else:
-                    # hr_expense creates entries in the purchase journal which are not invoices
-                    lines = move.line_ids.filtered(
-                        lambda x: not x.display_type
-                        and x.account_id.code.startswith("6")
-                    )
-                for line in lines:
-                    rate_int = 0
-                    for tax in line.tax_ids:
-                        if tax in autoliq_tax2rate:
-                            rate_int = autoliq_tax2rate[tax]
-                    if rate_int:
-                        rate2total[rate_int] += line.balance
-                        product_or_service = line._fr_is_product_or_service()
-                        if product_or_service == "product":
-                            rate2product[rate_int] += line.balance
-                    elif is_invoice:
-                        raise UserError(
-                            _(
-                                "There is a problem on the %(autoliq_type)s "
-                                "%(move_type)s '%(move)s': "
-                                "check that the invoice lines have a single autoliquidation "
-                                "tax, and not the old dual-tax system for autoliquidation "
-                                "which was used by Odoo up to version 12.0 included.",
-                                move_type=speedy["movetype2label"][move.move_type],
-                                move=move.display_name,
-                                autoliq_type=autoliq_type,
-                            )
-                        )
-
-            for rate_int, total in rate2total.items():
-                productratio = 0
-                if not speedy["currency"].is_zero(total):
-                    productratio = round(100 * rate2product[rate_int] / total, 2)
-                autoliq_rate2product_ratio[autoliq_type][rate_int] = productratio
-
-        return autoliq_rate2product_ratio
 
     def _generate_taxed_op_and_due_vat_lines(self, speedy, type_rate2logs):
         # Create boxes 08, 09, 9B (columns base HT et Taxe due)
@@ -1928,6 +1972,21 @@ class L10nFrAccountVatReturn(models.Model):
                 lvals["debit"] = -amount
                 lvals_list.append(lvals)
             logger.debug("VAT move account %s: %s", account.code, lvals)
+        # Adjustment should be only caused by rounding, so not more than a few euros
+        if speedy["currency"].compare_amounts(abs(total), 1) > 0:
+            raise UserError(
+                _(
+                    "Error in the generation of the journal entry: the adjustment amount "
+                    "is %s. The ajustment is only needed because, in the VAT "
+                    "journal entry, the amount of the VAT to pay (or VAT credit) is "
+                    "rounded (because the amounts are rounded in the VAT return) "
+                    "and the other amounts are not rounded."
+                    "As a consequence, the amount of the adjustment should be under 1 €. "
+                    "This error may be caused by a bad configuration of the "
+                    "accounting method of some VAT boxes."
+                )
+                % format_amount(self.env, total, speedy["currency"])
+            )
         total_compare = speedy["currency"].compare_amounts(total, 0)
         total = speedy["currency"].round(total)
         if total_compare > 0:
@@ -2472,3 +2531,72 @@ class L10nFrAccountVatReturnLineLog(models.Model):
                         )
                         % log.parent_id.box_id.display_name
                     )
+
+
+class L10nFrAccountVatReturnAutoliqLine(models.Model):
+    _name = "l10n.fr.account.vat.return.autoliq.line"
+    _description = "VAT Return Autoliq Line for France (CA3 line)"
+    _order = "parent_id, id"
+    _check_company_auto = True
+
+    parent_id = fields.Many2one(
+        "l10n.fr.account.vat.return", string="VAT Return", ondelete="cascade"
+    )
+    company_id = fields.Many2one(related="parent_id.company_id", store=True)
+    # no required=True, to avoid error if move line is deleted
+    move_line_id = fields.Many2one(
+        "account.move.line", string="Journal Item", check_company=True
+    )
+    move_id = fields.Many2one(
+        related="move_line_id.move_id", string="Journal Entry", store=True
+    )
+    journal_id = fields.Many2one(related="move_id.journal_id", store=True)
+    date = fields.Date(related="move_id.date", store=True)
+    partner_id = fields.Many2one(related="move_line_id.partner_id", store=True)
+    account_id = fields.Many2one(related="move_line_id.account_id", store=True)
+    ref = fields.Char(related="move_id.ref", store=True)
+    label = fields.Char(related="move_line_id.name", store=True)
+    company_currency_id = fields.Many2one(
+        related="move_line_id.company_currency_id", store=True
+    )
+    debit = fields.Monetary(
+        related="move_line_id.debit", currency_field="company_currency_id", store=True
+    )
+    credit = fields.Monetary(
+        related="move_line_id.credit", currency_field="company_currency_id", store=True
+    )
+    product_ratio = fields.Float(digits=(16, 2))
+    autoliq_type = fields.Selection(
+        [
+            ("intracom", "Intracom"),
+            ("extracom", "Extracom"),
+        ],
+        required=True,
+        string="Type",
+    )
+    compute_type = fields.Selection(
+        [
+            ("auto", "Auto"),
+            ("manual", "Manual"),
+        ],
+        required=True,
+    )
+    vat_rate_int = fields.Integer(
+        string="VAT Rate", required=True, help="VAT rate x 100"
+    )
+
+    @api.constrains("product_ratio")
+    def _check_autoliq_line(self):
+        for line in self:
+            if (
+                float_compare(line.product_ratio, 0, precision_digits=2) < 0
+                or float_compare(line.product_ratio, 100, precision_digits=2) > 0
+            ):
+                raise ValidationError(
+                    _(
+                        "On journal item '%(move_line)s', the product ratio must be "
+                        "between 0%% and 100%% (current value: %(ratio)s %%).",
+                        move_line=line.move_line_id.display_name,
+                        ratio=line.product_ratio,
+                    )
+                )
