@@ -369,43 +369,69 @@ ul.auto-toc {
 !! source digest: sha256:cc2dfe4e4e92e172fa75427250ce7cf014a641c59a87e572cd9733e71c65b408
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-france/tree/16.0/account_banking_fr_lcr"><img alt="OCA/l10n-france" src="https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-france-16-0/l10n-france-16-0-account_banking_fr_lcr"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>This module adds support for French Letters of Change (in French:
-<em>Lettre de Change Relevé</em> aka LCR). This module supports direct LCR
-(in French, <em>LCR Directe</em>) and not paper LCR.</p>
-<p>This payment type is still in use in France and it is <em>not</em> replaced by SEPA
-one-off Direct Debits.</p>
-<p>With this module, you can generate an LCR CFONB file to send to your
-bank. Then, your customer will be notified by their bank about the debit
-(amount, date of debit). Eventually, the debit will take place at the
-planned date.</p>
+<p>This module adds support for French Letters of Change. This module supports:</p>
+<ul class="simple">
+<li><strong>Direct letter of change</strong> (in French : <em>Lettre de change directe</em> or <em>LCR directe</em>),</li>
+<li><strong>Accepted letter of change</strong> (in French : <em>Lettre de change acceptée</em> ; I call it <em>paper letter of change</em>),</li>
+<li><strong>Promissory note</strong> (in French : <em>Billet à ordre</em>),</li>
+</ul>
+<p>It supports cash discounts debit orders and Dailly convention.</p>
+<p>This module has 2 main features:</p>
+<ul class="simple">
+<li>for <strong>Accepted Letter of Change</strong>, generate a paper letter of change as PDF following the official layout NF K 11-030-1.</li>
+<li>generate of LCR (or BOR) CFONB files to send to your bank.</li>
+</ul>
+<p>This module follows the specifications published on the <a class="reference external" href="https://www.cfonb.org/">CFONB website</a>, section <em>Espace documentaire &gt; Instruments de paiement &gt; Effet de commerce</em> (document version of September 2002).</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
-<li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-3">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-4">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-5">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-6">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-7">Maintainers</a></li>
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-4">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-5">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-6">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-7">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-8">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="installation">
+<h1><a class="toc-backref" href="#toc-entry-1">Installation</a></h1>
+<p>This module requires 2 Python libs:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pypi.org/project/pypdf/">pypdf</a> version 3.10 or above,</li>
+<li><a class="reference external" href="https://pypi.org/project/Unidecode/">unidecode</a> (any version).</li>
+</ul>
+<p>In order to have the SIREN of the company and of the customer set in the CFONB file (optional field) and printed on the paper letter of exchange, the OCA module <strong>l10n_fr_siret</strong> must be installed. The installation of the module <strong>l10n_fr_siret</strong> is optional (because the SIREN field in the CFONB file is optional).</p>
+</div>
 <div class="section" id="configuration">
-<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
 <p>To configure this module, you need to create a new payment mode linked
 to the payment method <em>Lettre de Change Relevé</em> that is automatically
 created when you install this module.</p>
-<p>On the payment mode, you must select the LCR type: <em>LCR directe</em>, <em>Lettre de change acceptée</em> or <em>Billet à ordre</em>.</p>
+<p>Once you selected this payment method, you will have a new section <em>Bill of Exchange</em> on the payment mode where you will have to configure:</p>
+<ul class="simple">
+<li>the <em>LCR type</em>: <em>Lettre de change non acceptée (LCR directe)</em>, <em>Lettre de change acceptée</em> or <em>Billet à ordre</em>,</li>
+<li>the <em>Default Collection Option</em>,</li>
+<li>if you have a <em>Dailly Convention</em>,</li>
+<li>in case you have a Dailly convention, you will be able to configure the <em>Default Dailly Option</em> and the <em>Convention Type</em>.</li>
+</ul>
 </div>
 <div class="section" id="usage">
-<h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
-<p>To use this module, you need to create a new Debit Order and
-select the LCR payment mode.</p>
+<h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
+<p>This module adds a new field <em>Bill of Exchange Bank Account</em> on customer invoices to select the bank account of the customer that will be debited by the letter of exchange. This bank account must be a french IBAN.</p>
+<p>If you configured the payment mode for <strong>Accepted Letter of Change</strong>, you will have a button <em>Print Bill of Exchange</em> on customer invoices to get the letter of change as PDF.</p>
+<p>This module uses the standard workflow of debit orders as implemented in the OCA module <strong>account_payment_order</strong>. A debit order linked to a payment mode with the payment method <em>Lettre de change relevé</em> has a few additionnal constraints:</p>
+<ul class="simple">
+<li>all payment lines must be in euro currency,</li>
+<li>the bank accounts on the payment lines must be french IBANs,</li>
+<li>if the payment order is configured with cash discount, you must configure the value date on the payment order (new field added by this module).</li>
+</ul>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-4">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-france/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -413,21 +439,21 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-4">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-5">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-5">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">Authors</a></h2>
 <ul class="simple">
 <li>Akretion</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-6">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-7">Contributors</a></h2>
 <ul class="simple">
 <li>Alexis de Lattre &lt;<a class="reference external" href="mailto:alexis.delattre&#64;akretion.com">alexis.delattre&#64;akretion.com</a>&gt;</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-7">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-8">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
