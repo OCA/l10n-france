@@ -14,11 +14,27 @@
             ref="account_payment_order.account_payment_mode_form"
         />
         <field name="arch" type="xml">
-            <group name="payment_order_options" position="inside">
-                <field
-                    name="fr_lcr_type"
-                    attrs="{'required': [('payment_method_code', '=', 'fr_lcr')], 'invisible': [('payment_method_code', '!=', 'fr_lcr')]}"
-                />
+            <group name="payment_order_options" position="before">
+                <group
+                    name="fr_lcr"
+                    string="Bill of Exchange"
+                    attrs="{'invisible': [('payment_method_code', '!=', 'fr_lcr')]}"
+                >
+                    <field
+                        name="fr_lcr_type"
+                        attrs="{'required': [('payment_method_code', '=', 'fr_lcr')]}"
+                    />
+                    <field name="fr_lcr_default_collection_option" />
+                    <field name="fr_lcr_dailly" />
+                    <field
+                        name="fr_lcr_default_dailly_option"
+                        attrs="{'invisible': [('fr_lcr_dailly', '=', False)]}"
+                    />
+                    <field
+                        name="fr_lcr_convention_type"
+                        attrs="{'invisible': [('fr_lcr_dailly', '=', False)]}"
+                    />
+                </group>
             </group>
         </field>
     </record>

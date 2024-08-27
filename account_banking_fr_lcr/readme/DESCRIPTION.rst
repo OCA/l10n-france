@@ -1,11 +1,14 @@
-This module adds support for French Letters of Change (in French:
-*Lettre de Change Relevé* aka LCR). This module supports direct LCR
-(in French, *LCR Directe*) and not paper LCR.
+This module adds support for French Letters of Change. This module supports:
 
-This payment type is still in use in France and it is *not* replaced by SEPA
-one-off Direct Debits.
+* **Direct letter of change** (in French : *Lettre de change directe* or *LCR directe*),
+* **Accepted letter of change** (in French : *Lettre de change acceptée* ; I call it *paper letter of change*),
+* **Promissory note** (in French : *Billet à ordre*),
 
-With this module, you can generate an LCR CFONB file to send to your
-bank. Then, your customer will be notified by their bank about the debit
-(amount, date of debit). Eventually, the debit will take place at the
-planned date.
+It supports cash discounts debit orders and Dailly convention.
+
+This module has 2 main features:
+
+* for **Accepted Letter of Change**, generate a paper letter of change as PDF following the official layout NF K 11-030-1.
+* generate of LCR (or BOR) CFONB files to send to your bank.
+
+This module follows the specifications published on the `CFONB website <https://www.cfonb.org/>`_, section *Espace documentaire > Instruments de paiement > Effet de commerce* (document version of September 2002).
