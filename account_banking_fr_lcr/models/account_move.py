@@ -144,13 +144,15 @@ class AccountMove(models.Model):
         res = {
             "amount_check": {
                 "value": amount_value,
-                "x": 55,
+                "x": 123,
                 "y": 147,
+                "align": "right",
             },
             "amount": {
                 "value": amount_value,
-                "x": 479,
+                "x": 548,
                 "y": 147,
+                "align": "right",
             },
             "invoice_date": {
                 "value": format_date(self.env, self.invoice_date, lang_code=lang),
@@ -247,6 +249,10 @@ class AccountMove(models.Model):
                     )
                     addr_para.wrap(field_val["width"], field_val["height"])
                     addr_para.drawOn(text_canvas, field_val["x"], field_val["y"])
+                elif field_val.get("align") == "right":
+                    text_canvas.drawRightString(
+                        field_val["x"], field_val["y"], field_val["value"]
+                    )
                 else:
                     text_canvas.drawString(
                         field_val["x"], field_val["y"], field_val["value"]
@@ -255,7 +261,7 @@ class AccountMove(models.Model):
 
         # move to the beginning of the StringIO buffer
         packet.seek(0)
-        watermark_pdf_reader_p1 = PdfReader(packet)
+        watermark_pdf_reader = PdfReader(packet)
         # read your existing PDF
         with tools.file_open(
             "account_banking_fr_lcr/reports/lettre_de_change.pdf", "rb"
@@ -263,15 +269,16 @@ class AccountMove(models.Model):
             empty_report_reader = PdfReader(empty_report_fd)
             final_report_writer = PdfWriter()
             # add the "watermark" (which is the new pdf) on the existing page
-            page1 = empty_report_reader.pages[0]
-            page1.merge_page(watermark_pdf_reader_p1.pages[0])
-            final_report_writer.add_page(page1)
+            page = empty_report_reader.pages[0]
+            page.merge_page(watermark_pdf_reader.pages[0])
+            final_report_writer.add_page(page)
+            final_report_writer.pages[0].compress_content_streams()
             # finally, write "output" to a real file
             final_report_io = io.BytesIO()
             final_report_writer.write(final_report_io)
             final_report_bytes = final_report_io.getvalue()
 
-        filename = "lettre_de_change_%s.pdf" % self.name.replace("/", "-")
+        filename = "lettre_de_change-%s.pdf" % self.name.replace("/", "-")
         attach = self.env["ir.attachment"].create(
             {
                 "name": filename,
