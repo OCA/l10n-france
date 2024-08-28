@@ -3,6 +3,8 @@
 import base64
 import re
 
+from unidecode import unidecode
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -315,7 +317,7 @@ def factofrance_date(date_value):
 def clean_string(string):
     """Remove all except [A-Z], space, \r, \n
     https://www.rapidtables.com/code/text/ascii-table.html"""
-    string = string.upper()
+    string = unidecode(string.upper())
     string = re.sub(r"[\x21-\x2F]|[\x3A-\x40]|[\x5E-\x7F]|\x0A\x0D", r"", string)
     string = string.replace("False", "    ")
     return string

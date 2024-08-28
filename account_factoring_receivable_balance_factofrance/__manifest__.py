@@ -16,4 +16,5 @@
         "views/account_journal.xml",
         "views/subrogation_receipt_views.xml",
     ],
+    "external_dependencies": {"python": ["unidecode"]},
 }
