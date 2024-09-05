@@ -48,7 +48,6 @@
                         <field
                             name="paybox_public_key"
                             attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
-                            groups='base.group_no_one'
                         />
                     </group>
                 </xpath>

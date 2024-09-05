@@ -4,18 +4,17 @@
 
 import hmac
 import logging
+import os
 import urllib.parse
 from base64 import b64decode
 from datetime import datetime
-from encodings import hex_codec
-from hashlib import sha512
 
 import pytz
 import rsa
 from werkzeug import urls
 
 from odoo import api, fields, models
-from odoo.tools.float_utils import float_compare
+from odoo.modules.module import get_resource_path
 from odoo.tools.translate import _
 
 from odoo.addons.payment.models.payment_acquirer import ValidationError
@@ -27,6 +26,9 @@ _logger = logging.getLogger(__name__)
 
 OUT_DATE_FORMAT = "%Y-%m-%d"
 IN_DATE_FORMAT = "%d/%m/%Y_a_%H:%M:%S"
+PATH_PUBKEY_MODULE = get_resource_path("payment_paybox", "data/pubkey.pem")
+if PATH_PUBKEY_MODULE == False:
+    PATH_PUBKEY_MODULE = "False"
 
 
 class AcquirerPaybox(models.Model):
@@ -65,16 +67,10 @@ class AcquirerPaybox(models.Model):
         required_if_provider="paybox",
         default="https://tpeweb1.paybox.com/cgi/MYchoix_pagepaiement.cgi",
     )
-    paybox_public_key = fields.Text(
+    paybox_public_key = fields.Char(
         "Public key paybox",
         required_if_provider="paybox",
-        default="""-----BEGIN PUBLIC KEY-----
-        MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDe+hkicNP7ROHUssGNtHwiT2Ew
-        HFrSk/qwrcq8v5metRtTTFPE/nmzSkRnTs3GMpi57rBdxBBJW5W9cpNyGUh0jNXc
-        VrOSClpD5Ri2hER/GcNrxVRP7RlWOqB1C03q4QYmwjHZ+zlM4OUhCCAtSWflB4wC
-        Ka1g88CjFwRw/PB9kwIDAQAB
-        -----END PUBLIC KEY-----
-""",
+        default=PATH_PUBKEY_MODULE,
     )
 
     def _paybox_generate_hmacsign(self, values):
@@ -141,7 +137,7 @@ class AcquirerPaybox(models.Model):
         key_str64 = urllib.parse.unquote(key)
         key_str = b64decode(key_str64)
         keypub_import = rsa.PublicKey.load_pkcs1(self.paybox_public_key, "PEM")
-        check_key = rsa.verify(data, key_str, keypub_import)
+        check_publickey = rsa.verify(data, key_str, keypub_import)
         if check_publickey == "SHA-1":
             return True
         else:

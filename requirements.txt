@@ -4,5 +4,6 @@ pypdf>=3.1.0
 python-stdnum
 requests
 requests_oauthlib
+rsa
 unicodecsv
 unidecode

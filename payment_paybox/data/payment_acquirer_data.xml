@@ -4,9 +4,19 @@
 
         <record id="payment_acquirer_paybox" model="payment.acquirer">
             <field name="name">Paybox</field>
+            <field
+                name="image_128"
+                type="base64"
+                file="payment_paybox/static/src/img/paybox-logo.png"
+            />
             <field name="provider">paybox</field>
             <field name="company_id" ref="base.main_company" />
             <field name="view_template_id" ref="payment_paybox.paybox_form" />
+            <field name="description" type="html">
+                <p>
+                    A payment gateway from Verifone to accept oline payments via credit cards.
+                </p>
+            </field>
         </record>
 
     </data>
