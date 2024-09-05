@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2024 Akretion (http://www.akretion.com).
+    @author Thomas BONNERUE <thomas.bonnerue@akretion.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="acquirer_form_paybox" model="ir.ui.view">
+            <field name="name">acquirer.form.paybox</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inherit_id" ref="payment.acquirer_form" />
+            <field name="arch" type="xml">
+                <xpath expr='//group[@name="acquirer"]' position='inside'>
+                    <group attrs="{'invisible': [('provider', '!=', 'paybox')]}">
+                        <field
+                            name="paybox_ept"
+                            attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
+                        />
+                        <field
+                            name="paybox_company_code"
+                            attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
+                        />
+                        <field
+                            name="paybox_rang"
+                            attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
+                        />
+                        <field
+                            name="paybox_secret"
+                            attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
+                        />
+                        <field
+                            name="paybox_test_url"
+                            attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
+                            groups='base.group_no_one'
+                        />
+                        <field
+                            name="paybox_prod_url"
+                            attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
+                            groups='base.group_no_one'
+                        />
+                        <field
+                            name="paybox_prod_url_2"
+                            attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
+                            groups='base.group_no_one'
+                        />
+                        <field
+                            name="paybox_public_key"
+                            attrs="{'required':[ ('provider', '=', 'paybox'), ('state', '!=', 'disabled')]}"
+                            groups='base.group_no_one'
+                        />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
