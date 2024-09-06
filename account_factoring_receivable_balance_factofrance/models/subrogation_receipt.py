@@ -192,16 +192,8 @@ class SubrogationReceipt(models.Model):
             "balance": 0.00,
         }
         for line in self.line_ids:
-            move = line.move_id
-            journal = self.factor_journal_id
-            partner = line.move_id.partner_id.commercial_partner_id
-            if not partner:
-                raise UserError(f"Pas de partenaire sur la pièce {line.move_id}")
-
-            code, op_type, sign = self._get_line_code_type_sign(line)
-            due_date = self._get_line_due_date(line, op_type)
-            amount = (line.debit - line.credit) * sign
-
+            info = self._prepare_factofrance_body_line(line)
+            code, amount = info["code"], info["amount_signed"]
             if code == "101":
                 totals["number_of_invoices"] += 1
                 totals["total_amount_of_invoices"] += amount
@@ -212,47 +204,58 @@ class SubrogationReceipt(models.Model):
                 totals["number_of_payments"] += 1
                 totals["total_amount_of_payments"] += amount
             totals["balance"] += line.balance
-
-            identification_type = journal.partner_identification_type
-            info = {
-                "code": code or " ",
-                "confirm_date": factofrance_date(self.date),
-                "factor_code": str(journal.factor_code),
-                "document": (
-                    (partner.siret or "0")
-                    if identification_type == "1"
-                    else (partner.vat or "0")
-                ),
-                "customer_name": partner.name or "",
-                "customer_address": " ".join(
-                    x for x in [partner.street, partner.street2, partner.street3] if x
-                ),
-                # "customer_street": partner.street
-                # and partner.street.ljust(40, " ")
-                # or " ",
-                # "customer_street2": partner.street2
-                # and partner.street2.ljust(40, " ")
-                # or "".ljust(40, " "),
-                "customer_zip_code": partner.zip or "",
-                "delivery_office": partner.city or "",
-                "customer_country_code": partner.country_id.code or "",
-                "customer_phone": (partner.phone or partner.mobile or "").replace(
-                    " ", ""
-                ),
-                "customer_ref": partner.ref or "",
-                "date": factofrance_date(move.invoice_date or move.date),
-                "number": move.payment_reference or move.name,
-                "currency": self.company_id.currency_id.name or "",
-                "account_sign": "-" if amount < 0 else "+",
-                "amount": abs(amount),
-                "payment_mode": "VIR",
-                "date_due": factofrance_date(due_date),
-                "customer_order_reference": move.ref or "",
-                "operation_type": op_type,
-                "move_type": move.move_type,
-            }
             rows.append(info)
         return rows, totals
+
+    def _prepare_factofrance_body_line(self, line):
+        move = line.move_id
+        journal = self.factor_journal_id
+        partner = line.move_id.partner_id.commercial_partner_id
+        if not partner:
+            raise UserError(f"Pas de partenaire sur la pièce {line.move_id}")
+
+        code, op_type, sign = self._get_line_code_type_sign(line)
+        due_date = self._get_line_due_date(line, op_type)
+        amount = (line.debit - line.credit) * sign
+        identification_type = journal.partner_identification_type
+        info = {
+            "code": code or " ",
+            "confirm_date": factofrance_date(self.date),
+            "factor_code": str(journal.factor_code),
+            "document": (
+                (partner.siret or "0")
+                if identification_type == "1"
+                else (partner.vat or "0")
+            ),
+            "customer_name": partner.name or "",
+            "customer_address": " ".join(
+                x for x in [partner.street, partner.street2, partner.street3] if x
+            ),
+            # "customer_street": partner.street
+            # and partner.street.ljust(40, " ")
+            # or " ",
+            # "customer_street2": partner.street2
+            # and partner.street2.ljust(40, " ")
+            # or "".ljust(40, " "),
+            "customer_zip_code": partner.zip or "",
+            "delivery_office": partner.city or "",
+            "customer_country_code": partner.country_id.code or "",
+            "customer_phone": (partner.phone or partner.mobile or "").replace(" ", ""),
+            "customer_ref": partner.ref or "",
+            "date": factofrance_date(move.invoice_date or move.date),
+            # For document number, Invoices use payment ref, Payments use the paid ref
+            "number": move.payment_reference or move.ref or move.name,
+            "currency": self.company_id.currency_id.name or "",
+            "account_sign": "-" if amount < 0 else "+",
+            "amount_signed": amount,
+            "amount": abs(amount),
+            "payment_mode": "VIR",
+            "date_due": factofrance_date(due_date),
+            "customer_order_reference": move.ref or "",
+            "operation_type": op_type,
+            "move_type": move.move_type,
+        }
+        return info
 
     def _get_factofrance_body(self, rows_info):
         rows = []
