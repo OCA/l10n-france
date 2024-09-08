@@ -2,12 +2,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
+import binascii
 import hmac
 import logging
-import os
 import urllib.parse
+import hashlib
 from base64 import b64decode
-from datetime import datetime
+from datetime import datetime, timezone
 
 import pytz
 import rsa
@@ -24,10 +25,9 @@ from .const import PAYBOX_ISO_CURRENCIES
 
 _logger = logging.getLogger(__name__)
 
-OUT_DATE_FORMAT = "%Y-%m-%d"
-IN_DATE_FORMAT = "%d/%m/%Y_a_%H:%M:%S"
+IN_DATE_FORMAT = "%d%m%Y_a_%H:%M:%S"
 PATH_PUBKEY_MODULE = get_resource_path("payment_paybox", "data/pubkey.pem")
-if PATH_PUBKEY_MODULE == False:
+if PATH_PUBKEY_MODULE is False:
     PATH_PUBKEY_MODULE = "False"
 
 
@@ -80,14 +80,13 @@ class AcquirerPaybox(models.Model):
         """
         if self.provider != "paybox":
             raise ValidationError(_("Incorrect payment acquirer provider"))
-        signed_items = dict(sorted(values.items()))
-        signed_items.pop("PBX_HMAC", None)
-        signed_str = b"&".join(f"{k}={v}" for k, v in signed_items.items())
+        values.pop("PBX_HMAC", None)
+        values["PBX_TIME"] = urllib.parse.unquote(values["PBX_TIME"])
+        signed_str = "&".join(f"{k}={v}" for k, v in values.items())
 
-        key = self.paybox_secret
-        hexkey = str.join(map(bin, bytearray(key, "utf8")))
+        key = binascii.unhexlify(self.paybox_secret)
 
-        hmac_key = hmac.new(hexkey, signed_str, "sha512")
+        hmac_key = hmac.new(key, signed_str.encode("ascii"), hashlib.sha512)
 
         return hmac_key.hexdigest()
 
@@ -102,6 +101,8 @@ class AcquirerPaybox(models.Model):
             )
         # Round to its smallest unit, depends on the currency
         amount = round(values["amount"] * (10**paybox_currency.decimal))
+        date_hmac = datetime.now(timezone.utc)
+        date_hmac = date_hmac.replace(mircoseconde=0)
 
         paybox_tx_values = dict(
             PBX_SITE=self.paybox_ept,
@@ -113,9 +114,7 @@ class AcquirerPaybox(models.Model):
             PBX_PORTEUR=values.get("partner_email"),
             PBX_RETOUR="Mt:M;Ref:R;Auto:A;Response:E;Garanti:G;Date:W;NumPBX:S;KEY:K",
             PBX_HASH="SHA512",
-            PBX_TIME=urllib.parse.quote(
-                fields.Datetime.now().strftime(OUT_DATE_FORMAT)
-            ),
+            PBX_TIME=urllib.parse.quote(date_hmac),
             PBX_EFFECTUE=urls.url_join(base_url, PayBoxController._return_url),
             PBX_REFUSE=urls.url_join(base_url, PayBoxController._return_url),
             PBX_ANNULE=urls.url_join(base_url, PayBoxController._return_url),
@@ -132,7 +131,7 @@ class AcquirerPaybox(models.Model):
         return self.paybox_prod_url if self.state == "enabled" else self.paybox_test_url
 
     def _paybox_key_security_identification(self, data, key):
-        data = b"&".join(f"{k}={v}" for k, v in data.items())
+        data = "&".join(f"{k}={v}" for k, v in data.items())
         data = urllib.sha1(data)
         key_str64 = urllib.parse.unquote(key)
         key_str = b64decode(key_str64)
@@ -196,7 +195,7 @@ class TxPaybox(models.Model):
         invalid_parameters = []
 
         values = self._paybox_data_to_object(data)
-        paybox_key = values.pop("KEY", False)
+        values.pop("KEY", False)
 
         tx = self.search([("reference", "=", values.get("Ref"))])
         paybox_currency = PAYBOX_ISO_CURRENCIES.get(tx.currency.name)

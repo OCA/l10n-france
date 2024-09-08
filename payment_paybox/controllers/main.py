@@ -38,7 +38,7 @@ class PayBoxController(http.Controller):
         "/payment/paybox/webhook/",
         type="http",
         auth="public",
-        methods=["POST"],
+        methods=["GET"],
         csrf=False,
     )
     def paybox_webhook(self, **post):
@@ -57,7 +57,7 @@ class PayBoxController(http.Controller):
         "/payment/paybox/return",
         type="http",
         auth="public",
-        methods=["POST"],
+        methods=["GET"],
         csrf=False,
         save_session=False,
     )
