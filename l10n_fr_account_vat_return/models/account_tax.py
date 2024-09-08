@@ -10,7 +10,7 @@ class AccountTax(models.Model):
     _inherit = "account.tax"
 
     fr_vat_autoliquidation = fields.Boolean(
-        compute="_compute_fr_vat_autoliquidation", store=True, string="Auto-Liquidation"
+        compute="_compute_fr_vat_autoliquidation", store=True, string="Autoliquidation"
     )
 
     @api.depends(
