@@ -3,10 +3,10 @@
 
 
 import binascii
+import hashlib
 import hmac
 import logging
 import urllib.parse
-import hashlib
 from base64 import b64decode
 from datetime import datetime, timezone
 
@@ -15,7 +15,6 @@ import rsa
 from werkzeug import urls
 
 from odoo import api, fields, models
-from odoo.modules.module import get_resource_path
 from odoo.tools.translate import _
 
 from odoo.addons.payment.models.payment_acquirer import ValidationError
@@ -26,9 +25,12 @@ from .const import PAYBOX_ISO_CURRENCIES
 _logger = logging.getLogger(__name__)
 
 IN_DATE_FORMAT = "%d%m%Y_a_%H:%M:%S"
-PATH_PUBKEY_MODULE = get_resource_path("payment_paybox", "data/pubkey.pem")
-if PATH_PUBKEY_MODULE is False:
-    PATH_PUBKEY_MODULE = "False"
+PBX_PUBKEY_MODULE = """-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDe+hkicNP7ROHUssGNtHwiT2Ew
+HFrSk/qwrcq8v5metRtTTFPE/nmzSkRnTs3GMpi57rBdxBBJW5W9cpNyGUh0jNXc
+VrOSClpD5Ri2hER/GcNrxVRP7RlWOqB1C03q4QYmwjHZ+zlM4OUhCCAtSWflB4wC
+Ka1g88CjFwRw/PB9kwIDAQAB
+-----END PUBLIC KEY-----"""
 
 
 class AcquirerPaybox(models.Model):
@@ -67,16 +69,16 @@ class AcquirerPaybox(models.Model):
         required_if_provider="paybox",
         default="https://tpeweb1.paybox.com/cgi/MYchoix_pagepaiement.cgi",
     )
-    paybox_public_key = fields.Char(
+    paybox_public_key = fields.Text(
         "Public key paybox",
         required_if_provider="paybox",
-        default=PATH_PUBKEY_MODULE,
+        default=PBX_PUBKEY_MODULE,
     )
 
     def _paybox_generate_hmacsign(self, values):
-        """Generate the shasign for incoming or outgoing communications.
+        """Generate the hmac for outgoing communications.
         :param dict values: transaction values
-        :return string: shasign
+        :return string: hmac
         """
         if self.provider != "paybox":
             raise ValidationError(_("Incorrect payment acquirer provider"))
@@ -102,7 +104,7 @@ class AcquirerPaybox(models.Model):
         # Round to its smallest unit, depends on the currency
         amount = round(values["amount"] * (10**paybox_currency.decimal))
         date_hmac = datetime.now(timezone.utc)
-        date_hmac = date_hmac.replace(mircoseconde=0)
+        date_hmac = date_hmac.replace(mircosecond=0)
 
         paybox_tx_values = dict(
             PBX_SITE=self.paybox_ept,
@@ -114,7 +116,7 @@ class AcquirerPaybox(models.Model):
             PBX_PORTEUR=values.get("partner_email"),
             PBX_RETOUR="Mt:M;Ref:R;Auto:A;Response:E;Garanti:G;Date:W;NumPBX:S;KEY:K",
             PBX_HASH="SHA512",
-            PBX_TIME=urllib.parse.quote(date_hmac),
+            PBX_TIME=urllib.parse.quote(date_hmac.isoformat()),
             PBX_EFFECTUE=urls.url_join(base_url, PayBoxController._return_url),
             PBX_REFUSE=urls.url_join(base_url, PayBoxController._return_url),
             PBX_ANNULE=urls.url_join(base_url, PayBoxController._return_url),
@@ -132,11 +134,14 @@ class AcquirerPaybox(models.Model):
 
     def _paybox_key_security_identification(self, data, key):
         data = "&".join(f"{k}={v}" for k, v in data.items())
-        data = urllib.sha1(data)
+        data_encode = data.encode("ascii")
+
         key_str64 = urllib.parse.unquote(key)
         key_str = b64decode(key_str64)
-        keypub_import = rsa.PublicKey.load_pkcs1(self.paybox_public_key, "PEM")
-        check_publickey = rsa.verify(data, key_str, keypub_import)
+
+        keypub_import = rsa.PublicKey.load_pkcs1_openssl_pem(self.paybox_public_key)
+
+        check_publickey = rsa.verify(data_encode, key_str, keypub_import)
         if check_publickey == "SHA-1":
             return True
         else:
@@ -153,13 +158,6 @@ class TxPaybox(models.Model):
     _paybox_error_retry_tx_status = ["00001", "00003"]
     _paybox_payment_already_done_tx_status = ["00015"]
 
-    def _paybox_data_to_object(self, data):
-        res = {}
-        for element in data.split("&"):
-            (key, value) = element.split("=")
-            res[key] = value
-        return res
-
     @api.model
     def _paybox_form_get_tx_from_data(self, data):
         """Given a data dict coming from paybox, verify it and find the related
@@ -168,7 +166,7 @@ class TxPaybox(models.Model):
             [("provider", "=", "paybox")], limit=1
         )
 
-        values = self._paybox_data_to_object(data)
+        values = data.copy()
         paybox_key = values.pop("KEY", False)
         if not paybox_key:
             raise ValidationError(
@@ -194,23 +192,21 @@ class TxPaybox(models.Model):
     def _paybox_form_get_invalid_parameters(self, data):
         invalid_parameters = []
 
-        values = self._paybox_data_to_object(data)
+        values = data.copy()
         values.pop("KEY", False)
 
-        tx = self.search([("reference", "=", values.get("Ref"))])
-        paybox_currency = PAYBOX_ISO_CURRENCIES.get(tx.currency.name)
-        amount = round(tx.amount * (10**paybox_currency.decimal))
-        if values.get("Mt") != amount:
-            invalid_parameters.append("amount", amount)
+        paybox_currency = PAYBOX_ISO_CURRENCIES.get(self.currency_id.name)
+        amount = round(self.amount * (10**paybox_currency.decimal))
+        if values.get("Mt") != str(amount):
+            invalid_parameters.append("amount", str(amount), values["Mt"])
         # Put here all test that may be use for verified data in the
         # transmission comming in.
 
         return invalid_parameters
 
     def _paybox_form_validate(self, data):
-        values = self._paybox_data_to_object(data)
-        status = values.get("Response")
-        date = values.get("Date")
+        status = data.get("Response")
+        date = data.get("Date")
         if date:
             try:
                 date = (
@@ -221,7 +217,7 @@ class TxPaybox(models.Model):
             except Exception:
                 date = fields.Datetime.now()
         data = {
-            "acquirer_reference": values.get("NumPBX"),
+            "acquirer_reference": data.get("NumPBX"),
             "date": date,
         }
 

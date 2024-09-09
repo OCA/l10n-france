@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2024 Akretion (http://www.akretion.com).
-    @author Thomas BONNERUE <thomas.bonnerue@akretion.com>
     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
@@ -9,7 +8,7 @@
         <template id="paybox_form">
             <input
                 type="hidden"
-                name="data_set"
+                name=""
                 t-att-data-action-url="tx_url"
                 data-remove-me=""
             />
