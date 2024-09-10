@@ -104,13 +104,13 @@ class AcquirerPaybox(models.Model):
         # Round to its smallest unit, depends on the currency
         amount = round(values["amount"] * (10**paybox_currency.decimal))
         date_hmac = datetime.now(timezone.utc)
-        date_hmac = date_hmac.replace(mircosecond=0)
+        date_hmac = date_hmac.replace(microsecond=0)
 
         paybox_tx_values = dict(
             PBX_SITE=self.paybox_ept,
             PBX_RANG=self.paybox_rang,
             PBX_IDENTIFIANT=self.paybox_company_code,
-            PBX_TOTAL=amount,
+            PBX_TOTAL=str(amount),
             PBX_DEVISE=paybox_currency.iso_id,
             PBX_CMD=values["reference"],
             PBX_PORTEUR=values.get("partner_email"),
@@ -139,7 +139,8 @@ class AcquirerPaybox(models.Model):
         key_str64 = urllib.parse.unquote(key)
         key_str = b64decode(key_str64)
 
-        keypub_import = rsa.PublicKey.load_pkcs1_openssl_pem(self.paybox_public_key)
+        with open(self.paybox_public_key, "rb") as f:
+            keypub_import = rsa.PublicKey.load_pkcs1_openssl_pem(f.read())
 
         check_publickey = rsa.verify(data_encode, key_str, keypub_import)
         if check_publickey == "SHA-1":
@@ -198,7 +199,7 @@ class TxPaybox(models.Model):
         paybox_currency = PAYBOX_ISO_CURRENCIES.get(self.currency_id.name)
         amount = round(self.amount * (10**paybox_currency.decimal))
         if values.get("Mt") != str(amount):
-            invalid_parameters.append("amount", str(amount), values["Mt"])
+            invalid_parameters.append(("amount", str(amount), values["Mt"]))
         # Put here all test that may be use for verified data in the
         # transmission comming in.
 
