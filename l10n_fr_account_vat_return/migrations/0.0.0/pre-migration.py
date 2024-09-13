@@ -5,14 +5,19 @@
 # According to odoo/modules/migration.py, a special folder named '0.0.0'
 # can contain scripts that will be run on any version change
 
+from openupgradelib import openupgrade
 
-def migrate(cr, version):
+
+@openupgrade.migrate()
+def migrate(env, version):
     # When data/l10n.fr.account.vat.box.csv is updated,
     # a box can take the previous value of another box located
     # in a row after it in the CSV, so it hits the SQL constraint before
     # reaching/updating the other box in the CSV
     # Set I set to null the fields that are in a unique SQL constraint
-    cr.execute(
-        "UPDATE l10n_fr_account_vat_box SET sequence=null, nref_code=null, "
-        "print_x=null, print_y=null, print_page=null, code=null"
-    )
+    if openupgrade.table_exists(env.cr, "l10n_fr_account_vat_box"):
+        openupgrade.logged_query(
+            env.cr,
+            "UPDATE l10n_fr_account_vat_box SET sequence=null, nref_code=null, "
+            "print_x=null, print_y=null, print_page=null, code=null",
+        )
