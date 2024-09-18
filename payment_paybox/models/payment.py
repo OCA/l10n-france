@@ -139,8 +139,7 @@ class AcquirerPaybox(models.Model):
         key_str64 = urllib.parse.unquote(key)
         key_str = b64decode(key_str64)
 
-        with open(self.paybox_public_key, "rb") as f:
-            keypub_import = rsa.PublicKey.load_pkcs1_openssl_pem(f.read())
+        keypub_import = rsa.PublicKey.load_pkcs1_openssl_pem(self.paybox_public_key)
 
         check_publickey = rsa.verify(data_encode, key_str, keypub_import)
         if check_publickey == "SHA-1":
