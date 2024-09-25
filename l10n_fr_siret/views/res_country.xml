@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2022-2024 Foodles (https://www.foodles.co/).
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+    <record model="ir.ui.view" id="res_country_form_l10n_fr">
+        <field name="name">res.country.form.siret</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_form" />
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <field name="vat_label" position="after">
+                <field name="show_siret_fields" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
