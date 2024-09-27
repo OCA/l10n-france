@@ -176,25 +176,40 @@ class ChorusFlow(models.Model):
         url_path = "factures/v1/rechercher/fournisseur"
         payload = {
             "numeroFluxDepot": self.name,
+            "rechercheFactureParFournisseur": {
+                "nbResultatsParPage": 10,
+                "pageResultatDemandee": 0,
+            },
         }
-        answer, session = self.env["res.company"].chorus_post(
-            api_params, url_path, payload
-        )
         invnum2chorus = {}
-        # key = odoo invoice number, value = {} to write on odoo invoice
-        if answer.get("listeFactures") and isinstance(answer["listeFactures"], list):
-            for cinv in answer["listeFactures"]:
-                if cinv.get("numeroFacture") and cinv.get("identifiantFactureCPP"):
-                    invnum2chorus[cinv["numeroFacture"]] = {
-                        "chorus_identifier": cinv["identifiantFactureCPP"],
-                    }
-                    if cinv.get("statut"):
-                        invnum2chorus[cinv["numeroFacture"]].update(
-                            {
-                                "chorus_status": cinv["statut"],
-                                "chorus_status_date": fields.Datetime.now(),
-                            }
-                        )
+        while True:
+            payload["rechercheFactureParFournisseur"]["pageResultatDemandee"] += 1
+            answer, session = self.env["res.company"].chorus_post(
+                api_params, url_path, payload
+            )
+            # key = odoo invoice number, value = {} to write on odoo invoice
+            if answer.get("listeFactures") and isinstance(
+                answer["listeFactures"], list
+            ):
+                for cinv in answer["listeFactures"]:
+                    if cinv.get("numeroFacture") and cinv.get("identifiantFactureCPP"):
+                        invnum2chorus[cinv["numeroFacture"]] = {
+                            "chorus_identifier": cinv["identifiantFactureCPP"],
+                        }
+                        if cinv.get("statut"):
+                            invnum2chorus[cinv["numeroFacture"]].update(
+                                {
+                                    "chorus_status": cinv["statut"],
+                                    "chorus_status_date": fields.Datetime.now(),
+                                }
+                            )
+                if (
+                    payload["rechercheFactureParFournisseur"]["pageResultatDemandee"]
+                    >= answer["parametresRetour"]["pages"]
+                ):
+                    break
+            else:
+                break
         return invnum2chorus, session
 
     def get_invoice_identifiers(self):
