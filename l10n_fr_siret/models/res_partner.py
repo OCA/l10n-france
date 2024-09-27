@@ -141,11 +141,8 @@ class Partner(models.Model):
 
     @api.depends("country_id", "is_company", "parent_is_company")
     def _compute_show_siret_fields(self):
-        countries_show_siret = self.env["res.country"].search(
-            [("show_siret_fields", "=", True)]
-        )
         for record in self:
-            record.show_siret_fields = record.country_id in countries_show_siret and (
+            record.show_siret_fields = record.country_id.show_siret_fields and (
                 record.is_company or record.parent_is_company
             )
 
