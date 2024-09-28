@@ -30,8 +30,8 @@ msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "<p style=\"margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, "
 "Helvetica, sans-serif\">I would like to remind you that we are approaching "
-"the deadline for the DES declaration for month <t t-out=\"object.year_month"
-"\"></t>.<br><br>\n"
+"the deadline for the DES declaration for month <t t-out=\"object."
+"year_month\"></t>.<br><br>\n"
 "\n"
 "As there were no DES for that month in Odoo, a draft declaration has been "
 "generated automatically.<br><br>\n"
@@ -87,16 +87,17 @@ msgstr ""
 "<t t-out=\"ctx.get('error_msg')\"></t><br><br>\n"
 "\n"
 "Deberías solucionar este error, luego ir al menú <em>Facturación &gt; "
-"Informes &gt; Intrastat&gt; DES</em>, abra la declaración del mes <t t-out="
-"\"object.year_month\"></t> y haga clic en el botón <em>Regenerar líneas</em>."
-"<br><br>\n"
+"Informes &gt; Intrastat&gt; DES</em>, abra la declaración del mes <t t-"
+"out=\"object.year_month\"></t> y haga clic en el botón <em>Regenerar líneas</"
+"em>.<br><br>\n"
 "</t>\n"
 "\n"
 "<t t-else=\"\">\n"
 "<t t-if=\"object.num_decl_lines\">\n"
 "                Este borrador de DES contiene <t t-out=\"object."
-"num_decl_lines\"></t> línea(s) y el monto total es <t t-out="
-"\"format_amount(object.total_amount, object.currency_id)\"></ t>.<br><br>\n"
+"num_decl_lines\"></t> línea(s) y el monto total es <t t-"
+"out=\"format_amount(object.total_amount, object.currency_id)\"></ t>."
+"<br><br>\n"
 "</t>\n"
 "<t t-else=\"\">\n"
 "Este borrador de DES generado automáticamente por Odoo no contiene ninguna "
@@ -358,7 +359,6 @@ msgstr "Si está marcada, nuevos mensajes requieren su atención."
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
-#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si está marcada, algunos mensajes tienen un error de entrega."
 
@@ -513,11 +513,6 @@ msgid "Responsible User"
 msgstr "Usuario Responsable"
 
 #. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Error en la entrega de sms"
-
-#. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__start_date
 msgid "Start Date"
 msgstr "Fecha de inicio"
@@ -604,6 +599,9 @@ msgstr "Exportar a XML"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__attachment_name
 msgid "XML Filename"
 msgstr "Nombre del archivo XML"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Error en la entrega de sms"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Última modificación el"
