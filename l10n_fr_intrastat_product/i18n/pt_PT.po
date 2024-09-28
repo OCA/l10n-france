@@ -36,10 +36,10 @@ msgid ""
 "been generated automatically by Odoo.<br><br>\n"
 "\n"
 "<t t-if=\"ctx.get('exception')\">\n"
-"                When trying to generate the lines of the <t t-out="
-"\"dict(object.fields_get('declaration_type', 'selection')['declaration_type']"
-"['selection'])[object.declaration_type]\"></t> EMEBI, the following error "
-"was encountered:<br><br>\n"
+"                When trying to generate the lines of the <t t-"
+"out=\"dict(object.fields_get('declaration_type', 'selection')"
+"['declaration_type']['selection'])[object.declaration_type]\"></t> EMEBI, "
+"the following error was encountered:<br><br>\n"
 "\n"
 "<t t-out=\"ctx.get('error_msg')\"></t><br><br>\n"
 "\n"
@@ -101,9 +101,9 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid ""
-"Bad VAT number '%(vat)s' on line %(line_number)d. Brexit took place on "
-"January 1st 2021 and companies in Northern Ireland have a new VAT number "
-"starting with 'XI'."
+"Bad VAT number '%(vat)s' on declaration line %(line_number)d. Brexit took "
+"place on January 1st 2021 and companies in Northern Ireland have a new VAT "
+"number starting with 'XI'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -180,7 +180,6 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.actions.server,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron_ir_actions_server
-#: model:ir.cron,cron_name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_cron
 #: model:mail.template,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
 msgid "EMEBI Reminder"
 msgstr ""
@@ -252,11 +251,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__write_uid
 msgid "Last Updated by"
 msgstr "Atualizado pela última vez por"
@@ -270,21 +264,21 @@ msgstr "Atualizado pela última vez em"
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing Country Code of Origin/Destination on line %d."
+msgid "Missing H.S. code on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing H.S. code on line %d."
+msgid "Missing VAT number on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing VAT number on line %d."
+msgid "Missing country code of origin/destination on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -300,7 +294,21 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing fiscal value on line %d."
+msgid "Missing fiscal value on declaration line %d."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
+#, python-format
+msgid "Missing intrastat transaction on declaration line %d."
+msgstr ""
+
+#. module: l10n_fr_intrastat_product
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
+#, python-format
+msgid "Missing mode of transport on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -314,28 +322,28 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing product country of origin code on line %d."
+msgid "Missing product country of origin code on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing quantity on line %d."
+msgid "Missing quantity on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing weight on line %d."
+msgid "Missing region code on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Mode of transport is not set on line %d."
+msgid "Missing weight on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -346,15 +354,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_search
 msgid "Name or Code"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#. odoo-python
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
-msgid ""
-"No XML file generated because the <b>Customs Accreditation Identifier</b> is "
-"not set on the accounting configuration page of the company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -404,7 +403,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Region Code is not set on line %d."
+msgid "The Customs Accreditation Identifier is not set for the company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -441,7 +440,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Transaction code on line %d should have 2 digits."
+msgid "Transaction code on declaration line %d should have 2 digits."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
