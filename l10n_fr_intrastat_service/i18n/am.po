@@ -29,8 +29,8 @@ msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "<p style=\"margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, "
 "Helvetica, sans-serif\">I would like to remind you that we are approaching "
-"the deadline for the DES declaration for month <t t-out=\"object.year_month"
-"\"></t>.<br><br>\n"
+"the deadline for the DES declaration for month <t t-out=\"object."
+"year_month\"></t>.<br><br>\n"
 "\n"
 "As there were no DES for that month in Odoo, a draft declaration has been "
 "generated automatically.<br><br>\n"
@@ -310,7 +310,6 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
-#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -462,11 +461,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_user_id
 msgid "Responsible User"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
