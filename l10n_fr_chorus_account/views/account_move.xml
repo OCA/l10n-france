@@ -69,6 +69,26 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_account_invoice_filter" />
         <field name="arch" type="xml">
+            <filter name="to_check" position="after">
+                <separator />
+                <filter
+                    string="Error Chorus"
+                    name="chorus_error"
+                    domain="[
+                        ('activity_type_id', '=', %(mail_activity_type_chorus_error)d)
+                    ]"
+                />
+                <filter
+                    string="To send to Chorus"
+                    name="chorus_to_send"
+                    domain="[
+                        ('transmit_method_id.code', '=', 'fr-chorus'),
+                        ('chorus_flow_id', '=', False),
+                        ('payment_state', '=', 'not_paid'),
+                        ('state', '=', 'posted'),
+                    ]"
+                />
+            </filter>
             <filter name="status" position="after">
                 <filter
                     string="Chorus Status"

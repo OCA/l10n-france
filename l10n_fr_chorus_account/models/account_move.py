@@ -493,3 +493,18 @@ class AccountMove(models.Model):
             )
         logger.warning("Commitment number %s not found in Chorus Pro.", order_ref)
         return False
+
+    def _chorus_set_as_rejected(self, error):
+        self.ensure_one()
+        self.chorus_flow_id = None
+        self.activity_schedule(
+            "l10n_fr_chorus_account.mail_activity_type_chorus_error",
+            note=_(
+                "This invoice has been <b>rejected by Chorus Pro</b> "
+                "for the following reason:<br/><i>%s</i><br/>"
+                "You should fix the error and send this invoice to "
+                "Chorus Pro again."
+            )
+            % error,
+            user_id=self.create_uid.id,
+        )
