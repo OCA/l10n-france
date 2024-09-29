@@ -2,11 +2,26 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from lxml import etree
+
 from odoo import api, models
 
 
 class AccountMove(models.Model):
     _inherit = "account.move"
+
+    def _cii_add_buyer_order_reference(self, trade_agreement, ns):
+        self.ensure_one()
+        if self.transmit_method_code == "fr-chorus":
+            buyer_order_ref = etree.SubElement(
+                trade_agreement, ns["ram"] + "BuyerOrderReferencedDocument"
+            )
+            buyer_order_id = etree.SubElement(
+                buyer_order_ref, ns["ram"] + "IssuerAssignedID"
+            )
+            buyer_order_id.text = self._get_commitment_number()
+        else:
+            return super()._cii_add_buyer_order_reference(trade_agreement, ns)
 
     @api.model
     def _cii_trade_contact_department_name(self, partner):
