@@ -193,6 +193,13 @@ class AccountMove(models.Model):
                 )
                 % cpartner.display_name
             )
+        if not cpartner.fr_chorus_required:
+            raise UserError(
+                _(
+                    "The field 'Info Required for Chorus' on the partner is empty "
+                    "please fill as it's required for chorus"
+                )
+            )
         if (
             cpartner.fr_chorus_required in ("service", "service_and_engagement")
             and not self.partner_id.chorus_service_ok()
