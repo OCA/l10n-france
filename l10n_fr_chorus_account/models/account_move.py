@@ -82,6 +82,12 @@ class AccountMove(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
+    # Transmit method is set to readonly to avoid by passing chorus check by changing
+    # the transmission method after validating the invoice
+    transmit_method_id = fields.Many2one(
+        states={"draft": [("readonly", False)]},
+        readonly=True,
+    )
 
     def _get_commitment_number(self):
         self.ensure_one()
