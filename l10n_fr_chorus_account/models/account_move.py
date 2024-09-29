@@ -168,91 +168,95 @@ class AccountMove(models.Model):
 
     def action_post(self):
         """Check validity of Chorus invoices"""
-        for inv in self.filtered(
-            lambda x: x.move_type in ("out_invoice", "out_refund")
-            and x.transmit_method_code == "fr-chorus"
-        ):
-            commitment_number = self._get_commitment_number()
-            company_partner = inv.company_id.partner_id
-            if not company_partner.siren or not company_partner.nic:
-                raise UserError(
-                    _("Missing SIRET on partner '%s' linked to company '%s'.")
-                    % (company_partner.display_name, inv.company_id.display_name)
-                )
-            cpartner = inv.commercial_partner_id
-            if not cpartner.siren or not cpartner.nic:
-                raise UserError(
-                    _(
-                        "Missing SIRET on partner '%s'. "
-                        "This information is required for Chorus invoices."
-                    )
-                    % cpartner.display_name
-                )
+        for inv in self:
             if (
-                cpartner.fr_chorus_required in ("service", "service_and_engagement")
-                and not inv.partner_id.chorus_service_ok()
+                inv.move_type in ("out_invoice", "out_refund")
+                and inv.transmit_method_code == "fr-chorus"
             ):
+                inv._chorus_check_validity()
+        return super().action_post()
+
+    def _chorus_check_validity(self):
+        commitment_number = self._get_commitment_number()
+        company_partner = self.company_id.partner_id
+        if not company_partner.siren or not company_partner.nic:
+            raise UserError(
+                _("Missing SIRET on partner '%s' linked to company '%s'.")
+                % (company_partner.display_name, self.company_id.display_name)
+            )
+        cpartner = self.commercial_partner_id
+        if not cpartner.siren or not cpartner.nic:
+            raise UserError(
+                _(
+                    "Missing SIRET on partner '%s'. "
+                    "This information is required for Chorus invoices."
+                )
+                % cpartner.display_name
+            )
+        if (
+            cpartner.fr_chorus_required in ("service", "service_and_engagement")
+            and not self.partner_id.chorus_service_ok()
+        ):
+            raise UserError(
+                _(
+                    "Partner '%s' is configured as Service required for "
+                    "Chorus, so you must select a contact as customer "
+                    "for the invoice and this contact should have a name "
+                    "and a Chorus service and the Chorus service must "
+                    "be active."
+                )
+                % cpartner.display_name
+            )
+        if cpartner.fr_chorus_required in ("engagement", "service_and_engagement"):
+            if commitment_number:
+                self.chorus_invoice_check_commitment_number(commitment_number)
+            else:
                 raise UserError(
                     _(
-                        "Partner '%s' is configured as Service required for "
-                        "Chorus, so you must select a contact as customer "
-                        "for the invoice and this contact should have a name "
-                        "and a Chorus service and the Chorus service must "
-                        "be active."
+                        "Partner '%s' is configured as Engagement required for "
+                        "Chorus, so the field 'Reference' of its invoices must "
+                        "contain an engagement number."
                     )
                     % cpartner.display_name
                 )
-            if cpartner.fr_chorus_required in ("engagement", "service_and_engagement"):
-                if commitment_number:
-                    inv.chorus_invoice_check_commitment_number(commitment_number)
-                else:
+        elif (
+            self.partner_id.fr_chorus_service_id
+            and self.partner_id.fr_chorus_service_id.engagement_required
+        ):
+            if commitment_number:
+                self.chorus_invoice_check_commitment_number(commitment_number)
+            else:
+                raise UserError(
+                    _(
+                        "Partner '%s' is linked to Chorus service '%s' "
+                        "which is marked as 'Engagement required', so the "
+                        "field 'Reference' of its invoices must "
+                        "contain an engagement number."
+                    )
+                    % (
+                        self.partner_id.display_name,
+                        self.partner_id.fr_chorus_service_id.code,
+                    )
+                )
+
+        if cpartner.fr_chorus_required == "service_or_engagement":
+            if not self.partner_id.chorus_service_ok():
+                if not commitment_number:
                     raise UserError(
                         _(
-                            "Partner '%s' is configured as Engagement required for "
-                            "Chorus, so the field 'Reference' of its invoices must "
-                            "contain an engagement number."
+                            "Partner '%s' is configured as "
+                            "'Service or Engagement' required for Chorus but "
+                            "there is no engagement number in the field "
+                            "'Reference' and the customer of the "
+                            "invoice is not correctly configured as a service "
+                            "(should be a contact with a Chorus service "
+                            "and a name)."
                         )
                         % cpartner.display_name
                     )
-            elif (
-                inv.partner_id.fr_chorus_service_id
-                and inv.partner_id.fr_chorus_service_id.engagement_required
-            ):
-                if commitment_number:
-                    inv.chorus_invoice_check_commitment_number(commitment_number)
                 else:
-                    raise UserError(
-                        _(
-                            "Partner '%s' is linked to Chorus service '%s' "
-                            "which is marked as 'Engagement required', so the "
-                            "field 'Reference' of its invoices must "
-                            "contain an engagement number."
-                        )
-                        % (
-                            inv.partner_id.display_name,
-                            inv.partner_id.fr_chorus_service_id.code,
-                        )
-                    )
-
-            if cpartner.fr_chorus_required == "service_or_engagement":
-                if not inv.partner_id.chorus_service_ok():
-                    if not commitment_number:
-                        raise UserError(
-                            _(
-                                "Partner '%s' is configured as "
-                                "'Service or Engagement' required for Chorus but "
-                                "there is no engagement number in the field "
-                                "'Reference' and the customer of the "
-                                "invoice is not correctly configured as a service "
-                                "(should be a contact with a Chorus service "
-                                "and a name)."
-                            )
-                            % cpartner.display_name
-                        )
-                    else:
-                        inv.chorus_invoice_check_commitment_number()
-            inv._chorus_check_payment_data()
-        return super().action_post()
+                    self.chorus_invoice_check_commitment_number()
+        self._chorus_check_payment_data()
 
     def _chorus_check_payment_data(self):
         self.ensure_one()
