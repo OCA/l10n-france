@@ -732,7 +732,4 @@ pcg_7873,Reprises sur provisions réglementées (stocks),787300,income,l10n_fr_o
 pcg_7874,Reprises sur autres provisions réglementées,787400,income,l10n_fr_oca.l10n_fr_pcg_chart_template,account.account_tag_investing,False
 pcg_7875,Reprises sur provisions exceptionnelles,787500,income,l10n_fr_oca.l10n_fr_pcg_chart_template,account.account_tag_investing,False
 pcg_7876,Reprises sur dépréciations exceptionnelles,787600,income,l10n_fr_oca.l10n_fr_pcg_chart_template,account.account_tag_investing,False
-pcg_791,Transferts de charges d'exploitation,791000,income,l10n_fr_oca.l10n_fr_pcg_chart_template,account.account_tag_operating,False
-pcg_796,Transferts de charges financières,796000,income,l10n_fr_oca.l10n_fr_pcg_chart_template,account.account_tag_financing,False
-pcg_797,Transferts de charges exceptionnelles,797000,income,l10n_fr_oca.l10n_fr_pcg_chart_template,account.account_tag_investing,False
 pcg_999999,Bénéfice ou perte de l'année en cours,999999,equity_unaffected,l10n_fr_oca.l10n_fr_pcg_chart_template,,False
