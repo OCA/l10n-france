@@ -137,6 +137,14 @@ class Partner(models.Model):
         string="Partner with same SIREN",
         compute_sudo=True,
     )
+    show_siret_fields = fields.Boolean(compute="_compute_show_siret_fields")
+
+    @api.depends("country_id", "is_company", "parent_is_company")
+    def _compute_show_siret_fields(self):
+        for record in self:
+            record.show_siret_fields = record.country_id.show_siret_fields and (
+                record.is_company or record.parent_is_company
+            )
 
     @api.depends("siren", "company_id")
     def _compute_same_siren_partner_id(self):

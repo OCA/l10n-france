@@ -86,6 +86,12 @@ msgid "SIREN"
 msgstr ""
 
 #. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__show_siret_fields
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__show_siret_fields
+msgid "Show siret fields"
+msgstr ""
+
+#. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret

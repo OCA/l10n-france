@@ -7,15 +7,18 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_fr.res_partner_form_l10n_fr" />
         <field name="arch" type="xml">
+            <field name="siret" position="before">
+                <field name="show_siret_fields" invisible="1" />
+            </field>
             <field name="siret" position="attributes">
                 <attribute
                     name="attrs"
-                >{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}</attribute>
+                >{'invisible': [('show_siret_fields', '=', False)]}</attribute>
             </field>
             <field name="siret" position="after">
                 <div
                     class="oe_edit_only"
-                    attrs="{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
+                    attrs="{'invisible': [('show_siret_fields', '=', False)]}"
                     colspan="2"
                 >
                     <label for="siren" />
