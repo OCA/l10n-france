@@ -8,13 +8,13 @@
     "website": "https://github.com/OCA/l10n-france",
     "depends": [
         "account_tax_unece",
+        "l10n_fr",
     ],
     "data": [
         "data/l10n_fr_chart_data.xml",
         "data/account.account.template.csv",
         "data/account.group.template.csv",
         "data/account_chart_template_data.xml",
-        "data/account_data.xml",
         "data/tax_report_data.xml",
         "data/account_tax_data.xml",
         "data/account_account_template_default_tax.xml",
