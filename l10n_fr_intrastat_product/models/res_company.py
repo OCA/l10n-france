@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Akretion France (http://www.akretion.com)
+# Copyright 2010-2022 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -16,14 +16,17 @@ class ResCompany(models.Model):
     fr_intrastat_accreditation = fields.Char(
         string="Customs accreditation identifier",
         size=4,
-        help="Company identifier for Intrastat file export. " "Size : 4 characters.",
+        help="Company identifier for Intrastat file export. Size: 4 characters.",
     )
 
     @api.constrains("intrastat_arrivals", "country_id")
     def check_fr_intrastat(self):
         for company in self:
-            if company.country_id and company.country_id.code == "FR":
-                if company.intrastat_arrivals == "standard":
-                    raise ValidationError(
-                        _("In France, Arrival DEB can only be Exempt " "or Extended.")
-                    )
+            if (
+                company.country_id
+                and company.country_id.code == "FR"
+                and company.intrastat_arrivals == "standard"
+            ):
+                raise ValidationError(
+                    _("In France, Arrival EMEBI can only be Exempt or Extended.")
+                )
