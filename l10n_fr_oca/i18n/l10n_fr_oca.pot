@@ -14,13 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_oca
-#: model:account.fiscal.position,note:l10n_fr_oca.4_fiscal_position_template_intraeub2b
+#: model:account.fiscal.position,note:l10n_fr_oca.5_fiscal_position_template_intraeub2b
 msgid ""
 "French VAT exemption according to articles 262 ter I (for products) and/or "
 "283-2 (for services) of \"CGI\""
 msgstr ""
 
 #. module: l10n_fr_oca
-#: model:account.fiscal.position,note:l10n_fr_oca.4_fiscal_position_template_import_export
+#: model:account.fiscal.position,note:l10n_fr_oca.5_fiscal_position_template_import_export
 msgid "French VAT exemption according to articles 291, 294 and 262 I of \"CGI\""
 msgstr ""
