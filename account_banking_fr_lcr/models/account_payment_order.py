@@ -243,7 +243,6 @@ class AccountPaymentOrder(models.Model):
             ]
         )
         assert len(cfonb_line) == 160, "LCR CFONB line must have 160 chars"
-        cfonb_line += "\r\n"
         return cfonb_line
 
     def _prepare_final_cfonb_line(self, total_amount, transactions_count):
@@ -266,26 +265,38 @@ class AccountPaymentOrder(models.Model):
         assert len(cfonb_line) == 160, "LCR CFONB line must have 160 chars"
         return cfonb_line
 
+    def _fr_lcr_line_separator(self):
+        """It seems that some bank don't want a line break. For the moment, we have this hook.
+        If it is confirm, we'll make it a configuration parameter"""
+        return "\r\n"
+
     def generate_payment_file(self):
         """Creates the LCR CFONB file."""
         self.ensure_one()
         if self.payment_method_id.code != "fr_lcr":
             return super().generate_payment_file()
 
-        cfonb_string = self._prepare_first_cfonb_line()
+        cfonb_lines = []
+        cfonb_lines.append(self._prepare_first_cfonb_line())
         total_amount = 0.0
         transactions_count = 0
         eur_currency_id = self.env.ref("base.EUR").id
         for payment in self.payment_ids:
             assert payment.currency_id.id == eur_currency_id
             transactions_count += 1
-            cfonb_string += payment._prepare_cfonb_line(transactions_count)
+            cfonb_lines.append(payment._prepare_cfonb_line(transactions_count))
             total_amount += payment.amount
 
-        cfonb_string += self._prepare_final_cfonb_line(total_amount, transactions_count)
+        cfonb_lines.append(
+            self._prepare_final_cfonb_line(total_amount, transactions_count)
+        )
         if self.payment_mode_id.fr_lcr_type == "promissory_note":
             file_prefix = "BOR"
         else:
             file_prefix = "LCR"
         filename = f"{file_prefix}_{self.name.replace('/', '-')}.txt"
-        return (cfonb_string.encode("ascii"), filename)
+        line_separator = self._fr_lcr_line_separator()
+        logger.debug("LCR line separator is %s", line_separator)
+        cfonb_string = line_separator.join(cfonb_lines)
+        cfonb_bytes = cfonb_string.encode("ascii")
+        return (cfonb_bytes, filename)
