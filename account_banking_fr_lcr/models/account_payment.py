@@ -80,5 +80,4 @@ class AccountPayment(models.Model):
             ]
         )
         assert len(cfonb_line) == 160, "LCR CFONB line must have 160 chars"
-        cfonb_line += "\r\n"
         return cfonb_line
