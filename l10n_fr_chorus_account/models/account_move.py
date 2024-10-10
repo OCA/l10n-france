@@ -262,7 +262,7 @@ class AccountMove(models.Model):
                         % cpartner.display_name
                     )
                 else:
-                    self.chorus_invoice_check_commitment_number()
+                    self.chorus_invoice_check_commitment_number(commitment_number)
         self._chorus_check_payment_data()
 
     def _chorus_check_payment_data(self):
