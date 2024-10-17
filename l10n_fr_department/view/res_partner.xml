@@ -11,6 +11,7 @@
         <field name="inherit_id" ref="base.view_res_partner_filter" />
         <field name="arch" type="xml">
             <filter name="group_country" position="before">
+                <field name="country_department_id" />
                 <filter
                     name="country_department_groupby"
                     string="Department"
