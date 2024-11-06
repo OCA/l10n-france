@@ -233,15 +233,15 @@ class TxPaybox(models.Model):
             self.execute_callback()
             res = True
         elif status[0:2] in self._paybox_refused_tx_status:
-            msg = f"ref: {self.reference}, got refused response [{status}], set as cancel."
+            msg = f"ref: {self.reference}, got refused response [{status}], set as error."
             data.update(state_message=msg)
             self.write(data)
-            self._set_transaction_cancel()
+            self._set_transaction_error(msg)
         else:
-            msg = f"ref: {self.reference}, got unrecognized response [{status}], set as cancel."
+            msg = f"ref: {self.reference}, got unrecognized response [{status}], set as error."
             data.update(state_message=msg)
             self.write(data)
-            self._set_transaction_cancel()
+            self._set_transaction_error(msg)
 
         _logger.info(msg)
         return res
