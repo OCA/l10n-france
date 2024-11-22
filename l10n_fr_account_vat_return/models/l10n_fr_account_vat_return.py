@@ -284,6 +284,17 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                     self.start_date = fy_date_from
 
+    @api.depends("name", "vat_periodicity")
+    def name_get(self):
+        res = []
+        for rec in self:
+            if rec.vat_periodicity == "12":
+                name = f"CA12 {rec.name}"
+            else:
+                name = f"CA3 {rec.name}"
+            res.append((rec.id, name))
+        return res
+
     def _prepare_speedy(self):
         # Generate a speed-dict called speedy that is used in several methods
         # or for some domains that we may need to inherit
@@ -2012,7 +2023,7 @@ class L10nFrAccountVatReturn(models.Model):
         vals = {
             "date": self.end_date,
             "journal_id": self.company_id.fr_vat_journal_id.id,
-            "ref": "CA3 %s" % self.display_name,
+            "ref": self.display_name,
             "company_id": speedy["company_id"],
             "line_ids": [(0, 0, x) for x in lvals_list],
         }
