@@ -2165,7 +2165,7 @@ class L10nFrAccountVatReturn(models.Model):
         if not self.ca3_attachment_id:
             self.generate_ca3_attachment()
         action = {
-            "name": "FEC",
+            "name": "CA3",
             "type": "ir.actions.act_url",
             "url": "web/content/?model=%s&id=%d&filename_field=ca3_attachment_name&"
             "field=ca3_attachment_datas&download=true&filename=%s"
@@ -2318,7 +2318,7 @@ class L10nFrAccountVatReturn(models.Model):
             ca3_writer.write(out_ca3_io)
             out_ca3_bytes = out_ca3_io.getvalue()
 
-        filename = "CA3_%s.pdf" % self.display_name
+        filename = "CA3_%s.pdf" % self.name
         attach = self.env["ir.attachment"].create(
             {
                 "name": filename,
