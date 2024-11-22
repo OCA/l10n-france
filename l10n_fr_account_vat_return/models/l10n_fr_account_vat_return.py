@@ -1984,8 +1984,11 @@ class L10nFrAccountVatReturn(models.Model):
                 lvals["debit"] = -amount
                 lvals_list.append(lvals)
             logger.debug("VAT move account %s: %s", account.code, lvals)
-        # Adjustment should be only caused by rounding, so not more than a few euros
-        if speedy["currency"].compare_amounts(abs(total), 1) > 0:
+        # On 1 due VAT or deductible VAT cell, the rounding effect can cause a gap of 0.50 €
+        # between due/deduc VAT account and VAT to pay (or VAT credit)
+        # We have 2 deduc VAT cells (immo and 5 regular) and 10 due VAT cells
+        # (5 VAT rates x 2 for regular and import)
+        if speedy["currency"].compare_amounts(abs(total), 0.5 * 12) > 0:
             raise UserError(
                 _(
                     "Error in the generation of the journal entry: the adjustment amount "
