@@ -2278,6 +2278,9 @@ class L10nFrAccountVatReturn(models.Model):
             ca3_writer.add_page(page1)
             ca3_writer.add_page(page2)
             ca3_writer.add_page(page3)
+            ca3_writer.pages[0].compress_content_streams()
+            ca3_writer.pages[1].compress_content_streams()
+            ca3_writer.pages[2].compress_content_streams()
             # finally, write "output" to a real file
             out_ca3_io = io.BytesIO()
             ca3_writer.write(out_ca3_io)
