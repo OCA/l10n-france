@@ -959,7 +959,7 @@ class L10nFrAccountVatReturn(models.Model):
             raise UserError(
                 _(
                     "The balance of account '%(account)s' is %(balance)s. "
-                    "It should always be positive.",
+                    "It should always be positive or null.",
                     account=account.display_name,
                     balance=format_amount(self.env, balance, speedy["currency"]),
                 )
@@ -2042,6 +2042,19 @@ class L10nFrAccountVatReturn(models.Model):
             ["origin_move_id"],
         )
         excluded_line_ids = [x["origin_move_id"][0] for x in excluded_lines]
+        # to allow reconciliation of 445670, we need to exclude the debit line
+        # from the reconciliation to have a balance at 0
+        credit_vat_account = self._get_box_account(
+            speedy["meaning_id2box"]["credit_deferment"]
+        )
+        credit_vat_debit_mline = speedy["aml_obj"].search(
+            [
+                ("move_id", "=", move.id),
+                ("account_id", "=", credit_vat_account.id),
+                ("debit", ">", 0.9),
+            ],
+            limit=1,
+        )
         for line in move.line_ids.filtered(lambda x: x.account_id.reconcile):
             account = line.account_id
             domain = speedy["base_domain_end"] + [
@@ -2049,6 +2062,8 @@ class L10nFrAccountVatReturn(models.Model):
                 ("full_reconcile_id", "=", False),
                 ("move_id", "not in", excluded_line_ids),
             ]
+            if account == credit_vat_account and credit_vat_debit_mline:
+                domain.append(("id", "!=", credit_vat_debit_mline.id))
             rg_res = speedy["aml_obj"].read_group(domain, ["balance"], [])
             # or 0 is need to avoid a crash: rg_res[0]["balance"] = None
             # when the moves are already reconciled
@@ -2056,6 +2071,9 @@ class L10nFrAccountVatReturn(models.Model):
                 moves_to_reconcile = speedy["aml_obj"].search(domain)
                 moves_to_reconcile.remove_move_reconcile()
                 moves_to_reconcile.reconcile()
+                logger.info(
+                    "Successful reconciliation in account %s", account.display_name
+                )
 
     def _create_draft_account_move(self, speedy):
         self.ensure_one()
