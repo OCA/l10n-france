@@ -370,6 +370,13 @@ class L10nFrAccountVatReturn(models.Model):
             # used to create negative boxes at the end
             "negative_box2logs": defaultdict(list),
             "vat_groups": ["regular", "extracom_product", "oil"],
+            "adjust_account_codes": {
+                "expense_adjust_account": (
+                    "658",
+                    "Charges diverses de gestion courante",
+                ),
+                "income_adjust_account": ("758", "Produits divers de gestion courante"),
+            },
         }
         speedy["bank_cash_journals"] = speedy["aj_obj"].search(
             speedy["company_domain"] + [("type", "in", ("bank", "cash"))]
@@ -487,33 +494,16 @@ class L10nFrAccountVatReturn(models.Model):
         # that all French companies must use the PCG,
         # I select the account based on the code they should have
         self.ensure_one()
-        account_lookup = {
-            "expense_adjust_account": ("658", "Charges diverses de gestion courante"),
-            "income_adjust_account": ("758", "Produits divers de gestion courante"),
-        }
-        for key, (account_code, account_name) in account_lookup.items():
-            limit = not account_code.startswith("445") and 1 or None
+        for key, (account_code, account_name) in speedy["adjust_account_codes"].items():
             account = speedy["aa_obj"].search(
                 speedy["company_domain"] + [("code", "=like", account_code + "%")],
-                limit=limit,
+                limit=1,
             )
             if not account:
                 raise UserError(
                     _(
                         "There is no account %(account_code)s %(account_name)s "
                         "in the chart of account of company '%(company)s'.",
-                        account_code=account_code,
-                        account_name=account_name,
-                        company=self.company_id.display_name,
-                    )
-                )
-            if len(account) > 1:
-                raise UserError(
-                    _(
-                        "There are %(count)d accounts "
-                        "%(account_code)s %(account_name)s in the chart of account "
-                        "of company '%(company)s'. This scenario is not supported.",
-                        count=len(account),
                         account_code=account_code,
                         account_name=account_name,
                         company=self.company_id.display_name,
