@@ -10,7 +10,7 @@ def set_oversea_department_on_partner(env):
     So, when it computes the field on module installation, the
     departments are not available in the DB, so the country_department_id field
     on res.partner stays null. This post_install script fixes this."""
-    fr_countries = env["res.country"].search(
+    fr_dom_countries = env["res.country"].search(
         [("code", "in", ("FR", "GP", "MQ", "GF", "RE", "YT"))]
     )
     partners = (
@@ -18,7 +18,7 @@ def set_oversea_department_on_partner(env):
         .with_context(active_test=False)
         .search(
             [
-                ("country_id", "in", fr_countries.ids),
+                ("country_id", "in", fr_dom_countries.ids),
                 ("country_department_id", "=", False),
             ]
         )
