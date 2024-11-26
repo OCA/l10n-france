@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="res_company_form_l10n_fr" model="ir.ui.view">
         <field name="name">l10n_fr_siret.res.company.form</field>
         <field name="model">res.company</field>
@@ -17,5 +16,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
