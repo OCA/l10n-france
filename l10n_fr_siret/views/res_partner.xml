@@ -54,4 +54,16 @@
             </div>
         </field>
     </record>
+
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree" />
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="siren" optional="hide" readonly="1" />
+                <field name="nic" optional="hide" readonly="1" />
+                <field name="siret" optional="hide" readonly="1" />
+            </field>
+        </field>
+    </record>
 </odoo>
