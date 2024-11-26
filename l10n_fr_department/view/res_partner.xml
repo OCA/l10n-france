@@ -49,7 +49,7 @@
                     groups="base.group_no_one"
                     string="Department"
                 />
-                </xpath>
+            </xpath>
         </field>
     </record>
 </odoo>
