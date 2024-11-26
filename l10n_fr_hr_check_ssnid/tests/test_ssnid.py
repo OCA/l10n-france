@@ -10,7 +10,7 @@ class TestSsnidCheck(TransactionCase):
     def test_validate_ssnid(self):
         heo = self.env["hr.employee"]
         # Set company to France
-        self.env.user.company_id.country_id = self.env.ref("base.fr").id
+        self.env.company.country_id = self.env.ref("base.fr").id
         with self.assertRaises(ValidationError):
             heo.create({"name": "AA", "ssnid": "1 91 12"})
         with self.assertRaises(ValidationError):

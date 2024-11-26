@@ -19,16 +19,29 @@ class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
     @api.constrains("ssnid")
-    def france_ssnid_constrain(self):
+    def _check_france_ssnid(self):
+        fr_country_codes = (
+            "FR",
+            "GP",
+            "MQ",
+            "GF",
+            "RE",
+            "YT",
+            "PF",
+            "PM",
+            "MF",
+            "BL",
+            "NC",
+        )
         for empl in self:
-            if empl.company_id.country_id.code == "FR" and empl.ssnid:
+            if empl.company_id.country_id.code in fr_country_codes and empl.ssnid:
                 try:
                     validate(empl.ssnid)
                 except (InvalidFormat, InvalidLength, InvalidChecksum) as e:
                     raise ValidationError(
                         _(
                             "The French Social Security Number '%(ssnid)s' "
-                            "is invalid. (%(e)s)"
+                            "is invalid. %(e)s"
                         )
                         % {"ssnid": empl.ssnid, "e": e}
                     ) from e

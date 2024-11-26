@@ -13,6 +13,6 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["hr"],
-    "external_dependencies": {"python": ["stdnum"]},
+    "external_dependencies": {"python": ["python-stdnum"]},
     "installable": True,
 }
