@@ -6,7 +6,7 @@
 {
     "name": "French States (Régions)",
     "summary": "Populate Database with French States (Régions)",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "French Localization",
     "author": "GRAP, "
     "Akretion, "
