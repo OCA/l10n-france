@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <!-- Add the SIREN and RC -->
     <record model="ir.ui.view" id="res_partner_form_l10n_fr">
         <field name="name">res.partner.form.siret</field>
@@ -53,11 +52,10 @@
                     invisible="not same_siren_partner_id"
                 >
                         Duplicate warning: partner <field
-                        name="same_siren_partner_id"
-                    /> has the same <b>SIREN</b>.
+                    name="same_siren_partner_id"
+                /> has the same <b>SIREN</b>.
                 </div>
             </div>
         </field>
     </record>
-
 </odoo>

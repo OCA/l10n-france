@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <record id="c2c_france" model="res.partner">
         <field name="name">Camptocamp France SAS</field>
         <field name="is_company" eval="True" />
@@ -17,5 +16,4 @@
         <field name="siren">433698578</field>
         <field name="nic">00054</field>
     </record>
-
 </odoo>
