@@ -25,7 +25,7 @@ class ResPartner(models.Model):
     # If a department code changes, it will have to be manually recomputed
     def _compute_country_department(self):
         def _get_zipcode(partner) -> str:
-            if partner.country_id not in fr_countries:
+            if partner.country_id not in fr_dom_countries:
                 return ""
             partner_zip = partner.zip
             if not partner_zip:
@@ -33,9 +33,9 @@ class ResPartner(models.Model):
             partner_zip = partner_zip.strip().replace(" ", "").rjust(5, "0")
             return partner_zip if len(partner_zip) == 5 else ""
 
-        fr_countries_codes = ("FR", "GP", "MQ", "GF", "RE", "YT")
-        fr_countries_domain = [("code", "in", fr_countries_codes)]
-        fr_countries = self.env["res.country"].search(fr_countries_domain)
+        fr_dom_countries_codes = ("FR", "GP", "MQ", "GF", "RE", "YT")
+        fr_dom_countries_domain = [("code", "in", fr_dom_countries_codes)]
+        fr_dom_countries = self.env["res.country"].search(fr_dom_countries_domain)
 
         # Group partners by zip code
         partners_by_zipcode = dict(groupby(self, key=_get_zipcode))
@@ -48,7 +48,7 @@ class ResPartner(models.Model):
         if department_codes:
             departments_domain = [
                 ("code", "in", tuple(department_codes)),
-                ("country_id", "in", fr_countries.ids),
+                ("country_id", "in", fr_dom_countries.ids),
             ]
             departments = department_obj.search(departments_domain)
 
