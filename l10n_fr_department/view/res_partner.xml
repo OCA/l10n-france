@@ -42,7 +42,7 @@
             <!-- The layout of the address block in the partner form view is too fragile to add
                 the field country_department_id inside it. And, as country_department_id is a computed
                 field, it can be displayed elsewhere -->
-            <xpath expr="//div[hasclass('o_address_format')]/.." position="inside">
+            <xpath expr="//div[hasclass('o_address_format')]" position="after">
                 <field
                     name="country_department_id"
                     invisible="not country_department_id"
