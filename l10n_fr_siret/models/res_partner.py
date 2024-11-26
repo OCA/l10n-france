@@ -13,10 +13,11 @@ except ImportError:
 class Partner(models.Model):
     _inherit = "res.partner"
 
+    # This module doesn't depend on 'mail', so we can't add tracking=True
+    # tracking=True is added in l10n_fr_siret_account
     siren = fields.Char(
         string="SIREN",
         size=9,
-        tracking=50,
         help="The SIREN number is the official identity "
         "number of the company in France. It composes "
         "the first 9 digits of the SIRET number.",
@@ -24,7 +25,6 @@ class Partner(models.Model):
     nic = fields.Char(
         string="NIC",
         size=5,
-        tracking=51,
         help="The NIC number is the official rank number "
         "of this office in the company in France. It "
         "composes the last 5 digits of the SIRET "
@@ -44,13 +44,6 @@ class Partner(models.Model):
         "of the SIREN number and the 5 digits of the NIC number, ie. "
         "14 digits.",
     )
-    # company_registry is native since v16, cf
-    # https://github.com/OCA/l10n-france/issues/501
-    # Should we rename it... or stop using it ?
-    # company_registry = fields.Char(
-    #    help="The name of official registry where this company was declared.",
-    # )
-
     parent_is_company = fields.Boolean(
         related="parent_id.is_company", string="Parent is a Company"
     )
