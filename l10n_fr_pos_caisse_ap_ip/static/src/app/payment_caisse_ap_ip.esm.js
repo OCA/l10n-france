@@ -1,4 +1,3 @@
-/** @odoo-module */
 /*
     Copyright 2023 Akretion France (http://www.akretion.com/)
     @author: Alexis de Lattre <alexis.delattre@akretion.com>

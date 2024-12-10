@@ -160,7 +160,7 @@ class PosPaymentMethod(models.Model):
         if len(amount_str) < 2:
             amount_str = amount_str.zfill(2)
         elif len(amount_str) > 12:
-            logger.error("Amount with cents %s is over the maximum." % amount_str)
+            logger.error("Amount with cents %s is over the maximum.", amount_str)
             error_msg = (
                 _(
                     "You are tying to send amount %s cents to the payment terminal, "
@@ -201,7 +201,7 @@ class PosPaymentMethod(models.Model):
             ip_addr,
             port,
         )
-        logger.debug("Data about to be sent to payment terminal: %s" % msg_str)
+        logger.debug("Data about to be sent to payment terminal: %s", msg_str)
         answer = False
         try:
             with socket.create_connection((ip_addr, port), timeout=timeout_sec) as sock:
