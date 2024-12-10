@@ -32,17 +32,17 @@ This module adds support for the **Caisse AP** protocol over IP in the
 Odoo Point of Sale.
 
 The `Caisse AP
-protocol <https://www.associationdupaiement.fr/protocoles/protocole-caisse/>`__
+protocol <https://associationdupaiement.fr/protocoles/protocole-caisse/>`__
 is a vendor-independent protocol used in France to communicate between a
 point of sale and a payment terminal. It is implemented by
 `Ingenico <https://ingenico.com/fr/produits-et-services/terminaux-de-paiement>`__
 payment terminals, `Verifone <https://www.verifone.com/>`__ payment
 terminal and other brands of payment terminals. This protocol is
 designed by a French association called `Association du
-paiement <https://www.associationdupaiement.fr/>`__, abbreviated as
-**AP**. Note that the Caisse-AP protocol is used by Ingenico payment
-terminals deployed in France, but not by the same model of Ingenico
-payment terminals deployed in other countries!
+paiement <https://associationdupaiement.fr/>`__, abbreviated as **AP**.
+Note that the Caisse-AP protocol is used by Ingenico payment terminals
+deployed in France, but not by the same model of Ingenico payment
+terminals deployed in other countries!
 
 This module support a bi-directionnal link with the payment terminal:
 
@@ -77,14 +77,14 @@ payment terminal.
 Configuration
 =============
 
-In the menu *Point of sale > Configuration > Payment Method*, on the
+In the menu *Point of sale > Configuration > Payment Methods*, on the
 payment method that correspond to a payment by card:
 
 -  select the appropriate journal, which should be a bank journal (and
-   not a cash journa, otherwise the field *Use a payment terminal* is
+   not a cash journal, otherwise the field *Integrate with* is
    invisible)
--  field *Use a payment terminal*: select **Caisse AP over IP (France
-   only)**
+-  field *Integration*: selection **Terminal**
+-  field *Integrate with*: select **Caisse AP over IP (France only)**
 -  field *Caisse-AP Payment Terminal IP Address*: set the IP address of
    the payment terminal,
 -  field *Caisse-AP Payment Terminal Port*: set the TCP port of the
