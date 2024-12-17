@@ -12,6 +12,15 @@ class AccountTax(models.Model):
     fr_vat_autoliquidation = fields.Boolean(
         compute="_compute_fr_vat_autoliquidation", store=True, string="Autoliquidation"
     )
+    # The country_id field on account.tax is added in Odoo v15
+    # We just "backport" this field here, to be able to support scenarios
+    # where you have VAT taxes for other countries
+    country_id = fields.Many2one(
+        "res.country",
+        string="Country",
+        required=True,
+        help="The country for which this tax is applicable.",
+    )
 
     @api.depends(
         "type_tax_use",

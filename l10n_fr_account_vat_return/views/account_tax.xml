@@ -11,7 +11,10 @@
     <field name="inherit_id" ref="account.view_tax_form" />
     <field name="arch" type="xml">
             <xpath expr="//field[@name='tax_scope']/.." position="inside">
-                        <field name="fr_vat_autoliquidation" />
+                <field name="fr_vat_autoliquidation" />
+        </xpath>
+            <xpath expr="//field[@name='description']/.." position="inside">
+                <field name="country_id" />
         </xpath>
     </field>
 </record>
@@ -21,6 +24,7 @@
         <field name="inherit_id" ref="account.view_tax_tree" />
         <field name="arch" type="xml">
                 <field name="company_id" position="before">
+                        <field name="country_id" optional="hide" />
                         <field name="fr_vat_autoliquidation" optional="hide" />
                 </field>
             </field>
