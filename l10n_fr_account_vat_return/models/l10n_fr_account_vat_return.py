@@ -314,6 +314,7 @@ class L10nFrAccountVatReturn(models.Model):
             ("amount_type", "=", "percent"),
             ("amount", ">", 0),
             ("unece_type_code", "=", "VAT"),
+            ("country_id", "=", self.env.ref("base.fr").id),
         ]
         sale_regular_vat_tax_domain = vat_tax_domain + [
             ("fr_vat_autoliquidation", "=", False),
