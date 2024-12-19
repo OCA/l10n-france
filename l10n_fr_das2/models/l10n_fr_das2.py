@@ -296,16 +296,16 @@ class L10nFrDas2(models.Model):
                 amount=format_amount(self.env, mline.balance, self.currency_id),
                 move_name=mline.move_id.name,
             )
-            note += "<li>%s</li>" % note_text
+            note += f"<li>{note_text}</li>"
         res = False
         amount_int = int(round(amount))
         if note and amount_int > 0:
-            field_name = "%s_amount" % partner.fr_das2_type
+            field_name = f"{partner.fr_das2_type}_amount"
             res = {
                 field_name: amount_int,
                 "parent_id": self.id,
                 "partner_id": partner.id,
-                "note": "<ul>%s</ul>" % note,
+                "note": f"<ul>{note}</ul>",
             }
         return res
 
@@ -364,7 +364,7 @@ class L10nFrDas2(models.Model):
                     '<li><a href="#" data-oe-model="res.partner" '
                     'data-oe-id="%d">%s</a></li>' % (partner.id, partner.display_name)
                 )
-                msg += "<li>%s</li>" % partner.display_name
+                msg += f"<li>{partner.display_name}</li>"
             msg_post += "</ul>"
             msg += "</ul>"
         self.message_post(body=Markup(msg_post))
@@ -623,10 +623,10 @@ class L10nFrDas2(models.Model):
             phone.replace(" ", "")
             .replace(".", "")
             .replace("-", "")
-            .replace("\u00A0", "")
+            .replace("\u00a0", "")
         )
         if phone.startswith("+33"):
-            phone = "0%s" % phone[3:]
+            phone = f"0{phone[3:]}"
         contact_phone = self._prepare_field(
             "Administrative contact phone", contact, phone, 10
         )
