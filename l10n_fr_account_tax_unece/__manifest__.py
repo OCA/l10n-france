@@ -11,7 +11,7 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
-    "depends": ["l10n_fr", "account_tax_unece"],
+    "depends": ["l10n_fr_account", "account_tax_unece"],
     "post_init_hook": "set_unece_on_taxes",
     "installable": True,
     "auto_installable": True,
