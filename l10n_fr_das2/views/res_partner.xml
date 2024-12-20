@@ -24,14 +24,14 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_res_partner_filter" />
         <field name="arch" type="xml">
-            <filter name="inactive" position="after">
-                <separator />
+            <filter name="inactive" position="before">
                 <filter
                     name="fr_das2"
                     string="DAS2"
                     domain="[('fr_das2_type', '!=', False), ('parent_id', '=', False)]"
                     groups="account.group_account_invoice"
                 />
+                <separator />
             </filter>
         </field>
     </record>
