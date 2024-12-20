@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_partner
@@ -34,11 +34,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__country_department_id
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_users__country_department_id
 msgid "Country Department"
-msgstr ""
-
-#. module: l10n_fr_department
-#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__country_id
-msgid "Country of the related state"
 msgstr ""
 
 #. module: l10n_fr_department
@@ -123,18 +118,13 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_fr_department
-#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__state_id
-msgid "State related to the current department"
-msgstr ""
-
-#. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__code
 msgid "The department code (ISO 3166-2 codification)"
 msgstr ""
 
 #. module: l10n_fr_department
-#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_uniq
-msgid "You cannot have two departments with the same code!"
+#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_country_uniq
+msgid "You cannot have two departments with the same code in the same country!"
 msgstr ""
 
 #~ msgid "Partner"

@@ -37,11 +37,6 @@ msgid "Country Department"
 msgstr "Oddělení"
 
 #. module: l10n_fr_department
-#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__country_id
-msgid "Country of the related state"
-msgstr "Země příslušného státu"
-
-#. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_state
 msgid "Country state"
 msgstr "Stav státu"
@@ -123,19 +118,23 @@ msgid "State"
 msgstr "Stát"
 
 #. module: l10n_fr_department
-#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__state_id
-msgid "State related to the current department"
-msgstr "Stát ve vztahu k současnému oddělení"
-
-#. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__code
 msgid "The department code (ISO 3166-2 codification)"
 msgstr "Kód oddělení (kodifikace ISO 3166-2)"
 
 #. module: l10n_fr_department
-#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_uniq
-msgid "You cannot have two departments with the same code!"
-msgstr "Nemůžete mít dvě oddělení se stejným kódem!"
+#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_country_uniq
+msgid "You cannot have two departments with the same code in the same country!"
+msgstr ""
+
+#~ msgid "Country of the related state"
+#~ msgstr "Země příslušného státu"
+
+#~ msgid "State related to the current department"
+#~ msgstr "Stát ve vztahu k současnému oddělení"
+
+#~ msgid "You cannot have two departments with the same code!"
+#~ msgstr "Nemůžete mít dvě oddělení se stejným kódem!"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Poslední změna dne"

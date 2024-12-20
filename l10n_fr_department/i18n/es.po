@@ -37,11 +37,6 @@ msgid "Country Department"
 msgstr "Departamento de País"
 
 #. module: l10n_fr_department
-#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__country_id
-msgid "Country of the related state"
-msgstr "País del estado relacionado"
-
-#. module: l10n_fr_department
 #: model:ir.model,name:l10n_fr_department.model_res_country_state
 msgid "Country state"
 msgstr "Estado del país"
@@ -123,19 +118,23 @@ msgid "State"
 msgstr "Estado"
 
 #. module: l10n_fr_department
-#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__state_id
-msgid "State related to the current department"
-msgstr "Estado relacionado con el departamento actual"
-
-#. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__code
 msgid "The department code (ISO 3166-2 codification)"
 msgstr "El código de departamento (codificación ISO 3166-2)"
 
 #. module: l10n_fr_department
-#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_uniq
-msgid "You cannot have two departments with the same code!"
-msgstr "¡No puede haber dos departamentos con el mismo código!"
+#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_country_uniq
+msgid "You cannot have two departments with the same code in the same country!"
+msgstr ""
+
+#~ msgid "Country of the related state"
+#~ msgstr "País del estado relacionado"
+
+#~ msgid "State related to the current department"
+#~ msgstr "Estado relacionado con el departamento actual"
+
+#~ msgid "You cannot have two departments with the same code!"
+#~ msgstr "¡No puede haber dos departamentos con el mismo código!"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Última modificación el"
