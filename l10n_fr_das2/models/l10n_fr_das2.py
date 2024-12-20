@@ -16,10 +16,20 @@ from stdnum.fr.siret import is_valid
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
+from odoo.osv import expression
 from odoo.tools.misc import format_amount, format_date
 
 logger = logging.getLogger(__name__)
 
+
+PCG_DAS2_WARN_ACCOUNTS = [
+    "6221",
+    "6222",
+    "6226",
+    "6228",
+    "653",
+    "6516",
+]
 
 FRANCE_CODES = (
     "FR",
@@ -165,7 +175,10 @@ class L10nFrDas2(models.Model):
     def _default_payment_journals(self):
         res = []
         pay_journals = self.env["account.journal"].search(
-            [("type", "in", ("bank", "cash")), ("company_id", "=", self.env.company.id)]
+            [
+                ("type", "in", ("bank", "cash", "credit")),
+                ("company_id", "=", self.env.company.id),
+            ]
         )
         if pay_journals:
             res = pay_journals.ids
@@ -317,22 +330,13 @@ class L10nFrDas2(models.Model):
         purchase_journals = ajo.search(
             [("type", "=", "purchase"), ("company_id", "=", company.id)]
         )
-        das2_accounts = aao.search(
+        acc_domain = expression.OR(
             [
-                ("company_id", "=", company.id),
-                "|",
-                "|",
-                "|",
-                "|",
-                "|",
-                ("code", "=like", "6221%"),
-                ("code", "=like", "6222%"),
-                ("code", "=like", "6226%"),
-                ("code", "=like", "6228%"),
-                ("code", "=like", "653%"),
-                ("code", "=like", "6516%"),
+                ("code", "=like", f"{acc_code}%"),
             ]
+            for acc_code in PCG_DAS2_WARN_ACCOUNTS
         )
+        das2_accounts = aao.with_company(self.company_id.id).search(acc_domain)
         rg_res = amlo._read_group(
             [
                 ("company_id", "=", company.id),
@@ -935,4 +939,10 @@ class L10nFrDas2Line(models.Model):
     def _check_siret(self):
         for line in self:
             if line.partner_siret and not is_valid(line.partner_siret):
-                raise ValidationError(_("SIRET '%s' is invalid.") % line.partner_siret)
+                raise ValidationError(
+                    _(
+                        "SIRET '%(siret)s' of supplier '%(partner)s' is invalid.",
+                        siret=line.partner_siret,
+                        partner=line.partner_id.display_name,
+                    )
+                )
