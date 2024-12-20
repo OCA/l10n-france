@@ -89,20 +89,16 @@
                         />
                     </group>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
 
     <record id="l10n_fr_das2_tree" model="ir.ui.view">
-        <field name="name">l10n.fr.das2.tree</field>
+        <field name="name">l10n.fr.das2.list</field>
         <field name="model">l10n.fr.das2</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="year" decoration-bf="1" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="currency_id" column_invisible="1" />
@@ -112,7 +108,7 @@
                     decoration-info="state == 'draft'"
                     widget="badge"
                 />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -135,12 +131,12 @@
     <record id="l10n_fr_das2_action" model="ir.actions.act_window">
         <field name="name">DAS2</field>
         <field name="res_model">l10n.fr.das2</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
         id="l10n_fr_das2_menu"
-        parent="l10n_fr.account_reports_fr_statements_menu"
+        parent="l10n_fr_account.account_reports_fr_statements_menu"
         action="l10n_fr_das2_action"
         sequence="20"
     />
@@ -242,10 +238,10 @@
     </record>
 
     <record id="l10n_fr_das2_line_tree" model="ir.ui.view">
-        <field name="name">l10n.fr.das2.line.tree</field>
+        <field name="name">l10n.fr.das2.line.list</field>
         <field name="model">l10n.fr.das2.line</field>
         <field name="arch" type="xml">
-            <tree decoration-muted="to_declare == False">
+            <list decoration-muted="not to_declare">
                 <field name="partner_id" />
                 <field name="partner_siret" optional="show" />
                 <field name="job" optional="show" />
@@ -263,7 +259,7 @@
                 <field name="currency_id" column_invisible="1" />
                 <field name="to_declare" />
                 <field name="state" column_invisible="1" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -286,6 +282,6 @@
     <record id="l10n_fr_das2_line_action" model="ir.actions.act_window">
         <field name="name">DAS2 Lines</field>
         <field name="res_model">l10n.fr.das2.line</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

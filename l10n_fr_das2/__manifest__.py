@@ -12,11 +12,11 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": [
-        "l10n_fr_siret",
+        "l10n_fr_siret_account",
         "l10n_fr_cog",
     ],
     "external_dependencies": {
-        "python": ["stdnum", "pyfrdas2>=0.5"],
+        "python": ["python-stdnum", "pyfrdas2>=0.5"],
     },
     "data": [
         "security/das2_security.xml",
