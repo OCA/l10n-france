@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -28,11 +28,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_partner__country_department_id
 #: model:ir.model.fields,field_description:l10n_fr_department.field_res_users__country_department_id
 msgid "Country Department"
-msgstr ""
-
-#. module: l10n_fr_department
-#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__country_id
-msgid "Country of the related state"
 msgstr ""
 
 #. module: l10n_fr_department
@@ -117,16 +112,12 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_fr_department
-#: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__state_id
-msgid "State related to the current department"
-msgstr ""
-
-#. module: l10n_fr_department
 #: model:ir.model.fields,help:l10n_fr_department.field_res_country_department__code
 msgid "The department code (ISO 3166-2 codification)"
 msgstr ""
 
 #. module: l10n_fr_department
-#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_uniq
-msgid "You cannot have two departments with the same code!"
+#: model:ir.model.constraint,message:l10n_fr_department.constraint_res_country_department_code_country_uniq
+msgid ""
+"You cannot have two departments with the same code in the same country!"
 msgstr ""
