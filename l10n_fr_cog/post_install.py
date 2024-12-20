@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 # Countries data is provided in the base module with noupdate="1"
 # That's why we need this post-install script
 def set_fr_cog(env):
-    f = file_open("l10n_fr_cog/data/country.xml", "rb")
+    f = file_open("l10n_fr_cog/data/res_country.xml", "rb")
     xml_root = etree.parse(f)
     data = {}
     for record in xml_root.xpath("//record"):
