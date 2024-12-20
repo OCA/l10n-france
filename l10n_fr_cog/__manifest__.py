@@ -13,8 +13,8 @@
     "license": "AGPL-3",
     "depends": ["base"],
     "data": [
-        "data/country.xml",
-        "views/country.xml",
+        "data/res_country.xml",
+        "views/res_country.xml",
     ],
     "post_init_hook": "set_fr_cog",
     "installable": True,
