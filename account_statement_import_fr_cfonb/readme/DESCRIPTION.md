@@ -1,4 +1,4 @@
-This module allows you to import the text-based French CFONB bank
+This module allows you to import the text-based France-specific CFONB bank
 statements files in Odoo.
 
 The specifications are available on the [official CFONB

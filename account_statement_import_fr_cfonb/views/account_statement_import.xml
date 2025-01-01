@@ -14,7 +14,7 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//ul[@id='statement_format']" position="inside">
-                <li>CFONB (French format)</li>
+                <li>CFONB (France-specific format)</li>
             </xpath>
         </field>
     </record>

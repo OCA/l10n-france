@@ -28,8 +28,8 @@ Import French CFONB Bank Statements
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module allows you to import the text-based French CFONB bank
-statements files in Odoo.
+This module allows you to import the text-based France-specific CFONB
+bank statements files in Odoo.
 
 The specifications are available on the `official CFONB
 website <https://www.cfonb.org>`__ under the section *Espace
@@ -51,8 +51,8 @@ Usage
 =====
 
 In the dashboard of the *Invoicing* menu, click on the button *Import
-Statements* on any bank statement journal and follow the instructions of
-the wizard.
+(OCA)* on any bank journal and follow the instructions of the bank
+statement import wizard.
 
 Bug Tracker
 ===========
