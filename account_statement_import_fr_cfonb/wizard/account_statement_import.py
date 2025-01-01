@@ -135,8 +135,9 @@ class AccountStatementImport(models.TransientModel):
                         "sequence": seq,
                         "date": date_dt,
                         "payment_ref": name,
-                        "unique_import_id": "{}-{}-{:.2f}-{}".format(
-                            fields.Date.to_string(date_dt), ref, amount, name
+                        "unique_import_id": (
+                            f"{fields.Date.to_string(date_dt)}-"
+                            f"{ref}-{round(amount, decimals)}-{name}"
                         ),
                         "amount": amount,
                     }
@@ -188,7 +189,7 @@ class AccountStatementImport(models.TransientModel):
             if unique_import_id in unique_import_ids:
                 unique_import_ids[unique_import_id] += 1
                 transaction["unique_import_id"] += (
-                    "-%s" % unique_import_ids[unique_import_id]
+                    f"-{unique_import_ids[unique_import_id]}"
                 )
             else:
                 unique_import_ids[unique_import_id] = 1
