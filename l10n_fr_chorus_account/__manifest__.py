@@ -15,6 +15,7 @@
     "depends": [
         "l10n_fr_siret",
         "account_invoice_transmit_method",
+        "account_payment_partner",
         "server_environment",
     ],
     "external_dependencies": {"python": ["requests_oauthlib"]},
