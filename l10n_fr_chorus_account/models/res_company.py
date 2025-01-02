@@ -189,7 +189,7 @@ class ResCompany(models.Model):
         try:
             token = r.json()
         except Exception:
-            logger.error("JSON decode failed. HTTP error code: %s." % r.status_code)
+            logger.error("JSON decode failed. HTTP error code: %s.", r.status_code)
             raise UserError(
                 _(
                     "Error in the request to get a new token via PISTE. "
