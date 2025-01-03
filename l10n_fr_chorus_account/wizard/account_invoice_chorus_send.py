@@ -15,9 +15,22 @@ class AccountInvoiceChorusSend(models.TransientModel):
     _description = "Send several invoices to Chorus"
     _check_company_auto = True
 
+    invoice_ids = fields.Many2many(
+        "account.move",
+        string="Invoices to Send",
+        readonly=True,
+        check_company=True,
+    )
+    invoice_count = fields.Integer(string="Number of Invoices", readonly=True)
+    company_id = fields.Many2one("res.company", string="Company", readonly=True)
+    chorus_invoice_format = fields.Selection(
+        related="company_id.fr_chorus_invoice_format"
+    )
+
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
+        assert self._context.get("active_model") == "account.move"
         assert self._context.get("active_ids"), "Missing active_ids in ctx"
         invoices = self.env["account.move"].browse(self._context.get("active_ids"))
         company = False
@@ -35,43 +48,36 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     _(
                         "The state of invoice '%(invoice)s' is "
                         "'%(invoice_state)s'. You can only send to Chorus Pro invoices "
-                        "in posted state."
-                    )
-                    % {
-                        "invoice": invoice.display_name,
-                        "invoice_state": invoice._fields["state"].convert_to_export(
+                        "in posted state.",
+                        invoice=invoice.display_name,
+                        invoice_state=invoice._fields["state"].convert_to_export(
                             invoice.state, invoice
                         ),
-                    }
+                    )
                 )
-            if invoice.transmit_method_code != "fr-chorus":
+            if invoice.invoice_sending_method != "fr_chorus":
                 raise UserError(
                     _(
-                        "On invoice '%(invoice)s', the transmit method is "
-                        "'%(transmit_method)s'. To be able "
-                        "to send it to Chorus Pro, the transmit method must be "
-                        "'Chorus Pro'."
+                        "Invoice '%(invoice)s': partner '%(partner)s' is "
+                        "not configured with invoice sending set "
+                        "to 'Chorus Pro'.",
+                        invoice=invoice.display_name,
+                        partner=invoice.commercial_partner_id.display_name,
                     )
-                    % {
-                        "invoice": invoice.display_name,
-                        "transmit_method": invoice.transmit_method_id.name or _("None"),
-                    }
                 )
             if invoice.chorus_flow_id:
                 raise UserError(
                     _(
                         "The invoice '%(invoice)s' has already been sent: "
-                        "it is linked to Chorus Flow %(flow)s."
+                        "it is linked to Chorus Flow %(flow)s.",
+                        invoice=invoice.display_name,
+                        flow=invoice.chorus_flow_id.display_name,
                     )
-                    % {
-                        "invoice": invoice.display_name,
-                        "flow": invoice.chorus_flow_id.display_name,
-                    }
                 )
             if company:
                 if company != invoice.company_id:
                     raise UserError(
-                        _("All the selected invoices must be in the same company")
+                        _("All the selected invoices must be in the same company.")
                     )
             else:
                 company = invoice.company_id
@@ -85,18 +91,6 @@ class AccountInvoiceChorusSend(models.TransientModel):
             }
         )
         return res
-
-    invoice_ids = fields.Many2many(
-        "account.move",
-        string="Invoices to Send",
-        readonly=True,
-        check_company=True,
-    )
-    invoice_count = fields.Integer(string="Number of Invoices", readonly=True)
-    company_id = fields.Many2one("res.company", string="Company", readonly=True)
-    chorus_invoice_format = fields.Selection(
-        related="company_id.fr_chorus_invoice_format"
-    )
 
     def run(self):
         self.ensure_one()

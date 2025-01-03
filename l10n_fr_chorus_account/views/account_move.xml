@@ -8,13 +8,13 @@
     <record id="view_move_form" model="ir.ui.view">
         <field name="name">Chorus support on Customer Invoice form view</field>
         <field name="model">account.move</field>
-        <field name="inherit_id" ref="account_invoice_transmit_method.view_move_form" />
+        <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
             <button name="action_invoice_sent" position="after">
                 <button
                     name="%(account_invoice_chorus_send_action)d"
                     type="action"
-                    invisible="chorus_flow_id or state != 'posted' or transmit_method_code != 'fr-chorus'"
+                    invisible="chorus_flow_id or state != 'posted' or invoice_sending_method != 'fr_chorus'"
                     string="Send to Chorus"
                     class="btn-primary"
                     groups="l10n_fr_chorus_account.group_chorus_api"
@@ -24,23 +24,40 @@
                 <page
                     name="fr-chorus"
                     string="Chorus Pro"
-                    invisible="transmit_method_code != 'fr-chorus'"
+                    invisible="invoice_sending_method != 'fr_chorus'"
                     groups="l10n_fr_chorus_account.group_chorus_api"
                 >
                     <group name="chorus-tab">
                         <group name="chorus-main">
                             <field name="chorus_flow_id" />
-                            <field name="chorus_identifier" />
-                            <field name="chorus_status" />
-                            <field name="chorus_status_date" />
-                            <button
-                                name="chorus_update_invoice_status"
-                                type="object"
-                                string="Update Chorus Invoice Status"
-                                invisible="chorus_identifier in (False, 0)"
-                                colspan="2"
-                                class="btn-default"
+                            <field
+                                name="chorus_identifier"
+                                groups="l10n_fr_chorus_account.group_chorus_api_debug"
                             />
+                            <field
+                                name="chorus_status"
+                                invisible="not chorus_identifier"
+                            />
+                            <label
+                                for="chorus_status_date"
+                                invisible="not chorus_identifier"
+                            />
+                            <div
+                                name="chorus_status_date"
+                                invisible="not chorus_identifier"
+                                class="o_row"
+                            >
+                                <field name="chorus_status_date" />
+                                <button
+                                    name="chorus_update_invoice_status"
+                                    type="object"
+                                    string="Update"
+                                    help="Update Chorus Invoice Status"
+                                    invisible="not chorus_identifier"
+                                    class="btn-link mb-1 px-0"
+                                    icon="fa-refresh"
+                                />
+                            </div>
                         </group>
                         <group name="chorus-attachments" string="Attachments">
                             <field
@@ -60,9 +77,17 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
-            <field name="payment_state" position="after">
+            <field name="status_in_payment" position="after">
                 <field name="chorus_status" optional="hide" />
             </field>
+            <header position="inside">
+                <button
+                    name="%(account_invoice_chorus_send_action)d"
+                    type="action"
+                    string="Send to Chorus"
+                    groups="l10n_fr_chorus_account.group_chorus_api"
+                />
+            </header>
         </field>
     </record>
     <record id="view_account_invoice_filter" model="ir.ui.view">

@@ -26,6 +26,9 @@ class ResPartner(models.Model):
         ],
         string="Info Required for Chorus",
         tracking=True,
+        compute="_compute_fr_chorus_required",
+        store=True,
+        readonly=False,
     )
     fr_chorus_identifier = fields.Integer("Chorus Identifier", readonly=True)
     fr_chorus_service_count = fields.Integer(
@@ -44,6 +47,16 @@ class ResPartner(models.Model):
     fr_chorus_service_ids = fields.One2many(
         "chorus.partner.service", "partner_id", string="Chorus Services"
     )
+    # inherit field of the account module (field added in odoo 18.0)
+    invoice_sending_method = fields.Selection(
+        selection_add=[("fr_chorus", "Chorus Pro")], ondelete={"fr_chorus": "set null"}
+    )
+
+    @api.depends("invoice_sending_method")
+    def _compute_fr_chorus_required(self):
+        self.filtered(
+            lambda x: x.invoice_sending_method != "fr_chorus"
+        ).fr_chorus_required = False
 
     def _compute_fr_chorus_service_count(self):
         rg_res = self.env["chorus.partner.service"]._read_group(
@@ -65,12 +78,10 @@ class ResPartner(models.Model):
                             "Chorus service codes can only be set on contacts, "
                             "not on parent partners. Chorus service code "
                             "'%(service_code)s' has been set on "
-                            "partner %(partner_name)s that has no parent."
+                            "partner %(partner_name)s that has no parent.",
+                            service_code=partner.fr_chorus_service_id.code,
+                            partner_name=partner.display_name,
                         )
-                        % {
-                            "service_code": partner.fr_chorus_service_id.code,
-                            "partner_name": partner.display_name,
-                        }
                     )
                 if not partner.name:
                     raise ValidationError(
@@ -87,13 +98,11 @@ class ResPartner(models.Model):
                         _(
                             "The Chorus Service '%(service_name)s' configured on "
                             "contact '%(partner_name)s' is attached to another partner "
-                            "(%(other_partner_name)s)."
+                            "(%(other_partner_name)s).",
+                            service_name=partner.fr_chorus_service_id.display_name,
+                            partner_name=partner.display_name,
+                            other_partner_name=chorus_service_partner.display_name,
                         )
-                        % {
-                            "service_name": partner.fr_chorus_service_id.display_name,
-                            "partner_name": partner.display_name,
-                            "other_partner_name": chorus_service_partner.display_name,
-                        }
                     )
 
     def _fr_chorus_api_structures_rechercher(self, api_params, session=None):
@@ -145,21 +154,20 @@ class ResPartner(models.Model):
                     )
                     continue
             if (
-                partner.customer_invoice_transmit_method_code != "fr-chorus"
+                partner.invoice_sending_method != "fr_chorus"
                 and not self.env.context.get("get_company_identifier")
             ):
                 if raise_if_ko:
                     raise UserError(
                         _(
-                            "On partner '%s', the invoice transmit method "
+                            "On partner '%s', Invoice Sending "
                             "is not set to 'Chorus Pro'."
                         )
                         % partner.display_name
                     )
                 else:
                     logger.warning(
-                        "Skipping partner %s: invoice transmit method "
-                        "not set to fr-chorus",
+                        "Skipping partner %s: invoice sending not set to chorus pro",
                         partner.display_name,
                     )
                     continue
@@ -435,7 +443,7 @@ class ResPartner(models.Model):
         to_update_partners = self.search(
             [
                 ("parent_id", "=", False),
-                ("customer_invoice_transmit_method_code", "=", "fr-chorus"),
+                ("invoice_sending_method", "=", "fr_chorus"),
                 ("siren", "!=", False),
                 ("nic", "!=", False),
             ]

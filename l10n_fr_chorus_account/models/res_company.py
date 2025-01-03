@@ -12,6 +12,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError
+from odoo.tools.misc import format_date
 
 logger = logging.getLogger(__name__)
 
@@ -36,9 +37,6 @@ class ResCompany(models.Model):
     )
     fr_chorus_api_password = fields.Char(
         string="Chorus Technical User Password", groups="base.group_system"
-    )
-    fr_chorus_qualif = fields.Boolean(
-        "Chorus Test Mode", help="Use the Chorus Pro qualification website"
     )
     # The values of the selection field below should
     # start with either 'xml_' or 'pdf_'
@@ -69,7 +67,6 @@ class ResCompany(models.Model):
             {
                 "fr_chorus_api_login": {},
                 "fr_chorus_api_password": {},
-                "fr_chorus_qualif": {},
             }
         )
         return env_fields
@@ -101,6 +98,15 @@ class ResCompany(models.Model):
                 return False
         return (oauth_id, oauth_secret)
 
+    def _chorus_qualif(self):
+        self.ensure_one()
+        # Warning: with the OCA module server_environment,
+        # when there is no key 'running_env' in the odoo server config file,
+        # it will return "test" as a "safe default"
+        running_env = tools.config.get("running_env", "prod")
+        qualif = running_env in ("test", "dev")
+        return qualif
+
     def _chorus_get_api_params(self, raise_if_ko=False):
         self.ensure_one()
         api_params = {}
@@ -116,7 +122,7 @@ class ResCompany(models.Model):
             api_params = {
                 "login": self.sudo().fr_chorus_api_login,
                 "password": self.sudo().fr_chorus_api_password,
-                "qualif": self.fr_chorus_qualif,
+                "qualif": self._chorus_qualif(),
                 "oauth_id": oauth_identifiers[0],
                 "oauth_secret": oauth_identifiers[1],
             }
@@ -139,9 +145,9 @@ class ResCompany(models.Model):
                         "Chorus API is %s. You should login to Chorus Pro, "
                         "generate a new password for the technical user and "
                         "update it in the menu Accounting > Configuration > "
-                        "Configuration."
+                        "Settings."
                     )
-                    % self.fr_chorus_pwd_expiry_date
+                    % format_date(self.env, self.fr_chorus_pwd_expiry_date)
                 )
             else:
                 logger.warning(
@@ -173,9 +179,10 @@ class ResCompany(models.Model):
                 _(
                     "Connection to PISTE (URL %(url)s) failed. "
                     "Check the internet connection of the Odoo server.\n\n"
-                    "Error details: %(error)s"
+                    "Error details: %(error)s",
+                    url=url,
+                    error=e,
                 )
-                % {"url": url, "error": e}
             ) from e
         except requests.exceptions.RequestException as e:
             logger.error("PISTE request for new token failed. Error: %s", e)
@@ -209,13 +216,11 @@ class ResCompany(models.Model):
                 _(
                     "Error in the request to get a new token via PISTE.\n\n"
                     "HTTP error code: %(status_code)s. Error type: %(error_type)s. "
-                    "Error description: %(error_description)s."
+                    "Error description: %(error_description)s.",
+                    status_code=r.status_code,
+                    error_type=token.get("error"),
+                    error_description=token.get("error_description"),
                 )
-                % {
-                    "status_code": r.status_code,
-                    "error_type": token.get("error"),
-                    "error_description": token.get("error_description"),
-                }
             ) from None
         # {'access_token': 'xxxxxxxxxxxxxxxxx',
         # 'token_type': 'Bearer', 'expires_in': 3600, 'scope': 'openid'}
@@ -279,9 +284,10 @@ class ResCompany(models.Model):
                 _(
                     "Connection to Chorus API (URL %(url)s) failed. "
                     "Check the Internet connection of the Odoo server.\n\n"
-                    "Error details: %(error)s"
+                    "Error details: %(error)s",
+                    url=url,
+                    error=e,
                 )
-                % {"url": url, "error": e}
             ) from e
         except requests.exceptions.RequestException as e:
             logger.error("Chorus POST request failed. Error: %s", e)
@@ -299,12 +305,21 @@ class ResCompany(models.Model):
                 r.status_code,
                 r.text,
             )
+            error_label = ""
+            if r.headers.get("Content-Type").startswith("application/json"):
+                try:
+                    error_dict = r.json()
+                    error_label = error_dict.get("libelle")
+                except Exception:
+                    error_label = r.text
             raise UserError(
                 _(
                     "Wrong request on %(url)s. HTTP error code received from "
-                    "Chorus: %(status_code)s."
+                    "Chorus: %(status_code)s.\nError: %(error)s",
+                    url=url,
+                    status_code=r.status_code,
+                    error=error_label,
                 )
-                % {"url": url, "status_code": r.status_code}
             ) from None
 
         answer = r.json()
@@ -320,8 +335,8 @@ class ResCompany(models.Model):
     @api.model
     def chorus_api_expiry_reminder_cron(self):
         logger.info("Starting the Chorus Pro API expiry reminder cron")
-        today_dt = fields.Date.from_string(fields.Date.context_today(self))
-        limit_date = fields.Date.to_string(today_dt + relativedelta(days=15))
+        today_dt = fields.Date.context_today(self)
+        limit_date_dt = today_dt + relativedelta(days=15)
         companies = (
             self.env["res.company"]
             .sudo()
@@ -330,7 +345,7 @@ class ResCompany(models.Model):
                     ("fr_chorus_api_password", "!=", False),
                     ("fr_chorus_api_login", "!=", False),
                     ("fr_chorus_pwd_expiry_date", "!=", False),
-                    ("fr_chorus_pwd_expiry_date", "<=", limit_date),
+                    ("fr_chorus_pwd_expiry_date", "<=", limit_date_dt),
                 ]
             )
         )
@@ -339,18 +354,16 @@ class ResCompany(models.Model):
         )
         for company in companies:
             if company.fr_chorus_expiry_remind_user_ids:
-                expiry_date_dt = fields.Date.from_string(
-                    company.fr_chorus_pwd_expiry_date
-                )
+                expiry_date_dt = company.fr_chorus_pwd_expiry_date
                 pwd_days = (expiry_date_dt - today_dt).days
                 mail_tpl.with_context(pwd_days=pwd_days).send_mail(company.id)
                 logger.info(
-                    "The Chorus API expiry reminder has been sent " "for company %s",
+                    "The Chorus API expiry reminder has been sent for company %s",
                     company.name,
                 )
             else:
                 logger.warning(
-                    "The Chorus API credentials or certificate will "
+                    "The Chorus API credentials will "
                     "soon expire for company %s but the field "
                     "fr_chorus_expiry_remind_user_ids is empty!",
                     company.name,
@@ -378,12 +391,10 @@ class ResCompany(models.Model):
             raise UserError(
                 _(
                     "Missing SIRET on partner '%(partner)s'"
-                    " linked to company '%(company)s'."
+                    " linked to company '%(company)s'.",
+                    partner=company_partner.display_name,
+                    company=self.display_name,
                 )
-                % {
-                    "partner": company_partner.display_name,
-                    "company": self.display_name,
-                }
             )
         cpartner = invoice_partner.commercial_partner_id
         if not cpartner.siren or not cpartner.nic:
@@ -404,13 +415,11 @@ class ResCompany(models.Model):
                     "Chorus Pro, so you must select a contact as %(partner_field)s "
                     "for %(obj_display_name)s and this contact should have a name "
                     "and a Chorus service and the Chorus service must "
-                    "be active."
+                    "be active.",
+                    partner=cpartner.display_name,
+                    obj_display_name=obj_display_name,
+                    partner_field=partner_field,
                 )
-                % {
-                    "partner": cpartner.display_name,
-                    "obj_display_name": obj_display_name,
-                    "partner_field": partner_field,
-                }
             )
         if cpartner.fr_chorus_required in ("engagement", "service_and_engagement"):
             if not client_order_ref:
@@ -420,12 +429,10 @@ class ResCompany(models.Model):
                         "as Engagement required for "
                         "Chorus Pro, so the 'Customer Reference' "
                         "of %(obj_display_name)s must "
-                        "contain a commitment number."
+                        "contain a commitment number.",
+                        partner=cpartner.display_name,
+                        obj_display_name=obj_display_name,
                     )
-                    % {
-                        "partner": cpartner.display_name,
-                        "obj_display_name": obj_display_name,
-                    }
                 )
             self._chorus_check_commitment_number(source_object, client_order_ref)
         elif (
@@ -439,13 +446,11 @@ class ResCompany(models.Model):
                         "is linked to Chorus service '%(service)s' "
                         "which is configured with 'Engagement Required', so the "
                         "'Customer Reference' of %(obj_display_name)s must "
-                        "contain a commitment number."
+                        "contain a commitment number.",
+                        partner=invoice_partner.display_name,
+                        service=invoice_partner.fr_chorus_service_id.code,
+                        obj_display_name=obj_display_name,
                     )
-                    % {
-                        "partner": invoice_partner.display_name,
-                        "service": invoice_partner.fr_chorus_service_id.code,
-                        "obj_display_name": obj_display_name,
-                    }
                 )
             self._chorus_check_commitment_number(source_object, client_order_ref)
         if cpartner.fr_chorus_required == "service_or_engagement":
@@ -459,13 +464,11 @@ class ResCompany(models.Model):
                             "is not set and the '%(partner_field)s' "
                             "is not correctly configured as a service "
                             "(should be a contact with a Chorus service "
-                            "and a name)."
+                            "and a name).",
+                            partner=cpartner.display_name,
+                            partner_field=partner_field,
+                            obj_display_name=obj_display_name,
                         )
-                        % {
-                            "partner": cpartner.display_name,
-                            "partner_field": partner_field,
-                            "obj_display_name": obj_display_name,
-                        }
                     )
                 self._chorus_check_commitment_number(source_object, client_order_ref)
 
@@ -493,13 +496,11 @@ class ResCompany(models.Model):
                 _(
                     "On %(obj_display_name)s, the Customer Reference "
                     "'%(client_order_ref)s' is %(size)s caracters long. "
-                    "The maximum is 50. Please update the Customer Reference."
+                    "The maximum is 50. Please update the Customer Reference.",
+                    obj_display_name=source_object.display_name,
+                    client_order_ref=client_order_ref,
+                    size=len(client_order_ref),
                 )
-                % {
-                    "obj_display_name": source_object.display_name,
-                    "client_order_ref": client_order_ref,
-                    "size": len(client_order_ref),
-                }
             )
         return self._chorus_api_check_commitment_number(
             source_object,
@@ -542,12 +543,10 @@ class ResCompany(models.Model):
                 _(
                     "%(obj_display_name)s: Customer Reference "
                     "'%(client_order_ref)s' not found in Chorus Pro. "
-                    "Please check the Customer Reference carefully."
+                    "Please check the Customer Reference carefully.",
+                    obj_display_name=source_object.display_name,
+                    client_order_ref=client_order_ref,
                 )
-                % {
-                    "obj_display_name": source_object.display_name,
-                    "client_order_ref": client_order_ref,
-                }
             )
         logger.warning(
             "%s: commitment number %s not found in Chorus Pro.",

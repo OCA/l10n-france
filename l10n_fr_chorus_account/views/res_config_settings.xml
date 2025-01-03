@@ -18,6 +18,12 @@
                         help="Send electronic invoices to the French administration directly from Odoo via the Chorus Pro API"
                     >
                         <field name="group_chorus_api" />
+                        <button
+                            type="object"
+                            name="fr_chorus_test_api"
+                            string="Test Chorus API"
+                            invisible="not group_chorus_api"
+                        />
                     </setting>
                     <setting
                         id="fr_chorus_invoice_format"
@@ -69,8 +75,8 @@
                     <setting
                         id="fr_chorus_qualif"
                         invisible="not group_chorus_api"
-                        string="Test Mode"
-                        help="Use the Chorus Pro qualification plateform instead of the production plateform"
+                        string="Use Chorus Qualification Platform"
+                        help="If enabled, API calls will be sent to the Chorus Pro qualification platform instead of the production platform. To enable it, add a key 'running_env = test' in the Odoo server configuration file."
                     >
                         <field name="fr_chorus_qualif" />
                     </setting>

@@ -62,8 +62,18 @@ CHORUS_ALLOWED_FORMATS = [
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    # The related field below should be native... I hope we won't have conflict issues
+    # if another module defines the same related field.
+    invoice_sending_method = fields.Selection(
+        related="commercial_partner_id.invoice_sending_method", store=True
+    )
     chorus_flow_id = fields.Many2one(
-        "chorus.flow", string="Chorus Flow", readonly=True, copy=False, tracking=True
+        "chorus.flow",
+        string="Chorus Flow",
+        readonly=True,
+        copy=False,
+        tracking=True,
+        check_company=True,
     )
     chorus_identifier = fields.Integer(
         string="Chorus Invoice Identifier", readonly=True, copy=False, tracking=True
@@ -79,15 +89,16 @@ class AccountMove(models.Model):
         "account_move_chorus_ir_attachment_rel",
         string="Chorus Attachments",
         copy=False,
+        check_company=True,
     )
 
-    @api.constrains("chorus_attachment_ids", "transmit_method_id")
+    @api.constrains("chorus_attachment_ids", "invoice_sending_method")
     def _check_chorus_attachments(self):
         # https://communaute.chorus-pro.gouv.fr/pieces-jointes-dans-chorus-pro-quelques-regles-a-respecter/ # noqa: B950,E501
         for move in self:
             if (
                 move.move_type in ("out_invoice", "out_refund")
-                and move.transmit_method_code == "fr-chorus"
+                and move.invoice_sending_method == "fr_chorus"
             ):
                 total_size = 0
                 for attach in move.chorus_attachment_ids:
@@ -98,13 +109,11 @@ class AccountMove(models.Model):
                                 " is %(filename_max)s caracters maximum"
                                 " (extension included)."
                                 " The filename '%(filename)s' has %(filename_size)s"
-                                " caracters."
+                                " caracters.",
+                                filename_max=CHORUS_FILENAME_MAX,
+                                filename=attach.name,
+                                filename_size=len(attach.name),
                             )
-                            % {
-                                "filename_max": CHORUS_FILENAME_MAX,
-                                "filename": attach.name,
-                                "filename_size": len(attach.name),
-                            }
                         )
                     filename, file_extension = os.path.splitext(attach.name)
                     if not file_extension:
@@ -122,12 +131,10 @@ class AccountMove(models.Model):
                                 "On Chorus Pro, the allowed formats for the "
                                 "attachments are the following: %(extension_list)s.\n"
                                 "The attachment '%(filename)s'"
-                                " is not part of this list."
+                                " is not part of this list.",
+                                extension_list=", ".join(CHORUS_ALLOWED_FORMATS),
+                                filename=attach.name,
                             )
-                            % {
-                                "extension_list": ", ".join(CHORUS_ALLOWED_FORMATS),
-                                "filename": attach.name,
-                            }
                         )
                     if not attach.file_size:
                         raise ValidationError(
@@ -140,13 +147,11 @@ class AccountMove(models.Model):
                             _(
                                 "On Chorus Pro, each attachment"
                                 " cannot exceed %(size_max)s Mb. "
-                                "The attachment '%(filename)s' weights %(size)s Mb."
+                                "The attachment '%(filename)s' weights %(size)s Mb.",
+                                size_max=CHORUS_FILESIZE_MAX_MO,
+                                filename=attach.name,
+                                size=formatLang(self.env, filesize_mo),
                             )
-                            % {
-                                "size_max": CHORUS_FILESIZE_MAX_MO,
-                                "filename": attach.name,
-                                "size": formatLang(self.env, filesize_mo),
-                            }
                         )
                 if total_size:
                     total_size_mo = round(total_size / (1024 * 1024), 1)
@@ -156,23 +161,21 @@ class AccountMove(models.Model):
                                 "On Chorus Pro, an invoice with its attachments "
                                 "cannot exceed %(size_max)s Mb, so we set a limit of "
                                 "%(attach_size_max)s Mb for the attachments. "
-                                "The attachments have a total size of %(size)s Mb."
+                                "The attachments have a total size of %(size)s Mb.",
+                                size_max=CHORUS_TOTAL_FILESIZE_MAX_MO,
+                                attach_size_max=CHORUS_TOTAL_ATTACHMENTS_MAX_MO,
+                                size=formatLang(self.env, total_size_mo),
                             )
-                            % {
-                                "size_max": CHORUS_TOTAL_FILESIZE_MAX_MO,
-                                "attach_size_max": CHORUS_TOTAL_ATTACHMENTS_MAX_MO,
-                                "size": formatLang(self.env, total_size_mo),
-                            }
                         )
 
-    def action_post(self):
+    def _post(self, soft=True):
         """Check validity of Chorus invoices"""
-        for inv in self.filtered(
+        for move in self.filtered(
             lambda x: x.move_type in ("out_invoice", "out_refund")
-            and x.transmit_method_code == "fr-chorus"
+            and x.invoice_sending_method == "fr_chorus"
         ):
-            inv._chorus_validation_checks()
-        return super().action_post()
+            move._chorus_validation_checks()
+        return super()._post(soft=soft)
 
     def _chorus_validation_checks(self):
         self.ensure_one()
@@ -180,21 +183,21 @@ class AccountMove(models.Model):
             self, self.partner_id, self.ref
         )
         if self.move_type == "out_invoice":
-            if not self.payment_mode_id:
+            if not self.preferred_payment_method_line_id:
                 raise UserError(
                     _(
-                        "Missing Payment Mode on invoice '%s'. "
+                        "Missing Payment Method on invoice '%s'. "
                         "This information is required for Chorus Pro."
                     )
                     % self.display_name
                 )
             payment_means_code = (
-                self.payment_mode_id.payment_method_id.unece_code or "30"
+                self.preferred_payment_method_line_id.payment_method_id.unece_code
+                or "30"
             )
             if payment_means_code in CREDIT_TRF_CODES:
                 partner_bank_id = self.partner_bank_id or (
-                    self.payment_mode_id.bank_account_link == "fixed"
-                    and self.payment_mode_id.fixed_journal_id.bank_account_id
+                    self.preferred_payment_method_line_id.journal_id.bank_account_id
                 )
                 if not partner_bank_id:
                     raise UserError(
@@ -207,36 +210,34 @@ class AccountMove(models.Model):
                             "'fixed' and the related bank journal should have "
                             "a 'Bank Account' set, or the field "
                             "'Bank Account' should be set on the customer "
-                            "invoice."
+                            "invoice.",
+                            invoice=self.display_name,
+                            company=self.company_id.display_name,
                         )
-                        % {
-                            "invoice": self.display_name,
-                            "company": self.company_id.display_name,
-                        }
                     )
                 if partner_bank_id.acc_type != "iban":
                     raise UserError(
                         _(
                             "Chorus Pro only accepts IBAN. But the bank account "
-                            "'%(acc_number)s' of %(company)s is not an IBAN."
+                            "'%(acc_number)s' of %(company)s is not an IBAN.",
+                            acc_number=partner_bank_id.acc_number,
+                            company=self.company_id.display_name,
                         )
-                        % {
-                            "acc_number": partner_bank_id.acc_number,
-                            "company": self.company_id.display_name,
-                        }
                     )
         elif self.move_type == "out_refund":
-            if self.payment_mode_id:
+            if self.preferred_payment_method_line_id:
                 raise UserError(
                     _(
-                        "The Payment Mode must be empty on %s "
+                        "The Payment Method must be empty on %s "
                         "because customer refunds sent to Chorus Pro mustn't "
-                        "have a Payment Mode."
+                        "have a Payment Method."
                     )
                     % self.display_name
                 )
 
-    def chorus_get_invoice(self, chorus_invoice_format):
+    def _chorus_get_invoice(self, chorus_invoice_format):
+        """Method inherited in format-specific modules,
+        such as l10n_fr_chorus_facturx"""
         self.ensure_one()
         return False
 
@@ -256,7 +257,7 @@ class AccountMove(models.Model):
             chorus_invoice_format
         ]
         if len(self) == 1:
-            chorus_file_content = self.chorus_get_invoice(chorus_invoice_format)
+            chorus_file_content = self._chorus_get_invoice(chorus_invoice_format)
             inv_name = self.name.replace("/", "-")
             filename = f"{short_format}_chorus_facture_{inv_name}.{file_ext}"
         else:
@@ -264,7 +265,7 @@ class AccountMove(models.Model):
             tarfileobj = BytesIO()
             with tarfile.open(fileobj=tarfileobj, mode="w:gz") as tar:
                 for inv in self:
-                    inv_file_data = inv.chorus_get_invoice(chorus_invoice_format)
+                    inv_file_data = inv._chorus_get_invoice(chorus_invoice_format)
                     invfileio = BytesIO(inv_file_data)
                     inv_name = inv.name.replace("/", "-")
                     invfilename = f"{short_format}_chorus_facture_{inv_name}.{file_ext}"
@@ -272,7 +273,6 @@ class AccountMove(models.Model):
                     tarinfo.size = len(inv_file_data)
                     tarinfo.mtime = int(time.time())
                     tar.addfile(tarinfo=tarinfo, fileobj=invfileio)
-                tar.close()
             tarfileobj.seek(0)
             chorus_file_content = tarfileobj.read()
         payload = {
@@ -344,7 +344,7 @@ class AccountMove(models.Model):
         for invoice in self:
             assert invoice.state == "posted"
             assert invoice.move_type in ("out_invoice", "out_refund")
-            assert invoice.transmit_method_code == "fr-chorus"
+            assert invoice.invoice_sending_method == "fr_chorus"
             assert not invoice.chorus_flow_id
             assert invoice.company_id == company
         company._check_chorus_invoice_format()
