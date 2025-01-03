@@ -138,7 +138,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     @api.depends("year_month")
     def _compute_display_name(self):
         for rec in self:
-            rec.display_name = "DES %s" % rec.year_month
+            rec.display_name = f"DES {rec.year_month}"
 
     def _prepare_domain(self):
         self.ensure_one()
@@ -343,7 +343,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
 
     def _attach_xml_file(self, xml_bytes):
         self.ensure_one()
-        filename = "%s_des.xml" % self.year_month
+        filename = f"{self.year_month}_des.xml"
         attach = self.env["ir.attachment"].create(
             {
                 "name": filename,
