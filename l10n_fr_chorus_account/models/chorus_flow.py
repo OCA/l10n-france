@@ -4,6 +4,8 @@
 
 import logging
 
+from markupsafe import Markup
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -14,11 +16,16 @@ class ChorusFlow(models.Model):
     _name = "chorus.flow"
     _description = "Chorus Flow"
     _order = "id desc"
+    _check_company_auto = True
 
     name = fields.Char("Flow Ref", readonly=True, copy=False, required=True)
     date = fields.Date("Flow Date", readonly=True, copy=False, required=True)
     attachment_id = fields.Many2one(
-        "ir.attachment", string="File Sent to Chorus", readonly=True, copy=False
+        "ir.attachment",
+        string="File Sent to Chorus",
+        readonly=True,
+        copy=False,
+        check_company=True,
     )
     status = fields.Char(string="Flow Status (raw value)", readonly=True, copy=False)
     status_display = fields.Char(
@@ -46,6 +53,7 @@ class ChorusFlow(models.Model):
         "move_id",
         string="Initial Invoices",
         readonly=True,
+        check_company=True,
         help="Invoices in the flow before potential rejections",
     )
     invoice_ids = fields.One2many(
@@ -138,14 +146,16 @@ class ChorusFlow(models.Model):
                         )
                         if invoice:
                             invoice.message_post(
-                                body=_(
-                                    "This invoice has been "
-                                    "<b>rejected by Chorus Pro</b> "
-                                    "for the following reason:<br/><i>%s</i><br/>"
-                                    "You should fix the error and send this invoice to "
-                                    "Chorus Pro again."
+                                body=Markup(
+                                    _(
+                                        "This invoice has been "
+                                        "<b>rejected by Chorus Pro</b> "
+                                        "for the following reason:<br/><i>%s</i><br/>"
+                                        "You should fix the error and send this "
+                                        "invoice to Chorus Pro again."
+                                    )
+                                    % error.get("libelleErreurDP")
                                 )
-                                % error.get("libelleErreurDP")
                             )
                             invoice.sudo().write({"chorus_flow_id": False})
             if not notes and answer.get("libelle") != "TRA_MSG_00.000":
@@ -221,7 +231,7 @@ class ChorusFlow(models.Model):
                             "On flow %s, the status is not 'INTEGRE' "
                             "nor 'INTEGRE PARTIEL'."
                         )
-                        % (flow.name, flow.status)
+                        % flow.name
                     )
                 logger.warning(
                     "Skipping flow %s: chorus flow status should be "
@@ -281,7 +291,7 @@ class ChorusFlow(models.Model):
             [
                 ("state", "=", "posted"),
                 ("move_type", "in", ("out_invoice", "out_refund")),
-                ("transmit_method_code", "=", "fr-chorus"),
+                ("invoice_sending_method", "=", "fr_chorus"),
                 ("chorus_identifier", "!=", False),
                 ("chorus_status", "not in", ("MANDATEE", "MISE_EN_PAIEMENT")),
             ]

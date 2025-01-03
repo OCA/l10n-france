@@ -15,6 +15,7 @@ class ChorusPartnerService(models.Model):
     _name = "chorus.partner.service"
     _description = "Chorus Services attached to a partner"
     _order = "partner_id, code"
+    _rec_names_search = ["name", "code"]
 
     partner_id = fields.Many2one(
         "res.partner",
@@ -61,31 +62,6 @@ class ChorusPartnerService(models.Model):
         )
     ]
 
-    @api.model
-    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        if domain is None:
-            domain = []
-        if name and operator == "ilike":
-            ids = list(
-                self._search(
-                    [("code", "=ilike", name)] + domain, limit=limit, order=order
-                )
-            )
-            if ids:
-                return ids
-            ids = list(
-                self._search(
-                    ["|", ("code", "ilike", name), ("name", "ilike", name)] + domain,
-                    limit=limit,
-                    order=order,
-                )
-            )
-            if ids:
-                return ids
-        return super()._name_search(
-            name, domain=domain, operator=operator, limit=limit, order=order
-        )
-
     def _api_consulter_service(self, api_params, session):
         assert self.chorus_identifier
         url_path = "structures/v1/consulter/service"
@@ -118,12 +94,10 @@ class ChorusPartnerService(models.Model):
                     raise UserError(
                         _(
                             "Missing Chorus Identifier on service '%(service_name)s' "
-                            "of partner '%(partner_name)s'."
+                            "of partner '%(partner_name)s'.",
+                            service_name=service.display_name,
+                            partner_name=partner.display_name,
                         )
-                        % {
-                            "service_name": service.display_name,
-                            "partner_name": partner.display_name,
-                        }
                     )
                 else:
                     logger.warning(

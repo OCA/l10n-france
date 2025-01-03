@@ -20,7 +20,7 @@ class AccountMove(models.Model):
             return partner.fr_chorus_service_id.code
         return super()._cii_trade_agreement_buyer_ref(partner)
 
-    def chorus_get_invoice(self, chorus_invoice_format):
+    def _chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()
         if chorus_invoice_format == "xml_cii":
             chorus_file_content = self.with_context(
@@ -28,11 +28,11 @@ class AccountMove(models.Model):
             ).generate_facturx_xml()[0]
         elif chorus_invoice_format == "pdf_factur-x":
             chorus_file_content, filetype = self.env["ir.actions.report"]._render(
-                "account.report_invoice", [self.id]
+                "account.report_invoice_with_payments", [self.id]
             )
             assert filetype == "pdf", "wrong filetype"
         else:
-            chorus_file_content = super().chorus_get_invoice(chorus_invoice_format)
+            chorus_file_content = super()._chorus_get_invoice(chorus_invoice_format)
         return chorus_file_content
 
     def _prepare_facturx_attachments(self):

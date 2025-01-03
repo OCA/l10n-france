@@ -5,14 +5,14 @@
 {
     "name": "L10n FR Chorus Sale",
     "summary": "Add checks on sale orders for Chorus Pro",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "French Localization",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
     "depends": ["l10n_fr_chorus_account", "sale"],
-    "data": ["views/sale_order.xml"],
+    "data": [],
     "installable": True,
     "auto_install": True,
 }
