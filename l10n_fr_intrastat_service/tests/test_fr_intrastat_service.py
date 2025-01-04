@@ -8,7 +8,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 
-from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tools import float_compare
@@ -19,22 +18,15 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestFrIntrastatService(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    @AccountTestInvoicingCommon.setup_country("fr")
+    def setUpClass(cls):
+        super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.fr_test_company = cls.setup_company_data(
-            "Akretion France",
-            chart_template=chart_template_ref,
-            country_id=cls.env.ref("base.fr").id,
+        cls.fr_test_company = cls.setup_other_company(
+            name="Akretion France TEST DES",
             vat="FR86792377731",
         )
         cls.company = cls.fr_test_company["company"]
-        cls.user.write(
-            {
-                "company_ids": [Command.link(cls.company.id)],
-                "company_id": cls.company.id,
-            }
-        )
         cls.fp_eu_b2b = cls.env["account.fiscal.position"].create(
             {
                 "name": "EU B2B",
@@ -49,14 +41,12 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
             {
                 "name": "Engineering services",
                 "type": "service",
-                "company_id": cls.company.id,
             }
         )
         cls.hw_product = cls.env["product.product"].create(
             {
                 "name": "Hardware product",
                 "type": "consu",
-                "company_id": cls.company.id,
             }
         )
 
@@ -66,7 +56,6 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
                 "is_company": True,
                 "vat": "BE0477472701",
                 "country_id": cls.env.ref("base.be").id,
-                "company_id": False,
             }
         )
         cls.account_revenue = cls.fr_test_company["default_account_revenue"]

@@ -27,6 +27,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         string="Company",
         required=True,
         default=lambda self: self.env.company,
+        ondelete="cascade",
     )
     start_date = fields.Date(
         required=True,
@@ -153,6 +154,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         return domain
 
     def _is_service(self, invoice_line):
+        # What are we supposed to do for the new 'combo' type ???
         if invoice_line.product_id.type == "service":
             return True
         else:
@@ -160,6 +162,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
 
     def generate_service_lines(self):
         self.ensure_one()
+        self.company_id._check_company()
         line_obj = self.env["l10n.fr.intrastat.service.declaration.line"]
         amo = self.env["account.move"]
         # delete all DES lines generated from invoices
@@ -167,6 +170,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             [("move_id", "!=", False), ("parent_id", "=", self.id)]
         )
         lines_to_remove.unlink()
+        lines_to_create = []
         company_currency = self.company_id.currency_id
         invoices = amo.search(self._prepare_domain(), order="invoice_date")
         for invoice in invoices:
@@ -184,8 +188,11 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             amount_invoice_cur_to_write = 0.0
             amount_company_cur_to_write = 0.0
             amount_invoice_cur_regular_service = 0.0
+            amount_company_cur_regular_service = 0.0
             amount_invoice_cur_accessory_cost = 0.0
+            amount_company_cur_accessory_cost = 0.0
             regular_product_in_invoice = False
+            subtotal_sign = invoice.move_type == "out_refund" and -1 or 1
 
             for line in invoice.invoice_line_ids.filtered(
                 lambda x: x.display_type == "product" and x.product_id
@@ -204,39 +211,37 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 # - some HW products with value = 0
                 # - some accessory costs
                 # => we want to have the accessory costs in DEB, not in DES
-                if line.currency_id.is_zero(line.price_subtotal):
+                if company_currency.is_zero(line.balance):
                     continue
 
                 if line.product_id.is_accessory_cost:
-                    amount_invoice_cur_accessory_cost += line.price_subtotal
+                    amount_invoice_cur_accessory_cost += (
+                        line.price_subtotal * subtotal_sign
+                    )
+                    amount_company_cur_accessory_cost += line.balance * -1
                 else:
-                    amount_invoice_cur_regular_service += line.price_subtotal
+                    amount_invoice_cur_regular_service += (
+                        line.price_subtotal * subtotal_sign
+                    )
+                    amount_company_cur_regular_service += line.balance * -1
 
             # END of the loop on invoice lines
             if regular_product_in_invoice:
                 amount_invoice_cur_to_write = amount_invoice_cur_regular_service
+                amount_company_cur_to_write = amount_company_cur_regular_service
             else:
                 amount_invoice_cur_to_write = (
                     amount_invoice_cur_regular_service
                     + amount_invoice_cur_accessory_cost
                 )
-
-            amount_company_cur_to_write = int(
-                round(
-                    invoice.currency_id._convert(
-                        amount_invoice_cur_to_write,
-                        company_currency,
-                        self.company_id,
-                        invoice.invoice_date,
-                    )
+                amount_company_cur_to_write = (
+                    amount_company_cur_regular_service
+                    + amount_company_cur_accessory_cost
                 )
-            )
+
+            amount_company_cur_to_write = int(round(amount_company_cur_to_write))
 
             if amount_company_cur_to_write:
-                if invoice.move_type == "out_refund":
-                    amount_invoice_cur_to_write *= -1
-                    amount_company_cur_to_write *= -1
-
                 # Why do I check that the Partner has a VAT number
                 # only here and not earlier ? Because, if I sell
                 # to a physical person in the EU with VAT, then
@@ -255,7 +260,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 else:
                     partner_vat_to_write = invoice.commercial_partner_id.vat
 
-                line_obj.create(
+                lines_to_create.append(
                     {
                         "parent_id": self.id,
                         "move_id": invoice.id,
@@ -266,12 +271,14 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                         "amount_company_currency": amount_company_cur_to_write,
                     }
                 )
+        line_obj.create(lines_to_create)
         self.message_post(body=_("Re-generating lines from invoices"))
 
     def done(self):
         for decl in self:
             assert decl.state == "draft"
-            decl.generate_xml()
+            decl._check_company()
+            decl._generate_xml()
         self.write({"state": "done"})
 
     def back2draft(self):
@@ -281,12 +288,43 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 decl.attachment_id.unlink()
         self.write({"state": "draft"})
 
+    def _check_company(self):
+        self.ensure_one()
+        company = self.company_id
+        company_vat = company.partner_id.vat
+        if not company_vat:
+            raise UserError(
+                _("Missing VAT number on company '%s'.") % company.display_name
+            )
+        if not company_vat.startswith("FR"):
+            raise UserError(
+                _(
+                    "DES is only for French companies, so the VAT number should "
+                    "start with 'FR'. VAT number of company '%(company)s' is %(vat)s.",
+                    company=company.display_name,
+                    vat=company_vat,
+                )
+            )
+        if not is_valid(company_vat):
+            raise UserError(
+                _(
+                    "The VAT number of company '%(company)s' is %(vat)s. "
+                    "This VAT number is not valid.",
+                    company=company.display_name,
+                    vat=company_vat,
+                )
+            )
+        if company.currency_id.name != "EUR":
+            raise UserError(
+                _(
+                    "The currency of company %(company)s is %(currency)s and not EUR.",
+                    company=company.display_name,
+                    currency=company.currency_id.name,
+                )
+            )
+
     def _generate_des_xml_root(self):
         self.ensure_one()
-        if not self.company_id.partner_id.vat:
-            raise UserError(
-                _("Missing VAT number on company '%s'.") % self.company_id.display_name
-            )
         my_company_vat = self.company_id.partner_id.vat
 
         # Tech spec of XML export are available here :
@@ -322,7 +360,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             ligne_des.partner_des = vat
         return root
 
-    def generate_xml(self):
+    def _generate_xml(self):
         self.ensure_one()
         assert not self.attachment_id
         if not self.declaration_line_ids:
@@ -338,21 +376,20 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             xml_bytes, "l10n_fr_intrastat_service/data/des.xsd"
         )
         # Attach the XML file
-        attach_id = self._attach_xml_file(xml_bytes)
-        self.write({"attachment_id": attach_id})
+        attach_vals = self._prepare_attachment(xml_bytes)
+        attach = self.env["ir.attachment"].create(attach_vals)
+        self.write({"attachment_id": attach.id})
 
-    def _attach_xml_file(self, xml_bytes):
+    def _prepare_attachment(self, xml_bytes):
         self.ensure_one()
         filename = f"{self.year_month}_des.xml"
-        attach = self.env["ir.attachment"].create(
-            {
-                "name": filename,
-                "res_id": self.id,
-                "res_model": self._name,
-                "raw": xml_bytes,
-            }
-        )
-        return attach.id
+        attach_vals = {
+            "name": filename,
+            "res_id": self.id,
+            "res_model": self._name,
+            "raw": xml_bytes,
+        }
+        return attach_vals
 
     @api.model
     def _scheduler_reminder(self):
@@ -452,10 +489,17 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
     invoice_date = fields.Date(
         related="move_id.invoice_date", string="Invoice Date", store=True
     )
-    partner_vat = fields.Char(string="Customer VAT", required=True)
+    partner_vat = fields.Char(
+        string="Customer VAT",
+        required=True,
+        compute="_compute_partner_vat",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
     partner_id = fields.Many2one(
         "res.partner",
-        string="Partner Name",
+        string="Customer",
         ondelete="restrict",
         domain=[("parent_id", "=", False)],
     )
@@ -468,18 +512,20 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
         "date and rounded at 0 digits",
     )
     amount_invoice_currency = fields.Monetary(
-        string="Amount in Invoice Currency",
+        string="Invoiced Amount",
         readonly=True,
         currency_field="invoice_currency_id",
+        help="Invoiced amount in the invoice currency",
     )
     invoice_currency_id = fields.Many2one(
         "res.currency", "Invoice Currency", readonly=True
     )
 
-    @api.onchange("partner_id")
-    def partner_on_change(self):
-        if self.partner_id and self.partner_id.vat:
-            self.partner_vat = self.partner_id.vat
+    @api.depends("partner_id")
+    def _compute_partner_vat(self):
+        for line in self:
+            if line.partner_id and line.partner_id.vat:
+                line.partner_vat = line.partner_id.vat
 
     @api.constrains("partner_vat")
     def _check_partner_vat(self):
