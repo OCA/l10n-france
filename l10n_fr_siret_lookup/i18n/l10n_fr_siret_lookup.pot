@@ -29,6 +29,11 @@ msgid "APE Label"
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
+#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Address"
 msgstr ""
@@ -46,6 +51,11 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "Close"
+msgstr ""
+
+#. module: l10n_fr_siret_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
+msgid "Closed"
 msgstr ""
 
 #. module: l10n_fr_siret_lookup

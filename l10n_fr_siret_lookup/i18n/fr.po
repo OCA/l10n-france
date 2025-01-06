@@ -1,21 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* l10n_fr_siren_lookup
+# 	* l10n_fr_siret_lookup
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 14:28+0000\n"
-"PO-Revision-Date: 2022-09-15 22:07+0000\n"
-"Last-Translator: Claude R Perrin <claude@perrin.it>\n"
+"POT-Creation-Date: 2025-01-06 10:09+0000\n"
+"PO-Revision-Date: 2025-01-06 10:09+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"Plural-Forms: \n"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__staff
@@ -31,6 +30,11 @@ msgstr "Code NAF"
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__ape_label
 msgid "APE Label"
 msgstr "Libellé NAF"
+
+#. module: l10n_fr_siret_lookup
+#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__active
+msgid "Active"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
@@ -51,6 +55,11 @@ msgstr "Ville"
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
 msgid "Close"
 msgstr "Fermer"
+
+#. module: l10n_fr_siret_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
+msgid "Closed"
+msgstr "Fermée"
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
@@ -76,7 +85,7 @@ msgstr "Valider l'entreprise sélectionnée ?"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__country_id
@@ -98,7 +107,7 @@ msgstr "Créé le"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__creation_date
 msgid "Creation Date"
-msgstr ""
+msgstr "Date de création"
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__display_name
@@ -137,7 +146,7 @@ msgstr "Obtenir les informations sur les entreprises"
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__id
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup____last_update
@@ -210,7 +219,7 @@ msgstr "Résultats"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__siren
 msgid "SIREN"
-msgstr "SIREN"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model:ir.actions.act_window,name:l10n_fr_siret_lookup.fr_siret_lookup_partner_action
@@ -230,7 +239,7 @@ msgstr "Recherche SIREN via opendatasoft.com"
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__siret
 msgid "SIRET"
-msgstr "SIRET"
+msgstr ""
 
 #. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_form
@@ -264,21 +273,3 @@ msgstr "Assistant"
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line__zip
 msgid "Zip"
 msgstr "Code Postal"
-
-#~ msgid "Creation date"
-#~ msgstr "Date de création"
-
-#~ msgid "CP"
-#~ msgstr "CP"
-
-#~ msgid "Companies Selection"
-#~ msgstr "Sélection d'Entreprises"
-
-#~ msgid "Informations base Siren"
-#~ msgstr "Informations base Siren"
-
-#~ msgid "Lookup Company"
-#~ msgstr "Rechercher une Entreprise"
-
-#~ msgid "Pre-Fill / Update"
-#~ msgstr "Pré-Remplir / Mettre à jour"
