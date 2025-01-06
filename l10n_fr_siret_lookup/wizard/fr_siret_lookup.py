@@ -63,6 +63,7 @@ class FrSiretLookup(models.TransientModel):
             "ape_label": data.get("divisionunitelegale"),
             "legal_type": data.get("naturejuridiqueunitelegale"),
             "staff": data.get("trancheeffectifsunitelegale", 0),
+            "active": data.get("etatadministratifetablissement") == "Actif",
         }
 
     def get_lines(self):
@@ -78,8 +79,10 @@ class FrSiretLookup(models.TransientModel):
             res = self._prepare_partner_from_data(company["fields"])
             companies_vals.append((0, 0, res))
         self.line_ids = companies_vals
+        current_context = dict(self.env.context)
+        current_context["active_test"] = False
         return {
-            "context": self.env.context,
+            "context": current_context,
             "view_mode": "form",
             "res_model": self._name,
             "res_id": self.id,
@@ -107,6 +110,7 @@ class FrSiretLookupLine(models.TransientModel):
     creation_date = fields.Date()
     staff = fields.Char("# Staff")
     category = fields.Char()
+    active = fields.Boolean()
 
     def _prepare_partner_values(self):
         self.ensure_one()
