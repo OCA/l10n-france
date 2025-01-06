@@ -31,20 +31,33 @@
                     >
                         <div class="o_setting_left_pane" />
                         <div class="o_setting_right_pane">
-                            <div class="row">
+                            <label
+                                for="fr_chorus_invoice_format"
+                                class="col-md-5 o_light_label"
+                            />
+                            <field name="fr_chorus_invoice_format" />
+                        </div>
+                    </div>
+                    <div
+                        class="col-xs-12 col-md-12 o_setting_box"
+                        attrs="{'invisible': [('group_chorus_api', '=', False)]}"
+                    >
+                        <div class="o_setting_left_pane">
+                            <field name="fr_chorus_check_commitment_number" />
+                        </div>
+                        <div class="o_setting_right_pane">
                                 <label
-                                    for="fr_chorus_invoice_format"
-                                    class="col-md-5 o_light_label"
-                                />
-                                <field name="fr_chorus_invoice_format" />
-                            </div>
-                            <div class="row">
-                                <label
-                                    for="fr_chorus_check_commitment_number"
-                                    class="col-md-5 o_light_label"
-                                />
-                                <field name="fr_chorus_check_commitment_number" />
-                            </div>
+                                for="fr_chorus_check_commitment_number"
+                                class="col-md-5 o_light_label"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        class="col-xs-12 col-md-12 o_setting_box"
+                        attrs="{'invisible': [('group_chorus_api', '=', False)]}"
+                    >
+                        <div class="o_setting_left_pane" />
+                        <div class="o_setting_right_pane">
                             <div class="row">
                                 <label
                                     for="fr_chorus_api_login"
@@ -76,13 +89,20 @@
                                     widget="many2many_tags"
                                 />
                             </div>
-                            <div class="row">
-                                <label
-                                    for="fr_chorus_qualif"
-                                    class="col-md-5 o_light_label"
-                                />
-                                <field name="fr_chorus_qualif" />
-                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xs-12 col-md-12 o_setting_box"
+                        attrs="{'invisible': [('group_chorus_api', '=', False)]}"
+                    >
+                        <div class="o_setting_left_pane">
+                            <field name="fr_chorus_qualif" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label
+                                for="fr_chorus_qualif"
+                                class="col-md-5 o_light_label"
+                            />
                         </div>
                     </div>
                 </div>

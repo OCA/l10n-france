@@ -30,17 +30,25 @@
                 <group name="chorus-tab">
                     <group name="chorus-main">
                         <field name="chorus_flow_id" />
-                        <field name="chorus_identifier" />
-                        <field name="chorus_status" />
-                        <field name="chorus_status_date" />
-                        <button
-                                name="chorus_update_invoice_status"
-                                type="object"
-                                string="Update Chorus Invoice Status"
-                                attrs="{'invisible': [('chorus_identifier', 'in', (False, 0))]}"
-                                colspan="2"
-                                class="btn-default"
+                        <field name="chorus_identifier" invisible="1" />
+                        <field
+                                name="chorus_identifier"
+                                groups="l10n_fr_chorus_account.group_chorus_api_debug"
                             />
+                        <field name="chorus_status" />
+                        <label for="chorus_status_date" />
+                        <div name="chorus_status_date" class="o_row">
+                            <field name="chorus_status_date" />
+                            <button
+                                    name="chorus_update_invoice_status"
+                                    type="object"
+                                    string="Update"
+                                    help="Update Chorus Invoice Status"
+                                    class="btn-link mb-1 px-0"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('chorus_identifier', '=', False)]}"
+                                />
+                        </div>
                     </group>
                 <group name="chorus-attachments" string="Attachments">
                         <field
