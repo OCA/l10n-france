@@ -94,7 +94,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
     invoice_count = fields.Integer(string="Number of Invoices", readonly=True)
     company_id = fields.Many2one("res.company", string="Company", readonly=True)
     chorus_invoice_format = fields.Selection(
-        related="company_id.fr_chorus_invoice_format", readonly=True
+        related="company_id.fr_chorus_invoice_format",
     )
 
     def run(self):
