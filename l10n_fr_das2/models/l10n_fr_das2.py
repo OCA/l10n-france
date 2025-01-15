@@ -728,16 +728,8 @@ class L10nFrDas2(models.Model):
             )
 
         file_content = self._prepare_file()
-        try:
-            file_content_encoded = file_content.encode("latin1")
-        except UnicodeEncodeError as e:
-            raise UserError(
-                _(
-                    "A special character in the DAS2 file is not in the latin1 "
-                    "table. Please locate this special character and replace "
-                    "it by a standard character and try again."
-                )
-            ) from e
+        # In 2025, they made it clear (at last !) that the file must be in utf-8
+        file_content_encoded = file_content.encode("utf-8")
 
         try:
             file_bytes_result, filename = generate_file(
