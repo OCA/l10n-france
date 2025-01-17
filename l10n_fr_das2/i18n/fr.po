@@ -37,18 +37,6 @@ msgstr ""
 "pièces jointes, puis le générer à nouveau."
 
 #. module: l10n_fr_das2
-#. odoo-python
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
-msgid ""
-"A special character in the DAS2 file is not in the latin1 table. Please "
-"locate this special character and replace it by a standard character and try "
-"again."
-msgstr ""
-"Un caractère spécial dans le fichier DAS2 n'est pas dans la table latin1. "
-"Veuillez localiser ce caractère spécial et le remplacer par un caractère "
-"standard et réessayer."
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_needaction
 msgid "Action Needed"
 msgstr "Action requise"
@@ -784,6 +772,15 @@ msgstr "Historique des échanges sur le site Web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#~ msgid ""
+#~ "A special character in the DAS2 file is not in the latin1 table. Please "
+#~ "locate this special character and replace it by a standard character and "
+#~ "try again."
+#~ msgstr ""
+#~ "Un caractère spécial dans le fichier DAS2 n'est pas dans la table latin1. "
+#~ "Veuillez localiser ce caractère spécial et le remplacer par un caractère "
+#~ "standard et réessayer."
 
 #, python-format
 #~ msgid "SIRET '%s' is invalid."
