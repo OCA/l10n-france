@@ -16,6 +16,7 @@
     "data": [
         "views/res_partner.xml",
         "views/res_company.xml",
+        "views/res_country.xml",
     ],
     "demo": ["demo/partner_demo.xml"],
     "post_init_hook": "set_siren_nic",

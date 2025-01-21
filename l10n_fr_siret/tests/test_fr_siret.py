@@ -30,6 +30,27 @@ class TestL10nFrSiret(TransactionCase):
             .id
         )
 
+    def test_show_siret_fields(self):
+        partner1 = self.env["res.partner"].create(
+            {
+                "name": "Test partner1",
+                "is_company": True,
+                "country_id": self.env.ref("base.fr").id,
+            }
+        )
+        self.assertTrue(partner1.show_siret_fields)
+
+    def test_show_siret_fields_on_not_configured_country(self):
+        self.env.ref("base.be").show_siret_fields = False
+        partner1 = self.env["res.partner"].create(
+            {
+                "name": "Test partner1",
+                "is_company": True,
+                "country_id": self.env.ref("base.be").id,
+            }
+        )
+        self.assertFalse(partner1.show_siret_fields)
+
     def test_siret(self):
         partner1 = self.env["res.partner"].create(
             {
