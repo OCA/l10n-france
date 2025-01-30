@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 try:
     from pypdf import PdfReader, PdfWriter
-except (ImportError, IOError) as err:
+except (OSError, ImportError) as err:
     logger.debug(err)
 
 
@@ -81,7 +81,8 @@ class AccountMove(models.Model):
         for move in self:
             if move.move_type == "out_invoice" and move.payment_method_code == "fr_lcr":
                 # We consider bank account as required only for letter of change,
-                # not for promissory note (we may only know the bank account when receiving it)
+                # not for promissory note (we may only know the bank account when
+                # receiving it)
                 if (
                     move.payment_mode_fr_lcr_type in ("accepted", "not_accepted")
                     and not move.fr_lcr_partner_bank_id
@@ -278,7 +279,7 @@ class AccountMove(models.Model):
             final_report_writer.write(final_report_io)
             final_report_bytes = final_report_io.getvalue()
 
-        filename = "lettre_de_change-%s.pdf" % self.name.replace("/", "-")
+        filename = f"lettre_de_change-{self.name.replace('/', '-')}.pdf"
         attach = self.env["ir.attachment"].create(
             {
                 "name": filename,

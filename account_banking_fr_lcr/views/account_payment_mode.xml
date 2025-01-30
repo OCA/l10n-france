@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="account_payment_mode_form" model="ir.ui.view">
         <field name="name">fr_lcr.account.payment.mode.form</field>
         <field name="model">account.payment.mode</field>
@@ -38,5 +37,4 @@
             </group>
         </field>
     </record>
-
 </odoo>

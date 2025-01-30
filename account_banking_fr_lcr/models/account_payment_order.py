@@ -51,7 +51,8 @@ class AccountPaymentOrder(models.Model):
         states={"draft": [("readonly", False)]},
         string="Collection Option",
     )
-    # if fr_lcr_value_date is also used for Dailly, we'll have to change the code and the view
+    # if fr_lcr_value_date is also used for Dailly, we'll have to change
+    # the code and the view
     fr_lcr_value_date = fields.Date(string="Value Date")
     # invisible, to show or not the field 'fr_lcr_dailly_option'
     fr_lcr_dailly = fields.Boolean(
@@ -91,7 +92,6 @@ class AccountPaymentOrder(models.Model):
         # on account.payment.line
         res = super().draft2open()
         today = fields.Date.context_today(self)
-        self.env.ref("base.EUR").id
         for order in self:
             if order.payment_method_code == "fr_lcr":
                 if not order.fr_lcr_collection_option:
@@ -266,8 +266,9 @@ class AccountPaymentOrder(models.Model):
         return cfonb_line
 
     def _fr_lcr_line_separator(self):
-        """It seems that some bank don't want a line break. For the moment, we have this hook.
-        If it is confirm, we'll make it a configuration parameter"""
+        """It seems that some bank don't want a line break. For the moment,
+        we have this hook. If it is confirm, we'll make it a configuration parameter
+        """
         return "\r\n"
 
     def generate_payment_file(self):

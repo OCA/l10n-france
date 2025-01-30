@@ -87,7 +87,8 @@ class AccountPaymentMode(models.Model):
             ):
                 raise ValidationError(
                     _(
-                        "The field 'Bill of Exchange Type' must be set on payment mode '%s'."
+                        "The field 'Bill of Exchange Type' must be set on "
+                        "payment mode '%s'."
                     )
                     % mode.display_name
                 )
