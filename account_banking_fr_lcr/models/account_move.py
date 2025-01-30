@@ -26,8 +26,8 @@ except (OSError, ImportError) as err:
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    payment_mode_fr_lcr_type = fields.Selection(
-        related="payment_mode_id.fr_lcr_type", store=True
+    payment_method_line_fr_lcr_type = fields.Selection(
+        related="preferred_payment_method_line_id.fr_lcr_type", store=True
     )
     fr_lcr_attachment_id = fields.Many2one(
         "ir.attachment", string="Bill of Exchange Attachment"
@@ -42,8 +42,7 @@ class AccountMove(models.Model):
         "res.partner.bank",
         compute="_compute_fr_lcr_partner_bank_id",
         store=True,
-        precompute=True,
-        states={"draft": [("readonly", False)]},
+        readonly=False,
         string="Bill of Exchange Bank Account",
         help="Bank account of the customer that will be debited by "
         "the bill of exchange. By default, Odoo selects the first French "
@@ -53,7 +52,7 @@ class AccountMove(models.Model):
         domain="[('partner_id', '=', commercial_partner_id)]",
     )
 
-    @api.depends("partner_id", "payment_mode_id")
+    @api.depends("partner_id", "preferred_payment_method_line_id")
     def _compute_fr_lcr_partner_bank_id(self):
         for move in self:
             partner_bank_id = False
@@ -84,16 +83,16 @@ class AccountMove(models.Model):
                 # not for promissory note (we may only know the bank account when
                 # receiving it)
                 if (
-                    move.payment_mode_fr_lcr_type in ("accepted", "not_accepted")
+                    move.payment_method_line_fr_lcr_type in ("accepted", "not_accepted")
                     and not move.fr_lcr_partner_bank_id
                 ):
                     raise UserError(
                         _(
                             "Customer invoice '%(move)s' is configured with "
-                            "payment mode '%(payment_mode)s' which require "
+                            "payment mode '%(payment_method_line)s' which require "
                             "a bill of exchange bank account.",
                             move=move.display_name,
-                            payment_mode=move.payment_mode_id.display_name,
+                            payment_method_line=move.preferred_payment_method_line_id.display_name,
                         )
                     )
                 if move.fr_lcr_partner_bank_id:
@@ -105,7 +104,7 @@ class AccountMove(models.Model):
         assert self.state == "posted"
         assert self.move_type == "out_invoice"
         assert self.payment_method_code == "fr_lcr"
-        assert self.payment_mode_fr_lcr_type == "accepted"
+        assert self.payment_method_line_fr_lcr_type == "accepted"
         if self.fr_lcr_attachment_id and self.payment_state not in (
             "in_payment",
             "paid",

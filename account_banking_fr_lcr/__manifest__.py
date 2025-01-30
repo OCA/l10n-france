@@ -16,11 +16,10 @@
     "external_dependencies": {"python": ["unidecode", "pypdf>=3.1.0"]},
     "data": [
         "data/account_payment_method.xml",
-        "views/account_payment_mode.xml",
+        "views/account_payment_method_line.xml",
         "views/account_payment_order.xml",
         "views/account_move.xml",
     ],
-    "demo": ["demo/lcr_demo.xml"],
     "post_init_hook": "lcr_set_unece",
     "installable": True,
 }

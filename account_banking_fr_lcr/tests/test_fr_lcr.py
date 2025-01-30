@@ -8,11 +8,12 @@ from datetime import timedelta
 from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class TestFrLcr(TransactionCase):
+class TestFrLcr(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -21,33 +22,19 @@ class TestFrLcr(TransactionCase):
         cls.eur_currency = cls.env.ref("base.EUR")
         cls.today = fields.Date.today()
         cls.today_plus2 = cls.today + timedelta(days=2)
-        cls.company = cls.env["res.company"].create(
-            {"name": "LCR Company", "currency_id": cls.eur_currency.id}
+        cls.test_company_dict = cls.setup_other_company(
+            name="LCR Company",
+            currency_id=cls.eur_currency.id,
         )
-        cls.account_payable = cls.env["account.account"].create(
+        cls.company = cls.test_company_dict["company"]
+        cls.env.user.write(
             {
-                "code": "401100XX",
-                "name": "Test Payable Account",
-                "account_type": "liability_payable",
-                "reconcile": True,
-                "company_id": cls.company.id,
-            }
-        )
-        cls.account_receivable = cls.env["account.account"].create(
-            {
-                "code": "411100XX",
-                "name": "Test Receivable Account",
-                "account_type": "asset_receivable",
-                "reconcile": True,
-                "company_id": cls.company.id,
-            }
-        )
-        cls.income_account = cls.env["account.account"].create(
-            {
-                "code": "707000XX",
-                "name": "Test Income Account",
-                "account_type": "income",
-                "company_id": cls.company.id,
+                "groups_id": [
+                    Command.link(
+                        cls.env.ref("account_payment_order.group_account_payment").id
+                    )
+                ],
+                "company_ids": [Command.link(cls.company.id)],
             }
         )
         cls.in_payment_account = cls.env["account.account"].create(
@@ -56,10 +43,9 @@ class TestFrLcr(TransactionCase):
                 "name": "Test Incoming Payment Account",
                 "account_type": "asset_current",
                 "reconcile": True,
-                "company_id": cls.company.id,
+                "company_ids": [Command.link(cls.company.id)],
             }
         )
-        cls.company.account_journal_payment_debit_account_id = cls.in_payment_account.id
 
         cls.partner1 = cls.env["res.partner"].create(
             {
@@ -117,7 +103,7 @@ class TestFrLcr(TransactionCase):
                 "company_id": cls.company.id,
                 "partner_id": cls.company.partner_id.id,
                 "bank_id": (
-                    cls.env.ref("account_payment_mode.bank_la_banque_postale").id
+                    cls.env.ref("account_payment_base_oca.bank_la_banque_postale").id
                 ),
                 "acc_number": "FR10 1212 2323 3434 4545 4747 676",
             }
@@ -133,23 +119,16 @@ class TestFrLcr(TransactionCase):
                 "bank_id": cls.company_bank.bank_id.id,
             }
         )
-        cls.sale_journal = cls.env["account.journal"].create(
-            {
-                "name": "Sale Journal Test",
-                "code": "SALE",
-                "type": "sale",
-                "company_id": cls.company.id,
-                "default_account_id": cls.income_account.id,
-            }
-        )
-        cls.payment_mode = cls.env["account.payment.mode"].create(
+        cls.payment_method_line = cls.env["account.payment.method.line"].create(
             {
                 "name": "LCR client",
                 "company_id": cls.company.id,
                 "payment_method_id": cls.env.ref("account_banking_fr_lcr.fr_lcr").id,
                 "bank_account_link": "fixed",
-                "fixed_journal_id": cls.bank_journal.id,
+                "journal_id": cls.bank_journal.id,
                 "fr_lcr_type": "not_accepted",
+                "payment_account_id": cls.in_payment_account.id,
+                "selectable": True,
             }
         )
 
@@ -157,7 +136,6 @@ class TestFrLcr(TransactionCase):
         line_vals = {
             "name": "Great service",
             "quantity": 1,
-            "account_id": self.income_account.id,
             "price_unit": price_unit,
         }
         invoice = self.env["account.move"].create(
@@ -165,10 +143,10 @@ class TestFrLcr(TransactionCase):
                 "partner_id": partner_id,
                 "reference_type": "free",
                 "currency_id": self.eur_currency.id,
+                "company_id": self.company.id,
                 "move_type": inv_type,
-                "journal_id": self.sale_journal.id,
                 "date": self.today,
-                "payment_mode_id": self.payment_mode.id,
+                "preferred_payment_method_line_id": self.payment_method_line.id,
                 "invoice_line_ids": [Command.create(line_vals)],
             }
         )
@@ -237,25 +215,26 @@ class TestFrLcr(TransactionCase):
         invoice2 = self.create_invoice(self.partner2.id, 42.0)
         self.assertEqual(invoice2.fr_lcr_partner_bank_id, self.partner2_bank1)
         for inv in [invoice1, invoice2]:
-            if inv.payment_mode_fr_lcr_type == "accepted":
+            if inv.payment_method_line_fr_lcr_type == "accepted":
                 inv.fr_lcr_print()
                 self.assertTrue(inv.fr_lcr_attachment_id)
             action = inv.create_account_payment_line()
         self.assertEqual(action["res_model"], "account.payment.order")
         payment_order = self.order_obj.browse(action["res_id"])
         self.assertEqual(payment_order.payment_type, "inbound")
-        self.assertEqual(payment_order.payment_mode_id, self.payment_mode)
+        self.assertEqual(payment_order.payment_method_line_id, self.payment_method_line)
         self.assertEqual(payment_order.journal_id, self.bank_journal)
         self.assertEqual(
             payment_order.fr_lcr_collection_option,
-            payment_order.payment_mode_id.fr_lcr_default_collection_option,
+            payment_order.payment_method_line_id.fr_lcr_default_collection_option,
         )
         self.assertEqual(
-            payment_order.fr_lcr_dailly, payment_order.payment_mode_id.fr_lcr_dailly
+            payment_order.fr_lcr_dailly,
+            payment_order.payment_method_line_id.fr_lcr_dailly,
         )
         self.assertEqual(
             payment_order.fr_lcr_dailly_option,
-            payment_order.payment_mode_id.fr_lcr_default_dailly_option,
+            payment_order.payment_method_line_id.fr_lcr_default_dailly_option,
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
@@ -280,7 +259,7 @@ class TestFrLcr(TransactionCase):
         return cfonb_lines
 
     def test_lcr_not_accepted(self):
-        self.payment_mode.write(
+        self.payment_method_line.write(
             {
                 "fr_lcr_type": "not_accepted",
                 "fr_lcr_default_collection_option": "due_date",
@@ -297,7 +276,7 @@ class TestFrLcr(TransactionCase):
             self.assertEqual(content_line[78], "0")  # lcr type
 
     def test_lcr_accepted(self):
-        self.payment_mode.write(
+        self.payment_method_line.write(
             {
                 "fr_lcr_type": "accepted",
                 "fr_lcr_default_collection_option": "cash_discount",
@@ -314,7 +293,7 @@ class TestFrLcr(TransactionCase):
             self.assertEqual(content_line[78], "1")  # lcr type
 
     def test_lcr_accepted_dailly(self):
-        self.payment_mode.write(
+        self.payment_method_line.write(
             {
                 "fr_lcr_type": "accepted",
                 "fr_lcr_default_collection_option": "due_date",
@@ -333,7 +312,7 @@ class TestFrLcr(TransactionCase):
             self.assertEqual(content_line[78], "1")  # lcr type
 
     def test_promissory_note(self):
-        self.payment_mode.write(
+        self.payment_method_line.write(
             {
                 "fr_lcr_type": "promissory_note",
                 "fr_lcr_default_collection_option": "value_cash_discount",

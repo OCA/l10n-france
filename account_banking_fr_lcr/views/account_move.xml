@@ -15,16 +15,17 @@
                     name="fr_lcr_print"
                     type="object"
                     string="Print Bill of Exchange"
-                    attrs="{'invisible': ['|', '|', '|', ('payment_mode_fr_lcr_type', '!=', 'accepted'), ('state', '!=', 'posted'), ('payment_state', 'not in', ('partial', 'not_paid')), ('move_type', '!=', 'out_invoice')]}"
+                    invisible="payment_method_line_fr_lcr_type != 'accepted' or state != 'posted' or payment_state not in ('partial', 'not_paid') or move_type != 'out_invoice'"
                 />
             </button>
             <field name="show_reset_to_draft_button" position="after">
-                <field name="payment_mode_fr_lcr_type" invisible="1" />
+                <field name="payment_method_line_fr_lcr_type" invisible="1" />
             </field>
-            <field name="payment_mode_id" position="after">
+            <field name="preferred_payment_method_line_id" position="after">
                 <field
                     name="fr_lcr_partner_bank_id"
-                    attrs="{'invisible': ['|', ('payment_method_code', '!=', 'fr_lcr'), ('move_type', '!=', 'out_invoice')]}"
+                    invisible="payment_method_code != 'fr_lcr' or move_type != 'out_invoice'"
+                    readonly="state != 'draft'"
                 />
             </field>
         </field>

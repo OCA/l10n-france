@@ -38,7 +38,7 @@ class AccountPayment(models.Model):
             )
         else:
             nom_banque = " " * 24
-        code_acceptation = LCR_TYPE_CODES[order.payment_mode_id.fr_lcr_type]
+        code_acceptation = LCR_TYPE_CODES[order.payment_method_line_id.fr_lcr_type]
         montant_centimes = str(round(self.amount * 100))
         zero_montant_centimes = montant_centimes.zfill(12)
         if payment_line.move_line_id and payment_line.move_line_id.move_id.invoice_date:
