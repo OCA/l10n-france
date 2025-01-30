@@ -19,7 +19,7 @@
                 />
             </button>
             <field name="show_reset_to_draft_button" position="after">
-                    <field name="payment_mode_fr_lcr_type" invisible="1" />
+                <field name="payment_mode_fr_lcr_type" invisible="1" />
             </field>
             <field name="payment_mode_id" position="after">
                 <field
