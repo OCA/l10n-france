@@ -43,12 +43,12 @@ class AccountPaymentOrder(models.Model):
 
     fr_lcr_collection_option = fields.Selection(
         lambda self: self.env[
-            "account.payment.mode"
+            "account.payment.method.line"
         ]._fr_lcr_collection_option_selection(),
         compute="_compute_fr_lcr_fields",
         store=True,
         precompute=True,
-        states={"draft": [("readonly", False)]},
+        readonly=False,
         string="Collection Option",
     )
     # if fr_lcr_value_date is also used for Dailly, we'll have to change
@@ -62,25 +62,27 @@ class AccountPaymentOrder(models.Model):
         precompute=True,
     )
     fr_lcr_dailly_option = fields.Selection(
-        lambda self: self.env["account.payment.mode"]._fr_lcr_dailly_option_selection(),
+        lambda self: self.env[
+            "account.payment.method.line"
+        ]._fr_lcr_dailly_option_selection(),
         compute="_compute_fr_lcr_fields",
         store=True,
         precompute=True,
-        states={"draft": [("readonly", False)]},
+        readonly=False,
         string="Dailly Option",
     )
 
-    @api.depends("payment_mode_id")
+    @api.depends("payment_method_line_id")
     def _compute_fr_lcr_fields(self):
         for order in self:
             fr_lcr_collection_option = False
             fr_lcr_dailly = False
             fr_lcr_dailly_option = False
-            if order.payment_mode_id.payment_method_id.code == "fr_lcr":
-                mode = order.payment_mode_id
-                fr_lcr_collection_option = mode.fr_lcr_default_collection_option
-                fr_lcr_dailly = mode.fr_lcr_dailly
-                fr_lcr_dailly_option = mode.fr_lcr_default_dailly_option
+            if order.payment_method_line_id.payment_method_id.code == "fr_lcr":
+                method_line = order.payment_method_line_id
+                fr_lcr_collection_option = method_line.fr_lcr_default_collection_option
+                fr_lcr_dailly = method_line.fr_lcr_dailly
+                fr_lcr_dailly_option = method_line.fr_lcr_default_dailly_option
             order.fr_lcr_collection_option = fr_lcr_collection_option
             order.fr_lcr_dailly = fr_lcr_dailly
             order.fr_lcr_dailly_option = fr_lcr_dailly_option
@@ -178,10 +180,10 @@ class AccountPaymentOrder(models.Model):
         code_operation = "60"
         numero_enregistrement = "00000001"
         numero_emetteur = "000000"  # It is not needed for LCR
-        if self.payment_mode_id.fr_lcr_convention_type:
+        if self.payment_method_line_id.fr_lcr_convention_type:
             type_convention = self._prepare_lcr_field(
                 "Type de convention",
-                self.payment_mode_id.fr_lcr_convention_type,
+                self.payment_method_line_id.fr_lcr_convention_type,
                 6,
             )
         else:
@@ -291,7 +293,7 @@ class AccountPaymentOrder(models.Model):
         cfonb_lines.append(
             self._prepare_final_cfonb_line(total_amount, transactions_count)
         )
-        if self.payment_mode_id.fr_lcr_type == "promissory_note":
+        if self.payment_method_line_id.fr_lcr_type == "promissory_note":
             file_prefix = "BOR"
         else:
             file_prefix = "LCR"

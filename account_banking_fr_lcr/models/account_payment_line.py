@@ -13,7 +13,7 @@ class AccountPaymentLine(models.Model):
         res = super()._compute_payment_line()
         for line in self:
             if (
-                line.order_id.payment_mode_id.payment_method_id.code == "fr_lcr"
+                line.order_id.payment_method_line_id.payment_method_id.code == "fr_lcr"
                 and line.move_line_id
                 and line.move_line_id.move_id.fr_lcr_partner_bank_id
             ):
