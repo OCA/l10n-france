@@ -94,21 +94,6 @@ class ResPartner(models.Model):
                         }
                     )
 
-    def _get_name(self):
-        name = super()._get_name()
-        if (
-            name
-            and self.fr_chorus_service_id
-            and not self._context.get("hide_chorus_service")
-        ):
-            if "\n" in name:
-                field_label = _("Chorus Service Code:")
-                name = f"{name}\n{field_label} {self.fr_chorus_service_id.code}"
-            else:
-                # We put it at the start, because it is cut if too long in M2O
-                name = f"(Chorus {self.fr_chorus_service_id.code}) {name})"
-        return name
-
     def fr_chorus_api_structures_rechercher(self, api_params, session=None):
         url_path = "structures/v1/rechercher"
         payload = {

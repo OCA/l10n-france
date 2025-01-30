@@ -10,10 +10,38 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
+            <field name="partner_invoice_id" position="after">
+                <field
+                    name="chorus_service_code"
+                    attrs="{'invisible': [('invoice_transmit_method_code', '!=', 'fr-chorus')]}"
+                />
+            </field>
             <group name="sale_info" position="inside">
                 <field name="invoice_transmit_method_id" />
                 <field name="invoice_transmit_method_code" invisible="1" />
             </group>
         </field>
     </record>
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="name">chorus.sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="chorus_service_code" optional="hide" />
+            </field>
+        </field>
+    </record>
+    <record id="view_quotation_tree" model="ir.ui.view">
+        <field name="name">chorus.sale.order.quotation.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="chorus_service_code" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+
 </odoo>
