@@ -11,7 +11,7 @@
         <field name="is_fiscal_only" eval="False" />
         <field name="fiscal_value_multiplier">1</field>
         <field name="declaration_type">arrivals</field>
-</record>
+    </record>
     <record id="fr_regime_19" model="intrastat.fr.regime">
         <field name="code">19</field>
         <field name="name">Autres introductions</field>
@@ -70,7 +70,7 @@ membre ;
         <field name="is_fiscal_only" eval="True" />
         <field name="fiscal_value_multiplier">-1</field>
         <field name="declaration_type">dispatches</field>
-</record>
+    </record>
     <record id="fr_regime_26" model="intrastat.fr.regime">
         <field name="code">26</field>
         <field
@@ -91,5 +91,4 @@ matériaux faisant l'objet d'une prestation de services en France</field>
         <field name="fiscal_value_multiplier">1</field>
         <field name="declaration_type">dispatches</field>
     </record>
-
 </odoo>

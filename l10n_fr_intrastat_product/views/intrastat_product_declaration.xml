@@ -20,7 +20,7 @@
                 />
             </field>
             <field name="vat" position="attributes">
-                    <attribute
+                <attribute
                     name="invisible"
                 >declaration_type == 'arrivals' and company_country_code == 'FR'</attribute>
             </field>
@@ -40,12 +40,12 @@
                 />
             </field>
             <field name="vat" position="attributes">
-                    <attribute
+                <attribute
                     name="column_invisible"
                 >parent.declaration_type == 'arrivals' and parent.company_country_code == 'FR'</attribute>
             </field>
         </field>
-</record>
+    </record>
     <record id="intrastat_product_declaration_line_view_form" model="ir.ui.view">
         <field name="model">intrastat.product.declaration.line</field>
         <field
@@ -63,7 +63,6 @@
             </field>
         </field>
     </record>
-
 
     <record id="intrastat_product_declaration_line_view_tree" model="ir.ui.view">
         <field name="model">intrastat.product.declaration.line</field>
