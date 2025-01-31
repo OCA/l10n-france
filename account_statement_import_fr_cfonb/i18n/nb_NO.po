@@ -21,7 +21,7 @@ msgstr ""
 
 #. module: account_statement_import_fr_cfonb
 #: model_terms:ir.ui.view,arch_db:account_statement_import_fr_cfonb.account_statement_import_form
-msgid "CFONB (French format)"
+msgid "CFONB (France-specific format)"
 msgstr ""
 
 #. module: account_statement_import_fr_cfonb
@@ -38,21 +38,18 @@ msgstr ""
 #. module: account_statement_import_fr_cfonb
 #. odoo-python
 #: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
-#, python-format
 msgid "The CFONB file is inconsistent. Error on line %d."
 msgstr ""
 
 #. module: account_statement_import_fr_cfonb
 #. odoo-python
 #: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
-#, python-format
 msgid "The file is empty."
 msgstr "Filen er tom."
 
 #. module: account_statement_import_fr_cfonb
 #. odoo-python
 #: code:addons/account_statement_import_fr_cfonb/wizard/account_statement_import.py:0
-#, python-format
 msgid "The file is not divisible in 120 char lines"
 msgstr ""
 
