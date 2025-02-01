@@ -12,7 +12,6 @@
             <field name="user_id" ref="base.user_root" />
             <field name="interval_number">1</field>
             <field name="interval_type">months</field>
-            <field name="numbercall">-1</field>
             <field
                 name="model_id"
                 ref="intrastat_product.model_intrastat_product_declaration"
