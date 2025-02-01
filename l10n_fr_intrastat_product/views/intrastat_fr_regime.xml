@@ -40,8 +40,8 @@
     <record id="intrastat_fr_regime_tree" model="ir.ui.view">
         <field name="model">intrastat.fr.regime</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="code" />
+            <list>
+                <field name="code" decoration-bf="1" />
                 <field name="name" />
                 <field name="is_fiscal_only" optional="show" />
                 <field name="fiscal_value_multiplier" optional="show" />
@@ -52,7 +52,7 @@
                     decoration-warning="declaration_type == 'dispatches'"
                     widget="badge"
                 />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -96,7 +96,7 @@
     <record id="intrastat_fr_regime_action" model="ir.actions.act_window">
         <field name="name">Regime Codes</field>
         <field name="res_model">intrastat.fr.regime</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

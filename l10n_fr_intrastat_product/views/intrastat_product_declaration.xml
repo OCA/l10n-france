@@ -91,7 +91,7 @@
     >
         <field name="name">EMEBI</field>
         <field name="res_model">intrastat.product.declaration</field>
-        <field name="view_mode">tree,form,graph,pivot</field>
+        <field name="view_mode">list,form,graph,pivot</field>
     </record>
     <menuitem
         id="l10n_fr_intrastat_product_declaration_menu"
