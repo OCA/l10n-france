@@ -1906,17 +1906,6 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"There are %(count)d accounts %(account_code)s %(account_name)s in the chart "
-"of account of company '%(company)s'. This scenario is not supported."
-msgstr ""
-"Hay %(count)d cuentas %(account_code)s %(account_name)s en el plan contable "
-"de la empresa '%(company)s'. Este escenario no es compatible."
-
-#. module: l10n_fr_account_vat_return
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
 "There are no regular sale taxes with UNECE Tax Type set to 'VAT' in company "
 "'%s'."
 msgstr ""
@@ -2265,6 +2254,14 @@ msgstr "editar la/las entrada/s de borrador de diario,"
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid "ignore it/them and continue to process the VAT return."
 msgstr "ignorarlo y seguir tramitando la declaración del IVA."
+
+#, python-format
+#~ msgid ""
+#~ "There are %(count)d accounts %(account_code)s %(account_name)s in the "
+#~ "chart of account of company '%(company)s'. This scenario is not supported."
+#~ msgstr ""
+#~ "Hay %(count)d cuentas %(account_code)s %(account_name)s en el plan "
+#~ "contable de la empresa '%(company)s'. Este escenario no es compatible."
 
 #, python-format
 #~ msgid ""
