@@ -171,7 +171,7 @@ class AccountPaymentOrder(models.Model):
         zero_montant_centimes = montant_centimes.zfill(12)
         today_dt = fields.Date.context_today(self)
         date_creation = today_dt.strftime(LCR_DATE_FORMAT)
-        requested_date_dt = line.date
+        requested_date_dt = line.payment_line_date
         date_echeance = requested_date_dt.strftime(LCR_DATE_FORMAT)
         reference_tireur = reference_tire
 
