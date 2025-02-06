@@ -22,61 +22,64 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model:mail.template,body_html:l10n_fr_intrastat_product.l10n_fr_intrastat_product_reminder_email_template
 msgid ""
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"<p style=\"margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, "
-"Helvetica, sans-serif\">\n"
+"<div style=\"margin: 0px; padding: 0px;\" data-o-mail-quote-"
+"container=\"1\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 12px; "
+"font-family: Arial, Helvetica, sans-serif\">\n"
 "I would like to remind you that we are approaching the deadline for the "
-"EMEBI for month <t t-out=\"object.year_month\"></t>.<br><br>\n"
+"EMEBI for month <t t-out=\"object.year_month\"/>.<br/><br/>\n"
 "\n"
 "        As there were no <t t-out=\"dict(object."
 "fields_get('declaration_type', 'selection')['declaration_type']['selection'])"
-"[object.declaration_type]\"></t> EMEBI for that month in Odoo, a draft <t t-"
+"[object.declaration_type]\"/> EMEBI for that month in Odoo, a draft <t t-"
 "out=\"dict(object.fields_get('declaration_type', 'selection')"
-"['declaration_type']['selection'])[object.declaration_type]\"></t> EMEBI has "
-"been generated automatically by Odoo.<br><br>\n"
+"['declaration_type']['selection'])[object.declaration_type]\"/> EMEBI has "
+"been generated automatically by Odoo.<br/><br/>\n"
 "\n"
 "<t t-if=\"ctx.get('exception')\">\n"
 "                When trying to generate the lines of the <t t-"
 "out=\"dict(object.fields_get('declaration_type', 'selection')"
-"['declaration_type']['selection'])[object.declaration_type]\"></t> EMEBI, "
-"the following error was encountered:<br><br>\n"
+"['declaration_type']['selection'])[object.declaration_type]\"/> EMEBI, the "
+"following error was encountered:<br/><br/>\n"
 "\n"
-"<t t-out=\"ctx.get('error_msg')\"></t><br><br>\n"
+"<t t-out=\"ctx.get('error_msg')\"/><br/><br/>\n"
 "\n"
 "        You should solve this error, then go to the menu <em>Invoicing &gt; "
 "Reporting &gt; Intrastat &gt; EMEBI</em>, open the <t t-out=\"dict(object."
 "fields_get('declaration_type', 'selection')['declaration_type']['selection'])"
-"[object.declaration_type]\"></t> declaration for month <t t-out=\"object."
-"year_month\"></t> and click on the button <em>Generate lines from invoices</"
-"em>.<br><br>\n"
+"[object.declaration_type]\"/> declaration for month <t t-out=\"object."
+"year_month\"/> and click on the button <em>Generate lines from invoices</em>."
+"<br/><br/>\n"
 "</t>\n"
 "\n"
 "<t t-else=\"\">\n"
 "<t t-if=\"object.computation_line_ids\">\n"
 "                This draft <t t-out=\"dict(object."
 "fields_get('declaration_type', 'selection')['declaration_type']['selection'])"
-"[object.declaration_type]\"></t> EMEBI contains <t t-out=\"len(object."
-"computation_line_ids)\"></t> transaction line(s).<br><br>\n"
+"[object.declaration_type]\"/> EMEBI contains <t t-out=\"len(object."
+"computation_line_ids)\"/> transaction line(s).<br/><br/>\n"
 "</t>\n"
 "<t t-else=\"\">\n"
 "                This draft <t t-out=\"dict(object."
 "fields_get('declaration_type', 'selection')['declaration_type']['selection'])"
-"[object.declaration_type]\"></t> EMEBI generated automatically by Odoo "
-"doesn't contain any transaction line.<br><br>\n"
+"[object.declaration_type]\"/> EMEBI generated automatically by Odoo doesn't "
+"contain any transaction line.<br/><br/>\n"
 "</t>\n"
 "\n"
 "        Go and check this declaration in Odoo in the menu <em>Invoicing &gt; "
-"Reporting &gt; Intrastat &gt; EMEBI</em>.<br><br>\n"
+"Reporting &gt; Intrastat &gt; EMEBI</em>.<br/><br/>\n"
 "\n"
 "</t>\n"
 "</p>\n"
 "\n"
-"<p style=\"margin: 0px; padding: 0px; font-size: 10px; font-family: 'Courier "
-"New', Courier, Prestige, monospace\">\n"
-"-- <br>\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 10px; "
+"font-family: 'Courier New', Courier, Prestige, monospace\" data-o-mail-"
+"quote=\"1\">\n"
+"-- <br data-o-mail-quote=\"1\"/>\n"
 "Automatic e-mail sent by Odoo.\n"
 "</p>\n"
-"</div>\n"
+"                </div>\n"
+"            "
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
@@ -99,7 +102,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid ""
 "Bad VAT number '%(vat)s' on declaration line %(line_number)d. Brexit took "
 "place on January 1st 2021 and companies in Northern Ireland have a new VAT "
@@ -197,14 +199,12 @@ msgstr "ID"
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/res_company.py:0
-#, python-format
 msgid "In France, Arrival EMEBI can only be Exempt or Extended."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "In France, an arrival EMEBI cannot have a 'standard' reporting level."
 msgstr ""
 
@@ -263,28 +263,24 @@ msgstr "Última actualización en"
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing H.S. code on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing VAT number on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing country code of origin/destination on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid ""
 "Missing department. To set it, set the country and the zip code on this "
 "partner."
@@ -293,56 +289,48 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing fiscal value on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing intrastat transaction on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing mode of transport on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
-#: code:addons/l10n_fr_intrastat_product/models/stock.py:0
-#, python-format
+#: code:addons/l10n_fr_intrastat_product/models/stock_warehouse.py:0
 msgid "Missing partner on warehouse '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing product country of origin code on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing quantity on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing region code on declaration line %d."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Missing weight on declaration line %d."
 msgstr ""
 
@@ -359,7 +347,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "No declaration lines. You probably forgot to generate them !"
 msgstr ""
 
@@ -371,7 +358,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Pro.dou@ne only accepts XML file upload for the original declaration."
 msgstr ""
 
@@ -380,7 +366,6 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_computation_line__fr_regime_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration_line__fr_regime_id
-#, python-format
 msgid "Regime"
 msgstr ""
 
@@ -389,7 +374,6 @@ msgstr ""
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_computation_line__fr_regime_code
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration_line__fr_regime_code
-#, python-format
 msgid "Regime Code"
 msgstr ""
 
@@ -402,21 +386,18 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "The Customs Accreditation Identifier is not set for the company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "The SIRET is not set on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid ""
 "This EMEBI has been auto-generated by the EMEBI reminder scheduled action."
 msgstr ""
@@ -439,7 +420,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
 msgid "Transaction code on declaration line %d should have 2 digits."
 msgstr ""
 
