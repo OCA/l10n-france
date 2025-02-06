@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2014-2025 Akretion France (https://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+  I ask pylint to skip the file because I need specific formatting
+  for proper line returns in the generated text file
+  pylint: skip-file
+-->
 <odoo>
 
 <template
