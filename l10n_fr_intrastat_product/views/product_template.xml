@@ -11,7 +11,7 @@
         <field name="inherit_id" ref="intrastat_base.product_template_form_view" />
         <field name="arch" type="xml">
             <field name="is_accessory_cost" position="attributes">
-                <attribute name="invisible">0</attribute>
+                <attribute name="invisible">intrastat_type != 'service'</attribute>
             </field>
         </field>
     </record>
