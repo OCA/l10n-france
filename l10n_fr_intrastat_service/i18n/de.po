@@ -26,50 +26,53 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:mail.template,body_html:l10n_fr_intrastat_service.intrastat_service_reminder_email_template
 msgid ""
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"<p style=\"margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, "
-"Helvetica, sans-serif\">I would like to remind you that we are approaching "
-"the deadline for the DES declaration for month <t t-out=\"object."
-"year_month\"></t>.<br><br>\n"
+"<div style=\"margin: 0px; padding: 0px;\" data-o-mail-quote-"
+"container=\"1\">\n"
+"                <p style=\"margin: 0px; padding: 0px; font-size: 12px; font-"
+"family: Arial, Helvetica, sans-serif\">I would like to remind you that we "
+"are approaching the deadline for the DES declaration for month <t t-"
+"out=\"object.year_month\"/>.<br/><br/>\n"
 "\n"
 "As there were no DES for that month in Odoo, a draft declaration has been "
-"generated automatically.<br><br>\n"
+"generated automatically.<br/><br/>\n"
 "\n"
 "<t t-if=\"ctx.get('exception')\">\n"
 "When trying to generate the DES lines, the following error was encountered:"
-"<br><br>\n"
+"<br/><br/>\n"
 "\n"
-"<t t-out=\"ctx.get('error_msg')\"></t><br><br>\n"
+"<t t-out=\"ctx.get('error_msg')\"/><br/><br/>\n"
 "\n"
 "You should solve this error, then go to the menu <em>Invoicing &gt; "
 "Reporting &gt; Intrastat &gt; DES</em>, open the declaration of month <t t-"
-"out=\"object.year_month\"></t> and click on the button <em>Re-generate "
-"lines</em>.<br><br>\n"
+"out=\"object.year_month\"/> and click on the button <em>Re-generate lines</"
+"em>.<br/><br/>\n"
 "</t>\n"
 "\n"
 "<t t-else=\"\">\n"
 "<t t-if=\"object.num_decl_lines\">\n"
-"                This draft DES contains <t t-out=\"object.num_decl_lines\"></"
-"t> line(s) and the total amount is <t t-out=\"format_amount(object."
-"total_amount, object.currency_id)\"></t>.<br><br>\n"
+"                This draft DES contains <t t-out=\"object.num_decl_lines\"/> "
+"line(s) and the total amount is <t t-out=\"format_amount(object."
+"total_amount, object.currency_id)\"/>.<br/><br/>\n"
 "</t>\n"
 "<t t-else=\"\">\n"
-"This draft DES generated automatically by Odoo doesn't contain any line."
-"<br><br>\n"
+"This draft DES generated automatically by Odoo doesn't contain any line.<br/"
+"><br/>\n"
 "</t>\n"
 "\n"
 "Go and check this declaration in the menu <em>Invoicing &gt; Reporting &gt; "
-"Intrastat &gt; DES</em>.<br><br>\n"
+"Intrastat &gt; DES</em>.<br/><br/>\n"
 "\n"
 "</t>\n"
 "</p>\n"
 "\n"
-"<p style=\"margin: 0px; padding: 0px; font-size: 10px; font-family: 'Courier "
-"New', Courier, Prestige, monospace\">\n"
-"-- <br>\n"
+"                <p style=\"margin: 0px; padding: 0px; font-size: 10px; font-"
+"family: 'Courier New', Courier, Prestige, monospace\" data-o-mail-"
+"quote=\"1\">\n"
+"-- <br data-o-mail-quote=\"1\"/>\n"
 "Automatic e-mail sent by Odoo.\n"
 "</p>\n"
-"</div>\n"
+"            </div>\n"
+"        "
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -106,13 +109,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/report/intrastat_service_report_xls.py:0
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_company_currency
-#, python-format
 msgid "Amount"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_invoice_currency
-msgid "Amount in Invoice Currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -146,7 +143,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
-#, python-format
 msgid "Cannot delete '%s' because it is in Done state."
 msgstr ""
 
@@ -178,6 +174,11 @@ msgstr "Erstellt von"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__create_date
 msgid "Created on"
 msgstr "Erstellt am:"
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__partner_id
+msgid "Customer"
+msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__partner_vat
@@ -217,6 +218,14 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model,name:l10n_fr_intrastat_service.model_report_l10n_fr_intrastat_service_xlsx
 msgid "DES XLSX Export"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
+msgid ""
+"DES is only for French companies, so the VAT number should start with 'FR'. "
+"VAT number of company '%(company)s' is %(vat)s."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -310,6 +319,7 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_error
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -322,7 +332,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/report/intrastat_service_report_xls.py:0
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__move_id
-#, python-format
 msgid "Invoice"
 msgstr ""
 
@@ -334,6 +343,16 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__invoice_date
 msgid "Invoice Date"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_invoice_currency
+msgid "Invoiced Amount"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,help:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__amount_invoice_currency
+msgid "Invoiced amount in the invoice currency"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -366,14 +385,12 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
-#, python-format
 msgid "Missing VAT number on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
-#, python-format
 msgid "Missing VAT number on partner '%s'."
 msgstr ""
 
@@ -425,19 +442,12 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/report/intrastat_service_report_xls.py:0
-#, python-format
 msgid "Partner"
-msgstr ""
-
-#. module: l10n_fr_intrastat_service
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__partner_id
-msgid "Partner Name"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/report/intrastat_service_report_xls.py:0
-#, python-format
 msgid "Partner VAT"
 msgstr ""
 
@@ -449,7 +459,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
-#, python-format
 msgid "Re-generating lines from invoices"
 msgstr ""
 
@@ -461,6 +470,11 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__message_has_sms_error
+msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
@@ -485,21 +499,32 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
-#, python-format
 msgid "The VAT number '%s' is invalid."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
-#, python-format
+msgid ""
+"The VAT number of company '%(company)s' is %(vat)s. This VAT number is not "
+"valid."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
+msgid "The currency of company %(company)s is %(currency)s and not EUR."
+msgstr ""
+
+#. module: l10n_fr_intrastat_service
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
 msgid "The start date must be the first day of a month."
 msgstr ""
 
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
-#, python-format
 msgid "This DES has been auto-generated by the DES reminder scheduled action."
 msgstr ""
 
@@ -516,7 +541,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_service
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_service/models/intrastat_service.py:0
-#, python-format
 msgid ""
 "VAT Number '%s' cannot be used because Brexit took place on January 1st 2021 "
 "and services sold in Northern Ireland are not under the EU VAT regime."
