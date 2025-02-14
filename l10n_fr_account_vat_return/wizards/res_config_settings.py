@@ -24,6 +24,16 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         domain="[('company_id', '=', company_id), ('type', '=', 'general')]",
     )
+    fr_vat_expense_account_id = fields.Many2one(
+        related="company_id.fr_vat_expense_account_id",
+        readonly=False,
+        domain="[('company_id', '=', company_id)]",
+    )
+    fr_vat_income_account_id = fields.Many2one(
+        related="company_id.fr_vat_income_account_id",
+        readonly=False,
+        domain="[('company_id', '=', company_id)]",
+    )
     fr_vat_expense_analytic_account_id = fields.Many2one(
         related="company_id.fr_vat_expense_analytic_account_id",
         readonly=False,
