@@ -2,10 +2,14 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import logging
+
 from dateutil.relativedelta import relativedelta
 
 from odoo import Command, _, api, fields, models
 from odoo.tools import float_compare
+
+logger = logging.getLogger(__name__)
 
 
 class ResCompany(models.Model):
@@ -34,19 +38,25 @@ class ResCompany(models.Model):
         ondelete="restrict",
         check_company=True,
     )
+    fr_vat_expense_account_id = fields.Many2one(
+        "account.account",
+        check_company=True,
+        string="Account for Expense Adjustment",
+    )
+    fr_vat_income_account_id = fields.Many2one(
+        "account.account", check_company=True, string="Account for Income Adjustment"
+    )
     fr_vat_expense_analytic_distribution = fields.Json(
         string="Analytic for Expense Adjustment",
         compute="_compute_fr_vat_analytic_distribution",
         store=True,
         readonly=False,
-        precompute=True,
     )
     fr_vat_income_analytic_distribution = fields.Json(
         string="Analytic for Income Adjustment",
         compute="_compute_fr_vat_analytic_distribution",
         store=True,
         readonly=False,
-        precompute=True,
     )
     analytic_precision = fields.Integer(
         default=lambda self: self.env["decimal.precision"].precision_get(
@@ -87,6 +97,52 @@ class ResCompany(models.Model):
             )
             company.fr_vat_expense_analytic_distribution = expense_distri
             company.fr_vat_income_analytic_distribution = income_distri
+
+    @api.model
+    def _fr_vat_init_adjustment_accounts_all_companies(self):
+        logger.info("Launching FR VAT setup script on all FR companies")
+        companies = self.search(
+            [
+                (
+                    "account_fiscal_country_id.code",
+                    "in",
+                    ("FR", "GP", "MQ", "GF", "RE", "YT"),
+                ),
+                ("fr_vat_expense_account_id", "=", False),
+                ("fr_vat_income_account_id", "=", False),
+            ]
+        )
+        for company in companies:
+            company._fr_vat_init_adjustment_accounts()
+
+    def _fr_vat_init_adjustment_accounts(self):
+        self.ensure_one()
+        logger.info(
+            "Configuring FR VAT adjust accounts on company %s", self.display_name
+        )
+        vals = {}
+        exp_account = self.env["account.account"].search(
+            [
+                ("company_id", "=", self.id),
+                ("code", "=like", "658%"),
+                ("account_type", "=", "expense"),
+            ],
+            limit=1,
+        )
+        if exp_account:
+            vals["fr_vat_expense_account_id"] = exp_account.id
+        inc_account = self.env["account.account"].search(
+            [
+                ("company_id", "=", self.id),
+                ("code", "=like", "758%"),
+                ("account_type", "=", "income"),
+            ],
+            limit=1,
+        )
+        if inc_account:
+            vals["fr_vat_income_account_id"] = inc_account.id
+        if vals:
+            self.write(vals)
 
     @api.model
     def _test_fr_vat_create_company(
@@ -132,6 +188,7 @@ class ResCompany(models.Model):
             }
         )
         company._setup_l10n_fr_coa_vat_company()
+        company._fr_vat_init_adjustment_accounts()
         return company
 
     def _setup_l10n_fr_coa_vat_company(self):  # noqa: C901
