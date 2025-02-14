@@ -371,13 +371,6 @@ class L10nFrAccountVatReturn(models.Model):
             # used to create negative boxes at the end
             "negative_box2logs": defaultdict(list),
             "vat_groups": ["regular", "extracom_product", "oil"],
-            "adjust_account_codes": {
-                "expense_adjust_account": (
-                    "658",
-                    "Charges diverses de gestion courante",
-                ),
-                "income_adjust_account": ("758", "Produits divers de gestion courante"),
-            },
         }
         speedy["bank_cash_journals"] = speedy["aj_obj"].search(
             speedy["company_domain"] + [("type", "in", ("bank", "cash"))]
@@ -486,31 +479,6 @@ class L10nFrAccountVatReturn(models.Model):
             if autoliq_type == "intracom_b2b":
                 autoliq_type = "intracom"
             speedy["autoliq_taxedop_type2accounts"][autoliq_type] |= account
-
-    def _get_adjust_accounts(self, speedy):
-        # This is the method to inherit if you want to select the appropriate
-        # accounts via a configuration parameter
-        # To avoid to have too many configuration params,
-        # considering that this module is only for France and
-        # that all French companies must use the PCG,
-        # I select the account based on the code they should have
-        self.ensure_one()
-        for key, (account_code, account_name) in speedy["adjust_account_codes"].items():
-            account = speedy["aa_obj"].search(
-                speedy["company_domain"] + [("code", "=like", account_code + "%")],
-                limit=1,
-            )
-            if not account:
-                raise UserError(
-                    _(
-                        "There is no account %(account_code)s %(account_name)s "
-                        "in the chart of account of company '%(company)s'.",
-                        account_code=account_code,
-                        account_name=account_name,
-                        company=self.company_id.display_name,
-                    )
-                )
-            speedy[key] = account
 
     def manual2auto(self):
         self.ensure_one()
@@ -1909,14 +1877,27 @@ class L10nFrAccountVatReturn(models.Model):
             [{"parent_id": self.id, "box_id": box.id} for box in boxes]
         )
 
-    def _prepare_account_move(self, speedy):
+    def _check_account_move_setup(self):
         self.ensure_one()
         if not self.company_id.fr_vat_journal_id:
             raise UserError(
                 _("Journal for VAT Journal Entry is not set on company '%s'.")
                 % self.company_id.display_name
             )
-        self._get_adjust_accounts(speedy)
+        if not self.company_id.fr_vat_expense_account_id:
+            raise UserError(
+                _("Account for expense adjustment is not set on company '%s'.")
+                % self.company_id.display_name
+            )
+        if not self.company_id.fr_vat_income_account_id:
+            raise UserError(
+                _("Account for income adjustment is not set on company '%s'.")
+                % self.company_id.display_name
+            )
+
+    def _prepare_account_move(self, speedy):
+        self.ensure_one()
+        self._check_account_move_setup()
         lvals_list = []
         total = 0.0
         account2amount = defaultdict(float)
@@ -2001,7 +1982,7 @@ class L10nFrAccountVatReturn(models.Model):
             lvals_list.append(
                 {
                     "debit": total,
-                    "account_id": speedy["expense_adjust_account"].id,
+                    "account_id": self.company_id.fr_vat_expense_account_id.id,
                     "analytic_distribution": analytic_dist,
                 }
             )
@@ -2010,7 +1991,7 @@ class L10nFrAccountVatReturn(models.Model):
             lvals_list.append(
                 {
                     "credit": -total,
-                    "account_id": speedy["income_adjust_account"].id,
+                    "account_id": self.company_id.fr_vat_income_account_id.id,
                     "analytic_distribution": analytic_dist,
                 }
             )
