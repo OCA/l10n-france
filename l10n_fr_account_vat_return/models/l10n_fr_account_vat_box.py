@@ -180,11 +180,11 @@ class L10nFrAccountVatBox(models.Model):
                         % box.display_name
                     )
             else:
-                if not box.edi_code:
+                if box.active and not box.edi_code:
                     raise ValidationError(
                         _("The box '%s' must have an EDI code.") % box.display_name
                     )
-                if not box.edi_type:
+                if box.active and not box.edi_type:
                     raise ValidationError(
                         _("The box '%s' must have an EDI type.") % box.display_name
                     )
@@ -195,15 +195,6 @@ class L10nFrAccountVatBox(models.Model):
                             "is not 'MOA'."
                         )
                         % box.display_name
-                    )
-                if (
-                    not box.code
-                    and box.form_code == "3310CA3"
-                    and box.edi_type == "MOA"
-                ):
-                    # on 3310-A, total boxes don't have a code
-                    raise ValidationError(
-                        _("The box '%s' must have a code.") % box.display_name
                     )
                 print_data = [box.print_page, box.print_x, box.print_y]
                 if (
