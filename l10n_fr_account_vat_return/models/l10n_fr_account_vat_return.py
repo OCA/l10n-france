@@ -779,8 +779,8 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _generate_ca3_bottom_totals(self, speedy):
         # Process the END of CA3 by hand
-        # Delete no_push_total and end_total lines
-        # it corresponds to the 4 sum boxes at the bottom block of CA3
+        # Delete no_push_total_*, vat_total_debit and end_total_* lines
+        # it corresponds to the 5 sum boxes at the bottom block of CA3
         lines_to_del = speedy["line_obj"].search(
             [
                 ("parent_id", "=", self.id),
@@ -790,6 +790,7 @@ class L10nFrAccountVatReturn(models.Model):
                     (
                         "no_push_total_debit",
                         "no_push_total_credit",
+                        "vat_total_debit",
                         "end_total_debit",
                         "end_total_credit",
                     ),
