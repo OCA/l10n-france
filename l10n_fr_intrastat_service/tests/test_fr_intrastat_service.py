@@ -8,6 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tools import float_compare
@@ -22,9 +23,12 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        all_companies = cls.env["res.company"].sudo().search([])
+        all_companies.write({"vat_check_vies": False})
         cls.fr_test_company = cls.setup_other_company(
             name="Akretion France TEST DES",
             vat="FR86792377731",
+            vat_check_vies=False,
         )
         cls.company = cls.fr_test_company["company"]
         cls.fp_eu_b2b = cls.env["account.fiscal.position"].create(
@@ -71,20 +75,16 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
                 "move_type": "out_invoice",
                 "invoice_date": date,
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": cls.service_product.id,
                             "quantity": 5,
                             "price_unit": 90,
                             "name": "Audit service",
                             "account_id": cls.account_revenue.id,
-                        },
+                        }
                     ),
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             # product
                             "product_id": cls.hw_product.id,
@@ -92,7 +92,7 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
                             "price_unit": 1950,
                             "name": "Laptop",
                             "account_id": cls.account_revenue.id,
-                        },
+                        }
                     ),
                 ],
             }
@@ -108,20 +108,16 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
                 "move_type": "out_invoice",
                 "invoice_date": date,
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": cls.env.ref("product.product_product_1").id,
                             "quantity": 2,
                             "price_unit": 90.2,
                             "name": "GAP Analysis for your Odoo v10 project",
                             "account_id": cls.account_revenue.id,
-                        },
+                        }
                     ),
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             # consu product
                             "product_id": cls.env.ref("product.product_product_7").id,
@@ -129,7 +125,7 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
                             "price_unit": 45,
                             "name": "Apple headphones",
                             "account_id": cls.account_revenue.id,
-                        },
+                        }
                     ),
                 ],
             }
@@ -145,16 +141,14 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
                 "move_type": "out_refund",
                 "invoice_date": date,
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": cls.service_product.id,
                             "quantity": 1,
                             "price_unit": 90,
                             "name": "Refund consulting hour",
                             "account_id": cls.account_revenue.id,
-                        },
+                        }
                     )
                 ],
             }
