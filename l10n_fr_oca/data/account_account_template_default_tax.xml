@@ -6,7 +6,7 @@
     taxes before, and taxes need to be loaded after account.account.template.csv -->
 
 <!-- Expenses -->
-    <record id="pcg_6011" model="account.account.template">
+    <record id="pcg_601" model="account.account.template">
       <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
     </record>
 
@@ -62,7 +62,7 @@
       <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
     </record>
 
-    <record id="pcg_6071" model="account.account.template">
+    <record id="pcg_607" model="account.account.template">
       <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
     </record>
 
@@ -111,10 +111,6 @@
     </record>
 
     <record id="pcg_6135" model="account.account.template">
-      <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
-    </record>
-
-    <record id="pcg_6136" model="account.account.template">
       <field name="tax_ids" eval="[(6,0,[ref('tva_purchase_200')])]" />
     </record>
 
