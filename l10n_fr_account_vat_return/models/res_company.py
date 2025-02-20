@@ -38,12 +38,13 @@ class ResCompany(models.Model):
         ondelete="restrict",
         check_company=True,
     )
-    fr_vat_expense_account_id = fields.Many2one(
+    # Field names from l10n_fr_account v18
+    l10n_fr_rounding_difference_loss_account_id = fields.Many2one(
         "account.account",
         check_company=True,
         string="Account for Expense Adjustment",
     )
-    fr_vat_income_account_id = fields.Many2one(
+    l10n_fr_rounding_difference_profit_account_id = fields.Many2one(
         "account.account", check_company=True, string="Account for Income Adjustment"
     )
     fr_vat_expense_analytic_distribution = fields.Json(
@@ -108,8 +109,8 @@ class ResCompany(models.Model):
                     "in",
                     ("FR", "GP", "MQ", "GF", "RE", "YT"),
                 ),
-                ("fr_vat_expense_account_id", "=", False),
-                ("fr_vat_income_account_id", "=", False),
+                ("l10n_fr_rounding_difference_loss_account_id", "=", False),
+                ("l10n_fr_rounding_difference_profit_account_id", "=", False),
             ]
         )
         for company in companies:
@@ -130,7 +131,7 @@ class ResCompany(models.Model):
             limit=1,
         )
         if exp_account:
-            vals["fr_vat_expense_account_id"] = exp_account.id
+            vals["l10n_fr_rounding_difference_loss_account_id"] = exp_account.id
         inc_account = self.env["account.account"].search(
             [
                 ("company_id", "=", self.id),
@@ -140,7 +141,7 @@ class ResCompany(models.Model):
             limit=1,
         )
         if inc_account:
-            vals["fr_vat_income_account_id"] = inc_account.id
+            vals["l10n_fr_rounding_difference_profit_account_id"] = inc_account.id
         if vals:
             self.write(vals)
 
