@@ -1,0 +1,161 @@
+id,name,description,invoice_label,amount,amount_type,sequence,type_tax_use,tax_scope,include_base_amount,tax_group_id,active,tax_exigibility,cash_basis_transition_account_id,repartition_line_ids/factor_percent,repartition_line_ids/repartition_type,repartition_line_ids/document_type,repartition_line_ids/account_id,description@fr,price_include_override,unece_type_id,unece_categ_id
+tva_purchase_200,TVA 20%,20% VAT,TVA 20%,20.0,percent,9,purchase,,1,tax_group_tva_20,,,,100,base,invoice,,TVA 20%,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44566,,,,
+tva_purchase_100,TVA 10%,10% VAT,TVA 10%,10.0,percent,10,purchase,,1,tax_group_tva_10,,,,100,base,invoice,,TVA 10%,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44566,,,,
+tva_purchase_55,"TVA 5,5%",5.5% VAT,"TVA 5,5%",5.5,percent,10,purchase,,1,tax_group_tva_55,,,,100,base,invoice,,"TVA 5,5%",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44566,,,,
+tva_purchase_21,"TVA 2,1%",2.1% VAT,"TVA 2,1%",2.1,percent,10,purchase,,1,tax_group_tva_21,,,,100,base,invoice,,"TVA 2,1%",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44566,,,,
+tva_purchase_200_fuel,TVA 20% carburant VP,20% VAT fuels,TVA 20% carburant VP,20.0,percent,9,purchase,,1,tax_group_tva_20,,,,100,base,invoice,,TVA 20% carburant VP,,account_tax_unece.tax_type_vat,
+,,,,,,,,,,,,,,80,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,20,tax,invoice,pcg_6061,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,80,tax,refund,pcg_44566,,,,
+,,,,,,,,,,,,,,20,tax,refund,pcg_6061,,,,
+tva_purchase_200_fuel_ttc,TVA 20% carburant VP TTC,20% VAT fuels incl.,TVA 20% carburant VP TTC,20.0,percent,9,purchase,,1,tax_group_tva_20,,,,100,base,invoice,,TVA 20% carburant VP TTC,tax_included,account_tax_unece.tax_type_vat,
+,,,,,,,,,,,,,,80,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,20,tax,invoice,pcg_6061,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,80,tax,refund,pcg_44566,,,,
+,,,,,,,,,,,,,,20,tax,refund,pcg_6061,,,,
+tva_purchase_200_ttc,TVA 20% TTC,20% VAT incl.,TVA 20% TTC,20.0,percent,10,purchase,,,tax_group_tva_20,,,,100,base,invoice,,TVA 20% TTC,tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44566,,,,
+tva_purchase_100_ttc,TVA 10% TTC,10% VAT incl.,TVA 10% TTC,10.0,percent,10,purchase,,,tax_group_tva_10,,,,100,base,invoice,,TVA 10% TTC,tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44566,,,,
+tva_purchase_55_ttc,"TVA 5,5% TTC",5.5% VAT incl.,"TVA 5,5% TTC",5.5,percent,10,purchase,,,tax_group_tva_55,,,,100,base,invoice,,"TVA 5,5% TTC",tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44566,,,,
+tva_purchase_21_ttc,"TVA 2,1% TTC",2.1% VAT incl.,"TVA 2,1% TTC",2.1,percent,10,purchase,,,tax_group_tva_21,,,,100,base,invoice,,"TVA 2,1% TTC",tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44566,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44566,,,,
+tva_purchase_200_immo,TVA 20% immo,20% VAT asset,TVA 20% immo,20.0,percent,10,purchase,,1,tax_group_tva_20,,,,100,base,invoice,,TVA 20% immo,,account_tax_unece.tax_type_vat,
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44562,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44562,,,,
+tva_purchase_100_immo,TVA 10% immo,10% VAT asset,TVA 10% immo,10.0,percent,10,purchase,,1,tax_group_tva_10,0,,,100,base,invoice,,TVA 10% immo,,account_tax_unece.tax_type_vat,
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44562,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44562,,,,
+tva_purchase_55_immo,"TVA 5,5% immo",5.5% VAT asset,"TVA 5,5% immo",5.5,percent,10,purchase,,1,tax_group_tva_55,0,,,100,base,invoice,,"TVA 5,5% immo",,account_tax_unece.tax_type_vat,
+,,,,,,,,,,,,,,100,tax,invoice,pcg_44562,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_44562,,,,
+tva_purchase_200_extracom,TVA 20% extracom,20% VAT extracom,TVA 20% extracom,20.0,percent,11,purchase,,1,tax_group_tva_20,,,,100,base,invoice,,TVA 20% extracom,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_g
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445663,,,,
+,,,,,,,,,,,,,,-100,tax,invoice,pcg_445301,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445663,,,,
+,,,,,,,,,,,,,,-100,tax,refund,pcg_445301,,,,
+tva_purchase_100_extracom,TVA 10% extracom,10% VAT extracom,TVA 10% extracom,10.0,percent,11,purchase,,1,tax_group_tva_10,0,,,100,base,invoice,,TVA 10% extracom,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_g
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445663,,,,
+,,,,,,,,,,,,,,-100,tax,invoice,pcg_445302,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445663,,,,
+,,,,,,,,,,,,,,-100,tax,refund,pcg_445302,,,,
+tva_purchase_55_extracom,"TVA 5,5% extracom",5.5% VAT extracom,"TVA 5,5% extracom",5.5,percent,11,purchase,,1,tax_group_tva_55,0,,,100,base,invoice,,"TVA 5,5% extracom",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_g
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445663,,,,
+,,,,,,,,,,,,,,-100,tax,invoice,pcg_445303,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445663,,,,
+,,,,,,,,,,,,,,-100,tax,refund,pcg_445303,,,,
+tva_purchase_21_extracom,"TVA 2,1% extracom",2.1% VAT extracom,"TVA 2,1% extracom",2.1,percent,11,purchase,,1,tax_group_tva_21,0,,,100,base,invoice,,"TVA 2,1% extracom",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_g
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445663,,,,
+,,,,,,,,,,,,,,-100,tax,invoice,pcg_445304,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445663,,,,
+,,,,,,,,,,,,,,-100,tax,refund,pcg_445304,,,,
+tva_purchase_200_intracom,TVA 20% intracom,20% VAT intracom,TVA 20% intracom,20.0,percent,10,purchase,,1,tax_group_tva_20,,,,100,base,invoice,,TVA 20% intracom,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_k
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445662,,,,
+,,,,,,,,,,,,,,-100,tax,invoice,pcg_445201,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445662,,,,
+,,,,,,,,,,,,,,-100,tax,refund,pcg_445201,,,,
+tva_purchase_100_intracom,TVA 10% intracom,10% VAT intracom,TVA 10% intracom,10.0,percent,10,purchase,,1,tax_group_tva_10,0,,,100,base,invoice,,TVA 10% intracom,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_k
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445662,,,,
+,,,,,,,,,,,,,,-100,tax,invoice,pcg_445202,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445662,,,,
+,,,,,,,,,,,,,,-100,tax,refund,pcg_445202,,,,
+tva_purchase_55_intracom,"TVA 5,5% intracom",5.5% VAT intracom,"TVA 5,5% intracom",5.5,percent,10,purchase,,1,tax_group_tva_55,0,,,100,base,invoice,,"TVA 5,5% intracom",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_k
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445662,,,,
+,,,,,,,,,,,,,,-100,tax,invoice,pcg_445203,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445662,,,,
+,,,,,,,,,,,,,,-100,tax,refund,pcg_445203,,,,
+tva_purchase_21_intracom,"TVA 2,1% intracom",2.1% VAT intracom,"TVA 2,1% intracom",2.1,percent,10,purchase,,1,tax_group_tva_21,0,,,100,base,invoice,,"TVA 2,1% intracom",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_k
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445662,,,,
+,,,,,,,,,,,,,,-100,tax,invoice,pcg_445204,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445662,,,,
+,,,,,,,,,,,,,,-100,tax,refund,pcg_445204,,,,
+tva_purchase_0_exo,TVA 0% exonéré,0% VAT exonerated,TVA 0% exonéré,0.0,percent,10,purchase,,1,tax_group_tva_0,,,,100,base,invoice,,TVA 0% exonéré,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_e
+,,,,,,,,,,,,,,100,tax,invoice,,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,,,,,
+tva_sale_200,TVA 20%,20% VAT,TVA 20%,20.0,percent,10,sale,,1,tax_group_tva_20,,,,100,base,invoice,,TVA 20%,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445711,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445711,,,,
+tva_sale_100,TVA 10%,10% VAT,TVA 10%,10.0,percent,10,sale,,1,tax_group_tva_10,0,,,100,base,invoice,,TVA 10%,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445712,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445712,,,,
+tva_sale_55,"TVA 5,5%",5.5% VAT,"TVA 5,5%",5.5,percent,10,sale,,1,tax_group_tva_55,0,,,100,base,invoice,,"TVA 5,5%",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445713,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445713,,,,
+tva_sale_85,"TVA 8,5%",8.5% VAT,"TVA 8,5%",8.5,percent,10,sale,,1,tax_group_tva_85,0,,,100,base,invoice,,"TVA 8,5%",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445715,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445715,,,,
+tva_sale_21,"TVA 2,1%",2.1% VAT,"TVA 2,1%",2.1,percent,10,sale,,1,tax_group_tva_21,0,,,100,base,invoice,,"TVA 2,1%",,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445714,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445714,,,,
+tva_sale_200_ttc,TVA 20% TTC,20% VAT incl.,TVA 20% TTC,20.0,percent,10,sale,,,tax_group_tva_20,0,,,100,base,invoice,,TVA 20% TTC,tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445711,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445711,,,,
+tva_sale_100_ttc,TVA 10% TTC,10% VAT incl.,TVA 10% TTC,10.0,percent,10,sale,,,tax_group_tva_10,0,,,100,base,invoice,,TVA 10% TTC,tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445712,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445712,,,,
+tva_sale_85_ttc,"TVA 8,5% TTC",8.5% VAT incl.,"TVA 8,5% TTC",8.5,percent,10,sale,,,tax_group_tva_85,0,,,100,base,invoice,,"TVA 8,5% TTC",tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445715,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445715,,,,
+tva_sale_55_ttc,"TVA 5,5% TTC",5.5% VAT incl.,"TVA 5,5% TTC",5.5,percent,10,sale,,,tax_group_tva_55,0,,,100,base,invoice,,"TVA 5,5% TTC",tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445713,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445713,,,,
+tva_sale_21_ttc,"TVA 2,1% TTC",2.1% VAT incl.,"TVA 2,1% TTC",2.1,percent,10,sale,,,tax_group_tva_21,0,,,100,base,invoice,,"TVA 2,1% TTC",tax_included,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_s
+,,,,,,,,,,,,,,100,tax,invoice,pcg_445714,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,pcg_445714,,,,
+tva_sale_0_exo,TVA 0% exonéré,0% VAT exonerated,TVA 0% exonéré,0.0,percent,10,sale,,1,tax_group_tva_0,,,,100,base,invoice,,TVA 0% exonéré,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_e
+,,,,,,,,,,,,,,100,tax,invoice,,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,,,,,
+tva_sale_0_extracom,TVA 0% extracom,0% VAT extracom,TVA 0% extracom,0.0,percent,10,sale,,1,tax_group_tva_0,,,,100,base,invoice,,TVA 0% extracom,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_g
+,,,,,,,,,,,,,,100,tax,invoice,,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,,,,,
+tva_sale_0_intracom,TVA 0% intracom,0% VAT intracom,TVA 0% intracom,0.0,percent,10,sale,,1,tax_group_tva_0,,,,100,base,invoice,,TVA 0% intracom,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_k
+,,,,,,,,,,,,,,100,tax,invoice,,,,,
+,,,,,,,,,,,,,,100,base,refund,,,,,
+,,,,,,,,,,,,,,100,tax,refund,,,,,

@@ -1,0 +1,61 @@
+id,code_prefix_start,name
+pcg_grp_10,10,Capital et réserves
+pcg_grp_11,11,Report à nouveau
+pcg_grp_12,12,Résultat de l'exercice
+pcg_grp_13,13,Subventions d'investissement
+pcg_grp_14,14,Provisions réglementées
+pcg_grp_15,15,Provisions
+pcg_grp_16,16,Emprunts et dettes assimilées
+pcg_grp_17,17,Dettes rattachées à des participations
+pcg_grp_18,18,Comptes de liaison des établissements et sociétés en participation
+pcg_grp_20,20,Immobilisations incorporelles et frais d’établissement
+pcg_grp_21,21,Immobilisations corporelles
+pcg_grp_22,22,Immobilisations mises en concession
+pcg_grp_23,23,"Immobilisations en cours, avances et acomptes"
+pcg_grp_26,26,Participations et créances rattachées à des participations
+pcg_grp_27,27,Autres immobilisations financières
+pcg_grp_28,28,Amortissements des immobilisations
+pcg_grp_29,29,Dépréciations des immobilisations
+pcg_grp_31,31,Matières premières et fournitures
+pcg_grp_32,32,Autres approvisionnements
+pcg_grp_33,33,En cours de production de biens
+pcg_grp_34,34,En cours de production de services
+pcg_grp_35,35,Stocks de produits
+pcg_grp_36,36,Stocks provenant d'immobilisations
+pcg_grp_37,37,Stocks de marchandises
+pcg_grp_38,38,"Stocks en voie d'acheminement, mis en dépôt ou donnés en consignation"
+pcg_grp_39,39,Dépréciations des stocks et en cours
+pcg_grp_40,40,Fournisseurs et comptes rattachés
+pcg_grp_41,41,Clients et comptes rattachés
+pcg_grp_42,42,Personnel et comptes rattachés
+pcg_grp_43,43,Sécurité sociale et autres organismes sociaux
+pcg_grp_44,44,État et autres collectivités publiques
+pcg_grp_45,45,Groupe et associés
+pcg_grp_46,46,Débiteurs divers et créditeurs divers
+pcg_grp_47,47,Comptes transitoires ou d'attente
+pcg_grp_48,48,Comptes de régularisation
+pcg_grp_49,49,Dépréciations des comptes de tiers
+pcg_grp_50,50,Valeurs mobilières de placement
+pcg_grp_51,51,"Banques, établissements financiers et assimilés"
+pcg_grp_52,52,Instruments financiers à terme et jetons détenus
+pcg_grp_53,53,Caisse
+pcg_grp_58,58,Virements internes
+pcg_grp_59,59,Dépréciations des comptes financiers
+pcg_grp_60,60,Achats (sauf 603)
+pcg_grp_61,61,Services extérieurs
+pcg_grp_62,62,Autres services extérieurs
+pcg_grp_63,63,"Impôts, taxes et versements assimilés"
+pcg_grp_64,64,Charges de personnel
+pcg_grp_65,65,Autres charges de gestion courante
+pcg_grp_66,66,Charges financières
+pcg_grp_67,67,Charges exceptionnelles
+pcg_grp_68,68,"Dotations aux amortissements, aux dépréciations et aux provisions"
+pcg_grp_69,69,Participation des salariés - Impôts sur les bénéfices et assimilés
+pcg_grp_70,70,"Ventes de produits fabriqués, prestations de services, marchandises"
+pcg_grp_71,71,Production stockée (ou déstockage)
+pcg_grp_72,72,Production immobilisée
+pcg_grp_74,74,Subventions
+pcg_grp_75,75,Autres produits de gestion courante
+pcg_grp_76,76,Produits financiers
+pcg_grp_77,77,Produits exceptionnels
+pcg_grp_78,78,"Reprises sur amortissements, dépréciations et provisions"
