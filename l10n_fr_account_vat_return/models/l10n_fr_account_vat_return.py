@@ -516,6 +516,7 @@ class L10nFrAccountVatReturn(models.Model):
             "state": "manual",
             "ignore_draft_moves": False,
             "autoliq_manual_done": False,
+            "vat_credit_total": False,
         }
         if self.reimbursement_type:
             vals.update(self._prepare_remove_credit_vat_reimbursement())
