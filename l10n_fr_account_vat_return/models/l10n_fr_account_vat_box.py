@@ -79,7 +79,8 @@ class L10nFrAccountVatBox(models.Model):
     account_id = fields.Many2one(
         "account.account",
         company_dependent=True,
-        domain="[('deprecated', '=', False), ('company_id', '=', current_company_id)]",
+        domain="[('deprecated', '=', False), "
+        "('company_ids', 'in', current_company_id)]",
         help="If not set, Odoo will use the first account that starts with the "
         "Generic Account Code. If set, Odoo will ignore the Generic Account Code "
         "and use this account.",
@@ -213,7 +214,8 @@ class L10nFrAccountVatBox(models.Model):
                     if not box.due_vat_base_box_id:
                         raise ValidationError(
                             _(
-                                "Missing Due VAT Base on box '%s' which is a Due VAT box."
+                                "Missing Due VAT Base on box '%s' which is a "
+                                "Due VAT box."
                             )
                             % box.display_name
                         )
@@ -296,25 +298,23 @@ class L10nFrAccountVatBox(models.Model):
                         )
 
     @api.depends("code", "name", "display_type")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         form2label = dict(
             self.fields_get("form_code", "selection")["form_code"]["selection"]
         )
         for box in self:
-            name = "[%s]" % form2label.get(box.form_code)
+            name = f"[{form2label.get(box.form_code)}]"
             if not box.display_type:
                 if box.code:
-                    name += "(%s) %s" % (box.code, box.name)
+                    name += f"({box.code}) {box.name}"
                 else:
                     name += box.name
             else:
                 if box.code:
-                    name += "%s. %s" % (box.code, box.name)
+                    name += f"{box.code}. {box.name}"
                 else:
                     name += box.name
-            res.append((box.id, name))
-        return res
+            box.display_name = name
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):

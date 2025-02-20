@@ -34,12 +34,13 @@ class AccountTax(models.Model):
                 and not float_is_zero(tax.amount, precision_digits=2)
             ):
                 autoliquidation = True
-                for parent_field in ("invoice_tax_id", "refund_tax_id"):
+                for document_type in ("invoice", "refund"):
                     lines = atrlo.search(
                         [
-                            (parent_field, "=", tax.id),
+                            ("tax_id", "=", tax.id),
                             ("repartition_type", "=", "tax"),
                             ("account_id", "!=", False),
+                            ("document_type", "=", document_type),
                         ]
                     )
                     if len(lines) != 2:

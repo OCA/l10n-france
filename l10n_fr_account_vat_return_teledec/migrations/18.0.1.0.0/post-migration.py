@@ -7,4 +7,10 @@ from openupgradelib import openupgrade
 
 @openupgrade.migrate()
 def migrate(env, version):
-    env["res.company"]._fr_vat_init_adjustment_accounts_all_companies()
+    openupgrade.logged_query(
+        env.cr,
+        """
+        UPDATE l10n_fr_account_vat_return
+        SET sent_datetime=teledec_sent_datetime
+        WHERE teledec_sent_datetime is not null""",
+    )

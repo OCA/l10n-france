@@ -17,25 +17,33 @@ VAT Teletransmission via Teledec.fr
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_account_vat_return_teledec
+    :target: https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_account_vat_return_teledec
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-16-0/l10n-france-16-0-l10n_fr_account_vat_return_teledec
+    :target: https://translation.odoo-community.org/projects/l10n-france-18-0/l10n-france-18-0-l10n_fr_account_vat_return_teledec
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds support for EDI teletransmission of the VAT return via `Teledec.fr <https://www.teledec.fr/>`_. As explained on `this page <https://www.impots.gouv.fr/portail/international-professionnel/questions/comment-proceder-la-teledeclaration-selon-la-procedure-edi>`_ of impots.gouv.fr, you have to select an EDI partner if you want to teletransmit your VAT return (there is no open/public API). Teledec is listed on the official `list of active EDI partners <https://www.impots.gouv.fr/portail/files/media/1_metier/3_partenaire/edi/liste_des_partenaires_edi_actifs.pdf>`_ under their legal name *LPI Conseil* with their official EDI partner reference 7500201.
+This module adds support for EDI teletransmission of the VAT return via
+`Teledec.fr <https://www.teledec.fr/>`__. As explained on `this
+page <https://www.impots.gouv.fr/portail/international-professionnel/questions/comment-proceder-la-teledeclaration-selon-la-procedure-edi>`__
+of impots.gouv.fr, you have to select an EDI partner if you want to
+teletransmit your VAT return (there is no open/public API). Teledec is
+listed on the official `list of active EDI
+partners <https://www.impots.gouv.fr/portail/files/media/1_metier/3_partenaire/edi/liste_des_partenaires_edi_actifs.pdf>`__
+under their legal name *LPI Conseil* with their official EDI partner
+reference 7500201.
 
-This module supports EDI teletransmission of:
-- 3310-CA3 monthly and quarterly,
-- 3310-A (Appendix),
-- 3514 (Credit VAT reimbursement).
+This module supports EDI teletransmission of: - 3310-CA3 monthly and
+quarterly, - 3310-A (Appendix), - 3514 (Credit VAT reimbursement).
 
-The price of this EDI service for VAT returns is written on the `VAT page <https://www.teledec.fr/teledeclarer-et-payer-la-tva>`_ of the Teledec.fr website.
+The price of this EDI service for VAT returns is written on the `VAT
+page <https://www.teledec.fr/teledeclarer-et-payer-la-tva>`__ of the
+Teledec.fr website.
 
 **Table of contents**
 
@@ -45,26 +53,35 @@ The price of this EDI service for VAT returns is written on the `VAT page <https
 Configuration
 =============
 
-Under the menu *Invoicing > Configuration > Settings*, in the *France VAT* section, you must configure:
+Under the menu *Invoicing > Configuration > Settings*, in the *France
+VAT* section, you must configure:
 
-* the company bank account that will be used as the default bank account to pay VAT,
-* the email (login) corresponding to your account in Teledec.fr
-* select the legal representative of your company. This person must have a name, an email, a function and a title (mister or madam).
-* the Company Legal Form (select in the list),
-* Teledec Test Mode: if enable, the VAT returns will be sent to the Teledec staging server and the VAT returns will not relayed to DGFiP.
+-  the company bank account that will be used as the default bank
+   account to pay VAT,
+-  the email (login) corresponding to your account in Teledec.fr
+-  select the legal representative of your company. This person must
+   have a name, an email, a function and a title (mister or madam).
+-  the Company Legal Form (select in the list),
+-  Teledec Test Mode: if enable, the VAT returns will be sent to the
+   Teledec staging server and the VAT returns will not relayed to DGFiP.
 
-In the Odoo Server configuration file, add an entry **teledec_private_key** with the private key that was sent to your by Teledec.
+In the Odoo Server configuration file, add an entry
+**teledec_private_key** with the private key that was sent to your by
+Teledec.
 
 Usage
 =====
 
-On a VAT return in Odoo, when you reach the step *Automatic Lines*, you will see a button *Transmit via Teledec.fr*. Simply click on this button to teletransmit the VAT return to DGFiP via Teledec.
+On a VAT return in Odoo, when you reach the step *Automatic Lines*, you
+will see a button *Transmit via Teledec.fr*. Simply click on this button
+to teletransmit the VAT return to DGFiP via Teledec.
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-france/16.0/l10n_fr_account_vat_return_teledec/static/description/transmit_teledec_button.png
-   :scale: 80 %
-   :alt: VAT Return with option to teletransmit via Teledec.fr.
+|image1|
 
-Teledec will send you an email once they have successfully transmitted your VAT return to DGFiP.
+Teledec will send you an email once they have successfully transmitted
+your VAT return to DGFiP.
+
+.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-france/18.0/l10n_fr_account_vat_return_teledec/static/description/transmit_teledec_button.png
 
 Bug Tracker
 ===========
@@ -72,7 +89,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_account_vat_return_teledec%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_account_vat_return_teledec%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -80,17 +97,17 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Alexis de Lattre <alexis.delattre@akretion.com>
+-  Alexis de Lattre <alexis.delattre@akretion.com>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -110,6 +127,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-alexis-via| 
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/16.0/l10n_fr_account_vat_return_teledec>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_account_vat_return_teledec>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

@@ -13,7 +13,7 @@ class ResConfigSettings(models.TransientModel):
     )
     fr_vat_exigibility = fields.Selection(
         related="company_id.fr_vat_exigibility",
-        readonly=True
+        readonly=True,
         # value is updated by the wizard l10n.fr.vat.exigibility.update
     )
     fr_vat_update_lock_dates = fields.Boolean(
@@ -24,15 +24,19 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         domain="[('company_id', '=', company_id), ('type', '=', 'general')]",
     )
-    fr_vat_expense_account_id = fields.Many2one(
-        related="company_id.fr_vat_expense_account_id",
+    l10n_fr_rounding_difference_loss_account_id = fields.Many2one(
+        related="company_id.l10n_fr_rounding_difference_loss_account_id",
         readonly=False,
-        domain="[('company_id', '=', company_id), ('account_type', '=', 'expense')]",
+        string="Account for Expense Adjustment",
+        domain="[('company_ids', 'in', company_id), "
+        "('deprecated', '=', False), ('account_type', '=', 'expense')]",
     )
-    fr_vat_income_account_id = fields.Many2one(
-        related="company_id.fr_vat_income_account_id",
+    l10n_fr_rounding_difference_profit_account_id = fields.Many2one(
+        related="company_id.l10n_fr_rounding_difference_profit_account_id",
         readonly=False,
-        domain="[('company_id', '=', company_id), ('account_type', '=', 'income')]",
+        string="Account for Income Adjustment",
+        domain="[('company_ids', 'in', company_id), "
+        "('deprecated', '=', False), ('account_type', '=', 'income')]",
     )
     fr_vat_expense_analytic_distribution = fields.Json(
         related="company_id.fr_vat_expense_analytic_distribution",
@@ -47,6 +51,6 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.fr_vat_bank_account_id",
         readonly=False,
         domain="[('partner_id','=', fr_vat_company_partner_id), "
-        "'|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+        "('company_id', 'in', (False, company_id))]",
     )
     fr_vat_company_partner_id = fields.Many2one(related="company_id.partner_id")
