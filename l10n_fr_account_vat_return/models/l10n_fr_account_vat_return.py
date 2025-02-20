@@ -9,12 +9,13 @@ import textwrap
 from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
+from markupsafe import Markup
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 
-from odoo import _, api, fields, models, tools
+from odoo import Command, _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import date_utils, float_compare, float_is_zero, float_round
 from odoo.tools.misc import format_amount, format_date
@@ -25,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 try:
     from pypdf import PdfReader, PdfWriter
-except (ImportError, IOError) as err:
+except (OSError, ImportError) as err:
     logger.debug(err)
 
 MINIMUM_AMOUNT = 760
@@ -50,9 +51,11 @@ class L10nFrAccountVatReturn(models.Model):
     # The default value of the start_date is set by the onchange on company_id
     start_date = fields.Date(
         required=True,
-        readonly=True,
-        states={"manual": [("readonly", False)]},
         tracking=True,
+        compute="_compute_start_date",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
     vat_periodicity = fields.Selection(
         [
@@ -63,16 +66,16 @@ class L10nFrAccountVatReturn(models.Model):
         string="VAT Periodicity",
         required=True,
         tracking=True,
-        readonly=True,
-        states={"manual": [("readonly", False)]},
+        compute="_compute_start_date",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
     end_date = fields.Date(compute="_compute_name_end_date", store=True)
     company_id = fields.Many2one(
         "res.company",
         ondelete="cascade",
         required=True,
-        readonly=True,
-        states={"manual": [("readonly", False)]},
         default=lambda self: self.env.company,
         tracking=True,
     )
@@ -82,11 +85,14 @@ class L10nFrAccountVatReturn(models.Model):
     bank_account_id = fields.Many2one(
         "res.partner.bank",
         string="Company Bank Account",
-        states={"sent": [("readonly", True)], "posted": [("readonly", True)]},
         check_company=True,
         domain="[('partner_id','=', company_partner_id), "
         "'|', ('company_id', '=', False), ('company_id', '=', company_id)]",
         ondelete="restrict",
+        compute="_compute_bank_account_id",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
     company_currency_id = fields.Many2one(
         related="company_id.currency_id", store=True, string="Company Currency"
@@ -126,10 +132,7 @@ class L10nFrAccountVatReturn(models.Model):
         compute="_compute_reimbursement_show_button",
         string="Show VAT Credit Reimbursement Button",
     )
-    reimbursement_comment_dgfip = fields.Text(
-        string="Reimbursement Comment for DGFiP",
-        states={"sent": [("readonly", True)], "posted": [("readonly", True)]},
-    )
+    reimbursement_comment_dgfip = fields.Text(string="Reimbursement Comment for DGFiP")
     ca3_attachment_id = fields.Many2one("ir.attachment", string="CA3 Attachment")
     ca3_attachment_datas = fields.Binary(
         related="ca3_attachment_id.datas", string="CA3 File"
@@ -137,16 +140,11 @@ class L10nFrAccountVatReturn(models.Model):
     ca3_attachment_name = fields.Char(
         related="ca3_attachment_id.name", string="CA3 Filename"
     )
-    comment_dgfip = fields.Text(
-        string="Comment for DGFiP",
-        states={"sent": [("readonly", True)], "posted": [("readonly", True)]},
-    )
+    comment_dgfip = fields.Text(string="Comment for DGFiP")
     line_ids = fields.One2many(
         "l10n.fr.account.vat.return.line",
         "parent_id",
         string="Return Lines",
-        readonly=True,
-        states={"manual": [("readonly", False)]},
     )
     autoliq_line_ids = fields.One2many(
         "l10n.fr.account.vat.return.autoliq.line",
@@ -156,6 +154,7 @@ class L10nFrAccountVatReturn(models.Model):
     )
     ignore_draft_moves = fields.Boolean()  # technical field, not displayed
     autoliq_manual_done = fields.Boolean()  # technical field, not displayed
+    sent_datetime = fields.Datetime(string="Sent Date", readonly=True)
 
     _sql_constraints = [
         (
@@ -225,15 +224,13 @@ class L10nFrAccountVatReturn(models.Model):
                 if rec.vat_periodicity == "1":
                     name = start_date.strftime("%Y-%m")
                 elif rec.vat_periodicity == "3":
-                    name = "%s-T%s" % (
-                        start_date.year,
-                        MONTH2QUARTER.get(start_date.month, "error"),
-                    )
+                    quarter = MONTH2QUARTER.get(start_date.month, "error")
+                    name = f"{start_date.year}-T{quarter}"
                 elif rec.vat_periodicity == "12":
                     if start_date.month == 1:
                         name = str(start_date.year)
                     else:
-                        name = "%s-%s" % (start_date.year, end_date.year)
+                        name = f"{start_date.year}-{end_date.year}"
                 if end_date.month == 12 or rec.vat_periodicity == "12":
                     reimbursement_min_amount = MINIMUM_END_YEAR_AMOUNT
             rec.name = name
@@ -255,50 +252,55 @@ class L10nFrAccountVatReturn(models.Model):
                 reimbursement_show_button = True
             rec.reimbursement_show_button = reimbursement_show_button
 
-    @api.onchange("company_id")
-    def company_id_change(self):
-        if self.company_id and self.company_id.fr_vat_periodicity:
-            self.vat_periodicity = self.company_id.fr_vat_periodicity
-            self.bank_account_id = self.company_id.fr_vat_bank_account_id.id or False
-            last_return = self.search(
-                [("company_id", "=", self.company_id.id)],
-                limit=1,
-                order="start_date desc",
-            )
-            if last_return:
-                self.start_date = last_return.end_date + relativedelta(days=1)
-            else:
-                today = fields.Date.context_today(self)
-                if self.vat_periodicity == "1":
-                    self.start_date = today + relativedelta(months=-1, day=1)
-                elif self.vat_periodicity == "3":
-                    start_date = today + relativedelta(months=-3, day=1)
-                    while start_date.month not in MONTH2QUARTER:
-                        start_date -= relativedelta(months=1)
-                    self.start_date = start_date
-                elif self.vat_periodicity == "12":
-                    fy_date_from, fy_date_to = date_utils.get_fiscal_year(
-                        today + relativedelta(years=-1),
-                        day=self.company_id.fiscalyear_last_day,
-                        month=int(self.company_id.fiscalyear_last_month),
-                    )
-                    self.start_date = fy_date_from
+    @api.depends("company_id")
+    def _compute_bank_account_id(self):
+        for rec in self:
+            rec.bank_account_id = rec.company_id.fr_vat_bank_account_id.id or False
+
+    @api.depends("company_id")
+    def _compute_start_date(self):
+        today = fields.Date.context_today(self)
+        for rec in self:
+            vat_periodicity = rec.company_id.fr_vat_periodicity or False
+            start_date = False
+            if rec.company_id and vat_periodicity:
+                last_return = self.search(
+                    [("company_id", "=", rec.company_id.id)],
+                    limit=1,
+                    order="start_date desc",
+                )
+                if last_return:
+                    start_date = last_return.end_date + relativedelta(days=1)
+                else:
+                    if vat_periodicity == "1":
+                        start_date = today + relativedelta(months=-1, day=1)
+                    elif vat_periodicity == "3":
+                        start_date = today + relativedelta(months=-3, day=1)
+                        while start_date.month not in MONTH2QUARTER:
+                            start_date -= relativedelta(months=1)
+                    elif vat_periodicity == "12":
+                        start_date, fy_date_to = date_utils.get_fiscal_year(
+                            today + relativedelta(years=-1),
+                            day=rec.company_id.fiscalyear_last_day,
+                            month=int(rec.company_id.fiscalyear_last_month),
+                        )
+            rec.start_date = start_date
+            rec.vat_periodicity = vat_periodicity
 
     @api.depends("name", "vat_periodicity")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for rec in self:
             if rec.vat_periodicity == "12":
                 name = f"CA12 {rec.name}"
             else:
                 name = f"CA3 {rec.name}"
-            res.append((rec.id, name))
-        return res
+            rec.display_name = name
 
     def _prepare_speedy(self):
         # Generate a speed-dict called speedy that is used in several methods
         # or for some domains that we may need to inherit
         self.ensure_one()
+        company_domain_account = [("company_ids", "in", self.company_id.id)]
         company_domain = [("company_id", "=", self.company_id.id)]
         base_domain = company_domain + [("parent_state", "=", "posted")]
         sale_journals = self.env["account.journal"].search(
@@ -343,6 +345,7 @@ class L10nFrAccountVatReturn(models.Model):
             "company_id": self.company_id.id,
             "currency": self.company_id.currency_id,
             "company_domain": company_domain,
+            "company_domain_account": company_domain_account,
             "base_domain": base_domain,
             "base_domain_period_sale": base_domain_period_sale,
             "base_domain_end": base_domain_end,
@@ -357,7 +360,7 @@ class L10nFrAccountVatReturn(models.Model):
             "log_obj": self.env["l10n.fr.account.vat.return.line.log"],
             "autoliq_line_obj": self.env["l10n.fr.account.vat.return.autoliq.line"],
             "box_obj": self.env["l10n.fr.account.vat.box"],
-            "aa_obj": self.env["account.account"],
+            "aa_obj": self.env["account.account"].with_company(self.company_id.id),
             "am_obj": self.env["account.move"],
             "aml_obj": self.env["account.move.line"],
             "aj_obj": self.env["account.journal"],
@@ -462,9 +465,10 @@ class L10nFrAccountVatReturn(models.Model):
                     _(
                         "The autoliquidation tax '%(tax)s' is set on the tax mapping "
                         "of fiscal position '%(fp)s' which is configured with type "
-                        "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be configured "
-                        "on fiscal positions with type '%(fp_fr_vat_type_intracom_b2b)s' "
-                        "or '%(fp_fr_vat_type_extracom)s'.",
+                        "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be "
+                        "configured on fiscal positions with type "
+                        "'%(fp_fr_vat_type_intracom_b2b)s' or "
+                        "'%(fp_fr_vat_type_extracom)s'.",
                         tax=tax.display_name,
                         fp=tax_map.position_id.display_name,
                         fp_fr_vat_type=speedy["fp_frvattype2label"][autoliq_type],
@@ -516,6 +520,7 @@ class L10nFrAccountVatReturn(models.Model):
             "state": "manual",
             "ignore_draft_moves": False,
             "autoliq_manual_done": False,
+            "vat_credit_total": False,
         }
         if self.reimbursement_type:
             vals.update(self._prepare_remove_credit_vat_reimbursement())
@@ -544,6 +549,7 @@ class L10nFrAccountVatReturn(models.Model):
         self.write(
             {
                 "state": "sent",
+                "sent_datetime": fields.Datetime.now(),
             }
         )
 
@@ -575,9 +581,9 @@ class L10nFrAccountVatReturn(models.Model):
         self._reconcile_account_move(move, speedy)
         if (
             self.company_id.fr_vat_update_lock_dates
-            and self.company_id.period_lock_date < self.end_date
+            and self.company_id.tax_lock_date < self.end_date
         ):
-            self.sudo().company_id.write({"period_lock_date": self.end_date})
+            self.sudo().company_id.write({"tax_lock_date": self.end_date})
         self.write({"state": "posted"})
 
     def _setup_data_pre_check(self, speedy):
@@ -701,9 +707,13 @@ class L10nFrAccountVatReturn(models.Model):
                         lambda x: x.display_type == "product"
                     )
                 else:
-                    other_lines = move.line_ids.filtered(
-                        lambda x: x.id != line.id and x.account_id.code.startswith("6")
-                    )
+                    other_lines = speedy["aml_obj"]
+                    for oline in move.line_ids:
+                        if (
+                            oline.id != line.id
+                            and oline.account_id.account_type.startswith("expense")
+                        ):
+                            other_lines |= oline
                 for oline in other_lines:
                     for tax in oline.tax_ids:
                         if (
@@ -810,7 +820,7 @@ class L10nFrAccountVatReturn(models.Model):
             {
                 "parent_id": self.id,
                 "box_id": box.id,
-                "log_ids": [(0, 0, x) for x in logs],
+                "log_ids": [Command.create(x) for x in logs],
             }
         )
         # Generate push lines for the very bottom of CA3
@@ -865,10 +875,10 @@ class L10nFrAccountVatReturn(models.Model):
                             / 100
                         )
                     )
-                    note = "%s %% x %s €, %s" % (
-                        to_push_line.box_id.push_rate,
-                        cur_amounts[to_push_line.box_id.id],
-                        to_push_line.box_id.display_name,
+                    note = (
+                        f"{to_push_line.box_id.push_rate} % x "
+                        f"{cur_amounts[to_push_line.box_id.id]} €, "
+                        f"{to_push_line.box_id.display_name}"
                     )
                 push_box = to_push_line.box_id.push_box_id
                 # prepare new log line
@@ -877,15 +887,13 @@ class L10nFrAccountVatReturn(models.Model):
                     account_id = self._get_box_account(push_box).id
 
                 new_log_lines[push_box].append(
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "compute_type": "box",
                             "note": note,
                             "amount": amount,
                             "account_id": account_id,
-                        },
+                        }
                     )
                 )
 
@@ -930,14 +938,12 @@ class L10nFrAccountVatReturn(models.Model):
                     "parent_id": self.id,
                     "box_id": box.id,
                     "log_ids": [
-                        (
-                            0,
-                            0,
+                        Command.create(
                             {
                                 "account_id": account.id,
                                 "compute_type": "balance",
                                 "amount": balance,
-                            },
+                            }
                         )
                     ],
                 }
@@ -961,7 +967,7 @@ class L10nFrAccountVatReturn(models.Model):
             taxed_op_boxes = [
                 box
                 for meaning_id, box in speedy["meaning_id2box"].items()
-                if meaning_id.startswith("taxed_op_%s" % vat_group)
+                if meaning_id.startswith(f"taxed_op_{vat_group}")
             ]
 
             taxed_op_res = self._adjustment_box2value(speedy, taxed_op_boxes)
@@ -969,7 +975,7 @@ class L10nFrAccountVatReturn(models.Model):
             due_vat_base_boxes = [
                 box.due_vat_base_box_id
                 for meaning_id, box in speedy["meaning_id2box"].items()
-                if meaning_id.startswith("due_vat_%s" % vat_group)
+                if meaning_id.startswith(f"due_vat_{vat_group}")
             ]
             due_vat_base_res = self._adjustment_box2value(speedy, due_vat_base_boxes)
             (
@@ -1037,9 +1043,11 @@ class L10nFrAccountVatReturn(models.Model):
             "extracom_product_autoliq": defaultdict(list),
             "regular_extracom_service_autoliq": defaultdict(list),
             "regular_france": defaultdict(list),
-            # 'regular_france': {2000: {'vat': [logs], 1000: [logs], 550: [], 'base': [logs]}
+            # 'regular_france':
+            #      {2000: {'vat': [logs], 1000: [logs], 550: [], 'base': [logs]}
             # I put regular_france at the end, so that intracom/extracom autoliq
-            # logs are not hidden at the end of the long list of unpaid_vat_on_payment logs
+            # logs are not hidden at the end of the long list of
+            # unpaid_vat_on_payment logs
         }
 
         # Compute France and Monaco
@@ -1083,7 +1091,9 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                     % tax.display_name
                 )
-            sale_vat_account = invoice_lines.account_id
+            sale_vat_account = invoice_lines.account_id.with_company(
+                speedy["company_id"]
+            )
             refund_lines = tax.refund_repartition_line_ids.filtered(
                 lambda x: x.repartition_type == "tax"
                 and x.account_id
@@ -1093,7 +1103,8 @@ class L10nFrAccountVatReturn(models.Model):
                 raise UserError(
                     _(
                         "Tax '%s' should have only one distribution line for "
-                        "credit notes configured with an account and with '100%% of tax'."
+                        "credit notes configured with an account and with "
+                        "'100%% of tax'."
                     )
                     % tax.display_name
                 )
@@ -1183,9 +1194,9 @@ class L10nFrAccountVatReturn(models.Model):
         }
         for line in self.autoliq_line_ids:
             if line.vat_rate_int not in autoliq_rate2product_ratio[line.autoliq_type]:
-                autoliq_rate2product_ratio[line.autoliq_type][
-                    line.vat_rate_int
-                ] = defaultdict(float)
+                autoliq_rate2product_ratio[line.autoliq_type][line.vat_rate_int] = (
+                    defaultdict(float)
+                )
             # If the implementation was perfect, we would not have to use abs() !
             # But, in the current implementation, we take the balance of the autoliq VAT
             # account and we apply a product ratio. With this implementation, we don't
@@ -1211,9 +1222,10 @@ class L10nFrAccountVatReturn(models.Model):
                 if speedy["currency"].is_zero(total_vat_amount):
                     continue
                 rate_int = speedy["autoliq_vat_account2rate"][account]
-                # If you have a small residual amount in intracom/extracom autoliq accounts
-                # and you set it to 0 with a write-off at a date after the VAT period, you
-                # have 0 unreconciled move lines, but total_vat_amount != 0
+                # If you have a small residual amount in intracom/extracom autoliq
+                # accounts and you set it to 0 with a write-off at a date after the
+                # VAT period, you have 0 unreconciled move lines, but
+                # total_vat_amount != 0
                 # In such a corner case, there is not rate_int key in
                 # autoliq_rate2product_ratio[autoliq_type]
                 # => we consider product_ratio = 0% and service_ratio = 100%
@@ -1245,7 +1257,7 @@ class L10nFrAccountVatReturn(models.Model):
                     vat_amount = ps_vat_amount[ps_type]
                     if speedy["currency"].is_zero(vat_amount):
                         continue
-                    ptype = "regular_%s_%s_autoliq" % (autoliq_type, ps_type)
+                    ptype = f"regular_{autoliq_type}_{ps_type}_autoliq"
                     if ptype == "regular_extracom_product_autoliq":
                         ptype = "extracom_product_autoliq"
                     # Block B
@@ -1294,7 +1306,7 @@ class L10nFrAccountVatReturn(models.Model):
         for vat_group in vat_group_rate2box.keys():
             boxes = speedy["box_obj"].search(
                 [
-                    ("meaning_id", "=like", "due_vat_%s_%%" % vat_group),
+                    ("meaning_id", "=like", f"due_vat_{vat_group}_%"),
                     ("due_vat_rate", ">", 0),
                     ("due_vat_base_box_id", "!=", False),
                 ]
@@ -1335,7 +1347,7 @@ class L10nFrAccountVatReturn(models.Model):
                             self.env, base_amount, speedy["currency"]
                         ),
                     )
-                    compute_type = "base_from_%s" % log["compute_type"]
+                    compute_type = f"base_from_{log['compute_type']}"
                     base_logs.append(
                         dict(
                             log,
@@ -1348,7 +1360,7 @@ class L10nFrAccountVatReturn(models.Model):
                 # NEGATIVE
                 if speedy["currency"].compare_amounts(total_vat_amount, 0) < 0:
                     box2logs["negative_due_vat"] += logs
-                    box2logs["negative_due_vat_%s" % vat_group] += logs
+                    box2logs[f"negative_due_vat_{vat_group}"] += logs
                     # Base
                     box2logs["negative_taxed_op"] += base_logs
 
@@ -1356,7 +1368,7 @@ class L10nFrAccountVatReturn(models.Model):
                 else:
                     box = vat_group_rate2box[vat_group][rate_int]
                     box2logs[box] += logs
-                    box2logs["taxed_op_%s" % ptype] += base_logs
+                    box2logs[f"taxed_op_{ptype}"] += base_logs
 
         for box, logs in box2logs.items():
             line = self._create_line(speedy, logs, box)
@@ -1439,7 +1451,7 @@ class L10nFrAccountVatReturn(models.Model):
             vals = {
                 "parent_id": self.id,
                 "box_id": box.id,
-                "log_ids": [(0, 0, x) for x in logs],
+                "log_ids": [Command.create(x) for x in logs],
             }
             line = speedy["line_obj"].create(vals)
             speedy["box2value"][box] = line.value
@@ -1453,7 +1465,7 @@ class L10nFrAccountVatReturn(models.Model):
         if not isinstance(logs_to_add, list):
             logs_to_add = [logs_to_add]
         old_value = line.value
-        line.write({"log_ids": [(0, 0, vals) for vals in logs_to_add]})
+        line.write({"log_ids": [Command.create(vals) for vals in logs_to_add]})
         new_value = line.value
         speedy["box2value"][line.box_id] = new_value
         logger.info(
@@ -1543,7 +1555,7 @@ class L10nFrAccountVatReturn(models.Model):
         )
         # won't work when the invoice is paid next month by a refund
         payable_or_receivable_accounts = speedy["aa_obj"].search(
-            speedy["company_domain"] + [("account_type", "=", account_type)]
+            speedy["company_domain_account"] + [("account_type", "=", account_type)]
         )
         # I want reconcile marks after first day of current month
         # But, to avoid trouble with timezones, I use '>=' self.end_date (and not '>')
@@ -1654,7 +1666,7 @@ class L10nFrAccountVatReturn(models.Model):
         }
 
         vat_payment_deduc_accounts = speedy["aa_obj"]
-        for (account, vtype) in vat_account2type.items():
+        for account, vtype in vat_account2type.items():
             if vtype in ("asset", "regular"):
                 vat_payment_deduc_accounts |= account
 
@@ -1702,7 +1714,7 @@ class L10nFrAccountVatReturn(models.Model):
                     "Check that tax %s is a special gasoline tax", tax.display_name
                 )
                 continue
-            vat_account = line.account_id
+            vat_account = line.account_id.with_company(speedy["company_id"])
             if tax.fr_vat_autoliquidation:
                 vtype = "autoliq"
             else:
@@ -1713,8 +1725,8 @@ class L10nFrAccountVatReturn(models.Model):
                     if not vat_account.code.startswith("44566"):
                         logger.warning(
                             "Found regular deduc VAT account %s. "
-                            "Very strange, it should start with 44566."
-                            % vat_account.code
+                            "Very strange, it should start with 44566.",
+                            vat_account.code,
                         )
             if (
                 vat_account in vat_account2type
@@ -1732,13 +1744,10 @@ class L10nFrAccountVatReturn(models.Model):
             vat_account2type[vat_account] = vtype
 
         logger.info(
-            "Deduc VAT accounts: %s"
-            % ", ".join(
-                [
-                    "%s (%s)" % (acc.code, vtype)
-                    for (acc, vtype) in vat_account2type.items()
-                ]
-            )
+            "Deduc VAT accounts: %s",
+            ", ".join(
+                [f"{acc.code} ({vtype})" for (acc, vtype) in vat_account2type.items()]
+            ),
         )
         return vat_account2type
 
@@ -1747,7 +1756,7 @@ class L10nFrAccountVatReturn(models.Model):
         fp_types = ["intracom_b2b", "intracom_b2c", "extracom", "france_exo"]
         fpositions2box_meaning_id = {}
         for fp_type in fp_types:
-            box_meaning_id = "untaxed_op_%s" % fp_type
+            box_meaning_id = f"untaxed_op_{fp_type}"
             fpositions = speedy["afp_obj"].search(
                 speedy["company_domain"] + [("fr_vat_type", "=", fp_type)]
             )
@@ -1756,23 +1765,26 @@ class L10nFrAccountVatReturn(models.Model):
         for fpositions, box_meaning_id in fpositions2box_meaning_id.items():
             for fposition in fpositions:
                 revenue_account_mappings = fposition.account_ids.filtered(
-                    lambda x: x.account_src_id.code.startswith("7")
-                    and x.account_dest_id.code.startswith("7")
+                    lambda x: x.account_src_id.account_type.startswith("income")
+                    and x.account_dest_id.account_type.startswith("income")
                 )
                 if not revenue_account_mappings:
                     if fposition.fr_vat_type == "france_exo":
                         # it may be a purchase-only fiscal position (ex: Auto-entrep)
                         # -> no raise, only write a warning in chatter
                         self.message_post(
-                            body=_(
-                                "No account mapping on fiscal position "
-                                "<a href=# data-oe-model=account.fiscal.position "
-                                "data-oe-id=%(fiscal_position_id)d>%(fiscal_position)s</a>. "
-                                "If this fiscal position is not "
-                                "only used for purchase but also for sale, you must "
-                                "configure an account mapping on revenue accounts.",
-                                fiscal_position_id=fposition.id,
-                                fiscal_position=fposition.display_name,
+                            body=Markup(
+                                _(
+                                    "No account mapping on fiscal position "
+                                    "<a href=# data-oe-model=account.fiscal.position "
+                                    "data-oe-id=%(fiscal_position_id)d>"
+                                    "%(fiscal_position)s</a>. "
+                                    "If this fiscal position is not only used for "
+                                    "purchase but also for sale, you must "
+                                    "configure an account mapping on revenue accounts.",
+                                    fiscal_position_id=fposition.id,
+                                    fiscal_position=fposition.display_name,
+                                )
                             )
                         )
                     else:
@@ -1782,13 +1794,13 @@ class L10nFrAccountVatReturn(models.Model):
                         )
                 for mapping in revenue_account_mappings:
                     if box_meaning_id not in box_meaning_id2accounts:
-                        box_meaning_id2accounts[
-                            box_meaning_id
-                        ] = mapping.account_dest_id
+                        box_meaning_id2accounts[box_meaning_id] = (
+                            mapping.account_dest_id
+                        )
                     else:
-                        box_meaning_id2accounts[
-                            box_meaning_id
-                        ] |= mapping.account_dest_id
+                        box_meaning_id2accounts[box_meaning_id] |= (
+                            mapping.account_dest_id
+                        )
         # check that an account is not present in several fiscal positions
         # and create lines
         account_unicity = []
@@ -1835,7 +1847,11 @@ class L10nFrAccountVatReturn(models.Model):
             "compute_type": "manual",
             "account_id": account_id,
         }
-        vals = {"box_id": box.id, "parent_id": self.id, "log_ids": [(0, 0, log_vals)]}
+        vals = {
+            "box_id": box.id,
+            "parent_id": self.id,
+            "log_ids": [Command.create(log_vals)],
+        }
         speedy["line_obj"].create(vals)
         self._generate_ca3_bottom_totals(speedy)
 
@@ -1884,12 +1900,12 @@ class L10nFrAccountVatReturn(models.Model):
                 _("Journal for VAT Journal Entry is not set on company '%s'.")
                 % self.company_id.display_name
             )
-        if not self.company_id.fr_vat_expense_account_id:
+        if not self.company_id.l10n_fr_rounding_difference_loss_account_id:
             raise UserError(
                 _("Account for expense adjustment is not set on company '%s'.")
                 % self.company_id.display_name
             )
-        if not self.company_id.fr_vat_income_account_id:
+        if not self.company_id.l10n_fr_rounding_difference_profit_account_id:
             raise UserError(
                 _("Account for income adjustment is not set on company '%s'.")
                 % self.company_id.display_name
@@ -1905,7 +1921,7 @@ class L10nFrAccountVatReturn(models.Model):
             method = line.box_accounting_method
             sign = method == "credit" and 1 or -1
             if line.box_manual and line.value_manual_int:
-                account = line.manual_account_id
+                account = line.manual_account_id.with_company(speedy["company_id"])
                 if not account:
                     raise UserError(
                         _("Account is missing on manual line '%s'.")
@@ -1913,14 +1929,15 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                 account2amount[
                     (account, json.dumps(line.manual_analytic_distribution))
-                ] += (line.value_manual_int * sign)
+                ] += line.value_manual_int * sign
             else:
                 for log in line.log_ids:
-                    assert log.account_id  # there is a python constrain on this
+                    log_account = log.account_id.with_company(speedy["company_id"])
+                    assert log_account  # there is a python constrain on this
                     amount = log.amount * sign
                     # Special case for for VAT credit account 44567:
                     # we don't want to group
-                    if log.account_id.code.startswith("44567"):
+                    if log_account.code.startswith("44567"):
                         lvals = {
                             "account_id": log.account_id.id,
                             "analytic_distribution": log.analytic_distribution,
@@ -1934,12 +1951,10 @@ class L10nFrAccountVatReturn(models.Model):
                         elif compare < 0:
                             lvals["debit"] = -amount
                             lvals_list.append(lvals)
-                        logger.debug(
-                            "VAT move account %s: %s", log.account_id.code, lvals
-                        )
+                        logger.debug("VAT move account %s: %s", log_account.code, lvals)
                     else:
                         account2amount[
-                            (log.account_id, json.dumps(log.analytic_distribution))
+                            (log_account, json.dumps(log.analytic_distribution))
                         ] += amount
         for (account, analytic_distribution_str), amount in account2amount.items():
             analytic_distribution = json.loads(analytic_distribution_str)
@@ -1957,41 +1972,44 @@ class L10nFrAccountVatReturn(models.Model):
                 lvals["debit"] = -amount
                 lvals_list.append(lvals)
             logger.debug("VAT move account %s: %s", account.code, lvals)
-        # On 1 due VAT or deductible VAT cell, the rounding effect can cause a gap of 0.50 €
-        # between due/deduc VAT account and VAT to pay (or VAT credit)
+        # On 1 due VAT or deductible VAT cell, the rounding effect can cause a gap
+        # of 0.50 € between due/deduc VAT account and VAT to pay (or VAT credit)
         # We have 2 deduc VAT cells (immo and 5 regular) and 10 due VAT cells
         # (5 VAT rates x 2 for regular and import)
         if speedy["currency"].compare_amounts(abs(total), 0.5 * 12) > 0:
             raise UserError(
                 _(
-                    "Error in the generation of the journal entry: the adjustment amount "
-                    "is %s. The ajustment is only needed because, in the VAT "
+                    "Error in the generation of the journal entry: the adjustment "
+                    "amount is %s. The ajustment is only needed because, in the VAT "
                     "journal entry, the amount of the VAT to pay (or VAT credit) is "
                     "rounded (because the amounts are rounded in the VAT return) "
                     "and the other amounts are not rounded."
-                    "As a consequence, the amount of the adjustment should be under 1 €. "
-                    "This error may be caused by a bad configuration of the "
+                    "As a consequence, the amount of the adjustment should be under "
+                    "6 €. This error may be caused by a bad configuration of the "
                     "accounting method of some VAT boxes."
                 )
                 % format_amount(self.env, total, speedy["currency"])
             )
         total_compare = speedy["currency"].compare_amounts(total, 0)
         total = speedy["currency"].round(total)
+        company = self.company_id
         if total_compare > 0:
-            analytic_dist = self.company_id.fr_vat_expense_analytic_distribution
+            account_id = company.l10n_fr_rounding_difference_loss_account_id.id
+            analytic_dist = company.fr_vat_expense_analytic_distribution
             lvals_list.append(
                 {
                     "debit": total,
-                    "account_id": self.company_id.fr_vat_expense_account_id.id,
+                    "account_id": account_id,
                     "analytic_distribution": analytic_dist,
                 }
             )
         elif total_compare < 0:
-            analytic_dist = self.company_id.fr_vat_income_analytic_distribution
+            account_id = company.l10n_fr_rounding_difference_profit_account_id.id
+            analytic_dist = company.fr_vat_income_analytic_distribution
             lvals_list.append(
                 {
                     "credit": -total,
-                    "account_id": self.company_id.fr_vat_income_account_id.id,
+                    "account_id": account_id,
                     "analytic_distribution": analytic_dist,
                 }
             )
@@ -2001,7 +2019,7 @@ class L10nFrAccountVatReturn(models.Model):
             "journal_id": self.company_id.fr_vat_journal_id.id,
             "ref": self.display_name,
             "company_id": speedy["company_id"],
-            "line_ids": [(0, 0, x) for x in lvals_list],
+            "line_ids": [Command.create(x) for x in lvals_list],
         }
         return vals
 
@@ -2029,7 +2047,7 @@ class L10nFrAccountVatReturn(models.Model):
             limit=1,
         )
         for line in move.line_ids.filtered(lambda x: x.account_id.reconcile):
-            account = line.account_id
+            account = line.account_id.with_company(speedy["company_id"])
             domain = speedy["base_domain_end"] + [
                 ("account_id", "=", account.id),
                 ("reconciled", "=", False),
@@ -2038,10 +2056,10 @@ class L10nFrAccountVatReturn(models.Model):
             ]
             if account == credit_vat_account and credit_vat_debit_mline:
                 domain.append(("id", "!=", credit_vat_debit_mline.id))
-            rg_res = speedy["aml_obj"].read_group(domain, ["balance"], [])
+            rg_res = speedy["aml_obj"]._read_group(domain, aggregates=["balance:sum"])
             # or 0 is need to avoid a crash: rg_res[0]["balance"] = None
             # when the moves are already reconciled
-            if rg_res and speedy["currency"].is_zero(rg_res[0]["balance"] or 0):
+            if rg_res and speedy["currency"].is_zero(rg_res[0][0] or 0):
                 moves_to_reconcile = speedy["aml_obj"].search(domain)
                 moves_to_reconcile.remove_move_reconcile()
                 moves_to_reconcile.reconcile()
@@ -2063,6 +2081,7 @@ class L10nFrAccountVatReturn(models.Model):
         self.ensure_one()
         # I can't use speedy because this method is also called by onchange
         company_id = self.company_id.id
+        aao = self.env["account.account"].with_company(company_id)
         account = box.with_company(company_id).account_id or False
         if account:
             return account
@@ -2076,9 +2095,9 @@ class L10nFrAccountVatReturn(models.Model):
                     % box.display_name
                 )
             return None
-        accounts = self.env["account.account"].search(
+        accounts = aao.search(
             [
-                ("company_id", "=", company_id),
+                ("company_ids", "in", company_id),
                 ("deprecated", "=", False),
                 ("code", "=like", box.account_code + "%"),
             ]
@@ -2108,8 +2127,8 @@ class L10nFrAccountVatReturn(models.Model):
                 raise UserError(
                     _(
                         "There are %(account_count)s accounts whose code start with "
-                        "%(account_prefix)s in company '%(company)s' : %(account_list)s. "
-                        "Odoo expects to have only one.",
+                        "%(account_prefix)s in company '%(company)s' : "
+                        "%(account_list)s. Odoo expects to have only one.",
                         account_count=len(accounts),
                         account_prefix=box.account_code,
                         company=self.company_id.display_name,
@@ -2141,9 +2160,9 @@ class L10nFrAccountVatReturn(models.Model):
         action = {
             "name": "CA3",
             "type": "ir.actions.act_url",
-            "url": "web/content/?model=%s&id=%d&filename_field=ca3_attachment_name&"
-            "field=ca3_attachment_datas&download=true&filename=%s"
-            % (self._name, self.id, self.ca3_attachment_name),
+            "url": f"web/content/?model={self._name}&id={self.id}&"
+            f"filename_field=ca3_attachment_name&field=ca3_attachment_datas&"
+            f"download=true&filename={self.ca3_attachment_name}",
             "target": "new",
             # target: "new" and NOT "self", otherwise you get the following bug:
             # after this action, all UserError won't show a pop-up to the user
@@ -2292,7 +2311,7 @@ class L10nFrAccountVatReturn(models.Model):
             ca3_writer.write(out_ca3_io)
             out_ca3_bytes = out_ca3_io.getvalue()
 
-        filename = "CA3_%s.pdf" % self.name
+        filename = f"CA3_{self.name}.pdf"
         attach = self.env["ir.attachment"].create(
             {
                 "name": filename,
@@ -2358,7 +2377,7 @@ class L10nFrAccountVatReturnLine(models.Model):
         readonly=False,
         store=True,
         precompute=True,
-        domain="[('company_id', '=', company_id), ('deprecated', '=', False)]",
+        domain="[('company_ids', 'in', company_id), ('deprecated', '=', False)]",
     )
     manual_analytic_distribution = fields.Json(
         string="Analytic",
@@ -2431,10 +2450,12 @@ class L10nFrAccountVatReturnLine(models.Model):
         "box_id.negative",
     )
     def _compute_value(self):
-        rg_res = self.env["l10n.fr.account.vat.return.line.log"].read_group(
-            [("parent_id", "in", self.ids)], ["parent_id", "amount"], ["parent_id"]
+        rg_res = self.env["l10n.fr.account.vat.return.line.log"]._read_group(
+            [("parent_id", "in", self.ids)],
+            groupby=["parent_id"],
+            aggregates=["amount:sum"],
         )
-        mapped_data = {x["parent_id"][0]: x["amount"] for x in rg_res}
+        mapped_data = {parent.id: amount for (parent, amount) in rg_res}
         for line in self:
             value = 0
             value_float = 0

@@ -38,14 +38,6 @@ class ResCompany(models.Model):
         ondelete="restrict",
         check_company=True,
     )
-    fr_vat_expense_account_id = fields.Many2one(
-        "account.account",
-        check_company=True,
-        string="Account for Expense Adjustment",
-    )
-    fr_vat_income_account_id = fields.Many2one(
-        "account.account", check_company=True, string="Account for Income Adjustment"
-    )
     fr_vat_expense_analytic_distribution = fields.Json(
         string="Analytic for Expense Adjustment",
         compute="_compute_fr_vat_analytic_distribution",
@@ -68,7 +60,8 @@ class ResCompany(models.Model):
         string="Company Bank Account",
         check_company=True,
         ondelete="restrict",
-        help="Company bank account used to pay VAT or receive credit VAT reimbursements.",
+        help="Company bank account used to pay VAT or receive credit VAT "
+        "reimbursements.",
     )
 
     @api.model
@@ -108,8 +101,8 @@ class ResCompany(models.Model):
                     "in",
                     ("FR", "GP", "MQ", "GF", "RE", "YT"),
                 ),
-                ("fr_vat_expense_account_id", "=", False),
-                ("fr_vat_income_account_id", "=", False),
+                ("l10n_fr_rounding_difference_loss_account_id", "=", False),
+                ("l10n_fr_rounding_difference_profit_account_id", "=", False),
             ]
         )
         for company in companies:
@@ -120,27 +113,28 @@ class ResCompany(models.Model):
         logger.info(
             "Configuring FR VAT adjust accounts on company %s", self.display_name
         )
+        aao = self.env["account.account"].with_company(self.id)
         vals = {}
-        exp_account = self.env["account.account"].search(
+        exp_account = aao.search(
             [
-                ("company_id", "=", self.id),
+                ("company_ids", "in", self.id),
                 ("code", "=like", "658%"),
                 ("account_type", "=", "expense"),
             ],
             limit=1,
         )
         if exp_account:
-            vals["fr_vat_expense_account_id"] = exp_account.id
-        inc_account = self.env["account.account"].search(
+            vals["l10n_fr_rounding_difference_loss_account_id"] = exp_account.id
+        inc_account = aao.search(
             [
-                ("company_id", "=", self.id),
+                ("company_ids", "in", self.id),
                 ("code", "=like", "758%"),
                 ("account_type", "=", "income"),
             ],
             limit=1,
         )
         if inc_account:
-            vals["fr_vat_income_account_id"] = inc_account.id
+            vals["l10n_fr_rounding_difference_profit_account_id"] = inc_account.id
         if vals:
             self.write(vals)
 
@@ -170,9 +164,12 @@ class ResCompany(models.Model):
             )
             company_vals.pop("siret")
         company = self.create(company_vals)
-        self.env.user.write({"company_ids": [(4, company.id)]})
-        fr_chart_template = self.env.ref("l10n_fr_oca.l10n_fr_pcg_chart_template")
-        fr_chart_template._load(company)
+        logger.info("Company %s created", company.display_name)
+        self.env.user.write({"company_ids": [Command.link(company.id)]})
+        logger.info(
+            "Loading fr_oca chart of account on company %s", company.display_name
+        )
+        self.env["account.chart.template"].try_loading("fr_oca", company)
         bank = self.env["res.bank"].create(
             {
                 "name": "Qonto",
@@ -188,17 +185,17 @@ class ResCompany(models.Model):
             }
         )
         company._setup_l10n_fr_coa_vat_company()
-        company._fr_vat_init_adjustment_accounts()
         return company
 
-    def _setup_l10n_fr_coa_vat_company(self):  # noqa: C901
+    def _setup_l10n_fr_coa_vat_company(self):
         self.ensure_one()
         afpo = self.env["account.fiscal.position"]
         afpao = self.env["account.fiscal.position.account"]
         afpto = self.env["account.fiscal.position.tax"]
-        aao = self.env["account.account"]
+        aao = self.env["account.account"].with_company(self.id)
         ato = self.env["account.tax"]
         cdomain = [("company_id", "=", self.id)]
+        csdomain = [("company_ids", "in", self.id)]
         od_journal = self.env["account.journal"].search(
             cdomain + [("type", "=", "general")], limit=1
         )
@@ -225,14 +222,14 @@ class ResCompany(models.Model):
             "707100": "707500",
             "708510": "708550",
         }
-        for (src_acc_code, dest_acc_code) in exo_fp_account_map.items():
-            src_account = aao.search(cdomain + [("code", "=", src_acc_code)], limit=1)
+        for src_acc_code, dest_acc_code in exo_fp_account_map.items():
+            src_account = aao.search(csdomain + [("code", "=", src_acc_code)], limit=1)
             assert src_account
             dest_account = aao.create(
                 {
-                    "company_id": self.id,
+                    "company_ids": [Command.set([self.id])],
                     "code": dest_acc_code,
-                    "name": "%s exonéré" % src_account.name,
+                    "name": f"{src_account.name} exonéré",
                     "account_type": "income",
                     "reconcile": False,
                     "tax_ids": False,
@@ -247,7 +244,7 @@ class ResCompany(models.Model):
             )
         # I use extracom FP to get the list of source taxes
         extracom_fp = afpo.search(cdomain + [("fr_vat_type", "=", "extracom")], limit=1)
-        tax_0_xmlid = "l10n_fr_oca.%d_tva_%s_0_exo"
+        tax_0_xmlid = "account.%d_tva_%s_0_exo"
         sale_tax_dest_id = self.env.ref(tax_0_xmlid % (self.id, "sale")).id
         purchase_tax_dest_id = self.env.ref(tax_0_xmlid % (self.id, "purchase")).id
 
@@ -264,6 +261,7 @@ class ResCompany(models.Model):
                 }
             )
         # Update account mapping on IntraEU B2B and Export
+        # for the very specific scenario of untaxed products
         fp_to_update = {
             "extracom": {
                 "701500": "701400",
@@ -281,8 +279,8 @@ class ResCompany(models.Model):
         for fp_fr_vat_type, fp_account_map in fp_to_update.items():
             fp = afpo.search(cdomain + [("fr_vat_type", "=", fp_fr_vat_type)], limit=1)
             for src_acc_code, dest_acc_code in fp_account_map.items():
-                src_acc = aao.search(cdomain + [("code", "=", src_acc_code)])
-                dest_acc = aao.search(cdomain + [("code", "=", dest_acc_code)])
+                src_acc = aao.search(csdomain + [("code", "=", src_acc_code)])
+                dest_acc = aao.search(csdomain + [("code", "=", dest_acc_code)])
                 afpao.create(
                     {
                         "position_id": fp.id,
@@ -319,7 +317,7 @@ class ResCompany(models.Model):
             [("type", "=", "bank"), ("company_id", "=", self.id)], limit=1
         )
         assert bank_journal
-        for (pay_date, payment_ratio) in payments.items():
+        for pay_date, payment_ratio in payments.items():
             vals = {
                 "journal_id": bank_journal.id,
                 "payment_date": pay_date,
@@ -337,10 +335,11 @@ class ResCompany(models.Model):
 
     def _test_get_account(self, code):
         self.ensure_one()
-        account = self.env["account.account"].search(
+        aao = self.env["account.account"].with_company(self.id)
+        account = aao.search(
             [
                 ("code", "=", code),
-                ("company_id", "=", self.id),
+                ("company_ids", "in", self.id),
             ],
             limit=1,
         )
@@ -374,8 +373,6 @@ class ResCompany(models.Model):
     def _test_common_product_dict(
         self, product_dict, asset=False, product_type="consu"
     ):
-        # I can't use product_type="product" because this module
-        # doesn't depend on the module "stock"
         ppo = self.env["product.product"].with_company(self.id)
         for vat_rate in product_dict.keys():
             if vat_rate == 21 and asset:
@@ -384,39 +381,37 @@ class ResCompany(models.Model):
                 real_vat_rate = vat_rate / 10
                 sale_tax = self._test_get_tax("sale", real_vat_rate)
                 assert sale_tax
-                sale_tax_ids = [(6, 0, [sale_tax.id])]
+                sale_tax_ids = [Command.set([sale_tax.id])]
                 purchase_tax = self._test_get_tax(
                     "purchase", real_vat_rate, asset=asset
                 )
                 assert purchase_tax
-                purchase_tax_ids = [(6, 0, [purchase_tax.id])]
+                purchase_tax_ids = [Command.set([purchase_tax.id])]
                 account_income_id = False
             else:
                 real_vat_rate = 0
-                exo_tax_xmlid = "l10n_fr_oca.%d_tva_%s_0_exo"
+                exo_tax_xmlid = "account.%d_tva_%s_0_exo"
                 sale_tax = self.env.ref(exo_tax_xmlid % (self.id, "sale"))
-                sale_tax_ids = [(6, 0, [sale_tax.id])]
+                sale_tax_ids = [Command.set([sale_tax.id])]
                 purchase_tax = self.env.ref(exo_tax_xmlid % (self.id, "purchase"))
-                purchase_tax_ids = [(6, 0, [purchase_tax.id])]
-                account_income_id = self._test_get_account("707500")
-            product_name = "Test-demo %s%s TVA %s %%" % (
-                product_type,
-                real_vat_rate,
-                asset and " immo" or "",
+                purchase_tax_ids = [Command.set([purchase_tax.id])]
+                account_income_id = self._test_get_account("707500").id
+            product_name = (
+                f"Test-demo {product_type} TVA {real_vat_rate}%"
+                f"{asset and ' immo' or ''}"
             )
-            product = ppo.create(
-                {
-                    "name": product_name,
-                    "type": product_type,
-                    "sale_ok": True,
-                    "purchase_ok": True,
-                    "taxes_id": sale_tax_ids,
-                    "supplier_taxes_id": purchase_tax_ids,
-                    "categ_id": self.env.ref("product.product_category_all").id,
-                    "property_account_income_id": account_income_id,
-                    "company_id": self.id,
-                }
-            )
+            pvals = {
+                "name": product_name,
+                "type": product_type,
+                "sale_ok": True,
+                "purchase_ok": True,
+                "taxes_id": sale_tax_ids,
+                "supplier_taxes_id": purchase_tax_ids,
+                "categ_id": self.env.ref("product.product_category_all").id,
+                "property_account_income_id": account_income_id,
+                "company_id": self.id,
+            }
+            product = ppo.create(pvals)
             product_dict[vat_rate] = product
 
     def _test_prepare_product_dict(self):
@@ -439,7 +434,7 @@ class ResCompany(models.Model):
         return product_dict
 
     def _test_prepare_expense_account_dict(self):
-        aao = self.env["account.account"]
+        aao = self.env["account.account"].with_company(self.id)
         account_dict = {
             "service": "6226",
             "product": "607",
@@ -448,7 +443,7 @@ class ResCompany(models.Model):
             account = aao.search(
                 [
                     ("code", "=ilike", account_prefix + "%"),
-                    ("company_id", "=", self.id),
+                    ("company_ids", "in", self.id),
                 ],
                 limit=1,
             )
@@ -461,31 +456,33 @@ class ResCompany(models.Model):
         partner_dict = {
             "france": False,
             "france_vendor_vat_on_payment": False,
-            "intracom_b2b": False,
+            "intracom_b2b": self.env.ref("intrastat_base.forgeflow"),
             #  "intracom_b2c": False,
             "extracom": False,
             "france_exo": False,
         }
         afpo = self.env["account.fiscal.position"]
         rpo = self.env["res.partner"].with_company(self.id)
-        for fr_vat_type in partner_dict.keys():
+        for fr_vat_type, partner in partner_dict.items():
             fiscal_position = afpo.search(
                 [("company_id", "=", self.id), ("fr_vat_type", "=", fr_vat_type)],
                 limit=1,
             )
             if fiscal_position:
-                # to avoid error on invoice validation
-                if fr_vat_type == "intracom_b2b":
-                    fiscal_position.write({"vat_required": False})
-                partner = rpo.create(
-                    {
-                        "is_company": True,
-                        "name": "Test-demo %s" % fr_vat_type,
-                        "property_account_position_id": fiscal_position.id,
-                        "company_id": self.id,
-                    }
-                )
-                partner_dict[fr_vat_type] = partner
+                if partner:
+                    partner.with_company(self.id).write(
+                        {"property_account_position_id": fiscal_position.id}
+                    )
+                else:
+                    partner = rpo.create(
+                        {
+                            "is_company": True,
+                            "name": f"Test-demo {fr_vat_type}",
+                            "property_account_position_id": fiscal_position.id,
+                            "company_id": self.id,
+                        }
+                    )
+                    partner_dict[fr_vat_type] = partner
         france_fiscal_position = afpo.search(
             [("company_id", "=", self.id), ("fr_vat_type", "=", "france")], limit=1
         )
@@ -511,17 +508,13 @@ class ResCompany(models.Model):
                 "date": date,
                 "journal_id": self.fr_vat_journal_id.id,
                 "line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "account_id": credit_acc.id,
                             "debit": amount,
                         },
                     ),
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "account_id": wait_acc.id,
                             "credit": amount,
@@ -806,7 +799,7 @@ class ResCompany(models.Model):
             tax = tax_map_line.tax_dest_id
             if tax.type_tax_use == "purchase":
                 rate = int(round(tax.amount * 10))
-                intra_tax_ids[rate] = [(6, 0, [tax.id])]
+                intra_tax_ids[rate] = [Command.set([tax.id])]
 
         self._test_create_invoice_with_payment(
             "in_invoice",
@@ -878,11 +871,13 @@ class ResCompany(models.Model):
         self._test_create_cutoff_move(start_date)
 
     def _test_create_cutoff_move(self, start_date):
-        cdomain = [("company_id", "=", self.id)]
-        aao = self.env["account.account"]
-        pca_account = aao.search(cdomain + [("code", "=like", "487%")], limit=1)
+        csdomain = [("company_ids", "in", self.id)]
+        aao = self.env["account.account"].with_company(self.id)
+        pca_account = aao.search(csdomain + [("code", "=like", "487%")], limit=1)
         assert pca_account
-        export_income_account = aao.search(cdomain + [("code", "=", "707400")], limit=1)
+        export_income_account = aao.search(
+            csdomain + [("code", "=", "707400")], limit=1
+        )
         assert export_income_account
         amount = 555.55
         move = self.env["account.move"].create(
@@ -890,17 +885,13 @@ class ResCompany(models.Model):
                 "date": start_date,
                 "journal_id": self.fr_vat_journal_id.id,
                 "line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "account_id": export_income_account.id,
                             "debit": amount,
                         },
                     ),
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "account_id": pca_account.id,
                             "credit": amount,

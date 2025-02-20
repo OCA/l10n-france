@@ -5,620 +5,475 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
-                <record id="l10n_fr_account_vat_return_form" model="ir.ui.view">
-                        <field name="model">l10n.fr.account.vat.return</field>
-                        <field name="arch" type="xml">
-                                <form>
-                                        <header>
-                                                <button
+    <record id="l10n_fr_account_vat_return_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
                         name="manual2auto"
                         type="object"
                         string="Generate Automatic Lines"
-                        states="manual"
+                        invisible="state != 'manual'"
                         class="btn-primary"
                     />
-                                                <button
+                    <button
                         name="auto2sent"
                         type="object"
                         string="Mark as sent"
-                        attrs="{'invisible': ['|', ('state', '!=', 'auto'), ('line_ids', '=', [])]}"
+                        invisible="state != 'auto' or not line_ids"
                         class="btn-primary"
                         confirm="Do you confirm that you have validated the VAT return on impots.gouv.fr?"
                     />
-                                                <button
+                    <button
                         name="sent2posted"
                         type="object"
                         string="Post"
-                        states="sent"
+                        invisible="state != 'sent'"
                         class="btn-primary"
                     />
-                                                <button
+                    <button
                         name="%(l10n_fr_account_vat_return_reimbursement_action)d"
                         type="action"
                         string="Credit VAT Reimbursement"
-                        attrs="{'invisible': [('reimbursement_show_button', '=', False)]}"
+                        invisible="not reimbursement_show_button"
                         class="btn-default"
-                        context="{'default_return_id': active_id}"
+                        context="{'default_return_id': id}"
                     />
-                                                <button
+                    <button
                         name="remove_credit_vat_reimbursement"
                         type="object"
                         string="Remove Credit VAT Reimbursement"
-                        attrs="{'invisible': ['|', ('reimbursement_type', '=', False), ('state', '!=', 'auto')]}"
+                        invisible="not reimbursement_type or state != 'auto'"
                         class="btn-default"
                         confirm="Do you confirm the removal of the credit VAT reimbursement?"
                     />
-                                                <button
+                    <button
                         name="print_ca3"
                         type="object"
                         string="Print"
-                        states="auto,sent,posted"
+                        invisible="state == 'manual'"
                     />
-                                                <button
+                    <button
                         name="back_to_manual"
                         type="object"
                         string="Back to Manual Lines"
-                        states="auto"
+                        invisible="state != 'auto'"
                     />
-                                                <button
+                    <button
                         name="back_to_manual"
                         type="object"
                         string="Back to Manual Lines"
                         confirm="This VAT return has been marked as sent. Are you sure you want to go back to Manual Lines?"
-                        states="sent"
+                        invisible="state != 'sent'"
                     />
-                                                <field
-                        name="state"
-                        widget="statusbar"
-                    />
-                                        </header>
-                                        <sheet>
-                                                <div class="oe_title">
-                    <label for="name" class="oe_edit_only" />
-                    <h1>
-                        <field name="name" />
-                    </h1>
-                </div>
-                                                <group name="main">
-                                                        <group name="main-left">
-                                                <field
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group name="main">
+                        <group name="main-left">
+                            <field
                                 name="start_date"
                                 options="{'datepicker': {'warn_future': true}}"
+                                readonly="state != 'manual'"
                             />
-                                                <field
+                            <field
                                 name="end_date"
                                 options="{'datepicker': {'warn_future': true}}"
                             />
-                                                <field name="vat_periodicity" />
-                                                <field
+                            <field
+                                name="vat_periodicity"
+                                readonly="state != 'manual'"
+                            />
+                            <field
                                 name="reimbursement_type"
-                                attrs="{'invisible': [('reimbursement_type', '=', False)]}"
+                                invisible="not reimbursement_type"
                             />
-                                                <field
+                            <field
                                 name="reimbursement_first_creation_date"
-                                attrs="{'invisible': [('reimbursement_type', '!=', 'first')]}"
+                                invisible="reimbursement_type != 'first'"
                             />
-                                                <field
+                            <field
                                 name="reimbursement_end_date"
-                                attrs="{'invisible': [('reimbursement_type', '!=', 'end')]}"
+                                invisible="reimbursement_type != 'end'"
                             />
-                                                <field
-                                name="vat_credit_total"
-                                invisible="1"
-                            />
-                                                <field
+                            <field name="vat_credit_total" invisible="1" />
+                            <field
                                 name="reimbursement_min_amount"
-                                arres="{'invisible': [('vat_credit_total', '&lt;=', 0)]}"
+                                invisible="vat_credit_total &lt;= 0"
                                 widget="monetary"
                                 options="{'currency_field': 'company_currency_id'}"
                             />
-                                                <field
-                                name="reimbursement_show_button"
-                                invisible="1"
-                            />
-                                                <field
-                                name="company_partner_id"
-                                invisible="1"
-                            />
-                                                <field
-                                name="company_currency_id"
-                                invisible="1"
-                            />
-                                        </group>
-                                        <group name="main-right">
-                                                <field
+                            <field name="reimbursement_show_button" invisible="1" />
+                            <field name="company_partner_id" invisible="1" />
+                            <field name="company_currency_id" invisible="1" />
+                        </group>
+                        <group name="main-right">
+                            <field
                                 name="company_id"
                                 groups="base.group_multi_company"
+                                readonly="state != 'manual'"
                             />
                             <field name="company_id" invisible="1" />
-                                                <field name="bank_account_id" />
-                                                    <field name="move_id" />
-                                            </group>
-                                            </group>
-                                            <notebook>
-                                                    <page name="lines" string="Lines">
-                                                        <field
+                            <field
+                                name="bank_account_id"
+                                readonly="state in ('sent', 'posted')"
+                            />
+                            <field name="move_id" />
+                            <field name="sent_datetime" invisible="not sent_datetime" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="lines" string="Lines">
+                            <field
                                 name="line_ids"
                                 nolabel="1"
                                 colspan="2"
+                                readonly="state != 'manual'"
                             />
-                                                </page>
-                                                <page
-                            name="comment"
-                            string="Comment for DGFIP"
-                        >
-                                                        <field
+                        </page>
+                        <page name="comment" string="Comment for DGFIP">
+                            <field
                                 name="comment_dgfip"
                                 nolabel="1"
                                 colspan="2"
+                                readonly="state in ('sent', 'posted')"
                             />
-                                                </page>
-                                                <page
+                        </page>
+                        <page
                             name="reimbursement_comment"
                             string="Reimbursement Comment for DGFIP"
-                            attrs="{'invisible': [('reimbursement_type', '=', False)]}"
+                            invisible="not reimbursement_type"
                         >
-                                                        <field
+                            <field
                                 name="reimbursement_comment_dgfip"
                                 nolabel="1"
                                 colspan="2"
+                                readonly="state in ('sent', 'posted')"
                             />
-                                                </page>
-                                                <page
+                        </page>
+                        <page
                             name="autoliq_lines"
                             string="Autoliquidation Lines"
-                            attrs="{'invisible': [('autoliq_line_ids', '=', [])]}"
+                            invisible="not autoliq_line_ids"
                         >
-                                                        <field
-                                name="autoliq_line_ids"
-                                colspan="2"
-                                nolabel="1"
-                            />
-                                                </page>
-                                        </notebook>
-                                        </sheet>
-                                        <div class="oe_chatter">
-                                            <field
-                        name="message_follower_ids"
-                        widget="mail_followers"
-                    />
-                <field name="activity_ids" widget="mail_activity" />
-                <field name="message_ids" widget="mail_thread" />
-            </div>
-                                </form>
-                        </field>
-                </record>
+                            <field name="autoliq_line_ids" colspan="2" nolabel="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
 
-                <record id="l10n_fr_account_vat_return_tree" model="ir.ui.view">
-                        <field name="model">l10n.fr.account.vat.return</field>
-                        <field name="arch" type="xml">
-                                <tree>
-                                        <field name="name" decoration-bf="1" />
-                                        <field name="start_date" optional="hide" />
-                                        <field name="end_date" optional="hide" />
-                                        <field
-                    name="reimbursement_type"
-                    optional="hide"
-                />
-                                       <field
-                    name="company_id"
-                    groups="base.group_multi_company"
-                />
-                                        <field
+    <record id="l10n_fr_account_vat_return_tree" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" decoration-bf="1" />
+                <field name="start_date" optional="hide" />
+                <field name="end_date" optional="hide" />
+                <field name="reimbursement_type" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field
                     name="state"
                     widget="badge"
                     decoration-success="state == 'posted'"
                     decoration-info="state == 'draft'"
                     decoration-warning="state == 'sent'"
                 />
-                                </tree>
-                        </field>
-                </record>
+            </list>
+        </field>
+    </record>
 
-                <record id="l10n_fr_account_vat_return_search" model="ir.ui.view">
-                        <field name="model">l10n.fr.account.vat.return</field>
-                        <field name="arch" type="xml">
-                                <search>
-                                        <field name="start_date" />
-                                        <filter
+    <record id="l10n_fr_account_vat_return_search" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="start_date" />
+                <filter
                     name="manual"
                     string="Manual Lines"
                     domain="[('state', '=', 'manual')]"
                 />
-                                        <filter
+                <filter
                     name="auto"
                     string="Automatic Lines"
                     domain="[('state', '=', 'auto')]"
                 />
-                                        <filter
-                    name="sent"
-                    string="Sent"
-                    domain="[('state', '=', 'sent')]"
-                />
-                                        <filter
+                <filter name="sent" string="Sent" domain="[('state', '=', 'sent')]" />
+                <filter
                     name="posted"
                     string="Posted"
                     domain="[('state', '=', 'posted')]"
                 />
-                                        <group name="groupby">
-                                                <filter
+                <group name="groupby">
+                    <filter
                         name="state_groupby"
                         string="State"
                         context="{'group_by': 'state'}"
                     />
-                                                <filter
+                    <filter
                         name="company_groupby"
                         string="Company"
                         context="{'group_by': 'company_id'}"
                     />
-                                        </group>
-                                </search>
-                        </field>
-                </record>
+                </group>
+            </search>
+        </field>
+    </record>
 
-                <record
-        id="l10n_fr_account_vat_return_action"
-        model="ir.actions.act_window"
-    >
-                        <field name="name">VAT Return</field>
-                        <field name="res_model">l10n.fr.account.vat.return</field>
-                        <field name="view_mode">tree,form</field>
-                </record>
+    <record id="l10n_fr_account_vat_return_action" model="ir.actions.act_window">
+        <field name="name">VAT Return</field>
+        <field name="res_model">l10n.fr.account.vat.return</field>
+        <field name="view_mode">list,form</field>
+    </record>
 
-                <menuitem
+    <menuitem
         id="l10n_fr_account_vat_return_menu"
         action="l10n_fr_account_vat_return_action"
-        parent="l10n_fr.account_reports_fr_statements_menu"
+        parent="l10n_fr_account.account_reports_fr_statements_menu"
         sequence="5"
     />
 
-                <record id="l10n_fr_account_vat_return_line_form" model="ir.ui.view">
-                        <field name="model">l10n.fr.account.vat.return.line</field>
-                        <field name="arch" type="xml">
-                                <form>
-                                        <div
+    <record id="l10n_fr_account_vat_return_line_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('box_negative', '=', False)]}"
+                    invisible="not box_negative"
                 >The logs lines below have a negative total, so they were moved from their original box(es) to this box and the sign of the total has been inverted.</div>
-                                        <group name="main">
-                                                <field
-                        name="box_id"
-                        domain="[('manual', '=', True)]"
-                    />
-                                                <field
-                        name="box_edi_type"
-                        invisible="1"
-                    />
-                                                <field
-                        name="box_manual"
-                        invisible="1"
-                    />
-                                                <field
-                        name="box_form_code"
-                        invisible="1"
-                    />
-                                                <field
-                        name="company_id"
-                        invisible="1"
-                    />
-                                                <field
-                        name="box_negative"
-                        invisible="1"
-                    />
+                <group name="main">
+                    <field name="box_id" domain="[('manual', '=', True)]" />
+                    <field name="box_edi_type" invisible="1" />
+                    <field name="box_manual" invisible="1" />
+                    <field name="box_form_code" invisible="1" />
+                    <field name="company_id" invisible="1" />
+                    <field name="box_negative" invisible="1" />
 
-                                                <field
+                    <field
                         name="value"
-                        attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                        invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
                     />
-                                                <field
+                    <field
                         name="value_float"
-                        attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                        invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
                     />
-                                                <field
-                        name="value_bool"
-                        attrs="{'invisible': [('box_edi_type', '!=', 'CCI_TBX')]}"
-                    />
-                                                <field
+                    <field name="value_bool" invisible="box_edi_type != 'CCI_TBX'" />
+                    <field
                         name="value_char"
-                        attrs="{'invisible': [('box_edi_type', 'not in', ('FTX', 'NAD'))]}"
+                        invisible="box_edi_type not in ('FTX', 'NAD')"
                     />
-                                                <field
+                    <field
                         name="value_manual_int"
-                        attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                        invisible="not box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
                     />
-                                                <field
+                    <field
                         name="box_accounting_method"
-                        attrs="{'invisible': [('box_accounting_method', '=', False)]}"
+                        invisible="not box_accounting_method"
                     />
-                                                <field
+                    <field
                         name="manual_account_id"
-                        attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_accounting_method', '=', False)], 'required': [('box_manual', '=', True), ('box_accounting_method', '!=', False)]}"
+                        invisible="not box_manual or not box_accounting_method"
+                        required="box_manual and box_accounting_method"
                     />
-                                                <field
+                    <field
                         name="manual_analytic_distribution"
                         widget="analytic_distribution"
                         groups="analytic.group_analytic_accounting"
                         options="{'account_field': 'manual_account_id', 'business_domain': 'general'}"
                     />
-                                        </group>
-                                        <group
+                </group>
+                <group
                     name="logs"
                     string="Computation and Accounting Details"
-                    attrs="{'invisible': [('log_ids', '=', [])]}"
+                    invisible="not log_ids"
                 >
-                                                <field
-                        nolabel="1"
-                        name="log_ids"
-                        colspan="2"
-                    />
-                                        </group>
-                                </form>
-                        </field>
-                </record>
-                 <record id="l10n_fr_account_vat_return_line_tree" model="ir.ui.view">
-                        <field name="model">l10n.fr.account.vat.return.line</field>
-                        <field name="arch" type="xml">
-                                <tree
+                    <field nolabel="1" name="log_ids" colspan="2" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_fr_account_vat_return_line_tree" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.line</field>
+        <field name="arch" type="xml">
+            <list
                 decoration-info="box_display_type == 'section'"
                 decoration-success="box_display_type == 'sub_section'"
                 decoration-danger="box_negative == True"
                 limit="100"
             >
-                                                <field name="box_form_code" />
-                                                <field name="box_code" />
-                                                <field name="box_name" />
-                                                <field
-                    name="box_display_type"
-                    invisible="1"
-                />
-                                                <field
-                    name="box_negative"
-                    invisible="1"
-                />
-                                                <field
-                    name="box_manual"
-                    invisible="1"
-                />
-                                                <field
-                    name="box_edi_type"
-                    invisible="1"
-                />
+                <field name="box_form_code" />
+                <field name="box_code" />
+                <field name="box_name" />
+                <field name="box_display_type" column_invisible="1" />
+                <field name="box_negative" column_invisible="1" />
+                <field name="box_manual" column_invisible="1" />
+                <field name="box_edi_type" column_invisible="1" />
 
-                                                <field
-                    name="value"
-                    attrs="{'invisible': [('box_display_type', '!=', False)]}"
-                />
-                                                <field
+                <field name="value" invisible="box_display_type" />
+                <field
                     name="value_float"
                     optional="hide"
-                    attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                    invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
                 />
-                                                <field
+                <field
                     name="value_bool"
                     optional="hide"
-                    attrs="{'invisible': [('box_edi_type', '!=', 'CCI_TBX')]}"
+                    invisible="box_edi_type != 'CCI_TBX'"
                 />
-                                                <field
+                <field
                     name="value_char"
                     optional="show"
-                    attrs="{'invisible': [('box_edi_type', 'not in', ('FTX', 'NAD'))]}"
+                    invisible="box_edi_type not in ('FTX', 'NAD')"
                 />
-                                </tree>
-                        </field>
-                </record>
-                  <record
-        id="l10n_fr_account_vat_return_line_log_tree"
-        model="ir.ui.view"
-    >
-                        <field name="model">l10n.fr.account.vat.return.line.log</field>
-                        <field name="arch" type="xml">
-                                <tree
+            </list>
+        </field>
+    </record>
+    <record id="l10n_fr_account_vat_return_line_log_tree" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.line.log</field>
+        <field name="arch" type="xml">
+            <list
                 decoration-info="compute_type == 'period_balance'"
                 decoration-success="compute_type in ('balance', 'balance_ratio', 'base_from_balance', 'base_from_balance_ratio')"
                 decoration-warning="compute_type == 'subtraction'"
                 decoration-danger="compute_type == 'adjustment'"
             >
-                                                <field
+                <field
                     name="parent_id"
-                    invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
+                    column_invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
                 />
-                                                <field name="compute_type" />
-                                                <field name="account_id" />
-                                                <field
+                <field name="compute_type" />
+                <field name="account_id" />
+                <field
                     name="analytic_distribution"
                     groups="analytic.group_analytic_accounting"
                     optional="hide"
                     widget="analytic_distribution"
-                    attrs="{'column_invisible': [('parent.box_accounting_method', '=', False)]}"
+                    column_invisible="not parent.box_accounting_method"
                     options="{'account_field': 'account_id', 'business_domain': 'general'}"
                 />
-                                                <field name="amount" sum="1" />
-                                                <field name="note" optional="show" />
-                                </tree>
-                        </field>
-                </record>
+                <field name="amount" sum="1" />
+                <field name="note" optional="show" />
+            </list>
+        </field>
+    </record>
 
-                  <record
-        id="l10n_fr_account_vat_return_line_log_form"
-        model="ir.ui.view"
-    >
-                        <field name="model">l10n.fr.account.vat.return.line.log</field>
-                        <field name="arch" type="xml">
-                                <form>
-                                        <group name="main">
-                                                <field
+    <record id="l10n_fr_account_vat_return_line_log_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.line.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main">
+                    <field
                         name="parent_id"
                         invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
                     />
-                                                <field name="compute_type" />
-                                                <field name="account_id" />
-                                                <field
+                    <field name="compute_type" />
+                    <field name="account_id" />
+                    <field
                         name="analytic_distribution"
                         widget="analytic_distribution"
                         groups="analytic.group_analytic_accounting"
                         options="{'account_field': 'account_id', 'business_domain': 'general'}"
                     />
-                                                <field name="amount" />
-                                                <field
-                        name="origin_move_id"
-                        attrs="{'invisible': [('origin_move_id', '=', False)]}"
-                    />
-                                            </group>
-                                            <group string="Notes">
-                                                    <field
-                        name="note"
-                        nolabel="1"
-                        colspan="2"
-                    />
-                                            </group>
-                                </form>
-                        </field>
-                </record>
+                    <field name="amount" />
+                    <field name="origin_move_id" invisible="not origin_move_id" />
+                </group>
+                <group string="Notes">
+                    <field name="note" nolabel="1" colspan="2" />
+                </group>
+            </form>
+        </field>
+    </record>
 
-                <record
-        id="l10n_fr_account_vat_return_autoliq_line_form"
-        model="ir.ui.view"
-    >
+    <record id="l10n_fr_account_vat_return_autoliq_line_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.autoliq.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main">
+                    <group name="move_line" string="Journal Item">
                         <field
-            name="model"
-        >l10n.fr.account.vat.return.autoliq.line</field>
-                        <field name="arch" type="xml">
-                                <form>
-                                        <group name="main">
-                                                <group
-                        name="move_line"
-                        string="Journal Item"
-                    >
-                                                        <field
                             name="parent_id"
                             invisible="not context.get('l10n_fr_account_vat_return_autoliq_line_main_view')"
                         />
-                                                        <field name="move_line_id" />
-                                                        <field name="move_id" />
-                                                        <field name="journal_id" />
-                                                        <field name="date" />
-                                                        <field name="ref" />
-                                                        <field name="label" />
-                                                        <field name="account_id" />
-                                                        <field name="partner_id" />
-                                                        <field name="debit" />
-                                                        <field name="credit" />
-                                                        <field
-                            name="company_currency_id"
-                            invisible="1"
-                        />
-                                                        <field
-                            name="company_id"
-                            invisible="1"
-                        />
-                                                </group>
-                                                <group
-                        name="result"
-                        string="Information for VAT Return"
-                    >
-                                                        <field name="autoliq_type" />
-                                                        <field name="compute_type" />
-                                                        <label for="product_ratio" />
-                                                        <div name="product_ratio">
+                        <field name="move_line_id" />
+                        <field name="move_id" />
+                        <field name="journal_id" />
+                        <field name="date" />
+                        <field name="ref" />
+                        <field name="label" />
+                        <field name="account_id" />
+                        <field name="partner_id" />
+                        <field name="debit" />
+                        <field name="credit" />
+                        <field name="company_currency_id" invisible="1" />
+                        <field name="company_id" invisible="1" />
+                    </group>
+                    <group name="result" string="Information for VAT Return">
+                        <field name="autoliq_type" />
+                        <field name="compute_type" />
+                        <label for="product_ratio" />
+                        <div name="product_ratio">
                                                             <field
-                                name="product_ratio"
-                                class="oe_inline"
-                            /> %
+                            name="product_ratio"
+                            class="oe_inline"
+                        /> %
                                                         </div>
-                                                        <field
-                            name="vat_rate_int"
-                            groups="base.group_no_one"
-                        />
-                                                </group>
-                                            </group>
-                                    </form>
-                                    </field>
-                            </record>
+                        <field name="vat_rate_int" groups="base.group_no_one" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
 
-                <record
-        id="l10n_fr_account_vat_return_autoliq_line_tree"
-        model="ir.ui.view"
-    >
-                        <field
-            name="model"
-        >l10n.fr.account.vat.return.autoliq.line</field>
-                        <field name="arch" type="xml">
-                                <tree>
-                                                        <field
+    <record id="l10n_fr_account_vat_return_autoliq_line_tree" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.autoliq.line</field>
+        <field name="arch" type="xml">
+            <list>
+                <field
                     name="parent_id"
-                    invisible="not context.get('l10n_fr_account_vat_return_autoliq_line_main_view')"
+                    column_invisible="not context.get('l10n_fr_account_vat_return_autoliq_line_main_view')"
                 />
-                                                        <field
+                <field
                     name="autoliq_type"
                     widget="badge"
                     decoration-warning="autoliq_type == 'intracom'"
                     decoration-danger="autoliq_type == 'extracom'"
                 />
-                                                        <field
+                <field
                     name="compute_type"
                     optional="show"
                     widget="badge"
                     decoration-info="compute_type == 'auto'"
                     decoration-success="compute_type == 'manual'"
                 />
-                                                        <field
-                    name="vat_rate_int"
-                    groups="base.group_no_one"
-                    optional="hide"
-                />
-                                                        <field name="move_line_id" />
-                                                        <field
-                    name="move_id"
-                    optional="hide"
-                />
-                                                        <field
-                    name="journal_id"
-                    optional="hide"
-                />
-                                                        <field
-                    name="date"
-                    optional="show"
-                />
-                                                        <field
-                    name="ref"
-                    optional="hide"
-                />
-                                                        <field
-                    name="label"
-                    optional="hide"
-                />
-                                                        <field name="account_id" />
-                                                        <field
-                    name="partner_id"
-                    optional="show"
-                />
-                                                        <field
-                    name="debit"
-                    optional="show"
-                />
-                                                        <field
-                    name="credit"
-                    optional="show"
-                />
-                                                        <field
-                    name="company_currency_id"
-                    invisible="1"
-                />
-                                                        <field
-                    name="company_id"
-                    invisible="1"
-                />
-                                                        <field
+                <field name="vat_rate_int" groups="base.group_no_one" optional="hide" />
+                <field name="move_line_id" />
+                <field name="move_id" optional="hide" />
+                <field name="journal_id" optional="hide" />
+                <field name="date" optional="show" />
+                <field name="ref" optional="hide" />
+                <field name="label" optional="hide" />
+                <field name="account_id" />
+                <field name="partner_id" optional="show" />
+                <field name="debit" optional="show" />
+                <field name="credit" optional="show" />
+                <field name="company_currency_id" invisible="1" />
+                <field name="company_id" column_invisible="1" />
+                <field
                     name="product_ratio"
                     string="Product Ratio (%)"
                     decoration-bf="1"
                 />
-                                    </tree>
-                                    </field>
-                            </record>
-
-
-
+            </list>
+        </field>
+    </record>
 </odoo>

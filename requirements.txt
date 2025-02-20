@@ -4,3 +4,4 @@ pypdf>=3.1.0
 python-stdnum
 requests_oauthlib
 unidecode
+requests

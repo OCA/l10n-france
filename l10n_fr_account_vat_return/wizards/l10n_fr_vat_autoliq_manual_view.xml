@@ -5,19 +5,18 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="l10n_fr_vat_autoliq_manual_form" model="ir.ui.view">
         <field name="model">l10n.fr.vat.autoliq.manual</field>
         <field name="arch" type="xml">
             <form>
-                    <div
+                <div
                     name="msg"
                     colspan="2"
                 >Odoo could not automatically compute the distribution between product and services on the journal items below that have a VAT autoliquidation account. Please indicate manually for each journal item below if the autoliquidation is related to a product or a service (you can also select 'mix' and indicate a percentage for the product part).
                 </div>
                 <group name="lines">
-                        <field name="line_ids" colspan="2" nolabel="1">
-                        <tree editable="bottom" create="0" delete="0">
+                    <field name="line_ids" colspan="2" nolabel="1">
+                        <list editable="bottom" create="0" delete="0">
                             <field name="autoliq_line_id" invisible="1" />
                             <field
                                 name="autoliq_type"
@@ -38,10 +37,11 @@
                             <field name="option" required="1" />
                             <field
                                 name="product_ratio"
-                                attrs="{'required': [('option', '=', 'mix')], 'invisible': [('option', '!=', 'mix')]}"
+                                required="option == 'mix'"
+                                invisible="option != 'mix'"
                             />
                             <field name="company_currency_id" invisible="1" />
-                        </tree>
+                        </list>
                     </field>
                     <field name="fr_vat_return_id" invisible="1" />
                 </group>
@@ -64,5 +64,4 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
-
 </odoo>
