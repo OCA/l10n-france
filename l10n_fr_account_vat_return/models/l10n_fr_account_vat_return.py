@@ -1884,12 +1884,12 @@ class L10nFrAccountVatReturn(models.Model):
                 _("Journal for VAT Journal Entry is not set on company '%s'.")
                 % self.company_id.display_name
             )
-        if not self.company_id.fr_vat_expense_account_id:
+        if not self.company_id.l10n_fr_rounding_difference_loss_account_id:
             raise UserError(
                 _("Account for expense adjustment is not set on company '%s'.")
                 % self.company_id.display_name
             )
-        if not self.company_id.fr_vat_income_account_id:
+        if not self.company_id.l10n_fr_rounding_difference_profit_account_id:
             raise UserError(
                 _("Account for income adjustment is not set on company '%s'.")
                 % self.company_id.display_name
@@ -1975,23 +1975,26 @@ class L10nFrAccountVatReturn(models.Model):
                 )
                 % format_amount(self.env, total, speedy["currency"])
             )
+        company = self.company_id
         total_compare = speedy["currency"].compare_amounts(total, 0)
         total = speedy["currency"].round(total)
         if total_compare > 0:
-            analytic_dist = self.company_id.fr_vat_expense_analytic_distribution
+            account_id = company.l10n_fr_rounding_difference_loss_account_id.id
+            analytic_dist = company.fr_vat_expense_analytic_distribution
             lvals_list.append(
                 {
                     "debit": total,
-                    "account_id": self.company_id.fr_vat_expense_account_id.id,
+                    "account_id": account_id,
                     "analytic_distribution": analytic_dist,
                 }
             )
         elif total_compare < 0:
-            analytic_dist = self.company_id.fr_vat_income_analytic_distribution
+            account_id = company.l10n_fr_rounding_difference_profit_account_id.id
+            analytic_dist = company.fr_vat_income_analytic_distribution
             lvals_list.append(
                 {
                     "credit": -total,
-                    "account_id": self.company_id.fr_vat_income_account_id.id,
+                    "account_id": account_id,
                     "analytic_distribution": analytic_dist,
                 }
             )
