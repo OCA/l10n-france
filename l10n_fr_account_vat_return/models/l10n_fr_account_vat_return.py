@@ -154,6 +154,12 @@ class L10nFrAccountVatReturn(models.Model):
         string="Autoliquidation Lines",
         readonly=True,
     )
+    unpaid_vat_on_payment_manual_line_ids = fields.One2many(
+        "l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line",
+        "parent_id",
+        readonly=True,
+        states={"manual": [("readonly", False)]},
+    )
     ignore_draft_moves = fields.Boolean()  # technical field, not displayed
     autoliq_manual_done = fields.Boolean()  # technical field, not displayed
 
@@ -1476,6 +1482,7 @@ class L10nFrAccountVatReturn(models.Model):
             journal_type = "purchase"
             vat_sign = -1
             account_type = "liability_payable"
+            vat_account_type = "asset_current"
             common_move_domain += [
                 ("move_type", "in", ("in_invoice", "in_refund")),
                 ("fiscal_position_fr_vat_type", "=", "france_vendor_vat_on_payment"),
@@ -1484,6 +1491,7 @@ class L10nFrAccountVatReturn(models.Model):
             journal_type = "sale"
             vat_sign = 1
             account_type = "asset_receivable"
+            vat_account_type = "liability_current"
             common_move_domain += [
                 ("out_vat_on_payment", "=", True),
                 ("move_type", "in", ("out_invoice", "out_refund")),
@@ -1496,6 +1504,9 @@ class L10nFrAccountVatReturn(models.Model):
         # The goal of this method is to "remove" on_payment invoices that were unpaid
         # on self.end_date
         # Several cases :
+        # 0) Manual lines. Designed to handle the first months of Odoo accounting
+        # when we don't have any history of invoices in Odoo and we only imported the
+        # start balance of accounts
         # 1) Unpaid invoices today:
         # if they are unpaid today, they were unpaid on end_date -> easy
         # 2) Partially paid invoices today:
@@ -1507,6 +1518,25 @@ class L10nFrAccountVatReturn(models.Model):
         # Volume is high, so it would be too lengthy to analyse all of them
         # => to detect those, we look at move lines with a full reconcile created
         # after end_date
+
+        # Case 0. Manual VAT on payment lines
+        for manual_line in self.unpaid_vat_on_payment_manual_line_ids:
+            if manual_line.account_id.account_type == vat_account_type and not speedy[
+                "currency"
+            ].is_zero(manual_line.amount):
+                prefix = _("⚠ Manual line")
+                if manual_line.note:
+                    note = " - ".join([prefix, manual_line.note])
+                else:
+                    note = prefix
+                account2logs[manual_line.account_id].append(
+                    {
+                        "note": note,
+                        "amount": manual_line.amount * -1,
+                        "account_id": manual_line.account_id.id,
+                        "compute_type": "unpaid_vat_on_payment",
+                    }
+                )
 
         # Case 1. unpaid invoices
         unpaid_invs = speedy["am_obj"].search(
@@ -2465,7 +2495,7 @@ class L10nFrAccountVatReturnLine(models.Model):
 
 class L10nFrAccountVatReturnLineLog(models.Model):
     _name = "l10n.fr.account.vat.return.line.log"
-    _description = "Compute log of VAT Return Line for France (CA3 line)"
+    _description = "Compute log of VAT Return Line for France"
     _order = "parent_id, id"
 
     # for MOA fields only
@@ -2558,7 +2588,7 @@ class L10nFrAccountVatReturnLineLog(models.Model):
 
 class L10nFrAccountVatReturnAutoliqLine(models.Model):
     _name = "l10n.fr.account.vat.return.autoliq.line"
-    _description = "VAT Return Autoliq Line for France (CA3 line)"
+    _description = "VAT Return Autoliq Line for France"
     _order = "parent_id, id"
     _check_company_auto = True
 
@@ -2623,3 +2653,39 @@ class L10nFrAccountVatReturnAutoliqLine(models.Model):
                         ratio=line.product_ratio,
                     )
                 )
+
+
+class L10nFrAccountVatReturnUnpaidVatOnPaymentManualLine(models.Model):
+    _name = "l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line"
+    _description = "VAT Return Unpaid VAT On Payment Manual Line"
+    _order = "parent_id, id"
+    _check_company_auto = True
+    # TODO add option on res.company to hide those lines?
+    # TODO add tests
+
+    parent_id = fields.Many2one(
+        "l10n.fr.account.vat.return", string="VAT Return", ondelete="cascade"
+    )
+    company_id = fields.Many2one(related="parent_id.company_id", store=True)
+    company_currency_id = fields.Many2one(
+        related="parent_id.company_id.currency_id", store=True
+    )
+    # TODO improve filter on account, or check account in _vat_on__payment() method
+    account_id = fields.Many2one(
+        "account.account",
+        string="VAT Account",
+        required=True,
+        domain="[('company_id', '=', company_id), "
+        "('account_type', 'in', ('asset_current', 'liability_current')), "
+        "'|', ('code', '=like', '4457%'), ('code', '=like', '4456%')]",
+    )
+    amount = fields.Monetary(currency_field="company_currency_id", required=True)
+    note = fields.Char()
+
+    _sql_constraints = [
+        (
+            "parent_account_uniq",
+            "unique(parent_id, account_id)",
+            "This manual unpaid VAT on payment line already exists.",
+        )
+    ]
