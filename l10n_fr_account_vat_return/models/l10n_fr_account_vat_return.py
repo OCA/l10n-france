@@ -2679,7 +2679,18 @@ class L10nFrAccountVatReturnUnpaidVatOnPaymentManualLine(models.Model):
         "('account_type', 'in', ('asset_current', 'liability_current')), "
         "'|', ('code', '=like', '4457%'), ('code', '=like', '4456%')]",
     )
-    amount = fields.Monetary(currency_field="company_currency_id", required=True)
+    amount = fields.Monetary(
+        string="VAT Amount",
+        currency_field="company_currency_id",
+        required=True,
+        help="Enter the unpaid VAT on payment amount that Odoo cannot compute "
+        "automatically because it is not linked to an invoice in Odoo (but "
+        "related to the starting balance for example). "
+        "This feature is useful in the first months of use of Odoo accounting, "
+        "when there are unpaid VAT on payment invoices in the previous "
+        "fiscal year and the accounting of the previous fiscal year was not "
+        "handled in Odoo.",
+    )
     note = fields.Char()
 
     _sql_constraints = [
