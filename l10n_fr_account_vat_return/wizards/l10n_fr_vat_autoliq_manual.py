@@ -63,5 +63,5 @@ class L10nFrVatAutoliqManualLine(models.TransientModel):
         ],
         string="Product or Service",
     )
-    product_ratio = fields.Float(digits=(16, 2), string="Product Radio (%)")
+    product_ratio = fields.Float(digits=(16, 2), string="Product Ratio (%)")
     autoliq_type = fields.Selection(related="autoliq_line_id.autoliq_type")
