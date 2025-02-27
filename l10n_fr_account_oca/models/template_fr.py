@@ -14,6 +14,7 @@ class AccountChartTemplate(models.AbstractModel):
     @template("fr_oca")
     def _get_fr_oca_template_data(self):
         return {
+            "name": "OCA",
             "code_digits": 6,
             "property_account_receivable_id": "fr_pcg_recv",
             "property_account_payable_id": "fr_pcg_pay",

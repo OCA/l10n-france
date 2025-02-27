@@ -1,4 +1,4 @@
-from .import models
+from . import models
 from odoo.addons.account.models.chart_template import preserve_existing_tags_on_taxes
 
 
