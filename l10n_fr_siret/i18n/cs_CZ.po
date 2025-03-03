@@ -37,7 +37,7 @@ msgstr "Kontakt"
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
-msgid "Duplicate warning: partner"
+msgid "Duplicate warning: partner(s)"
 msgstr ""
 
 #. module: l10n_fr_siret
@@ -54,9 +54,15 @@ msgid "Parent is a Company"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__same_siren_partner_id
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__same_siren_partner_id
-msgid "Partner with same SIREN"
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid "Partners"
+msgstr ""
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__same_siren_partner_ids
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__same_siren_partner_ids
+msgid "Partners with same SIREN"
 msgstr ""
 
 #. module: l10n_fr_siret
@@ -149,7 +155,7 @@ msgstr ""
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
-msgid "has the same <b>SIREN</b>."
+msgid "has/have the same <b>SIREN</b>."
 msgstr ""
 
 #~ msgid "Company Registry"

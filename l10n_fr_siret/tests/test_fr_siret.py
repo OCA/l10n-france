@@ -39,7 +39,7 @@ class TestL10nFrSiret(TransactionCase):
             }
         )
         self.assertEqual(partner1.siret, "55555555600011")
-        self.assertFalse(partner1.same_siren_partner_id)
+        self.assertFalse(partner1.same_siren_partner_ids)
         # Try to update SIRET
         partner1.write({"siret": "81862078300048"})
         partner1.write({"siren": "792377731", "nic": "00023"})
@@ -52,8 +52,8 @@ class TestL10nFrSiret(TransactionCase):
         )
         self.assertEqual(partner2.siren, "555555556")
         self.assertEqual(partner2.nic, "00011")
-        self.assertEqual(partner2.same_siren_partner_id, partner1)
-        self.assertEqual(partner1.same_siren_partner_id, partner2)
+        self.assertEqual(partner2.same_siren_partner_ids, partner1)
+        self.assertEqual(partner1.same_siren_partner_ids, partner2)
         partner3 = self.env["res.partner"].create(
             {
                 "name": "Test SIREN only",
@@ -61,6 +61,8 @@ class TestL10nFrSiret(TransactionCase):
             }
         )
         self.assertEqual(partner3.siret, "555555556*****")
+        self.assertIn(partner1, partner3.same_siren_partner_ids)
+        self.assertIn(partner2, partner3.same_siren_partner_ids)
         partner4 = self.env["res.partner"].create(
             {
                 "name": "Test SIREN only",
@@ -70,6 +72,9 @@ class TestL10nFrSiret(TransactionCase):
         self.assertEqual(partner4.siren, "555555556")
         self.assertFalse(partner4.nic)
         self.assertEqual(partner4.siret, "555555556*****")
+        self.assertIn(partner1, partner4.same_siren_partner_ids)
+        self.assertIn(partner2, partner4.same_siren_partner_ids)
+        self.assertIn(partner3, partner4.same_siren_partner_ids)
 
     def test_wrong_siret(self):
         vals = {"name": "Wrong Akretion France"}
@@ -104,10 +109,10 @@ class TestL10nFrSiret(TransactionCase):
                 "company_id": self.company2_id,
             }
         )
-        self.assertFalse(partner_company1.same_siren_partner_id)
-        self.assertFalse(partner_company2.same_siren_partner_id)
+        self.assertFalse(partner_company1.same_siren_partner_ids)
+        self.assertFalse(partner_company2.same_siren_partner_ids)
         partner_company2.write({"company_id": False})
-        self.assertEqual(partner_company2.same_siren_partner_id, partner_company1)
+        self.assertEqual(partner_company2.same_siren_partner_ids, partner_company1)
 
     def test_change_parent_id(self):
         partner = self.env["res.partner"].create(
