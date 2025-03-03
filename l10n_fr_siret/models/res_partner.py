@@ -47,10 +47,10 @@ class Partner(models.Model):
     parent_is_company = fields.Boolean(
         related="parent_id.is_company", string="Parent is a Company"
     )
-    same_siren_partner_id = fields.Many2one(
+    same_siren_partner_ids = fields.Many2many(
         "res.partner",
-        compute="_compute_same_siren_partner_id",
-        string="Partner with same SIREN",
+        compute="_compute_same_siren_partner_ids",
+        string="Partners with same SIREN",
         compute_sudo=True,
     )
 
@@ -79,10 +79,10 @@ class Partner(models.Model):
                 rec.write({"siren": False, "nic": False})
 
     @api.depends("siren", "company_id")
-    def _compute_same_siren_partner_id(self):
+    def _compute_same_siren_partner_ids(self):
         # Inspired by same_vat_partner_id from 'base' module
         for partner in self:
-            same_siren_partner_id = False
+            same_siren_partner_ids = False
             if partner.siren and not partner.parent_id:
                 domain = [
                     ("siren", "=", partner.siren),
@@ -98,10 +98,10 @@ class Partner(models.Model):
                 partner_id = partner._origin.id
                 if partner_id:
                     domain.append(("id", "!=", partner_id))
-                same_siren_partner_id = (
-                    self.with_context(active_test=False).search(domain, limit=1)
-                ).id or False
-            partner.same_siren_partner_id = same_siren_partner_id
+                same_siren_partner_ids = (
+                    self.with_context(active_test=False).search(domain)
+                ).ids or False
+            partner.same_siren_partner_ids = same_siren_partner_ids
 
     @api.constrains("siren", "nic")
     def _check_siret(self):
@@ -158,3 +158,21 @@ class Partner(models.Model):
         res = super()._address_fields()
         res.append("nic")
         return res
+
+    def action_open_business_doc(self):
+        """Method called when you click on the link in the duplicate warning banner"""
+        # WARNING: the exact same method is provided by the modules
+        # partner_mobile_duplicate_warn and partner_email_duplicate_warn.
+        # Let's hope that in future versions of Odoo this method will be present
+        # in the "base" module and we'll remove that code!
+        self.ensure_one()
+        action = {
+            "name": _("Partners"),
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "views": [(False, "form")],
+            "res_model": self._name,
+            "res_id": self.id,
+            "target": "current",
+        }
+        return action
