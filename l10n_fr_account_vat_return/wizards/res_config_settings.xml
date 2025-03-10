@@ -42,6 +42,14 @@
                             <label for="fr_vat_journal_id" class="col-md-3" />
                             <field name="fr_vat_journal_id" />
                         </div>
+                        <div class="row" id="fr_vat_expense_account_id">
+                            <label for="fr_vat_expense_account_id" class="col-md-3" />
+                            <field name="fr_vat_expense_account_id" />
+                        </div>
+                        <div class="row" id="fr_vat_income_account_id">
+                            <label for="fr_vat_income_account_id" class="col-md-3" />
+                            <field name="fr_vat_income_account_id" />
+                        </div>
                         <div
                                 class="row"
                                 id="fr_vat_expense_analytic_account_id"
