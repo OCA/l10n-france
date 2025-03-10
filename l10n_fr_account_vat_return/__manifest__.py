@@ -4,7 +4,7 @@
 
 {
     "name": "France VAT Return",
-    "version": "14.0.8.0.0",
+    "version": "14.0.9.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "summary": "VAT return for France: CA3, 3310-A, 3519",
