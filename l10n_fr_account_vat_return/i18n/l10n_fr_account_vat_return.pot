@@ -130,6 +130,30 @@ msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_expense_account_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_expense_account_id
+msgid "Account for Expense Adjustment"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_income_account_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_income_account_id
+msgid "Account for Income Adjustment"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Account for expense adjustment is not set on company '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Account for income adjustment is not set on company '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Account is missing on manual line '%s'."
@@ -1615,12 +1639,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
-msgid "The box '%s' must have a code."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
-#, python-format
 msgid "The box '%s' must have an EDI code."
 msgstr ""
 
@@ -1759,14 +1777,6 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"There are %(count)d accounts %(account_code)s %(account_name)s in the chart "
-"of account of company '%(company)s'. This scenario is not supported."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
 "There are no regular sale taxes with UNECE Tax Type set to 'VAT' in company "
 "'%s'."
 msgstr ""
@@ -1792,14 +1802,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_box_unique_page_x_y
 msgid "There is already a box at this position!"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"There is no account %(account_code)s %(account_name)s in the chart of "
-"account of company '%(company)s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
