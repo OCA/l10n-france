@@ -151,6 +151,30 @@ msgid "Account Chart Template"
 msgstr "Modèle de plan comptable"
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_expense_account_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_expense_account_id
+msgid "Account for Expense Adjustment"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_income_account_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_income_account_id
+msgid "Account for Income Adjustment"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Account for expense adjustment is not set on company '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Account for income adjustment is not set on company '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "Account is missing on manual line '%s'."
@@ -1705,12 +1729,6 @@ msgstr "La case '%s' est une case négative mais son type EDI n'est pas 'MOA'."
 #. module: l10n_fr_account_vat_return
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
-msgid "The box '%s' must have a code."
-msgstr "La case '%s' doit avoir un code."
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
-#, python-format
 msgid "The box '%s' must have an EDI code."
 msgstr "La case '%s' doit avoir un code EDI."
 
@@ -1863,16 +1881,6 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"There are %(count)d accounts %(account_code)s %(account_name)s in the chart "
-"of account of company '%(company)s'. This scenario is not supported."
-msgstr ""
-"Il y a %(count)d comptes %(account_code)s %(account_name)s dans le plan "
-"comptable de la société '%(company)s'. Ce scénario n'est pas supporté."
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
 "There are no regular sale taxes with UNECE Tax Type set to 'VAT' in company "
 "'%s'."
 msgstr ""
@@ -1907,16 +1915,6 @@ msgstr ""
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_box_unique_page_x_y
 msgid "There is already a box at this position!"
 msgstr "Il y a déjà une case à cette position !"
-
-#. module: l10n_fr_account_vat_return
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"There is no account %(account_code)s %(account_name)s in the chart of "
-"account of company '%(company)s'."
-msgstr ""
-"Il n'y a pas de compte %(account_code)s %(account_name)s dans le plan "
-"comptable de la société '%(company)s'."
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
@@ -2224,6 +2222,26 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
 msgid "ignore it/them and continue to process the VAT return."
 msgstr ""
+
+#, python-format
+#~ msgid "The box '%s' must have a code."
+#~ msgstr "La case '%s' doit avoir un code."
+
+#, python-format
+#~ msgid ""
+#~ "There are %(count)d accounts %(account_code)s %(account_name)s in the "
+#~ "chart of account of company '%(company)s'. This scenario is not supported."
+#~ msgstr ""
+#~ "Il y a %(count)d comptes %(account_code)s %(account_name)s dans le plan "
+#~ "comptable de la société '%(company)s'. Ce scénario n'est pas supporté."
+
+#, python-format
+#~ msgid ""
+#~ "There is no account %(account_code)s %(account_name)s in the chart of "
+#~ "account of company '%(company)s'."
+#~ msgstr ""
+#~ "Il n'y a pas de compte %(account_code)s %(account_name)s dans le plan "
+#~ "comptable de la société '%(company)s'."
 
 #, python-format
 #~ msgid ""
