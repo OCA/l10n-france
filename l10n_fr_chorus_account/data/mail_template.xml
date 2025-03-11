@@ -16,21 +16,21 @@
             name="subject"
         >[{{ object.name }}] Action needed to continue to use the Chorus Pro API</field>
         <field name="body_html" type="html">
-        <p>The Odoo server of company <em
-                    t-out="object.name"
-                >My company</em> is configured to access the Chorus Pro API. Accessing the Chorus Pro API requires a technical user login and password. The password of the technical user has an expiry date. The password of the technical user expires on <strong
-                    t-out="format_date(object.fr_chorus_pwd_expiry_date) or ''"
-                >08/08/2021</strong> (in <strong
-                    t-out="ctx.get('pwd_days')"
-                >7</strong> days).</p>
+            <p>The Odoo server of company <em
+                t-out="object.name"
+            >My company</em> is configured to access the Chorus Pro API. Accessing the Chorus Pro API requires a technical user login and password. The password of the technical user has an expiry date. The password of the technical user expires on <strong
+                t-out="format_date(object.fr_chorus_pwd_expiry_date) or ''"
+            >08/08/2021</strong> (in <strong
+                t-out="ctx.get('pwd_days')"
+            >7</strong> days).</p>
 
-<p
+            <p
             >In order to continue to access the Chorus Pro API without problems, you should connect to Chorus Pro, generate a new password for the technical user and copy it in Odoo on the accounting configuration page.</p>
 
-<p>
+            <p>
 -- <br />
 Automatic e-mail sent by Odoo.
 </p>
-</field>
+        </field>
     </record>
 </odoo>
