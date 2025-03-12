@@ -39,7 +39,7 @@ class ChorusPartnerService(models.Model):
         for service in self:
             if service.code == "FACTURES_PUBLIQUES":
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The 'Service des factures publiques' with code "
                         "'FACTURES_PUBLIQUES' is dedicated to invoicing "
                         "between public entities. Don't use it, otherwise "
@@ -62,29 +62,11 @@ class ChorusPartnerService(models.Model):
     ]
 
     @api.model
-    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        if domain is None:
-            domain = []
-        if name and operator == "ilike":
-            ids = list(
-                self._search(
-                    [("code", "=ilike", name)] + domain, limit=limit, order=order
-                )
-            )
-            if ids:
-                return ids
-            ids = list(
-                self._search(
-                    ["|", ("code", "ilike", name), ("name", "ilike", name)] + domain,
-                    limit=limit,
-                    order=order,
-                )
-            )
-            if ids:
-                return ids
-        return super()._name_search(
-            name, domain=domain, operator=operator, limit=limit, order=order
-        )
+    def _search_display_name(self, operator, value):
+        if operator == 'ilike' and value:
+            domain = ["|", ("code", "ilike", value), ("name", "ilike", value)]
+            return domain
+        return super()._search_display_name(operator, value)
 
     def _api_consulter_service(self, api_params, session):
         assert self.chorus_identifier
@@ -116,7 +98,7 @@ class ChorusPartnerService(models.Model):
             if not service.chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _(
+                        self.env._(
                             "Missing Chorus Identifier on service '%(service_name)s' "
                             "of partner '%(partner_name)s'."
                         )
@@ -136,7 +118,7 @@ class ChorusPartnerService(models.Model):
             if not partner.fr_chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Chorus Identifier on partner %s.")
+                        self.env._("Missing Chorus Identifier on partner %s.")
                         % partner.display_name
                     )
                 else:

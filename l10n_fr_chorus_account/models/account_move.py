@@ -93,7 +93,7 @@ class AccountMove(models.Model):
                 for attach in move.chorus_attachment_ids:
                     if len(attach.name) > CHORUS_FILENAME_MAX:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "On Chorus Pro, the attachment filename"
                                 " is %(filename_max)s caracters maximum"
                                 " (extension included)."
@@ -109,7 +109,7 @@ class AccountMove(models.Model):
                     filename, file_extension = os.path.splitext(attach.name)
                     if not file_extension:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "On Chorus Pro, the attachment filenames must "
                                 "have an extension. The filename '%s' doesn't "
                                 "have any extension."
@@ -118,7 +118,7 @@ class AccountMove(models.Model):
                         )
                     if file_extension.upper() not in CHORUS_ALLOWED_FORMATS:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "On Chorus Pro, the allowed formats for the "
                                 "attachments are the following: %(extension_list)s.\n"
                                 "The attachment '%(filename)s'"
@@ -131,13 +131,13 @@ class AccountMove(models.Model):
                         )
                     if not attach.file_size:
                         raise ValidationError(
-                            _("The size of the attachment '%s' is 0.")
+                            self.env._("The size of the attachment '%s' is 0.")
                         )
                     total_size += attach.file_size
                     filesize_mo = round(attach.file_size / (1024 * 1024), 1)
                     if filesize_mo >= CHORUS_FILESIZE_MAX_MO:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "On Chorus Pro, each attachment"
                                 " cannot exceed %(size_max)s Mb. "
                                 "The attachment '%(filename)s' weights %(size)s Mb."
@@ -152,7 +152,7 @@ class AccountMove(models.Model):
                     total_size_mo = round(total_size / (1024 * 1024), 1)
                     if total_size_mo > CHORUS_TOTAL_ATTACHMENTS_MAX_MO:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "On Chorus Pro, an invoice with its attachments "
                                 "cannot exceed %(size_max)s Mb, so we set a limit of "
                                 "%(attach_size_max)s Mb for the attachments. "
@@ -182,7 +182,7 @@ class AccountMove(models.Model):
         if self.move_type == "out_invoice":
             if not self.payment_mode_id:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Missing Payment Mode on invoice '%s'. "
                         "This information is required for Chorus Pro."
                     )
@@ -198,7 +198,7 @@ class AccountMove(models.Model):
                 )
                 if not partner_bank_id:
                     raise UserError(
-                        _(
+                        self.env._(
                             "On invoice '%(invoice)s', the bank account information "
                             "of the issuer (%(company)s) is missing. "
                             "For that, you have two options: either the "
@@ -216,7 +216,7 @@ class AccountMove(models.Model):
                     )
                 if partner_bank_id.acc_type != "iban":
                     raise UserError(
-                        _(
+                        self.env._(
                             "Chorus Pro only accepts IBAN. But the bank account "
                             "'%(acc_number)s' of %(company)s is not an IBAN."
                         )
@@ -228,7 +228,7 @@ class AccountMove(models.Model):
         elif self.move_type == "out_refund":
             if self.payment_mode_id:
                 raise UserError(
-                    _(
+                    self.env._(
                         "The Payment Mode must be empty on %s "
                         "because customer refunds sent to Chorus Pro mustn't "
                         "have a Payment Mode."
@@ -243,7 +243,7 @@ class AccountMove(models.Model):
     def _prepare_chorus_deposer_flux_payload(self):
         if not self[0].company_id.fr_chorus_invoice_format:
             raise UserError(
-                _(
+                self.env._(
                     "The Chorus Invoice Format is not configured on the "
                     "Accounting Configuration page of company '%s'."
                 )
@@ -310,7 +310,7 @@ class AccountMove(models.Model):
             if not inv.chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Chorus Invoice Identifier on invoice '%s'.")
+                        self.env._("Missing Chorus Invoice Identifier on invoice '%s'.")
                         % inv.display_name
                     )
                 logger.warning(

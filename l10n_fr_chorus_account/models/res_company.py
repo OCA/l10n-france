@@ -81,7 +81,7 @@ class ResCompany(models.Model):
         oauth_id = tools.config.get("chorus_api_oauth_id")
         oauth_secret = tools.config.get("chorus_api_oauth_secret")
         if not oauth_id:
-            msg = _(
+            msg = self.env._(
                 "Missing key 'chorus_api_oauth_id' in Odoo server configuration file."
             )
             if raise_if_ko:
@@ -90,7 +90,7 @@ class ResCompany(models.Model):
                 logger.warning(msg)
                 return False
         if not oauth_secret:
-            msg = _(
+            msg = self.env._(
                 "Missing key 'chorus_api_oauth_secret' in Odoo server "
                 "configuration file."
             )
@@ -122,7 +122,7 @@ class ResCompany(models.Model):
             }
         elif raise_if_ko:
             raise UserError(
-                _("Missing Chorus API parameters on the company '%s'.")
+                self.env._("Missing Chorus API parameters on the company '%s'.")
                 % self.display_name
             )
         else:
@@ -134,7 +134,7 @@ class ResCompany(models.Model):
         if self.fr_chorus_pwd_expiry_date and self.fr_chorus_pwd_expiry_date < today:
             if raise_if_ko:
                 raise UserError(
-                    _(
+                    self.env._(
                         "The expiry date of the technical user password for "
                         "Chorus API is %s. You should login to Chorus Pro, "
                         "generate a new password for the technical user and "
@@ -170,7 +170,7 @@ class ResCompany(models.Model):
         except requests.exceptions.ConnectionError as e:
             logger.error("Connection to %s failed. Error: %s", url, e)
             raise UserError(
-                _(
+                self.env._(
                     "Connection to PISTE (URL %(url)s) failed. "
                     "Check the internet connection of the Odoo server.\n\n"
                     "Error details: %(error)s"
@@ -180,7 +180,7 @@ class ResCompany(models.Model):
         except requests.exceptions.RequestException as e:
             logger.error("PISTE request for new token failed. Error: %s", e)
             raise UserError(
-                _(
+                self.env._(
                     "Technical failure when trying to get a new token "
                     "from PISTE.\n\nError details: %s"
                 )
@@ -191,7 +191,7 @@ class ResCompany(models.Model):
         except Exception:
             logger.error("JSON decode failed. HTTP error code: %s." % r.status_code)
             raise UserError(
-                _(
+                self.env._(
                     "Error in the request to get a new token via PISTE. "
                     "HTTP error code: %s."
                 )
@@ -206,7 +206,7 @@ class ResCompany(models.Model):
                 token.get("error_description"),
             )
             raise UserError(
-                _(
+                self.env._(
                     "Error in the request to get a new token via PISTE.\n\n"
                     "HTTP error code: %(status_code)s. Error type: %(error_type)s. "
                     "Error description: %(error_description)s."
@@ -276,7 +276,7 @@ class ResCompany(models.Model):
         except requests.exceptions.ConnectionError as e:
             logger.error("Connection to %s failed. Error: %s", url, e)
             raise UserError(
-                _(
+                self.env._(
                     "Connection to Chorus API (URL %(url)s) failed. "
                     "Check the Internet connection of the Odoo server.\n\n"
                     "Error details: %(error)s"
@@ -286,7 +286,7 @@ class ResCompany(models.Model):
         except requests.exceptions.RequestException as e:
             logger.error("Chorus POST request failed. Error: %s", e)
             raise UserError(
-                _(
+                self.env._(
                     "Technical failure when trying to connect to Chorus API.\n\n"
                     "Error details: %s"
                 )
@@ -300,7 +300,7 @@ class ResCompany(models.Model):
                 r.text,
             )
             raise UserError(
-                _(
+                self.env._(
                     "Wrong request on %(url)s. HTTP error code received from "
                     "Chorus: %(status_code)s."
                 )
@@ -370,13 +370,13 @@ class ResCompany(models.Model):
         assert source_object
         obj_display_name = source_object.display_name
         if source_object._name == "sale.order":
-            partner_field = _("Invoice Address")
+            partner_field = self.env._("Invoice Address")
         else:
-            partner_field = _("Customer")
+            partner_field = self.env._("Customer")
         company_partner = self.partner_id
         if not company_partner.siren or not company_partner.nic:
             raise UserError(
-                _(
+                self.env._(
                     "Missing SIRET on partner '%(partner)s'"
                     " linked to company '%(company)s'."
                 )
@@ -388,7 +388,7 @@ class ResCompany(models.Model):
         cpartner = invoice_partner.commercial_partner_id
         if not cpartner.siren or not cpartner.nic:
             raise UserError(
-                _(
+                self.env._(
                     "Missing SIRET on partner '%s'. "
                     "This information is required for Chorus Pro."
                 )
@@ -399,7 +399,7 @@ class ResCompany(models.Model):
             and not invoice_partner._chorus_service_ok()
         ):
             raise UserError(
-                _(
+                self.env._(
                     "Partner '%(partner)s' is configured as Service required for "
                     "Chorus Pro, so you must select a contact as %(partner_field)s "
                     "for %(obj_display_name)s and this contact should have a name "
@@ -415,7 +415,7 @@ class ResCompany(models.Model):
         if cpartner.fr_chorus_required in ("engagement", "service_and_engagement"):
             if not client_order_ref:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Partner '%(partner)s' is configured "
                         "as Engagement required for "
                         "Chorus Pro, so the 'Customer Reference' "
@@ -434,7 +434,7 @@ class ResCompany(models.Model):
         ):
             if not client_order_ref:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Partner '%(partner)s' "
                         "is linked to Chorus service '%(service)s' "
                         "which is configured with 'Engagement Required', so the "
@@ -452,7 +452,7 @@ class ResCompany(models.Model):
             if not invoice_partner._chorus_service_ok():
                 if not client_order_ref:
                     raise UserError(
-                        _(
+                        self.env._(
                             "Partner '%(partner)s' is configured as "
                             "'Service or Engagement' required for Chorus but, "
                             "on %(obj_display_name)s, the 'Customer Reference' "
@@ -490,7 +490,7 @@ class ResCompany(models.Model):
         client_order_ref = client_order_ref.strip()
         if len(client_order_ref) > 50:
             raise UserError(
-                _(
+                self.env._(
                     "On %(obj_display_name)s, the Customer Reference "
                     "'%(client_order_ref)s' is %(size)s caracters long. "
                     "The maximum is 50. Please update the Customer Reference."
@@ -539,7 +539,7 @@ class ResCompany(models.Model):
                 return True
         elif raise_if_not_found:
             raise UserError(
-                _(
+                self.env._(
                     "%(obj_display_name)s: Customer Reference "
                     "'%(client_order_ref)s' not found in Chorus Pro. "
                     "Please check the Customer Reference carefully."

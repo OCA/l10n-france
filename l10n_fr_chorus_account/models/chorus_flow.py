@@ -138,7 +138,7 @@ class ChorusFlow(models.Model):
                         )
                         if invoice:
                             invoice.message_post(
-                                body=_(
+                                body=self.env._(
                                     "This invoice has been "
                                     "<b>rejected by Chorus Pro</b> "
                                     "for the following reason:<br/><i>%s</i><br/>"
@@ -217,7 +217,7 @@ class ChorusFlow(models.Model):
             if flow.status not in ("IN_INTEGRE", "IN_INTEGRE_PARTIEL"):
                 if raise_if_ko:
                     raise UserError(
-                        _(
+                        self.env._(
                             "On flow %s, the status is not 'INTEGRE' "
                             "nor 'INTEGRE PARTIEL'."
                         )
@@ -233,7 +233,7 @@ class ChorusFlow(models.Model):
             if flow.invoice_identifiers:
                 if raise_if_ko:
                     raise UserError(
-                        _(
+                        self.env._(
                             "The Chorus Invoice Identifiers are already set "
                             "for flow %s."
                         )
