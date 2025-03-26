@@ -114,7 +114,18 @@ class AcquirerPaybox(models.Model):
             PBX_DEVISE=paybox_currency.iso_id,
             PBX_CMD=values["reference"],
             PBX_PORTEUR=values.get("partner_email"),
-            PBX_RETOUR="Mt:M;Ref:R;Auto:A;Response:E;Garanti:G;Date:W;NumPBX:S;KEY:K",
+            PBX_RETOUR="""
+            Mt:M;
+            Ref:R;
+            Auto:A;
+            Response:E;
+            Garanti:G;
+            Date:W;
+            NumPBX:S;
+            TypeCarte:C;
+            TypePayment:P;
+            KEY:K
+            """,
             PBX_HASH="SHA512",
             PBX_TIME=urllib.parse.quote(date_hmac.isoformat()),
             PBX_EFFECTUE=urls.url_join(base_url, PayBoxController._return_url),
@@ -157,6 +168,9 @@ class TxPaybox(models.Model):
     _paybox_refused_tx_status = ["001"]
     _paybox_error_retry_tx_status = ["00001", "00003"]
     _paybox_payment_already_done_tx_status = ["00015"]
+
+    pbx_type_carte = fields.Char(string="Type carte")
+    pbx_type_payment = fields.Char(string="Type payment")
 
     @api.model
     def _paybox_form_get_tx_from_data(self, data):
@@ -219,6 +233,8 @@ class TxPaybox(models.Model):
         data = {
             "acquirer_reference": data.get("NumPBX"),
             "date": date,
+            "pbx_type_carte": data.get("TypeCarte"),
+            "pbx_type_payment": data.get("TypePayment"),
         }
 
         # TODO: add html_3ds status from authentification param
@@ -233,7 +249,9 @@ class TxPaybox(models.Model):
             self.execute_callback()
             res = True
         elif status[0:2] in self._paybox_refused_tx_status:
-            msg = f"ref: {self.reference}, got refused response [{status}], set as error."
+            msg = (
+                f"ref: {self.reference}, got refused response [{status}], set as error."
+            )
             data.update(state_message=msg)
             self.write(data)
             self._set_transaction_error(msg)
