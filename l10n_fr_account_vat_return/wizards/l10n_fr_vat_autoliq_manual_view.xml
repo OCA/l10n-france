@@ -13,7 +13,7 @@
                     <div
                     name="msg"
                     colspan="2"
-                >Odoo could not automatically compute the distribution between product and services on the journal items below that have a VAT autoliquidation account. Please indicate manually for each journal item below if the autoliquidation is related to a product or a service (you can also select 'mix' and indicate a percentage for the product part).
+                >Odoo could not automatically compute the distribution between product and service on the journal items below that have a VAT autoliquidation account. Please indicate manually for each journal item below if the autoliquidation is related to a product or a service (you can also select 'mix' and indicate a percentage for the product part).
                 </div>
                 <group name="lines">
                         <field name="line_ids" colspan="2" nolabel="1">
