@@ -29,7 +29,9 @@ class TestFrIntrastatService(TransactionCase):
                 "vat": "FR86792377731",
             }
         )
-        self.env.company.chart_template_id.try_loading(company=self.company)
+        self.env.ref("l10n_fr.l10n_fr_pcg_chart_template").try_loading(
+            company=self.company
+        )
         self.env.user.write({"company_ids": [(4, self.company.id)]})
         self.env.user.write({"company_id": self.company.id})
         self.fp_eu_b2b = self.env["account.fiscal.position"].create(
