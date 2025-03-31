@@ -133,7 +133,11 @@
                             />
                             <field name="company_id" invisible="1" />
                                                 <field name="bank_account_id" />
-                                                    <field name="move_id" />
+                                                <field name="move_id" />
+                                                <field
+                                name="unpaid_vat_on_payment_manual_line_filter_account_ids"
+                                invisible="1"
+                            />
                                             </group>
                                             </group>
                                             <notebook>

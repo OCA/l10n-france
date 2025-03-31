@@ -262,7 +262,6 @@ class TestFrAccountVatReturn(TransactionCase):
             initial_credit_vat, self.before_start_date
         )
         company._test_create_invoice_data(self.start_date, extracom_refund_ratio=2)
-
         vat_return = self.env["l10n.fr.account.vat.return"].create(
             {
                 "company_id": company.id,

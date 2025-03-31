@@ -162,6 +162,14 @@ class L10nFrAccountVatReturn(models.Model):
     )
     ignore_draft_moves = fields.Boolean()  # technical field, not displayed
     autoliq_manual_done = fields.Boolean()  # technical field, not displayed
+    # technical field used as filter for
+    # l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line, not displayed
+    unpaid_vat_on_payment_manual_line_filter_account_ids = fields.Many2many(
+        "account.account",
+        compute="_compute_unpaid_vat_on_payment_manual_line_filter_account_ids",
+        store=True,
+        precompute=True,
+    )
 
     _sql_constraints = [
         (
@@ -260,6 +268,36 @@ class L10nFrAccountVatReturn(models.Model):
             ):
                 reimbursement_show_button = True
             rec.reimbursement_show_button = reimbursement_show_button
+
+    @api.depends("company_id")
+    def _compute_unpaid_vat_on_payment_manual_line_filter_account_ids(self):
+        tax_base_domain = [
+            ("amount_type", "=", "percent"),
+            ("amount", ">", 0),
+            ("unece_type_code", "=", "VAT"),
+            ("country_id", "=", self.env.ref("base.fr").id),
+            ("fr_vat_autoliquidation", "=", False),
+        ]
+        for rec in self:
+            vat_account_ids = set()
+            if rec.company_id:
+                domain = tax_base_domain + [("company_id", "=", rec.company_id.id)]
+                if rec.company_id.fr_vat_exigibility == "on_invoice":
+                    domain += [("type_tax_use", "=", "purchase")]
+                taxes = self.env["account.tax"].search(domain)
+                rlines = self.env["account.tax.repartition.line"].search(
+                    [
+                        ("invoice_tax_id", "in", taxes.ids),
+                        ("repartition_type", "=", "tax"),
+                        ("factor_percent", ">", 99.9),
+                        ("account_id", "!=", False),
+                    ]
+                )
+                for rline in rlines:
+                    vat_account_ids.add(rline.account_id.id)
+            rec.unpaid_vat_on_payment_manual_line_filter_account_ids = list(
+                vat_account_ids
+            )
 
     @api.onchange("company_id")
     def company_id_change(self):
@@ -1538,6 +1576,10 @@ class L10nFrAccountVatReturn(models.Model):
 
         # Case 0. Manual VAT on payment lines
         for manual_line in self.unpaid_vat_on_payment_manual_line_ids:
+            assert (
+                manual_line.account_id.id
+                in self.unpaid_vat_on_payment_manual_line_filter_account_ids.ids
+            )
             if manual_line.account_id.account_type == vat_account_type and not speedy[
                 "currency"
             ].is_zero(manual_line.amount):
@@ -2680,7 +2722,6 @@ class L10nFrAccountVatReturnUnpaidVatOnPaymentManualLine(models.Model):
     _description = "VAT Return Unpaid VAT On Payment Manual Line"
     _order = "parent_id, id"
     _check_company_auto = True
-    # TODO add option on res.company to hide those lines?
 
     parent_id = fields.Many2one(
         "l10n.fr.account.vat.return", string="VAT Return", ondelete="cascade"
@@ -2689,14 +2730,11 @@ class L10nFrAccountVatReturnUnpaidVatOnPaymentManualLine(models.Model):
     company_currency_id = fields.Many2one(
         related="parent_id.company_id.currency_id", store=True
     )
-    # TODO improve filter on account, or check account in _vat_on__payment() method
     account_id = fields.Many2one(
         "account.account",
         string="VAT Account",
         required=True,
-        domain="[('company_id', '=', company_id), "
-        "('account_type', 'in', ('asset_current', 'liability_current')), "
-        "'|', ('code', '=like', '4457%'), ('code', '=like', '4456%')]",
+        domain="[('id', 'in', parent.unpaid_vat_on_payment_manual_line_filter_account_ids)]",
     )
     amount = fields.Monetary(
         string="VAT Amount",
