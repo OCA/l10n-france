@@ -42,19 +42,19 @@ class ResCompany(models.Model):
     l10n_fr_rounding_difference_loss_account_id = fields.Many2one(
         "account.account",
         check_company=True,
-        string="Account for Expense Adjustment",
+        string="Expense Account for Rounding",
     )
     l10n_fr_rounding_difference_profit_account_id = fields.Many2one(
-        "account.account", check_company=True, string="Account for Income Adjustment"
+        "account.account", check_company=True, string="Income Account for Rounding"
     )
     fr_vat_expense_analytic_distribution = fields.Json(
-        string="Analytic for Expense Adjustment",
+        string="Analytic Expense Account for Rounding",
         compute="_compute_fr_vat_analytic_distribution",
         store=True,
         readonly=False,
     )
     fr_vat_income_analytic_distribution = fields.Json(
-        string="Analytic for Income Adjustment",
+        string="Analytic Income Account for Rounding",
         compute="_compute_fr_vat_analytic_distribution",
         store=True,
         readonly=False,
