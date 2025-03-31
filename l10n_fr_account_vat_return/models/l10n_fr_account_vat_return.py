@@ -2681,7 +2681,6 @@ class L10nFrAccountVatReturnUnpaidVatOnPaymentManualLine(models.Model):
     _order = "parent_id, id"
     _check_company_auto = True
     # TODO add option on res.company to hide those lines?
-    # TODO add tests
 
     parent_id = fields.Many2one(
         "l10n.fr.account.vat.return", string="VAT Return", ondelete="cascade"
