@@ -390,6 +390,7 @@ class L10nFrAccountVatReturn(models.Model):
                 "autoliq_taxedop_type2accounts": {
                     "intracom": speedy["aa_obj"],  # recordset 445201, 445202, 445203
                     "extracom": speedy["aa_obj"],  # recordset 445301, 445302, 445303
+                    "france": speedy["aa_obj"],  # BTP subcontracting
                 },
                 "autoliq_vat_account2rate": {},
                 # {445201: 2000, 445202: 1000, 445203: 55, 445301: 2000,  }
@@ -400,6 +401,11 @@ class L10nFrAccountVatReturn(models.Model):
         autoliq_vat_taxes = speedy["at_obj"].search(
             speedy["purchase_autoliq_vat_tax_domain"]
         )
+        fr_vat_type2autoliq_type = {
+            "intracom_b2b": "intracom",
+            "extracom": "extracom",
+            "france_exo": "france",
+        }
         for tax in autoliq_vat_taxes:
             lines = tax.invoice_repartition_line_ids.filtered(
                 lambda x: x.repartition_type == "tax"
@@ -462,28 +468,30 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                     % tax.display_name
                 )
-            autoliq_type = tax_map.position_id.fr_vat_type
-            if autoliq_type not in ("intracom_b2b", "extracom"):
+            fr_vat_type = tax_map.position_id.fr_vat_type
+            if fr_vat_type not in fr_vat_type2autoliq_type:
                 raise UserError(
                     _(
                         "The autoliquidation tax '%(tax)s' is set on the tax mapping "
                         "of fiscal position '%(fp)s' which is configured with type "
                         "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be configured "
-                        "on fiscal positions with type '%(fp_fr_vat_type_intracom_b2b)s' "
-                        "or '%(fp_fr_vat_type_extracom)s'.",
+                        "on fiscal positions with type '%(fp_fr_vat_type_intracom_b2b)s', "
+                        "'%(fp_fr_vat_type_extracom)s' or '%(fp_fr_vat_type_france_exo)s'.",
                         tax=tax.display_name,
                         fp=tax_map.position_id.display_name,
-                        fp_fr_vat_type=speedy["fp_frvattype2label"][autoliq_type],
+                        fp_fr_vat_type=speedy["fp_frvattype2label"][fr_vat_type],
                         fp_fr_vat_type_intracom_b2b=speedy["fp_frvattype2label"][
                             "intracom_b2b"
                         ],
                         fp_fr_vat_type_extracom=speedy["fp_frvattype2label"][
                             "extracom"
                         ],
+                        fp_fr_vat_type_france_exo=speedy["fp_frvattype2label"][
+                            "france_exo"
+                        ],
                     )
                 )
-            if autoliq_type == "intracom_b2b":
-                autoliq_type = "intracom"
+            autoliq_type = fr_vat_type2autoliq_type[fr_vat_type]
             speedy["autoliq_taxedop_type2accounts"][autoliq_type] |= account
 
     def manual2auto(self):
@@ -709,7 +717,8 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                 else:
                     other_lines = move.line_ids.filtered(
-                        lambda x: x.id != line.id and x.account_id.code.startswith("6")
+                        lambda x: x.id != line.id
+                        and x.account_id.account_type.startswith("expense")
                     )
                 for oline in other_lines:
                     for tax in oline.tax_ids:
@@ -1043,6 +1052,7 @@ class L10nFrAccountVatReturn(models.Model):
             "regular_intracom_service_autoliq": defaultdict(list),
             "extracom_product_autoliq": defaultdict(list),
             "regular_extracom_service_autoliq": defaultdict(list),
+            "regular_france_autoliq": defaultdict(list),
             "regular_france": defaultdict(list),
             # 'regular_france': {2000: {'vat': [logs], 1000: [logs], 550: [], 'base': [logs]}
             # I put regular_france at the end, so that intracom/extracom autoliq
@@ -1051,7 +1061,7 @@ class L10nFrAccountVatReturn(models.Model):
 
         # Compute France and Monaco
         monaco_logs = self._generate_due_vat_france(speedy, type_rate2logs)
-        # Compute Autoliquidation extracom + intracom
+        # Compute Autoliquidation extracom + intracom + france (BTP subcontracting)
         self._generate_due_vat_autoliq(speedy, type_rate2logs)
 
         # CREATE LINES
@@ -1182,8 +1192,7 @@ class L10nFrAccountVatReturn(models.Model):
         return monaco_logs
 
     def _generate_due_vat_autoliq(self, speedy, type_rate2logs):
-        # compute bloc "opérations imposables" / Intracom
-        # Split product/service
+        # Split product/service for intracom and extracom (not for france)
         autoliq_rate2product_ratio = {
             "intracom": {},  # {2000: {'total': 200.0, 'product_subtotal': 112.80}}
             "extracom": {},
@@ -1210,7 +1219,7 @@ class L10nFrAccountVatReturn(models.Model):
         # autoliq_intracom_product_logs = []  # for box 17
         # Compute both block B and block A for autoliq intracom + extracom
         for autoliq_type, accounts in speedy["autoliq_taxedop_type2accounts"].items():
-            # autoliq_type is 'intracom' or 'extracom'
+            # autoliq_type is 'intracom', 'extracom' or 'france'
             for account in accounts:
                 total_vat_amount = (
                     account._fr_vat_get_balance("base_domain_end", speedy) * -1
@@ -1218,6 +1227,14 @@ class L10nFrAccountVatReturn(models.Model):
                 if speedy["currency"].is_zero(total_vat_amount):
                     continue
                 rate_int = speedy["autoliq_vat_account2rate"][account]
+                if autoliq_type == "france":
+                    vat_log = {
+                        "account_id": account.id,
+                        "compute_type": "balance",
+                        "amount": total_vat_amount,
+                    }
+                    type_rate2logs["regular_france_autoliq"][rate_int].append(vat_log)
+                    continue
                 # If you have a small residual amount in intracom/extracom autoliq accounts
                 # and you set it to 0 with a write-off at a date after the VAT period, you
                 # have 0 unreconciled move lines, but total_vat_amount != 0
@@ -1783,12 +1800,15 @@ class L10nFrAccountVatReturn(models.Model):
                 speedy["company_domain"] + [("fr_vat_type", "=", fp_type)]
             )
             fpositions2box_meaning_id[fpositions] = box_meaning_id
+        sale_account_types = ["income", "income_other", "liability_current"]
+        # liability_current added to include
+        # 419100 Clients créditeurs - Avances et acomptes reçus sur commandes
         box_meaning_id2accounts = {}
         for fpositions, box_meaning_id in fpositions2box_meaning_id.items():
             for fposition in fpositions:
                 revenue_account_mappings = fposition.account_ids.filtered(
-                    lambda x: x.account_src_id.code.startswith("7")
-                    and x.account_dest_id.code.startswith("7")
+                    lambda x: x.account_src_id.account_type in sale_account_types
+                    and x.account_dest_id.account_type in sale_account_types
                 )
                 if not revenue_account_mappings:
                     if fposition.fr_vat_type == "france_exo":
@@ -1917,12 +1937,12 @@ class L10nFrAccountVatReturn(models.Model):
             )
         if not self.company_id.l10n_fr_rounding_difference_loss_account_id:
             raise UserError(
-                _("Account for expense adjustment is not set on company '%s'.")
+                _("Expense account for rounding is not set on company '%s'.")
                 % self.company_id.display_name
             )
         if not self.company_id.l10n_fr_rounding_difference_profit_account_id:
             raise UserError(
-                _("Account for income adjustment is not set on company '%s'.")
+                _("Income account for rounding is not set on company '%s'.")
                 % self.company_id.display_name
             )
 
