@@ -9,6 +9,7 @@ from odoo.tests import tagged
 from odoo.addons.payment.tests.common import PaymentAcquirerCommon
 
 
+@tagged("post_install", "-at_install", "-standard", "external")
 class PayboxTest(PaymentAcquirerCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):

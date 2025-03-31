@@ -54,5 +54,24 @@
             </field>
         </record>
 
+        <record id="transaction_payment_form_paybox" model="ir.ui.view">
+            <field name="name">transation.form.paybox</field>
+            <field name="model">payment.transaction</field>
+            <field name="inherit_id" ref="payment.transaction_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form//sheet//group" position="inside">
+                    <group
+                        name="paybox"
+                        string="Payment Paybox"
+                        attrs="{'invisible': [('provider', '!=', 'paybox')]}"
+                    >
+                        <field name="pbx_type_carte" />
+                        <field name="pbx_type_payment" />
+                    </group>
+                </xpath>
+            </field>
+
+        </record>
+
     </data>
 </odoo>
