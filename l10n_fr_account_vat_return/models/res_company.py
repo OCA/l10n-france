@@ -2,10 +2,14 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import logging
+
 from dateutil.relativedelta import relativedelta
 
 from odoo import Command, _, api, fields, models
 from odoo.tools import float_compare
+
+logger = logging.getLogger(__name__)
 
 
 class ResCompany(models.Model):
@@ -34,19 +38,26 @@ class ResCompany(models.Model):
         ondelete="restrict",
         check_company=True,
     )
+    # Field names from l10n_fr_account v18
+    l10n_fr_rounding_difference_loss_account_id = fields.Many2one(
+        "account.account",
+        check_company=True,
+        string="Expense Account for Rounding",
+    )
+    l10n_fr_rounding_difference_profit_account_id = fields.Many2one(
+        "account.account", check_company=True, string="Income Account for Rounding"
+    )
     fr_vat_expense_analytic_distribution = fields.Json(
-        string="Analytic for Expense Adjustment",
+        string="Analytic Expense Account for Rounding",
         compute="_compute_fr_vat_analytic_distribution",
         store=True,
         readonly=False,
-        precompute=True,
     )
     fr_vat_income_analytic_distribution = fields.Json(
-        string="Analytic for Income Adjustment",
+        string="Analytic Income Account for Rounding",
         compute="_compute_fr_vat_analytic_distribution",
         store=True,
         readonly=False,
-        precompute=True,
     )
     analytic_precision = fields.Integer(
         default=lambda self: self.env["decimal.precision"].precision_get(
@@ -87,6 +98,52 @@ class ResCompany(models.Model):
             )
             company.fr_vat_expense_analytic_distribution = expense_distri
             company.fr_vat_income_analytic_distribution = income_distri
+
+    @api.model
+    def _fr_vat_init_adjustment_accounts_all_companies(self):
+        logger.info("Launching FR VAT setup script on all FR companies")
+        companies = self.search(
+            [
+                (
+                    "account_fiscal_country_id.code",
+                    "in",
+                    ("FR", "GP", "MQ", "GF", "RE", "YT"),
+                ),
+                ("l10n_fr_rounding_difference_loss_account_id", "=", False),
+                ("l10n_fr_rounding_difference_profit_account_id", "=", False),
+            ]
+        )
+        for company in companies:
+            company._fr_vat_init_adjustment_accounts()
+
+    def _fr_vat_init_adjustment_accounts(self):
+        self.ensure_one()
+        logger.info(
+            "Configuring FR VAT adjust accounts on company %s", self.display_name
+        )
+        vals = {}
+        exp_account = self.env["account.account"].search(
+            [
+                ("company_id", "=", self.id),
+                ("code", "=like", "658%"),
+                ("account_type", "=", "expense"),
+            ],
+            limit=1,
+        )
+        if exp_account:
+            vals["l10n_fr_rounding_difference_loss_account_id"] = exp_account.id
+        inc_account = self.env["account.account"].search(
+            [
+                ("company_id", "=", self.id),
+                ("code", "=like", "758%"),
+                ("account_type", "=", "income"),
+            ],
+            limit=1,
+        )
+        if inc_account:
+            vals["l10n_fr_rounding_difference_profit_account_id"] = inc_account.id
+        if vals:
+            self.write(vals)
 
     @api.model
     def _test_fr_vat_create_company(
@@ -132,6 +189,7 @@ class ResCompany(models.Model):
             }
         )
         company._setup_l10n_fr_coa_vat_company()
+        company._fr_vat_init_adjustment_accounts()
         return company
 
     def _setup_l10n_fr_coa_vat_company(self):  # noqa: C901
@@ -153,10 +211,93 @@ class ResCompany(models.Model):
         )
         # activate all taxes
         ato.search(cdomain + [("active", "=", False)]).write({"active": True})
+        # France autoliq taxes for BTP subcontracting
+        btp_account_map = {
+            "445401": "TVA due sur achats sous-traitance BTP 20% (autoliquidation)",
+            "445402": "TVA due sur achats sous-traitance BTP 10% (autoliquidation)",
+            "445403": "TVA due sur achats sous-traitance BTP 5,5% (autoliquidation)",
+            "445664": "TVA déductible autoliquidation sous-traitance BTP",
+        }
+        btp_account2id = {}
+        for code, name in btp_account_map.items():
+            account_type = code == "445664" and "asset_current" or "liability_current"
+            btp_account2id[code] = aao.create(
+                {
+                    "name": name,
+                    "company_id": self.id,
+                    "code": code,
+                    "account_type": account_type,
+                    "reconcile": True,
+                }
+            ).id
+        btp_tax2id = {}
+        btp_tax_map = {
+            200: "445401",
+            100: "445402",
+            55: "445403",
+        }
+        for rate_int, account_code in btp_tax_map.items():
+            rate = rate_int / 10
+            if rate == int(rate):
+                rate = int(rate)
+            btp_tax2id[rate_int] = ato.create(
+                {
+                    "type_tax_use": "purchase",
+                    "name": f"TVA sous-traitance BTP {rate}%",
+                    "company_id": self.id,
+                    "amount_type": "percent",
+                    "amount": rate,
+                    "description": f"TVA {rate}% france autoliq",
+                    "country_id": self.env.ref("base.fr").id,
+                    "unece_type_id": self.env.ref("account_tax_unece.tax_type_vat").id,
+                    "invoice_repartition_line_ids": [
+                        Command.create(
+                            {
+                                "repartition_type": "base",
+                            }
+                        ),
+                        Command.create(
+                            {
+                                "factor_percent": 100,
+                                "repartition_type": "tax",
+                                "account_id": btp_account2id["445664"],
+                            }
+                        ),
+                        Command.create(
+                            {
+                                "factor_percent": -100,
+                                "repartition_type": "tax",
+                                "account_id": btp_account2id[account_code],
+                            }
+                        ),
+                    ],
+                    "refund_repartition_line_ids": [
+                        Command.create(
+                            {
+                                "repartition_type": "base",
+                            }
+                        ),
+                        Command.create(
+                            {
+                                "factor_percent": 100,
+                                "repartition_type": "tax",
+                                "account_id": btp_account2id["445664"],
+                            }
+                        ),
+                        Command.create(
+                            {
+                                "factor_percent": -100,
+                                "repartition_type": "tax",
+                                "account_id": btp_account2id[account_code],
+                            }
+                        ),
+                    ],
+                }
+            ).id
         # Create France exo FP
         france_exo_fp = afpo.create(
             {
-                "name": "France exonéré",
+                "name": "France sous-traitance BTP",
                 "fr_vat_type": "france_exo",
                 "auto_apply": False,
                 "company_id": self.id,
@@ -190,15 +331,15 @@ class ResCompany(models.Model):
             )
         # I use extracom FP to get the list of source taxes
         extracom_fp = afpo.search(cdomain + [("fr_vat_type", "=", "extracom")], limit=1)
-        tax_0_xmlid = "l10n_fr_oca.%d_tva_%s_0_exo"
-        sale_tax_dest_id = self.env.ref(tax_0_xmlid % (self.id, "sale")).id
-        purchase_tax_dest_id = self.env.ref(tax_0_xmlid % (self.id, "purchase")).id
+        sale_tax_dest_id = self.env.ref(f"l10n_fr_oca.{self.id}_tva_sale_0_exo").id
 
         for extracom_tax_line in extracom_fp.tax_ids:
             if extracom_tax_line.tax_src_id.type_tax_use == "sale":
                 tax_dest_id = sale_tax_dest_id
             else:
-                tax_dest_id = purchase_tax_dest_id
+                if extracom_tax_line.tax_src_id.amount < 5:  # skip 2.1%
+                    continue
+                tax_dest_id = btp_tax2id[int(extracom_tax_line.tax_src_id.amount * 10)]
             afpto.create(
                 {
                     "position_id": france_exo_fp.id,
@@ -819,6 +960,73 @@ class ResCompany(models.Model):
         # Add a cutoff move in a misc journal, to check that it doesn't impact
         # the amounts for the untaxed operations (E1 Extracom)
         self._test_create_cutoff_move(start_date)
+
+    def _test_create_invoice_btp_subcontracting_data(
+        self,
+        start_date,
+    ):
+        product_dict = self._test_prepare_product_dict()
+        partner_dict = self._test_prepare_partner_dict()
+        self._test_prepare_expense_account_dict()
+        # France exo customer invoice
+        self._test_create_invoice_with_payment(
+            "out_invoice",
+            start_date,
+            partner_dict["france_exo"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 600},
+                {"product_id": product_dict["product"][100].id, "price_unit": 700},
+                {"product_id": product_dict["product"][55].id, "price_unit": 800},
+            ],
+            {},
+        )
+        # France exo customer refund
+        self._test_create_invoice_with_payment(
+            "out_refund",
+            start_date,
+            partner_dict["france_exo"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 60},
+                {"product_id": product_dict["product"][100].id, "price_unit": 70},
+                {"product_id": product_dict["product"][55].id, "price_unit": 80},
+            ],
+            {},
+        )
+        # France exo vendor bill
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["france_exo"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 400},
+                {"product_id": product_dict["product"][100].id, "price_unit": 300},
+                {"product_id": product_dict["product"][55].id, "price_unit": 200},
+            ],
+            {},
+        )
+        self._test_create_invoice_with_payment(
+            "in_invoice",
+            start_date,
+            partner_dict["france_exo"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 200},
+                {"product_id": product_dict["product"][100].id, "price_unit": 100},
+                {"product_id": product_dict["product"][55].id, "price_unit": 50},
+            ],
+            {start_date: "residual"},
+        )
+        # France exo vendor refund
+        self._test_create_invoice_with_payment(
+            "in_refund",
+            start_date,
+            partner_dict["france_exo"],
+            [
+                {"product_id": product_dict["product"][200].id, "price_unit": 40},
+                {"product_id": product_dict["product"][100].id, "price_unit": 30},
+                {"product_id": product_dict["product"][55].id, "price_unit": 20},
+            ],
+            {start_date: "residual"},
+        )
 
     def _test_create_cutoff_move(self, start_date):
         cdomain = [("company_id", "=", self.id)]

@@ -9,4 +9,6 @@ It can also be used for the smaller companies which have a yearly CA12 VAT decla
 This module also supports:
 
 * declaration 3519 for the reimbursement of VAT credit,
-* declaration 3310-A (CA3 Appendix) for the additional taxes.
+* declaration 3310-A (CA3 Appendix) for the additional taxes
+
+For the CA3 Appendix, the taxes that target few large companies such as taxe sur les sociétés d'autoroute, taxe sur les éoliennes en mer, taxe sur le débarquement de passagers en Corse, taxe sur les services numériques i.e. taxe GAFA,... are not maintained any more because it is a waste of time. If you need one of them, you can create the related boxes manually in the configuration menu.

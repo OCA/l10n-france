@@ -133,7 +133,11 @@
                             />
                             <field name="company_id" invisible="1" />
                                                 <field name="bank_account_id" />
-                                                    <field name="move_id" />
+                                                <field name="move_id" />
+                                                <field
+                                name="unpaid_vat_on_payment_manual_line_filter_account_ids"
+                                invisible="1"
+                            />
                                             </group>
                                             </group>
                                             <notebook>
@@ -172,6 +176,17 @@
                         >
                                                         <field
                                 name="autoliq_line_ids"
+                                colspan="2"
+                                nolabel="1"
+                            />
+                                                </page>
+                                                <page
+                            name="unpaid_vat_on_payment_manual_lines"
+                            string="Manual Unpaid VAT on Payment Lines"
+                            attrs="{'invisible': [('state', '!=', 'manual'), ('unpaid_vat_on_payment_manual_line_ids', '=', [])]}"
+                        >
+                                                        <field
+                                name="unpaid_vat_on_payment_manual_line_ids"
                                 colspan="2"
                                 nolabel="1"
                             />
@@ -619,6 +634,68 @@
                                     </field>
                             </record>
 
+                <record
+        id="l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_form"
+        model="ir.ui.view"
+    >
+                        <field
+            name="model"
+        >l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line</field>
+                        <field name="arch" type="xml">
+                                <form>
+                                        <group name="main">
+                                                        <field
+                        name="parent_id"
+                        invisible="not context.get('l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_main_view')"
+                    />
+                                                        <field name="account_id" />
+                                                        <field name="amount" />
+                                                        <field name="note" />
+                                                        <field
+                        name="company_currency_id"
+                        invisible="1"
+                    />
+                                                        <field
+                        name="company_id"
+                        invisible="1"
+                    />
+                                                </group>
+                                            </form>
+                                        </field>
+                                </record>
+
+
+
+                <record
+        id="l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_tree"
+        model="ir.ui.view"
+    >
+                        <field
+            name="model"
+        >l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line</field>
+                        <field name="arch" type="xml">
+                                <tree
+                decoration-danger="amount &lt; 0"
+                editable="bottom"
+            >
+                                                        <field
+                    name="parent_id"
+                    invisible="not context.get('l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_main_view')"
+                />
+                                                        <field name="account_id" />
+                                                        <field name="amount" />
+                                                        <field name="note" />
+                                                        <field
+                    name="company_currency_id"
+                    invisible="1"
+                />
+                                                        <field
+                    name="company_id"
+                    invisible="1"
+                />
+                                                </tree>
+                                        </field>
+                                </record>
 
 
 </odoo>

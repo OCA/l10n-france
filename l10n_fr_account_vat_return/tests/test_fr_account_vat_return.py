@@ -251,6 +251,10 @@ class TestFrAccountVatReturn(TransactionCase):
                 self.assertTrue(line.full_reconcile_id)
 
     def test_vat_return_on_payment(self):
+        aao = self.env["account.account"]
+        lfavruvopmlo = self.env[
+            "l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line"
+        ]
         company = self.on_payment_company
         currency = company.currency_id
         initial_credit_vat = 22
@@ -265,12 +269,31 @@ class TestFrAccountVatReturn(TransactionCase):
                 "vat_periodicity": "1",
             }
         )
+        manual_acc2amt = {
+            "445711": 30,  # 20%
+            "445712": 20,  # 10%
+            "445713": 50,  # 5,5%
+            "445660": 60,
+        }
+        for acc_code, amount in manual_acc2amt.items():
+            account = aao.search(
+                [("code", "=", acc_code), ("company_id", "=", company.id)], limit=1
+            )
+            self.assertTrue(account)
+            lfavruvopmlo.create(
+                {
+                    "parent_id": vat_return.id,
+                    "account_id": account.id,
+                    "amount": amount,
+                }
+            )
+
         self.assertEqual(vat_return.end_date, self.end_date)
         self.assertEqual(vat_return.state, "manual")
         vat_return.manual2auto()
         self.assertEqual(vat_return.state, "auto")
         box_result = {
-            "ca3_ca": 40148,  # A
+            "ca3_ca": 38889,  # A
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_dk": 2810,  # A4 HA extracom products
             "ca3_cc": 2410,  # B2 HA intracom products
@@ -280,12 +303,12 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_de": 1500,  # F8 régularisations
             # => replaces E1 because the extracom amount is negative
             ######
-            "ca3_fp": 488,  # base 20%
-            "ca3_gp": 98,  # montant collecté 20%
-            "ca3_fr": 630,  # base 10%
-            "ca3_gr": 63,  # montant collecté 10%
-            "ca3_fb": 23250,  # base 5,5%
-            "ca3_gb": 1279,  # montant collecté 5,5%
+            "ca3_fp": 338,  # base 20%
+            "ca3_gp": 68,  # montant collecté 20%
+            "ca3_fr": 430,  # base 10%
+            "ca3_gr": 43,  # montant collecté 10%
+            "ca3_fb": 22341,  # base 5,5%
+            "ca3_gb": 1229,  # montant collecté 5,5%
             "ca3_mf": 24300,  # base 2,1%
             "ca3_me": 510,  # montant collecté 2,1%
             "ca3_lb": 200,  # base autoliq import 20%
@@ -296,26 +319,26 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_lj": 28,  # montant autoliq import 5.5%
             "ca3_lk": 2000,  # base autoliq import 2,1%
             "ca3_ll": 42,  # montant autoliq import 2,1%
-            "ca3_gh": 2071,  # Total TVA collectée
+            "ca3_gh": 1971,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
             ######
             "ca3_ha": 1065,  # TVA déduc immo
-            "ca3_hb": 634,  # TVA déduc biens et services
+            "ca3_hb": 574,  # TVA déduc biens et services
             "ca3_hd": initial_credit_vat,  # report crédit TVA
-            "ca3_hg": 1721,  # total VAT deduc
+            "ca3_hg": 1661,  # total VAT deduc
             ######
-            "ca3_ka": 350,  # TVA à payer (ligne 16 - 23)
-            "ca3_nd": 350,  # TVA nette due (ligne TD - X5)
-            "ca3_ke": 350,  # Total à payer
+            "ca3_ka": 310,  # TVA à payer (ligne 16 - 23)
+            "ca3_nd": 310,  # TVA nette due (ligne TD - X5)
+            "ca3_ke": 310,  # Total à payer
         }
         move_result = {
-            "445711": 37.5,
-            "445712": 21,
-            "445713": 1031.25,
+            "445711": 7.5,
+            "445712": 1,
+            "445713": 981.25,
             "445714": 441,
             "445620": -1065,
-            "445660": -94.6,
+            "445660": -34.6,
             "445201": 40,
             "445202": 22,
             "445203": 110,
@@ -339,9 +362,9 @@ class TestFrAccountVatReturn(TransactionCase):
         aao = self.env["account.account"]
         speedy = vat_return._prepare_speedy()
         acc2bal = {
-            "445711": -8.5,  # 20%
-            "445712": -7,  # 10%
-            "445713": -233.75,  # 5,5%
+            "445711": -38.5,  # 20%
+            "445712": -27,  # 10%
+            "445713": -283.75,  # 5,5%
             "445714": -147,  # 2,1 %
             "445715": 0,  # 8,5%
         }
@@ -494,3 +517,80 @@ class TestFrAccountVatReturn(TransactionCase):
         adj_log_line.parent_id.box_id = self.env["l10n.fr.account.vat.box"].search(
             [("meaning_id", "=", "taxed_op_france")]
         )
+
+    def test_vat_return_btp_subcontracting(self):
+        aao = self.env["account.account"]
+        company = self.on_payment_company
+        currency = company.currency_id
+        initial_credit_vat = 22
+        company._test_create_move_init_vat_credit(
+            initial_credit_vat, self.before_start_date
+        )
+        company._test_create_invoice_btp_subcontracting_data(self.start_date)
+
+        vat_return = self.env["l10n.fr.account.vat.return"].create(
+            {
+                "company_id": company.id,
+                "start_date": self.start_date,
+                "vat_periodicity": "1",
+            }
+        )
+
+        self.assertEqual(vat_return.end_date, self.end_date)
+        self.assertEqual(vat_return.state, "manual")
+        vat_return.manual2auto()
+        self.assertEqual(vat_return.state, "auto")
+        box_result = {
+            "ca3_cb": 1160,  # A2 Autres opérations imposables
+            "ca3_db": 1890,  # E2 Autres opérations non imposables
+            ######
+            "ca3_fp": 560,  # base 20%
+            "ca3_gp": 112,  # montant collecté 20%
+            "ca3_fr": 370,  # base 10%
+            "ca3_gr": 37,  # montant collecté 10%
+            "ca3_fb": 230,  # base 5,5%
+            "ca3_gb": 13,  # montant collecté 5,5%
+            "ca3_gh": 162,  # Total TVA collectée
+            ######
+            "ca3_hb": 162,  # TVA déduc biens et services
+            "ca3_hd": initial_credit_vat,  # report crédit TVA
+            "ca3_hg": 162 + initial_credit_vat,  # total VAT deduc
+            ######
+            "ca3_ja": initial_credit_vat,  # Crédit de TVA
+            "ca3_jc": initial_credit_vat,  # Crédit TVA à reporter
+        }
+        move_result = {
+            "445401": 112,
+            "445402": 37,
+            "445403": 12.65,
+            "445664": -161.65,
+        }
+        self._check_vat_return_result(vat_return, box_result, move_result)
+        vat_return.print_ca3()
+        vat_return.auto2sent()
+        self.assertEqual(vat_return.state, "sent")
+        vat_return.sent2posted()
+        self.assertEqual(vat_return.state, "posted")
+        self._check_vat_return_result(vat_return, box_result, move_result)
+        aao = self.env["account.account"]
+        speedy = vat_return._prepare_speedy()
+        acc2bal = {
+            "445711": 0,  # 20%
+            "445712": 0,  # 10%
+            "445713": 0,  # 5,5%
+            "445401": 0,
+            "445402": 0,
+            "445403": 0,
+            "445664": 0,
+        }
+        for acc_code, expected_bal in acc2bal.items():
+            acc = aao.search(
+                [("code", "=", acc_code), ("company_id", "=", company.id)], limit=1
+            )
+            self.assertTrue(acc)
+            real_bal = acc._fr_vat_get_balance("base_domain_end", speedy)
+            self.assertFalse(currency.compare_amounts(real_bal, expected_bal))
+        must_be_reconciled = ["445401", "445402", "445403", "445664"]
+        for line in vat_return.move_id.line_ids:
+            if line.account_id.code in must_be_reconciled:
+                self.assertTrue(line.full_reconcile_id)

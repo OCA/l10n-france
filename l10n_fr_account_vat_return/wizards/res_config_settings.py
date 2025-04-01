@@ -24,6 +24,18 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         domain="[('company_id', '=', company_id), ('type', '=', 'general')]",
     )
+    l10n_fr_rounding_difference_loss_account_id = fields.Many2one(
+        related="company_id.l10n_fr_rounding_difference_loss_account_id",
+        readonly=False,
+        domain="[('company_id', '=', company_id), "
+        "('deprecated', '=', False), ('account_type', '=', 'expense')]",
+    )
+    l10n_fr_rounding_difference_profit_account_id = fields.Many2one(
+        related="company_id.l10n_fr_rounding_difference_profit_account_id",
+        readonly=False,
+        domain="[('company_id', '=', company_id), "
+        "('deprecated', '=', False), ('account_type', '=', 'income')]",
+    )
     fr_vat_expense_analytic_distribution = fields.Json(
         related="company_id.fr_vat_expense_analytic_distribution",
         readonly=False,
