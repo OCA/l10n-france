@@ -162,7 +162,7 @@ class PayFIPTransaction(models.Model):
 
     # Create a cron job to check the status of the transaction every 5 minutes for provider payfip and state not in done
     def _cron_check_payfip_transaction_status(self):
-        transactions = self.search([('state', '!=', 'done'), ('provider_code', '=', 'payfip')])
+        transactions = self.search([('state', 'not in', ['done', 'cancel']), ('provider_code', '=', 'payfip')])
         for transaction in transactions:
             transaction._process_notification_data(transaction.payfip_operation_identifier)
         return True
