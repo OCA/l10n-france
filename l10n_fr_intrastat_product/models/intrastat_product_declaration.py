@@ -56,6 +56,8 @@ class IntrastatProductDeclaration(models.Model):
 
     def _prepare_invoice_domain(self):
         domain = super()._prepare_invoice_domain()
+        if self.company_id.country_id.code != "FR":
+            return domain
         if self.declaration_type == "arrivals":
             for index, entry in enumerate(domain):
                 if entry[0] == "move_type":
@@ -328,6 +330,8 @@ class IntrastatProductDeclaration(models.Model):
     @api.model
     def _xls_template(self):
         res = super()._xls_template()
+        if self.company_id.country_id.code != "FR":
+            return res
         res.update(
             {
                 "fr_regime_id": {
@@ -356,15 +360,17 @@ class IntrastatProductDeclaration(models.Model):
         )
         return res
 
-    @api.model
     def _xls_computation_line_fields(self):
         res = super()._xls_computation_line_fields()
+        if self.company_id.country_id.code != "FR":
+            return res
         res.insert(6, "fr_regime_id")
         return res
 
-    @api.model
     def _xls_declaration_line_fields(self):
         res = super()._xls_declaration_line_fields()
+        if self.company_id.country_id.code != "FR":
+            return res
         res.insert(3, "fr_regime_code")
         return res
 
@@ -385,11 +391,15 @@ class IntrastatProductComputationLine(models.Model):
 
     def _group_line_hashcode_fields(self):
         res = super()._group_line_hashcode_fields()
+        if self.company_id.country_id.code != "FR":
+            return res
         res["fr_regime_id"] = self.fr_regime_id.id or False
         return res
 
     def _prepare_grouped_fields(self, fields_to_sum):
         vals = super()._prepare_grouped_fields(fields_to_sum)
+        if self.company_id.country_id.code != "FR":
+            return vals
         vals["fr_regime_id"] = self.fr_regime_id.id or False
         return vals
 
