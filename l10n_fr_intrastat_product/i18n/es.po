@@ -36,10 +36,10 @@ msgid ""
 "been generated automatically by Odoo.<br><br>\n"
 "\n"
 "<t t-if=\"ctx.get('exception')\">\n"
-"                When trying to generate the lines of the <t t-out="
-"\"dict(object.fields_get('declaration_type', 'selection')['declaration_type']"
-"['selection'])[object.declaration_type]\"></t> EMEBI, the following error "
-"was encountered:<br><br>\n"
+"                When trying to generate the lines of the <t t-"
+"out=\"dict(object.fields_get('declaration_type', 'selection')"
+"['declaration_type']['selection'])[object.declaration_type]\"></t> EMEBI, "
+"the following error was encountered:<br><br>\n"
 "\n"
 "<t t-out=\"ctx.get('error_msg')\"></t><br><br>\n"
 "\n"
@@ -81,8 +81,8 @@ msgstr ""
 "<div estilo=\"margen: 0px; relleno: 0px;\">\n"
 "<p estilo=\"margen: 0px; relleno: 0px; tamaño de fuente: 12px; familia de "
 "fuentes: Arial, Helvetica, sans-serif\">\n"
-"Les recuerdo que nos acercamos a la fecha límite del EMEBI del mes <t t-out="
-"\"object.year_month\"></t>.<br><br>\n"
+"Les recuerdo que nos acercamos a la fecha límite del EMEBI del mes <t t-"
+"out=\"object.year_month\"></t>.<br><br>\n"
 "\n"
 "        Como no había <t t-out=\"dict(object.fields_get('declaration_type', "
 "'selection')['declaration_type']['selection'])[object.declaration_type]\"></"
@@ -160,9 +160,9 @@ msgid ""
 "place on January 1st 2021 and companies in Northern Ireland have a new VAT "
 "number starting with 'XI'."
 msgstr ""
-"Número de IVA incorrecto '%(vat)s' en la línea de declaración %(line_number)"
-"d. El Brexit tuvo lugar el 1 de enero de 2021 y las empresas de Irlanda del "
-"Norte tienen un nuevo número de IVA que empieza por \"XI\"."
+"Número de IVA incorrecto '%(vat)s' en la línea de declaración "
+"%(line_number)d. El Brexit tuvo lugar el 1 de enero de 2021 y las empresas "
+"de Irlanda del Norte tienen un nuevo número de IVA que empieza por \"XI\"."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__code
@@ -232,9 +232,7 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.actions.act_window,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_action
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_declaration
-#: model:ir.ui.menu,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_menu
 msgid "EMEBI"
 msgstr "EMEBI"
 

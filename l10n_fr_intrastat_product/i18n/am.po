@@ -35,10 +35,10 @@ msgid ""
 "been generated automatically by Odoo.<br><br>\n"
 "\n"
 "<t t-if=\"ctx.get('exception')\">\n"
-"                When trying to generate the lines of the <t t-out="
-"\"dict(object.fields_get('declaration_type', 'selection')['declaration_type']"
-"['selection'])[object.declaration_type]\"></t> EMEBI, the following error "
-"was encountered:<br><br>\n"
+"                When trying to generate the lines of the <t t-"
+"out=\"dict(object.fields_get('declaration_type', 'selection')"
+"['declaration_type']['selection'])[object.declaration_type]\"></t> EMEBI, "
+"the following error was encountered:<br><br>\n"
 "\n"
 "<t t-out=\"ctx.get('error_msg')\"></t><br><br>\n"
 "\n"
@@ -171,9 +171,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.actions.act_window,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_action
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_declaration
-#: model:ir.ui.menu,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_menu
 msgid "EMEBI"
 msgstr ""
 
