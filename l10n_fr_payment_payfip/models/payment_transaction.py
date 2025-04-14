@@ -123,12 +123,12 @@ class PayFIPTransaction(models.Model):
             feedback_data)
         refdet = data.get('refdet', False)
         self.provider_reference = refdet
-        if data.get('code'):
-            self._set_pending()
+        # if data.get('code'):
+        #     self._set_pending()
         result = data.get('resultrans', False)
         self.ensure_one()
-        if not result:
-            self._set_pending()
+        # if not result:
+        #     self._set_pending()
 
         payfip_amount = int(data.get('montant', 0)) / 100
         if result in ['P', 'V']:
