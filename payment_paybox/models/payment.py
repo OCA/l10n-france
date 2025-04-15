@@ -114,18 +114,7 @@ class AcquirerPaybox(models.Model):
             PBX_DEVISE=paybox_currency.iso_id,
             PBX_CMD=values["reference"],
             PBX_PORTEUR=values.get("partner_email"),
-            PBX_RETOUR="""
-            Mt:M;
-            Ref:R;
-            Auto:A;
-            Response:E;
-            Garanti:G;
-            Date:W;
-            NumPBX:S;
-            TypeCarte:C;
-            TypePayment:P;
-            KEY:K
-            """,
+            PBX_RETOUR="Mt:M;Ref:R;Auto:A;Response:E;Garanti:G;Date:W;NumPBX:S;TypeCarte:C;TypePayment:P;KEY:K",  # noqa: E501
             PBX_HASH="SHA512",
             PBX_TIME=urllib.parse.quote(date_hmac.isoformat()),
             PBX_EFFECTUE=urls.url_join(base_url, PayBoxController._return_url),
