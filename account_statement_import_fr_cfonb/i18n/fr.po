@@ -6,20 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-06-08 16:08+0000\n"
-"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
+"PO-Revision-Date: 2025-04-16 13:24+0000\n"
+"Last-Translator: Romain BONNINGUE <bonninguer@gmail.com>\n"
 "Language-Team: none\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: account_statement_import_fr_cfonb
 #: model_terms:ir.ui.view,arch_db:account_statement_import_fr_cfonb.account_statement_import_form
 msgid "CFONB (France-specific format)"
-msgstr ""
+msgstr "CFONB (format français)"
 
 #. module: account_statement_import_fr_cfonb
 #: model:ir.model,name:account_statement_import_fr_cfonb.model_account_statement_import
