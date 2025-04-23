@@ -24,16 +24,17 @@ class AccountPaymentLine(models.Model):
 
     def draft2open_payment_line_check(self):
         res = super().draft2open_payment_line_check()
-        eur_currency_id = self.env.ref("base.EUR").id
-        if self.currency_id.id != eur_currency_id:
-            raise UserError(
-                _(
-                    "The currency of payment line '%(payment_line)s' is "
-                    "%(currency)s. To be included in a french bill of exchange, "
-                    "the currency must be EUR.",
-                    payment_line=self.display_name,
-                    currency=self.currency_id.name,
+        if self.order_id.payment_method_code == "fr_lcr":
+            eur_currency_id = self.env.ref("base.EUR").id
+            if self.currency_id.id != eur_currency_id:
+                raise UserError(
+                    _(
+                        "The currency of payment line '%(payment_line)s' is "
+                        "%(currency)s. To be included in a french bill of exchange, "
+                        "the currency must be EUR.",
+                        payment_line=self.display_name,
+                        currency=self.currency_id.name,
+                    )
                 )
-            )
-        self.partner_bank_id._fr_iban_validate()
+            self.partner_bank_id._fr_iban_validate()
         return res
