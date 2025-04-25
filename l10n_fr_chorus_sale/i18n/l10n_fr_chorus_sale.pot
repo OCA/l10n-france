@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_chorus_sale
+#: model:ir.model.fields,field_description:l10n_fr_chorus_sale.field_sale_order__chorus_service_code
+msgid "Chorus Service Code"
+msgstr ""
+
+#. module: l10n_fr_chorus_sale
 #: model:ir.model.fields,field_description:l10n_fr_chorus_sale.field_sale_order__invoice_transmit_method_code
 msgid "Code"
 msgstr ""
