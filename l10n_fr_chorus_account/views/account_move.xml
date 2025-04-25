@@ -13,7 +13,7 @@
             <field name="partner_shipping_id" position="before">
                 <field
                     name="chorus_service_code"
-                    invisible="transmit_method_code != 'fr-chorus'"
+                    invisible="invoice_sending_method != 'fr_chorus'"
                 />
             </field>
             <button name="action_invoice_sent" position="after">
@@ -40,20 +40,16 @@
                                 name="chorus_identifier"
                                 groups="l10n_fr_chorus_account.group_chorus_api_debug"
                             />
-                            <field
-                                name="chorus_status"
-                                invisible="not chorus_identifier"
-                            />
                             <label
-                                for="chorus_status_date"
+                                for="chorus_status"
                                 invisible="not chorus_identifier"
                             />
                             <div
-                                name="chorus_status_date"
+                                name="chorus_status"
                                 invisible="not chorus_identifier"
                                 class="o_row"
                             >
-                                <field name="chorus_status_date" />
+                                <field name="chorus_status" />
                                 <button
                                     name="chorus_update_invoice_status"
                                     type="object"
@@ -64,6 +60,10 @@
                                     icon="fa-refresh"
                                 />
                             </div>
+                            <field
+                                name="chorus_status_date"
+                                invisible="not chorus_identifier"
+                            />
                         </group>
                         <group name="chorus-attachments" string="Attachments">
                             <field
@@ -84,7 +84,11 @@
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
             <field name="status_in_payment" position="after">
-                <field name="chorus_status" optional="hide" column_invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"/>
+                <field
+                    name="chorus_status"
+                    optional="hide"
+                    column_invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+                />
             </field>
             <field name="invoice_date" position="before">
                 <field
