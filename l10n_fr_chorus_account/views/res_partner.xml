@@ -41,15 +41,29 @@
                     <button
                         name="fr_chorus_identifier_and_required_button"
                         type="object"
-                        string="Update Chorus Info and Services"
+                        string="Get Chorus Info and Services"
                         colspan="2"
                         class="btn-primary"
                         groups="l10n_fr_chorus_account.group_chorus_api"
+                        invisible="fr_chorus_required"
                     />
-                    <field name="fr_chorus_required" />
+                    <label for="fr_chorus_required" />
+                    <div name="fr_chorus_required" class="o_row">
+                        <field name="fr_chorus_required" />
+                        <button
+                            name="fr_chorus_identifier_and_required_button"
+                            type="object"
+                            string="Update"
+                            class="btn-link mb-1 px-0"
+                            icon="fa-refresh"
+                            groups="l10n_fr_chorus_account.group_chorus_api"
+                            invisible="not fr_chorus_required"
+                            help="Update Info Required for Chorus and Chorus Services"
+                        />
+                    </div>
                     <field
                         name="fr_chorus_identifier"
-                        groups="l10n_fr_chorus_account.group_chorus_api"
+                        groups="l10n_fr_chorus_account.group_chorus_api_debug"
                     />
                     <button
                         type="action"
