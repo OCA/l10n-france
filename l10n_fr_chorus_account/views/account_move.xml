@@ -10,6 +10,12 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account_invoice_transmit_method.view_move_form" />
         <field name="arch" type="xml">
+            <field name="partner_shipping_id" position="before">
+                <field
+                    name="chorus_service_code"
+                    invisible="transmit_method_code != 'fr-chorus'"
+                />
+            </field>
             <button name="action_invoice_sent" position="after">
                 <button
                     name="%(account_invoice_chorus_send_action)d"
@@ -78,8 +84,19 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
+            <field name="invoice_date" position="before">
+                <field
+                    name="chorus_service_code"
+                    optional="hide"
+                    column_invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+                />
+            </field>
             <field name="payment_state" position="after">
-                <field name="chorus_status" optional="hide" />
+                <field
+                    name="chorus_status"
+                    optional="hide"
+                    column_invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+                />
             </field>
         </field>
     </record>

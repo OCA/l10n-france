@@ -15,6 +15,11 @@ class SaleOrder(models.Model):
     invoice_transmit_method_code = fields.Char(
         related="partner_invoice_id.customer_invoice_transmit_method_id.code",
     )
+    chorus_service_code = fields.Char(
+        related="partner_invoice_id.fr_chorus_service_id.code",
+        string="Chorus Service Code",
+        store=True,
+    )
 
     def action_confirm(self):
         """Check validity of Chorus orders"""
