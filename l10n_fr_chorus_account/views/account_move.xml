@@ -41,10 +41,9 @@
                                 name="chorus_identifier"
                                 groups="l10n_fr_chorus_account.group_chorus_api_debug"
                             />
-                        <field name="chorus_status" />
-                        <label for="chorus_status_date" />
-                        <div name="chorus_status_date" class="o_row">
-                            <field name="chorus_status_date" />
+                        <label for="chorus_status" />
+                        <div name="chorus_status" class="o_row">
+                            <field name="chorus_status" />
                             <button
                                     name="chorus_update_invoice_status"
                                     type="object"
@@ -55,6 +54,7 @@
                                     attrs="{'invisible': [('chorus_identifier', '=', False)]}"
                                 />
                         </div>
+                        <field name="chorus_status_date" />
                     </group>
                 <group name="chorus-attachments" string="Attachments">
                         <field
@@ -74,10 +74,18 @@
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
             <field name="invoice_date" position="before">
-                <field name="chorus_service_code" optional="hide" />
+                <field
+                    name="chorus_service_code"
+                    optional="hide"
+                    invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+                />
             </field>
             <field name="payment_state" position="after">
-                <field name="chorus_status" optional="hide" />
+                <field
+                    name="chorus_status"
+                    optional="hide"
+                    invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+                />
             </field>
         </field>
     </record>
