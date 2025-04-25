@@ -80,6 +80,17 @@
                     />
                 </button>
             </group>
+            <xpath expr="//field[@name='child_ids']/kanban" position="inside">
+                <field name="fr_chorus_service_id" />
+            </xpath>
+            <xpath
+                expr="//field[@name='child_ids']/kanban/templates/t[@t-name='card']//div[@t-if='record.mobile.raw_value']"
+                position="after"
+            >
+                <div t-if="record.fr_chorus_service_id.raw_value">Chorus Service: <field
+                    name="fr_chorus_service_id"
+                /></div>
+            </xpath>
         </field>
     </record>
 </odoo>
