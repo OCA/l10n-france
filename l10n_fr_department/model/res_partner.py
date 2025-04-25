@@ -97,8 +97,12 @@ class ResPartner(models.Model):
         }
         if zipcode in special_zipcodes:
             return special_zipcodes[zipcode]
+        # La Réunion
         if code == "97":
             code = zipcode[0:3]
+            # Le Port
+            if code == "978":
+                code = "974"
         elif code == "20":
             try:
                 zipcode = int(zipcode)
