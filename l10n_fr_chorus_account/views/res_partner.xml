@@ -55,7 +55,7 @@
                         type="action"
                         class="btn-link"
                         name="%(chorus_partner_service_action)d"
-                        context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}"
+                        context="{'search_default_partner_id': id, 'default_partner_id': id}"
                         colspan="2"
                     >
                         <field
