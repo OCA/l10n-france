@@ -180,7 +180,7 @@ class AccountMove(models.Model):
     def _chorus_validation_checks(self):
         self.ensure_one()
         self.company_id._chorus_common_validation_checks(
-            self, self.partner_id, self.ref
+            self, self.partner_id, self.ref, self._get_chorus_service()
         )
         if self.move_type == "out_invoice":
             if not self.preferred_payment_method_line_id:
@@ -240,6 +240,10 @@ class AccountMove(models.Model):
         such as l10n_fr_chorus_facturx"""
         self.ensure_one()
         return False
+
+    def _get_chorus_service(self):
+        self.ensure_one()
+        return self.partner_id.fr_chorus_service_id
 
     def _prepare_chorus_deposer_flux_payload(self):
         if not self[0].company_id.fr_chorus_invoice_format:

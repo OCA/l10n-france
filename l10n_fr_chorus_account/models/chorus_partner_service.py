@@ -25,7 +25,7 @@ class ChorusPartnerService(models.Model):
     )
     code = fields.Char(string="Service Code", required=True)
     active = fields.Boolean(default=True)
-    name = fields.Char(string="Service Name")
+    name = fields.Char(string="Service Name", required=True)
     chorus_identifier = fields.Integer(readonly=True)
     engagement_required = fields.Boolean()
 
@@ -61,6 +61,15 @@ class ChorusPartnerService(models.Model):
             "This Chorus service code already exists for that partner!",
         )
     ]
+
+    def _is_service_ok(self):
+        if not self:
+            return False
+        if not self.active:
+            return False
+        if not self.name:
+            return False
+        return True
 
     def _api_consulter_service(self, api_params, session):
         assert self.chorus_identifier
