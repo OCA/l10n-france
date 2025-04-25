@@ -82,6 +82,16 @@ class AccountMove(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
+    # disallow modification of transmit method on posted invoiced, because it allows
+    # users to switch to Chorus after confirmation, which by-passes the Chorus-specific checks
+    transmit_method_id = fields.Many2one(
+        readonly=True, states={"draft": [("readonly", False)]}
+    )
+    chorus_service_code = fields.Char(
+        related="partner_id.fr_chorus_service_id.code",
+        string="Chorus Service Code",
+        store=True,
+    )
 
     @api.constrains("chorus_attachment_ids", "transmit_method_id")
     def _check_chorus_attachments(self):

@@ -10,14 +10,6 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <field name="ref" position="after">
-                <field
-                    name="fr_chorus_service_id"
-                    attrs="{'invisible': ['|', ('parent_id', '=', False), ('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"
-                    domain="[('partner_id', '=', parent_id)]"
-                    context="{'default_partner_id': parent_id}"
-                />
-            </field>
             <xpath
                 expr="//field[@name='child_ids']/form//label[@for='street']"
                 position="before"
@@ -34,28 +26,64 @@
                 position="inside"
             >
                 <group
+                    name="fr-chorus-child"
+                    string="Chorus Pro"
+                    attrs="{'invisible': ['|', ('customer_invoice_transmit_method_code', '!=', 'fr-chorus'), ('parent_id', '=', False)]}"
+                >
+                    <field
+                        name="fr_chorus_service_id"
+                        attrs="{'invisible': [('type', '!=', 'invoice')]}"
+                        domain="[('partner_id', '=', parent_id)]"
+                        context="{'default_partner_id': parent_id}"
+                    />
+                    <div name="parent_chorus" colspan="2">
+                        <p>Other Chorus parameters are managed on <button
+                                name="open_commercial_entity"
+                                type="object"
+                                string="the parent company"
+                                class="oe_link"
+                            /></p>
+                    </div>
+                </group>
+                <group
                     name="fr-chorus"
                     string="Chorus Pro"
-                    attrs="{'invisible': [('customer_invoice_transmit_method_code', '!=', 'fr-chorus')]}"
+                    attrs="{'invisible': ['|', ('customer_invoice_transmit_method_code', '!=', 'fr-chorus'), ('parent_id', '!=', False)]}"
                 >
                     <button
                         name="fr_chorus_identifier_and_required_button"
                         type="object"
-                        string="Update Chorus Info and Services"
+                        string="Get Chorus Info and Services"
                         colspan="2"
                         class="btn-primary"
                         groups="l10n_fr_chorus_account.group_chorus_api"
+                        attrs="{'invisible': [('fr_chorus_required', '!=', False)]}"
                     />
-                    <field name="fr_chorus_required" />
+
+                    <label for="fr_chorus_required" />
+                    <div name="fr_chorus_required" class="o_row">
+                        <field name="fr_chorus_required" />
+                        <button
+                            name="fr_chorus_identifier_and_required_button"
+                            type="object"
+                            string="Update"
+                            class="btn-link mb-1 px-0"
+                            icon="fa-refresh"
+                            groups="l10n_fr_chorus_account.group_chorus_api"
+                            attrs="{'invisible': [('fr_chorus_required', '=', False)]}"
+                            help="Update Info Required for Chorus and Chorus Services"
+                        />
+                    </div>
                     <field
                         name="fr_chorus_identifier"
-                        groups="l10n_fr_chorus_account.group_chorus_api"
+                        groups="l10n_fr_chorus_account.group_chorus_api_debug"
                     />
                     <button
                         type="action"
                         class="btn-link"
                         name="%(chorus_partner_service_action)d"
                         context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}"
+                        colspan="2"
                     >
                         <field
                             name="fr_chorus_service_count"
@@ -64,6 +92,17 @@
                         />
                     </button>
                 </group>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']/kanban" position="inside">
+                <field name="fr_chorus_service_id" />
+            </xpath>
+            <xpath
+                expr="//field[@name='child_ids']/kanban/templates/t[@t-name='kanban-box']//div[@t-if='record.mobile.raw_value']"
+                position="after"
+            >
+                <div t-if="record.fr_chorus_service_id.raw_value">Chorus Service: <field
+                        name="fr_chorus_service_id"
+                    /></div>
             </xpath>
         </field>
     </record>

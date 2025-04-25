@@ -22,7 +22,8 @@
                         string="Get Chorus Invoice Identifiers"
                         attrs="{'invisible': ['|', ('status', 'not in', ('IN_INTEGRE', 'IN_INTEGRE_PARTIEL')), ('invoice_identifiers', '=', True)]}"
                     />
-                </header>
+            </header>
+            <sheet>
                 <group name="main">
                     <field name="name" />
                     <field name="date" />
@@ -39,9 +40,9 @@
                 <group name="invoices" string="Invoices">
                     <field name="invoice_ids" nolabel="1" colspan="2">
                         <tree
-                            decoration-info="state == 'draft'"
-                            decoration-muted="state == 'cancel'"
-                        >
+                                decoration-info="state == 'draft'"
+                                decoration-muted="state == 'cancel'"
+                            >
                             <field name="partner_id" string="Customer" />
                             <field name="invoice_date" />
                             <field name="name" />
@@ -51,12 +52,16 @@
                             <field name="currency_id" invisible="1" />
                             <field name="state" invisible="1" />
                             <field name="payment_state" />
-                            <field name="chorus_identifier" />
+                            <field
+                                    name="chorus_identifier"
+                                    groups="l10n_fr_chorus_account.group_chorus_api_debug"
+                                />
                             <field name="chorus_status" />
                             <field name="chorus_status_date" />
                         </tree>
                     </field>
                 </group>
+        </sheet>
             </form>
         </field>
     </record>
@@ -92,6 +97,8 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name" />
+                <separator />
+                <filter string="Date" name="date" date="date" />
                 <group string="Group By" name="groupby">
                     <filter
                         name="status_groupby"

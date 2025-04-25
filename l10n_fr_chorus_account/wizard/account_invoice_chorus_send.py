@@ -94,7 +94,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
     invoice_count = fields.Integer(string="Number of Invoices", readonly=True)
     company_id = fields.Many2one("res.company", string="Company", readonly=True)
     chorus_invoice_format = fields.Selection(
-        related="company_id.fr_chorus_invoice_format", readonly=True
+        related="company_id.fr_chorus_invoice_format",
     )
 
     def run(self):
@@ -132,17 +132,17 @@ class AccountInvoiceChorusSend(models.TransientModel):
                     "is_move_sent": True,
                 }
             )
-            action = (
-                self.env.ref("l10n_fr_chorus_account.chorus_flow_action")
-                .sudo()
-                .read()[0]
-            )
-            action.update(
-                {
-                    "view_mode": "form,tree",
-                    "views": False,
-                    "res_id": flow.id,
-                }
-            )
+            action = {}
+            if self._context.get("show_flow"):
+                action = self.env["ir.actions.actions"]._for_xml_id(
+                    "l10n_fr_chorus_account.chorus_flow_action"
+                )
+                action.update(
+                    {
+                        "view_mode": "form,tree",
+                        "views": False,
+                        "res_id": flow.id,
+                    }
+                )
             return action
         return

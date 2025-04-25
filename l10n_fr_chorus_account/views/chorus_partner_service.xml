@@ -21,7 +21,7 @@
                     <field name="active" />
                     <field
                         name="chorus_identifier"
-                        groups="l10n_fr_chorus_account.group_chorus_api"
+                        groups="l10n_fr_chorus_account.group_chorus_api_debug"
                     />
                 </group>
             </form>
@@ -41,7 +41,7 @@
                 <field name="engagement_required" />
                 <field
                     name="chorus_identifier"
-                    groups="l10n_fr_chorus_account.group_chorus_api"
+                    groups="l10n_fr_chorus_account.group_chorus_api_debug"
                 />
             </tree>
         </field>

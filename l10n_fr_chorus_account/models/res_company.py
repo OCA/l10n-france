@@ -303,6 +303,15 @@ class ResCompany(models.Model):
 
         answer = r.json()
         logger.info("Chorus WS answer payload: %s", answer)
+        if (
+            answer.get("parametresRetour")
+            and answer["parametresRetour"].get("pages")
+            and answer["parametresRetour"]["pages"] > 1
+        ):
+            logger.warning(
+                "The Chorus answer payload has several pages. Make sure the code loops "
+                "on the multiple pages or increase the nbResultatsParPage in the query."
+            )
         return (answer, session)
 
     def chorus_expiry_remind_user_list(self):
