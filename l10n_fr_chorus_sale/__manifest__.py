@@ -5,7 +5,7 @@
 {
     "name": "L10n FR Chorus Sale",
     "summary": "Add checks on sale orders for Chorus Pro",
-    "version": "16.0.1.0.0",
+    "version": "16.0.2.0.0",
     "category": "French Localization",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
