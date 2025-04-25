@@ -95,6 +95,11 @@ msgid "Chorus API"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model:res.groups,name:l10n_fr_chorus_account.group_chorus_api_debug
+msgid "Chorus API Debugging"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: model:mail.template,name:l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template
 msgid "Chorus API Expiry Reminder"
 msgstr ""
@@ -199,6 +204,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_partner__fr_chorus_service_id
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_res_users__fr_chorus_service_id
 msgid "Chorus Service"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_bank_statement_line__chorus_service_code
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__chorus_service_code
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__chorus_service_code
+msgid "Chorus Service Code"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
+msgid "Chorus Service:"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -401,6 +418,11 @@ msgstr ""
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__syntax
 msgid "Flow Syntax"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
+msgid "Get Chorus Info and Services"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -747,6 +769,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
+msgid "Other Chorus parameters are managed on"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_partner_service_search
 msgid "Partner"
 msgstr "Partenaire"
@@ -972,8 +999,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_chorus_account
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_bank_statement_line__transmit_method_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_move__transmit_method_id
+#: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_payment__transmit_method_id
+msgid "Transmission Method"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_move_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
-msgid "Update Chorus Info and Services"
+msgid "Update"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -984,6 +1019,11 @@ msgstr ""
 #. module: l10n_fr_chorus_account
 #: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.chorus_flow_form
 msgid "Update Flow Status"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
+msgid "Update Info Required for Chorus and Chorus Services"
 msgstr ""
 
 #. module: l10n_fr_chorus_account
@@ -1015,4 +1055,9 @@ msgstr ""
 #. module: l10n_fr_chorus_account
 #: model:mail.template,subject:l10n_fr_chorus_account.chorus_api_expiry_reminder_mail_template
 msgid "[{{ object.name }}] Action needed to continue to use the Chorus Pro API"
+msgstr ""
+
+#. module: l10n_fr_chorus_account
+#: model_terms:ir.ui.view,arch_db:l10n_fr_chorus_account.view_partner_form
+msgid "the parent company"
 msgstr ""
