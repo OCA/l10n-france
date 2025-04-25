@@ -20,6 +20,16 @@
                     groups="l10n_fr_chorus_account.group_chorus_api"
                 />
             </button>
+            <!-- disallow modification of transmit method on posted invoiced, because it allows
+            users to switch to Chorus after confirmation, which by-passes
+            the Chorus-specific checks -->
+            <field
+                name="transmit_method_id"
+                invisible="move_type not in ('out_invoice', 'out_refund')"
+                position="attributes"
+            >
+                    <attribute name="readonly">state != 'draft'</attribute>
+            </field>
             <notebook position="inside">
                 <page
                     name="fr-chorus"
