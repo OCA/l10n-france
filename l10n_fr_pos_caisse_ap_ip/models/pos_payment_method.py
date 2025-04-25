@@ -124,12 +124,10 @@ class PosPaymentMethod(models.Model):
                 return False
         # CJ identifiant protocole concert : no interest, but required
         # CA POS number
-        # BF partial payments: 0=refused 1=accepted
         msg_dict = {
             "CJ": "012345678901",
             "CA": "01",
             "CE": cur_num,
-            "BF": "0",
         }
         amount_compare = currency.compare_amounts(amount, 0)
         # CD Action type: 0=debit (regular payment) 1=credit (reimbursement)
@@ -261,7 +259,6 @@ class PosPaymentMethod(models.Model):
             "CB": {"fixed_size": False, "required": True, "label": "amount"},
             "CD": {"fixed_size": True, "required": True, "label": "action pay/reimb"},
             "CE": {"fixed_size": True, "required": True, "label": "currency"},
-            "BF": {"fixed_size": True, "required": False, "label": "partial payment"},
         }
         fail_res = {
             "payment_status": "issue",
