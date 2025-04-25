@@ -91,6 +91,11 @@ class AccountMove(models.Model):
         copy=False,
         check_company=True,
     )
+    chorus_service_code = fields.Char(
+        related="partner_id.fr_chorus_service_id.code",
+        string="Chorus Service Code",
+        store=True,
+    )
 
     @api.constrains("chorus_attachment_ids", "invoice_sending_method")
     def _check_chorus_attachments(self):

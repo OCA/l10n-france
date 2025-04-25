@@ -12,7 +12,7 @@
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
     "depends": ["l10n_fr_chorus_account", "sale"],
-    "data": [],
+    "data": ["views/sale_order.xml"],
     "installable": True,
     "auto_install": True,
 }
