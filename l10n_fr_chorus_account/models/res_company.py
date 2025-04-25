@@ -363,7 +363,7 @@ class ResCompany(models.Model):
         self.ensure_one()
 
     def _chorus_common_validation_checks(
-        self, source_object, invoice_partner, client_order_ref
+        self, source_object, invoice_partner, client_order_ref, chorus_service
     ):
         self.ensure_one()
         assert invoice_partner
@@ -374,6 +374,7 @@ class ResCompany(models.Model):
         else:
             partner_field = _("Customer")
         company_partner = self.partner_id
+        chorus_service_ok = chorus_service and chorus_service._is_service_ok()
         if not company_partner.siren or not company_partner.nic:
             raise UserError(
                 _(
@@ -396,7 +397,7 @@ class ResCompany(models.Model):
             )
         if (
             cpartner.fr_chorus_required in ("service", "service_and_engagement")
-            and not invoice_partner._chorus_service_ok()
+            and not chorus_service_ok
         ):
             raise UserError(
                 _(
@@ -428,10 +429,7 @@ class ResCompany(models.Model):
                     }
                 )
             self._chorus_check_commitment_number(source_object, client_order_ref)
-        elif (
-            invoice_partner.fr_chorus_service_id
-            and invoice_partner.fr_chorus_service_id.engagement_required
-        ):
+        elif chorus_service and chorus_service.engagement_required:
             if not client_order_ref:
                 raise UserError(
                     _(
@@ -449,7 +447,7 @@ class ResCompany(models.Model):
                 )
             self._chorus_check_commitment_number(source_object, client_order_ref)
         if cpartner.fr_chorus_required == "service_or_engagement":
-            if not invoice_partner._chorus_service_ok():
+            if not chorus_service_ok:
                 if not client_order_ref:
                     raise UserError(
                         _(

@@ -177,7 +177,7 @@ class AccountMove(models.Model):
     def _chorus_validation_checks(self):
         self.ensure_one()
         self.company_id._chorus_common_validation_checks(
-            self, self.partner_id, self.ref
+            self, self.partner_id, self.ref, self._get_chorus_service()
         )
         if self.move_type == "out_invoice":
             if not self.payment_mode_id:
@@ -239,6 +239,10 @@ class AccountMove(models.Model):
     def chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()
         return False
+
+    def _get_chorus_service(self):
+        self.ensure_one()
+        return self.partner_id.fr_chorus_service_id
 
     def _prepare_chorus_deposer_flux_payload(self):
         if not self[0].company_id.fr_chorus_invoice_format:

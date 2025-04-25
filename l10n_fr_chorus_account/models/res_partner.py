@@ -444,16 +444,3 @@ class ResPartner(models.Model):
             chorus_raise_if_ko=False
         ).fr_chorus_identifier_and_required_button()
         logger.info("End Chorus partner cron")
-
-    def _chorus_service_ok(self):
-        # Method used upon SO or invoice validation
-        self.ensure_one()
-        if (
-            self.parent_id
-            and self.name
-            and self.fr_chorus_service_id
-            and self.fr_chorus_service_id.active
-        ):
-            return True
-        else:
-            return False
