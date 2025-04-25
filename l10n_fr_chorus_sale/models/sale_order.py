@@ -17,8 +17,15 @@ class SaleOrder(models.Model):
             order._chorus_validation_checks()
         return super().action_confirm()
 
+    def _get_chorus_service(self):
+        self.ensure_one()
+        return self.partner_invoice_id.fr_chorus_service_id
+
     def _chorus_validation_checks(self):
         self.ensure_one()
         self.company_id._chorus_common_validation_checks(
-            self, self.partner_invoice_id, self.client_order_ref
+            self,
+            self.partner_invoice_id,
+            self.client_order_ref,
+            self._get_chorus_service(),
         )
