@@ -10,14 +10,6 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <field name="ref" position="after">
-                <field
-                    name="fr_chorus_service_id"
-                    invisible="not parent_id or customer_invoice_transmit_method_code != 'fr-chorus'"
-                    domain="[('partner_id', '=', parent_id)]"
-                    context="{'default_partner_id': parent_id}"
-                />
-            </field>
             <xpath
                 expr="//field[@name='child_ids']/form//label[@for='street']"
                 position="before"
@@ -33,6 +25,26 @@
                 expr="//page[@name='sales_purchases']/group[@name='container_row_2']"
                 position="inside"
             >
+                <group
+                    name="fr-chorus-child"
+                    string="Chorus Pro"
+                    invisible="not parent_id or customer_invoice_transmit_method_code != 'fr-chorus'"
+                >
+                    <field
+                        name="fr_chorus_service_id"
+                        invisible="type != 'invoice'"
+                        domain="[('partner_id', '=', parent_id)]"
+                        context="{'default_partner_id': parent_id}"
+                    />
+                    <div name="parent_chorus" colspan="2">
+                        <p>Other Chorus parameters are managed on <button
+                                name="open_commercial_entity"
+                                type="object"
+                                string="the parent company"
+                                class="oe_link"
+                            /></p>
+                    </div>
+                </group>
                 <group
                     name="fr-chorus"
                     string="Chorus Pro"
