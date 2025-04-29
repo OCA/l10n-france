@@ -80,6 +80,11 @@ class AccountMove(models.Model):
         string="Chorus Attachments",
         copy=False,
     )
+    chorus_service_code = fields.Char(
+        related="partner_id.fr_chorus_service_id.code",
+        string="Chorus Service Code",
+        store=True,
+    )
 
     @api.constrains("chorus_attachment_ids", "transmit_method_id")
     def _check_chorus_attachments(self):
@@ -177,7 +182,7 @@ class AccountMove(models.Model):
     def _chorus_validation_checks(self):
         self.ensure_one()
         self.company_id._chorus_common_validation_checks(
-            self, self.partner_id, self.ref
+            self, self.partner_id, self.ref, self._get_chorus_service()
         )
         if self.move_type == "out_invoice":
             if not self.payment_mode_id:
@@ -239,6 +244,10 @@ class AccountMove(models.Model):
     def chorus_get_invoice(self, chorus_invoice_format):
         self.ensure_one()
         return False
+
+    def _get_chorus_service(self):
+        self.ensure_one()
+        return self.partner_id.fr_chorus_service_id
 
     def _prepare_chorus_deposer_flux_payload(self):
         if not self[0].company_id.fr_chorus_invoice_format:

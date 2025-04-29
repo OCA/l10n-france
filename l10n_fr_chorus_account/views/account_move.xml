@@ -10,6 +10,12 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account_invoice_transmit_method.view_move_form" />
         <field name="arch" type="xml">
+            <field name="partner_shipping_id" position="before">
+                <field
+                    name="chorus_service_code"
+                    invisible="transmit_method_code != 'fr-chorus'"
+                />
+            </field>
             <button name="action_invoice_sent" position="after">
                 <button
                     name="%(account_invoice_chorus_send_action)d"
@@ -20,6 +26,16 @@
                     groups="l10n_fr_chorus_account.group_chorus_api"
                 />
             </button>
+            <!-- disallow modification of transmit method on posted invoiced, because it allows
+            users to switch to Chorus after confirmation, which by-passes
+            the Chorus-specific checks -->
+            <field
+                name="transmit_method_id"
+                invisible="move_type not in ('out_invoice', 'out_refund')"
+                position="attributes"
+            >
+                    <attribute name="readonly">state != 'draft'</attribute>
+            </field>
             <notebook position="inside">
                 <page
                     name="fr-chorus"
@@ -30,17 +46,25 @@
                 <group name="chorus-tab">
                     <group name="chorus-main">
                         <field name="chorus_flow_id" />
-                        <field name="chorus_identifier" />
-                        <field name="chorus_status" />
-                        <field name="chorus_status_date" />
-                        <button
-                                name="chorus_update_invoice_status"
-                                type="object"
-                                string="Update Chorus Invoice Status"
-                                invisible="chorus_identifier in (False, 0)"
-                                colspan="2"
-                                class="btn-default"
+                        <field name="chorus_identifier" invisible="1" />
+                        <field
+                                name="chorus_identifier"
+                                groups="l10n_fr_chorus_account.group_chorus_api_debug"
                             />
+                        <label for="chorus_status" />
+                        <div name="chorus_status" class="o_col">
+                            <field name="chorus_status" class="oe_inline" />
+                            <button
+                                    name="chorus_update_invoice_status"
+                                    type="object"
+                                    string="Update"
+                                    help="Update Chorus Invoice Status"
+                                    class="btn-link mb-1 px-0"
+                                    icon="fa-refresh"
+                                    invisible="not chorus_identifier"
+                                />
+                        </div>
+                        <field name="chorus_status_date" />
                     </group>
                 <group name="chorus-attachments" string="Attachments">
                         <field
@@ -60,8 +84,19 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
+            <field name="invoice_date" position="before">
+                <field
+                    name="chorus_service_code"
+                    optional="hide"
+                    column_invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+                />
+            </field>
             <field name="payment_state" position="after">
-                <field name="chorus_status" optional="hide" />
+                <field
+                    name="chorus_status"
+                    optional="hide"
+                    column_invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+                />
             </field>
         </field>
     </record>
