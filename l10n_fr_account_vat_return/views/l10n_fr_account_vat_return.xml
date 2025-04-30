@@ -68,6 +68,12 @@
                         confirm="This VAT return has been marked as sent. Are you sure you want to go back to Manual Lines?"
                         states="sent"
                     />
+                                                <button
+                        name="reconcile_account_move_button"
+                        type="object"
+                        states="posted"
+                        string="Reconcile Journal Entry Again"
+                    />
                                                 <field
                         name="state"
                         widget="statusbar"

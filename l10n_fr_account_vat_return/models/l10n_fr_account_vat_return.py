@@ -625,7 +625,7 @@ class L10nFrAccountVatReturn(models.Model):
             )
         if move.state == "draft":
             move.action_post()
-        self._reconcile_account_move(move, speedy)
+        self._reconcile_account_move(speedy)
         if (
             self.company_id.fr_vat_update_lock_dates
             and self.company_id.period_lock_date < self.end_date
@@ -2101,7 +2101,23 @@ class L10nFrAccountVatReturn(models.Model):
         }
         return vals
 
-    def _reconcile_account_move(self, move, speedy):
+    def reconcile_account_move_button(self):
+        self.ensure_one()
+        speedy = self._prepare_speedy()
+        if self.move_id.state != "posted":
+            raise UserError(
+                _(
+                    "The journal entry '%s' is not posted, "
+                    "so it is not possible to reconcile again."
+                )
+                % self.move_id.display_name
+            )
+        self._reconcile_account_move(speedy)
+
+    def _reconcile_account_move(self, speedy):
+        self.ensure_one()
+        move = self.move_id
+        assert move.state == "posted"
         excluded_lines = speedy["log_obj"].search_read(
             [
                 ("parent_parent_id", "=", self.id),
@@ -2124,6 +2140,7 @@ class L10nFrAccountVatReturn(models.Model):
             ],
             limit=1,
         )
+        success_account_codes = set()
         for line in move.line_ids.filtered(lambda x: x.account_id.reconcile):
             account = line.account_id
             domain = speedy["base_domain_end"] + [
@@ -2139,11 +2156,19 @@ class L10nFrAccountVatReturn(models.Model):
             # when the moves are already reconciled
             if rg_res and speedy["currency"].is_zero(rg_res[0]["balance"] or 0):
                 moves_to_reconcile = speedy["aml_obj"].search(domain)
-                moves_to_reconcile.remove_move_reconcile()
-                moves_to_reconcile.reconcile()
-                logger.info(
-                    "Successful reconciliation in account %s", account.display_name
-                )
+                if moves_to_reconcile:
+                    moves_to_reconcile.remove_move_reconcile()
+                    moves_to_reconcile.reconcile()
+                    logger.info(
+                        "Successful reconciliation in account %s", account.display_name
+                    )
+                    success_account_codes.add(account.code)
+        if success_account_codes:
+            sorted_account_codes = sorted(success_account_codes, key=lambda x: x[0])
+            self.message_post(
+                body=_("Successful reconciliation in accounts %s.")
+                % ", ".join(sorted_account_codes)
+            )
 
     def _create_draft_account_move(self, speedy):
         self.ensure_one()
