@@ -7,9 +7,11 @@ import hashlib
 import hmac
 import logging
 import urllib.parse
+import xml.etree.ElementTree as ET
 from base64 import b64decode
 from datetime import datetime, timezone
 
+import pycountry
 import pytz
 import rsa
 from werkzeug import urls
@@ -88,7 +90,7 @@ class AcquirerPaybox(models.Model):
 
         key = binascii.unhexlify(self.paybox_secret)
 
-        hmac_key = hmac.new(key, signed_str.encode("ascii"), hashlib.sha512)
+        hmac_key = hmac.new(key, signed_str.encode("utf-8"), hashlib.sha512)
 
         return hmac_key.hexdigest()
 
@@ -106,14 +108,51 @@ class AcquirerPaybox(models.Model):
         date_hmac = datetime.now(timezone.utc)
         date_hmac = date_hmac.replace(microsecond=0)
 
+        shopping_cart = ET.Element("shoppingcart")
+        total = ET.SubElement(shopping_cart, "total")
+        totalquantity = ET.SubElement(total, "totalQuantity")
+        totalquantity.text = "1"
+        shoppingcart = (
+            ET.tostring(
+                shopping_cart, encoding="utf-8", method="xml", xml_declaration=True
+            )
+            .replace(b"\n", b"")
+            .decode("utf-8")
+        )
+
+        billing = ET.Element("Billing")
+        address = ET.SubElement(billing, "Address")
+        firstname = ET.SubElement(address, "FirstName")
+        firstname.text = values.get("billing_partner_first_name")
+        lastname = ET.SubElement(address, "LastName")
+        lastname.text = values.get("billing_partner_last_name")
+        address1 = ET.SubElement(address, "Address1")
+        address1.text = values.get("billing_partner_address")
+        zipcode = ET.SubElement(address, "ZipCode")
+        zipcode.text = values.get("billing_partner_zip")
+        city = ET.SubElement(address, "City")
+        city.text = values.get("billing_partner_city")
+        countrycode = ET.SubElement(address, "CountryCode")
+        country = pycountry.countries.get(
+            alpha_2=values["billing_partner_country"].code
+        )
+        countrycode.text = country.numeric
+        billing = (
+            ET.tostring(billing, encoding="utf-8", method="xml", xml_declaration=True)
+            .replace(b"\n", b"")
+            .decode("utf-8"),
+        )
+
         paybox_tx_values = dict(
             PBX_SITE=self.paybox_ept,
             PBX_RANG=self.paybox_rang,
             PBX_IDENTIFIANT=self.paybox_company_code,
             PBX_TOTAL=str(amount),
+            PBX_SHOPPINGCART=shoppingcart,
             PBX_DEVISE=paybox_currency.iso_id,
             PBX_CMD=values["reference"],
             PBX_PORTEUR=values.get("partner_email"),
+            PBX_BILLING=billing,
             PBX_RETOUR="Mt:M;Ref:R;Auto:A;Response:E;Garanti:G;Date:W;NumPBX:S;TypeCarte:C;TypePayment:P;KEY:K",  # noqa: E501
             PBX_HASH="SHA512",
             PBX_TIME=urllib.parse.quote(date_hmac.isoformat()),

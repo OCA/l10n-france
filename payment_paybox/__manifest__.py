@@ -6,7 +6,7 @@
     "category": "Accounting",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-france",
-    "external_dependencies": {"python": ["rsa"]},
+    "external_dependencies": {"python": ["rsa", "pycountry"]},
     "depends": [
         "payment",
     ],

@@ -11,9 +11,15 @@
             <input type="hidden" name="PBX_RANG" t-att-value="PBX_RANG" />
             <input type="hidden" name="PBX_IDENTIFIANT" t-att-value="PBX_IDENTIFIANT" />
             <input type="hidden" name="PBX_TOTAL" t-att-value="PBX_TOTAL" />
+            <input
+                type="hidden"
+                name="PBX_SHOPPINGCART"
+                t-att-value="PBX_SHOPPINGCART"
+            />
             <input type="hidden" name="PBX_DEVISE" t-att-value="PBX_DEVISE" />
             <input type="hidden" name="PBX_CMD" t-att-value="PBX_CMD" />
             <input type="hidden" name="PBX_PORTEUR" t-att-value="PBX_PORTEUR" />
+            <input type="hidden" name="PBX_BILLING" t-att-value="PBX_BILLING" />
             <input type="hidden" name="PBX_RETOUR" t-att-value="PBX_RETOUR" />
             <input type="hidden" name="PBX_HASH" t-att-value="PBX_HASH" />
             <input type="hidden" name="PBX_TIME" t-att-value="PBX_TIME" />
