@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Taxe : TVA sur marge 5,5% TTC - Vente -->
+    <record id="tax_margin_5_5_sale" model="account.tax">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="name">TVA sur marge 5,5% TTC - Vente</field>
+        <field name="amount_type">margin_percentage</field>
+        <field name="amount">5.5</field>
+        <field name="vat_on_margin">True</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include">True</field>
+        <field name="active">True</field>
+        <field name="tax_calculation_method">margin</field>
+        <field name="tax_scope">service</field>
+        <field name="tax_group_id" ref="l10n_fr_vat_on_margin.tax_group_margin_vat"/>
+        <field name="description">TVA sur marge 5,5% TTC</field>
+    </record>
+
+    <!-- Taxe : TVA sur marge 5,5% TTC - Achat -->
+    <record id="tax_margin_5_5_purchase" model="account.tax">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="name">TVA sur marge 5,5% TTC - Achat</field>
+        <field name="amount_type">margin_percentage</field>
+        <field name="amount">5.5</field>
+        <field name="vat_on_margin">True</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="price_include">True</field>
+        <field name="active">True</field>
+        <field name="tax_calculation_method">margin</field>
+        <field name="tax_scope">service</field>
+        <field name="tax_group_id" ref="l10n_fr_vat_on_margin.tax_group_margin_vat"/>
+        <!-- <field name="account_id" ref="l10n_fr_vat_on_margin.account_445665"/> -->
+        <!-- <field name="account_reconcile_id" ref="account_445665"/> -->
+        <field name="description">TVA sur marge 5,5% TTC</field>
+    </record>
+
+    <!-- Taxe : TVA sur marge 10% TTC - Vente -->
+    <record id="tax_margin_10_sale" model="account.tax">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="name">TVA sur marge 10% TTC - Vente</field>
+        <field name="amount_type">margin_percentage</field>
+        <field name="amount">10</field>
+        <field name="vat_on_margin">True</field>
+        <field name="type_tax_use">sale</field>
+        <field name="tax_scope">service</field>
+        <field name="price_include">True</field>
+        <field name="active">True</field>
+        <field name="tax_calculation_method">margin</field>
+        <field name="tax_group_id" ref="l10n_fr_vat_on_margin.tax_group_margin_vat"/>
+        <!-- <field name="account_id" ref="l10n_fr_vat_on_margin.account_445750"/> -->
+        <!-- <field name="account_reconcile_id" ref="account_445750"/> -->
+        <field name="description">TVA sur marge 10% TTC</field>
+    </record>
+
+    <!-- Taxe : TVA sur marge 10% TTC - Achat -->
+    <record id="tax_margin_10_purchase" model="account.tax">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="name">TVA sur marge 10% TTC - Achat</field>
+        <field name="amount_type">margin_percentage</field>
+        <field name="amount">10</field>
+        <field name="vat_on_margin">True</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="price_include">True</field>
+        <field name="active">True</field>
+        <field name="tax_calculation_method">margin</field>
+        <field name="tax_scope">service</field>
+        <field name="tax_group_id" ref="l10n_fr_vat_on_margin.tax_group_margin_vat"/>
+        <!-- <field name="account_id" ref="l10n_fr_vat_on_margin.account_445665"/> -->
+        <!-- <field name="account_reconcile_id" ref="account_445665"/> -->
+        <field name="description">TVA sur marge 10% TTC</field>
+    </record>
+
+    <!-- Taxe : TVA sur marge 20% TTC - Vente -->
+    <record id="tax_margin_20_sale" model="account.tax">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="name">TVA sur marge 20% TTC - Vente</field>
+        <field name="amount_type">margin_percentage</field>
+        <field name="amount">20</field>
+        <field name="vat_on_margin">True</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include">True</field>
+        <field name="active">True</field>
+        <field name="tax_scope">service</field>
+        <field name="tax_calculation_method">margin</field>
+        <field name="tax_group_id" ref="l10n_fr_vat_on_margin.tax_group_margin_vat"/>
+        <!--        <field name="account_id" ref="l10n_fr_vat_on_margin.account_445750"/>-->
+        <!--        <field name="account_reconcile_id" ref="l10n_fr_vat_on_margin.account_445750"/>-->
+        <field name="description">TVA sur marge 20% TTC</field>
+        <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0, 0, {
+                'repartition_type': 'base',
+                'factor_percent': 100,
+                'account_id': ref('l10n_fr_vat_on_margin.account_445750'),
+            }),
+            (0, 0, {
+                'repartition_type': 'tax',
+                'factor_percent': 100,
+                'account_id': ref('l10n_fr_vat_on_margin.account_445750'),
+            })]"/>
+        <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0, 0, {
+                'repartition_type': 'base',
+                'factor_percent': 100,
+                'account_id': ref('l10n_fr_vat_on_margin.account_445750'),
+            }),
+            (0, 0, {
+                'repartition_type': 'tax',
+                'factor_percent': 100,
+                'account_id': ref('l10n_fr_vat_on_margin.account_445750'),
+            })]"/>
+    </record>
+
+    <!-- Taxe : TVA sur marge 20% TTC - Achat -->
+    <record id="tax_margin_20_purchase" model="account.tax">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="name">TVA sur marge 20% TTC - Achat</field>
+        <field name="amount_type">margin_percentage</field>
+        <field name="amount">20</field>
+        <field name="vat_on_margin">True</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="tax_scope">service</field>
+        <field name="price_include">True</field>
+        <field name="active">True</field>
+        <field name="tax_calculation_method">margin</field>
+        <field name="tax_group_id" ref="l10n_fr_vat_on_margin.tax_group_margin_vat"/>
+        <!--        <field name="account_id" ref="l10n_fr_vat_on_margin.account_445665"/>-->
+        <!--        <field name="account_reconcile_id" ref="l10n_fr_vat_on_margin.account_445665"/>-->
+        <field name="description">TVA sur marge 20% TTC</field>
+        <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0, 0, {
+                'repartition_type': 'base',
+                'factor_percent': 100,
+                'account_id': ref('l10n_fr_vat_on_margin.account_445665'),
+            }),
+            (0, 0, {
+                'repartition_type': 'tax',
+                'factor_percent': 100,
+                'account_id': ref('l10n_fr_vat_on_margin.account_445665'),
+            })]"/>
+        <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0, 0, {
+                'repartition_type': 'base',
+                'factor_percent': 100,
+                'account_id': ref('l10n_fr_vat_on_margin.account_445665'),
+            }),
+            (0, 0, {
+                'repartition_type': 'tax',
+                'factor_percent': 100,
+                'account_id': ref('l10n_fr_vat_on_margin.account_445665'),
+            })]"/>
+    </record>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2024 Moka Tourisme (https://www.mokatourisme.fr).
+    @author DUCIEL Romain <romain@moka.cloud>
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_tax_form_view" model="ir.ui.view">
+            <field name="name">account.tax.inherit</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <group name="advanced_booleans" position="inside">
+                    <field name="vat_on_margin"/>
+                </group>
+                <label for="amount" attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}" position="replace">
+                    <label for="amount" attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division', 'margin_percentage'))]}"/>
+                </label>
+                <div attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}" position="replace">
+                    <div attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division', 'margin_percentage'))]}">
+                        <field name="amount" class="oe_inline" nolabel="1"/>
+                        <span class="o_form_label oe_inline" attrs="{'invisible':[('amount_type','=','fixed')]}">%</span>
+                    </div>
+                </div>
+            </field>
+    </record>
+</odoo>

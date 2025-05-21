@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--! Position fiscale pour le module TVA sur marge -->
+    <record id="fiscal_position_margin" model="account.fiscal.position">
+        <field name="name">TVA sur marge</field>
+        <field name="vat_on_margin">True</field>
+    </record>
+
+    <!-- Règles de mappage pour la position fiscale des achats -->
+    <record id="account_map_604000_to_604500" model="account.fiscal.position.account">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="account_src_id" ref="l10n_fr.pcg_604"/>
+        <field name="account_dest_id" ref="account_604500"/>
+    </record>
+
+    <record id="account_map_607000_to_607500" model="account.fiscal.position.account">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="account_src_id" ref="l10n_fr.pcg_607_account"/>
+        <field name="account_dest_id" ref="l10n_fr_vat_on_margin.account_607500"/>
+    </record>
+
+    <!-- Règles de mappage pour la position fiscale des ventes -->
+    <record id="account_map_706000_to_706500" model="account.fiscal.position.account">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="account_src_id" ref="l10n_fr.pcg_706"/>
+        <field name="account_dest_id" ref="account_706500"/>
+    </record>
+
+    <record id="account_map_707000_to_707500" model="account.fiscal.position.account">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="account_src_id" ref="l10n_fr.pcg_707_account"/>
+        <field name="account_dest_id" ref="account_707500"/>
+    </record>
+
+    <!-- Règles de mappage pour la correspondance des taxes-->
+    <record id="tax_map_20_to_20" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_acq_normale"/>
+        <field name="tax_dest_id" ref="tax_margin_20_purchase"/>
+    </record>
+
+    <record id="tax_map_10_to_10" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_acq_intermediaire"/>
+        <field name="tax_dest_id" ref="tax_margin_10_purchase"/>
+    </record>
+
+    <record id="tax_map_5_5_to_5_5" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_acq_reduite"/>
+        <field name="tax_dest_id" ref="tax_margin_5_5_purchase"/>
+    </record>
+
+    <record id="tax_map_20_to_20_services" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_acq_encaissement"/>
+        <field name="tax_dest_id" ref="tax_margin_20_purchase"/>
+    </record>
+
+    <record id="tax_map_10_to_10_services" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_acq_intermediaire_encaissement"/>
+        <field name="tax_dest_id" ref="tax_margin_10_purchase"/>
+    </record>
+
+    <record id="tax_map_5_5_to_5_5_services" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_acq_encaissement_reduite"/>
+        <field name="tax_dest_id" ref="tax_margin_5_5_purchase"/>
+    </record>
+
+
+    <record id="tax_map_20_to_20_sale" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_normale"/>
+        <field name="tax_dest_id" ref="tax_margin_20_sale"/>
+    </record>
+
+    <record id="tax_map_10_to_10_sale" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_intermediaire"/>
+        <field name="tax_dest_id" ref="tax_margin_10_sale"/>
+    </record>
+
+    <record id="tax_map_5_5_to_5_5_sale" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_reduite"/>
+        <field name="tax_dest_id" ref="tax_margin_5_5_sale"/>
+    </record>
+
+    <record id="tax_map_20_to_20_sale_encaissement" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_normale_encaissement"/>
+        <field name="tax_dest_id" ref="tax_margin_20_sale"/>
+    </record>
+
+    <record id="tax_map_10_to_10_sale_encaissement" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_intermediaire_encaissement"/>
+        <field name="tax_dest_id" ref="tax_margin_10_sale"/>
+    </record>
+
+    <record id="tax_map_5_5_to_5_5_sale_encaissement" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fiscal_position_margin"/>
+        <field name="tax_src_id" ref="l10n_fr.tva_reduite_encaissement"/>
+        <field name="tax_dest_id" ref="tax_margin_5_5_sale"/>
+    </record>
+
+
+</odoo>

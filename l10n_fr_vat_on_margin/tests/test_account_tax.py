@@ -1,0 +1,137 @@
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import tagged
+from odoo.exceptions import UserError
+
+from odoo import fields
+from odoo.fields import Command
+from odoo.tests import Form, tagged
+from odoo.tools import float_is_zero
+
+@tagged('post_install', '-at_install')
+class TestAccountTax(AccountTestInvoicingCommon):
+
+    @classmethod
+    def setUpClass(cls, chart_template_ref='l10n_fr.l10n_fr_pcg_chart_template'):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        # Launch test with root user
+        cls.env = cls.env(user=cls.env.ref('base.user_root'))
+
+
+
+    def test_tva_on_margin_service(self):
+
+        seller = self.env['res.partner'].create({
+            'name': 'Seller',
+            'street': 'Seller street',
+            'city': 'Seller city',
+            'zip': 'Seller zip',
+            'country_id': self.env
+            .ref('base.fr').id,
+        })
+
+        '''Test the computation of the VAT on margin for a sale.order.line'''
+        #     Create a product that will be used
+        product = self.env['product.product'].create({
+            'name': 'Test TVA',
+            'type': 'service',
+            'service_to_purchase': True,
+            'vat_on_margin': True,
+            'seller_ids': [(0, 0, {
+                'partner_id': seller.id,
+                'price': 110,
+            })]
+        })
+
+
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.env.ref('base.partner_admin').id,
+            'order_line': [
+                Command.create(
+                    {
+                        'product_id': product.id,
+                        'vendor_id': seller.id,
+                        'product_uom_qty': 1,
+                        'price_unit': 150,
+                        'purchase_price': 110,
+                        'margin': 40,
+                        'tax_id': [(6, 0, self.env.ref('l10n_fr_vat_on_margin.tax_margin_20_sale').ids)],
+                    }
+                )
+            ],
+        })
+
+        sale_order.action_confirm()
+
+        # Check the amount of the tax
+        self.assertEqual(sale_order.amount_tax, 8, 'The tax amount is wrong')
+        self.assertEqual(sale_order.amount_total, 150, 'The total amount is wrong')
+        self.assertEqual(sale_order.amount_untaxed, 142, 'The untaxed amount is wrong')
+
+        purchase_order = self.env['purchase.order'].search([('partner_id', '=', self.env.ref('base.partner_admin').id)], limit=1)
+
+        purchase_order.write({
+            'fiscal_position_id': self.env.ref('l10n_fr_vat_on_margin.fiscal_position_margin_purchase').id
+        })
+
+        self.assertEqual(purchase_order.amount_total, 110, 'The total amount is wrong')
+        self.assertEqual(purchase_order.amount_tax, 8, 'The tax amount is wrong')
+        self.assertEqual(purchase_order.amount_untaxed, 102, 'The untaxed amount is wrong')
+
+
+    def test_tva_on_margin_consu(self):
+
+        seller = self.env['res.partner'].create({
+            'name': 'Seller',
+            'street': 'Seller street',
+            'city': 'Seller city',
+            'zip': 'Seller zip',
+            'country_id': self.env
+            .ref('base.fr').id,
+        })
+
+        product_consu = self.env['product.product'].create({
+            'name': 'Test TVA 2',
+            'type': 'consu',
+            'service_to_purchase': True,
+            'vat_on_margin': True,
+            'seller_ids': [(0, 0, {
+                'partner_id': seller.id,
+                'price': 110,
+            })]
+        })
+
+        sale_order_consu = self.env['sale.order'].create({
+            'partner_id': self.env.ref('base.partner_admin').id,
+            'order_line': [
+                Command.create(
+                    {
+                        'product_id': product_consu.id,
+                        'vendor_id': seller.id,
+                        'product_uom_qty': 1,
+                        'price_unit': 150,
+                        'purchase_price': 110,
+                        'margin': 40,
+                        'tax_id': [(6, 0, self.env.ref('l10n_fr_vat_on_margin.tax_margin_20_sale').ids)],
+                    }
+                )
+            ],
+        })
+
+        sale_order_consu.action_confirm()
+
+        print("sale_order_consu.amount_total", sale_order_consu.amount_total)
+        print("sale_order_consu.amount_tax", sale_order_consu.amount_tax)
+
+        # Check the amount of the tax
+        self.assertEqual(sale_order_consu.amount_tax, 8, 'The tax amount is wrong')
+        self.assertEqual(sale_order_consu.amount_total, 150, 'The total amount is wrong')
+        self.assertEqual(sale_order_consu.amount_untaxed, 142, 'The untaxed amount is wrong')
+
+        account_move = sale_order_consu._create_invoices()
+
+        print("account_move", account_move)
+
+        self.assertEqual(account_move.amount_total, 150, 'The total amount is wrong')
+        self.assertEqual(account_move.amount_tax, 8, 'The tax amount is wrong')
+        self.assertEqual(account_move.amount_untaxed, 142, 'The untaxed amount is wrong')
+        self.assertEqual(account_move.amount_residual, 150, 'The residual amount is wrong')

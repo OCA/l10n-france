@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="report_invoice_document_inherit" model="ir.ui.view">
+        <field name="name">report.invoice.document.vat</field>
+        <field name="inherit_id" ref="account.report_invoice_document"/>
+        <field name="arch" type="xml">
+            <xpath expr="//th[@name='th_subtotal']" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//th[@name='th_taxes']" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//td[hasclass('o_price_total')]" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//td[@name='td_taxes']" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <t t-call="account.document_tax_totals" position="before">
+                <t t-set="vat_on_margin" t-value="o.fiscal_position_id.vat_on_margin"/>
+            </t>
+
+        </field>
+    </record>
+    <record id="document_tax_totals_inherit" model="ir.ui.view">
+        <field name="name">document.tax.totals.vat</field>
+        <field name="inherit_id" ref="account.document_tax_totals"/>
+        <field name="arch" type="xml">
+            <xpath expr='//t[@t-foreach="tax_totals[&#39;subtotals&#39;]"]' position="attributes">
+                <attribute name="t-if">not vat_on_margin</attribute>
+            </xpath>
+            <xpath expr='//t[@t-foreach="tax_totals[&#39;subtotals&#39;]"]' position="inside">
+                <t t-out="vat_on_margin"/>
+            </xpath>
+            <!--            <xpath expr="//t[contains(@t-if, 'formatted_rounding_amount')]" position="attributes">-->
+            <!--                <attribute name="t-if">'formatted_rounding_amount' in tax_totals and tax_totals['rounding_amount'] != 0-->
+            <!--                    or not vat_on_margin-->
+            <!--                </attribute>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+
+</odoo>

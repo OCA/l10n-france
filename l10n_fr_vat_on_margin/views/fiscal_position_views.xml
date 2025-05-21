@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2024 Moka Tourisme (https://www.mokatourisme.fr).
+    @author DUCIEL Romain <romain@moka.cloud>
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_fiscal_position_form_view" model="ir.ui.view">
+        <field name="name">account.fiscal.position.inherit</field>
+        <field name="model">account.fiscal.position</field>
+        <field name="inherit_id" ref="account.view_account_position_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="vat_on_margin"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

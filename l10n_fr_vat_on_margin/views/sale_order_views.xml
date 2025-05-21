@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="sale_margin_sale_order_line_form">
+        <field name="name">sale.order.line.tree.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="." position="inside">
+                <field name="order_concerned_by_margin" invisible="1"/>
+            </xpath>
+            <!--            <xpath expr="//header" position="inside">-->
+            <!--                <button name="action_change_fiscal_position" string="Change Fiscal Position" type="action" class="btn-primary"/>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+
+    <record id="report_saleorder_document_inherit" model="ir.ui.view">
+        <field name="name">report.saleorder.document.vat</field>
+        <field name="inherit_id" ref="sale.report_saleorder_document"/>
+        <field name="arch" type="xml">
+            <xpath expr="//th[@name='th_subtotal']" position="attributes">
+                <attribute name="t-if">not doc.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//th[@name='th_taxes']" position="attributes">
+                <attribute name="t-if">not doc.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//td[hasclass('o_price_total')]" position="attributes">
+                <attribute name="t-if">not doc.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//td[@name='td_taxes']" position="attributes">
+                <attribute name="t-if">not doc.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <t t-call="account.document_tax_totals" position="before">
+                <t t-set="vat_on_margin" t-value="doc.fiscal_position_id.vat_on_margin"/>
+            </t>
+        </field>
+    </record>
+
+    <record id="sale_order_portal_content_inherit" model="ir.ui.view">
+        <field name="name">report.saleorder.portal.content.vat</field>
+        <field name="inherit_id" ref="sale.sale_order_portal_content"/>
+        <field name="arch" type="xml">
+            <th t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"
+                position="attributes">
+                <attribute name="t-if">not sale_order.fiscal_position_id.vat_on_margin</attribute>
+            </th>
+            <xpath expr="//span[@groups='account.group_show_line_subtotals_tax_excluded']/ancestor::th[1]"
+                   position="attributes">
+                <attribute name="t-if">not sale_order.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <td t-if="not line.is_downpayment" class="text-end" position="attributes">
+                <attribute name="t-if">not sale_order.fiscal_position_id.vat_on_margin</attribute>
+            </td>
+            <td t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"
+                position="attributes">
+                <attribute name="t-if">not sale_order.fiscal_position_id.vat_on_margin</attribute>
+            </td>
+            <t t-call="sale.sale_order_portal_content_totals_table" position="before">
+                <t t-set="vat_on_margin" t-value="sale_order.fiscal_position_id.vat_on_margin"/>
+            </t>
+        </field>
+    </record>
+
+</odoo>

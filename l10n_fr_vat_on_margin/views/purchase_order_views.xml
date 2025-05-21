@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_purchaseorder_document_inherit" model="ir.ui.view">
+        <field name="name">report.purchaseorder.document.vat</field>
+        <field name="inherit_id" ref="purchase.report_purchaseorder_document"/>
+        <field name="arch" type="xml">
+            <xpath expr="//th[@name='th_amount']" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//th[@name='th_taxes']" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//span[@t-field='line.price_subtotal']/ancestor::td[1]" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//span[@t-field='line.price_subtotal']//ancestor::td" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <xpath expr="//td[@name='td_taxes']" position="attributes">
+                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+            </xpath>
+            <t t-call="account.document_tax_totals" position="before">
+                <t t-set="vat_on_margin" t-value="o.fiscal_position_id.vat_on_margin"/>
+            </t>
+        </field>
+    </record>
+</odoo>
