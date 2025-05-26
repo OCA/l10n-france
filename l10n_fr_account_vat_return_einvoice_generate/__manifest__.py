@@ -7,7 +7,8 @@
     "version": "16.0.1.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
-    "summary": "Glue module between account_einvoice_generate and l10n_fr_account_vat_return",
+    "summary": "Glue module between account_einvoice_generate and "
+    "l10n_fr_account_vat_return",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
