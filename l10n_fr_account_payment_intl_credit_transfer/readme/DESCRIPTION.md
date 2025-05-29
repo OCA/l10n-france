@@ -1,5 +1,5 @@
 This module adds the regulatory reporting codes used in France for the
-generation of ISO 20022/PAIN credit transfer and direct debit files.
+generation of non-SEPA ISO 20022/PAIN credit transfer files.
 These codes are defined in the [technical note DGS
 n°16-02](https://www.banque-france.fr/system/files/2023-08/banque_de_france_espace_declarants_note_technique_dgs_ndeg_16-02_v1.1.pdf)
 of the [Banque de France](https://www.banque-france.fr/).
