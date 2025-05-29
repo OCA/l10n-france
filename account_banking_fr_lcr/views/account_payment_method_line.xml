@@ -10,7 +10,7 @@
         <field name="model">account.payment.method.line</field>
         <field
             name="inherit_id"
-            ref="account_payment_order.account_payment_method_line_form"
+            ref="account_payment_batch_oca.account_payment_method_line_form"
         />
         <field name="arch" type="xml">
             <group name="payment_order_options" position="before">
