@@ -4,7 +4,7 @@
 
 
 def lcr_set_unece(env):
-    lcr = env.ref("account_banking_fr_lcr.fr_lcr")
+    lcr = env.ref("account_payment_fr_lcr.fr_lcr")
     if lcr:
         # This module doesn't depend on account_payment_unece
         # so we test the attribute 'unece_id' on the payment method

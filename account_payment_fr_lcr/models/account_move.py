@@ -264,7 +264,7 @@ class AccountMove(models.Model):
         watermark_pdf_reader = PdfReader(packet)
         # read your existing PDF
         with tools.file_open(
-            "account_banking_fr_lcr/reports/lettre_de_change.pdf", "rb"
+            "account_payment_fr_lcr/reports/lettre_de_change.pdf", "rb"
         ) as empty_report_fd:
             empty_report_reader = PdfReader(empty_report_fd)
             final_report_writer = PdfWriter()

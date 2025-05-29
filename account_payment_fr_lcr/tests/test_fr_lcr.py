@@ -31,7 +31,9 @@ class TestFrLcr(AccountTestInvoicingCommon):
             {
                 "groups_id": [
                     Command.link(
-                        cls.env.ref("account_payment_batch_oca.group_account_payment").id
+                        cls.env.ref(
+                            "account_payment_batch_oca.group_account_payment"
+                        ).id
                     )
                 ],
                 "company_ids": [Command.link(cls.company.id)],
@@ -123,7 +125,7 @@ class TestFrLcr(AccountTestInvoicingCommon):
             {
                 "name": "LCR client",
                 "company_id": cls.company.id,
-                "payment_method_id": cls.env.ref("account_banking_fr_lcr.fr_lcr").id,
+                "payment_method_id": cls.env.ref("account_payment_fr_lcr.fr_lcr").id,
                 "bank_account_link": "fixed",
                 "journal_id": cls.bank_journal.id,
                 "fr_lcr_type": "not_accepted",
