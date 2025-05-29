@@ -9,7 +9,7 @@
         <field name="model">account.payment.order</field>
         <field
             name="inherit_id"
-            ref="account_payment_order.account_payment_order_form"
+            ref="account_payment_batch_oca.account_payment_order_form"
         />
         <field name="arch" type="xml">
             <field name="company_partner_bank_id" position="after">

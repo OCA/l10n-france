@@ -98,7 +98,7 @@ you will have a button *Print Bill of Exchange* on customer invoices to
 get the letter of change as PDF.
 
 This module uses the standard workflow of debit orders as implemented in
-the OCA module **account_payment_order**. A debit order linked to a
+the OCA module **account_payment_batch_oca**. A debit order linked to a
 payment mode with the payment method *Lettre de change relevé* has a few
 additionnal constraints:
 
