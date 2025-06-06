@@ -22,6 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [account_statement_import_fr_cfonb](account_statement_import_fr_cfonb/) | 18.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Import CFONB bank statements files in Odoo
+[l10n_fr_account_invoice_facturx](l10n_fr_account_invoice_facturx/) | 18.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | France-specific module to generate Factur-X invoices
 [l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 18.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Auto-configure UNECE params on French taxes
 [l10n_fr_cog](l10n_fr_cog/) | 18.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Add Code Officiel Géographique (COG) on countries
 [l10n_fr_das2](l10n_fr_das2/) | 18.0.1.1.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | DAS2 (France)
