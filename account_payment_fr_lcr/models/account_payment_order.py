@@ -293,13 +293,8 @@ class AccountPaymentOrder(models.Model):
         cfonb_lines.append(
             self._prepare_final_cfonb_line(total_amount, transactions_count)
         )
-        if self.payment_method_line_id.fr_lcr_type == "promissory_note":
-            file_prefix = "BOR"
-        else:
-            file_prefix = "LCR"
-        filename = f"{file_prefix}_{self.name.replace('/', '-')}.txt"
         line_separator = self._fr_lcr_line_separator()
         logger.debug("LCR line separator is %s", line_separator)
         cfonb_string = line_separator.join(cfonb_lines)
         cfonb_bytes = cfonb_string.encode("ascii")
-        return (cfonb_bytes, filename)
+        return (cfonb_bytes, "txt")
