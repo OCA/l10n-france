@@ -252,7 +252,7 @@ class ChorusFlow(models.Model):
         if self.chorus_response:
             inv2errors = {
                 error["numeroDP"]: error.get("libelleErreurDP")
-                for error in json.loads(self.chorus_response)["listeErreurDP"]
+                for error in json.loads(self.chorus_response).get("listeErreurDP", [])
             }
         else:
             inv2errors = {}
