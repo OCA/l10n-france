@@ -224,7 +224,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 msgid ""
-"DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key."
+"DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key "
+"using pyfrdas2 version %(pyfrdas2version)s."
 msgstr ""
 
 #. module: l10n_fr_das2
