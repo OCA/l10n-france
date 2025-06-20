@@ -236,10 +236,9 @@ msgstr "Archivo DAS2 eliminado."
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 msgid ""
-"DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key."
+"DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key "
+"using pyfrdas2 version %(pyfrdas2version)s."
 msgstr ""
-"Archivo DAS2 generado. Cifrado con la clave <b>%(encryption)s</b> PGP de "
-"DGFiP."
 
 #. module: l10n_fr_das2
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2_line
@@ -770,6 +769,12 @@ msgstr "Historial de la comunicación en la página web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Año"
+
+#~ msgid ""
+#~ "DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key."
+#~ msgstr ""
+#~ "Archivo DAS2 generado. Cifrado con la clave <b>%(encryption)s</b> PGP de "
+#~ "DGFiP."
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Error en la entrega de SMS"
