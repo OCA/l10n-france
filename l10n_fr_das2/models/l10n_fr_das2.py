@@ -12,6 +12,7 @@ from pyfrdas2 import (
     generate_file,
     get_partner_declaration_threshold,
 )
+from pyfrdas2.pyfrdas2 import logger as pyfrdas2logger
 from stdnum.fr.siret import is_valid
 
 from odoo import _, api, fields, models, tools
@@ -19,7 +20,22 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools.misc import format_amount, format_date
 
+try:
+    from pyfrdas2 import __version__ as pyfrdas2version
+except (OSError, ImportError):
+    pyfrdas2version = "too old"
+
+LOGLEVELS = {
+    "debug": logging.DEBUG,
+    "info": logging.INFO,
+    "warn": logging.WARN,
+    "error": logging.ERROR,
+}
+
 logger = logging.getLogger(__name__)
+pyfrdas2logger.setLevel(
+    LOGLEVELS.get(tools.config.get("log_level", "info"), logging.INFO)
+)
 
 
 PCG_DAS2_WARN_ACCOUNTS = [
@@ -206,8 +222,10 @@ class L10nFrDas2(models.Model):
             msg = Markup(
                 _(
                     "DAS2 file generated. Encrypted with DGFiP's"
-                    " <b>%(encryption)s</b> PGP key.",
+                    " <b>%(encryption)s</b> PGP key using pyfrdas2 "
+                    "version %(pyfrdas2version)s.",
                     encryption=encryption,
+                    pyfrdas2version=pyfrdas2version,
                 )
             )
 
