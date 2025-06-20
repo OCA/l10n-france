@@ -1,0 +1,102 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_account_payment_intl_credit_transfer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e07
+msgid ""
+"Autres services (y compris services aux entreprises et aux professionnels)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e01
+msgid ""
+"Biens (marchandises générales, avitaillement, travail à façon et négoce)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e11
+msgid ""
+"Désinvestissements intra-groupes (participations, prêts, dépôts et "
+"règlements intervenant dans le cadre de procédures de netting)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e14
+msgid "Instruments financiers dérivés"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e10
+msgid ""
+"Investissements intra-groupes (participations, prêts, dépôts et règlements "
+"intervenant dans le cadre de procédures de netting)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e12
+msgid "Opérations sur actifs immobiliers"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e15
+msgid "Prêts et emprunts hors-groupe"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e05
+msgid ""
+"Redevances et droits de licence, acquisition / cession et utilisation de "
+"droits d’exploiter des ressources, de droits de franchise et d’autres droits"
+" de propriété"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e08
+msgid "Revenus d’investissement (y compris dividendes et intérêts)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e04
+msgid "Services de construction"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e02
+msgid "Services de transport (maritimes, aériens et autres)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e03
+msgid "Services informatiques et de communication"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e06
+msgid "Services liés au tourisme"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e13
+msgid ""
+"Titres de dettes et actions (valeurs mobilières de placement et titres "
+"immobilisés) à l’exclusion des participations"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e09
+msgid ""
+"Transferts courants (y compris l’envoi de fonds, salaires et rémunérations, "
+"pensions)"
+msgstr ""
