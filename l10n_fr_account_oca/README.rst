@@ -44,15 +44,15 @@ the test suite of **l10n_fr_account_vat_return**.
 
 The goals of the fork are:
 
-- provide a reasonable number of taxes (35 taxes, compared to 67 which
-  is about half the number of taxes provided by the **l10n_fr_account**
-  module !),
-- provide a clean and up-to-date chart of account for France (up-to-date
-  with official chart of account of the
-  `ANC <https://www.anc.gouv.fr/>`__ published on January 1st 2025),
-- provide taxes, fiscal positions and a chart of accounts properly
-  configured for the OCA module **l10n_fr_account_vat_return**, the
-  opensource VAT module for France,
+-  provide a reasonable number of taxes (35 taxes, compared to 67 which
+   is about half the number of taxes provided by the **l10n_fr_account**
+   module !),
+-  provide a clean and up-to-date chart of account for France
+   (up-to-date with official chart of account of the
+   `ANC <https://www.anc.gouv.fr/>`__ published on January 1st 2025),
+-  provide taxes, fiscal positions and a chart of accounts properly
+   configured for the OCA module **l10n_fr_account_vat_return**, the
+   opensource VAT module for France,
 
 **Table of contents**
 
@@ -81,16 +81,16 @@ Authors
 Contributors
 ------------
 
-- Alexis de Lattre <alexis.delattre@akretion.com>
+-  Alexis de Lattre <alexis.delattre@akretion.com>
 
 Contributors on the module before the fork:
 
-- Odoo SA
-- Sistheo
-- Zeekom
-- CrysaLEAD
-- Akretion
-- Camptocamp
+-  Odoo SA
+-  Sistheo
+-  Zeekom
+-  CrysaLEAD
+-  Akretion
+-  Camptocamp
 
 Maintainers
 -----------
