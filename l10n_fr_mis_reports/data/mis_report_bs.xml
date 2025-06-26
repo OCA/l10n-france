@@ -332,7 +332,7 @@
         <field name="description">Autres créances</field>
         <field
             name="expression"
-        >bale[4096%,4097%,4098%,425%,4287%,4387%,441%,4452%,4456%,44581%,44582%,44583%,44586%,4487%,462%,465%,4687%,471%] +max([bale[443%], 0]) +max([bale[444%], 0]) +max([bale[451%], 0]) +max([bale[455%], 0]) +max([bale[4561%], 0]) +max([bale[4563%], 0]) +max([bale[4564%], 0]) +max([bale[4566%], 0]) +max([bale[4567%], 0]) +max([bale[458%], 0]) +max([bale[467%], 0]) +max([bale[478%], 0]) +bale[495%,496%]</field>
+        >bale[4096%,4097%,4098%,425%,4287%,4387%,441%,4452%,4456%,44581%,44582%,44583%,44586%,4487%,462%,465%,4687%,471%] +pbale[443%,444%,451%,455%,4561%,4563%,4564%,4566%,4567%,458%,467%,478%] + bale[495%,496%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -369,7 +369,7 @@
         <field name="description">Disponibilités</field>
         <field
             name="expression"
-        >bale[53%,54%,58%] +max([bale[511%], 0]) +max([bale[512%], 0]) +max([bale[514%], 0]) +max([bale[515%], 0]) +max([bale[516%], 0]) +max([bale[517%], 0]) +max([bale[5188%], 0]) +max([bale[52%], 0])</field>
+        >bale[53%,54%,58%] +pbale[511%,512%,514%,515%,516%,517%,5188%,52%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -675,7 +675,7 @@
         >Emprunts et dettes auprès des établissements de crédit</field>
         <field
             name="expression"
-        >-bale[164%,16884%,5181%,519%] +max([-bale[512%], 0]) +max([-bale[514%], 0]) +max([-bale[517%], 0]) +max([-bale[52%], 0])</field>
+        >-bale[164%,16884%,5181%,519%] -nbale[512%,514%,517%,52%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -688,7 +688,7 @@
         <field name="description">Emprunts et dettes financières divers</field>
         <field
             name="expression"
-        >-bale[165%,166%,1675%,1681%,1685%,1687%,16885%,16886%,16887%,16888%,17%,426%,451%,455%,456%] +max([-bale[451%], 0]) +max([-bale[455%], 0]) +max([-bale[4561%], 0])</field>
+        >-bale[165%,166%,1675%,1681%,1685%,1687%,16885%,16886%,16887%,16888%,17%,426%,451%,455%,456%] -nbale[451%,455%,4561%,4563%,4564%,4566%,4567%,458%,511%,515%,516%,5188%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -725,7 +725,7 @@
         <field name="description">Dettes fiscales et sociales</field>
         <field
             name="expression"
-        >-bale[421%,422%,424%,427%,4282%,4284%,4286%,43%,442%,4455%,4457%,44584%,44587%,446%,447%,4482%,4486%,449%,457%] +max([-bale[443%], 0]) +max([-bale[444%], 0])</field>
+        >-bale[421%,422%,424%,427%,4282%,4284%,4286%,43%,442%,4455%,4457%,44584%,44587%,446%,447%,4482%,4486%,449%,457%] -nbale[443%,444%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -751,7 +751,7 @@
         <field name="description">Autres dettes</field>
         <field
             name="expression"
-        >-bale[4196%,4197%,4198%,464%,4686%,509%,489%] +max([-bale[467%], 0]) +max([-bale[478%], 0])</field>
+        >-bale[4196%,4197%,4198%,464%,4686%,509%,489%] -nbale[467%,478%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
