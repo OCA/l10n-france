@@ -112,7 +112,7 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf068</field>
         <field name="description">Créances - Clients et comptes rattachés</field>
-        <field name="expression">bale[410%,411%]-bale[491%]</field>
+        <field name="expression">bale[410%,411%,413%,416%,418%,491%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -125,7 +125,7 @@
         <field name="description">Créances - Autres</field>
         <field
             name="expression"
-        >bale[4096%,4097%,4098%,428%,46%] +max([bale[43%], 0]) +max([bale[444%], 0]) +max([bale[445%], 0]) +max([bale[455%], 0])</field>
+        >bale[4096%,4097%,4098%,428%,46%] +pbale[43%,444%,445%,455%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -147,7 +147,7 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf084</field>
         <field name="description">Disponibilités</field>
-        <field name="expression">bale[53%,54%,58%] +max([bale[51%], 0])</field>
+        <field name="expression">bale[53%,54%,58%] +pbale[51%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -345,7 +345,7 @@
         <field name="description">Autres dettes</field>
         <field
             name="expression"
-        >-bale[4196%,4197%,4198%,421%,422%,424%,427%,4282%,4284%,4286%,442%,446%,447%,448%,449%,457%,46%] +max([-bale[43%], 0]) +max([-bale[444%], 0]) +max([-bale[445%], 0]) +max([-bale[455%], 0])</field>
+        >-bale[4196%,4197%,4198%,421%,422%,424%,427%,4282%,4284%,4286%,442%,446%,447%,448%,449%,457%,46%] -nbale[43%,444%,445%,455%,51%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
