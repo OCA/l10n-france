@@ -48,6 +48,7 @@
                                 widget="many2many_binary"
                                 nolabel="1"
                                 colspan="2"
+                                attrs="{'readonly': [('chorus_flow_id', '!=', False)]}"
                             />
                     </group>
                     </group>

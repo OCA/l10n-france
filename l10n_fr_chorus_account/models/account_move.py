@@ -79,8 +79,7 @@ class AccountMove(models.Model):
         "account_move_chorus_ir_attachment_rel",
         string="Chorus Attachments",
         copy=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        readonly=False,
     )
 
     def _get_commitment_number(self):
