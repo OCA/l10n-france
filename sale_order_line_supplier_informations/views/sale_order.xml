@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2024 Moka
+    @author Damien Horvat <damien@moka.cloud>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath
+        expr="//notebook/page/field[@name='order_line']/form/group/group/field[@name='product_id']"
+        position="after"
+      >
+                <field name="available_vendor_ids"  invisible="1"/>
+                <field name="vendor_id" />
+            </xpath>
+            <xpath
+        expr="//notebook/page/field[@name='order_line']/tree/field[@name='name']"
+        position="after"
+      >
+                <field name="available_vendor_ids"  invisible="1"/>
+                <field name="vendor_id" />
+            </xpath>
+
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,53 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sale_order_line_supplier_informations
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-22 09:29+0000\n"
+"PO-Revision-Date: 2024-11-22 10:31+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+#. module: sale_order_line_supplier_informations
+#: model:ir.model.fields,field_description:sale_order_line_supplier_informations.field_sale_order_line__available_vendor_ids
+msgid "Available Vendor"
+msgstr "Fournisseur disponible"
+
+#. module: sale_order_line_supplier_informations
+#: model:ir.model.fields,help:sale_order_line_supplier_informations.field_sale_order_line__vendor_price
+msgid "Price of the product for the supplier"
+msgstr "Prix du produit a l'achat (fournisseur)"
+
+#. module: sale_order_line_supplier_informations
+#: model:ir.model,name:sale_order_line_supplier_informations.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Ligne de commande"
+
+#. module: sale_order_line_supplier_informations
+#: model:ir.model.fields,help:sale_order_line_supplier_informations.field_sale_order_line__vendor_id
+msgid "Select a seller for this product"
+msgstr "Sélectionnez un fournisseur pour ce produit"
+
+#. module: sale_order_line_supplier_informations
+#: model:ir.model.fields,field_description:sale_order_line_supplier_informations.field_sale_order_line__vendor_id
+msgid "Supplier"
+msgstr "Fournisseur"
+
+#. module: sale_order_line_supplier_informations
+#: model:ir.model.fields,field_description:sale_order_line_supplier_informations.field_sale_order_line__vendor_price
+msgid "Supplier Price"
+msgstr "Prix fournisseur"
+
+#. module: sale_order_line_supplier_informations
+#: model_terms:ir.ui.view,arch_db:sale_order_line_supplier_informations.view_order_form
+msgid "supplier price"
+msgstr "Prix fournisseur"
