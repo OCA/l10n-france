@@ -15,6 +15,7 @@
         "account",
         "sale_order_line_supplier_informations",
         "sale_purchase",
+        "sale_margin",
         ],
     "data": [
         'security/ir.model.access.csv',
