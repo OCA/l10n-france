@@ -4,7 +4,7 @@
 
 {
     "name": "POS: Caisse-AP payment protocol for France",
-    "version": "16.0.1.2.0",
+    "version": "16.0.1.3.0",
     "category": "Point of Sale",
     "license": "AGPL-3",
     "summary": "Add support for Caisse-AP payment protocol used in France",
