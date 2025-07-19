@@ -384,13 +384,6 @@ msgstr "Falta el modo de transporte en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
-#: code:addons/l10n_fr_intrastat_product/models/stock.py:0
-#, python-format
-msgid "Missing partner on warehouse '%s'."
-msgstr "Falta socio en el almacén '%s'."
-
-#. module: l10n_fr_intrastat_product
-#. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing product country of origin code on declaration line %d."
@@ -542,6 +535,10 @@ msgstr ""
 "{{dict(object.fields_get('declaration_type', 'selection')['declaration_type']"
 "['selection'])[object.declaration_type]}} EMEBI {{object.year_month}} for "
 "{{object.company_id.name}}"
+
+#, python-format
+#~ msgid "Missing partner on warehouse '%s'."
+#~ msgstr "Falta socio en el almacén '%s'."
 
 #, python-format
 #~ msgid ""
