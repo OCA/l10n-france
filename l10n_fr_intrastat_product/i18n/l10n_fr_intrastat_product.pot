@@ -288,13 +288,6 @@ msgstr ""
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
-#: code:addons/l10n_fr_intrastat_product/models/stock.py:0
-#, python-format
-msgid "Missing partner on warehouse '%s'."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid "Missing product country of origin code on declaration line %d."
