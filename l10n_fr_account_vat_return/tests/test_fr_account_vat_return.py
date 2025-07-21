@@ -65,6 +65,27 @@ class TestFrAccountVatReturn(TransactionCase):
         )
         self.assertEqual(currency.compare_amounts(move_dict.get("658000", 0), 1), -1)
 
+    def test_tax_fr_vat_autoliquidation(self):
+        intracom_extracom_autoliq_taxes = (
+            self.env["account.tax"]
+            .with_context(active_test=False)
+            .search(
+                [
+                    ("company_id", "=", self.on_invoice_company.id),
+                    ("type_tax_use", "=", "purchase"),
+                    ("amount", ">", 0),
+                    ("unece_type_code", "=", "VAT"),
+                    ("country_id", "=", self.env.ref("base.fr").id),
+                    "|",
+                    ("name", "ilike", "intracom"),
+                    ("name", "ilike", "extracom"),
+                ]
+            )
+        )
+        self.assertTrue(len(intracom_extracom_autoliq_taxes) > 6)
+        for tax in intracom_extracom_autoliq_taxes:
+            self.assertEqual(tax.fr_vat_autoliquidation, "total")
+
     def test_vat_return_on_invoice(self):
         company = self.on_invoice_company
         currency = company.currency_id
@@ -124,6 +145,7 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(vat_return.state, "auto")
         box_result = {
             "ca3_ca": 51510,  # A
+            "ca3_cb": 100,  # A2 France autoliq (for royalty)
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_dk": 2810,  # A4 HA extracom products
             "ca3_cc": 2410,  # B2 HA intracom products
@@ -148,14 +170,16 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_lj": 28,  # montant autoliq import 5.5%
             "ca3_lk": 2000,  # base autoliq import 2,1%
             "ca3_ll": 42,  # montant autoliq import 2,1%
-            "ca3_gh": 2466,  # Total TVA collectée
+            "ca3_mg": 100,  # base droits d'auteur
+            "ca3_md": 9,  # montant droits d'auteur
+            "ca3_gh": 2475,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
             ######
             "ca3_ha": 1065,  # TVA déduc immo
-            "ca3_hb": 634,  # TVA déduc biens et services
+            "ca3_hb": 644,  # TVA déduc biens et services
             "ca3_hd": initial_credit_vat,  # report crédit TVA
-            "ca3_hg": 5032,  # total VAT deduc
+            "ca3_hg": 5042,  # total VAT deduc
             ######
             "a_ud": 134,
             "a_mk": 1000,
@@ -163,8 +187,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "a_hb": 186,
             "ca3_kb": 186,  # Report taxes annexes
             "ca3_ke": 186,  # Total à payer
-            "ca3_ja": 2566,  # credit TVA (ligne 23 - 16)
-            "ca3_jc": 2566,  # crédit à reporter
+            "ca3_ja": 2567,  # credit TVA (ligne 23 - 16)
+            "ca3_jc": 2567,  # crédit à reporter
         }
         move_result = {
             "445711": 46,
@@ -183,6 +207,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "445303": 165,
             "445304": 65.1,
             "445663": -321.1,
+            "445719": 9.2,
+            "445669": -10,
             "447000": box_result["ca3_kb"] * -1,
             "445670": box_result["ca3_jc"] - box_result["ca3_hd"],
             "635800": box_result["a_kj"],
@@ -294,6 +320,7 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(vat_return.state, "auto")
         box_result = {
             "ca3_ca": 38889,  # A
+            "ca3_cb": 100,  # A2 France autoliq (for royalty)
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_dk": 2810,  # A4 HA extracom products
             "ca3_cc": 2410,  # B2 HA intracom products
@@ -319,18 +346,20 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_lj": 28,  # montant autoliq import 5.5%
             "ca3_lk": 2000,  # base autoliq import 2,1%
             "ca3_ll": 42,  # montant autoliq import 2,1%
-            "ca3_gh": 1971,  # Total TVA collectée
+            "ca3_mg": 100,  # base droits d'auteur
+            "ca3_md": 9,  # montant droits d'auteur
+            "ca3_gh": 1980,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
             ######
             "ca3_ha": 1065,  # TVA déduc immo
-            "ca3_hb": 574,  # TVA déduc biens et services
+            "ca3_hb": 584,  # TVA déduc biens et services
             "ca3_hd": initial_credit_vat,  # report crédit TVA
-            "ca3_hg": 1661,  # total VAT deduc
+            "ca3_hg": 1671,  # total VAT deduc
             ######
-            "ca3_ka": 310,  # TVA à payer (ligne 16 - 23)
-            "ca3_nd": 310,  # TVA nette due (ligne TD - X5)
-            "ca3_ke": 310,  # Total à payer
+            "ca3_ka": 309,  # TVA à payer (ligne 16 - 23)
+            "ca3_nd": 309,  # TVA nette due (ligne TD - X5)
+            "ca3_ke": 309,  # Total à payer
         }
         move_result = {
             "445711": 7.5,
@@ -349,6 +378,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "445303": 165,
             "445304": 65.1,
             "445663": -321.1,
+            "445719": 9.2,
+            "445669": -10,
             "445510": box_result["ca3_ke"] * -1,
             "445670": initial_credit_vat * -1,
         }

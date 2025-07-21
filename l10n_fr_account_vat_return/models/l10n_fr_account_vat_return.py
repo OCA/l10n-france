@@ -366,7 +366,7 @@ class L10nFrAccountVatReturn(models.Model):
         ]
         purchase_vat_tax_domain = vat_tax_domain + [("type_tax_use", "=", "purchase")]
         purchase_autoliq_vat_tax_domain = purchase_vat_tax_domain + [
-            ("fr_vat_autoliquidation", "=", True),
+            ("fr_vat_autoliquidation", "=", "total"),
         ]
         movetype2label = dict(
             self.env["account.move"].fields_get("move_type", "selection")["move_type"][
@@ -419,8 +419,41 @@ class L10nFrAccountVatReturn(models.Model):
         speedy["bank_cash_journals"] = speedy["aj_obj"].search(
             speedy["company_domain"] + [("type", "in", ("bank", "cash"))]
         )
+        self._check_tax_invoice_refund_symmetry(speedy)
+        self._france_due_vat_prepare_speedy(speedy)
         self._autoliq_prepare_speedy(speedy)
         return speedy
+
+    def _check_tax_invoice_refund_symmetry(self, speedy):
+        for tax in self.env["account.tax"].search(speedy["company_domain"]):
+            lines = []
+            for iline in tax.invoice_repartition_line_ids:
+                lines.append(
+                    {
+                        "account_id": iline.account_id or False,
+                        "repartition_type": iline.repartition_type,
+                        "factor_percent": iline.factor_percent,
+                    }
+                )
+            error_msg = _(
+                "Tax '%(tax)s' is not symetric between distribution for invoices "
+                "and distribution for refunds.",
+                tax=tax.with_context(append_type_to_tax_name=True).display_name,
+            )
+            if len(tax.refund_repartition_line_ids) != len(lines):
+                raise UserError(error_msg)
+            for rline in tax.refund_repartition_line_ids:
+                if (
+                    lines[0]["account_id"] != (rline.account_id or False)
+                    or lines[0]["repartition_type"] != rline.repartition_type
+                    or float_compare(
+                        lines[0]["factor_percent"],
+                        rline.factor_percent,
+                        precision_digits=2,
+                    )
+                ):
+                    raise UserError(error_msg)
+                lines.pop(0)
 
     def _autoliq_prepare_speedy(self, speedy):
         speedy.update(
@@ -456,7 +489,7 @@ class L10nFrAccountVatReturn(models.Model):
                         "On the autoliquidation tax '%(tax)s', the distribution for "
                         "invoices should have only one line -100% of tax, and not "
                         "%(count)s.",
-                        tax=tax.display_name,
+                        tax=tax.with_context(append_type_to_tax_name=True).display_name,
                         count=len(lines),
                     )
                 )
@@ -475,6 +508,17 @@ class L10nFrAccountVatReturn(models.Model):
                         account=account.display_name,
                         rate1=rate_int / 100,
                         rate2=speedy["autoliq_vat_account2rate"][account] / 100,
+                    )
+                )
+            if account in speedy["france_due_vat_account2rate"]:
+                raise UserError(
+                    _(
+                        "Account '%(account)s' is used as due VAT account on "
+                        "autoliquidation tax '%(tax)s' and also "
+                        "on a regular sale tax with rate %(rate).2f%%.",
+                        account=account.display_name,
+                        tax=tax.with_context(append_type_to_tax_name=True).display_name,
+                        rate=speedy["france_due_vat_account2rate"][account] / 100,
                     )
                 )
             # Since May 2023, the new strategy to separate goods vs services
@@ -504,7 +548,7 @@ class L10nFrAccountVatReturn(models.Model):
                         "Autoliquidation tax '%s' is not present in the tax mapping "
                         "of any fiscal position."
                     )
-                    % tax.display_name
+                    % tax.with_context(append_type_to_tax_name=True).display_name
                 )
             fr_vat_type = tax_map.position_id.fr_vat_type
             if fr_vat_type not in fr_vat_type2autoliq_type:
@@ -515,7 +559,7 @@ class L10nFrAccountVatReturn(models.Model):
                         "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be configured "
                         "on fiscal positions with type '%(fp_fr_vat_type_intracom_b2b)s', "
                         "'%(fp_fr_vat_type_extracom)s' or '%(fp_fr_vat_type_france_exo)s'.",
-                        tax=tax.display_name,
+                        tax=tax.with_context(append_type_to_tax_name=True).display_name,
                         fp=tax_map.position_id.display_name,
                         fp_fr_vat_type=speedy["fp_frvattype2label"][fr_vat_type],
                         fp_fr_vat_type_intracom_b2b=speedy["fp_frvattype2label"][
@@ -531,6 +575,66 @@ class L10nFrAccountVatReturn(models.Model):
                 )
             autoliq_type = fr_vat_type2autoliq_type[fr_vat_type]
             speedy["autoliq_taxedop_type2accounts"][autoliq_type] |= account
+        self._royalty_autoliq_prepare_speedy(speedy)
+
+    def _royalty_autoliq_prepare_speedy(self, speedy):
+        # Search the single royalty purchase VAT tax
+        candidate_royalty_tax_domain = speedy["purchase_vat_tax_domain"] + [
+            ("fr_vat_autoliquidation", "=", "partial"),
+            ("amount", "<", 10.01),
+            ("amount", ">", 9.99),
+        ]
+        candidate_taxes = speedy["at_obj"].search(candidate_royalty_tax_domain)
+        royalty_purchase_tax = False
+        due_vat_account = False
+        for candidate_tax in candidate_taxes:
+            rate_int = int(round(candidate_tax.amount * 10))
+            regular_inv_lines = candidate_tax.invoice_repartition_line_ids.filtered(
+                lambda x: x.repartition_type == "tax"
+                and x.account_id
+                and int(round(x.factor_percent)) == 100
+            )
+            neg92_inv_lines = candidate_tax.invoice_repartition_line_ids.filtered(
+                lambda x: x.repartition_type == "tax"
+                and x.account_id
+                and int(round(x.factor_percent)) == -92
+            )
+            if (
+                len(regular_inv_lines) == 1
+                and len(neg92_inv_lines) == 1
+                and rate_int == 100
+            ):
+                royalty_purchase_tax = candidate_tax
+                due_vat_account = neg92_inv_lines.account_id
+                if (
+                    due_vat_account in speedy["autoliq_vat_account2rate"]
+                    or due_vat_account in speedy["france_due_vat_accounts"]
+                ):
+                    raise UserError(
+                        _(
+                            "Account '%(account)s' is used as due VAT account on "
+                            "royalty autoliquidation tax '%(tax)s', but "
+                            "also in other taxes. This is not allowed by the OCA "
+                            "VAT return module for France.",
+                            account=due_vat_account.display_name,
+                            tax=royalty_purchase_tax.with_context(
+                                append_type_to_tax_name=True
+                            ).display_name,
+                        )
+                    )
+
+                break
+        if royalty_purchase_tax:
+            logger.info(
+                "Royalty 10%%/9,2%% autoliq purchase VAT tax: %s. Due VAT account %s",
+                royalty_purchase_tax.display_name,
+                due_vat_account.display_name,
+            )
+            speedy["autoliq_vat_account2rate"][due_vat_account] = 920
+            speedy["autoliq_tax2rate"][royalty_purchase_tax] = 920
+            speedy["autoliq_taxedop_type2accounts"]["france"] |= due_vat_account
+        else:
+            logger.info("No royalty autoliq purchase VAT tax found")
 
     def manual2auto(self):
         self.ensure_one()
@@ -1083,7 +1187,6 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _generate_due_vat(self, speedy):
         self.ensure_one()
-        # TODO Check that an account can't be used in both autoliq and non-autoliq?
         # COMPUTE LINES
         type_rate2logs = {
             "regular_intracom_product_autoliq": defaultdict(list),
@@ -1117,10 +1220,10 @@ class L10nFrAccountVatReturn(models.Model):
         # Box 18 Dont TVA sur opérations à destination de Monaco
         self._create_line(speedy, monaco_logs, "due_vat_monaco")
 
-    def _generate_due_vat_prepare_sale_struct(self, speedy):
+    def _france_due_vat_prepare_speedy(self, speedy):
         # REGULAR SALE TAXES
-        sale_vat_account2rate = {}
-        sale_vat_accounts = speedy["aa_obj"]
+        france_due_vat_account2rate = {}
+        france_due_vat_accounts = speedy["aa_obj"]
         regular_due_vat_taxes = speedy["at_obj"].search(
             speedy["sale_regular_vat_tax_domain"]
         )
@@ -1136,39 +1239,13 @@ class L10nFrAccountVatReturn(models.Model):
                         "Tax '%s' should have only one distribution line for "
                         "invoices configured with an account and with '100%% of tax'."
                     )
-                    % tax.display_name
+                    % tax.with_context(append_type_to_tax_name=True).display_name
                 )
             sale_vat_account = invoice_lines.account_id
-            refund_lines = tax.refund_repartition_line_ids.filtered(
-                lambda x: x.repartition_type == "tax"
-                and x.account_id
-                and int(x.factor_percent) == 100
-            )
-            if len(refund_lines) != 1:
-                raise UserError(
-                    _(
-                        "Tax '%s' should have only one distribution line for "
-                        "credit notes configured with an account and with '100%% of tax'."
-                    )
-                    % tax.display_name
-                )
-            refund_vat_account = refund_lines.account_id
-            if refund_vat_account != sale_vat_account:
-                raise UserError(
-                    _(
-                        "Tax '%(tax)s' has an account for invoice "
-                        "(%(invoice_account)s) which is different from the account "
-                        "for refund (%(refund_account)s). This scenario not supported.",
-                        tax=tax.display_name,
-                        invoice_account=sale_vat_account.display_name,
-                        refund_account=refund_vat_account.display_name,
-                    )
-                    % ()
-                )
-            rate_int = int(tax.amount * 100)
+            rate_int = int(round(tax.amount * 100))
             if (
-                sale_vat_account in sale_vat_account2rate
-                and sale_vat_account2rate[sale_vat_account] != rate_int
+                sale_vat_account in france_due_vat_account2rate
+                and france_due_vat_account2rate[sale_vat_account] != rate_int
             ):
                 raise UserError(
                     _(
@@ -1176,13 +1253,13 @@ class L10nFrAccountVatReturn(models.Model):
                         "for different rates (%(rate1).2f%% and %(rate2).2f%%).",
                         account=sale_vat_account.display_name,
                         rate1=rate_int / 100,
-                        rate2=sale_vat_account2rate[sale_vat_account] / 100,
+                        rate2=france_due_vat_account2rate[sale_vat_account] / 100,
                     )
                 )
-            sale_vat_account2rate[sale_vat_account] = rate_int
-            sale_vat_accounts |= sale_vat_account
+            france_due_vat_account2rate[sale_vat_account] = rate_int
+            france_due_vat_accounts |= sale_vat_account
 
-        if not sale_vat_accounts:
+        if not france_due_vat_accounts:
             raise UserError(
                 _(
                     "There are no regular sale taxes with UNECE Tax Type set to 'VAT' "
@@ -1190,19 +1267,22 @@ class L10nFrAccountVatReturn(models.Model):
                 )
                 % self.company_id.display_name
             )
-        return sale_vat_accounts, sale_vat_account2rate
+        speedy.update(
+            {
+                "france_due_vat_accounts": france_due_vat_accounts,
+                "france_due_vat_account2rate": france_due_vat_account2rate,
+            }
+        )
 
     def _generate_due_vat_france(self, speedy, type_rate2logs):
-        (
-            sale_vat_accounts,
-            sale_vat_account2rate,
-        ) = self._generate_due_vat_prepare_sale_struct(speedy)
-        logger.debug("sale_vat_account2rate=%s", sale_vat_account2rate)
+        logger.debug(
+            "france_due_vat_account2rate=%s", speedy["france_due_vat_account2rate"]
+        )
         vat_on_payment_account2logs = self._vat_on_payment(
-            "out", sale_vat_accounts.ids, speedy
+            "out", speedy["france_due_vat_accounts"].ids, speedy
         )
         # generate type_rate2logs['france']
-        for sale_vat_account, rate_int in sale_vat_account2rate.items():
+        for sale_vat_account, rate_int in speedy["france_due_vat_account2rate"].items():
             # Start from balance of VAT account, then compute base
             balance = (
                 sale_vat_account._fr_vat_get_balance("base_domain_end", speedy) * -1
@@ -1226,7 +1306,7 @@ class L10nFrAccountVatReturn(models.Model):
                 sale_vat_account
             ]
         # MONACO
-        monaco_logs = self._generate_due_vat_monaco(speedy, sale_vat_accounts)
+        monaco_logs = self._generate_due_vat_monaco(speedy)
         return monaco_logs
 
     def _generate_due_vat_autoliq(self, speedy, type_rate2logs):
@@ -1447,7 +1527,7 @@ class L10nFrAccountVatReturn(models.Model):
                 }
                 self._create_line(speedy, [log_base_vat], box_rec.due_vat_base_box_id)
 
-    def _generate_due_vat_monaco(self, speedy, sale_vat_accounts):
+    def _generate_due_vat_monaco(self, speedy):
         # Dont TVA sur opérations à destination de Monaco
         # WARNING This is fine if the company is VAT on debit,
         # but not exact when VAT on payment
@@ -1460,7 +1540,7 @@ class L10nFrAccountVatReturn(models.Model):
         mc_mlines = speedy["aml_obj"].search(
             [
                 ("partner_id", "in", mc_partners.ids),
-                ("account_id", "in", sale_vat_accounts.ids),
+                ("account_id", "in", speedy["france_due_vat_accounts"].ids),
                 ("balance", "!=", 0),
             ]
             + speedy["base_domain_period_sale"]
@@ -1780,7 +1860,12 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _generate_deductible_vat_prepare_struct(self, speedy):
         vat_account2type = {}
-        deduc_vat_taxes = speedy["at_obj"].search(speedy["purchase_vat_tax_domain"])
+        # order is designed to have the autoliq log lines first, so that they are not after
+        # the long list of VAT on payment log lines
+        deduc_vat_taxes = speedy["at_obj"].search(
+            speedy["purchase_vat_tax_domain"],
+            order="fr_vat_autoliquidation, sequence",
+        )
         for tax in deduc_vat_taxes:
             line = tax.invoice_repartition_line_ids.filtered(
                 lambda x: x.repartition_type == "tax"

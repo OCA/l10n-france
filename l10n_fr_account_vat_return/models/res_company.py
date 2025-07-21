@@ -240,6 +240,27 @@ class ResCompany(models.Model):
             rate = rate_int / 10
             if rate == int(rate):
                 rate = int(rate)
+            repartition_line_ids = [
+                Command.create(
+                    {
+                        "repartition_type": "base",
+                    }
+                ),
+                Command.create(
+                    {
+                        "factor_percent": 100,
+                        "repartition_type": "tax",
+                        "account_id": btp_account2id["445664"],
+                    }
+                ),
+                Command.create(
+                    {
+                        "factor_percent": -100,
+                        "repartition_type": "tax",
+                        "account_id": btp_account2id[account_code],
+                    }
+                ),
+            ]
             btp_tax2id[rate_int] = ato.create(
                 {
                     "type_tax_use": "purchase",
@@ -250,48 +271,8 @@ class ResCompany(models.Model):
                     "description": f"TVA {rate}% france autoliq",
                     "country_id": self.env.ref("base.fr").id,
                     "unece_type_id": self.env.ref("account_tax_unece.tax_type_vat").id,
-                    "invoice_repartition_line_ids": [
-                        Command.create(
-                            {
-                                "repartition_type": "base",
-                            }
-                        ),
-                        Command.create(
-                            {
-                                "factor_percent": 100,
-                                "repartition_type": "tax",
-                                "account_id": btp_account2id["445664"],
-                            }
-                        ),
-                        Command.create(
-                            {
-                                "factor_percent": -100,
-                                "repartition_type": "tax",
-                                "account_id": btp_account2id[account_code],
-                            }
-                        ),
-                    ],
-                    "refund_repartition_line_ids": [
-                        Command.create(
-                            {
-                                "repartition_type": "base",
-                            }
-                        ),
-                        Command.create(
-                            {
-                                "factor_percent": 100,
-                                "repartition_type": "tax",
-                                "account_id": btp_account2id["445664"],
-                            }
-                        ),
-                        Command.create(
-                            {
-                                "factor_percent": -100,
-                                "repartition_type": "tax",
-                                "account_id": btp_account2id[account_code],
-                            }
-                        ),
-                    ],
+                    "invoice_repartition_line_ids": repartition_line_ids,
+                    "refund_repartition_line_ids": repartition_line_ids,
                 }
             ).id
         # Create France exo FP
@@ -374,6 +355,63 @@ class ResCompany(models.Model):
                         "account_dest_id": dest_acc.id,
                     }
                 )
+        self._setup_l10n_fr_create_royalty_purchase_tax()
+
+    def _setup_l10n_fr_create_royalty_purchase_tax(self):
+        due_vat_account = self.env["account.account"].create(
+            {
+                "name": "TVA collectée droits d'auteur 9,2%",
+                "company_id": self.id,
+                "code": "445719",
+                "account_type": "liability_current",
+                "reconcile": True,
+            }
+        )
+        deduc_vat_account = self.env["account.account"].create(
+            {
+                "name": "TVA déductible droits d'auteur 10%",
+                "company_id": self.id,
+                "code": "445669",
+                "account_type": "asset_current",
+                "reconcile": True,
+            }
+        )
+        repartition_line_ids = [
+            Command.create(
+                {
+                    "repartition_type": "base",
+                }
+            ),
+            Command.create(
+                {
+                    "factor_percent": 100,
+                    "repartition_type": "tax",
+                    "account_id": deduc_vat_account.id,
+                }
+            ),
+            Command.create(
+                {
+                    "factor_percent": -92,
+                    "repartition_type": "tax",
+                    "account_id": due_vat_account.id,
+                }
+            ),
+        ]
+        royalty_tax = self.env["account.tax"].create(
+            {
+                "type_tax_use": "purchase",
+                "name": "TVA droits d'auteur",
+                "company_id": self.id,
+                "amount_type": "percent",
+                "amount": 10,
+                "description": "TVA droits d'auteur",
+                "country_id": self.env.ref("base.fr").id,
+                "unece_type_id": self.env.ref("account_tax_unece.tax_type_vat").id,
+                "invoice_repartition_line_ids": repartition_line_ids,
+                "refund_repartition_line_ids": repartition_line_ids,
+            }
+        )
+        assert royalty_tax.fr_vat_autoliquidation == "partial"
 
     def _test_create_invoice_with_payment(
         self, move_type, date, partner, lines, payments, force_in_vat_on_payment=False
@@ -516,10 +554,35 @@ class ResCompany(models.Model):
             "product": dict(rate2product),
             "service": dict(rate2product),
             "asset": dict(rate2product),
+            "royalty": dict(rate2product),
         }
         self._test_common_product_dict(product_dict["product"])
         self._test_common_product_dict(product_dict["asset"], asset=True)
         self._test_common_product_dict(product_dict["service"], product_type="service")
+        royalty_tax = self.env["account.tax"].search(
+            [
+                ("company_id", "=", self.id),
+                ("amount_type", "=", "percent"),
+                ("amount", ">", 9.99),
+                ("amount", "<", 10.01),
+                ("unece_type_code", "=", "VAT"),
+                ("country_id", "=", self.env.ref("base.fr").id),
+                ("fr_vat_autoliquidation", "=", "partial"),
+            ]
+        )
+        assert len(royalty_tax) == 1
+        royalty_product = self.env["product.product"].create(
+            {
+                "name": "Droits d'auteur",
+                "type": "service",
+                "sale_ok": False,
+                "purchase_ok": True,
+                "supplier_taxes_id": [Command.set([royalty_tax.id])],
+                "categ_id": self.env.ref("product.product_category_all").id,
+                "company_id": self.id,
+            }
+        )
+        product_dict["royalty"][100] = royalty_product
         return product_dict
 
     def _test_prepare_expense_account_dict(self):
@@ -582,6 +645,15 @@ class ResCompany(models.Model):
                 "property_account_position_id": france_fiscal_position.id,
             }
         )
+        partner_dict["france_royalty"] = rpo.create(
+            {
+                "name": "Auteur Artiste",
+                "is_company": True,
+                "company_id": self.id,
+                "country_id": self.env.ref("base.fr").id,
+                "property_account_position_id": france_fiscal_position.id,
+            }
+        )
         return partner_dict
 
     def _test_create_move_init_vat_credit(self, amount, start_date):
@@ -617,9 +689,7 @@ class ResCompany(models.Model):
         move.action_post()
 
     def _test_create_invoice_data(
-        self,
-        start_date,
-        extracom_refund_ratio=0.5,
+        self, start_date, extracom_refund_ratio=0.5, with_royalty=True
     ):
         product_dict = self._test_prepare_product_dict()
         partner_dict = self._test_prepare_partner_dict()
@@ -957,6 +1027,18 @@ class ResCompany(models.Model):
             ],
             {start_date: "residual"},
         )
+        # ROYALTY
+        if with_royalty:
+            self._test_create_invoice_with_payment(
+                "in_invoice",
+                start_date,
+                partner_dict["france_royalty"],
+                [
+                    {"product_id": product_dict["royalty"][100].id, "price_unit": 100},
+                ],
+                {start_date: "residual"},
+            )
+
         # Add a cutoff move in a misc journal, to check that it doesn't impact
         # the amounts for the untaxed operations (E1 Extracom)
         self._test_create_cutoff_move(start_date)
