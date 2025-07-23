@@ -6,8 +6,10 @@ import io
 import json
 import logging
 import textwrap
+import zipfile
 from collections import defaultdict
 
+import xlsxwriter
 from dateutil.relativedelta import relativedelta
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
@@ -170,13 +172,36 @@ class L10nFrAccountVatReturn(models.Model):
         store=True,
         precompute=True,
     )
+    deductible_vat_zip_other_threshold = fields.Monetary(
+        string="Threshold to provide non-asset invoices in ZIP",
+        currency_field="company_currency_id",
+        default=500,
+        tracking=True,
+        help="When generating the deductible VAT justification ZIP file, do not provide "
+        "a copy of the non-asset invoice whose total untaxed amount in company "
+        "currency is under that threshold.",
+    )
+    deductible_vat_zip_file_id = fields.Many2one(
+        "ir.attachment", string="Deductible VAT ZIP Attachment"
+    )
+    deductible_vat_zip_file_datas = fields.Binary(
+        related="deductible_vat_zip_file_id.datas", string="Deductible VAT ZIP File"
+    )
+    deductible_vat_zip_file_name = fields.Char(
+        related="deductible_vat_zip_file_id.name", string="Deductible VAT ZIP Filename"
+    )
 
     _sql_constraints = [
         (
             "start_company_uniq",
             "unique(start_date, company_id)",
             "A VAT return with the same start date already exists in this company!",
-        )
+        ),
+        (
+            "deductible_vat_zip_other_threshold_positive",
+            "CHECK(deductible_vat_zip_other_threshold >= 0)",
+            "The threshold to provide non-asset invoices in ZIP must be positive.",
+        ),
     ]
 
     @api.model
@@ -419,41 +444,9 @@ class L10nFrAccountVatReturn(models.Model):
         speedy["bank_cash_journals"] = speedy["aj_obj"].search(
             speedy["company_domain"] + [("type", "in", ("bank", "cash"))]
         )
-        self._check_tax_invoice_refund_symmetry(speedy)
         self._france_due_vat_prepare_speedy(speedy)
         self._autoliq_prepare_speedy(speedy)
         return speedy
-
-    def _check_tax_invoice_refund_symmetry(self, speedy):
-        for tax in self.env["account.tax"].search(speedy["company_domain"]):
-            lines = []
-            for iline in tax.invoice_repartition_line_ids:
-                lines.append(
-                    {
-                        "account_id": iline.account_id or False,
-                        "repartition_type": iline.repartition_type,
-                        "factor_percent": iline.factor_percent,
-                    }
-                )
-            error_msg = _(
-                "Tax '%(tax)s' is not symetric between distribution for invoices "
-                "and distribution for refunds.",
-                tax=tax.with_context(append_type_to_tax_name=True).display_name,
-            )
-            if len(tax.refund_repartition_line_ids) != len(lines):
-                raise UserError(error_msg)
-            for rline in tax.refund_repartition_line_ids:
-                if (
-                    lines[0]["account_id"] != (rline.account_id or False)
-                    or lines[0]["repartition_type"] != rline.repartition_type
-                    or float_compare(
-                        lines[0]["factor_percent"],
-                        rline.factor_percent,
-                        precision_digits=2,
-                    )
-                ):
-                    raise UserError(error_msg)
-                lines.pop(0)
 
     def _autoliq_prepare_speedy(self, speedy):
         speedy.update(
@@ -692,6 +685,8 @@ class L10nFrAccountVatReturn(models.Model):
             self.move_id.unlink()
         if self.ca3_attachment_id:
             self.ca3_attachment_id.unlink()
+        if self.deductible_vat_zip_file_id:
+            self.deductible_vat_zip_file_id.unlink()
 
     def auto2sent(self):
         self.ensure_one()
@@ -737,8 +732,40 @@ class L10nFrAccountVatReturn(models.Model):
             self.sudo().company_id.write({"period_lock_date": self.end_date})
         self.write({"state": "posted"})
 
+    def _check_tax_invoice_refund_symmetry(self, speedy):
+        for tax in self.env["account.tax"].search(speedy["company_domain"]):
+            lines = []
+            for iline in tax.invoice_repartition_line_ids:
+                lines.append(
+                    {
+                        "account_id": iline.account_id or False,
+                        "repartition_type": iline.repartition_type,
+                        "factor_percent": iline.factor_percent,
+                    }
+                )
+            error_msg = _(
+                "Tax '%(tax)s' is not symetric between distribution for invoices "
+                "and distribution for refunds.",
+                tax=tax.with_context(append_type_to_tax_name=True).display_name,
+            )
+            if len(tax.refund_repartition_line_ids) != len(lines):
+                raise UserError(error_msg)
+            for rline in tax.refund_repartition_line_ids:
+                if (
+                    lines[0]["account_id"] != (rline.account_id or False)
+                    or lines[0]["repartition_type"] != rline.repartition_type
+                    or float_compare(
+                        lines[0]["factor_percent"],
+                        rline.factor_percent,
+                        precision_digits=2,
+                    )
+                ):
+                    raise UserError(error_msg)
+                lines.pop(0)
+
     def _setup_data_pre_check(self, speedy):
         self.ensure_one()
+        self._check_tax_invoice_refund_symmetry(speedy)
         # Block if move of previous VAT return is in draft
         previous_vat_return = self.search(
             speedy["company_domain"] + [("start_date", "<", self.start_date)],
@@ -2254,6 +2281,225 @@ class L10nFrAccountVatReturn(models.Model):
                 body=_("Successful reconciliation in accounts %s.")
                 % ", ".join(sorted_account_codes)
             )
+
+    def generate_zip_deductible_vat(self):
+        self.ensure_one()
+        if self.deductible_vat_zip_file_id:
+            self.deductible_vat_zip_file_id.unlink()
+            chatter_msg = _("Deductible VAT ZIP file re-generated.")
+        else:
+            chatter_msg = _("Deductible VAT ZIP file generated.")
+        speedy = self._prepare_speedy()
+        vataccount2type = self._generate_deductible_vat_prepare_struct(speedy)
+        account2rec = {}
+        for line in self.move_id.line_ids:
+            if line.full_reconcile_id and line.account_id in vataccount2type:
+                account2rec[line.account_id] = line.full_reconcile_id
+        if not account2rec:
+            raise UserError(
+                _(
+                    "Odoo cannot generate the deductible VAT justification file "
+                    "because the journal items with deductible VAT accounts of "
+                    "the journal entry %(move)s are not reconciled.",
+                    move=self.move_id.display_name,
+                )
+            )
+        xlsx_fileobj = io.BytesIO()
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+            workbook = xlsxwriter.Workbook(xlsx_fileobj)
+            wdict = {
+                "workbook": workbook,
+                "zip_file": zip_file,
+                "account2rec": account2rec,
+                "move_id2filename": {},
+                "styles": self._prepare_xlsx_styles(workbook),
+                "coldict": self._prepare_xlsx_cols(),
+            }
+            asheet, aline = self._create_xlsx_sheet(
+                "19-immos",
+                "19. Biens constituant des immobilisations",
+                wdict,
+            )
+            osheet, oline = self._create_xlsx_sheet(
+                "20-ABS", "20. Autres biens et services", wdict
+            )
+            for account, vtype in vataccount2type.items():
+                if vtype == "asset":
+                    aline = self._zip_deductible_vat_process_account(
+                        account, asheet, aline, wdict
+                    )
+                else:
+                    oline = self._zip_deductible_vat_process_account(
+                        account,
+                        osheet,
+                        oline,
+                        wdict,
+                        attach_threshold=self.deductible_vat_zip_other_threshold,
+                    )
+            workbook.close()
+            zip_file.writestr(
+                f"{self.name}-deduc_VAT_justif.xlsx", xlsx_fileobj.getvalue()
+            )
+        filename = self._prepare_zip_deductible_vat_filename()
+        attach = self.env["ir.attachment"].create(
+            {
+                "name": filename,
+                "raw": zip_buffer.getvalue(),
+                "res_id": self.id,
+                "res_model": self._name,
+            }
+        )
+        self.write({"deductible_vat_zip_file_id": attach.id})
+        self.message_post(body=chatter_msg)
+        action = {
+            "name": filename,
+            "type": "ir.actions.act_url",
+            "url": f"web/content/?model={self._name}&id={self.id}&"
+            f"filename_field=deductible_vat_zip_file_name&field=deductible_vat_zip_file_datas&"
+            f"download=true&filename={filename}",
+            "target": "new",
+            # target: "new" and NOT "self", otherwise you get the following bug:
+            # after this action, all UserError won't show a pop-up to the user
+            # but will only show a warning message in the logs until the web
+            # page is reloaded
+        }
+        return action
+
+    def _zip_deductible_vat_process_account(
+        self, account, sheet, line, wdict, attach_threshold=None
+    ):
+        self.ensure_one()
+        if account in wdict["account2rec"]:
+            rec = wdict["account2rec"][account]
+            for mline in rec.reconciled_line_ids:
+                move = mline.move_id
+                if move == self.move_id:
+                    continue
+                line += 1
+                linedict = mline._prepare_xlsx_zip_deductible_vat(
+                    wdict, attach_threshold=attach_threshold
+                )
+                self._write_xlsx_line(sheet, line, linedict, wdict)
+        else:
+            line += 1
+            non_rec_reason = ""
+            if not account.reconcile:
+                non_rec_reason = (
+                    " car le compte n'est pas configuré comme étant lettrable"
+                )
+            non_rec_msg = (
+                f"Compte '{account.display_name}' non lettré sur l'OD "
+                f"de TVA{non_rec_reason}. Par conséquent, Odoo ne "
+                f"peut pas fournir les informations demandées pour ce compte."
+            )
+            linedict = {
+                "date": (
+                    non_rec_msg,
+                    wdict["styles"]["regular_warn"],
+                )
+            }
+            self._write_xlsx_line(sheet, line, linedict, wdict, line_warn=True)
+        return line
+
+    def _prepare_zip_deductible_vat_filename(self):
+        self.ensure_one()
+        return f"{self.name}-TVA_deduc_justif.zip"
+
+    def _write_xlsx_line(self, sheet, line, linedict, wdict, line_warn=False):
+        if line_warn:
+            for col in wdict["coldict"].values():
+                sheet.write(line, col["pos"], "", wdict["styles"]["regular_warn"])
+        for key, (value, style) in linedict.items():
+            sheet.write(line, wdict["coldict"][key]["pos"], value, style)
+
+    def _prepare_xlsx_cols(self):
+        cols = [  # key, label, width
+            ("date", "Date Pièce", 11),
+            ("move.name", "N° Pièce", 16),
+            ("journal", "Journal", 12),
+            ("account", "Compte", 20),
+            ("debit", "Débit", 12),
+            ("credit", "Crédit", 12),
+            ("inv", "Lien facture", 8),
+            ("supplier.name", "Fournisseur", 30),
+            ("supplier.siren", "SIREN fournisseur", 12),
+            ("supplier.vat", "N° TVA fournisseur", 16),
+            ("inv.date", "Date facture fournisseur", 11),
+            ("inv.ref", "N° facture fournisseur", 15),
+            ("inv.currency", "Devise facture fournisseur", 10),
+            ("inv.untaxed", "Total HT", 13),
+            ("inv.total", "Total TTC", 13),
+            ("inv.vat_on_payment", "TVA sur encaissement", 8),
+            (
+                "inv.residual",
+                "Reste à payer (si TVA encaiss.)",
+                13,
+            ),
+            ("inv.payments", "Paiements (si TVA encaiss.)", 28),
+            ("inv.attach", "Facture PDF dans fichier ZIP", 20),
+        ]
+        coldict = {}
+        pos = 0
+        for key, label, width in cols:
+            coldict[key] = {
+                "label": label,
+                "width": width,
+                "pos": pos,
+            }
+            pos += 1
+        return coldict
+
+    def _create_xlsx_sheet(self, sheet_name, title, wdict):
+        # I don't translate the content of the XLSX because DGFiP would
+        # certainly not accept a document in a lang other than French anyway...
+        sheet = wdict["workbook"].add_worksheet(sheet_name)
+        styles = wdict["styles"]
+        i = 0
+        sheet.write(i, 0, title, styles["doc_title"])
+        i += 2
+        for vals in wdict["coldict"].values():
+            sheet.write(i, vals["pos"], vals["label"], styles["col_title"])
+            sheet.set_column(vals["pos"], vals["pos"], vals["width"])
+        return sheet, i
+
+    def _prepare_xlsx_styles(self, workbook):
+        col_title_bg_color = "#fff9b4"
+        warn_bg_color = "#ff1717"
+        regular_font_size = 10
+        cents = "0" * self.company_id.currency_id.decimal_places
+        company_currency_num_format = (
+            f"# ### ##0.{cents} {self.company_id.currency_id.symbol}"
+        )
+        styles = {
+            "doc_title": workbook.add_format(
+                {
+                    "bold": True,
+                    "font_size": regular_font_size + 10,
+                    "font_color": "#003b6f",
+                }
+            ),
+            "col_title": workbook.add_format(
+                {
+                    "bold": True,
+                    "bg_color": col_title_bg_color,
+                    "text_wrap": True,
+                    "font_size": regular_font_size,
+                    "align": "center",
+                }
+            ),
+            "regular_date": workbook.add_format({"num_format": "dd/mm/yyyy"}),
+            "regular_company_currency": workbook.add_format(
+                {"num_format": company_currency_num_format}
+            ),
+            "regular_warn": workbook.add_format({"bg_color": warn_bg_color}),
+            "regular": workbook.add_format({}),
+            "regular_center": workbook.add_format({"align": "center"}),
+            "regular_center_warn": workbook.add_format(
+                {"bg_color": warn_bg_color, "align": "center"}
+            ),
+        }
+        return styles
 
     def _create_draft_account_move(self, speedy):
         self.ensure_one()
