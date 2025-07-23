@@ -5,3 +5,4 @@ python-stdnum
 requests
 requests_oauthlib
 unidecode
+xlsxwriter

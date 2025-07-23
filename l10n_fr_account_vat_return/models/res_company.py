@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
+from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
@@ -432,6 +433,10 @@ class ResCompany(models.Model):
                 line["quantity"] = 1
             line["display_type"] = "product"
             vals["invoice_line_ids"].append(Command.create(line))
+        if move_type == "in_invoice":
+            vals["ref"] = f"FAC{datetime.now().strftime('%f')}"
+        elif move_type == "in_refund":
+            vals["ref"] = f"AV{datetime.now().strftime('%f')}"
         move = amo.create(vals)
         if move_type in ("in_invoice", "in_refund") and force_in_vat_on_payment:
             move.write({"in_vat_on_payment": True})

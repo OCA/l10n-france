@@ -24,6 +24,15 @@ class L10nFrAccountVatReturnReimbursement(models.TransientModel):
     end_date = fields.Date(string="Event Date")
     reimbursement_comment_dgfip = fields.Text(string="Comment for DGFIP")
 
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        assert self._context.get("active_model") == "l10n.fr.account.vat.return"
+        res["return_id"] = self._context["active_id"]
+        vat_return = self.env["l10n.fr.account.vat.return"].browse(res["return_id"])
+        res["amount"] = vat_return.vat_credit_total
+        return res
+
     def validate(self):
         self.ensure_one()
         speedy = self.return_id._prepare_speedy()

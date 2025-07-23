@@ -220,13 +220,18 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertTrue(vat_return.reimbursement_show_button)
         reimbursement_type = "first"
         reimbursement_amount = 2000
-        reimb_wiz = self.env["l10n.fr.account.vat.return.reimbursement"].create(
-            {
-                "return_id": vat_return.id,
-                "amount": reimbursement_amount,
-                "reimbursement_type": reimbursement_type,
-                "first_creation_date": self.first_creation_date,
-            }
+        reimb_wiz = (
+            self.env["l10n.fr.account.vat.return.reimbursement"]
+            .with_context(
+                active_model="l10n.fr.account.vat.return", active_id=vat_return.id
+            )
+            .create(
+                {
+                    "amount": reimbursement_amount,
+                    "reimbursement_type": reimbursement_type,
+                    "first_creation_date": self.first_creation_date,
+                }
+            )
         )
         reimb_wiz.validate()
         reimb_box_result = dict(box_result)
@@ -251,6 +256,7 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(
             vat_return.reimbursement_first_creation_date, self.first_creation_date
         )
+        # Remove reimbursement
         vat_return.remove_credit_vat_reimbursement()
         self._check_vat_return_result(vat_return, box_result, move_result)
         self.assertFalse(vat_return.reimbursement_type)
@@ -275,6 +281,12 @@ class TestFrAccountVatReturn(TransactionCase):
         for line in vat_return.move_id.line_ids:
             if line.account_id.code in must_be_reconciled:
                 self.assertTrue(line.full_reconcile_id)
+        # The reimbursement has been removed, but we call generate_zip_deductible_vat()
+        # just to make sure it works, even if it's not a real life scenario to call it
+        # without a reimbursement
+        action = vat_return.generate_zip_deductible_vat()
+        self.assertTrue(vat_return.deductible_vat_zip_file_id)
+        self.assertEqual(action.get("type"), "ir.actions.act_url")
 
     def test_vat_return_on_payment(self):
         aao = self.env["account.account"]
