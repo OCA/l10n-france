@@ -74,6 +74,12 @@
                         states="posted"
                         string="Reconcile Journal Entry Again"
                     />
+                                                <button
+                        name="generate_zip_deductible_vat"
+                        type="object"
+                        attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False)]}"
+                        string="Generate Deductible VAT Justification File"
+                    />
                                                 <field
                         name="state"
                         widget="statusbar"
@@ -140,6 +146,23 @@
                             <field name="company_id" invisible="1" />
                                                 <field name="bank_account_id" />
                                                 <field name="move_id" />
+                                                <field
+                                name="deductible_vat_zip_other_threshold"
+                                attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False)]}"
+                            />
+                                                <field
+                                name="deductible_vat_zip_file_datas"
+                                filename="deductible_vat_zip_file_name"
+                                attrs="{'invisible': ['|', '|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False), ('deductible_vat_zip_file_id', '=', False)]}"
+                            />
+                                                <field
+                                name="deductible_vat_zip_file_name"
+                                invisible="1"
+                            />
+                                                <field
+                                name="deductible_vat_zip_file_id"
+                                invisible="1"
+                            />
                                                 <field
                                 name="unpaid_vat_on_payment_manual_line_filter_account_ids"
                                 invisible="1"
