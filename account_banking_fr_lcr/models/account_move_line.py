@@ -16,8 +16,7 @@ class AccountMoveLine(models.Model):
             # Take the first IBAN account of the partner
             bank_account = self.env['res.partner.bank'].search([
                 ('partner_id', '=', self.partner_id.id),
-                ('acc_type', '=', 'iban'),
-                ], limit=1)
+                ]).filtered(lambda acc: acc.acc_type == "iban")
             if bank_account:
-                vals['partner_bank_id'] = bank_account.id
+                vals['partner_bank_id'] = bank_account[:1].id
         return vals
