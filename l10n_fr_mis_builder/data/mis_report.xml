@@ -5,7 +5,7 @@
   @author: Duciel Romain <romain@mokatourisme.fr>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-<odoo>
+<odoo noupdate="1">
     <record id="default_report_l10n_fr" model="mis.report">
         <field name="display_name">Synthèse de régie</field>
         <field name="description">Modèle de base</field>
