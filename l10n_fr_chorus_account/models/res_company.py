@@ -240,7 +240,6 @@ class ResCompany(models.Model):
         logger.debug("_get_token expiry_date_gmt=%s now=%s", expiry_date_gmt, now)
         if now > expiry_date_gmt:
             # force clear cache
-            self._get_new_token.clear_cache(self.env[self._name])
             logger.info("PISTE Token cleared from cache.")
             token, expiry_date_gmt = self._get_new_token(
                 api_params["oauth_id"], api_params["oauth_secret"], api_params["qualif"]
@@ -263,7 +262,7 @@ class ResCompany(models.Model):
             "cpro-account": auth_piste_b64,
         }
         # The header Authorization: Bearer <token> is automatically added by the session
-        if session is None:
+        if not session:
             token = self._get_token(api_params)
             session = OAuth2Session(api_params["oauth_id"], token=token)
         logger.info(
