@@ -12,4 +12,4 @@ partners, but it doesn't verify its validity. This module
 - it adds a warning banner on the partner form view if another partner
   has the same SIREN.
 
-![](static/description/partner_duplicate_warning.png)
+![Partner form view with warning banner](static/description/partner_duplicate_warning.png)
