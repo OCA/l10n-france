@@ -11,4 +11,15 @@
             name="report_file"
         >account_balance_ebp_csv_export.trial_balance_ebp</field>
     </record>
+    <record id="action_report_trial_balance_ebp_xlsx" model="ir.actions.report">
+        <field name="name">EBP XLSX Balance</field>
+        <field name="model">trial.balance.report.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field
+            name="report_name"
+        >account_balance_ebp_csv_export.trial_balance_ebp_xlsx</field>
+        <field
+            name="report_file"
+        >account_balance_ebp_csv_export.trial_balance_ebp_xlsx</field>
+    </record>
 </odoo>

@@ -3,14 +3,15 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Account Balance EBP CSV export",
+    "name": "Account Balance EBP export",
+    "summary": "Export the trial balance in EBP format (CSV or XLSX)",
     "version": "18.0.1.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
-    "depends": ["account_financial_report"],
+    "depends": ["account_financial_report", "report_xlsx"],
     "data": [
         "report.xml",
         "report/balance_ebp_csv.xml",

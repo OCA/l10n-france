@@ -1,6 +1,6 @@
-==============================
-Account Balance EBP CSV export
-==============================
+==========================
+Account Balance EBP export
+==========================
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -28,20 +28,21 @@ Account Balance EBP CSV export
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds a button *Export EBP CSV* next to the *Export PDF* and
-*Export XLSX* buttons on the Trial Balance wizard. It will export the
-Trial Balance in the CSV export format of the EBP accounting software.
+This module adds the possibility to export the trial balance in
+`EBP <https://fr.wikipedia.org/wiki/EBP_(entreprise)>`__ format, as CSV
+or XLSX.
 
 |Screenshot Trial Balance|
 
 One of the possible usage scenario of this module is to export the trial
 balance to software dedicated to the `liasse
 fiscale <http://fr.wikipedia.org/wiki/Liasse_fiscale>`__ (French fiscal
-declaration) that accept CSV files from the EBP accounting software.
+declaration) that accept balance files from the EBP accounting software.
 This file has been successfully tested with the following software:
 
 -  `Teledec <https://www.teledec.fr/>`__, which is a SaaS solution for
-   the *liasse fiscale* with support for EDI transmission
+   the *liasse fiscale* with support for EDI transmission. With Teledec,
+   we recommend to use an EBP balance in XLSX format.
 
 -  `Sage Etats Comptables et
    Fiscaux <https://www.sage.com/fr-fr/produits/sage-frp-etats-comptables-et-fiscaux/>`__,

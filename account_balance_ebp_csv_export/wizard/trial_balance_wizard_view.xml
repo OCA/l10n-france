@@ -11,13 +11,11 @@
         <field name="inherit_id" ref="account_financial_report.trial_balance_wizard" />
         <field name="arch" type="xml">
             <button name="button_export_xlsx" position="after">
-            or
-            <button
-                name="button_export_ebp_csv"
-                string="Export EBP CSV"
-                type="object"
-            />
-        </button>
+                or
+                <button name="button_export_ebp_csv" string="EBP CSV" type="object" />
+                or
+                <button name="button_export_ebp_xlsx" string="EBP XLSX" type="object" />
+            </button>
         </field>
     </record>
 </odoo>
