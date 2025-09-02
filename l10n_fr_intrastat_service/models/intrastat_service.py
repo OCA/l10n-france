@@ -275,11 +275,20 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         self.message_post(body=_("Re-generating lines from invoices"))
 
     def done(self):
-        for decl in self:
-            assert decl.state == "draft"
-            decl._check_company()
-            decl._generate_xml()
-        self.write({"state": "done"})
+        self.ensure_one()
+        assert self.state == "draft"
+        self._check_company()
+        attachment = self._generate_xml()
+        self.write({"state": "done", "attachment_id": attachment.id})
+        action = {
+            "name": attachment.name,
+            "type": "ir.actions.act_url",
+            "url": f"web/content/?model={self._name}&id={self.id}&"
+            f"filename_field=attachment_name&field=attachment_datas&"
+            f"download=true&filename={attachment.name}",
+            "target": "new",
+        }
+        return action
 
     def back2draft(self):
         for decl in self:
@@ -378,7 +387,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         # Attach the XML file
         attach_vals = self._prepare_attachment(xml_bytes)
         attach = self.env["ir.attachment"].create(attach_vals)
-        self.write({"attachment_id": attach.id})
+        return attach
 
     def _prepare_attachment(self, xml_bytes):
         self.ensure_one()
