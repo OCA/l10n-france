@@ -17,6 +17,8 @@ import csv
 import logging
 from io import StringIO
 
+from psycopg2.extensions import AsIs
+
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessDenied, UserError
 from odoo.tools import float_is_zero
@@ -328,6 +330,24 @@ class AccountFrFecOca(models.TransientModel):
             unaffected_earnings_results = self._do_query_unaffected_earnings()
             unaffected_earnings_line = False
 
+        # tolerate l10n_multilang translations.
+        # note that it becomes the default in future version, so
+        # we can simplify by inlining the jsonb accessor version.
+        name_accessor = f"%(record)s.name"
+        # field_accessor_en = f"%(record)s.name ->> 'en_US'"
+        lang_code = self.env.context.get("lang", "en_US")
+        name_accessor_lang = (
+            f"COALESCE(%(record)s.name ->> '{lang_code}', %(record)s.name ->> 'en_US')"
+        )
+
+        aa_translated = self.env["account.account"]._fields["name"].translate
+        v = {"record": "aa"}
+        aa_name_query = name_accessor_lang % v if aa_translated else name_accessor % v
+
+        aj_translated = self.env["account.journal"]._fields["name"].translate
+        v = {"record": "aj"}
+        aj_name_query = name_accessor_lang % v if aj_translated else name_accessor % v
+
         # INITIAL BALANCE other than payable/receivable
         sql_query = """
         SELECT
@@ -336,7 +356,7 @@ class AccountFrFecOca(models.TransientModel):
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
             MIN(aa.code) AS CompteNum,
-            replace(replace(MIN(aa.name), '|', '/'), '\t', '') AS CompteLib,
+            replace(replace(MIN(%(aa_name_query)s), '|', '/'), '\t', '') AS CompteLib,
             '' AS CompAuxNum,
             '' AS CompAuxLib,
             '-' AS PieceRef,
@@ -390,6 +410,8 @@ class AccountFrFecOca(models.TransientModel):
             "date_to": self.date_to,
             "company_id": company.id,
             "currency_digits": currency_digits,
+            "aa_name_query": AsIs(aa_name_query),
+            "aj_name_query": AsIs(aj_name_query),
         }
 
         self._cr.execute(sql_query, sql_args)
@@ -463,7 +485,7 @@ class AccountFrFecOca(models.TransientModel):
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
             MIN(aa.code) AS CompteNum,
-            replace(MIN(aa.name), '|', '/') AS CompteLib,
+            replace(MIN(%(aa_name_query)s), '|', '/') AS CompteLib,
         """
             + aux_fields_ini_bal
             + """
@@ -522,11 +544,11 @@ class AccountFrFecOca(models.TransientModel):
             """
         SELECT
             REGEXP_REPLACE(replace(aj.code, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalCode,
-            REGEXP_REPLACE(replace(aj.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalLib,
+            REGEXP_REPLACE(replace(%(aj_name_query)s, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalLib,
             REGEXP_REPLACE(replace(am.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS EcritureNum,
             TO_CHAR(am.date, 'YYYYMMDD') AS EcritureDate,
             aa.code AS CompteNum,
-            REGEXP_REPLACE(replace(aa.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS CompteLib,
+            REGEXP_REPLACE(replace(%(aa_name_query)s, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS CompteLib,
         """
             + aux_fields
             + """
