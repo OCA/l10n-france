@@ -30,7 +30,7 @@
         'data/account_chart_template.xml',
         'data/account_tax_group.xml',
         'data/account_tax_template.xml',
-        'data/account_fiscal_position.xml',
+        # 'data/account_fiscal_position.xml',
         'wizard/sale_order_fiscal_position_wizard.xml',
     ],
 }
