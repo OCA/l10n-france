@@ -69,9 +69,10 @@ class ResPartner(models.Model):
         # and datefermetureunitelegale=2018-12-01 !!!
         # So I now set exclude_dead=False by default
         if exclude_dead:
-            params[
-                "q"
-            ] += " AND #null(datefermetureetablissement) AND #null(datefermetureunitelegale)"
+            params["q"] += (
+                " AND #null(datefermetureetablissement)"
+                " AND #null(datefermetureunitelegale)"
+            )
         try:
             logger.info("Sending query to https://data.opendatasoft.com/api")
             logger.debug("url=%s params=%s", url, params)

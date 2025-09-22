@@ -60,7 +60,7 @@
                     name="web_ribbon"
                     title="Closed"
                     bg_color="text-bg-danger"
-                    attrs="{'invisible': [('active', '=', True)]}"
+                    invisible="active"
                 />
                 <h3>
                     <field name="name" />
