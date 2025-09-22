@@ -18,7 +18,7 @@
                 </group>
                 <group string="Search Results" name="lines">
                     <field name="line_ids" nolabel="1" colspan="2">
-                        <tree decoration-muted="not active">
+                        <list decoration-muted="not active">
                             <field name="name" />
                             <field name="street" optional="show" />
                             <field name="zip" optional="show" />
@@ -40,7 +40,7 @@
                                 type="object"
                                 confirm="Confirm selected company ?"
                             />
-                        </tree>
+                        </list>
                     </field>
                 </group>
                 <footer>
@@ -55,7 +55,6 @@
         <field name="model">fr.siret.lookup.line</field>
         <field name="arch" type="xml">
             <form string="Company">
-                <field name="active" invisible="1" />
                 <widget
                     name="web_ribbon"
                     title="Closed"

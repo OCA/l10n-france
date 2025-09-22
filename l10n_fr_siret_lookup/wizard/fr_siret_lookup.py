@@ -3,7 +3,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -27,7 +27,10 @@ class FrSiretLookup(models.TransientModel):
             partner = self.env["res.partner"].browse(self.env.context["active_id"])
             if not partner.is_company:
                 raise UserError(
-                    _("Partner '%s' is not a company. This action is not relevant.")
+                    self.env._(
+                        f"Partner {partner.display_name} is not a company. "
+                        "This action is not relevant."
+                    )
                     % partner.display_name
                 )
             res.update(
@@ -130,4 +133,6 @@ class FrSiretLookupLine(models.TransientModel):
         self.ensure_one()
         partner = self.wizard_id.partner_id
         partner.write(self._prepare_partner_values())
-        partner.message_post(body=_("Partner updated via the opendatasoft.com API."))
+        partner.message_post(
+            body=self.env._("Partner updated via the opendatasoft.com API.")
+        )

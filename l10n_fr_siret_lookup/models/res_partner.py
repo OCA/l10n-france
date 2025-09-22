@@ -7,7 +7,7 @@ import logging
 
 import requests
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
@@ -75,7 +75,7 @@ class ResPartner(models.Model):
             )
         try:
             logger.info("Sending query to https://data.opendatasoft.com/api")
-            logger.debug("url=%s params=%s", url, params)
+            logger.debug(f"url={url} params={params}")
             res = requests.get(url, params=params, timeout=TIMEOUT)
             if res.status_code in (200, 201):
                 res_json = res.json()
@@ -84,27 +84,25 @@ class ResPartner(models.Model):
                 return res_json
             else:
                 logger.warning(
-                    "HTTP error %s returned by GET on data.opendatasoft.com/api",
-                    res.status_code,
+                    f"HTTP error {res.status_code} returned by "
+                    "GET on data.opendatasoft.com/api"
                 )
                 if raise_if_fail:
                     raise UserError(
-                        _(
+                        self.env._(
                             "The webservice data.opendatasoft.com "
-                            "returned an HTTP error code %s."
+                            f"returned an HTTP error code {res.status_code}."
                         )
-                        % res.status_code
                     )
         except Exception as e:
-            logger.warning("Failure in the GET request on data.opendatasoft.com: %s", e)
+            logger.warning(f"Failure in the GET request on data.opendatasoft.com: {e}")
             if raise_if_fail:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Failure in the request on data.opendatasoft.com "
                         "to create or update partner from SIREN or SIRET. "
-                        "Technical error: %s."
+                        f"Technical error: {e}."
                     )
-                    % e
                 ) from e
         return False
 
@@ -171,24 +169,24 @@ class ResPartner(models.Model):
             and len(zipcode) == 5
             and zipcode[:3] in domtom2xmlid
         ):
-            country_xmlid = "base.%s" % domtom2xmlid[zipcode[:3]]
+            country_xmlid = f"base.{domtom2xmlid[zipcode[:3]]}"
             country_id = self.env.ref(country_xmlid).id
         return country_id
 
     @api.model
     def _siren2vat_vies(self, siren, raise_if_fail=False):
-        vat = "FR%s" % siren_to_vat(siren)
-        logger.info("VIES check of VAT %s" % vat)
+        vat = f"FR{siren_to_vat(siren)}"
+        logger.info(f"VIES check of VAT {vat}")
         vies_res = False
         res = False
         try:
             vies_res = check_vies(vat, timeout=TIMEOUT)
-            logger.debug("VIES answer vies_res.valid=%s", vies_res.valid)
+            logger.debug(f"VIES answer vies_res.valid={vies_res.valid}")
         except Exception as e:
-            logger.error("VIES query failed: %s", e)
+            logger.error(f"VIES query failed: {e}")
             if raise_if_fail:
                 raise UserError(
-                    _("Failed to query VIES.\nTechnical error: %s.") % e
+                    self.env._(f"Failed to query VIES.\nTechnical error: {e}.")
                 ) from e
             return None
         if vies_res and vies_res.valid:
@@ -215,7 +213,7 @@ class ResPartner(models.Model):
     def _opendatasoft_get_from_siren(self, siren, vat_vies_query=True):
         if siren and siren_is_valid(siren):
             vals = self._opendatasoft_get_first_result(
-                "siren:%s AND etablissementsiege:oui" % siren,
+                f"siren:{siren} AND etablissementsiege:oui",
                 vat_vies_query=vat_vies_query,
             )
             if vals and vals.get("siren") == siren:
@@ -226,7 +224,7 @@ class ResPartner(models.Model):
     def _opendatasoft_get_from_siret(self, siret, vat_vies_query=True):
         if siret and siret_is_valid(siret):
             vals = self._opendatasoft_get_first_result(
-                "siret:%s" % siret, vat_vies_query=vat_vies_query
+                f"siret:{siret}", vat_vies_query=vat_vies_query
             )
             if vals and vals.get("siren") and vals.get("nic"):
                 vals_siret = vals["siren"] + vals["nic"]
