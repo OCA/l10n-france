@@ -5,10 +5,10 @@
         <field name="model">fr.siret.lookup</field>
         <field name="arch" type="xml">
             <form string="SIREN Lookup via opendatasoft.com">
-            <group name="company">
-                <field name="partner_id" />
-                <field name="name" />
-                <button
+                <group name="company">
+                    <field name="partner_id" />
+                    <field name="name" />
+                    <button
                         class="btn-primary"
                         name="get_lines"
                         string="Lookup"
@@ -104,5 +104,4 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
-
 </odoo>
