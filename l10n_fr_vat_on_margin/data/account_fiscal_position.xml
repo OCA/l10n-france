@@ -13,7 +13,7 @@
         <field name="account_dest_id" ref="account_604500"/>
     </record>
 
-    <record id="account_map_607000_to_607500" model="account.fiscal.position.account">
+<!--     <record id="account_map_607000_to_607500" model="account.fiscal.position.account">
         <field name="position_id" ref="fiscal_position_margin"/>
         <field name="account_src_id" ref="l10n_fr.pcg_607_account"/>
         <field name="account_dest_id" ref="l10n_fr_vat_on_margin.account_607500"/>
@@ -30,7 +30,7 @@
         <field name="position_id" ref="fiscal_position_margin"/>
         <field name="account_src_id" ref="l10n_fr.pcg_707_account"/>
         <field name="account_dest_id" ref="account_707500"/>
-    </record>
+    </record> -->
 
     <!-- Règles de mappage pour la correspondance des taxes-->
     <record id="tax_map_20_to_20" model="account.fiscal.position.tax">
