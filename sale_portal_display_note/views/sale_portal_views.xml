@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_order_portal_content"
+              inherit_id="sale.sale_order_portal_content">
+        <xpath expr="//div[@id='total']" position="after">
+            <div id="mentions" class="row">
+                <p t-field="sale_order.fiscal_position_id.note"/>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
