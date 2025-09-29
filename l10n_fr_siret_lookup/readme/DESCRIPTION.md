@@ -2,8 +2,9 @@ This modules updates partner fields via the SIRENE database
 \<https://data.opendatasoft.com\>. It uses the dataset
 *economicref-france-sirene-v3* of opendatasoft
 \<https://public.opendatasoft.com/explore/dataset/economicref-france-sirene-v3/information/\>.
+
 It computes a theorical VAT number from the SIREN and then checks the
-validity of the VAT number on
+validity of the VAT number (depending on configuration) on
 [VIES](https://ec.europa.eu/taxation_customs/vies/) (if invalid, the VAT
 number is discarded).
 

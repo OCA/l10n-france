@@ -12,12 +12,14 @@
     "maintainers": ["remi-filament", "alexis-via"],
     "license": "AGPL-3",
     "depends": [
+        "base_vat",
         "l10n_fr_siret",
     ],
     "external_dependencies": {"python": ["requests", "python-stdnum"]},
     "data": [
         "wizard/fr_siret_lookup_view.xml",
         "views/res_partner.xml",
+        "views/res_config_settings_views.xml",
         "security/ir.model.access.csv",
     ],
     "installable": True,
