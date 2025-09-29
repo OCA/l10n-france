@@ -31,16 +31,15 @@ class SaleOrderLine(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id_warning_margin(self):
         if self.product_id.vat_on_margin or self.product_id.categ_id.vat_on_margin:
-            if len(self.order_id.order_line) <= 2:
-                if self.order_id.fiscal_position_id != self.env['account.fiscal.position'].search(
-                        [('name', '=', 'TVA sur marge')], limit=1):
-                    return {
-                        'warning': {
-                            'title': _('Warning'),
-                            'message': _(
-                                'This order is concerned by VAT on margin. You should select the VAT on margin fiscal position.')
-                        }
+            if self.order_id.fiscal_position_id != self.env['account.fiscal.position'].search(
+                [('name', '=', 'TVA sur marge')], limit=1):
+                return {
+                    'warning': {
+                        'title': _('Warning'),
+                        'message': _(
+                            'This order is concerned by VAT on margin. You should select the VAT on margin fiscal position.')
                     }
+                }
 
     @api.depends('purchase_price', 'price_unit', 'product_uom_qty')
     def _compute_margin_untaxed(self):
@@ -57,7 +56,7 @@ class SaleOrderLine(models.Model):
         price_unit_margin = 0.0
         if self.line_concerned_by_margin:
             price_unit_margin = (self.price_unit - self.purchase_price)
-        result =  self.env['account.tax']._convert_to_tax_base_line_dict(
+        result = self.env['account.tax']._convert_to_tax_base_line_dict(
             self,
             partner=self.order_id.partner_id,
             currency=self.order_id.currency_id,
