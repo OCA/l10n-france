@@ -117,7 +117,9 @@ class FrSiretLookupLine(models.TransientModel):
 
     def _prepare_partner_values(self):
         self.ensure_one()
-        vat = self.env["res.partner"]._siren2vat_vies(self.siren, raise_if_fail=True)
+        vat, vies_valid = self.env["res.partner"]._siren2vat_vies(
+            self.siren, raise_if_fail=True
+        )
         vals = {
             "name": self.name,
             "street": self.street,
@@ -126,6 +128,7 @@ class FrSiretLookupLine(models.TransientModel):
             "country_id": self.country_id.id or False,
             "siret": self.siret,
             "vat": vat,
+            "vies_valid": vies_valid,
         }
         return vals
 

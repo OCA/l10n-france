@@ -1,4 +1,4 @@
-To update an existing parter, go to the partner form view and click on
+To update an existing partner, go to the partner form view and click on
 *Action \> SIREN Lookup*.
 
 By default, the search field is filled with Company name. To get more

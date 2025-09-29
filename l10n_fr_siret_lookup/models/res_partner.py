@@ -107,9 +107,7 @@ class ResPartner(models.Model):
         return False
 
     @api.model
-    def _opendatasoft_parse_record(
-        self, raw_record, exclude_dead=False, vat_vies_query=True
-    ):
+    def _opendatasoft_parse_record(self, raw_record, exclude_dead=False):
         res = False
         if raw_record and isinstance(raw_record, dict):
             if exclude_dead and raw_record.get("datefermetureunitelegale"):
@@ -142,10 +140,10 @@ class ResPartner(models.Model):
             fr_lang = self.env["res.lang"].search([("code", "=", "fr_FR")])
             if fr_lang:
                 res["lang"] = "fr_FR"
-            if res.get("siren") and vat_vies_query:
-                vat = self._siren2vat_vies(res["siren"])
-                if vat is not None:
-                    res["vat"] = vat
+            if res.get("siren"):
+                vat, vies_valid = self._siren2vat_vies(res["siren"])
+                res["vat"] = vat
+                res["vies_valid"] = vies_valid
         return res
 
     @api.model
@@ -175,57 +173,71 @@ class ResPartner(models.Model):
 
     @api.model
     def _siren2vat_vies(self, siren, raise_if_fail=False):
+        """
+        Function checking VAT number generated from SIREN
+        Returns 2 values :
+          - char: VAT number (or None if not valid / not tested and not forced)
+          - bool: vies_valid (if validated by VIES server)
+        """
         vat = f"FR{siren_to_vat(siren)}"
+        # Default return empty values
+        empty_res = False, False
+        # If we do not want to check VIES server
+        if not self.env.company.vat_check_vies:
+            # If we still want to use computed value without verification
+            if self.env.company.force_vat_siret_lookup:
+                return vat, False
+            else:
+                return empty_res
+
         logger.info(f"VIES check of VAT {vat}")
         vies_res = False
-        res = False
         try:
             vies_res = check_vies(vat, timeout=TIMEOUT)
-            logger.debug(f"VIES answer vies_res.valid={vies_res.valid}")
+            logger.debug(f"VIES answer vies_res.valid={vies_res['valid']}")
         except Exception as e:
-            logger.error(f"VIES query failed: {e}")
-            if raise_if_fail:
+            logger.warning(f"VIES query failed: {e}")
+            if not self.env.company.vat_check_vies and raise_if_fail:
                 raise UserError(
                     self.env._(f"Failed to query VIES.\nTechnical error: {e}.")
                 ) from e
-            return None
-        if vies_res and vies_res.valid:
-            res = vat
-        return res
+            # If exception is raised but we still want to force computed value
+            # We return vat number and vies_valid = False
+            elif self.env.company.force_vat_siret_lookup:
+                return vat, False
+            return empty_res
+        # If VIES validates vat we return the VAT value and vies_valid = True
+        # Otherwise we return False / False
+        if vies_res and vies_res["valid"]:
+            return vat, True
+        return empty_res
 
     @api.model
-    def _opendatasoft_get_first_result(
-        self, query, raise_if_fail=False, vat_vies_query=True
-    ):
+    def _opendatasoft_get_first_result(self, query, raise_if_fail=False):
         res_json = self._opendatasoft_get_raw_data(query, raise_if_fail=raise_if_fail)
         if res_json and "records" in res_json:
             if len(res_json["records"]) > 0:
                 raw_record = res_json["records"][0].get("fields")
                 if raw_record:
-                    return self._opendatasoft_parse_record(
-                        raw_record, vat_vies_query=vat_vies_query
-                    )
+                    return self._opendatasoft_parse_record(raw_record)
             else:
                 logger.warning("The query on opendatasoft.com returned 0 records")
         return False
 
     @api.model
-    def _opendatasoft_get_from_siren(self, siren, vat_vies_query=True):
+    def _opendatasoft_get_from_siren(self, siren):
         if siren and siren_is_valid(siren):
             vals = self._opendatasoft_get_first_result(
                 f"siren:{siren} AND etablissementsiege:oui",
-                vat_vies_query=vat_vies_query,
             )
             if vals and vals.get("siren") == siren:
                 return vals
         return False
 
     @api.model
-    def _opendatasoft_get_from_siret(self, siret, vat_vies_query=True):
+    def _opendatasoft_get_from_siret(self, siret):
         if siret and siret_is_valid(siret):
-            vals = self._opendatasoft_get_first_result(
-                f"siret:{siret}", vat_vies_query=vat_vies_query
-            )
+            vals = self._opendatasoft_get_first_result(f"siret:{siret}")
             if vals and vals.get("siren") and vals.get("nic"):
                 vals_siret = vals["siren"] + vals["nic"]
                 if vals_siret == siret:
