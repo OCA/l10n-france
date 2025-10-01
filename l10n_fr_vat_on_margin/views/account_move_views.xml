@@ -7,12 +7,13 @@
 <odoo>
     <record id="account_move_list_view" model="ir.ui.view">
         <field name="name">account.move.line.inherit</field>
-        <field name="model">account.move.line</field>
+        <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
-<!--        <field name="arch" type="xml">-->
-<!--            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="after">-->
-<!--                <field name="margin_amount"/>-->
-<!--            </xpath>-->
-<!--        </field>-->
+        <field name="arch" type="xml">
+            <field name="price_unit" position="after">
+                <field name="purchase_price" widget="monetary" options="{'currency_field': 'currency_id'}" optional="hide"/>
+                <field name="margin" optional="hide"/>
+            </field>
+        </field>
     </record>
 </odoo>

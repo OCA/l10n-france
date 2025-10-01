@@ -220,12 +220,16 @@ class AccountTax(models.Model):
     @api.model
     def _compute_taxes_for_single_line(self, base_line, handle_price_include=True, include_caba_tags=False,
                                        early_pay_discount_computation=None, early_pay_discount_percentage=None):
+        print("=== base_line ===", base_line)
         price_unit_margin = 0.0
         orig_price_unit_after_discount = base_line['price_unit'] * (1 - (base_line['discount'] / 100.0))
-        if base_line['price_unit_margin'] != 0.0:
-            price_unit_margin = base_line['price_unit_margin'] * (1 - (base_line['discount'] / 100.0))
+        if base_line['price_unit_margin'] != 0.0 and base_line['price_unit_margin'] > 0.0:
+            print("=== ICI price_unit_margin pas nul ===", base_line['price_unit_margin'])
+            price_unit_margin = base_line['price_unit_margin']
+            print("=== price_unit_margin result ===", price_unit_margin)
         price_unit_after_discount = orig_price_unit_after_discount
         taxes = base_line['taxes']._origin
+        print("=== taxes ===", taxes, taxes.vat_on_margin, taxes.mapped('tax_calculation_method'))
         currency = base_line['currency'] or self.env.company.currency_id
         rate = base_line['rate']
 
@@ -243,7 +247,7 @@ class AccountTax(models.Model):
                 is_refund=base_line['is_refund'],
                 handle_price_include=base_line['handle_price_include'],
                 include_caba_tags=include_caba_tags,
-                price_unit_margin=price_unit_margin,
+                price_unit_margin=price_unit_margin if taxes.vat_on_margin else 0.0,
             )
 
             to_update_vals = {
@@ -262,7 +266,7 @@ class AccountTax(models.Model):
                     is_refund=base_line['is_refund'],
                     handle_price_include=base_line['handle_price_include'],
                     include_caba_tags=include_caba_tags,
-                    price_unit_margin=price_unit_margin,
+                    price_unit_margin=price_unit_margin if taxes.vat_on_margin else 0.0,
                 )
                 for tax_res, new_taxes_res in zip(taxes_res['taxes'], new_taxes_res['taxes']):
                     delta_tax = new_taxes_res['amount'] - tax_res['amount']
@@ -416,8 +420,8 @@ class AccountTax(models.Model):
             print("=== division_amount ===", division_amount)
             print("=== result ===", (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
             print("=== kwargs ===", kwargs.get('price_unit_margin'), type(kwargs.get('price_unit_margin')))
-            if kwargs.get('price_unit_margin') != 0.0 and type(kwargs.get('price_unit_margin')) == float:
-                print("=== ICI 1=== ")
+            if kwargs.get('price_unit_margin') and kwargs.get('price_unit_margin') != 0.0 and kwargs.get('price_unit_margin') > 0.0 and type(kwargs.get('price_unit_margin')) == float:
+                print("=== ICI 1=== ", base_amount, kwargs.get('price_unit_margin'), fixed_amount, percent_amount, division_amount)
                 result_1 = base_amount - kwargs.get('price_unit_margin') + ((kwargs.get('price_unit_margin') - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
                 print("=== ICI 1 ====", result_1)
                 return result_1

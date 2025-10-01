@@ -23,9 +23,60 @@ class AccountMoveLine(models.Model):
         compute="_compute_vendor_price", store=True
     )
 
-    margin_amount = fields.Float(
-        string='Margin Amount',
+    purchase_price = fields.Float(
+        string='Purchase Price',
+        digits="Purchase Price",
+        default=0.0,
     )
+
+    margin = fields.Float(
+        string='Margin',
+        compute="_compute_margin_untaxed",
+        store=True, readonly=True,
+        help="Gross margin (Sales - Purchase)"
+    )
+
+    @api.depends('purchase_price', 'price_unit', 'quantity', 'discount', 'tax_ids')
+    def _compute_margin_untaxed(self):
+        for line in self:
+            # 1. Calcul du prix unitaire après remise
+            price_unit_discounted = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+
+            # 2. Calcul du montant HT
+            price_subtotal = price_unit_discounted * line.quantity
+
+            # 3. Calcul des taxes pour obtenir le TTC
+            if line.tax_ids:
+                taxes_res = line.tax_ids.compute_all(
+                    price_unit_discounted,
+                    quantity=line.quantity,
+                    currency=line.currency_id,
+                    product=line.product_id,
+                    partner=line.partner_id,
+                    is_refund=line.is_refund,
+                )
+                price_total_calculated = taxes_res['total_included']
+            else:
+                price_total_calculated = price_subtotal
+
+            # 4. Calcul du coût d'achat total
+            purchase_total = line.purchase_price * line.quantity
+
+            # 5. Marge brute TTC
+            margin_brut_ttc = price_total_calculated - purchase_total
+
+            line.margin = margin_brut_ttc
+
+            print(f"=== Margin Calculation (from TTC) ===")
+            print(f"Price unit: {line.price_unit}")
+            print(f"Discount: {line.discount}%")
+            print(f"Price after discount: {price_unit_discounted}")
+            print(f"Quantity: {line.quantity}")
+            print(f"Subtotal HT: {price_subtotal}")
+            print(f"Price TTC (calculated): {price_total_calculated}")
+            print(f"Purchase total: {purchase_total}")
+            print(f"Margin brut TTC: {margin_brut_ttc}")
+            print(f"Margin HT: {line.margin}")
 
     line_concerned_by_margin = fields.Boolean(
         string='Line Concerned by Margin',
@@ -39,7 +90,6 @@ class AccountMoveLine(models.Model):
             line.line_concerned_by_margin = any(
                 tax.vat_on_margin for tax in line.tax_ids
             )
-
 
     @api.depends('move_id')
     def _compute_balance(self):
@@ -83,26 +133,24 @@ class AccountMoveLine(models.Model):
 
             aml_ids = tuple(stored_lines.ids)
             self._cr.execute('''
-                    SELECT
-                        part.debit_move_id AS line_id,
-                        'debit' AS flag,
-                        COALESCE(SUM(part.amount), 0.0) AS amount,
-                        ROUND(SUM(part.debit_amount_currency), curr.decimal_places) AS amount_currency
-                    FROM account_partial_reconcile part
-                    JOIN res_currency curr ON curr.id = part.debit_currency_id
-                    WHERE part.debit_move_id IN %s
-                    GROUP BY part.debit_move_id, curr.decimal_places
-                    UNION ALL
-                    SELECT
-                        part.credit_move_id AS line_id,
-                        'credit' AS flag,
-                        COALESCE(SUM(part.amount), 0.0) AS amount,
-                        ROUND(SUM(part.credit_amount_currency), curr.decimal_places) AS amount_currency
-                    FROM account_partial_reconcile part
-                    JOIN res_currency curr ON curr.id = part.credit_currency_id
-                    WHERE part.credit_move_id IN %s
-                    GROUP BY part.credit_move_id, curr.decimal_places
-                ''', [aml_ids, aml_ids])
+                             SELECT part.debit_move_id                                          AS line_id,
+                                    'debit'                                                     AS flag,
+                                    COALESCE(SUM(part.amount), 0.0)                             AS amount,
+                                    ROUND(SUM(part.debit_amount_currency), curr.decimal_places) AS amount_currency
+                             FROM account_partial_reconcile part
+                                      JOIN res_currency curr ON curr.id = part.debit_currency_id
+                             WHERE part.debit_move_id IN %s
+                             GROUP BY part.debit_move_id, curr.decimal_places
+                             UNION ALL
+                             SELECT part.credit_move_id                                          AS line_id,
+                                    'credit'                                                     AS flag,
+                                    COALESCE(SUM(part.amount), 0.0)                              AS amount,
+                                    ROUND(SUM(part.credit_amount_currency), curr.decimal_places) AS amount_currency
+                             FROM account_partial_reconcile part
+                                      JOIN res_currency curr ON curr.id = part.credit_currency_id
+                             WHERE part.credit_move_id IN %s
+                             GROUP BY part.credit_move_id, curr.decimal_places
+                             ''', [aml_ids, aml_ids])
             amounts_map = {
                 (line_id, flag): (amount, amount_currency)
                 for line_id, flag, amount, amount_currency in self.env.cr.fetchall()
@@ -129,8 +177,8 @@ class AccountMoveLine(models.Model):
             line.amount_residual_currency = foreign_curr.round(
                 line.amount_currency - debit_amount_currency + credit_amount_currency)
             line.reconciled = (
-                    comp_curr.is_zero(line.amount_residual)
-                    and foreign_curr.is_zero(line.amount_residual_currency)
+                comp_curr.is_zero(line.amount_residual)
+                and foreign_curr.is_zero(line.amount_residual_currency)
             )
 
     @api.depends("vendor_id")
@@ -150,7 +198,7 @@ class AccountMoveLine(models.Model):
                 line.available_vendor_ids = []
 
     def _convert_to_tax_base_line_dict(self):
-        print("=== convert_to_tax_base_line_dict ===", self, self.margin_amount)
+        print("=== convert_to_tax_base_line_dict ===", self, self.margin)
         """ Convert the current record to a dictionary in order to use the generic taxes computation method
         defined on account.tax.
         :return: A python dictionary.
@@ -162,7 +210,7 @@ class AccountMoveLine(models.Model):
         price_unit_margin = 0.0
         if self.line_concerned_by_margin:
             price_unit = (self.price_unit - self.vendor_price)
-            price_unit_margin = self.margin_amount / self.quantity
+            price_unit_margin = self.margin / self.quantity
         return self.env['account.tax']._convert_to_tax_base_line_dict(
             self,
             partner=self.partner_id,
@@ -170,7 +218,7 @@ class AccountMoveLine(models.Model):
             product=self.product_id,
             taxes=self.tax_ids,
             price_unit=price_unit,
-            price_unit_margin=self.margin_amount,
+            price_unit_margin=self.margin,
             quantity=self.quantity if is_invoice else 1.0,
             discount=self.discount if is_invoice else 0.0,
             account=self.account_id,
@@ -180,7 +228,7 @@ class AccountMoveLine(models.Model):
             rate=(abs(self.amount_currency) / abs(self.balance)) if self.balance else 1.0
         )
 
-    @api.depends('product_id', 'price_unit', 'margin_amount', 'quantity', 'vendor_price', 'tax_id')
+    @api.depends('product_id', 'price_unit', 'margin', 'quantity', 'vendor_price', 'tax_id')
     def _compute_margin_tax(self):
         for line in self:
             print('=== _compute_margin_tax ===', line)
@@ -202,7 +250,7 @@ class AccountMoveLine(models.Model):
                 line.tax_base_amount = line.price_subtotal
                 line.tax_amount = line.price_subtotal * (line.tax_ids.amount / 100)
 
-    @api.depends('quantity', 'discount', 'price_unit', 'margin_amount', 'tax_ids', 'currency_id')
+    @api.depends('quantity', 'discount', 'price_unit', 'margin', 'tax_ids', 'currency_id')
     def _compute_totals(self):
         for line in self:
             if line.display_type != 'product':
@@ -220,7 +268,7 @@ class AccountMoveLine(models.Model):
                     partner=line.partner_id,
                     is_refund=line.is_refund,
                     is_tva_on_margin_move=True,
-                    price_unit_margin=line.margin_amount
+                    price_unit_margin=line.margin
                 )
                 line.price_subtotal = taxes_res['total_excluded']
                 line.price_total = taxes_res['total_included']
@@ -228,7 +276,7 @@ class AccountMoveLine(models.Model):
                 line.price_total = line.price_subtotal = subtotal
 
     @api.depends('tax_ids', 'currency_id', 'partner_id', 'analytic_distribution', 'balance', 'partner_id',
-                 'move_id.partner_id', 'price_unit', 'margin_amount', 'quantity')
+                 'move_id.partner_id', 'price_unit', 'margin', 'quantity')
     def _compute_all_tax(self):
         for line in self:
             sign = line.move_id.direction_sign
@@ -254,7 +302,7 @@ class AccountMoveLine(models.Model):
                 handle_price_include=handle_price_include,
                 include_caba_tags=line.move_id.always_tax_exigible,
                 fixed_multiplicator=sign,
-                price_unit_margin=line.margin_amount,
+                price_unit_margin=line.margin,
             )
             rate = line.amount_currency / line.balance if line.balance else 1
             line.compute_all_tax_dirty = True
