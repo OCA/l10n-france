@@ -59,6 +59,7 @@ class AccountTax(models.Model):
             handle_price_include=True,
             extra_context=None,
     ):
+        print("=== _convert_to_tax_base_line_dict account_tax ===", taxes)
         return {
             'record': base_line,
             'partner': partner or self.env['res.partner'],
@@ -66,7 +67,7 @@ class AccountTax(models.Model):
             'product': product or self.env['product.product'],
             'taxes': taxes or self.env['account.tax'],
             'price_unit': price_unit or 0.0,
-            'price_unit_margin': price_unit_margin or 0.0,
+            'price_unit_margin': price_unit_margin if taxes.vat_on_margin else 0.0,
             'quantity': quantity or 0.0,
             'discount': discount or 0.0,
             'account': account or self.env['account.account'],
@@ -420,11 +421,17 @@ class AccountTax(models.Model):
             print("=== division_amount ===", division_amount)
             print("=== result ===", (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
             print("=== kwargs ===", kwargs.get('price_unit_margin'), type(kwargs.get('price_unit_margin')))
-            if kwargs.get('price_unit_margin') and kwargs.get('price_unit_margin') != 0.0 and kwargs.get('price_unit_margin') > 0.0 and type(kwargs.get('price_unit_margin')) == float:
-                print("=== ICI 1=== ", base_amount, kwargs.get('price_unit_margin'), fixed_amount, percent_amount, division_amount)
-                result_1 = base_amount - kwargs.get('price_unit_margin') + ((kwargs.get('price_unit_margin') - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
-                print("=== ICI 1 ====", result_1)
-                return result_1
+            print("=== SELF ICI===", self)
+            if self.vat_on_margin:
+                if kwargs.get('price_unit_margin') and kwargs.get('price_unit_margin') != 0.0 and kwargs.get('price_unit_margin') > 0.0 and type(kwargs.get('price_unit_margin')) == float:
+                    print("=== ICI 1=== ", base_amount, kwargs.get('price_unit_margin'), fixed_amount, percent_amount, division_amount)
+                    result_1 = base_amount - kwargs.get('price_unit_margin') + ((kwargs.get('price_unit_margin') - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
+                    print("=== ICI 1 ====", result_1)
+                    return result_1
+                else:
+                    result = (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (
+                            100 - division_amount) / 100
+                    return result
             else:
                 print("=== ICI 2 ===")
                 result =  (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100
