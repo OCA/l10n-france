@@ -4,7 +4,7 @@
     "category": "Localization",
     "summary": "Fichier d'Échange Informatisé (FEC) for France",
     "author": "Druidoo",
-    "website": "http://www.druidoo.io",
+    "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
     "depends": ["l10n_fr_fec", "queue_job"],
     "data": [
