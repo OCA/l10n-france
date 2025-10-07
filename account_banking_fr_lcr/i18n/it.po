@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-france (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-30 00:43+0000\n"
-"PO-Revision-Date: 2023-09-20 17:51+0000\n"
+"PO-Revision-Date: 2025-10-07 11:42+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-l10n-france-8-0/"
 "language/it/)\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: account_banking_fr_lcr
 #: view:banking.export.lcr.wizard:account_banking_fr_lcr.banking_export_lcr_wizard_form
@@ -63,7 +63,7 @@ msgstr "Nome file"
 #. module: account_banking_fr_lcr
 #: selection:banking.export.lcr.wizard,state:0
 msgid "Finish"
-msgstr "Finish"
+msgstr "Termina"
 
 #. module: account_banking_fr_lcr
 #: code:addons/account_banking_fr_lcr/wizard/export_lcr.py:111
