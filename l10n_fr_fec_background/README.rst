@@ -8,7 +8,7 @@ Run FEC reports in Background
 Usage
 =====
 
-* This module extends the features of l10n_fr_fec module.
+* This module extends the features of l10n_fr_account module.
 
 * It enables to run the FEC reports in background and after finishing the report, it will send an email to the requested/logged in user.
 
@@ -38,3 +38,4 @@ Contributors
 
 * La Louve <http://www.lalouve.net/>
 * Druidoo <https://www.druidoo.io>
+* Phan Hong Phuc \<<phucph@trobz.com>\>

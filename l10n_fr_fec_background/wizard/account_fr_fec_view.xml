@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="account_fr_fec_view_inherit" model="ir.ui.view">
-        <field name="name">account.fr.fec.form.view.inherit</field>
-        <field name="model">account.fr.fec</field>
+        <field name="name">l10n_fr.fec.export.wizard.view.inherit</field>
+        <field name="model">account.fr.fec.oca</field>
         <field name="priority">100</field>
-        <field name="inherit_id" ref="l10n_fr_fec.account_fr_fec_view" />
+        <field name="inherit_id" ref="l10n_fr_fec_oca.account_fr_fec_oca_form" />
         <field name="arch" type="xml">
             <xpath expr="//footer/button[@name='generate_fec']" position="after">
                 <button
                     string="TXT"
-                    name="export_fec_txt"
+                    name="generate_fec_txt"
                     type="object"
                     class="oe_highlight"
                 />
                 <button
                     string="CSV Background"
-                    name="export_fec_csv_background"
+                    name="generate_fec_background"
                     type="object"
                     class="oe_highlight"
                 />
                 <button
                     string="TXT Background"
-                    name="export_fec_txt_background"
+                    name="generate_fec_txt_background"
                     type="object"
                     class="oe_highlight"
                 />
