@@ -1,21 +1,20 @@
-from odoo import models, fields, api
-from odoo.tools import float_is_zero
-
 import base64
+
+from odoo import api, fields, models
+from odoo.tools import float_is_zero
 
 
 class AccountFrFec(models.TransientModel):
-    _inherit = 'account.fr.fec'
+    _inherit = "account.fr.fec"
 
     group_sale_purchase = fields.Boolean(
-        'Group Sale and Purchase Journals',
-        default=True
+        "Group Sale and Purchase Journals", default=True
     )
 
     @api.multi
     def generate_fec(self):
         if not self.group_sale_purchase:
-            return super(AccountFrFec, self).generate_fec()
+            return super().generate_fec()
         self.ensure_one()
         # We choose to implement the flat file instead of the XML
         # file for 2 reasons :
@@ -29,30 +28,29 @@ class AccountFrFec(models.TransientModel):
         company_legal_data = self._get_company_legal_data(company)
 
         header = [
-            u'JournalCode',     # 0
-            u'JournalLib',      # 1
-            u'EcritureNum',     # 2
-            u'EcritureDate',    # 3
-            u'CompteNum',       # 4
-            u'CompteLib',       # 5
-            u'CompAuxNum',      # 6  We use partner.id
-            u'CompAuxLib',      # 7
-            u'PieceRef',        # 8
-            u'PieceDate',       # 9
-            u'EcritureLib',     # 10
-            u'Debit',           # 11
-            u'Credit',          # 12
-            u'EcritureLet',     # 13
-            u'DateLet',         # 14
-            u'ValidDate',       # 15
-            u'Montantdevise',   # 16
-            u'Idevise',         # 17
+            "JournalCode",  # 0
+            "JournalLib",  # 1
+            "EcritureNum",  # 2
+            "EcritureDate",  # 3
+            "CompteNum",  # 4
+            "CompteLib",  # 5
+            "CompAuxNum",  # 6  We use partner.id
+            "CompAuxLib",  # 7
+            "PieceRef",  # 8
+            "PieceDate",  # 9
+            "EcritureLib",  # 10
+            "Debit",  # 11
+            "Credit",  # 12
+            "EcritureLet",  # 13
+            "DateLet",  # 14
+            "ValidDate",  # 15
+            "Montantdevise",  # 16
+            "Idevise",  # 17
         ]
 
         rows_to_write = [header]
         # INITIAL BALANCE
-        unaffected_earnings_xml_ref = self.env.ref(
-            'account.data_unaffected_earnings')
+        unaffected_earnings_xml_ref = self.env.ref("account.data_unaffected_earnings")
         # used to make sure that we add the unaffected earning
         # initial balance only once
         unaffected_earnings_line = True
@@ -62,7 +60,7 @@ class AccountFrFec(models.TransientModel):
             unaffected_earnings_results = self._do_query_unaffected_earnings()
             unaffected_earnings_line = False
 
-        sql_query = '''
+        sql_query = """
         SELECT
             'OUV' AS JournalCode,
             'Balance initiale' AS JournalLib,
@@ -97,84 +95,94 @@ class AccountFrFec(models.TransientModel):
             AND am.company_id = %s
             AND aat.include_initial_balance = 't'
             AND (aml.debit != 0 OR aml.credit != 0)
-        '''
+        """
 
         # For official report: only use posted entries
         if self.export_type == "official":
-            sql_query += '''
+            sql_query += """
             AND am.state = 'posted'
-            '''
+            """
 
-        sql_query += '''
+        sql_query += """
         GROUP BY aml.account_id, aat.type
         HAVING round(sum(aml.balance), %s) != 0
         AND aat.type not in ('receivable', 'payable')
-        '''
-        formatted_date_from = fields.Date.to_string(
-            self.date_from).replace('-', '')
+        """
+        formatted_date_from = fields.Date.to_string(self.date_from).replace("-", "")
         date_from = self.date_from
         formatted_date_year = date_from.year
         currency_digits = 2
 
         self._cr.execute(
-            sql_query, (
-                formatted_date_year, formatted_date_from, formatted_date_from,
-                formatted_date_from, self.date_from, company.id,
-                currency_digits))
+            sql_query,
+            (
+                formatted_date_year,
+                formatted_date_from,
+                formatted_date_from,
+                formatted_date_from,
+                self.date_from,
+                company.id,
+                currency_digits,
+            ),
+        )
 
         for row in self._cr.fetchall():
             listrow = list(row)
             account_id = listrow.pop()
             if not unaffected_earnings_line:
-                account = self.env['account.account'].browse(account_id)
-                if account.user_type_id.id == self.env.ref(
-                        'account.data_unaffected_earnings').id:
+                account = self.env["account.account"].browse(account_id)
+                if (
+                    account.user_type_id.id
+                    == self.env.ref("account.data_unaffected_earnings").id
+                ):
                     # add the benefit/loss of previous fiscal year
                     # to the first unaffected earnings account found.
                     unaffected_earnings_line = True
-                    current_amount = float(
-                        listrow[11].replace(',', '.')) - float(
-                        listrow[12].replace(',', '.'))
-                    unaffected_earnings_amount = \
-                        float(unaffected_earnings_results[11].replace(',', '.')
-                              ) - \
-                        float(unaffected_earnings_results[12].replace(',', '.')
-                              )
-                    listrow_amount = current_amount + \
-                        unaffected_earnings_amount
-                    if float_is_zero(listrow_amount,
-                                     precision_digits=currency_digits):
+                    current_amount = float(listrow[11].replace(",", ".")) - float(
+                        listrow[12].replace(",", ".")
+                    )
+                    unaffected_earnings_amount = float(
+                        unaffected_earnings_results[11].replace(",", ".")
+                    ) - float(unaffected_earnings_results[12].replace(",", "."))
+                    listrow_amount = current_amount + unaffected_earnings_amount
+                    if float_is_zero(listrow_amount, precision_digits=currency_digits):
                         continue
                     if listrow_amount > 0:
-                        listrow[11] = str(listrow_amount).replace('.', ',')
-                        listrow[12] = '0,00'
+                        listrow[11] = str(listrow_amount).replace(".", ",")
+                        listrow[12] = "0,00"
                     else:
-                        listrow[11] = '0,00'
-                        listrow[12] = str(-listrow_amount).replace('.', ',')
+                        listrow[11] = "0,00"
+                        listrow[12] = str(-listrow_amount).replace(".", ",")
             rows_to_write.append(listrow)
 
         # if the unaffected earnings account wasn't in the selection yet: add
         # it manually
-        if (not unaffected_earnings_line
+        if (
+            not unaffected_earnings_line
             and unaffected_earnings_results
-            and (unaffected_earnings_results[11] != '0,00'
-                 or unaffected_earnings_results[12] != '0,00')):
+            and (
+                unaffected_earnings_results[11] != "0,00"
+                or unaffected_earnings_results[12] != "0,00"
+            )
+        ):
             # search an unaffected earnings account
-            unaffected_earnings_account = self.env['account.account'].search(
-                [(
-                    'user_type_id',
-                    '=',
-                    self.env.ref('account.data_unaffected_earnings').id),
-                 ], limit=1)
+            unaffected_earnings_account = self.env["account.account"].search(
+                [
+                    (
+                        "user_type_id",
+                        "=",
+                        self.env.ref("account.data_unaffected_earnings").id,
+                    ),
+                ],
+                limit=1,
+            )
             if unaffected_earnings_account:
-                unaffected_earnings_results[
-                    4] = unaffected_earnings_account.code
-                unaffected_earnings_results[
-                    5] = unaffected_earnings_account.name
+                unaffected_earnings_results[4] = unaffected_earnings_account.code
+                unaffected_earnings_results[5] = unaffected_earnings_account.name
             rows_to_write.append(unaffected_earnings_results)
 
         # INITIAL BALANCE - receivable/payable
-        sql_query = '''
+        sql_query = """
         SELECT
             'OUV' AS JournalCode,
             'Balance initiale' AS JournalLib,
@@ -214,24 +222,31 @@ class AccountFrFec(models.TransientModel):
             AND am.company_id = %s
             AND aat.include_initial_balance = 't'
             AND (aml.debit != 0 OR aml.credit != 0)
-        '''
+        """
 
         # For official report: only use posted entries
         if self.export_type == "official":
-            sql_query += '''
+            sql_query += """
             AND am.state = 'posted'
-            '''
+            """
 
-        sql_query += '''
+        sql_query += """
         GROUP BY aml.account_id, aat.type, rp.ref, rp.id
         HAVING round(sum(aml.balance), %s) != 0
         AND aat.type in ('receivable', 'payable')
-        '''
+        """
         self._cr.execute(
-            sql_query, (
-                formatted_date_year, formatted_date_from, formatted_date_from,
-                formatted_date_from, self.date_from, company.id,
-                currency_digits))
+            sql_query,
+            (
+                formatted_date_year,
+                formatted_date_from,
+                formatted_date_from,
+                formatted_date_from,
+                self.date_from,
+                company.id,
+                currency_digits,
+            ),
+        )
 
         for row in self._cr.fetchall():
             listrow = list(row)
@@ -241,38 +256,50 @@ class AccountFrFec(models.TransientModel):
         # LINES
         sql_query = self.write_fec_lines()
         self._cr.execute(
-            sql_query, (self.date_from, self.date_to, company.id,
-                        self.date_from, self.date_to, company.id))
+            sql_query,
+            (
+                self.date_from,
+                self.date_to,
+                company.id,
+                self.date_from,
+                self.date_to,
+                company.id,
+            ),
+        )
 
         for row in self._cr.fetchall():
             rows_to_write.append(list(row))
 
         fecvalue = self._csv_write_rows(rows_to_write)
-        end_date = fields.Date.to_string(self.date_to).replace('-', '')
-        suffix = ''
+        end_date = fields.Date.to_string(self.date_to).replace("-", "")
+        suffix = ""
         if self.export_type == "nonofficial":
-            suffix = '-NONOFFICIAL'
+            suffix = "-NONOFFICIAL"
 
-        self.write({
-            'fec_data': base64.encodestring(fecvalue),
-            # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
-            'filename': '%sFEC%s%s.csv' % (company_legal_data['siren'],
-                                           end_date, suffix),
-        })
+        self.write(
+            {
+                "fec_data": base64.encodestring(fecvalue),
+                # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
+                "filename": "%sFEC%s%s.csv"
+                % (company_legal_data["siren"], end_date, suffix),
+            }
+        )
 
         url = "&filename_field=filename&field=fec_data&download=true&filename="
         action = {
-            'name': 'FEC',
-            'type': 'ir.actions.act_url',
-            'url': "web/content/?model=account.fr.fec&id=" + str(self.id)
-                   + url + self.filename,
-            'target': 'self',
+            "name": "FEC",
+            "type": "ir.actions.act_url",
+            "url": "web/content/?model=account.fr.fec&id="
+            + str(self.id)
+            + url
+            + self.filename,
+            "target": "self",
         }
         return action
 
     @api.multi
     def write_fec_lines(self):
-        sql_query = r'''
+        sql_query = r"""
                 (SELECT
                     replace(aj.code, '|', '/') AS JournalCode,
                     replace(aj.name, '|', '/') AS JournalLib,
@@ -331,22 +358,22 @@ class AccountFrFec(models.TransientModel):
                     AND am.date <= %s
                     AND am.company_id = %s
                     AND (aml.debit != 0 OR aml.credit != 0)
-                '''
+                """
 
         # For official report: only use posted entries
         if self.export_type == "official":
-            sql_query += '''
+            sql_query += """
                     AND am.state = 'posted'
-                    '''
+                    """
 
-        sql_query += '''
+        sql_query += """
                 ORDER BY
                     am.date,
                     am.name,
                     aml.id)
-                '''
+                """
 
-        sql_query2 = r'''
+        sql_query2 = r"""
                 SELECT
                     replace(STRING_AGG(distinct aj.code, ';'), '|', '/') AS
                     JournalCode,
@@ -414,32 +441,37 @@ class AccountFrFec(models.TransientModel):
                     AND am.date <= %s
                     AND am.company_id = %s
                     AND (aml.debit != 0 OR aml.credit != 0)
-                '''
+                """
 
         # For official report: only use posted entries
         if self.export_type == "official":
-            sql_query2 += '''
+            sql_query2 += """
                     AND am.state = 'posted'
-                    '''
+                    """
 
-        sql_query2 += '''
+        sql_query2 += """
                 GROUP BY
                     am.name,
                     aml.account_id,
                     aml.partner_id
-                     '''
-        sql_query2 += '''
+                     """
+        sql_query2 += """
                 ORDER BY
                     MIN(am.date),
                     MIN(am.name),
                     MIN(aml.id)
-                '''
+                """
 
-        sql_query = sql_query + '''
+        sql_query = (
+            sql_query
+            + """
                 UNION (
-                    ''' + sql_query2 + ''' )
+                    """
+            + sql_query2
+            + """ )
                 ORDER BY
                     PieceDate,
                     EcritureNum
-                    '''
+                    """
+        )
         return sql_query
