@@ -2,13 +2,13 @@
     :alt: License: AGPL-3
 
 ===============================================
-Option to Group lines by sale, purchase journls
+Option to Group lines by sale, purchase journals
 ===============================================
 
 Usage
 =====
 
-* This module extends the features of l10n_fr_fec module.
+* This module extends the features of l10n_fr_account module.
 
 * It enables to group the report lines by sale and purchase journals.
 
