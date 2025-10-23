@@ -217,9 +217,7 @@ class AccountFrFecOca(models.TransientModel):
         """
         }
         if self.partner_identifier == "ref":
-            aux_dict[
-                "auxnum"
-            ] = """
+            aux_dict["auxnum"] = """
             CASE WHEN rp.ref IS null OR rp.ref = ''
             THEN COALESCE('ID' || rp.id, '')
             ELSE REGEXP_REPLACE(replace(rp.ref, '|', '/'), '[\\t\\r\\n]', ' ', 'g')
