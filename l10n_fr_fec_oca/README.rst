@@ -93,6 +93,9 @@ Contributors
 
 - Alexis de Lattre <alexis.delattre@akretion.com>
 - Odoo S.A. <`https://www.odoo.com/\\> <https://www.odoo.com/\>>`__
+- Trobz <`https://www.trobz.com/\\> <https://www.trobz.com/\>>`__
+
+  - Phan Hong Phuc <phucph@trobz.com>
 
 Maintainers
 -----------
