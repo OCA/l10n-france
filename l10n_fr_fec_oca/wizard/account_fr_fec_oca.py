@@ -91,7 +91,7 @@ class AccountFrFecOca(models.TransientModel):
         string="Accounts",
         default=lambda self: self._default_partner_account_ids(),
         check_company=True,
-        domain="[('company_id', '=', company_id)]",
+        domain="[('company_ids', 'in', company_id)]",
     )
     partner_identifier = fields.Selection(
         [
@@ -124,11 +124,17 @@ class AccountFrFecOca(models.TransientModel):
 
     @api.model
     def _default_partner_account_ids(self):
-        pay = self.env["ir.property"]._get("property_account_payable_id", "res.partner")
-        rec = self.env["ir.property"]._get(
-            "property_account_receivable_id", "res.partner"
-        )
-        return pay + rec
+        def get_account(kind):
+            return (
+                self.env["account.account"]
+                .search(
+                    [("account_type", "=", kind), ("deprecated", "=", False)],
+                    limit=1,
+                )
+                .id
+            )
+
+        return get_account("liability_payable") + get_account("asset_receivable")
 
     def _do_query_unaffected_earnings(self):
         """Compute the sum of ending balances for all accounts that are
@@ -213,7 +219,7 @@ class AccountFrFecOca(models.TransientModel):
     def _get_aux_fields(self, sql_args):
         aux_dict = {
             "auxlib": """
-        COALESCE(REGEXP_REPLACE(replace(rp.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g'), '')
+    COALESCE(REGEXP_REPLACE(replace(rp.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g'), '')
         """
         }
         if self.partner_identifier == "ref":
@@ -227,45 +233,36 @@ class AccountFrFecOca(models.TransientModel):
             aux_dict["auxnum"] = """rp.id::text"""
 
         if self.partner_option == "receivable_payable":
-            aux_sql = (
-                """
+            aux_sql = f"""
             CASE WHEN aa.account_type IN ('asset_receivable', 'liability_payable')
-            THEN %(auxnum)s
+            THEN {aux_dict['auxnum']}
             ELSE ''
             END
             AS CompAuxNum,
             CASE WHEN aa.account_type IN ('asset_receivable', 'liability_payable')
-            THEN %(auxlib)s
+            THEN {aux_dict['auxlib']}
             ELSE ''
             END
             AS CompAuxLib,
             """
-                % aux_dict
-            )
         elif self.partner_option == "accounts":
             sql_args["partner_account_ids"] = tuple(self.partner_account_ids.ids)
-            aux_sql = (
-                """
+            aux_sql = f"""
             CASE WHEN aa.id IN %%(partner_account_ids)s
-            THEN %(auxnum)s
+            THEN {aux_dict['auxnum']}
             ELSE ''
             END
             AS CompAuxNum,
             CASE WHEN aa.id IN %%(partner_account_ids)s
-            THEN %(auxlib)s
+            THEN {aux_dict['auxlib']}
             ELSE ''
             END
             AS CompAuxLib,
             """
-                % aux_dict
-            )
         else:
-            aux_sql = (
-                """
-            %(auxnum)s AS CompAuxNum, %(auxlib)s AS CompAuxLib,
+            aux_sql = f"""
+            {aux_dict['auxnum']} AS CompAuxNum, {aux_dict['auxlib']} AS CompAuxLib,
             """
-                % aux_dict
-            )
         return aux_sql
 
     # flake8: noqa: C901
@@ -518,13 +515,13 @@ class AccountFrFecOca(models.TransientModel):
         # LINES
         sql_query = (
             """
-        SELECT
-            REGEXP_REPLACE(replace(aj.code, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalCode,
-            REGEXP_REPLACE(replace(aj.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalLib,
-            REGEXP_REPLACE(replace(am.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS EcritureNum,
-            TO_CHAR(am.date, 'YYYYMMDD') AS EcritureDate,
-            aa.code AS CompteNum,
-            REGEXP_REPLACE(replace(aa.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS CompteLib,
+SELECT
+    REGEXP_REPLACE(replace(aj.code, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalCode,
+    REGEXP_REPLACE(replace(aj.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS JournalLib,
+    REGEXP_REPLACE(replace(am.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS EcritureNum,
+    TO_CHAR(am.date, 'YYYYMMDD') AS EcritureDate,
+    aa.code AS CompteNum,
+    REGEXP_REPLACE(replace(aa.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g') AS CompteLib,
         """
             + aux_fields
             + """
@@ -535,8 +532,8 @@ class AccountFrFecOca(models.TransientModel):
             END AS PieceRef,
             TO_CHAR(COALESCE(am.invoice_date, am.date), 'YYYYMMDD') AS PieceDate,
             CASE WHEN aml.name IS NULL OR aml.name = '' THEN '/'
-                WHEN aml.name SIMILAR TO '[\\t|\\s|\\n]*' THEN '/'
-                ELSE REGEXP_REPLACE(replace(aml.name, '|', '/'), '[\\t\\n\\r]', ' ', 'g')
+               WHEN aml.name SIMILAR TO '[\\t|\\s|\\n]*' THEN '/'
+               ELSE REGEXP_REPLACE(replace(aml.name, '|', '/'), '[\\t\\n\\r]', ' ', 'g')
             END AS EcritureLib,
             replace(
                 CASE WHEN aml.debit = 0
@@ -559,13 +556,17 @@ class AccountFrFecOca(models.TransientModel):
             END AS DateLet,
             TO_CHAR(am.date, 'YYYYMMDD') AS ValidDate,
             CASE
-                WHEN aml.currency_id IS NULL OR aml.currency_id = aml.company_currency_id OR aml.amount_currency IS NULL OR aml.amount_currency = 0
+                WHEN aml.currency_id IS NULL
+                    OR aml.currency_id = aml.company_currency_id
+                    OR aml.amount_currency IS NULL OR aml.amount_currency = 0
                 THEN ''
                 ELSE replace(to_char(
                     aml.amount_currency, '000000000000000D99'), '.', ',')
             END AS Montantdevise,
             CASE
-                WHEN aml.currency_id IS NULL OR aml.currency_id = aml.company_currency_id OR aml.amount_currency IS NULL OR aml.amount_currency = 0
+                WHEN aml.currency_id IS NULL
+                    OR aml.currency_id = aml.company_currency_id
+                    OR aml.amount_currency IS NULL OR aml.amount_currency = 0
                 THEN ''
                 ELSE rc.name
             END AS Idevise
@@ -616,7 +617,7 @@ class AccountFrFecOca(models.TransientModel):
                     fecvalue.encode(self.encoding, errors="replace")
                 ),
                 # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
-                "filename": "%sFEC%s%s.txt" % (siren, end_date, suffix),
+                "filename": f"{siren}FEC{end_date}{suffix}.txt",
             }
         )
 
