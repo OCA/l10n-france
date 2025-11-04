@@ -46,23 +46,30 @@ class BusinessDocumentImport(models.AbstractModel):
         return super()._hook_match_partner(partner_dict, chatter_msg, domain, order)
 
     @api.model
-    def user_error_wrap(self, method, data_dict, error_msg):
+    def user_error_wrap(
+        self, method, data_dict, error_msg, chatter_msg, raise_exception
+    ):
         if method == "_match_partner" and error_msg and data_dict:
             error_msg += "SIREN: {}\nSIRET: {}\n".format(
                 data_dict.get("siren"),
                 data_dict.get("siret"),
             )
-        return super().user_error_wrap(method, data_dict, error_msg)
+        return super().user_error_wrap(
+            method, data_dict, error_msg, chatter_msg, raise_exception
+        )
 
     @api.model
-    def _check_company(self, company_dict, chatter_msg):
+    def _check_company(
+        self, company_dict, chatter_msg, company=None, raise_exception=True
+    ):
         if not company_dict:
             company_dict = {}
         rco = self.env["res.company"]
-        if self._context.get("force_company"):
-            company = rco.browse(self._context["force_company"])
-        else:
-            company = self.env.company
+        if company is None:
+            if self._context.get("force_company"):
+                company = rco.browse(self._context["force_company"])
+            else:
+                company = self.env.company
         siren = False
         if company_dict.get("siret"):
             siret = company_dict["siret"].replace(" ", "")
@@ -85,9 +92,17 @@ class BusinessDocumentImport(models.AbstractModel):
                             company_name=company.display_name,
                             company_siren=company.siren,
                         ),
+                        chatter_msg,
+                        raise_exception,
                     )
-            else:
+            elif (
+                company.country_id
+                and company.country_id.code
+                in self.env["res.company"]._get_france_country_codes()
+            ):
                 chatter_msg.append(
                     _("Missing SIRET on company '%s'.") % company.display_name
                 )
-        return super()._check_company(company_dict, chatter_msg)
+        return super()._check_company(
+            company_dict, chatter_msg, company=company, raise_exception=raise_exception
+        )
