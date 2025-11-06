@@ -2,3 +2,4 @@
   (Groupement Régional Alimentaire de Proximité)
 - Alexis de Lattre \<<alexis.delattre@akretion.com>\>
 - Nicolas JEUDY \<<https://github.com/njeudy>\>
+- Frederic GRALL \<<fgr@apik.cloud>\>
