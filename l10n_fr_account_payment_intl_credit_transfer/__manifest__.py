@@ -14,6 +14,7 @@
     "depends": ["l10n_fr", "account_payment_sepa_base"],
     "data": [
         "data/account_pain_regulatory_reporting.xml",
+        "views/res_partner.xml",
     ],
     "installable": True,
     "auto_install": True,
