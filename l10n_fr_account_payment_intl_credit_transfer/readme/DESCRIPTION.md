@@ -6,3 +6,5 @@ of the [Banque de France](https://www.banque-france.fr/).
 
 These regulatory codes are required for non-SEPA credit transfers with
 an amount over 50 000 € (or equivalent amount in another currency).
+
+This module allows to define a default regulatory reporting code on partners, that will be used by default on the non-SEPA credit transfer payment lines of this partner.
