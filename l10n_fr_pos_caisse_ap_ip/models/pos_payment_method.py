@@ -45,7 +45,7 @@ class PosPaymentMethod(models.Model):
     )
     def _check_fr_caisse_ap_ip(self):
         for method in self:
-            if method.use_payment_terminal == "caisse_ap_ip":
+            if method.use_payment_terminal == "fr-caisse_ap_ip":
                 if not method.fr_caisse_ap_ip_address:
                     raise ValidationError(
                         _(
