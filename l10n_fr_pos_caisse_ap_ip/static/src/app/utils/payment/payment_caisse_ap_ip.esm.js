@@ -7,7 +7,8 @@
 */
 
 import {AlertDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
-import {PaymentInterface} from "@point_of_sale/app/payment/payment_interface";
+import {PaymentInterface} from "@point_of_sale/app/utils/payment/payment_interface";
+import { register_payment_method } from "@point_of_sale/app/services/pos_store";
 import {_t} from "@web/core/l10n/translation";
 
 export class PaymentCaisseAPIP extends PaymentInterface {
@@ -15,8 +16,8 @@ export class PaymentCaisseAPIP extends PaymentInterface {
         super.setup(...arguments);
     }
 
-    async send_payment_cancel() {
-        super.send_payment_cancel(...arguments);
+    async sendPaymentCancel() {
+        super.sendPaymentCancel(...arguments);
         this._show_error(
             _t(
                 "Press the red button on the payment terminal to cancel the transaction."
@@ -30,7 +31,7 @@ export class PaymentCaisseAPIP extends PaymentInterface {
             pay_line.card_type = response.card_type;
             pay_line.transaction_id = response.transaction_id;
             if ("ticket" in response) {
-                pay_line.set_receipt_info(response.ticket);
+                pay_line.setReceiptInfo(response.ticket);
             }
             return true;
         }
@@ -40,14 +41,14 @@ export class PaymentCaisseAPIP extends PaymentInterface {
     _handle_caisse_ap_ip_unexpected_response(pay_line) {
         // The response cannot be understood
         // We let the cashier handle it manually (force or cancel)
-        pay_line.set_payment_status("force_done");
+        pay_line.setPaymentStatus("force_done");
         return Promise.reject();
     }
 
-    async send_payment_request(uuid) {
-        await super.send_payment_request(...arguments);
-        const order = this.pos.get_order();
-        const pay_line = order.get_selected_paymentline();
+    async sendPaymentRequest(uuid) {
+        await super.sendPaymentRequest(...arguments);
+        const order = this.pos.getOrder();
+        const pay_line = order.getSelectedPaymentline();
         // Define the timout used in the POS and in the back-end (in ms)
         const timeout = 180000;
         const data = {
@@ -57,7 +58,7 @@ export class PaymentCaisseAPIP extends PaymentInterface {
             payment_id: uuid,
             timeout: timeout,
         };
-        pay_line.set_payment_status("waitingCard");
+        pay_line.setPaymentStatus("waitingCard");
         return this.pos.data
             .silentCall("pos.payment.method", "fr_caisse_ap_ip_send_payment", [data])
             .then((response) => {
@@ -88,3 +89,5 @@ export class PaymentCaisseAPIP extends PaymentInterface {
         });
     }
 }
+
+register_payment_method("fr-caisse_ap_ip", PaymentCaisseAPIP);
