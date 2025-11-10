@@ -8,8 +8,8 @@
 
 import {AlertDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
 import {PaymentInterface} from "@point_of_sale/app/utils/payment/payment_interface";
-import { register_payment_method } from "@point_of_sale/app/services/pos_store";
 import {_t} from "@web/core/l10n/translation";
+import {register_payment_method} from "@point_of_sale/app/services/pos_store";
 
 export class PaymentCaisseAPIP extends PaymentInterface {
     setup() {

@@ -5,7 +5,7 @@
 import logging
 import socket
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ class PosPaymentMethod(models.Model):
 
     def _get_payment_terminal_selection(self):
         res = super()._get_payment_terminal_selection()
-        res.append(("fr-caisse_ap_ip", _("Caisse AP over IP (France only)")))
+        res.append(("fr-caisse_ap_ip", self.env._("Caisse AP over IP (France only)")))
         return res
 
     fr_caisse_ap_ip_mode = fields.Selection(
@@ -45,22 +45,22 @@ class PosPaymentMethod(models.Model):
     )
     def _check_fr_caisse_ap_ip(self):
         for method in self:
-            if method.use_payment_terminal == "caisse_ap_ip":
+            if method.use_payment_terminal == "fr-caisse_ap_ip":
                 if not method.fr_caisse_ap_ip_address:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Caisse-AP payment terminal IP address is not set on "
-                            "payment method '%s'."
+                            "payment method '%s'.",
+                            method.display_name,
                         )
-                        % method.display_name
                     )
                 if not method.fr_caisse_ap_ip_port:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Caisse-AP payment terminal port is not set on "
-                            "payment method '%s'."
+                            "payment method '%s'.",
+                            method.display_name,
                         )
-                        % method.display_name
                     )
 
                 if (
@@ -68,8 +68,10 @@ class PosPaymentMethod(models.Model):
                     or method.fr_caisse_ap_ip_port > 65535
                 ):
                     raise ValidationError(
-                        _("Port %s for the payment terminal is not a valid TCP port.")
-                        % method.fr_caisse_ap_ip_port
+                        self.env._(
+                            "Port %s for the payment terminal is not a valid TCP port.",
+                            method.fr_caisse_ap_ip_port,
+                        )
                     )
 
     def _fr_caisse_ap_ip_prepare_msg(self, msg_dict):
@@ -134,7 +136,7 @@ class PosPaymentMethod(models.Model):
         # CD Action type: 0=debit (regular payment) 1=credit (reimbursement)
         if not amount_compare:
             logger.error("Amount for payment terminal is 0")
-            error_msg = _(
+            error_msg = self.env._(
                 "You are tying to send a null amount to the payment terminal!"
             )
             res = {
@@ -159,12 +161,10 @@ class PosPaymentMethod(models.Model):
             amount_str = amount_str.zfill(2)
         elif len(amount_str) > 12:
             logger.error("Amount with cents %s is over the maximum.", amount_str)
-            error_msg = (
-                _(
-                    "You are tying to send amount %s cents to the payment terminal, "
-                    "but it is over the maximum!"
-                )
-                % amount_str
+            error_msg = self.env._(
+                "You are tying to send amount %s cents to the payment terminal, "
+                "but it is over the maximum!",
+                amount_str,
             )
             res = {
                 "payment_status": "issue",
@@ -209,7 +209,7 @@ class PosPaymentMethod(models.Model):
                 logger.debug("Answer received from payment terminal: %s", answer)
         except Exception as e:
             logger.warning("Exception raised in socket to payment terminal: %s", e)
-            error_msg = _(
+            error_msg = self.env._(
                 "Failure in the connection to the payment terminal"
                 " on %(ip_addr)s port %(port)s: %(error)s.",
                 ip_addr=ip_addr,
@@ -226,7 +226,7 @@ class PosPaymentMethod(models.Model):
         else:
             res = {
                 "payment_status": "issue",
-                "error_message": _(
+                "error_message": self.env._(
                     "Empty answer from payment terminal. This should never happen."
                 ),
             }
@@ -243,11 +243,12 @@ class PosPaymentMethod(models.Model):
         elif answer_dict.get("AE") == "01":
             res = self._fr_caisse_ap_ip_prepare_failure(answer_dict)
         else:
-            error_msg = _(
+            error_msg = self.env._(
                 "Error in the communication with the payment terminal: "
                 "the action statuts is invalid (AE=%s). "
-                "This should never happen!"
-            ) % answer_dict.get("AE")
+                "This should never happen!",
+                answer_dict.get("AE"),
+            )
             res = {
                 "payment_status": "issue",
                 "error_message": error_msg,
@@ -266,18 +267,19 @@ class PosPaymentMethod(models.Model):
         }
         for tag, props in tag_dict.items():
             if props["required"] and not answer_dict.get(tag):
-                fail_res["error_message"] = _(
+                fail_res["error_message"] = self.env._(
                     "Caisse AP IP protocol: tag %s is required but it is "
                     "not present in the answer from the terminal. "
-                    "This should never happen!"
-                ) % answer_dict.get(tag)
+                    "This should never happen!",
+                    answer_dict.get(tag),
+                )
                 return fail_res
             if (
                 props["fixed_size"]
                 and answer_dict.get(tag)
                 and answer_dict[tag] != msg_dict[tag]
             ):
-                fail_res["error_message"] = _(
+                fail_res["error_message"] = self.env._(
                     "Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value "
                     "%(request_val)s in the query and %(answer_val)s in the "
                     "answer, but these values should be identical. "
@@ -291,7 +293,7 @@ class PosPaymentMethod(models.Model):
             elif not props["fixed_size"] and answer_dict.get(tag):
                 strip_answer = answer_dict[tag].lstrip("0")
                 if msg_dict[tag] != strip_answer:
-                    fail_res["error_message"] = _(
+                    fail_res["error_message"] = self.env._(
                         "Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value "
                         "%(request_val)s in the request and %(answer_val)s in the "
                         "answer, but these values should be identical. "
@@ -334,16 +336,18 @@ class PosPaymentMethod(models.Model):
         ticket = False
         if answer_dict.get("CC") and len(answer_dict["CC"]) == 3:
             cc_tag = answer_dict["CC"].lstrip("0")
-            cc_label = cc_labels.get(cc_tag, _("unknown"))
+            cc_label = cc_labels.get(cc_tag, self.env._("unknown"))
             card_type_list.append(
-                _("Application %(label)s (code %(code)s)", label=cc_label, code=cc_tag)
+                self.env._(
+                    "Application %(label)s (code %(code)s)", label=cc_label, code=cc_tag
+                )
             )
-            ticket = _("Card type: %s") % cc_label
+            ticket = self.env._("Card type: %s", cc_label)
         if answer_dict.get("CI") and len(answer_dict["CI"]) == 1:
             card_type_list.append(
-                _(
+                self.env._(
                     "Read mode: %(label)s (code %(code)s)",
-                    label=ci_labels.get(answer_dict["CI"], _("unknown")),
+                    label=ci_labels.get(answer_dict["CI"], self.env._("unknown")),
                     code=answer_dict["CI"],
                 )
             )
@@ -372,7 +376,7 @@ class PosPaymentMethod(models.Model):
 
     def _fr_caisse_ap_ip_prepare_failure(self, answer_dict):
         label = None
-        error_msg = _("The payment transaction has failed.")
+        error_msg = self.env._("The payment transaction has failed.")
         af_labels = {
             "00": "Inconnu",
             "01": "Transaction autorisé",
@@ -391,7 +395,7 @@ class PosPaymentMethod(models.Model):
         }
         if answer_dict.get("AF") and answer_dict["AF"] in af_labels:
             label = af_labels[answer_dict["AF"]]
-            error_msg = _("The payment transaction has failed: %s") % label
+            error_msg = self.env._("The payment transaction has failed: %s", label)
         res = {
             "payment_status": "failure",
             "error_message": error_msg,
