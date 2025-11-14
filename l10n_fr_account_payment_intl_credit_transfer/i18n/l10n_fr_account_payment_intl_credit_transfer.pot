@@ -26,6 +26,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model,name:l10n_fr_account_payment_intl_credit_transfer.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
 #: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e11
 msgid ""
 "Désinvestissements intra-groupes (participations, prêts, dépôts et "
@@ -45,8 +50,40 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model.fields,help:l10n_fr_account_payment_intl_credit_transfer.field_res_partner__credit_transfer_regulatory_reporting_id
+#: model:ir.model.fields,help:l10n_fr_account_payment_intl_credit_transfer.field_res_users__credit_transfer_regulatory_reporting_id
+msgid ""
+"It will be the default value for the field Regulatory Reporting of non-SEPA "
+"credit transfer payment lines with this partner."
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#. odoo-python
+#: code:addons/l10n_fr_account_payment_intl_credit_transfer/models/account_payment_line.py:0
+msgid ""
+"On payment line %(name)s with partner '%(partner)s', the selected Regulatory"
+" Reporting '%(regulatory_reporting)s' is not a Regulatory Reporting for "
+"France."
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#. odoo-python
+#: code:addons/l10n_fr_account_payment_intl_credit_transfer/models/account_payment_line.py:0
+msgid ""
+"On the payment of %(amount)s for partner '%(partner)s', the field Regulatory"
+" Reporting is not set. This field is required for non-SEPA payments above "
+"%(threshold)s. You must set the field Regulatory Reporting on the related "
+"payment lines."
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
 #: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e12
 msgid "Opérations sur actifs immobiliers"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model,name:l10n_fr_account_payment_intl_credit_transfer.model_account_payment_line
+msgid "Payment Lines"
 msgstr ""
 
 #. module: l10n_fr_account_payment_intl_credit_transfer
@@ -60,6 +97,17 @@ msgid ""
 "Redevances et droits de licence, acquisition / cession et utilisation de "
 "droits d’exploiter des ressources, de droits de franchise et d’autres droits"
 " de propriété"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model.fields,field_description:l10n_fr_account_payment_intl_credit_transfer.field_account_payment_line__regulatory_reporting_id
+msgid "Regulatory Reporting"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model.fields,field_description:l10n_fr_account_payment_intl_credit_transfer.field_res_partner__credit_transfer_regulatory_reporting_id
+#: model:ir.model.fields,field_description:l10n_fr_account_payment_intl_credit_transfer.field_res_users__credit_transfer_regulatory_reporting_id
+msgid "Regulatory Reporting for Intl. Credit Transfers"
 msgstr ""
 
 #. module: l10n_fr_account_payment_intl_credit_transfer
