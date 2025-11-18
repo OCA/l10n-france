@@ -6,7 +6,7 @@
 {
     "name": "French Departments (Départements)",
     "summary": "Populate Database with French Departments (Départements)",
-    "version": "18.0.1.1.0",
+    "version": "18.0.2.0.0",
     "category": "French Localization",
     "author": "GRAP, "
     "Akretion, "
@@ -19,6 +19,7 @@
         "l10n_fr_state",
         "contacts",
     ],
+    "external_dependencies": {"python": ["unidecode"]},
     "data": [
         "security/ir.model.access.csv",
         "data/res_country_department.xml",
