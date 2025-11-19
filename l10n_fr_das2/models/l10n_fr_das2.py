@@ -504,6 +504,7 @@ class L10nFrDas2(models.Model):
         company = self.company_id
         cpartner = company.partner_id
         contact = self.contact_id
+        eu_countries = self.env.ref("base.europe").country_ids
         csiren = self._prepare_field("SIREN", cpartner, cpartner.siren, 9, True)
         csiret = self._prepare_field("SIRET", cpartner, cpartner.siret, 14, True)
         cape = self._prepare_field("APE", cpartner, company.ape, 5, True)
@@ -566,7 +567,35 @@ class L10nFrDas2(models.Model):
                 raise UserError(
                     _("Missing SIRET for french partner %s.") % partner.display_name
                 )
+            if (
+                not partner.is_company
+                and partner.country_id
+                and partner.country_id.code not in FRANCE_CODES
+                and partner.country_id in eu_countries
+            ):
+                if not hasattr(partner, "birthdate_date"):
+                    raise UserError(
+                        _(
+                            "Partner '%(partner_name)s' is a physical person "
+                            "in country %(country)s which is a foreign EU country. "
+                            "So you must install the OCA module "
+                            "'partner_contact_birthdate' and set the birth date "
+                            "of this partner.",
+                            partner_name=partner.name,
+                            country=partner.country_id.name,
+                        )
+                    )
+                if not partner.birthdate_date:
+                    raise UserError(
+                        _(
+                            "Missing birth date on partner '%s'. This information is "
+                            "required for physical persons in foreign EU countries.",
+                            partner.name,
+                        )
+                    )
+
             # ligne 210 honoraire
+            birthdate = " " * 8
             if partner.is_company:
                 partner_name = self._prepare_field(
                     "Partner name", partner, partner.name, 50, True
@@ -587,6 +616,12 @@ class L10nFrDas2(models.Model):
                         "Partner name", partner, partner.name, 30, True
                     )
                     firstname = " " * 20
+                if (
+                    partner.country_id
+                    and partner.country_id in eu_countries
+                    and partner.country_id.code not in FRANCE_CODES
+                ):
+                    birthdate = partner.birthdate_date.strftime("%d%m%Y")
             address = self._prepare_address(partner)
             partner_siret = self._prepare_field(
                 "SIRET", partner, line.partner_siret, 14
@@ -626,7 +661,8 @@ class L10nFrDas2(models.Model):
                 + allow_letters
                 + " " * 2
                 + "0" * 10
-                + " " * 245
+                + birthdate
+                + " " * 237
             )
         rg = self.env["l10n.fr.das2.line"]._read_group(
             [("parent_id", "=", self.id)], [], [f"{x}:sum" for x in AMOUNT_FIELDS]
