@@ -51,8 +51,8 @@ class BusinessDocumentImport(models.AbstractModel):
     ):
         if method == "_match_partner" and error_msg and data_dict:
             error_msg += "SIREN: {}\nSIRET: {}\n".format(
-                data_dict.get("siren"),
-                data_dict.get("siret"),
+                data_dict.get("siren") or "",
+                data_dict.get("siret") or "",
             )
         return super().user_error_wrap(
             method, data_dict, error_msg, chatter_msg, raise_exception
