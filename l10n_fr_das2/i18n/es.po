@@ -480,6 +480,14 @@ msgstr "Falta contacto administrativo."
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+msgid ""
+"Missing birth date on partner '%s'. This information is required for "
+"physical persons in foreign EU countries."
+msgstr ""
+
+#. module: l10n_fr_das2
+#. odoo-python
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 msgid "Missing city on partner '%s'."
 msgstr "Falta la ciudad en el socio '%s'."
 
@@ -567,6 +575,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_nict
 msgid "Outils issus des NTIC"
 msgstr "Herramientas de NTIC"
+
+#. module: l10n_fr_das2
+#. odoo-python
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+msgid ""
+"Partner '%(partner_name)s' is a physical person in country %(country)s which "
+"is a foreign EU country. So you must install the OCA module "
+"'partner_contact_birthdate' and set the birth date of this partner."
+msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__partner_declare_threshold
