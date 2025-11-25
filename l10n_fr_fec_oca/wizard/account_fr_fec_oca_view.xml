@@ -22,6 +22,11 @@
                         widget="many2many_tags"
                         attrs="{'invisible': [('partner_option', '!=', 'accounts')], 'required': [('partner_option', '=', 'accounts')]}"
                     />
+                <field
+                        name="partner_account_type_ids"
+                        widget="many2many_tags"
+                        attrs="{'invisible': [('partner_option', '!=', 'types')], 'required': [('partner_option', '=', 'types')]}"
+                    />
                 <field name="partner_identifier" widget="radio" />
             </group>
             <footer>
