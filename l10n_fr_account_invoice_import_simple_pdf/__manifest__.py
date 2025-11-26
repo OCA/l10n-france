@@ -4,7 +4,7 @@
 
 {
     "name": "Account Invoice Import Simple PDF - France",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "summary": "Invoice import simple PDF: match partners using SIREN",
