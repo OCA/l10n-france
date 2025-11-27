@@ -1,4 +1,5 @@
 from collections import defaultdict
+
 from odoo import api, fields, models
 
 # TODO after PR 701 merged
@@ -116,4 +117,5 @@ class CrmLead(models.Model):
             else:
                 code = "20"
         return code
+
     # Duplicate from l10n_fr_department/model/res_partner.py **END**
