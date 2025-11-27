@@ -1,0 +1,18 @@
+{
+    "name": "Leads French department",
+    "summary": "French Departments for crm leads",
+    "version": "18.0.0.0.2",
+    "category": "French Localization",
+    "author": "Informatique Prog, "
+              "Odoo Community Association (OCA)",
+    "maintainers": ["InformatiqueProg"],
+    "website": "https://github.com/InformatiqueProg/l10n_fr_department_crm",
+    "license": "AGPL-3",
+    "depends": ["crm", "l10n_fr_department"],
+    "data": [
+        'view/crm_lead.xml'
+    ],
+    "installable": True,
+    "application": False,
+    "auto_install": False,
+}
