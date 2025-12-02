@@ -1,144 +1,161 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2016-2025 Odoo SA (https://www.odoo.com/fr_FR/)
   Copyright 2013-2025 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
 -->
-
-
 <odoo>
-
-
-<record id="account_fr_fec_oca_form" model="ir.ui.view">
-    <field name="name">account.fr.fec.oca.form</field>
-    <field name="model">account.fr.fec.oca</field>
-    <field name="arch" type="xml">
-        <form>
-            <notebook>
-                <page string="Options" name="options">
-                    <group>
-                        <field name="company_id" groups="base.group_multi_company"/>
-                        <field name="date_range_id"/>
-                        <field name="date_from"/>
-                        <field name="date_to"/>
-                        <field name="exclude_zero"/>
-                        <field name="excluded_journal_ids" widget="many2many_tags" options="{'no_create': True}"/>
-                        <field name="export_type" widget="radio"/>
-                        <field name="update_fiscalyear_lock_date" invisible="export_type != 'official'"/>
-                        <field name="encoding" widget="radio"/>
-                    </group>
-                </page>
-                <page string="Technical Info" name="technical_info">
-                    <group>
-                        <div colspan="2">
-                                The encoding of the FEC file depends on the configuration option. The structure of the FEC file is CSV separated by <strong>pipe</strong> i.e. character '|'.
+    <record id="account_fr_fec_oca_form" model="ir.ui.view">
+        <field name="name">account.fr.fec.oca.form</field>
+        <field name="model">account.fr.fec.oca</field>
+        <field name="arch" type="xml">
+            <form>
+                <notebook>
+                    <page string="Options" name="options">
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="date_range_id" />
+                            <field name="date_from" />
+                            <field name="date_to" />
+                            <field name="exclude_zero" />
+                            <field
+                                name="excluded_journal_ids"
+                                widget="many2many_tags"
+                                options="{'no_create': True}"
+                            />
+                            <field name="export_type" widget="radio" />
+                            <field
+                                name="update_fiscalyear_lock_date"
+                                invisible="export_type != 'official'"
+                            />
+                            <field name="encoding" widget="radio" />
+                        </group>
+                    </page>
+                    <page string="Technical Info" name="technical_info">
+                        <group>
+                            <div colspan="2">
+                                The encoding of the FEC file depends on the configuration option. The structure of the FEC file is CSV separated by <strong
+                            >pipe</strong> i.e. character '|'.
                         </div>
-                    </group>
-                    <group>
-                        <table style="width:80%" colspan="2">
-                            <tr>
-                                <th>Technical Name</th>
-                                <th>Column</th>
-                                <th>Comment</th>
-                            </tr>
-                            <tr>
-                                <td>JournalCode</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>JournalLib</td>
-                                <td>B</td>
-                            </tr>
-                            <tr>
-                                <td>EcritureNum</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>EcritureDate</td>
-                                <td>D</td>
-                            </tr>
-                            <tr>
-                                <td>CompteNum</td>
-                                <td>E</td>
-                            </tr>
-                            <tr>
-                                <td>CompteLib</td>
-                                <td>F</td>
-                            </tr>
-                            <tr>
-                                <td>CompAuxNum</td>
-                                <td>G</td>
-                                <td>Odoo uses the partner's Reference ; if not set, it uses the database ID</td>
-                            </tr>
-                            <tr>
-                                <td>CompAuxLib</td>
-                                <td>H</td>
-                            </tr>
-                            <tr>
-                                <td>PieceRef</td>
-                                <td>I</td>
-                            </tr>
-                            <tr>
-                                <td>PieceDate</td>
-                                <td>J</td>
-                            </tr>
-                            <tr>
-                                <td>EcritureLib</td>
-                                <td>K</td>
-                            </tr>
-                            <tr>
-                                <td>Debit</td>
-                                <td>L</td>
-                            </tr>
-                            <tr>
-                                <td>Credit</td>
-                                <td>M</td>
-                            </tr>
-                            <tr>
-                                <td>EcritureLet</td>
-                                <td>N</td>
-                            </tr>
-                            <tr>
-                                <td>DateLet</td>
-                                <td>O</td>
-                            </tr>
-                            <tr>
-                                <td>ValidDate</td>
-                                <td>P</td>
-                            </tr>
-                            <tr>
-                                <td>Montantdevise</td>
-                                <td>Q</td>
-                            </tr>
-                            <tr>
-                                <td>Idevise</td>
-                                <td>R</td>
-                            </tr>
-                        </table>
-                    </group>
-                </page>
-            </notebook>
-            <footer>
-                <button string="Generate" name="generate_fec" type="object" class="oe_highlight" data-hotkey="q"/>
-                <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
-            </footer>
-        </form>
-    </field>
-</record>
+                        </group>
+                        <group>
+                            <table style="width:80%" colspan="2">
+                                <tr>
+                                    <th>Technical Name</th>
+                                    <th>Column</th>
+                                    <th>Comment</th>
+                                </tr>
+                                <tr>
+                                    <td>JournalCode</td>
+                                    <td>A</td>
+                                </tr>
+                                <tr>
+                                    <td>JournalLib</td>
+                                    <td>B</td>
+                                </tr>
+                                <tr>
+                                    <td>EcritureNum</td>
+                                    <td>C</td>
+                                </tr>
+                                <tr>
+                                    <td>EcritureDate</td>
+                                    <td>D</td>
+                                </tr>
+                                <tr>
+                                    <td>CompteNum</td>
+                                    <td>E</td>
+                                </tr>
+                                <tr>
+                                    <td>CompteLib</td>
+                                    <td>F</td>
+                                </tr>
+                                <tr>
+                                    <td>CompAuxNum</td>
+                                    <td>G</td>
+                                    <td
+                                    >Odoo uses the partner's Reference ; if not set, it uses the database ID</td>
+                                </tr>
+                                <tr>
+                                    <td>CompAuxLib</td>
+                                    <td>H</td>
+                                </tr>
+                                <tr>
+                                    <td>PieceRef</td>
+                                    <td>I</td>
+                                </tr>
+                                <tr>
+                                    <td>PieceDate</td>
+                                    <td>J</td>
+                                </tr>
+                                <tr>
+                                    <td>EcritureLib</td>
+                                    <td>K</td>
+                                </tr>
+                                <tr>
+                                    <td>Debit</td>
+                                    <td>L</td>
+                                </tr>
+                                <tr>
+                                    <td>Credit</td>
+                                    <td>M</td>
+                                </tr>
+                                <tr>
+                                    <td>EcritureLet</td>
+                                    <td>N</td>
+                                </tr>
+                                <tr>
+                                    <td>DateLet</td>
+                                    <td>O</td>
+                                </tr>
+                                <tr>
+                                    <td>ValidDate</td>
+                                    <td>P</td>
+                                </tr>
+                                <tr>
+                                    <td>Montantdevise</td>
+                                    <td>Q</td>
+                                </tr>
+                                <tr>
+                                    <td>Idevise</td>
+                                    <td>R</td>
+                                </tr>
+                            </table>
+                        </group>
+                    </page>
+                </notebook>
+                <footer>
+                    <button
+                        string="Generate"
+                        name="generate_fec"
+                        type="object"
+                        class="oe_highlight"
+                        data-hotkey="q"
+                    />
+                    <button
+                        string="Cancel"
+                        class="btn btn-secondary"
+                        special="cancel"
+                        data-hotkey="x"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
 
+    <record id="account_fr_fec_oca_action" model="ir.actions.act_window">
+        <field name="name">FEC</field>
+        <field name="res_model">account.fr.fec.oca</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 
-<record id="account_fr_fec_oca_action" model="ir.actions.act_window">
-    <field name="name">FEC</field>
-    <field name="res_model">account.fr.fec.oca</field>
-    <field name="view_mode">form</field>
-    <field name="target">new</field>
-</record>
-
-<menuitem
+    <menuitem
         id="account_fr_fec_oca_menu"
         parent="l10n_fr_account.account_reports_fr_statements_menu"
         action="account_fr_fec_oca_action"
         sequence="80"
     />
-
 </odoo>
