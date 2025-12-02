@@ -6,44 +6,46 @@ from odoo.modules.module import get_resource_path
 from odoo.tests.common import TransactionCase
 
 
-class TestMoneticoImportCardRemitance(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.receivable_account_id = cls.env["account.account"].create(
+
+
+class TestMercanetImport(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        self.receivable_account_id = self.env["account.account"].create(
             {
                 "name": "Customer account",
                 "code": "411101",
-                "account_type": "asset_receivable",
+                "user_type_id": self.env.ref("account.data_account_type_receivable").id,
+                "reconcile": True 
             }
         )
-        cls.bank_monetico_account = cls.env["account.account"].create(
+        self.bank_mercanet_account = self.env["account.account"].create(
             {
                 "name": "Adyen bank account",
                 "code": "511007",
-                "account_type": "asset_cash",
+                "user_type_id": self.env.ref("account.data_account_type_revenue").id,
             }
         )
-        cls.monetico_journal = cls.env["account.journal"].create(
+        self.mercanet_journal = self.env["account.journal"].create(
             {
-                "name": "Monetico Payments",
+                "name": "Mercanet Payments",
                 "type": "bank",
                 "code": "ADY",
-                "default_account_id": cls.bank_monetico_account.id,
+                "default_account_id": self.bank_mercanet_account.id,
                 "used_for_import": True,
-                "import_type": "monetico_cb_csvparser",
-                "receivable_account_id": cls.receivable_account_id.id,
+                "import_type": "mercanet_cb_csvparser",
+                "receivable_account_id": self.receivable_account_id.id,
             }
         )
 
     def _get_import_wizard(self, filename):
         file_path = get_resource_path(
-            "account_move_monetico_import", "tests/files/", filename
+            "account_move_mercanet_import", "tests/files/", filename
         )
         data = base64.b64encode(open(file_path, "rb").read())
         wizard = self.env["credit.statement.import"].create(
             {
-                "journal_id": self.monetico_journal.id,
+                "journal_id": self.mercanet_journal.id,
                 "input_statement": data,
                 "receivable_account_id": self.receivable_account_id.id,
                 "file_name": filename,
@@ -51,19 +53,19 @@ class TestMoneticoImportCardRemitance(TransactionCase):
         )
         return wizard
 
-    def test_import_csv_file(self):
-        wizard = self._get_import_wizard("monetico.csv")
+    def test_import_mercanet_file(self):
+        wizard = self._get_import_wizard("mercanet_operations.xls")
         wizard.import_statement()
         move = self.env["account.move"].search(
-            [("journal_id", "=", self.monetico_journal.id)]
+            [("journal_id", "=", self.mercanet_journal.id)]
         )
         self.assertEqual(len(move), 1)
         self.assertEqual(len(move.line_ids), 3)
         payment_aml1 = move.line_ids.filtered(lambda line: line.name == "ref1")
-        self.assertAlmostEqual(payment_aml1.credit, 2197.89)
+        self.assertAlmostEqual(payment_aml1.credit, 19.99)
         payment_aml2 = move.line_ids.filtered(lambda line: line.name == "ref2")
-        self.assertAlmostEqual(refund_aml1.credit, 1577.54)
+        self.assertAlmostEqual(payment_aml2.credit, 40.00)
         counterpart_aml = move.line_ids.filtered(
-            lambda line: line.account_id == self.bank_monetico_account
+            lambda line: line.account_id == self.bank_mercanet_account
         )
-        self.assertEqual(counterpart_aml.debit, 3775.43)
+        self.assertEqual(counterpart_aml.debit, 59.99)

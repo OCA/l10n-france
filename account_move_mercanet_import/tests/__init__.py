@@ -1,1 +1,1 @@
-from . import test_monetico_import
+from . import test_mercanet_import
