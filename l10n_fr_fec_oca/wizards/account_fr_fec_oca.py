@@ -1,39 +1,86 @@
-# -*- coding: utf-8 -*-
-# Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
+# Copyright 2016-2025 Odoo SA (https://www.odoo.com/fr_FR/)
+# Copyright 2013-2025 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
+
+# This code is taken from the module l10n_fr_account of the official addons
+# The model has been renamed from l10n_fr.fec.export.wizard to l10n.fr.fec.oca
+# and then several improvements has been made (a large part of these improvements
+# cannot be done via an inherit of the native code)
+
+# TODO restore option partner_identifier from v16
+# and improve it by introducing an option to have
+# payable-specific prefix and receivable-specific prefix
+
+import base64
 import csv
 import io
 from odoo.tools import float_is_zero, SQL
 from odoo import fields, models, api
-from odoo.tools.misc import get_lang
-from stdnum.fr import siren
+from odoo.exceptions import UserError
+from stdnum.fr.siren import is_valid as siren_is_valid
 
 
-class FecExportWizard(models.TransientModel):
-    _name = 'l10n_fr.fec.export.wizard'
+class AccountFrFecOca(models.TransientModel):
+    _name = 'account.fr.fec.oca'
     _description = 'Fichier Echange Informatise'
 
-    date_from = fields.Date(string='Start Date', required=True, default=lambda self: self._context.get('report_dates', {}).get('date_from'))
-    date_to = fields.Date(string='End Date', required=True, default=lambda self: self._context.get('report_dates', {}).get('date_to'))
-    filename = fields.Char(string='Filename', size=256, readonly=True)
-    test_file = fields.Boolean()
-    exclude_zero = fields.Boolean(string="Exclude lines at 0")
+    company_id = fields.Many2one(
+        "res.company",
+        ondelete="cascade",
+        required=True,
+        default=lambda self: self.env.company,
+    )
+    date_range_id = fields.Many2one("date.range")
+    date_from = fields.Date(
+        string='Start Date',
+        compute="_compute_dates",
+        required=True,
+        readonly=False,
+        store=True,
+        )
+    date_to = fields.Date(
+        string='End Date',
+        compute="_compute_dates",
+        required=True,
+        readonly=False,
+        store=True,
+        )
+    encoding = fields.Selection(
+        [
+            ("iso8859_15", "ISO-8859-15"),
+            ("utf-8", "UTF-8"),
+        ],
+        default="iso8859_15",
+        required=True,
+    )
+
+    filename = fields.Char(readonly=True)
+    fec_data = fields.Binary("FEC File", readonly=True, attachment=True)
+    update_fiscalyear_lock_date = fields.Boolean(
+        string="Update Global Lock Date",
+        help="If enabled, Odoo will update the global lock date after generation of the FEC file.")
+    exclude_zero = fields.Boolean(string="Exclude lines at 0", default=True)
     export_type = fields.Selection([
         ('official', 'Official FEC report (posted entries only)'),
-        ('nonofficial', 'Non-official FEC report (posted and unposted entries)'),
+        ('nonofficial', 'Non-official FEC report (posted and draft entries)'),
     ], string='Export Type', required=True, default='official')
     excluded_journal_ids = fields.Many2many('account.journal', string="Excluded Journals",
-                                            domain="[('company_id', 'parent_of', current_company_id)]")
+                                            domain="[('company_id', 'parent_of', company_id)]")
 
-    @api.onchange('test_file')
-    def _onchange_export_file(self):
-        if not self.test_file:
-            self.export_type = 'official'
+    @api.depends("date_range_id")
+    def _compute_dates(self):
+        for wiz in self:
+            if wiz.date_range_id:
+                wiz.date_from = wiz.date_range_id.date_start
+                wiz.date_to = wiz.date_range_id.date_end
 
     def _get_base_domain(self):
-        domain = [('company_id', 'in', tuple(self.env.company._accessible_branches().ids))]
+        domain = [('company_id', 'in', tuple(self.company_id._accessible_branches().ids))]
         # For official report: only use posted entries
         if self.export_type == "official":
             domain.append(('parent_state', '=', 'posted'))
+        else:
+            domain.append(('parent_state', 'in', ('posted', 'draft')))
         if self.excluded_journal_ids:
             domain.append(('journal_id', 'not in', self.excluded_journal_ids.ids))
         if self.exclude_zero:
@@ -76,25 +123,18 @@ class FecExportWizard(models.TransientModel):
         self._cr.execute(sql_query)
         return list(self._cr.fetchone())
 
-    def _get_company_legal_data(self, company):
-        """
-        Dom-Tom are excluded from the EU's fiscal territory
-        Those regions do not have SIREN
-        sources:
-            https://www.service-public.fr/professionnels-entreprises/vosdroits/F23570
-            http://www.douane.gouv.fr/articles/a11024-tva-dans-les-dom
-
-        * Returns the siren if the company is french or an empty siren for dom-tom
-        * For non-french companies -> returns the complete vat number
-        """
-        dom_tom_group = self.env.ref('l10n_fr.dom-tom')
-        is_dom_tom = company.account_fiscal_country_id.code in dom_tom_group.country_ids.mapped('code')
-        if not company.vat or is_dom_tom:
-            return ''
-        elif company.country_id.code == 'FR' and len(company.vat) >= 13 and siren.is_valid(company.vat[4:13]):
-            return company.vat[4:13]
-        else:
-            return company.vat
+    def _get_siren(self, company):
+        # Get SIREN from SIRET and not from VAT
+        # so that it also work on companies that are not subject to VAT
+        if not company.siret:
+            raise UserError(self.env._("Missing SIRET on company %s.", company.display_name))
+        siren = company.siret[:9]
+        if not siren_is_valid(siren):
+            raise UserError(self.env._(
+                "SIREN '%(siren)s' of company %(company)s is invalid.",
+                siren=siren,
+                company=company.display_name))
+        return siren
 
     def generate_fec(self):
         # We choose to implement the flat file instead of the XML file for 2 reasons :
@@ -102,28 +142,31 @@ class FecExportWizard(models.TransientModel):
         # so that's a  problem !
         # 2) CSV files are easier to read/use for a regular accountant. So it will be easier for the accountant to check
         # the file before sending it to the fiscal administration
-        company = self.env.company
-        company_legal_data = self._get_company_legal_data(company)
+        if self.date_from >= self.date_to:
+            raise UserError(self.env._("The start date must be before the end date."))
+
+        company = self.company_id
+        siren = self._get_siren(company)
 
         header = [
-            u'JournalCode',    # 0
-            u'JournalLib',     # 1
-            u'EcritureNum',    # 2
-            u'EcritureDate',   # 3
-            u'CompteNum',      # 4
-            u'CompteLib',      # 5
-            u'CompAuxNum',     # 6  We use partner.id
-            u'CompAuxLib',     # 7
-            u'PieceRef',       # 8
-            u'PieceDate',      # 9
-            u'EcritureLib',    # 10
-            u'Debit',          # 11
-            u'Credit',         # 12
-            u'EcritureLet',    # 13
-            u'DateLet',        # 14
-            u'ValidDate',      # 15
-            u'Montantdevise',  # 16
-            u'Idevise',        # 17
+            'JournalCode',    # 0
+            'JournalLib',     # 1
+            'EcritureNum',    # 2
+            'EcritureDate',   # 3
+            'CompteNum',      # 4
+            'CompteLib',      # 5
+            'CompAuxNum',     # 6  We use partner.id
+            'CompAuxLib',     # 7
+            'PieceRef',       # 8
+            'PieceDate',      # 9
+            'EcritureLib',    # 10
+            'Debit',          # 11
+            'Credit',         # 12
+            'EcritureLet',    # 13
+            'DateLet',        # 14
+            'ValidDate',      # 15
+            'Montantdevise',  # 16
+            'Idevise',        # 17
             ]
 
         rows_to_write = [header]
@@ -331,7 +374,7 @@ class FecExportWizard(models.TransientModel):
                 has_more_results = self._cr.rowcount > query_limit # we load one more result than the limit to check if there is more
                 query_results = self._cr.fetchall()
                 csv_writer.writerows(query_results[:query_limit])
-            content = fecfile.getvalue()[:-2].encode()
+            content = fecfile.getvalue()[:-2].encode(self.encoding, errors="replace")
 
         end_date = fields.Date.to_string(self.date_to).replace('-', '')
         suffix = ''
@@ -339,16 +382,19 @@ class FecExportWizard(models.TransientModel):
             suffix = '-NONOFFICIAL'
 
         # Set fiscal year lock date to the end date (not in test)
-        fiscalyear_lock_date = self.env.company.fiscalyear_lock_date
-        if not self.test_file and (not fiscalyear_lock_date or fiscalyear_lock_date < self.date_to):
-            self.env.company.write({'fiscalyear_lock_date': self.date_to})
-
-        return {
-            'file_name': f"{company_legal_data}FEC{end_date}{suffix}.csv",
-            'file_content': content,
-            'file_type': 'csv'
-        }
-
-    def create_fec_report_action(self):
-        # HOOK
-        return
+        fiscalyear_lock_date = company.fiscalyear_lock_date
+        if self.update_fiscalyear_lock_date and self.export_type == "official" and (not fiscalyear_lock_date or fiscalyear_lock_date < self.date_to):
+            company.write({'fiscalyear_lock_date': self.date_to})
+        filename = f"{siren}FEC{end_date}{suffix}.csv"
+        self.write({
+            'filename': filename,
+            'fec_data': base64.encodebytes(content),
+            })
+        action = {
+            "name": "FEC",
+            "type": "ir.actions.act_url",
+            "url": f"web/content/?model={self._name}&id={self.id}&filename_field=filename&"
+            f"field=fec_data&download=true&filename={filename}",
+            "target": "new",
+            }
+        return action

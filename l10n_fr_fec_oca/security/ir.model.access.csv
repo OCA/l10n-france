@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_l10n_fr_fec_export_wizard,access_l10n_fr_fec_export_wizard,model_l10n_fr_fec_export_wizard,account.group_account_user,1,1,1,0
+access_l10n_fr_fec_oca_user,Access to wizard account.fr.fec.oca to accountant,model_account_fr_fec_oca,account.group_account_user,1,1,1,0
+access_l10n_fr_fec_oca_account_readonly,Access to wizard account.fr.fec.oca to auditor,model_account_fr_fec_oca,account.group_account_readonly,1,1,1,0

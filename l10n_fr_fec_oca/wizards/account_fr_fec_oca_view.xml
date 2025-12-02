@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2016-2025 Odoo SA (https://www.odoo.com/fr_FR/)
+  Copyright 2013-2025 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+-->
+
+
 <odoo>
-<record id="fec_export_wizard_view" model="ir.ui.view">
-    <field name="name">l10n_fr.fec.export.wizard.view</field>
-    <field name="model">l10n_fr.fec.export.wizard</field>
+
+
+<record id="account_fr_fec_oca_form" model="ir.ui.view">
+    <field name="name">account.fr.fec.oca.form</field>
+    <field name="model">account.fr.fec.oca</field>
     <field name="arch" type="xml">
-        <form string="FEC File Generation">
-            <div class="alert alert-info" role="alert" invisible="test_file">
-                When you download a FEC file, the lock date is set to the end date.
-                If you want to test the FEC file generation, please tick the test file checkbox.
-            </div>
-            <div class="alert alert-info" role="alert" invisible="not test_file">
-                You are in test mode. The FEC file generation will not set the lock date.
-            </div>
+        <form>
             <notebook>
                 <page string="Options" name="options">
                     <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="date_range_id"/>
                         <field name="date_from"/>
                         <field name="date_to"/>
-                        <field name="test_file"/>
                         <field name="exclude_zero"/>
-                        <field name="export_type" invisible="not test_file"/>
                         <field name="excluded_journal_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="export_type" widget="radio"/>
+                        <field name="update_fiscalyear_lock_date" invisible="export_type != 'official'"/>
+                        <field name="encoding" widget="radio"/>
                     </group>
                 </page>
                 <page string="Technical Info" name="technical_info">
                     <group>
                         <div colspan="2">
-                        The encoding of this text file is UTF-8. The structure of file is CSV separated by pipe '|'.
+                                The encoding of the FEC file depends on the configuration option. The structure of the FEC file is CSV separated by <strong>pipe</strong> i.e. character '|'.
                         </div>
                     </group>
                     <group>
@@ -38,86 +43,102 @@
                             </tr>
                             <tr>
                                 <td>JournalCode</td>
-                                <td># 0</td>
+                                <td>A</td>
                             </tr>
                             <tr>
                                 <td>JournalLib</td>
-                                <td># 1</td>
+                                <td>B</td>
                             </tr>
                             <tr>
                                 <td>EcritureNum</td>
-                                <td># 2</td>
+                                <td>C</td>
                             </tr>
                             <tr>
                                 <td>EcritureDate</td>
-                                <td># 3</td>
+                                <td>D</td>
                             </tr>
                             <tr>
                                 <td>CompteNum</td>
-                                <td># 4</td>
+                                <td>E</td>
                             </tr>
                             <tr>
                                 <td>CompteLib</td>
-                                <td># 5</td>
+                                <td>F</td>
                             </tr>
                             <tr>
                                 <td>CompAuxNum</td>
-                                <td># 6</td>
-                                <td>We use partner.id</td>
+                                <td>G</td>
+                                <td>Odoo uses the partner's Reference ; if not set, it uses the database ID</td>
                             </tr>
                             <tr>
                                 <td>CompAuxLib</td>
-                                <td># 7</td>
+                                <td>H</td>
                             </tr>
                             <tr>
                                 <td>PieceRef</td>
-                                <td># 8</td>
+                                <td>I</td>
                             </tr>
                             <tr>
                                 <td>PieceDate</td>
-                                <td># 9</td>
+                                <td>J</td>
                             </tr>
                             <tr>
                                 <td>EcritureLib</td>
-                                <td># 10</td>
+                                <td>K</td>
                             </tr>
                             <tr>
                                 <td>Debit</td>
-                                <td># 11</td>
+                                <td>L</td>
                             </tr>
                             <tr>
                                 <td>Credit</td>
-                                <td># 12</td>
+                                <td>M</td>
                             </tr>
                             <tr>
                                 <td>EcritureLet</td>
-                                <td># 13</td>
+                                <td>N</td>
                             </tr>
                             <tr>
                                 <td>DateLet</td>
-                                <td># 14</td>
+                                <td>O</td>
                             </tr>
                             <tr>
                                 <td>ValidDate</td>
-                                <td># 15</td>
+                                <td>P</td>
                             </tr>
                             <tr>
                                 <td>Montantdevise</td>
-                                <td># 16</td>
+                                <td>Q</td>
                             </tr>
                             <tr>
                                 <td>Idevise</td>
-                                <td># 17</td>
+                                <td>R</td>
                             </tr>
                         </table>
                     </group>
                 </page>
             </notebook>
             <footer>
-                <button string="Generate" name="create_fec_report_action" type="object" class="oe_highlight" data-hotkey="q"/>
+                <button string="Generate" name="generate_fec" type="object" class="oe_highlight" data-hotkey="q"/>
                 <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
             </footer>
         </form>
     </field>
 </record>
+
+
+<record id="account_fr_fec_oca_action" model="ir.actions.act_window">
+    <field name="name">FEC</field>
+    <field name="res_model">account.fr.fec.oca</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<menuitem
+        id="account_fr_fec_oca_menu"
+        parent="l10n_fr_account.account_reports_fr_statements_menu"
+        action="account_fr_fec_oca_action"
+        sequence="80"
+    />
+
 </odoo>

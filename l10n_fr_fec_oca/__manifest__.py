@@ -14,7 +14,7 @@
     "depends": ["l10n_fr_account", "date_range"],
     "data": [
         "security/ir.model.access.csv",
-#        "security/ir_rule.xml",
+        "security/ir_rule.xml",
         "wizards/account_fr_fec_oca_view.xml",
     ],
     "installable": True,
