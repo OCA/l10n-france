@@ -1,0 +1,11 @@
+[project]
+name = "odoo-addons-oca-l10n-france"
+version = "19.0.20251204.0"
+dependencies = [
+    "odoo-addon-l10n_fr_pos_caisse_ap_ip==19.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 19.0",
+]
