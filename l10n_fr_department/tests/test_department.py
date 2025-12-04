@@ -21,11 +21,13 @@ class TestFrDepartment(TransactionCase):
             partner1.country_department_id,
             self.env.ref("l10n_fr_department.res_country_department_rhone"),
         )
+        partner1.write({"country_id": self.env.ref("base.be").id})
+        self.assertFalse(partner1.country_department_id)
         partner2 = rpo.create(
             {
                 "name": "Abbaye du Barroux",
                 "street": "1201 chemin des Rabassières",
-                "zip": "84330",
+                "zip": "84 330 ",
                 "city": "Le Barroux",
                 "country_id": self.env.ref("base.fr").id,
             }
@@ -34,6 +36,22 @@ class TestFrDepartment(TransactionCase):
             partner2.country_department_id,
             self.env.ref("l10n_fr_department.res_country_department_vaucluse"),
         )
+        partner3 = rpo.create(
+            {
+                "name": "Test no zip",
+                "country_id": self.env.ref("base.fr").id,
+            }
+        )
+        self.assertFalse(partner3.country_department_id)
+        partner4 = rpo.create(
+            {
+                "name": "Test bad zip",
+                "zip": "6909",
+                "city": "Lyon",
+                "country_id": self.env.ref("base.fr").id,
+            }
+        )
+        self.assertFalse(partner4.country_department_id)
 
     def test_corse(self):
         rpo = self.env["res.partner"]
@@ -65,12 +83,43 @@ class TestFrDepartment(TransactionCase):
             {
                 "name": "Test special",
                 "zip": "05110",
-                "city": "La Saulce",
+                "city": "Curbans",
                 "country_id": self.env.ref("base.fr").id,
             }
         )
         self.assertEqual(
             partner1.country_department_id,
+            self.env.ref(
+                "l10n_fr_department.res_country_department_alpesdehauteprovence"
+            ),
+        )
+        partner2 = self.env["res.partner"].create(
+            {
+                "name": "Test special",
+                "zip": "42620",
+                "city": "St Pierre Laval",
+                "country_id": self.env.ref("base.fr").id,
+            }
+        )
+        self.assertEqual(
+            partner2.country_department_id,
+            self.env.ref("l10n_fr_department.res_country_department_allier"),
+        )
+        partner3 = self.env["res.partner"].create(
+            {
+                "name": "Test normal in special zipcode",
+                "zip": "05110",
+                "city": "La Saulce",
+                "country_id": self.env.ref("base.fr").id,
+            }
+        )
+        self.assertEqual(
+            partner3.country_department_id,
+            self.env.ref("l10n_fr_department.res_country_department_hautesalpes"),
+        )
+        partner3.write({"city": " Claret"})
+        self.assertEqual(
+            partner3.country_department_id,
             self.env.ref(
                 "l10n_fr_department.res_country_department_alpesdehauteprovence"
             ),
