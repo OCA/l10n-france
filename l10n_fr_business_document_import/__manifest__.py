@@ -12,7 +12,7 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["l10n_fr_siret", "base_business_document_import"],
-    "external_dependencies": {"python": ["stdnum"]},
+    "external_dependencies": {"python": ["python-stdnum"]},
     "installable": True,
     "auto_install": True,
 }
