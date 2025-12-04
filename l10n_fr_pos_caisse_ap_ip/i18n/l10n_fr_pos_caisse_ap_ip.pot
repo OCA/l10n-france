@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -91,6 +91,11 @@ msgid "Check"
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 msgid "Empty answer from payment terminal. This should never happen."
@@ -113,6 +118,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields,help:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_address
 msgid ""
 "IP address or DNS name of the payment terminal that support Caisse-AP "
@@ -121,7 +131,7 @@ msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-javascript
-#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js:0
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/utils/payment/payment_caisse_ap_ip.esm.js:0
 msgid "No answer from the payment terminal in the given time."
 msgstr ""
 
@@ -132,7 +142,7 @@ msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-javascript
-#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js:0
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/utils/payment/payment_caisse_ap_ip.esm.js:0
 msgid "Payment Terminal Error"
 msgstr ""
 
@@ -149,7 +159,7 @@ msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-javascript
-#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js:0
+#: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/utils/payment/payment_caisse_ap_ip.esm.js:0
 msgid ""
 "Press the red button on the payment terminal to cancel the transaction."
 msgstr ""
