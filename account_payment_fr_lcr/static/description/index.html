@@ -374,14 +374,14 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:8e58c180ad947ef6a45453faa1ab4f5f25ce0913b3ccf3196c843da0399ec73d
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-france/tree/18.0/account_payment_fr_lcr"><img alt="OCA/l10n-france" src="https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-france-18-0/l10n-france-18-0-account_payment_fr_lcr"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-france/tree/19.0/account_payment_fr_lcr"><img alt="OCA/l10n-france" src="https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-france-19-0/l10n-france-19-0-account_payment_fr_lcr"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>This module adds support for French Letters of Change. This module
 supports:</p>
 <ul class="simple">
-<li><strong>Direct letter of change</strong> (in French : <em>Lettre de change directe</em> or
-<em>LCR directe</em>),</li>
-<li><strong>Accepted letter of change</strong> (in French : <em>Lettre de change acceptée</em>
-; I call it <em>paper letter of change</em>),</li>
+<li><strong>Direct letter of change</strong> (in French : <em>Lettre de change directe</em>
+or <em>LCR directe</em>),</li>
+<li><strong>Accepted letter of change</strong> (in French : <em>Lettre de change
+acceptée</em> ; I call it <em>paper letter of change</em>),</li>
 <li><strong>Promissory note</strong> (in French : <em>Billet à ordre</em>),</li>
 </ul>
 <p>It supports cash discounts debit orders and Dailly convention.</p>
@@ -431,8 +431,8 @@ created when you install this module.</p>
 <p>Once you selected this payment method, you will have a new section <em>Bill
 of Exchange</em> on the payment mode where you will have to configure:</p>
 <ul class="simple">
-<li>the <em>LCR type</em>: <em>Lettre de change non acceptée (LCR directe)</em>, <em>Lettre
-de change acceptée</em> or <em>Billet à ordre</em>,</li>
+<li>the <em>LCR type</em>: <em>Lettre de change non acceptée (LCR directe)</em>,
+<em>Lettre de change acceptée</em> or <em>Billet à ordre</em>,</li>
 <li>the <em>Default Collection Option</em>,</li>
 <li>if you have a <em>Dailly Convention</em>,</li>
 <li>in case you have a Dailly convention, you will be able to configure
@@ -455,8 +455,8 @@ additionnal constraints:</p>
 <li>all payment lines must be in euro currency,</li>
 <li>the bank accounts on the payment lines must be french IBANs,</li>
 <li>if the payment order is configured with cash discount, you must
-configure the value date on the payment order (new field added by this
-module).</li>
+configure the value date on the payment order (new field added by
+this module).</li>
 </ul>
 </div>
 <div class="section" id="bug-tracker">
@@ -464,7 +464,7 @@ module).</li>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-france/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-france/issues/new?body=module:%20account_payment_fr_lcr%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-france/issues/new?body=module:%20account_payment_fr_lcr%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -492,7 +492,7 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
 <p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
 <p><a class="reference external image-reference" href="https://github.com/alexis-via"><img alt="alexis-via" src="https://github.com/alexis-via.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-france/tree/18.0/account_payment_fr_lcr">OCA/l10n-france</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-france/tree/19.0/account_payment_fr_lcr">OCA/l10n-france</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>

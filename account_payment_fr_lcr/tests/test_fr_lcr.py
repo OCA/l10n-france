@@ -29,7 +29,7 @@ class TestFrLcr(AccountTestInvoicingCommon):
         cls.company = cls.test_company_dict["company"]
         cls.env.user.write(
             {
-                "groups_id": [
+                "group_ids": [
                     Command.link(
                         cls.env.ref(
                             "account_payment_batch_oca.group_account_payment"
@@ -99,14 +99,17 @@ class TestFrLcr(AccountTestInvoicingCommon):
                 "partner_id": cls.partner2.id,
             }
         )
-
+        cls.bank = cls.env["res.bank"].create(
+            {
+                "name": "Banque Populaire Méditerranée",
+                "bic": "CCBPFRPPMAR",
+            }
+        )
         cls.company_bank = cls.env["res.partner.bank"].create(
             {
                 "company_id": cls.company.id,
                 "partner_id": cls.company.partner_id.id,
-                "bank_id": (
-                    cls.env.ref("account_payment_base_oca.bank_la_banque_postale").id
-                ),
+                "bank_id": cls.bank.id,
                 "acc_number": "FR10 1212 2323 3434 4545 4747 676",
             }
         )

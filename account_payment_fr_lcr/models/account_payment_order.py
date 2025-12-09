@@ -5,7 +5,7 @@
 import logging
 import re
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.misc import format_date
 
@@ -98,8 +98,10 @@ class AccountPaymentOrder(models.Model):
             if order.payment_method_code == "fr_lcr":
                 if not order.fr_lcr_collection_option:
                     raise UserError(
-                        _("The Collection Option is not set on debit order '%s'.")
-                        % order.display_name
+                        self.env._(
+                            "The Collection Option is not set on debit order '%s'.",
+                            order.display_name,
+                        )
                     )
                 if order.fr_lcr_collection_option in (
                     "cash_discount",
@@ -107,15 +109,15 @@ class AccountPaymentOrder(models.Model):
                 ):
                     if not order.fr_lcr_value_date:
                         raise UserError(
-                            _(
+                            self.env._(
                                 "Value date is not set on debit order '%s'. It is "
-                                "required on letters of exchange with cash discount."
+                                "required on letters of exchange with cash discount.",
+                                order.display_name,
                             )
-                            % order.display_name
                         )
                     elif order.fr_lcr_value_date < today:
                         raise UserError(
-                            _(
+                            self.env._(
                                 "On debit order '%(order)s', the value date has been "
                                 "set to %(value_date)s: it must be in the future.",
                                 order=order.display_name,
@@ -133,15 +135,15 @@ class AccountPaymentOrder(models.Model):
         """
         if not value:
             raise UserError(
-                _(
+                self.env._(
                     "Error in the generation of the CFONB file: "
-                    "the field '%s' is empty or 0. It should have a non-null value."
+                    "the field '%s' is empty or 0. It should have a non-null value.",
+                    field_name,
                 )
-                % field_name
             )
         if not isinstance(value, str):
             raise UserError(
-                _(
+                self.env._(
                     "Error in the generation of the CFONB file: "
                     "'%(field)s' should be a string, "
                     "but it is %(value_type)s (value: %(value)s).",

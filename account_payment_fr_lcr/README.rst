@@ -21,13 +21,13 @@ French Letter of Change
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/18.0/account_payment_fr_lcr
+    :target: https://github.com/OCA/l10n-france/tree/19.0/account_payment_fr_lcr
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-18-0/l10n-france-18-0-account_payment_fr_lcr
+    :target: https://translation.odoo-community.org/projects/l10n-france-19-0/l10n-france-19-0-account_payment_fr_lcr
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -35,19 +35,19 @@ French Letter of Change
 This module adds support for French Letters of Change. This module
 supports:
 
-- **Direct letter of change** (in French : *Lettre de change directe* or
-  *LCR directe*),
-- **Accepted letter of change** (in French : *Lettre de change acceptée*
-  ; I call it *paper letter of change*),
-- **Promissory note** (in French : *Billet à ordre*),
+-  **Direct letter of change** (in French : *Lettre de change directe*
+   or *LCR directe*),
+-  **Accepted letter of change** (in French : *Lettre de change
+   acceptée* ; I call it *paper letter of change*),
+-  **Promissory note** (in French : *Billet à ordre*),
 
 It supports cash discounts debit orders and Dailly convention.
 
 This module has 2 main features:
 
-- for **Accepted Letter of Change**, generate a paper letter of change
-  as PDF following the official layout NF K 11-030-1.
-- generate of LCR (or BOR) CFONB files to send to your bank.
+-  for **Accepted Letter of Change**, generate a paper letter of change
+   as PDF following the official layout NF K 11-030-1.
+-  generate of LCR (or BOR) CFONB files to send to your bank.
 
 This module follows the specifications published on the `CFONB
 website <https://www.cfonb.org/>`__, section *Espace documentaire >
@@ -64,8 +64,8 @@ Installation
 
 This module requires 2 Python libs:
 
-- `pypdf <https://pypi.org/project/pypdf/>`__ version 3.10 or above,
-- `unidecode <https://pypi.org/project/Unidecode/>`__ (any version).
+-  `pypdf <https://pypi.org/project/pypdf/>`__ version 3.10 or above,
+-  `unidecode <https://pypi.org/project/Unidecode/>`__ (any version).
 
 In order to have the SIREN of the company and of the customer set in the
 CFONB file (optional field) and printed on the paper letter of exchange,
@@ -83,12 +83,12 @@ created when you install this module.
 Once you selected this payment method, you will have a new section *Bill
 of Exchange* on the payment mode where you will have to configure:
 
-- the *LCR type*: *Lettre de change non acceptée (LCR directe)*, *Lettre
-  de change acceptée* or *Billet à ordre*,
-- the *Default Collection Option*,
-- if you have a *Dailly Convention*,
-- in case you have a Dailly convention, you will be able to configure
-  the *Default Dailly Option* and the *Convention Type*.
+-  the *LCR type*: *Lettre de change non acceptée (LCR directe)*,
+   *Lettre de change acceptée* or *Billet à ordre*,
+-  the *Default Collection Option*,
+-  if you have a *Dailly Convention*,
+-  in case you have a Dailly convention, you will be able to configure
+   the *Default Dailly Option* and the *Convention Type*.
 
 Usage
 =====
@@ -106,11 +106,11 @@ the OCA module **account_payment_batch_oca**. A debit order linked to a
 payment mode with the payment method *Lettre de change relevé* has a few
 additionnal constraints:
 
-- all payment lines must be in euro currency,
-- the bank accounts on the payment lines must be french IBANs,
-- if the payment order is configured with cash discount, you must
-  configure the value date on the payment order (new field added by this
-  module).
+-  all payment lines must be in euro currency,
+-  the bank accounts on the payment lines must be french IBANs,
+-  if the payment order is configured with cash discount, you must
+   configure the value date on the payment order (new field added by
+   this module).
 
 Bug Tracker
 ===========
@@ -118,7 +118,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20account_payment_fr_lcr%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20account_payment_fr_lcr%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -133,7 +133,7 @@ Authors
 Contributors
 ------------
 
-- Alexis de Lattre <alexis.delattre@akretion.com>
+-  Alexis de Lattre <alexis.delattre@akretion.com>
 
 Maintainers
 -----------
@@ -156,6 +156,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-alexis-via| 
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/18.0/account_payment_fr_lcr>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/19.0/account_payment_fr_lcr>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

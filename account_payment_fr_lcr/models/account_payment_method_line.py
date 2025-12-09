@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -86,9 +86,9 @@ class AccountPaymentMethodLine(models.Model):
                 and not line.fr_lcr_type
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The field 'Bill of Exchange Type' must be set on "
-                        "payment mode '%s'."
+                        "payment mode '%s'.",
+                        line.display_name,
                     )
-                    % line.display_name
                 )

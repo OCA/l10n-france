@@ -10,7 +10,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 
-from odoo import _, api, fields, models, tools
+from odoo import api, fields, models, tools
 from odoo.exceptions import UserError
 from odoo.tools.misc import format_amount, format_date
 
@@ -87,7 +87,7 @@ class AccountMove(models.Model):
                     and not move.fr_lcr_partner_bank_id
                 ):
                     raise UserError(
-                        _(
+                        self.env._(
                             "Customer invoice '%(move)s' is configured with "
                             "payment mode '%(payment_method_line)s' which require "
                             "a bill of exchange bank account.",

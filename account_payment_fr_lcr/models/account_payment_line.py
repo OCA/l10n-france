@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -28,7 +28,7 @@ class AccountPaymentLine(models.Model):
             eur_currency_id = self.env.ref("base.EUR").id
             if self.currency_id.id != eur_currency_id:
                 raise UserError(
-                    _(
+                    self.env._(
                         "The currency of payment line '%(payment_line)s' is "
                         "%(currency)s. To be included in a french bill of exchange, "
                         "the currency must be EUR.",
