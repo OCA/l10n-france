@@ -9,9 +9,12 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
-            <group name="banks" position="inside">
+            <xpath
+                expr="//page[@name='accounting']/group/group[@name='general']"
+                position="inside"
+            >
                 <field name="credit_transfer_regulatory_reporting_id" />
-            </group>
+            </xpath>
         </field>
     </record>
 </odoo>

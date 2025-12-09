@@ -4,7 +4,7 @@
 
 {
     "name": "International Credit Transfer for France",
-    "version": "18.0.2.0.0",
+    "version": "19.0.1.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "summary": "Regulatory reporting codes for ISO 20022 credit transfer files",

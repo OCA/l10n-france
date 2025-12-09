@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.misc import format_amount
 
@@ -55,7 +55,7 @@ class AccountPaymentLine(models.Model):
             and self.regulatory_reporting_id.country_id != fr_country
         ):
             errors.append(
-                _(
+                self.env._(
                     "On payment line %(name)s with partner '%(partner)s', "
                     "the selected Regulatory Reporting '%(regulatory_reporting)s' "
                     "is not a Regulatory Reporting for France.",
@@ -96,7 +96,7 @@ class AccountPaymentLine(models.Model):
                 >= 0
             ):
                 raise UserError(
-                    _(
+                    self.env._(
                         "On the payment of %(amount)s for partner '%(partner)s', "
                         "the field Regulatory Reporting is not set. This "
                         "field is required for non-SEPA payments above %(threshold)s. "
