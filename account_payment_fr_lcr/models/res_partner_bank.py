@@ -35,9 +35,9 @@ class ResPartnerBank(models.Model):
                     "partner": self.partner_id.display_name,
                 }
             )
-        assert (
-            len(self.sanitized_acc_number) == 27
-        ), "French IBANs must have 27 caracters"
+        assert len(self.sanitized_acc_number) == 27, (
+            "French IBANs must have 27 caracters"
+        )
 
     def _fr_iban2rib(self):
         self._fr_iban_validate()
