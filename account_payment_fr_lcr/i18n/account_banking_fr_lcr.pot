@@ -1,0 +1,299 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_banking_fr_lcr
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-27 10:38+0000\n"
+"PO-Revision-Date: 2024-08-27 10:38+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,help:account_banking_fr_lcr.field_account_bank_statement_line__fr_lcr_partner_bank_id
+#: model:ir.model.fields,help:account_banking_fr_lcr.field_account_move__fr_lcr_partner_bank_id
+#: model:ir.model.fields,help:account_banking_fr_lcr.field_account_payment__fr_lcr_partner_bank_id
+msgid ""
+"Bank account of the customer that will be debited by the bill of exchange. "
+"By default, Odoo selects the first French IBAN bank account of the partner."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model_terms:ir.ui.view,arch_db:account_banking_fr_lcr.account_payment_mode_form
+msgid "Bill of Exchange"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_bank_statement_line__fr_lcr_attachment_id
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move__fr_lcr_attachment_id
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment__fr_lcr_attachment_id
+msgid "Bill of Exchange Attachment"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_bank_statement_line__fr_lcr_partner_bank_id
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move__fr_lcr_partner_bank_id
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment__fr_lcr_partner_bank_id
+msgid "Bill of Exchange Bank Account"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_bank_statement_line__fr_lcr_attachment_datas
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move__fr_lcr_attachment_datas
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment__fr_lcr_attachment_datas
+msgid "Bill of Exchange File"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_bank_statement_line__fr_lcr_attachment_name
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move__fr_lcr_attachment_name
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment__fr_lcr_attachment_name
+msgid "Bill of Exchange Filename"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_bank_statement_line__payment_mode_fr_lcr_type
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_move__payment_mode_fr_lcr_type
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment__payment_mode_fr_lcr_type
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_mode__fr_lcr_type
+msgid "Bill of Exchange Type"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields.selection,name:account_banking_fr_lcr.selection__account_payment_mode__fr_lcr_type__promissory_note
+msgid "Billet à ordre"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/res_partner_bank.py:0
+#, python-format
+msgid ""
+"Bills of exchange can only use French bank accounts. The IBAN "
+"'%(acc_number)s' of partner '%(partner)s' is not a French IBAN."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/res_partner_bank.py:0
+#, python-format
+msgid ""
+"Bills of exchange can only use IBAN bank accounts. Bank account "
+"'%(acc_number)s' of partner '%(partner)s' is not an IBAN."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid "Cannot convert the field '%s' to ASCII"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__fr_lcr_collection_option
+msgid "Collection Option"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_mode__fr_lcr_convention_type
+msgid "Convention Type"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_move.py:0
+#, python-format
+msgid ""
+"Customer invoice '%(move)s' is configured with payment mode "
+"'%(payment_mode)s' which require a bill of exchange bank account."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_mode__fr_lcr_dailly
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__fr_lcr_dailly
+msgid "Dailly Convention"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__fr_lcr_dailly_option
+msgid "Dailly Option"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_mode__fr_lcr_default_collection_option
+msgid "Default Collection Option"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_mode__fr_lcr_default_dailly_option
+msgid "Default Dailly Option"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"Error in the generation of the CFONB file: '%(field)s' should be a string, "
+"but it is %(value_type)s (value: %(value)s)."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"Error in the generation of the CFONB file: the field '%s' is empty or 0. It "
+"should have a non-null value."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,help:account_banking_fr_lcr.field_account_payment_mode__fr_lcr_convention_type
+msgid "Field C1 'Convention Type' in CFONB header line, 6 characters maximum."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"For the bank account '%(acc_number)s' of partner '%(partner)s', the Bank "
+"Account Type should be 'IBAN'."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:account.payment.mode,name:account_banking_fr_lcr.payment_mode_lcr
+msgid "LCR"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"LCR are only for French bank accounts. The IBAN '%(acc_number)s' of partner "
+"'%(partner)s' is not a French IBAN."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:account.payment.method,name:account_banking_fr_lcr.fr_lcr
+msgid "Lettre de Change Relevé"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields.selection,name:account_banking_fr_lcr.selection__account_payment_mode__fr_lcr_type__accepted
+msgid "Lettre de change acceptée"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields.selection,name:account_banking_fr_lcr.selection__account_payment_mode__fr_lcr_type__not_accepted
+msgid "Lettre de change non acceptée (LCR directe)"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"On debit order '%(order)s', the value date has been set to %(value_date)s: "
+"it must be in the future."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_account_payment_line
+msgid "Payment Lines"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_account_payment_method
+msgid "Payment Methods"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_account_payment_mode
+msgid "Payment Modes"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model,name:account_banking_fr_lcr.model_account_payment
+msgid "Payments"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model_terms:ir.ui.view,arch_db:account_banking_fr_lcr.view_move_form
+msgid "Print Bill of Exchange"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid "The Collection Option is not set on debit order '%s'."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_line.py:0
+#, python-format
+msgid ""
+"The currency of payment line '%(payment_line)s' is %(currency)s. To be "
+"included in a french bill of exchange, the currency must be EUR."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"The currency of payment line '%(payment_line)s' is '%(currency)s'. To be "
+"included in a French LCR, the currency must be EUR."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid "The field '%s' is empty or 0. It should have a non-null value."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_mode.py:0
+#, python-format
+msgid "The field 'Bill of Exchange Type' must be set on payment mode '%s'."
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#: model:ir.model.fields,field_description:account_banking_fr_lcr.field_account_payment_order__fr_lcr_value_date
+msgid "Value Date"
+msgstr ""
+
+#. module: account_banking_fr_lcr
+#. odoo-python
+#: code:addons/account_banking_fr_lcr/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"Value date is not set on debit order '%s'. It is required on letters of "
+"exchange with cash discount."
+msgstr ""

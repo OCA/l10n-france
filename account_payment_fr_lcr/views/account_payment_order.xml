@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_payment_order_form" model="ir.ui.view">
+        <field name="name">pain.base.account.payment.order.form</field>
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_batch_oca.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <field name="company_partner_bank_id" position="after">
+                <field
+                    name="fr_lcr_collection_option"
+                    invisible="payment_method_code != 'fr_lcr'"
+                    readonly="state != 'draft'"
+                />
+                <field
+                    name="fr_lcr_value_date"
+                    invisible="payment_method_code != 'fr_lcr' or fr_lcr_collection_option not in ('cash_discount', 'value_cash_discount')"
+                    readonly="state != 'draft'"
+                />
+                <field name="fr_lcr_dailly" invisible="1" />
+                <field
+                    name="fr_lcr_dailly_option"
+                    invisible="payment_method_code != 'fr_lcr' or not fr_lcr_dailly"
+                    readonly="state != 'draft'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
