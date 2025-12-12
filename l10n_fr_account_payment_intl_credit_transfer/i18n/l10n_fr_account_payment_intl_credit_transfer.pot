@@ -1,0 +1,150 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_account_payment_intl_credit_transfer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e07
+msgid ""
+"Autres services (y compris services aux entreprises et aux professionnels)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e01
+msgid ""
+"Biens (marchandises générales, avitaillement, travail à façon et négoce)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model,name:l10n_fr_account_payment_intl_credit_transfer.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e11
+msgid ""
+"Désinvestissements intra-groupes (participations, prêts, dépôts et "
+"règlements intervenant dans le cadre de procédures de netting)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e14
+msgid "Instruments financiers dérivés"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e10
+msgid ""
+"Investissements intra-groupes (participations, prêts, dépôts et règlements "
+"intervenant dans le cadre de procédures de netting)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model.fields,help:l10n_fr_account_payment_intl_credit_transfer.field_res_partner__credit_transfer_regulatory_reporting_id
+#: model:ir.model.fields,help:l10n_fr_account_payment_intl_credit_transfer.field_res_users__credit_transfer_regulatory_reporting_id
+msgid ""
+"It will be the default value for the field Regulatory Reporting of non-SEPA "
+"credit transfer payment lines with this partner."
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#. odoo-python
+#: code:addons/l10n_fr_account_payment_intl_credit_transfer/models/account_payment_line.py:0
+msgid ""
+"On payment line %(name)s with partner '%(partner)s', the selected Regulatory"
+" Reporting '%(regulatory_reporting)s' is not a Regulatory Reporting for "
+"France."
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#. odoo-python
+#: code:addons/l10n_fr_account_payment_intl_credit_transfer/models/account_payment_line.py:0
+msgid ""
+"On the payment of %(amount)s for partner '%(partner)s', the field Regulatory"
+" Reporting is not set. This field is required for non-SEPA payments above "
+"%(threshold)s. You must set the field Regulatory Reporting on the related "
+"payment lines."
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e12
+msgid "Opérations sur actifs immobiliers"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model,name:l10n_fr_account_payment_intl_credit_transfer.model_account_payment_line
+msgid "Payment Lines"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e15
+msgid "Prêts et emprunts hors-groupe"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e05
+msgid ""
+"Redevances et droits de licence, acquisition / cession et utilisation de "
+"droits d’exploiter des ressources, de droits de franchise et d’autres droits"
+" de propriété"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model.fields,field_description:l10n_fr_account_payment_intl_credit_transfer.field_account_payment_line__regulatory_reporting_id
+msgid "Regulatory Reporting"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:ir.model.fields,field_description:l10n_fr_account_payment_intl_credit_transfer.field_res_partner__credit_transfer_regulatory_reporting_id
+#: model:ir.model.fields,field_description:l10n_fr_account_payment_intl_credit_transfer.field_res_users__credit_transfer_regulatory_reporting_id
+msgid "Regulatory Reporting for Intl. Credit Transfers"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e08
+msgid "Revenus d’investissement (y compris dividendes et intérêts)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e04
+msgid "Services de construction"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e02
+msgid "Services de transport (maritimes, aériens et autres)"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e03
+msgid "Services informatiques et de communication"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e06
+msgid "Services liés au tourisme"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e13
+msgid ""
+"Titres de dettes et actions (valeurs mobilières de placement et titres "
+"immobilisés) à l’exclusion des participations"
+msgstr ""
+
+#. module: l10n_fr_account_payment_intl_credit_transfer
+#: model:account.pain.regulatory.reporting,name:l10n_fr_account_payment_intl_credit_transfer.e09
+msgid ""
+"Transferts courants (y compris l’envoi de fonds, salaires et rémunérations, "
+"pensions)"
+msgstr ""
