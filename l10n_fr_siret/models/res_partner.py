@@ -64,26 +64,123 @@ class Partner(models.Model):
     @api.depends("siren", "nic")
     def _compute_siret(self):
         """Concatenate the SIREN and NIC to form the SIRET"""
-        for rec in self:
-            if rec.siren:
-                if rec.nic:
-                    rec.siret = rec.siren + rec.nic
-                else:
-                    rec.siret = rec.siren + "*****"
-            else:
-                rec.siret = False
+        self.siret = ""
+        for partner in self.filtered("siren"):
+            partner.siret = partner.siren + (partner.nic or partner._nic_placeholder)
 
     def _inverse_siret(self):
-        for rec in self:
-            if rec.siret:
-                if siret.is_valid(rec.siret):
-                    rec.write({"siren": rec.siret[:9], "nic": rec.siret[9:]})
-                elif siren.is_valid(rec.siret[:9]) and rec.siret[9:] == "*****":
-                    rec.write({"siren": rec.siret[:9], "nic": False})
-                else:
-                    raise ValidationError(_("SIRET '%s' is invalid.") % rec.siret)
-            else:
-                rec.write({"siren": False, "nic": False})
+        """Split the SIRET to find the SIREN and NIC"""
+        self.write({"siren": "", "nic": ""})
+        for partner in self.filtered("siret"):
+            psiret = partner.siret
+            if siret.is_valid(psiret):
+                partner.write({"siren": psiret[:9], "nic": psiret[9:]})
+            elif siren.is_valid(psiret[:9]) and psiret[9:] == partner._nic_placeholder:
+                partner.write({"siren": psiret[:9], "nic": ""})
+
+    @api.constrains("siret")
+    def _check_siret(self):
+        """Checks whether the SIRET is valid
+
+        :raises ValidationError:
+        """
+        for partner in self._filter_eligible_for_identity_number_check("siret"):
+            if not partner._is_siret_valid(partner.siret):
+                raise ValidationError(_("SIRET '%s' is invalid.", partner.siret))
+
+    @api.constrains("siren")
+    def _check_siren(self):
+        """Checks whether the SIREN is valid
+
+        :raises ValidationError:
+        """
+        for partner in self._filter_eligible_for_identity_number_check("siren"):
+            if not partner._is_siren_valid(partner.siren):
+                raise ValidationError(
+                    _(
+                        "The SIREN '%(siren)s' of partner '%(partner_name)s' is"
+                        " incorrect: it must have exactly 9 digits and pass the Luhn"
+                        " checksum.",
+                        siren=partner.siren,
+                        partner_name=partner.display_name,
+                    )
+                )
+
+    @api.constrains("nic")
+    def _check_nic(self):
+        """Checks whether the NIC is valid
+
+        :raises ValidationError:
+        """
+        for partner in self._filter_eligible_for_identity_number_check("nic"):
+            if not partner._is_nic_valid(partner.nic):
+                raise ValidationError(
+                    _(
+                        "The NIC '%(nic)s' of partner '%(partner_name)s' is "
+                        "incorrect: it must have exactly 5 digits.",
+                        nic=partner.nic,
+                        partner_name=partner.display_name,
+                    )
+                )
+
+    def _filter_eligible_for_identity_number_check(self, fname: str):
+        """Returns the subset of records with Identity Number ``fname`` to be checked
+
+        :rtype: Partner
+        """
+        return self.filtered(lambda p: p._is_eligible_for_identity_number_check(fname))
+
+    def _is_eligible_for_identity_number_check(self, fname: str):
+        """Checks if the Identity Number ``fname`` should be checked on ``self``
+
+        :rtype: bool
+        """
+        self.ensure_one()
+        return self[fname] and not (self.type == "contact" and self.parent_id)
+
+    @api.model
+    def _is_siret_valid(self, siret_str: str):
+        """Checks whether the SIRET is valid
+
+        :rtype: bool
+        """
+        if siret.is_valid(siret_str):
+            return True
+        # If the SIRET is not valid in itself, split it into SIREN and NIC and check:
+        # - that the SIREN is valid
+        # - that the NIC is set as the placeholder value
+        siren_str, nic_str = siret_str[:9], siret_str[9:]
+        return self._is_siren_valid(siren_str) and self._is_nic_placeholder(nic_str)
+
+    @api.model
+    def _is_siren_valid(self, siren_str: str):
+        """Checks whether the SIREN is valid
+
+        :rtype: bool
+        """
+        # NB: ``siren.is_valid()`` already checks that the SIREN is a 9-chars string
+        # containing all digits, so we don't need to do it here
+        return siren.is_valid(siren_str)
+
+    @api.model
+    def _is_nic_valid(self, nic_str: str):
+        """Checks whether the NIC is valid
+
+        :rtype: bool
+        """
+        return len(nic_str) == 5 and nic_str.isdigit()
+
+    @api.model
+    def _is_nic_placeholder(self, nic_str: str):
+        """Checks whether the NIC is the placeholder string
+
+        :rtype: bool
+        """
+        return nic_str == self._nic_placeholder
+
+    @property
+    def _nic_placeholder(self):
+        return "*****"
 
     @api.depends("siren", "company_id")
     def _compute_same_siren_partner_id(self):
@@ -109,48 +206,6 @@ class Partner(models.Model):
                     self.with_context(active_test=False).search(domain, limit=1)
                 ).id or False
             partner.same_siren_partner_id = same_siren_partner_id
-
-    @api.constrains("siren", "nic")
-    def _check_siret(self):
-        """Check the SIREN's and NIC's keys (last digits)"""
-        for rec in self:
-            if rec.type == "contact" and rec.parent_id:
-                continue
-            if rec.nic:
-                # Check the NIC type and length
-                if not rec.nic.isdigit() or len(rec.nic) != 5:
-                    raise ValidationError(
-                        _(
-                            "The NIC '{nic}' of partner '{partner_name}' is "
-                            "incorrect: it must have exactly 5 digits."
-                        ).format(nic=rec.nic, partner_name=rec.display_name)
-                    )
-            if rec.siren:
-                # Check the SIREN type, length and key
-                if not rec.siren.isdigit() or len(rec.siren) != 9:
-                    raise ValidationError(
-                        _(
-                            "The SIREN '{siren}' of partner '{partner_name}' is "
-                            "incorrect: it must have exactly 9 digits."
-                        ).format(siren=rec.siren, partner_name=rec.display_name)
-                    )
-                if not siren.is_valid(rec.siren):
-                    raise ValidationError(
-                        _(
-                            "The SIREN '{siren}' of partner '{partner_name}' is "
-                            "invalid: the checksum is wrong."
-                        ).format(siren=rec.siren, partner_name=rec.display_name)
-                    )
-                # Check the NIC key (you need both SIREN and NIC to check it)
-                if rec.nic and not siret.is_valid(rec.siren + rec.nic):
-                    raise ValidationError(
-                        _(
-                            "The SIRET '{siret}' of partner '{partner_name}' is "
-                            "invalid: the checksum is wrong."
-                        ).format(
-                            siret=(rec.siren + rec.nic), partner_name=rec.display_name
-                        )
-                    )
 
     @api.model
     def _commercial_fields(self):
