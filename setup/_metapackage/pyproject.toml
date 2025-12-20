@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-l10n-france"
-version = "18.0.20251209.0"
+version = "18.0.20251220.0"
 dependencies = [
     "odoo-addon-account_balance_ebp_csv_export==18.0.*",
     "odoo-addon-account_payment_fr_lcr==18.0.*",
@@ -22,6 +22,7 @@ dependencies = [
     "odoo-addon-l10n_fr_hr_check_ssnid==18.0.*",
     "odoo-addon-l10n_fr_intrastat_product==18.0.*",
     "odoo-addon-l10n_fr_intrastat_service==18.0.*",
+    "odoo-addon-l10n_fr_mis_reports==18.0.*",
     "odoo-addon-l10n_fr_pos_caisse_ap_ip==18.0.*",
     "odoo-addon-l10n_fr_siret==18.0.*",
     "odoo-addon-l10n_fr_siret_account==18.0.*",
