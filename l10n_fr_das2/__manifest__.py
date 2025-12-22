@@ -16,7 +16,7 @@
         "l10n_fr_cog",
     ],
     "external_dependencies": {
-        "python": ["stdnum", "pyfrdas2"],
+        "python": ["stdnum", "pyfrdas2>=0.10"],
     },
     "data": [
         "security/das2_security.xml",
