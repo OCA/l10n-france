@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, models
+from odoo import models
 
 from odoo.addons.report_xlsx_helper.report.report_xlsx_format import (
     FORMATS,
@@ -20,7 +20,7 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
             "partner_vat": {
                 "header": {
                     "type": "string",
-                    "value": _("Partner VAT"),
+                    "value": self.env._("Partner VAT"),
                 },
                 "line": {
                     "value": self._render("line.partner_vat or ''"),
@@ -30,7 +30,7 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
             "amount": {
                 "header": {
                     "type": "string",
-                    "value": _("Amount"),
+                    "value": self.env._("Amount"),
                 },
                 "line": {
                     "type": "number",
@@ -42,7 +42,7 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
             "partner": {
                 "header": {
                     "type": "string",
-                    "value": _("Partner"),
+                    "value": self.env._("Partner"),
                 },
                 "line": {
                     "value": self._render("line.partner_id.display_name or ''"),
@@ -52,7 +52,7 @@ class IntrastatServiceDeclarationXlsx(models.AbstractModel):
             "invoice": {
                 "header": {
                     "type": "string",
-                    "value": _("Invoice"),
+                    "value": self.env._("Invoice"),
                 },
                 "line": {
                     "value": self._render("line.move_id.display_name or ''"),

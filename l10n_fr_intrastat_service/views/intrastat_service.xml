@@ -114,7 +114,7 @@
                 <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
                 <separator />
                 <filter string="Date" name="date" date="start_date" />
-                <group string="Group By" name="groupby">
+                <group name="groupby">
                     <filter
                         name="date_groupby"
                         string="Date"

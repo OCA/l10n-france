@@ -9,8 +9,9 @@ from dateutil.relativedelta import relativedelta
 from lxml import etree, objectify
 from stdnum.vatin import is_valid
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.fields import Domain
 
 logger = logging.getLogger(__name__)
 
@@ -74,20 +75,17 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
     attachment_datas = fields.Binary(related="attachment_id.datas", string="XML Export")
     attachment_name = fields.Char(related="attachment_id.name", string="XML Filename")
 
-    _sql_constraints = [
-        (
-            "date_uniq",
-            "unique(year_month, company_id)",
-            "A DES already exists for this month!",
-        )
-    ]
+    _date_uniq = models.UniqueIndex(
+        "(year_month, company_id)",
+        "A DES already exists for this month!",
+    )
 
     @api.constrains("start_date")
     def _check_start_date(self):
         for rec in self:
             if rec.start_date and rec.start_date.day != 1:
                 raise ValidationError(
-                    _("The start date must be the first day of a month.")
+                    self.env._("The start date must be the first day of a month.")
                 )
 
     @api.depends("declaration_line_ids.amount_company_currency")
@@ -127,14 +125,16 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         if self.start_date and self.start_date.day != 1:
             self.start_date = self.start_date + relativedelta(day=1)
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_state_done(self):
         for rec in self:
             if rec.state == "done":
                 raise UserError(
-                    _("Cannot delete '%s' because it is in Done state.")
-                    % rec.display_name
+                    self.env._(
+                        "Cannot delete '%s' because it is in Done state.",
+                        rec.display_name,
+                    )
                 )
-        return super().unlink()
 
     @api.depends("year_month")
     def _compute_display_name(self):
@@ -143,14 +143,16 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
 
     def _prepare_domain(self):
         self.ensure_one()
-        domain = [
-            ("move_type", "in", ("out_invoice", "out_refund")),
-            ("invoice_date", "<=", self.end_date),
-            ("invoice_date", ">=", self.start_date),
-            ("state", "=", "posted"),
-            ("intrastat_fiscal_position", "=", "b2b"),
-            ("company_id", "=", self.company_id.id),
-        ]
+        domain = Domain(
+            [
+                ("move_type", "in", ("out_invoice", "out_refund")),
+                ("invoice_date", "<=", self.end_date),
+                ("invoice_date", ">=", self.start_date),
+                ("state", "=", "posted"),
+                ("intrastat_fiscal_position", "=", "b2b"),
+                ("company_id", "=", self.company_id.id),
+            ]
+        )
         return domain
 
     def _is_service(self, invoice_line):
@@ -254,8 +256,10 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 # amount_company_cur_to_write:"
                 if not invoice.commercial_partner_id.vat:
                     raise UserError(
-                        _("Missing VAT number on partner '%s'.")
-                        % invoice.commercial_partner_id.display_name
+                        self.env._(
+                            "Missing VAT number on partner '%s'.",
+                            invoice.commercial_partner_id.display_name,
+                        )
                     )
                 else:
                     partner_vat_to_write = invoice.commercial_partner_id.vat
@@ -272,7 +276,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                     }
                 )
         line_obj.create(lines_to_create)
-        self.message_post(body=_("Re-generating lines from invoices"))
+        self.message_post(body=self.env._("Re-generating lines from invoices"))
 
     def done(self):
         self.ensure_one()
@@ -303,11 +307,11 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         company_vat = company.partner_id.vat
         if not company_vat:
             raise UserError(
-                _("Missing VAT number on company '%s'.") % company.display_name
+                self.env._("Missing VAT number on company '%s'.", company.display_name)
             )
         if not company_vat.startswith("FR"):
             raise UserError(
-                _(
+                self.env._(
                     "DES is only for French companies, so the VAT number should "
                     "start with 'FR'. VAT number of company '%(company)s' is %(vat)s.",
                     company=company.display_name,
@@ -316,7 +320,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             )
         if not is_valid(company_vat):
             raise UserError(
-                _(
+                self.env._(
                     "The VAT number of company '%(company)s' is %(vat)s. "
                     "This VAT number is not valid.",
                     company=company.display_name,
@@ -325,7 +329,7 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             )
         if company.currency_id.name != "EUR":
             raise UserError(
-                _(
+                self.env._(
                     "The currency of company %(company)s is %(currency)s and not EUR.",
                     company=company.display_name,
                     currency=company.currency_id.name,
@@ -354,17 +358,19 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             vat = sline.partner_vat
             if not vat:
                 raise UserError(
-                    _("Missing VAT number on partner '%s'.")
-                    % sline.partner_id.display_name
+                    self.env._(
+                        "Missing VAT number on partner '%s'.",
+                        sline.partner_id.display_name,
+                    )
                 )
             if vat.startswith("GB") and self.year_month >= "2021-01":
                 raise UserError(
-                    _(
+                    self.env._(
                         "VAT Number '%s' cannot be used because Brexit took "
                         "place on January 1st 2021 and services sold "
-                        "in Northern Ireland are not under the EU VAT regime."
+                        "in Northern Ireland are not under the EU VAT regime.",
+                        vat,
                     )
-                    % vat
                 )
             ligne_des.partner_des = vat
         return root
@@ -435,13 +441,13 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 # If not, we create an intrastat.service for month N-1
                 intrastat = self.create({"company_id": company.id})
                 intrastat.message_post(
-                    body=_(
+                    body=self.env._(
                         "This DES has been auto-generated by the DES reminder "
                         "scheduled action."
                     )
                 )
                 logger.info(
-                    "A DES for month %s has been created by Odoo for " "company %s",
+                    "A DES for month %s has been created by Odoo for company %s",
                     previous_month,
                     company.name,
                 )
@@ -541,5 +547,5 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
         for line in self:
             if line.partner_vat and not is_valid(line.partner_vat):
                 raise ValidationError(
-                    _("The VAT number '%s' is invalid.") % line.partner_vat
+                    self.env._("The VAT number '%s' is invalid.", line.partner_vat)
                 )
