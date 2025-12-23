@@ -4,22 +4,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "French company identity numbers SIRET/SIREN/NIC",
-    "summary": "Complete support for SIRET/SIREN/NIC with checksum validation",
-    "version": "18.0.1.2.0",
+    "name": "Improved SIRET/SIREN support",
+    "summary": "Check validity of SIRET/SIREN on partners",
+    "version": "19.0.1.0.0",
     "category": "French Localization",
     "author": "Numérigraphe,Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
-    "depends": ["l10n_fr", "base_view_inheritance_extension"],
+    "depends": ["l10n_fr"],
     "external_dependencies": {"python": ["python-stdnum"]},
-    "data": [
-        "views/res_partner.xml",
-        "views/res_company.xml",
-    ],
+    "data": ["views/res_partner.xml"],
     "demo": ["demo/partner_demo.xml"],
-    "post_init_hook": "set_siren_nic",
+    "post_init_hook": "clean_bad_siren_siret",
     "installable": True,
     "development_status": "Mature",
 }

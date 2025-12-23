@@ -2,9 +2,9 @@
    :target: https://odoo-community.org/get-involved?utm_source=readme
    :alt: Odoo Community Association
 
-===============================================
-French company identity numbers SIRET/SIREN/NIC
-===============================================
+============================
+Improved SIRET/SIREN support
+============================
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21,34 +21,33 @@ French company identity numbers SIRET/SIREN/NIC
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_siret
+    :target: https://github.com/OCA/l10n-france/tree/19.0/l10n_fr_siret
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-18-0/l10n-france-18-0-l10n_fr_siret
+    :target: https://translation.odoo-community.org/projects/l10n-france-19-0/l10n-france-19-0-l10n_fr_siret
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-The **l10n_fr** module from the official addons adds a *SIRET* field on
-partners, but it doesn't verify its validity. This module
-**l10n_fr_siret** adds several features:
+The module **l10n_fr** from the official addons uses the field
+*company_registry* on partners as *SIRET*, but it doesn't verify its
+validity. This module **l10n_fr_siret** adds several features for French
+partners:
 
-- the validity of the SIRET is checked using its checksum.
-- it adds **SIREN** and **NIC** fields (reminder: SIREN + NIC = SIRET).
-  If you enter the SIRET, these 2 fields are automatically computed from
-  SIRET.
-- multi-site companies have a single SIREN and one SIRET per site i.e.
-  one NIC per site. This module allows to enter a specific NIC on child
-  partners.
-- it adds a warning banner on the partner form view if another partner
-  has the same SIREN.
+-  the string of the field is updated from *SIRET* to **SIREN or
+   SIRET**,
+-  the validity of the SIREN and/or SIRET is checked using its checksum,
+-  it checks the consistence between the VAT number and SIREN,
+-  it checks that parent and child partners have the same SIREN,
+-  it adds a warning banner on the partner form view if another partner
+   has the same SIREN.
 
 |Partner form view with warning banner|
 
-.. |Partner form view with warning banner| image:: https://raw.githubusercontent.com/OCA/l10n-france/18.0/l10n_fr_siret/static/description/partner_duplicate_warning.png
+.. |Partner form view with warning banner| image:: https://raw.githubusercontent.com/OCA/l10n-france/19.0/l10n_fr_siret/static/description/partner_duplicate_warning.png
 
 **Table of contents**
 
@@ -66,23 +65,17 @@ SIRET validation.
 Usage
 =====
 
-On the Partner form, users will be able to enter:
-
-- the SIREN and NIC numbers: the SIRET number will be computed
-  automatically.
-- the SIRET number: the SIREN and NIC will be computed automatically.
-
 The last digits of the SIREN and NIC are control keys: Odoo will check
 their validity.
 
 The warning banner is displayed on the partner form view if another
 partner:
 
-- has the same SIREN,
-- if the partner is attached to a specific company: is in the same
-  company or is not attached to a specific company,
-- if the partner is not attached to a specific company: is in any
-  company or not attached to a specific company.
+-  has the same SIREN,
+-  if the partner is attached to a specific company: is in the same
+   company or is not attached to a specific company,
+-  if the partner is not attached to a specific company: is in any
+   company or not attached to a specific company.
 
 Bug Tracker
 ===========
@@ -90,7 +83,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_siret%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_siret%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -106,8 +99,8 @@ Authors
 Contributors
 ------------
 
-- Lionel Sausin (Numérigraphe) <ls@numerigraphe.com>
-- Alexis de Lattre <alexis.delattre@akretion.com>
+-  Lionel Sausin (Numérigraphe) <ls@numerigraphe.com>
+-  Alexis de Lattre <alexis.delattre@akretion.com>
 
 Maintainers
 -----------
@@ -130,6 +123,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-alexis-via| 
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_siret>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/19.0/l10n_fr_siret>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

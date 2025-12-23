@@ -13,7 +13,6 @@
         <field name="city">Le Bourget-du-Lac</field>
         <field name="country_id" ref="base.fr" />
         <field name="website">https://www.camptocamp.com/</field>
-        <field name="siren">433698578</field>
-        <field name="nic">00054</field>
+        <field name="company_registry">43369857800054</field>
     </record>
 </odoo>
