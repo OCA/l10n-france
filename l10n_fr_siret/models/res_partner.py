@@ -1,163 +1,274 @@
-import logging
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from stdnum.eu.vat import is_valid as vat_is_valid
+from stdnum.fr.siren import is_valid as siren_is_valid
+from stdnum.fr.siret import is_valid as siret_is_valid
 
-logger = logging.getLogger(__name__)
-try:
-    from stdnum.fr import siren, siret
-except ImportError:
-    logger.debug("Cannot import stdnum")
+from odoo import Command, api, fields, models
+from odoo.exceptions import UserError, ValidationError
+from odoo.fields import Domain
 
 
 class Partner(models.Model):
     _inherit = "res.partner"
 
-    # This module doesn't depend on 'mail', so we can't add tracking=True
-    # tracking=True is added in l10n_fr_siret_account
-    siren = fields.Char(
-        string="SIREN",
-        size=9,
-        help="The SIREN number is the official identity "
-        "number of the company in France. It composes "
-        "the first 9 digits of the SIRET number.",
-    )
-    nic = fields.Char(
-        string="NIC",
-        size=5,
-        help="The NIC number is the official rank number "
-        "of this office in the company in France. It "
-        "composes the last 5 digits of the SIRET "
-        "number.",
-    )
-    # the original SIRET field is definied in l10n_fr
-    # We add an inverse method to make it easier to copy/paste a SIRET
-    # from an external source to the partner form view of Odoo
-    siret = fields.Char(
-        compute="_compute_siret",
-        inverse="_inverse_siret",
-        store=True,
-        precompute=True,
-        readonly=False,
-        help="The SIRET number is the official identity number of this "
-        "company's office in France. It is composed of the 9 digits "
-        "of the SIREN number and the 5 digits of the NIC number, ie. "
-        "14 digits.",
-    )
-    parent_is_company = fields.Boolean(
-        related="parent_id.is_company", string="Parent is a Company"
-    )
     same_siren_partner_ids = fields.Many2many(
         "res.partner",
         compute="_compute_same_siren_partner_ids",
         string="Partners with same SIREN",
-        compute_sudo=True,
     )
+    # Space removal in SIRET is inspired by the implementation in base_vat
+    # I don't know if it's the best way to do it though...
+    company_registry = fields.Char(inverse="_inverse_fr_company_registry", store=True)
 
-    @api.depends("siren", "nic")
-    def _compute_siret(self):
-        """Concatenate the SIREN and NIC to form the SIRET"""
-        for rec in self:
-            if rec.siren:
-                if rec.nic:
-                    rec.siret = rec.siren + rec.nic
-                else:
-                    rec.siret = rec.siren + "*****"
-            else:
-                rec.siret = False
-
-    def _inverse_siret(self):
-        for rec in self:
-            if rec.siret:
-                if siret.is_valid(rec.siret):
-                    rec.write({"siren": rec.siret[:9], "nic": rec.siret[9:]})
-                elif siren.is_valid(rec.siret[:9]) and rec.siret[9:] == "*****":
-                    rec.write({"siren": rec.siret[:9], "nic": False})
-                else:
-                    raise ValidationError(_("SIRET '%s' is invalid.") % rec.siret)
-            else:
-                rec.write({"siren": False, "nic": False})
-
-    @api.depends("siren", "company_id")
-    def _compute_same_siren_partner_ids(self):
-        # Inspired by same_vat_partner_id from 'base' module
+    def _inverse_fr_company_registry(self):
+        fr_country_codes = self.env["res.company"]._get_france_country_codes()
         for partner in self:
-            same_siren_partner_ids = False
-            if partner.siren and not partner.parent_id:
-                domain = [
-                    ("siren", "=", partner.siren),
-                    ("parent_id", "=", False),
-                ]
-                if partner.company_id:
-                    domain += [
-                        "|",
-                        ("company_id", "=", False),
-                        ("company_id", "=", partner.company_id.id),
-                    ]
-                # use _origin to deal with onchange()
-                partner_id = partner._origin.id
-                if partner_id:
-                    domain.append(("id", "!=", partner_id))
-                same_siren_partner_ids = (
-                    self.with_context(active_test=False).search(domain)
-                ).ids or False
-            partner.same_siren_partner_ids = same_siren_partner_ids
+            if (
+                partner.country_id
+                and partner.country_id.code in fr_country_codes
+                and partner.company_registry
+            ):
+                company_registry = "".join(
+                    x for x in partner.company_registry if not x.isspace()
+                )
+                if company_registry != partner.company_registry:
+                    partner.company_registry = company_registry
 
-    @api.constrains("siren", "nic")
+    @api.depends("company_registry", "company_id", "country_id", "vat")
+    def _compute_same_siren_partner_ids(self):
+        # In the "base" module, the fields same_vat_partner_id and
+        # same_company_registry_partner_id are implemented.
+        # Here, we want to display the warning banner in scenarios
+        # that are not fully covered by the "base" module.
+        # User may have both the native banner and this banner... but it's
+        # difficult to avoid that.
+        fr_country_codes = self.env["res.company"]._get_france_country_codes()
+        for partner in self:
+            same_siren_partner_ids = []
+            if not partner.parent_id:
+                siren = partner._get_siren()
+                if siren:
+                    domain = Domain(
+                        [
+                            ("parent_id", "=", False),
+                            ("id", "!=", partner._origin.id),
+                        ]
+                    )
+                    if partner.company_id:
+                        domain &= Domain(
+                            "company_id", "in", (False, partner.company_id.id)
+                        )
+
+                    domain &= Domain("vat", "=like", f"FR%{siren}") | Domain(
+                        [
+                            ("country_id", "in", fr_country_codes),
+                            ("company_registry", "=like", f"{siren}%"),
+                        ]
+                    )
+                    same_siren_partner_ids = list(
+                        self.with_context(active_test=False)._search(domain)
+                    )
+            partner.same_siren_partner_ids = [Command.set(same_siren_partner_ids)]
+
+    @api.constrains("company_registry", "country_id", "parent_id", "vat")
     def _check_siret(self):
         """Check the SIREN's and NIC's keys (last digits)"""
+        fr_country_codes = self.env["res.company"]._get_france_country_codes()
         for rec in self:
-            if rec.type == "contact" and rec.parent_id:
+            if not rec.country_id or not rec.company_registry:
                 continue
-            if rec.nic:
-                # Check the NIC type and length
-                if not rec.nic.isdigit() or len(rec.nic) != 5:
+            if rec.country_id.code not in fr_country_codes:
+                continue
+            company_registry = "".join(
+                x for x in rec.company_registry if not x.isspace()
+            )
+            if company_registry:
+                if not company_registry.isdigit():
                     raise ValidationError(
-                        _(
-                            "The NIC '{nic}' of partner '{partner_name}' is "
-                            "incorrect: it must have exactly 5 digits."
-                        ).format(nic=rec.nic, partner_name=rec.display_name)
-                    )
-            if rec.siren:
-                # Check the SIREN type, length and key
-                if not rec.siren.isdigit() or len(rec.siren) != 9:
-                    raise ValidationError(
-                        _(
-                            "The SIREN '{siren}' of partner '{partner_name}' is "
-                            "incorrect: it must have exactly 9 digits."
-                        ).format(siren=rec.siren, partner_name=rec.display_name)
-                    )
-                if not siren.is_valid(rec.siren):
-                    raise ValidationError(
-                        _(
-                            "The SIREN '{siren}' of partner '{partner_name}' is "
-                            "invalid: the checksum is wrong."
-                        ).format(siren=rec.siren, partner_name=rec.display_name)
-                    )
-                # Check the NIC key (you need both SIREN and NIC to check it)
-                if rec.nic and not siret.is_valid(rec.siren + rec.nic):
-                    raise ValidationError(
-                        _(
-                            "The SIRET '{siret}' of partner '{partner_name}' is "
-                            "invalid: the checksum is wrong."
-                        ).format(
-                            siret=(rec.siren + rec.nic), partner_name=rec.display_name
+                        self.env._(
+                            "The SIRET (or SIREN) '%(company_registry)s' "
+                            "of partner '%(partner_name)s' is "
+                            "incorrect: it must contain only digits.",
+                            company_registry=company_registry,
+                            partner_name=rec.display_name,
                         )
                     )
+                if len(company_registry) == 9:
+                    if not siren_is_valid(company_registry):
+                        raise ValidationError(
+                            self.env._(
+                                "The SIREN '%(company_registry)s' "
+                                "of partner '%(partner_name)s' is "
+                                "invalid: the checksum is wrong.",
+                                company_registry=company_registry,
+                                partner_name=rec.display_name,
+                            )
+                        )
+                elif len(company_registry) == 14:
+                    if not siret_is_valid(company_registry):
+                        raise ValidationError(
+                            self.env._(
+                                "The SIRET '%(company_registry)s' "
+                                "of partner '%(partner_name)s' is "
+                                "invalid: the checksum is wrong.",
+                                company_registry=company_registry,
+                                partner_name=rec.display_name,
+                            )
+                        )
+                else:
+                    raise ValidationError(
+                        self.env._(
+                            "The SIRET (or SIREN) '%(company_registry)s' "
+                            "of partner '%(partner_name)s' is "
+                            "wrong: it should have 14 digits (or 9 digits for SIREN).",
+                            company_registry=company_registry,
+                            partner_name=rec.display_name,
+                        )
+                    )
+                siren = company_registry[:9]
+                assert siren_is_valid(siren)
+                if rec.vat:
+                    vat = "".join(x for x in rec.vat if not x.isspace())
+                    # vat numbers have no spaces when base_vat is installed
+                    # but installation of base_vat doesn't remove spaces in vat numbers
+                    # encoded before the installation of the module
+                    if vat.startswith("FR") and not vat.endswith(siren):
+                        raise ValidationError(
+                            self.env._(
+                                "On partner '%(partner_name)s', "
+                                "the VAT number %(vat)s is not consistent with "
+                                "SIREN %(siren)s: a french VAT number has the 9 "
+                                "digits of SIREN at the end.",
+                                partner_name=rec.display_name,
+                                siren=siren,
+                                vat=vat,
+                            )
+                        )
+                if rec.parent_id:
+                    parent_siren = rec.parent_id._get_siren(raise_if_none=False)
+                    if parent_siren and parent_siren != siren:
+                        raise ValidationError(
+                            self.env._(
+                                "SIREN '%(child_siren)s' of child partner "
+                                "'%(child_partner)s' is different from SIREN "
+                                "'%(parent_siren)s' of its parent partner "
+                                "'%(parent_partner)s'.",
+                                child_siren=siren,
+                                child_partner=rec.display_name,
+                                parent_siren=parent_siren,
+                                parent_partner=rec.parent_id.display_name,
+                            )
+                        )
 
-    @api.model
-    def _commercial_fields(self):
-        # SIREN is the same for the whole company
-        # NIC is different for each address
-        res = super()._commercial_fields()
-        res.append("siren")
-        return res
+    def _common_get_siren_siret(self, field, raise_if_none=False):
+        if not self.country_id:
+            if raise_if_none:
+                raise UserError(
+                    self.env._(
+                        "Cannot get %(field)s from partner '%(partner)s' "
+                        "because the country is not set on that partner.",
+                        field=field,
+                        partner=self.display_name,
+                    )
+                )
+            return None
+        fr_country_codes = self.env["res.company"]._get_france_country_codes()
+        if self.country_id.code not in fr_country_codes:
+            if raise_if_none:
+                raise UserError(
+                    self.env._(
+                        "Cannot get %(field)s from partner '%(partner)s' "
+                        "because the partner's country is %(country)s "
+                        "which is not France.",
+                        field=field,
+                        partner=self.display_name,
+                        country=self.country_id.name,
+                    )
+                )
+            return None
+        company_registry = self.company_registry and "".join(
+            x for x in self.company_registry if not x.isspace()
+        )
+        if not company_registry:
+            if raise_if_none:
+                raise UserError(
+                    self.env._(
+                        "Cannot get %(field)s from partner '%(partner)s' "
+                        "because the SIRET field is empty.",
+                        field=field,
+                        partner=self.display_name,
+                    )
+                )
+            return None
+        return company_registry
 
-    @api.model
-    def _address_fields(self):
-        res = super()._address_fields()
-        res.append("nic")
-        return res
+    def _get_siren(self, raise_if_none=False):
+        partner = self.parent_id or self
+        if partner.vat:
+            vat = "".join(x for x in partner.vat if not x.isspace())
+            if (
+                vat
+                and vat.startswith("FR")
+                and len(vat) == 13
+                and vat_is_valid(vat)
+                and siren_is_valid(vat[4:])
+            ):
+                return vat[4:]
+        company_registry = partner._common_get_siren_siret(
+            "SIREN", raise_if_none=raise_if_none
+        )
+        if company_registry:
+            if len(company_registry) == 14 and siret_is_valid(company_registry):
+                return company_registry[:9]
+            if len(company_registry) == 9 and siren_is_valid(company_registry):
+                return company_registry
+            if raise_if_none:
+                raise UserError(
+                    self.env._(
+                        "Cannot get SIREN from partner %(partner)s because "
+                        "the SIRET field is invalid (%(company_registry)s).",
+                        partner=partner.display_name,
+                        company_registry=company_registry,
+                    )
+                )
+        return None
+
+    def _get_siret(self, raise_if_none=False):
+        # partner = self.parent_id or self
+        company_registry = self._common_get_siren_siret(
+            "SIRET", raise_if_none=raise_if_none
+        )
+        if company_registry and len(company_registry) == 14:
+            return company_registry
+        if raise_if_none:
+            raise UserError(
+                self.env._(
+                    "Cannot get SIRET from partner %(partner)s because "
+                    "the SIRET field is invalid (%(company_registry)s).",
+                    partner=self.display_name,
+                    company_registry=company_registry,
+                )
+            )
+        return None
+
+    def _get_nic(self, raise_if_none=False):
+        company_registry = self._common_get_siren_siret(
+            "SIRET", raise_if_none=raise_if_none
+        )
+        if company_registry and len(company_registry) == 14:
+            return company_registry[9:]
+        if raise_if_none:
+            raise UserError(
+                self.env._(
+                    "Cannot get NIC from partner %(partner)s because "
+                    "the SIRET field (%(company_registry)s) doesn't "
+                    "contain a full SIRET.",
+                    partner=self.display_name,
+                    company_registry=company_registry,
+                )
+            )
+        return None
 
     def action_open_business_doc(self):
         """Method called when you click on the link in the duplicate warning banner"""
@@ -167,7 +278,7 @@ class Partner(models.Model):
         # in the "base" module and we'll remove that code!
         self.ensure_one()
         action = {
-            "name": _("Partners"),
+            "name": self.env._("Partners"),
             "type": "ir.actions.act_window",
             "view_mode": "form",
             "views": [(False, "form")],
@@ -176,3 +287,13 @@ class Partner(models.Model):
             "target": "current",
         }
         return action
+
+    def write(self, vals):
+        # When moving a partner to a new parent partner, reset the company_registry
+        # and let _fields_sync() do the job. This will avoid to be blocked by
+        # the constraint to have the same SIREN on parent and child
+        if vals.get("parent_id") and any(
+            [vals["parent_id"] != p.parent_id.id for p in self]
+        ):
+            vals["company_registry"] = False
+        return super().write(vals)
