@@ -1,0 +1,102 @@
+# #############################################################################
+#
+#    l10n FR States module for OpenERP
+#    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
+#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# #############################################################################
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_state
+# 	* base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-26 16:08+0000\n"
+"PO-Revision-Date: 2014-03-26 16:08+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#~ msgid "Country state"
+#~ msgstr "Région"
+
+#~ msgid "State Name"
+#~ msgstr "Nom de la région"
+
+#~ msgid "State Code"
+#~ msgstr "Code de la région"
+
+#~ msgid "French States (Région)"
+#~ msgstr "Régions Françaises"
+
+#~ msgid "Populate Database with French States (Région)"
+#~ msgstr "Remplit la base de données avec les régions françaises"
+
+#~ msgid ""
+#~ "\n"
+#~ "Populate Database with French States (Région)\n"
+#~ "=============================================\n"
+#~ "\n"
+#~ "Feature:\n"
+#~ "--------\n"
+#~ "    * Populate the table res_country_state with the french states. (named "
+#~ "'Région')\n"
+#~ "\n"
+#~ "Technical information:\n"
+#~ "----------------------\n"
+#~ "    * Use 3166-2:FR codifications (more detail http://fr.wikipedia.org/"
+#~ "wiki/ISO_3166-2:FR);\n"
+#~ "    * Only populate inner states; (no Guyane, Mayotte, etc...) because "
+#~ "there are in the res_country table;\n"
+#~ "    * Change res_country_state.code size. (3 to 4);\n"
+#~ "\n"
+#~ "Copyright, Authors and Licence:\n"
+#~ "-------------------------------\n"
+#~ "    * Copyright: 2013-2014, GRAP, Groupement Régional Alimentaire de "
+#~ "Proximité;\n"
+#~ "    * Author: Sylvain LE GAL (https://twitter.com/legalsylvain);\n"
+#~ "    * Licence: AGPL-3 (http://www.gnu.org/licenses/);"
+#~ msgstr ""
+#~ "\n"
+#~ "Remplit la base de données avec les régions françaises\n"
+#~ "======================================================\n"
+#~ "\n"
+#~ "Caractéristique :\n"
+#~ "-----------------\n"
+#~ "    * Remplit la table 'res_country_state' avec les régions françaises\n"
+#~ "\n"
+#~ "Informations techniques :\n"
+#~ "-------------------------\n"
+#~ "    * Utilise la codification 3166-2:FR (plus de détail sur http://fr."
+#~ "wikipedia.org/wiki/ISO_3166-2:FR) ;\n"
+#~ "    * Ne remplit que les régions métropolitaines (pas la Guyane, ni "
+#~ "Mayotte, etc...) car ces régions sont déjà présentes dans la table "
+#~ "'res_country' ;\n"
+#~ "    * Modifie la taille du champs 'res_country_state.code'. (de 3 à 4 "
+#~ "caractères) ;\n"
+#~ "\n"
+#~ "Copyright, Auteurs et Licence:\n"
+#~ "------------------------------\n"
+#~ "    * Copyright : 2013, Groupement Régional Alimentaire de Proximité ;\n"
+#~ "    * Auteur : Sylvain LE GAL (https://twitter.com/legalsylvain) ;\n"
+#~ "    * Licence : AGPL-3 (http://www.gnu.org/licenses/) ;"
