@@ -3,18 +3,17 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import models
 
 
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    # siret field is defined in l10n_fr module on res.partner
-    # with an unstored related field on res.company
-    siret = fields.Char(store=True, readonly=True)
-    siren = fields.Char(
-        string="SIREN", related="partner_id.siren", store=True, readonly=False
-    )
-    nic = fields.Char(
-        string="NIC", related="partner_id.nic", store=True, readonly=False
-    )
+    def _get_siret(self, raise_if_none=False):
+        return self.partner_id._get_siret(raise_if_none=raise_if_none)
+
+    def _get_siren(self, raise_if_none=False):
+        return self.partner_id._get_siren(raise_if_none=raise_if_none)
+
+    def _get_nic(self, raise_if_none=False):
+        return self.partner_id._get_nic(raise_if_none=raise_if_none)
