@@ -1,10 +1,11 @@
 [project]
 name = "odoo-addons-oca-l10n-france"
-version = "19.0.20251212.1"
+version = "19.0.20251223.0"
 dependencies = [
     "odoo-addon-account_payment_fr_lcr==19.0.*",
     "odoo-addon-l10n_fr_account_payment_intl_credit_transfer==19.0.*",
     "odoo-addon-l10n_fr_pos_caisse_ap_ip==19.0.*",
+    "odoo-addon-l10n_fr_state==19.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",
