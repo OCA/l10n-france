@@ -21,13 +21,13 @@ L10n FR Chorus
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_chorus_account
+    :target: https://github.com/OCA/l10n-france/tree/19.0/l10n_fr_chorus_account
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-18-0/l10n-france-18-0-l10n_fr_chorus_account
+    :target: https://translation.odoo-community.org/projects/l10n-france-19-0/l10n-france-19-0-l10n_fr_chorus_account
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -56,28 +56,29 @@ Configuration
 
 On the customers that you invoice via Chorus, you must:
 
-- enter their *SIRET* (*Accounting* tab),
-- select *Chorus* as *Customer Invoice Transmission Method*
-  (*Accounting* tab),
-- select the *Info Required for Chorus* to the value that you obtained
-  from Chorus (menu *Rechercher Structure Publique*),
-- if the service is a required information for that customer in Chorus,
-  you must create the Chorus service and then create an invoicing
-  contact and select the related *Chorus Service* and make sure that
-  this contact is used as *Customer* on the invoice.
+-  enter their *SIRET* (*Accounting* tab),
+-  select *Chorus* as *Customer Invoice Transmission Method*
+   (*Accounting* tab),
+-  select the *Info Required for Chorus* to the value that you obtained
+   from Chorus (menu *Rechercher Structure Publique*),
+-  if the service is a required information for that customer in Chorus,
+   you must create the Chorus service and then create an invoicing
+   contact and select the related *Chorus Service* and make sure that
+   this contact is used as *Customer* on the invoice.
 
 If you want to use the Chorus API to easily send invoices to Chorus from
 Odoo, you must:
 
-- edit the Odoo server configuration file and add two keys
-  *chorus_api_oauth_id* and *chorus_api_oauth_secret* that contain your
-  Oauth client ID and client secret obtained via
-  `PISTE <https://piste.gouv.fr/>`__. Don't forget to restart the Odoo
-  server after the update of its configuration file.
-- in the menu *Accounting > Configuration > Settings*, in the section
-  *Chorus API*, enable the option *Use Chorus API*, which will add all
-  users to the *Chorus API* group. Then set the additional configuration
-  parameters for Chorus API that will be prompted on the settings page.
+-  edit the Odoo server configuration file and add two keys
+   *chorus_api_oauth_id* and *chorus_api_oauth_secret* that contain your
+   Oauth client ID and client secret obtained via
+   `PISTE <https://piste.gouv.fr/>`__. Don't forget to restart the Odoo
+   server after the update of its configuration file.
+-  in the menu *Accounting > Configuration > Settings*, in the section
+   *Chorus API*, enable the option *Use Chorus API*, which will add all
+   users to the *Chorus API* group. Then set the additional
+   configuration parameters for Chorus API that will be prompted on the
+   settings page.
 
 In the menu *Settings > Technical > Automation > Scheduled Actions*, you
 should also activate the 3 scheduled actions related to Chorus Pro.
@@ -132,7 +133,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_chorus_account%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_chorus_account%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -147,7 +148,7 @@ Authors
 Contributors
 ------------
 
-- Alexis de Lattre <alexis.delattre@akretion.com>
+-  Alexis de Lattre <alexis.delattre@akretion.com>
 
 Maintainers
 -----------
@@ -170,6 +171,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-alexis-via| 
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_chorus_account>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/19.0/l10n_fr_chorus_account>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

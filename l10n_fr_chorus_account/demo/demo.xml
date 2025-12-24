@@ -15,8 +15,7 @@
         <field name="zip">75007</field>
         <field name="country_id" ref="base.fr" />
         <field name="website">http://www.education.gouv.fr/</field>
-        <field name="siren">110043015</field>
-        <field name="nic">00012</field>
+        <field name="company_registry">11004301500012</field>
         <field name="invoice_sending_method">fr_chorus</field>
         <field name="fr_chorus_required">engagement</field>
     </record>
@@ -54,8 +53,7 @@
         <field name="zip">75004</field>
         <field name="country_id" ref="base.fr" />
         <field name="website">http://www.aphp.fr/</field>
-        <field name="siren">267500452</field>
-        <field name="nic">00011</field>
+        <field name="company_registry">26750045200011</field>
         <field name="invoice_sending_method">fr_chorus</field>
         <field name="fr_chorus_required">engagement</field>
     </record>

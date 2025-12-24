@@ -6,14 +6,15 @@
     "name": "L10n FR Chorus",
     "summary": "Generate Chorus-compliant e-invoices and transmit them "
     "via the Chorus API",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "French Localization",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
     "depends": [
-        "l10n_fr_siret_account",
+        "account",
+        "l10n_fr_siret",
         "server_environment",
     ],
     "external_dependencies": {"python": ["requests_oauthlib"]},

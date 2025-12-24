@@ -6,7 +6,7 @@ import logging
 
 from markupsafe import Markup
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
@@ -111,9 +111,9 @@ class ChorusFlow(models.Model):
             ):
                 for error in answer["listeErreurTechnique"]:
                     i += 1
-                    notes += "Erreur technique %d :\n" "  Libellé erreur : %s\n" % (
-                        i,
-                        error.get("libelleErreur"),
+                    notes += (
+                        f"Erreur technique {i} :\n"
+                        f"  Libellé erreur : {error.get('libelleErreur')}\n"
                     )
             if answer.get("listeErreurDP") and isinstance(
                 answer["listeErreurDP"], list
@@ -121,18 +121,13 @@ class ChorusFlow(models.Model):
                 for error in answer["listeErreurDP"]:
                     i += 1
                     notes += (
-                        "Erreur %d :\n"
-                        "  Identifiant fournisseur : %s\n"
-                        "  Identifiant destinataire : %s\n"
-                        "  Ref facture : %s\n"
-                        "  Libellé erreur : %s\n"
-                        % (
-                            i,
-                            error.get("identifiantFournisseur"),
-                            error.get("identifiantDestinataire"),
-                            error.get("numeroDP"),
-                            error.get("libelleErreurDP"),
-                        )
+                        f"Erreur {i} :\n"
+                        f"  Identifiant fournisseur : "
+                        f"{error.get('identifiantFournisseur')}\n"
+                        f"  Identifiant destinataire : "
+                        f"{error.get('identifiantDestinataire')}\n"
+                        f"  Ref facture : {error.get('numeroDP')}\n"
+                        f"  Libellé erreur : {error.get('libelleErreurDP')}\n"
                     )
                     # If we can identify the invoice in Odoo, we detach it
                     # from the flow, so that it can be fixed and re-transmitted
@@ -147,14 +142,14 @@ class ChorusFlow(models.Model):
                         if invoice:
                             invoice.message_post(
                                 body=Markup(
-                                    _(
+                                    self.env._(
                                         "This invoice has been "
                                         "<b>rejected by Chorus Pro</b> "
                                         "for the following reason:<br/><i>%s</i><br/>"
                                         "You should fix the error and send this "
-                                        "invoice to Chorus Pro again."
+                                        "invoice to Chorus Pro again.",
+                                        error.get("libelleErreurDP"),
                                     )
-                                    % error.get("libelleErreurDP")
                                 )
                             )
                             invoice.sudo().write({"chorus_flow_id": False})
@@ -230,11 +225,11 @@ class ChorusFlow(models.Model):
             if flow.status not in ("IN_INTEGRE", "IN_INTEGRE_PARTIEL"):
                 if raise_if_ko:
                     raise UserError(
-                        _(
+                        self.env._(
                             "On flow %s, the status is not 'INTEGRE' "
-                            "nor 'INTEGRE PARTIEL'."
+                            "nor 'INTEGRE PARTIEL'.",
+                            flow.name,
                         )
-                        % flow.name
                     )
                 logger.warning(
                     "Skipping flow %s: chorus flow status should be "
@@ -246,11 +241,11 @@ class ChorusFlow(models.Model):
             if flow.invoice_identifiers:
                 if raise_if_ko:
                     raise UserError(
-                        _(
+                        self.env._(
                             "The Chorus Invoice Identifiers are already set "
-                            "for flow %s."
+                            "for flow %s.",
+                            flow.name,
                         )
-                        % flow.name
                     )
                 logger.warning(
                     "Skipping flow %s: chorus identifiers already set", flow.name

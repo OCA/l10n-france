@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 logger = logging.getLogger(__name__)
@@ -74,7 +74,7 @@ class ResPartner(models.Model):
             if partner.fr_chorus_service_id:
                 if not partner.parent_id:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Chorus service codes can only be set on contacts, "
                             "not on parent partners. Chorus service code "
                             "'%(service_code)s' has been set on "
@@ -85,17 +85,17 @@ class ResPartner(models.Model):
                     )
                 if not partner.name:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Contacts with a Chorus service code should have a "
                             "name. The Chorus service code '%s' has been set on "
-                            "a contact without a name."
+                            "a contact without a name.",
+                            partner.fr_chorus_service_id.code,
                         )
-                        % partner.fr_chorus_service_id.code
                     )
                 chorus_service_partner = partner.fr_chorus_service_id.partner_id
                 if chorus_service_partner != partner.commercial_partner_id:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "The Chorus Service '%(service_name)s' configured on "
                             "contact '%(partner_name)s' is attached to another partner "
                             "(%(other_partner_name)s).",
@@ -109,7 +109,7 @@ class ResPartner(models.Model):
         url_path = "structures/v1/rechercher"
         payload = {
             "structure": {
-                "identifiantStructure": self.siret,
+                "identifiantStructure": self.company_registry,
                 "typeIdentifiantStructure": "SIRET",
             },
         }
@@ -135,18 +135,22 @@ class ResPartner(models.Model):
             if partner.parent_id:
                 if raise_if_ko:
                     raise UserError(
-                        _("Cannot get Chorus Identifier on partner '%s'.")
-                        % partner.display_name
+                        self.env._(
+                            "Cannot get Chorus Identifier on partner '%s'.",
+                            partner.display_name,
+                        )
                     )
                 else:
                     logger.warning(
                         "Skipping partner %s: not a contact", partner.display_name
                     )
                     continue
-            if not partner.nic or not partner.siren:
+            if not partner._get_siret():
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing SIRET on partner '%s'.") % partner.display_name
+                        self.env._(
+                            "Missing SIRET on partner '%s'.", partner.display_name
+                        )
                     )
                 else:
                     logger.warning(
@@ -159,11 +163,11 @@ class ResPartner(models.Model):
             ):
                 if raise_if_ko:
                     raise UserError(
-                        _(
+                        self.env._(
                             "On partner '%s', Invoice Sending "
-                            "is not set to 'Chorus Pro'."
+                            "is not set to 'Chorus Pro'.",
+                            partner.display_name,
                         )
-                        % partner.display_name
                     )
                 else:
                     logger.warning(
@@ -188,20 +192,21 @@ class ResPartner(models.Model):
             if res:
                 partner.write({"fr_chorus_identifier": res})
             else:
+                partner_siret = partner._get_siret()
                 if raise_if_ko:
                     raise UserError(
-                        _(
+                        self.env._(
                             "No entity found in Chorus corresponding to SIRET %s. "
-                            "The detailed error is written in Odoo server logs."
+                            "The detailed error is written in Odoo server logs.",
+                            partner_siret,
                         )
-                        % partner.siret
                     )
                 else:
                     logger.warning(
                         "Skipping partner %s: No entity found in Chorus "
                         "corresponding to SIRET %s.",
                         partner.display_name,
-                        partner.siret,
+                        partner_siret,
                     )
 
     def _fr_chorus_api_structures_consulter(self, api_params, session):
@@ -236,8 +241,10 @@ class ResPartner(models.Model):
             if not partner.fr_chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Chorus Identifier on partner '%s'.")
-                        % partner.display_name
+                        self.env._(
+                            "Missing Chorus Identifier on partner '%s'.",
+                            partner.display_name,
+                        )
                     )
                 else:
                     logger.warning(
@@ -318,8 +325,10 @@ class ResPartner(models.Model):
             if not partner.fr_chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Chorus Identifier on partner '%s'.")
-                        % partner.display_name
+                        self.env._(
+                            "Missing Chorus Identifier on partner '%s'.",
+                            partner.display_name,
+                        )
                     )
                 else:
                     logger.warning(
@@ -330,8 +339,10 @@ class ResPartner(models.Model):
             if not partner.fr_chorus_required:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Info Required for Chorus on partner '%s'.")
-                        % partner.display_name
+                        self.env._(
+                            "Missing Info Required for Chorus on partner '%s'.",
+                            partner.display_name,
+                        )
                     )
                 else:
                     logger.warning(
@@ -440,12 +451,13 @@ class ResPartner(models.Model):
     @api.model
     def chorus_cron(self):
         logger.info("Start Chorus partner cron")
+        fr_country_codes = self.env["res.company"]._get_france_country_codes()
         to_update_partners = self.search(
             [
                 ("parent_id", "=", False),
                 ("invoice_sending_method", "=", "fr_chorus"),
-                ("siren", "!=", False),
-                ("nic", "!=", False),
+                ("country_id.code", "in", fr_country_codes),
+                ("company_registry", "!=", False),
             ]
         )
         to_update_partners.with_context(

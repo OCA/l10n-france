@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
@@ -37,15 +37,15 @@ class AccountInvoiceChorusSend(models.TransientModel):
         for invoice in invoices:
             if invoice.move_type not in ("out_invoice", "out_refund"):
                 raise UserError(
-                    _(
+                    self.env._(
                         "Move '%s' is not a customer invoice. You can only send "
-                        "customer invoices/refunds to Chorus Pro."
+                        "customer invoices/refunds to Chorus Pro.",
+                        invoice.display_name,
                     )
-                    % invoice.display_name
                 )
             if invoice.state != "posted":
                 raise UserError(
-                    _(
+                    self.env._(
                         "The state of invoice '%(invoice)s' is "
                         "'%(invoice_state)s'. You can only send to Chorus Pro invoices "
                         "in posted state.",
@@ -57,7 +57,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
                 )
             if invoice.invoice_sending_method != "fr_chorus":
                 raise UserError(
-                    _(
+                    self.env._(
                         "Invoice '%(invoice)s': partner '%(partner)s' is "
                         "not configured with invoice sending set "
                         "to 'Chorus Pro'.",
@@ -67,7 +67,7 @@ class AccountInvoiceChorusSend(models.TransientModel):
                 )
             if invoice.chorus_flow_id:
                 raise UserError(
-                    _(
+                    self.env._(
                         "The invoice '%(invoice)s' has already been sent: "
                         "it is linked to Chorus Flow %(flow)s.",
                         invoice=invoice.display_name,
@@ -77,7 +77,9 @@ class AccountInvoiceChorusSend(models.TransientModel):
             if company:
                 if company != invoice.company_id:
                     raise UserError(
-                        _("All the selected invoices must be in the same company.")
+                        self.env._(
+                            "All the selected invoices must be in the same company."
+                        )
                     )
             else:
                 company = invoice.company_id

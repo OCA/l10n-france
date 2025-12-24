@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 logger = logging.getLogger(__name__)
@@ -29,6 +29,11 @@ class ChorusPartnerService(models.Model):
     chorus_identifier = fields.Integer(readonly=True)
     engagement_required = fields.Boolean()
 
+    _partner_code_uniq = models.UniqueIndex(
+        "(partner_id, code)",
+        "This Chorus service code already exists for that partner!",
+    )
+
     @api.constrains("code")
     def _check_service_factures_publiques_dont_use(self):
         # As explained on
@@ -40,7 +45,7 @@ class ChorusPartnerService(models.Model):
         for service in self:
             if service.code == "FACTURES_PUBLIQUES":
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The 'Service des factures publiques' with code "
                         "'FACTURES_PUBLIQUES' is dedicated to invoicing "
                         "between public entities. Don't use it, otherwise "
@@ -53,14 +58,6 @@ class ChorusPartnerService(models.Model):
         for service in self:
             name = f"[{service.code}] {service.name or '-'}"
             service.display_name = name
-
-    _sql_constraints = [
-        (
-            "partner_code_uniq",
-            "unique(partner_id, code)",
-            "This Chorus service code already exists for that partner!",
-        )
-    ]
 
     def _is_service_ok(self):
         if not self:
@@ -101,7 +98,7 @@ class ChorusPartnerService(models.Model):
             if not service.chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _(
+                        self.env._(
                             "Missing Chorus Identifier on service '%(service_name)s' "
                             "of partner '%(partner_name)s'.",
                             service_name=service.display_name,
@@ -110,8 +107,7 @@ class ChorusPartnerService(models.Model):
                     )
                 else:
                     logger.warning(
-                        "Skipping service %s of partner %s: missing "
-                        "Chorus identifier",
+                        "Skipping service %s of partner %s: missing Chorus identifier",
                         service.display_name,
                         partner.display_name,
                     )
@@ -119,8 +115,10 @@ class ChorusPartnerService(models.Model):
             if not partner.fr_chorus_identifier:
                 if raise_if_ko:
                     raise UserError(
-                        _("Missing Chorus Identifier on partner %s.")
-                        % partner.display_name
+                        self.env._(
+                            "Missing Chorus Identifier on partner %s.",
+                            partner.display_name,
+                        )
                     )
                 else:
                     logger.warning(

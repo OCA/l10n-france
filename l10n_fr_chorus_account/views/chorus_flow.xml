@@ -108,7 +108,7 @@
                 <field name="name" />
                 <separator />
                 <filter string="Date" name="date" date="date" />
-                <group string="Group By" name="groupby">
+                <group name="groupby">
                     <filter
                         name="status_groupby"
                         string="Status"

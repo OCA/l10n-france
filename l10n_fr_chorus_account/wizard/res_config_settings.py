@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ class ResConfigSettings(models.TransientModel):
         answer, session = self.env["res.company"]._chorus_post(
             api_params, url_path, payload
         )
-        message = _(
+        message = self.env._(
             "Successful test of the Chorus Pro API for company '%(company)s'!",
             company=self.company_id.display_name,
         )
