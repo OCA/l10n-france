@@ -1,9 +1,11 @@
 # Copyright 2016-2022 Akretion France
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestFrDepartmentOversea(TransactionCase):
     def test_fr_department_oversea(self):
         rpo = self.env["res.partner"]
