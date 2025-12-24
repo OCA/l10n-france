@@ -1,5 +1,5 @@
 This module implements the France-specific part of the Factur-X standard
-to generate Factur-X invoices. In particular, it adds the SIRET of the
+to generate Factur-X invoices. In particular, it adds the SIREN or SIRET of the
 buyer and the seller in the XML file embedded in the PDF invoice.
 
 Factur-X is the e-invoicing standard for France and Germany. The

@@ -11,7 +11,11 @@ class AccountMove(models.Model):
     @api.model
     def _cii_get_party_identification(self, commercial_partner):
         res = super()._cii_get_party_identification(commercial_partner)
-        # partner.siret has a value even if partner.nic == False
-        if commercial_partner.siren and commercial_partner.nic:
-            res["0002"] = commercial_partner.siret
+        fr_country_codes = self.env["res.company"]._get_france_country_codes()
+        if (
+            commercial_partner.company_registry
+            and commercial_partner.country_id
+            and commercial_partner.country_id.code in fr_country_codes
+        ):
+            res["0002"] = commercial_partner.company_registry
         return res
