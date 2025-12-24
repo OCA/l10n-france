@@ -17,7 +17,7 @@
                 />
                 <field name="state_id" />
                 <field name="country_id" />
-                <group string="Group By" name="groupby">
+                <group name="groupby">
                     <filter
                         name="state_groupby"
                         string="State"

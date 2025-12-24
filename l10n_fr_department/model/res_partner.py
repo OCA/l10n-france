@@ -5,6 +5,7 @@
 from collections import defaultdict
 
 from odoo import api, fields, models
+from odoo.fields import Domain
 
 try:
     from unidecode import unidecode
@@ -49,7 +50,7 @@ class ResPartner(models.Model):
     # If a department code changes, it will have to be manually recomputed
     def _compute_country_department(self):
         fr_dom_countries_codes = ("FR", "GP", "MQ", "GF", "RE", "YT")
-        fr_dom_countries_domain = [("code", "in", fr_dom_countries_codes)]
+        fr_dom_countries_domain = Domain("code", "in", fr_dom_countries_codes)
         fr_dom_countries_sr = self.env["res.country"].search_read(
             fr_dom_countries_domain, ["id"]
         )
@@ -57,7 +58,7 @@ class ResPartner(models.Model):
 
         # Retrieve all available departments by normalized department zip code
         department_sr = self.env["res.country.department"].search_read(
-            [("country_id", "in", fr_dom_countries_ids)], ["code"]
+            Domain("country_id", "in", fr_dom_countries_ids), ["code"]
         )
         department_code2id = {dpt["code"]: dpt["id"] for dpt in department_sr}
 
