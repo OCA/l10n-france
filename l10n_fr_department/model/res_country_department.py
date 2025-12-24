@@ -30,13 +30,10 @@ class ResCountryDepartment(models.Model):
         help="The department code (ISO 3166-2 codification)",
     )
 
-    _sql_constraints = [
-        (
-            "code_country_uniq",
-            "unique (code, country_id)",
-            "You cannot have two departments with the same code in the same country!",
-        )
-    ]
+    _code_country_uniq = models.UniqueIndex(
+        "(code, country_id)",
+        "You cannot have two departments with the same code in the same country!",
+    )
 
     @api.depends("name", "code")
     def _compute_display_name(self):
