@@ -88,7 +88,7 @@ class ResPartner(models.Model):
     @api.model
     def _fr_zipcode_city_to_department_code(self, zipcode, city):
         # https://fr.wikipedia.org/wiki/Liste_des_communes_de_France_dont_le_code_postal_ne_correspond_pas_au_d%C3%A9partement  # noqa
-        zipcode = zipcode.replace(" ", "")
+        zipcode = "".join(x for x in zipcode if not x.isspace())
         if len(zipcode) != 5:
             return None
         if city and zipcode in FR_SPECIAL_ZIPCODES:
