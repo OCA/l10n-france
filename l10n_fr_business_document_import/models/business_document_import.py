@@ -64,10 +64,14 @@ class BusinessDocumentImport(models.AbstractModel):
     ):
         if not company_dict:
             company_dict = {}
-        rco = self.env["res.company"]
         if company is None:
-            if self._context.get("force_company"):
-                company = rco.browse(self._context["force_company"])
+            if (
+                self._context.get("allowed_company_ids")
+                and len(self._context["allowed_company_ids"]) == 1
+            ):
+                company = self.env["res.company"].browse(
+                    self._context["allowed_company_ids"][0]
+                )
             else:
                 company = self.env.company
         siren = False
@@ -79,7 +83,7 @@ class BusinessDocumentImport(models.AbstractModel):
         if siren and siren_is_valid(siren):
             if company.siren:
                 if company.siren != siren:
-                    raise self.user_error_wrap(
+                    self.user_error_wrap(
                         "_check_company",
                         company_dict,
                         _(
@@ -100,9 +104,9 @@ class BusinessDocumentImport(models.AbstractModel):
                 and company.country_id.code
                 in self.env["res.company"]._get_france_country_codes()
             ):
-                chatter_msg.append(
-                    _("Missing SIRET on company '%s'.") % company.display_name
-                )
+                msg = _("Missing SIRET on company '%s'.") % company.display_name
+                if msg not in chatter_msg:
+                    chatter_msg.append(msg)
         return super()._check_company(
             company_dict, chatter_msg, company=company, raise_exception=raise_exception
         )
