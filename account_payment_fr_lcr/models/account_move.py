@@ -266,12 +266,9 @@ class AccountMove(models.Model):
         with tools.file_open(
             "account_payment_fr_lcr/reports/lettre_de_change.pdf", "rb"
         ) as empty_report_fd:
-            empty_report_reader = PdfReader(empty_report_fd)
-            final_report_writer = PdfWriter()
+            final_report_writer = PdfWriter(empty_report_fd)
             # add the "watermark" (which is the new pdf) on the existing page
-            page = empty_report_reader.pages[0]
-            page.merge_page(watermark_pdf_reader.pages[0])
-            final_report_writer.add_page(page)
+            final_report_writer.pages[0].merge_page(watermark_pdf_reader.pages[0])
             final_report_writer.pages[0].compress_content_streams()
             # finally, write "output" to a real file
             final_report_io = io.BytesIO()
