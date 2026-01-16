@@ -143,9 +143,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.actions.act_window,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_action
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_declaration
-#: model:ir.ui.menu,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_menu
 msgid "EMEBI"
 msgstr ""
 
