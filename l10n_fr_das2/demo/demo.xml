@@ -15,8 +15,7 @@
     has child contacts, it will sync the siren with the childs
     while keeping the nic, so the SIRET will become invalid on the childs -->
     <record id="base.main_partner" model="res.partner">
-        <field name="siren">999999998</field>
-        <field name="nic">00019</field>
+        <field name="company_registry">99999999800019</field>
     </record>
 
     <!-- DEMO SUPPLIERS -->
@@ -30,8 +29,7 @@
         <field name="email">experts@comptables.example.com</field>
         <field name="fr_das2_type">fee</field>
         <field name="fr_das2_job">Expert comptable</field>
-        <field name="siren">111111118</field>
-        <field name="nic">00019</field>
+        <field name="company_registry">11111111800019</field>
     </record>
 
     <record id="partner_das2_2" model="res.partner">
@@ -44,8 +42,7 @@
         <field name="email">avocats@example.com</field>
         <field name="fr_das2_type">fee</field>
         <field name="fr_das2_job">Avocat</field>
-        <field name="siren">222222226</field>
-        <field name="nic">00011</field>
+        <field name="company_registry">22222222600011</field>
     </record>
 
     <record id="partner_das2_3" model="res.partner">
@@ -58,7 +55,6 @@
         <field name="email">cac@example.com</field>
         <field name="fr_das2_type">fee</field>
         <field name="fr_das2_job">Commissaire aux comptes</field>
-        <field name="siren">333333334</field>
-        <field name="nic">00014</field>
+        <field name="company_registry">33333333400014</field>
     </record>
 </odoo>

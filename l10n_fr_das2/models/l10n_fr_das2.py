@@ -15,9 +15,9 @@ from pyfrdas2 import (
 from pyfrdas2.pyfrdas2 import logger as pyfrdas2logger
 from stdnum.fr.siret import is_valid
 
-from odoo import _, api, fields, models, tools
+from odoo import Command, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
-from odoo.osv import expression
+from odoo.fields import Domain
 from odoo.tools.misc import format_amount, format_date
 
 try:
@@ -114,8 +114,11 @@ class L10nFrDas2(models.Model):
     payment_journal_ids = fields.Many2many(
         "account.journal",
         string="Payment Journals",
+        compute="_compute_payment_journal_ids",
+        store=True,
+        readonly=False,
+        precompute=True,
         required=True,
-        default=lambda self: self._default_payment_journals(),
         domain="[('company_id', '=', company_id)]",
         check_company=True,
     )
@@ -161,13 +164,10 @@ class L10nFrDas2(models.Model):
     # to put a link to partners inside it
     warning_msg = fields.Html(readonly=True)
 
-    _sql_constraints = [
-        (
-            "year_company_uniq",
-            "unique(company_id, year)",
-            "A DAS2 already exists for that year!",
-        )
-    ]
+    _year_company_uniq = models.UniqueIndex(
+        "(company_id, year)",
+        "A DAS2 already exists for that year!",
+    )
 
     @api.depends("year")
     def _compute_partner_declare_threshold(self):
@@ -180,25 +180,27 @@ class L10nFrDas2(models.Model):
     @api.model
     def _default_dads_type(self):
         previous_decl = self.search(
-            [("dads_type", "!=", False)], order="year desc", limit=1
+            Domain("dads_type", "!=", False), order="year desc", limit=1
         )
         if previous_decl:
             return previous_decl.dads_type
         else:
             return "4"
 
-    @api.model
-    def _default_payment_journals(self):
-        res = []
-        pay_journals = self.env["account.journal"].search(
-            [
-                ("type", "in", ("bank", "cash", "credit")),
-                ("company_id", "=", self.env.company.id),
-            ]
-        )
-        if pay_journals:
-            res = pay_journals.ids
-        return res
+    @api.depends("company_id")
+    def _compute_payment_journal_ids(self):
+        for rec in self:
+            pay_journal_ids = list(
+                self.env["account.journal"]._search(
+                    Domain(
+                        [
+                            ("type", "in", ("bank", "cash", "credit")),
+                            ("company_id", "=", rec.company_id.id),
+                        ]
+                    )
+                )
+            )
+            rec.payment_journal_ids = [Command.set(pay_journal_ids)]
 
     @api.model
     def _default_year(self):
@@ -220,7 +222,7 @@ class L10nFrDas2(models.Model):
             else:
                 encryption = "prod"
             msg = Markup(
-                _(
+                self.env._(
                     "DAS2 file generated. Encrypted with DGFiP's"
                     " <b>%(encryption)s</b> PGP key using pyfrdas2 "
                     "version %(pyfrdas2version)s.",
@@ -229,10 +231,10 @@ class L10nFrDas2(models.Model):
                 )
             )
 
-            attach = self.generate_file_and_attach(encryption=encryption)
+            attach = self._generate_file_and_attach(encryption=encryption)
             self.message_post(body=msg)
             # also generate a clear file, for audit purposes
-            unencrypted_attach = self.generate_file_and_attach(encryption="none")
+            unencrypted_attach = self._generate_file_and_attach(encryption="none")
             vals.update(
                 {
                     "attachment_id": attach.id,
@@ -246,19 +248,22 @@ class L10nFrDas2(models.Model):
         self.ensure_one()
         if self.attachment_id:
             self.attachment_id.unlink()
-            self.message_post(body=_("DAS2 file deleted."))
+            self.message_post(body=self.env._("DAS2 file deleted."))
         if self.unencrypted_attachment_id:
             self.unencrypted_attachment_id.unlink()
         self.write({"state": "draft"})
         return
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_state_done(self):
         for rec in self:
             if rec.state == "done":
                 raise UserError(
-                    _("Cannot delete declaration %s in done state.") % rec.display_name
+                    self.env._(
+                        "Cannot delete declaration %s because it is in 'Done' state.",
+                        rec.display_name,
+                    )
                 )
-        return super().unlink()
 
     def generate_lines(self):
         self.ensure_one()
@@ -266,11 +271,11 @@ class L10nFrDas2(models.Model):
         company = self.company_id
         if not company.country_id:
             raise UserError(
-                _("Country not set on company '%s'.") % company.display_name
+                self.env._("Country not set on company '%s'.", company.display_name)
             )
         if company.country_id.code not in FRANCE_CODES:
             raise UserError(
-                _(
+                self.env._(
                     "Company '%(company)s' is configured in country '%(country)s'. "
                     "The DAS2 is only for France and it's oversea territories.",
                     company=company.display_name,
@@ -279,7 +284,7 @@ class L10nFrDas2(models.Model):
             )
         if company.currency_id != self.env.ref("base.EUR"):
             raise UserError(
-                _(
+                self.env._(
                     "Company '%(company)s' is configured with currency '%(currency)s'. "
                     "It should be EUR.",
                     company=company.display_name,
@@ -287,39 +292,43 @@ class L10nFrDas2(models.Model):
                 )
             )
         das2_partners = self.env["res.partner"].search(
-            [("parent_id", "=", False), ("fr_das2_type", "!=", False)]
+            Domain([("parent_id", "=", False), ("fr_das2_type", "!=", False)])
         )
         if not das2_partners:
-            raise UserError(_("There are no partners configured for DAS2."))
+            raise UserError(self.env._("There are no partners configured for DAS2."))
         self.line_ids.unlink()
-        base_domain = [
-            ("company_id", "=", self.company_id.id),
-            ("date", ">=", "%d-01-01" % self.year),
-            ("date", "<=", "%d-12-31" % self.year),
-            ("journal_id", "in", self.payment_journal_ids.ids),
-            ("balance", "!=", 0),
-            ("parent_state", "=", "posted"),
-        ]
+        base_domain = Domain(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("date", ">=", f"{self.year}-01-01"),
+                ("date", "<=", f"{self.year}-12-31"),
+                ("journal_id", "in", self.payment_journal_ids.ids),
+                ("balance", "!=", 0),
+                ("parent_state", "=", "posted"),
+            ]
+        )
         for partner in das2_partners:
             vals = self._prepare_line(partner, base_domain)
             if vals:
                 lfdlo.create(vals)
-        self.generate_warning_msg(das2_partners)
+        self._generate_warning_msg(das2_partners)
 
     def _prepare_line(self, partner, base_domain):
         amlo = self.env["account.move.line"]
         mlines = amlo.search(
             base_domain
-            + [
-                ("partner_id", "=", partner.id),
-                ("account_id", "=", partner.property_account_payable_id.id),
-            ]
+            & Domain(
+                [
+                    ("partner_id", "=", partner.id),
+                    ("account_id", "=", partner.property_account_payable_id.id),
+                ]
+            )
         )
         note = ""
         amount = 0.0
         for mline in mlines:
             amount += mline.balance
-            note_text = _(
+            note_text = self.env._(
                 "Payment dated <b>%(date)s</b> in journal <b>%(journal)s</b>: "
                 "%(amount)s (journal entry %(move_name)s)",
                 date=format_date(self.env, mline.date),
@@ -340,41 +349,46 @@ class L10nFrDas2(models.Model):
             }
         return res
 
-    def generate_warning_msg(self, das2_partners):
+    def _generate_warning_msg(self, das2_partners):
         amlo = self.env["account.move.line"]
         aao = self.env["account.account"]
         ajo = self.env["account.journal"]
         company = self.company_id
-        purchase_journals = ajo.search(
-            [("type", "=", "purchase"), ("company_id", "=", company.id)]
+        purchase_journal_ids = list(
+            ajo._search(
+                Domain([("type", "=", "purchase"), ("company_id", "=", company.id)])
+            )
         )
-        acc_domain = expression.OR(
-            [
-                ("code", "=like", f"{acc_code}%"),
-            ]
-            for acc_code in PCG_DAS2_WARN_ACCOUNTS
+
+        acc_domain = Domain.FALSE
+        for acc_code in PCG_DAS2_WARN_ACCOUNTS:
+            acc_domain = acc_domain | Domain("code", "=like", f"{acc_code}%")
+        acc_domain &= Domain("company_ids", "in", company.id)
+
+        das2_account_ids = list(
+            aao.with_company(self.company_id.id)._search(acc_domain)
         )
-        das2_accounts = aao.with_company(self.company_id.id).search(acc_domain)
         rg_res = amlo._read_group(
-            [
-                ("company_id", "=", company.id),
-                ("date", ">=", "%d-10-01" % (self.year - 1)),
-                ("date", "<=", "%d-12-31" % self.year),
-                ("journal_id", "in", purchase_journals.ids),
-                ("partner_id", "!=", False),
-                ("partner_id", "not in", das2_partners.ids),
-                ("account_id", "in", das2_accounts.ids),
-                ("balance", "!=", 0),
-                ("parent_state", "=", "posted"),
-                ("display_type", "=", "product"),
-            ],
-            ["partner_id"],
-            ["__count"],
+            Domain(
+                [
+                    ("company_id", "=", company.id),
+                    ("date", ">=", f"{self.year - 1}-10-01"),
+                    ("date", "<=", f"{self.year}-12-31"),
+                    ("journal_id", "in", purchase_journal_ids),
+                    ("partner_id", "not in", das2_partners.ids + [False]),
+                    ("account_id", "in", das2_account_ids),
+                    ("balance", "!=", 0),
+                    ("parent_state", "=", "posted"),
+                    ("display_type", "=", "product"),
+                ]
+            ),
+            groupby=["partner_id"],
+            aggregates=["__count"],
         )
         msg = False
-        msg_post = _("DAS2 lines generated. ")
+        msg_post = self.env._("DAS2 lines generated. ")
         if rg_res:
-            msg = _(
+            msg = self.env._(
                 "The following partners are not configured for DAS2 but "
                 "they have expenses in some accounts that indicate "
                 "they should probably be configured for DAS2:<ul>"
@@ -383,8 +397,8 @@ class L10nFrDas2(models.Model):
             for rg_re in rg_res:
                 partner = rg_re[0]
                 msg_post += (
-                    '<li><a href="#" data-oe-model="res.partner" '
-                    'data-oe-id="%d">%s</a></li>' % (partner.id, partner.display_name)
+                    f'<li><a href="#" data-oe-model="res.partner" '
+                    f'data-oe-id="{partner.id}">{partner.display_name}</a></li>'
                 )
                 msg += f"<li>{partner.display_name}</li>"
             msg_post += "</ul>"
@@ -405,7 +419,7 @@ class L10nFrDas2(models.Model):
                     value = int(value)
                 except Exception as e:
                     raise UserError(
-                        _(
+                        self.env._(
                             "Failed to convert field '%(field_name)s' "
                             "(partner %(partner)s) to integer.",
                             field_name=field_name,
@@ -415,7 +429,7 @@ class L10nFrDas2(models.Model):
             value = str(value)
             if len(value) > size:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Field %(field_name)s (partner %(partner)s) has value "
                         "%(value)s: it is bigger than the maximum size "
                         "(%(size)d characters).",
@@ -430,7 +444,7 @@ class L10nFrDas2(models.Model):
             return value
         if required and not value:
             raise UserError(
-                _(
+                self.env._(
                     "The field '%(field_name)s' (partner %(partner)s) is empty or 0. "
                     "It should have a non-null value.",
                     field_name=field_name,
@@ -458,12 +472,16 @@ class L10nFrDas2(models.Model):
         # for the number, bis/ter and street name.
         # We'll do our best to comply with that.
         if not partner.city:
-            raise UserError(_("Missing city on partner '%s'.") % partner.display_name)
+            raise UserError(
+                self.env._("Missing city on partner '%s'.", partner.display_name)
+            )
         if partner.country_id and partner.country_id.code not in FRANCE_CODES:
             if not partner.country_id.fr_cog:
                 raise UserError(
-                    _("Missing Code Officiel Géographique on country '%s'.")
-                    % partner.country_id.display_name
+                    self.env._(
+                        "Missing Code Officiel Géographique on country '%s'.",
+                        partner.country_id.display_name,
+                    )
                 )
             cog = self._prepare_field(
                 "COG", partner, partner.country_id.fr_cog, 5, True, numeric=True
@@ -505,8 +523,12 @@ class L10nFrDas2(models.Model):
         cpartner = company.partner_id
         contact = self.contact_id
         eu_countries = self.env.ref("base.europe").country_ids
-        csiren = self._prepare_field("SIREN", cpartner, cpartner.siren, 9, True)
-        csiret = self._prepare_field("SIRET", cpartner, cpartner.siret, 14, True)
+        csiren = self._prepare_field(
+            "SIREN", cpartner, cpartner._get_siren(raise_if_none=True), 9, True
+        )
+        csiret = self._prepare_field(
+            "SIRET", cpartner, cpartner._get_siret(raise_if_none=True), 14, True
+        )
         cape = self._prepare_field("APE", cpartner, company.ape, 5, True)
         cname = self._prepare_field("Name", cpartner, company.name, 50, True)
         file_type = "X"  # tous déclarants honoraires seuls
@@ -565,7 +587,9 @@ class L10nFrDas2(models.Model):
                 and not line.partner_siret
             ):
                 raise UserError(
-                    _("Missing SIRET for french partner %s.") % partner.display_name
+                    self.env._(
+                        "Missing SIRET for french partner %s.", partner.display_name
+                    )
                 )
             if (
                 not partner.is_company
@@ -575,7 +599,7 @@ class L10nFrDas2(models.Model):
             ):
                 if not hasattr(partner, "birthdate_date"):
                     raise UserError(
-                        _(
+                        self.env._(
                             "Partner '%(partner_name)s' is a physical person "
                             "in country %(country)s which is a foreign EU country. "
                             "So you must install the OCA module "
@@ -587,7 +611,7 @@ class L10nFrDas2(models.Model):
                     )
                 if not partner.birthdate_date:
                     raise UserError(
-                        _(
+                        self.env._(
                             "Missing birth date on partner '%s'. This information is "
                             "required for physical persons in foreign EU countries.",
                             partner.name,
@@ -732,7 +756,7 @@ class L10nFrDas2(models.Model):
         for fline in flines:
             if len(fline) != 672:
                 raise UserError(
-                    _(
+                    self.env._(
                         "One of the lines has a length of %(length)d. "
                         "All lines should have a length of 672. "
                         "Line: %(line_content)s.",
@@ -743,39 +767,42 @@ class L10nFrDas2(models.Model):
         file_content = "\r\n".join(flines) + "\r\n"
         return file_content
 
-    def generate_file_and_attach(self, encryption="prod"):
+    def _generate_file_and_attach(self, encryption="prod"):
         self.ensure_one()
         assert encryption in ("prod", "test", "none")
         company = self.company_id
         if not self.line_ids:
-            raise UserError(_("The DAS2 has no lines."))
-        if not company.siret:
-            raise UserError(_("Missing SIRET on company '%s'.") % company.display_name)
-        if not company.siren:
-            raise UserError(_("Missing SIREN on company '%s'.") % company.display_name)
+            raise UserError(self.env._("The DAS2 has no lines."))
+        # check on company's SIREN/SIRET is in file generation code
         if not company.ape:
-            raise UserError(_("Missing APE on company '%s'.") % company.display_name)
+            raise UserError(
+                self.env._("Missing APE on company '%s'.", company.display_name)
+            )
         if not company.street:
-            raise UserError(_("Missing Street on company '%s'") % company.display_name)
+            raise UserError(
+                self.env._("Missing Street on company '%s'.", company.display_name)
+            )
         contact = self.contact_id
         if not contact:
-            raise UserError(_("Missing administrative contact."))
+            raise UserError(self.env._("Missing administrative contact."))
         if not contact.email:
             raise UserError(
-                _("The email is not set on the administrative contact " "partner '%s'.")
-                % contact.display_name
+                self.env._(
+                    "The email is not set on the administrative contact partner '%s'.",
+                    contact.display_name,
+                )
             )
         if not contact.phone and not contact.mobile:
             raise UserError(
-                _(
+                self.env._(
                     "The phone number is not set on the administrative contact "
-                    "partner '%s'."
+                    "partner '%s'.",
+                    contact.display_name,
                 )
-                % contact.display_name
             )
         if self.attachment_id:
             raise UserError(
-                _(
+                self.env._(
                     "A declaration file already exists. First, delete it via the "
                     "attachments and then re-generate it."
                 )
@@ -787,7 +814,10 @@ class L10nFrDas2(models.Model):
 
         try:
             file_bytes_result, filename = generate_file(
-                file_content_encoded, self.year, company.siren, encryption=encryption
+                file_content_encoded,
+                self.year,
+                company._get_siren(),
+                encryption=encryption,
             )
         except Exception as e:
             raise UserError(e) from e
@@ -880,68 +910,53 @@ class L10nFrDas2Line(models.Model):
         size=30,
     )
 
-    _sql_constraints = [
-        (
-            "partner_parent_unique",
-            "unique(partner_id, parent_id)",
-            "Same partner used on several lines!",
-        ),
-        (
-            "fee_amount_positive",
-            "CHECK(fee_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "commission_amount_positive",
-            "CHECK(commission_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "brokerage_amount_positive",
-            "CHECK(brokerage_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "discount_amount_positive",
-            "CHECK(discount_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "attendance_fee_amount_positive",
-            "CHECK(attendance_fee_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "copyright_royalties_amount_positive",
-            "CHECK(copyright_royalties_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "licence_royalties_amount_positive",
-            "CHECK(licence_royalties_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "other_income_amount_positive",
-            "CHECK(other_income_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "allowance_amount_positive",
-            "CHECK(allowance_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "benefits_in_kind_amount_positive",
-            "CHECK(benefits_in_kind_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-        (
-            "withholding_tax_amount_positive",
-            "CHECK(withholding_tax_amount >= 0)",
-            "Negative amounts not allowed!",
-        ),
-    ]
+    _partner_parent_unique = models.UniqueIndex(
+        "(partner_id, parent_id)", "Same partner used on several lines!"
+    )
+
+    _fee_amount_positive = models.Constraint(
+        "CHECK(fee_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _commission_amount_positive = models.Constraint(
+        "CHECK(commission_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _brokerage_amount_positive = models.Constraint(
+        "CHECK(brokerage_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _discount_amount_positive = models.Constraint(
+        "CHECK(discount_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _attendance_fee_amount_positive = models.Constraint(
+        "CHECK(attendance_fee_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _copyright_royalties_amount_positive = models.Constraint(
+        "CHECK(copyright_royalties_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _licence_royalties_amount_positive = models.Constraint(
+        "CHECK(licence_royalties_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _other_income_amount_positive = models.Constraint(
+        "CHECK(other_income_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _allowance_amount_positive = models.Constraint(
+        "CHECK(allowance_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _benefits_in_kind_amount_positive = models.Constraint(
+        "CHECK(benefits_in_kind_amount >= 0)", "Negative amounts not allowed!"
+    )
+
+    _withholding_tax_amount_positive = models.Constraint(
+        "CHECK(withholding_tax_amount >= 0)", "Negative amounts not allowed!"
+    )
 
     @api.depends(
         "parent_id.partner_declare_threshold",
@@ -972,8 +987,10 @@ class L10nFrDas2Line(models.Model):
     @api.depends("partner_id")
     def _compute_partner_siret(self):
         for line in self:
-            if line.partner_id and line.partner_id.siren and line.partner_id.nic:
-                line.partner_siret = line.partner_id.siret
+            if line.partner_id:
+                partner_siret = line.partner_id._get_siret()
+                if partner_siret:
+                    line.partner_siret = partner_siret
 
     @api.depends("partner_id")
     def _compute_job(self):
@@ -986,7 +1003,7 @@ class L10nFrDas2Line(models.Model):
         for line in self:
             if line.partner_siret and not is_valid(line.partner_siret):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "SIRET '%(siret)s' of supplier '%(partner)s' is invalid.",
                         siret=line.partner_siret,
                         partner=line.partner_id.display_name,
