@@ -20,8 +20,7 @@ class TestFrDas2(TransactionCase):
                 "city": "Villeurbanne",
                 "country_id": cls.env.ref("base.fr").id,
                 "currency_id": cls.env.ref("base.EUR").id,
-                "siren": "792377731",
-                "nic": "00023",
+                "company_registry": "79237773100023",
                 "ape": "6202Z",
             }
         )
@@ -37,8 +36,7 @@ class TestFrDas2(TransactionCase):
                 "email": "experts@comptables.example.com",
                 "fr_das2_type": "fee",
                 "fr_das2_job": "Expert comptable",
-                "siren": "555555556",
-                "nic": "00011",
+                "company_registry": "55555555600011",
             }
         )
         cls.partner2 = cls.env["res.partner"].create(
@@ -52,8 +50,7 @@ class TestFrDas2(TransactionCase):
                 "email": "avocat@example.com",
                 "fr_das2_type": "fee",
                 "fr_das2_job": "Avocat",
-                "siren": "666666664",
-                "nic": "00014",
+                "company_registry": "66666666400014",
             }
         )
 
@@ -65,7 +62,7 @@ class TestFrDas2(TransactionCase):
                 "payment_journal_ids": [],
             }
         )
-        self.assertEqual(self.partner1.siret, "55555555600011")
+        self.assertEqual(self.partner1._get_siret(), "55555555600011")
         self.env["l10n.fr.das2.line"].create(
             {
                 "partner_id": self.partner1.id,
@@ -86,7 +83,7 @@ class TestFrDas2(TransactionCase):
         self.assertTrue(decl.attachment_id)
         self.assertTrue(
             decl.attachment_id.name.startswith(
-                f"DSAL_{decl.year}_{decl.company_id.siren}_000_"
+                f"DSAL_{decl.year}_{decl.company_id._get_siren()}_000_"
             )
         )
         self.assertTrue(decl.attachment_id.name.endswith(".txt.gz.gpg"))
