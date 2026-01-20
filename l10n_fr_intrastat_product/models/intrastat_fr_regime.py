@@ -9,6 +9,7 @@ class IntrastatFrRegime(models.Model):
     _name = "intrastat.fr.regime"
     _description = "Intrastat: Code regime for France"
     _order = "code"
+    _rec_names_search = ["name", "code"]
 
     code = fields.Char(size=2, required=True, readonly=True)
     active = fields.Boolean(default=True)
@@ -30,10 +31,7 @@ class IntrastatFrRegime(models.Model):
         readonly=True,
     )
 
-    # replace the native SQL constraint of the intrastat_product module
-    _sql_constraints = [
-        ("code_unique", "unique(code)", "This code regime already exists.")
-    ]
+    _code_unique = models.UniqueIndex("(code)", "This code regime already exists.")
 
     @api.depends("code", "name")
     def _compute_display_name(self):

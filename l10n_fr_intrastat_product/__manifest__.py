@@ -4,7 +4,7 @@
 
 {
     "name": "EMEBI",
-    "version": "18.0.2.1.0",
+    "version": "19.0.1.0.0",
     "category": "Localisation/Report Intrastat",
     "license": "AGPL-3",
     "summary": "EMEBI (ex-DEB) for France",
@@ -12,7 +12,7 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": [
-        "l10n_fr",
+        "l10n_fr_siret",
         "intrastat_product",
         "l10n_fr_department",
     ],

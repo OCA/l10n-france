@@ -2,7 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -12,5 +12,7 @@ class StockWarehouse(models.Model):
     def _get_fr_department(self):
         self.ensure_one()
         if not self.partner_id:
-            raise UserError(_("Missing partner on warehouse '%s'.") % self.display_name)
+            raise UserError(
+                self.env._("Missing partner on warehouse '%s'.", self.display_name)
+            )
         return self.partner_id.country_department_id
