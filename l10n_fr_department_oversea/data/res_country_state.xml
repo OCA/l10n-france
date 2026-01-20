@@ -1,0 +1,32 @@
+<!--
+  Copyright 2016-2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+    <record id="res_country_state_guadeloupe" model="res.country.state">
+        <field name="code">GP</field>
+        <field name="country_id" ref="base.gp" />
+        <field name="name">Guadeloupe</field>
+    </record>
+    <record id="res_country_state_martinique" model="res.country.state">
+        <field name="code">MQ</field>
+        <field name="country_id" ref="base.mq" />
+        <field name="name">Martinique</field>
+    </record>
+    <record id="res_country_state_guyane" model="res.country.state">
+        <field name="code">GF</field>
+        <field name="country_id" ref="base.gf" />
+        <field name="name">Guyane</field>
+    </record>
+    <record id="res_country_state_reunion" model="res.country.state">
+        <field name="code">RE</field>
+        <field name="country_id" ref="base.re" />
+        <field name="name">La Réunion</field>
+    </record>
+    <record id="res_country_state_mayotte" model="res.country.state">
+        <field name="code">YT</field>
+        <field name="country_id" ref="base.yt" />
+        <field name="name">Mayotte</field>
+    </record>
+</odoo>
