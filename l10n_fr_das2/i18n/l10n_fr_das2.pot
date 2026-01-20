@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,15 +21,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_year_company_uniq
 msgid "A DAS2 already exists for that year!"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
-#, python-format
-msgid ""
-"A special character in the DAS2 file is not in the latin1 table. Please "
-"locate this special character and replace it by a standard character and try"
-" again."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -138,14 +129,16 @@ msgstr ""
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"Company '%s' is configured in country '%s'. The DAS2 is only for France and "
-"it's oversea territories."
+"Company '%(company)s' is configured in country '%(country)s'. The DAS2 is "
+"only for France and it's oversea territories."
 msgstr ""
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Company '%s' is configured with currency '%s'. It should be EUR."
+msgid ""
+"Company '%(company)s' is configured with currency '%(currency)s'. It should "
+"be EUR."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -204,8 +197,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_action
 #: model:ir.model,name:l10n_fr_das2.model_l10n_fr_das2
 #: model:ir.ui.menu,name:l10n_fr_das2.l10n_fr_das2_menu
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_form
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_tree
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_account_config_settings
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_das2.view_res_partner_filter
@@ -219,13 +210,7 @@ msgid "DAS2 Job"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_form
-msgid "DAS2 Line"
-msgstr ""
-
-#. module: l10n_fr_das2
 #: model:ir.actions.act_window,name:l10n_fr_das2.l10n_fr_das2_line_action
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_tree
 msgid "DAS2 Lines"
 msgstr ""
 
@@ -272,9 +257,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__display_name
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -306,15 +288,16 @@ msgstr ""
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Failed to convert field '%s' (partner %s) to integer."
+msgid ""
+"Failed to convert field '%(field_name)s' (partner %(partner)s) to integer."
 msgstr ""
 
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"Field %s (partner %s) has value %s: it is bigger than the maximum size (%d "
-"characters)"
+"Field %(field_name)s (partner %(partner)s) has value %(value)s: it is bigger"
+" than the maximum size (%(size)d characters)."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -333,11 +316,6 @@ msgid "Followers"
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -353,6 +331,11 @@ msgid "Generate Lines"
 msgstr ""
 
 #. module: l10n_fr_das2
+#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__fee_amount
 #: model:ir.model.fields.selection,name:l10n_fr_das2.selection__res_partner__fr_das2_type__fee
 msgid "Honoraires et vacations"
@@ -361,9 +344,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__id
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner__id
 msgid "ID"
 msgstr ""
 
@@ -385,7 +365,6 @@ msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_error
-#: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -424,9 +403,6 @@ msgstr ""
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2____last_update
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -517,6 +493,14 @@ msgstr ""
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
+msgid ""
+"Missing birth date on partner '%s'. This information is required for "
+"physical persons in foreign EU countries."
+msgstr ""
+
+#. module: l10n_fr_das2
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
 msgid "Missing city on partner '%s'."
 msgstr ""
 
@@ -599,13 +583,22 @@ msgstr ""
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"One of the lines has a length of %d. All lines should have a length of 672. "
-"Line: %s."
+"One of the lines has a length of %(length)d. All lines should have a length "
+"of 672. Line: %(line_content)s."
 msgstr ""
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2_line__benefits_in_kind_nict
 msgid "Outils issus des NTIC"
+msgstr ""
+
+#. module: l10n_fr_das2
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+#, python-format
+msgid ""
+"Partner '%(partner_name)s' is a physical person in country %(country)s which"
+" is a foreign EU country. So you must install the OCA module "
+"'partner_contact_birthdate' and set the birth date of this partner."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -621,7 +614,9 @@ msgstr ""
 #. module: l10n_fr_das2
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
-msgid "Payment dated %s in journal '%s': %.2f € (journal entry %s)"
+msgid ""
+"Payment dated <b>%(date)s</b> in journal <b>%(journal)s</b>: %(amount)s "
+"(journal entry %(move_name)s)"
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -662,23 +657,8 @@ msgid "SIRET '%s' is invalid."
 msgstr ""
 
 #. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr ""
-
-#. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
 msgid "Same partner used on several lines!"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_search
-msgid "Search DAS2"
-msgstr ""
-
-#. module: l10n_fr_das2
-#: model_terms:ir.ui.view,arch_db:l10n_fr_das2.l10n_fr_das2_line_search
-msgid "Search DAS2 Lines"
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -733,7 +713,8 @@ msgstr ""
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 #, python-format
 msgid ""
-"The field '%s' (partner %s) is empty or 0. It should have a non-null value."
+"The field '%(field_name)s' (partner %(partner)s) is empty or 0. It should "
+"have a non-null value."
 msgstr ""
 
 #. module: l10n_fr_das2
