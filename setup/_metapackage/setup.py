@@ -15,6 +15,8 @@ setuptools.setup(
         'odoo-addon-l10n_fr_chorus_account>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_chorus_facturx>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_chorus_sale>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_cog>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_fr_das2>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_department>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_department_oversea>=15.0dev,<15.1dev',
         'odoo-addon-l10n_fr_ecotaxe>=15.0dev,<15.1dev',
