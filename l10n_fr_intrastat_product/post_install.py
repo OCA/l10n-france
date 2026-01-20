@@ -22,12 +22,15 @@ def set_fr_company_intrastat(env):
                 "intrastat_accessory_costs": True,
             }
         )
+        logger.info(
+            "Wrote intrastat_accessory_costs=True on company %s", company.display_name
+        )
         fps = afpo.search([("company_id", "=", company.id)])
         for fp in fps:
             xmlid_rec = imdo.search(
                 [
                     ("model", "=", "account.fiscal.position"),
-                    ("module", "=like", "l10n_fr%"),
+                    ("module", "=", "account"),
                     ("res_id", "=", fp.id),
                 ],
                 limit=1,
@@ -35,7 +38,7 @@ def set_fr_company_intrastat(env):
             if xmlid_rec:
                 for fp_type, intrastat in fpdict.items():
                     if xmlid_rec.name.endswith(fp_type):
-                        logger.debug(
+                        logger.info(
                             "set_fr_company_intrastat writing intrastat=%s "
                             "on fiscal position ID %d",
                             intrastat,

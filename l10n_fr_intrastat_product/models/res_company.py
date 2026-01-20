@@ -2,7 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -28,5 +28,7 @@ class ResCompany(models.Model):
                 and company.intrastat_arrivals == "standard"
             ):
                 raise ValidationError(
-                    _("In France, Arrival EMEBI can only be Exempt or Extended.")
+                    self.env._(
+                        "In France, Arrival EMEBI can only be Exempt or Extended."
+                    )
                 )

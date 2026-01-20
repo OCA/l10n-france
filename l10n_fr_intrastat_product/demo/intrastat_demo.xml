@@ -15,7 +15,7 @@
     has child contacts, it will sync the siren with the childs
     while keeping the nic, so the SIRET will become invalid on the childs -->
     <record id="base.main_partner" model="res.partner">
-        <field name="siret">99999999800019</field>
+        <field name="company_registry">99999999800019</field>
     </record>
     <record id="intrastat_product.intrastat_unit_pce" model="intrastat.unit">
         <field name="fr_xml_label">PCE</field>

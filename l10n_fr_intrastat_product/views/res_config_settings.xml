@@ -12,15 +12,7 @@
                     id="intrastat-fr_intrastat_accreditation"
                     invisible="country_code != 'FR'"
                 >
-                    <div class="content-group">
-                        <div class="row mt16">
-                            <label
-                                for="fr_intrastat_accreditation"
-                                class="col-lg-5 o_light_label"
-                            />
-                            <field name="fr_intrastat_accreditation" />
-                        </div>
-                    </div>
+                    <field name="fr_intrastat_accreditation" />
                 </setting>
             </xpath>
         </field>
