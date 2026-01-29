@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -59,6 +59,11 @@ msgid "Closed"
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
+#: model:ir.model,name:l10n_fr_siret_lookup.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_fr_siret_lookup
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.fr_siret_lookup_line_form
 msgid "Company"
 msgstr ""
@@ -71,6 +76,11 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model,name:l10n_fr_siret_lookup.model_fr_siret_lookup_line
 msgid "Company Selection"
+msgstr ""
+
+#. module: l10n_fr_siret_lookup
+#: model:ir.model,name:l10n_fr_siret_lookup.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
@@ -113,21 +123,11 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
-#. odoo-python
-#: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
-#, python-format
+#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_res_company__force_vat_siret_lookup
+#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_res_config_settings__force_vat_siret_lookup
 msgid ""
-"Failed to query VIES.\n"
-"Technical error: %s."
-msgstr ""
-
-#. module: l10n_fr_siret_lookup
-#. odoo-python
-#: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
-#, python-format
-msgid ""
-"Failure in the request on data.opendatasoft.com to create or update partner "
-"from SIREN or SIRET. Technical error: %s."
+"Force VAT Numbers during SIRET Lookups if VIES check times out or is "
+"disabled"
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
@@ -142,9 +142,11 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
-#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup____last_update
-#: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup_line____last_update
-msgid "Last Modified on"
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.res_config_settings_view_form
+msgid ""
+"If this checkbox is ticked, if calling VIES server fails (e.g. timeout) or "
+"is disabled, deduced VAT number would still be stored on partner (which may "
+"not be valid)."
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
@@ -187,20 +189,6 @@ msgstr ""
 #. module: l10n_fr_siret_lookup
 #: model:ir.model.fields,field_description:l10n_fr_siret_lookup.field_fr_siret_lookup__partner_id
 msgid "Partner"
-msgstr ""
-
-#. module: l10n_fr_siret_lookup
-#. odoo-python
-#: code:addons/l10n_fr_siret_lookup/wizard/fr_siret_lookup.py:0
-#, python-format
-msgid "Partner '%s' is not a company. This action is not relevant."
-msgstr ""
-
-#. module: l10n_fr_siret_lookup
-#. odoo-python
-#: code:addons/l10n_fr_siret_lookup/wizard/fr_siret_lookup.py:0
-#, python-format
-msgid "Partner updated via the opendatasoft.com API."
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
@@ -250,10 +238,10 @@ msgid "Street"
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
-#. odoo-python
-#: code:addons/l10n_fr_siret_lookup/models/res_partner.py:0
-#, python-format
-msgid "The webservice data.opendatasoft.com returned an HTTP error code %s."
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret_lookup.res_config_settings_view_form
+msgid ""
+"VAT verification often times out causing VAT number not to be stored on "
+"partner. This parameter allows to store the value nonetheless."
 msgstr ""
 
 #. module: l10n_fr_siret_lookup
