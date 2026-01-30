@@ -11,7 +11,10 @@ class L10nFrVatAutoliqManual(models.TransientModel):
     _description = "FR VAT Return: ask product or service for autoliquidation lines"
 
     fr_vat_return_id = fields.Many2one(
-        "l10n.fr.account.vat.return", string="FR VAT Return", readonly=True
+        "l10n.fr.account.vat.return",
+        string="FR VAT Return",
+        readonly=True,
+        required=True,
     )
     line_ids = fields.One2many("l10n.fr.vat.autoliq.manual.line", "parent_id")
 

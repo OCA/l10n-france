@@ -13,6 +13,7 @@ class L10nFrAccountVatBox(models.Model):
     _name = "l10n.fr.account.vat.box"
     _description = "France VAT Return (CA3) box"
     _order = "sequence, id"
+    _rec_names_search = ["name", "code"]
 
     sequence = fields.Integer(default=10, readonly=True)
     active = fields.Boolean(default=True)
@@ -92,6 +93,8 @@ class L10nFrAccountVatBox(models.Model):
     # 100 : CA3 end : total à payer + crédit à reporter
     push_box_id = fields.Many2one("l10n.fr.account.vat.box", readonly=True)
     push_rate = fields.Float(digits=(16, PUSH_RATE_PRECISION), readonly=True)
+    push_box_2_id = fields.Many2one("l10n.fr.account.vat.box", readonly=True)
+    push_rate_2 = fields.Float(digits=(16, PUSH_RATE_PRECISION), readonly=True)
 
     _sql_constraints = [
         ("sequence_unique", "unique(sequence)", "This sequence already exists."),
@@ -155,6 +158,8 @@ class L10nFrAccountVatBox(models.Model):
         "account_id",
         "push_box_id",
         "push_rate",
+        "push_box_2_id",
+        "push_rate_2",
         "push_sequence",
         "negative",
     )
@@ -176,25 +181,27 @@ class L10nFrAccountVatBox(models.Model):
                     or box.negative
                 ):
                     raise ValidationError(
-                        _("The section or sub-section '%s' is not properly configured.")
-                        % box.display_name
+                        _(
+                            "The section or sub-section '%s' is not properly configured.",
+                            box.display_name,
+                        )
                     )
             else:
                 if box.active and not box.edi_code:
                     raise ValidationError(
-                        _("The box '%s' must have an EDI code.") % box.display_name
+                        _("The box '%s' must have an EDI code.", box.display_name)
                     )
                 if box.active and not box.edi_type:
                     raise ValidationError(
-                        _("The box '%s' must have an EDI type.") % box.display_name
+                        _("The box '%s' must have an EDI type.", box.display_name)
                     )
                 if box.negative and box.edi_type != "MOA":
                     raise ValidationError(
                         _(
                             "The box '%s' is a negative box but its EDI Type "
-                            "is not 'MOA'."
+                            "is not 'MOA'.",
+                            box.display_name,
                         )
-                        % box.display_name
                     )
                 print_data = [box.print_page, box.print_x, box.print_y]
                 if (
@@ -204,8 +211,7 @@ class L10nFrAccountVatBox(models.Model):
                     and box.code
                 ):
                     raise ValidationError(
-                        _("Missing print caracteristics on box '%s'.")
-                        % box.display_name
+                        _("Missing print caracteristics on box '%s'.", box.display_name)
                     )
                 if box.meaning_id and box.meaning_id.startswith(
                     ("due_vat_regular", "due_vat_extracom_product")
@@ -213,17 +219,17 @@ class L10nFrAccountVatBox(models.Model):
                     if not box.due_vat_base_box_id:
                         raise ValidationError(
                             _(
-                                "Missing Due VAT Base on box '%s' which is a Due VAT box."
+                                "Missing Due VAT Base on box '%s' which is a Due VAT box.",
+                                box.display_name,
                             )
-                            % box.display_name
                         )
                     if box.accounting_method != "debit":
                         raise ValidationError(
                             _(
                                 "Wrong accounting method on Due VAT box '%s': "
-                                "it should be 'Debit'."
+                                "it should be 'Debit'.",
+                                box.display_name,
                             )
-                            % box.display_name
                         )
                     if box.print_y != box.due_vat_base_box_id.print_y:
                         raise ValidationError(
@@ -247,18 +253,18 @@ class L10nFrAccountVatBox(models.Model):
                     raise ValidationError(
                         _(
                             "Box '%s' should not have an accounting method "
-                            "considering it's an untaxed operation."
+                            "considering it's an untaxed operation.",
+                            box.display_name,
                         )
-                        % box.display_name
                     )
                 if not box.accounting_method:
                     if box.account_code or box.account_id:
                         raise ValidationError(
                             _(
                                 "Box '%s' doesn't have an accounting method, "
-                                "so it should not have any accounting parameter."
+                                "so it should not have any accounting parameter.",
+                                box.display_name,
                             )
-                            % box.display_name
                         )
                 if box.push_box_id:
                     if box.push_box_id.manual:
@@ -272,8 +278,10 @@ class L10nFrAccountVatBox(models.Model):
                         )
                     if not box.push_sequence:
                         raise ValidationError(
-                            _("Box '%s' has a push box but is missing a push sequence.")
-                            % box.display_name
+                            _(
+                                "Box '%s' has a push box but is missing a push sequence.",
+                                box.display_name,
+                            )
                         )
                 else:
                     if not float_is_zero(
@@ -282,17 +290,35 @@ class L10nFrAccountVatBox(models.Model):
                         raise ValidationError(
                             _(
                                 "Box '%s' doesn't have a push box, "
-                                "so it's push rate should be 0."
+                                "so it's push rate should be 0.",
+                                box.display_name,
                             )
-                            % box.display_name
                         )
                     if box.push_sequence:
                         raise ValidationError(
                             _(
                                 "Box '%s' doesn't have a push box, "
-                                "so it's push sequence should be 0."
+                                "so it's push sequence should be 0.",
+                                box.display_name,
                             )
-                            % box.display_name
+                        )
+                if box.push_box_2_id:
+                    if not box.push_box_id:
+                        raise ValidationError(
+                            _(
+                                "Box '%s' has a push box 2 but no push box.",
+                                box.display_name,
+                            )
+                        )
+                else:
+                    if not float_is_zero(
+                        box.push_rate_2, precision_digits=PUSH_RATE_PRECISION
+                    ):
+                        raise ValidationError(
+                            _(
+                                "Box '%s' has a push rate 2 but no push box 2.",
+                                box.display_name,
+                            )
                         )
 
     @api.depends("code", "name", "display_type")
@@ -302,26 +328,16 @@ class L10nFrAccountVatBox(models.Model):
             self.fields_get("form_code", "selection")["form_code"]["selection"]
         )
         for box in self:
-            name = "[%s]" % form2label.get(box.form_code)
+            name = f"[{form2label.get(box.form_code)}]"
             if not box.display_type:
                 if box.code:
-                    name += "(%s) %s" % (box.code, box.name)
+                    name += f"({box.code}) {box.name}"
                 else:
                     name += box.name
             else:
                 if box.code:
-                    name += "%s. %s" % (box.code, box.name)
+                    name += f"{box.code}. {box.name}"
                 else:
                     name += box.name
             res.append((box.id, name))
         return res
-
-    @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        if args is None:
-            args = []
-        if name and operator == "ilike":
-            recs = self.search([("code", "=", name)] + args, limit=limit)
-            if recs:
-                return recs.name_get()
-        return super().name_search(name=name, args=args, operator=operator, limit=limit)
