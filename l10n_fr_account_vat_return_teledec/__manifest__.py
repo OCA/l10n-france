@@ -4,7 +4,7 @@
 
 {
     "name": "VAT Teletransmission via Teledec.fr",
-    "version": "16.0.2.0.0",
+    "version": "16.0.3.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "summary": "Teletransmit CA3 via Teledec.fr (subscription required)",
@@ -15,7 +15,6 @@
     "external_dependencies": {"python": ["requests"]},
     "data": [
         "wizards/res_config_settings.xml",
-        "views/l10n_fr_account_vat_return.xml",
     ],
     "installable": True,
 }

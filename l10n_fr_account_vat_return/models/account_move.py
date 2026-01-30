@@ -44,7 +44,7 @@ class AccountMove(models.Model):
     def _compute_out_vat_on_payment(self):
         for move in self:
             vat_on_payment = False
-            if move.move_type in ("out_invoice", "out_refund"):
+            if move.move_type in ("out_invoice", "out_refund", "out_receipt"):
                 if move.company_id.fr_vat_exigibility == "on_payment":
                     vat_on_payment = True
                 elif move.company_id.fr_vat_exigibility == "auto":
@@ -52,6 +52,3 @@ class AccountMove(models.Model):
                         move._fr_vat_exigibility_auto_compute_vat_on_payment()
                     )
             move.out_vat_on_payment = vat_on_payment
-
-    def _collect_tax_cash_basis_values(self):
-        return None

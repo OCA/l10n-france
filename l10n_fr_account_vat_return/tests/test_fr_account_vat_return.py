@@ -38,7 +38,7 @@ class TestFrAccountVatReturn(TransactionCase):
         ):
             box2value[(line.box_form_code, line.box_edi_code)] = line.value
         for box_xmlid, expected_value in box_result.items():
-            box = self.env.ref("l10n_fr_account_vat_return.%s" % box_xmlid)
+            box = self.env.ref(f"l10n_fr_account_vat_return.{box_xmlid}")
             real_valuebox = box2value.pop((box.form_code, box.edi_code))
             self.assertEqual(real_valuebox, expected_value)
         self.assertFalse(box2value)
@@ -88,6 +88,7 @@ class TestFrAccountVatReturn(TransactionCase):
 
     def test_vat_return_on_invoice(self):
         company = self.on_invoice_company
+        aao = self.env["account.account"]
         currency = company.currency_id
         initial_credit_vat = 3333
         company._test_create_move_init_vat_credit(
@@ -102,9 +103,10 @@ class TestFrAccountVatReturn(TransactionCase):
             }
         )
         self.assertEqual(vat_return.end_date, self.end_date)
+        self.assertEqual(vat_return.vat_on_payment_option, "non_native")
         self.assertEqual(vat_return.state, "manual")
         # Create a manual line without rate
-        new_manual_account_id = self.env["account.account"].create(
+        new_manual_account_id = aao.create(
             {
                 "code": "635900",
                 "name": "Taxe spécifique",
@@ -123,7 +125,7 @@ class TestFrAccountVatReturn(TransactionCase):
             }
         )
         # Create another manual line with a rate
-        existing_manual_account_id = self.env["account.account"].search(
+        existing_manual_account_id = aao.search(
             [
                 ("code", "=", "635800"),
                 ("company_id", "=", company.id),
@@ -262,12 +264,12 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertFalse(vat_return.reimbursement_type)
         self.assertFalse(vat_return.reimbursement_first_creation_date)
         vat_return.print_ca3()
-        vat_return.auto2sent()
+        vat_return.auto2sent_manual()
         self.assertEqual(vat_return.state, "sent")
+        self.assertTrue(vat_return.sent_datetime)
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")
         self._check_vat_return_result(vat_return, box_result, move_result)
-        aao = self.env["account.account"]
         speedy = vat_return._prepare_speedy()
         bal_zero_accounts = ["445711", "445712", "445713", "445714", "445715"]
         for acc_code in bal_zero_accounts:
@@ -307,6 +309,7 @@ class TestFrAccountVatReturn(TransactionCase):
                 "vat_periodicity": "1",
             }
         )
+        self.assertEqual(vat_return.vat_on_payment_option, "non_native")
         manual_acc2amt = {
             "445711": 30,  # 20%
             "445712": 20,  # 10%
@@ -397,12 +400,12 @@ class TestFrAccountVatReturn(TransactionCase):
         }
         self._check_vat_return_result(vat_return, box_result, move_result)
         vat_return.print_ca3()
-        vat_return.auto2sent()
+        vat_return.auto2sent_manual()
         self.assertEqual(vat_return.state, "sent")
+        self.assertTrue(vat_return.sent_datetime)
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")
         self._check_vat_return_result(vat_return, box_result, move_result)
-        aao = self.env["account.account"]
         speedy = vat_return._prepare_speedy()
         acc2bal = {
             "445711": -38.5,  # 20%
@@ -610,7 +613,7 @@ class TestFrAccountVatReturn(TransactionCase):
         }
         self._check_vat_return_result(vat_return, box_result, move_result)
         vat_return.print_ca3()
-        vat_return.auto2sent()
+        vat_return.auto2sent_manual()
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")

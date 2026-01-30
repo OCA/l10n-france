@@ -83,6 +83,23 @@
                                 class="oe_inline"
                             /> %
                                             </div>
+                                                <field
+                            name="push_box_2_id"
+                            attrs="{'invisible': [('display_type', '!=', False)]}"
+                        />
+                                                <label
+                            for="push_rate_2"
+                            attrs="{'invisible': [('push_box_id', '=', False)]}"
+                        />
+                                                <div
+                            name="push_rate_2"
+                            attrs="{'invisible': [('push_box_id', '=', False)]}"
+                        >
+                                                    <field
+                                name="push_rate_2"
+                                class="oe_inline"
+                            /> %
+                                            </div>
                                         </group>
                                         <group
                         name="edi"

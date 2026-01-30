@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 Akretion France (https://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+<record id="fr_vat_return_cron" model="ir.cron">
+    <field
+            name="name"
+        >FR VAT return: remind and auto-generate+transmit on deadline if forgotten</field>
+    <field name="active" eval="True" />
+    <field name="user_id" ref="base.user_root" />
+    <field name="interval_number">1</field>
+    <field name="interval_type">days</field>
+    <field name="numbercall">-1</field> <!-- Remove for v17+ -->
+    <field name="model_id" ref="base.model_res_company" />
+    <field name="state">code</field>
+    <field
+            name="code"
+        >model._fr_vat_cron_mail_remind_and_auto_generate_transmit()</field>
+</record>
+
+</odoo>

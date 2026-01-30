@@ -4,7 +4,7 @@
 
 {
     "name": "France VAT Return",
-    "version": "16.0.7.0.0",
+    "version": "16.0.8.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "summary": "VAT return for France: CA3, 3310-A, 3519",
@@ -29,6 +29,8 @@
         "views/account_move.xml",
         "data/l10n.fr.account.vat.box.csv",
         "data/account_fiscal_position_template.xml",
+        "data/ir_cron.xml",
+        "data/mail_template.xml",
     ],
     "post_init_hook": "fr_vat_setup",
     "installable": True,

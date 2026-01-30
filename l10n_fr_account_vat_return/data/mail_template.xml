@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 Akretion France (https://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<!-- I don't set it as noupdate="1" because it's a pain on migrations and, as this mail is not sent to customers nor suppliers, there is no need to customize it -->
+<odoo>
+
+    <record id="fr_vat_return_remind_mail_template" model="mail.template">
+        <field name="name">FR VAT return: mail reminder</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="auto_delete" eval="False" />
+        <field name="lang">{{object.partner_id.lang}}</field>
+        <field name="email_from">{{object.email}}</field>
+        <field
+            name="partner_to"
+        >{{', '.join([str(user.partner_id.id) for user in object.fr_vat_remind_user_ids])}}</field>
+        <field name="use_default_to" eval="False" />
+        <field name="subject">FR VAT return reminder for {{object.name}}</field>
+        <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+<p
+                    style="margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, Helvetica, sans-serif"
+                >I would like to remind you that we are approaching the deadline for the <t
+                        t-out="dict(object.fields_get('fr_vat_periodicity', 'selection')['fr_vat_periodicity']['selection'])[object.fr_vat_periodicity]"
+                    /> VAT return of company <t
+                        t-out="object.name"
+                    />: the deadline is on day number <t
+                        t-out="object.fr_vat_remind_deadline_day"
+                    /> of the month.</p>
+
+<t t-if="ctx.get('delta_days') > 0">
+
+        <p><strong>Only <t
+                                t-out="ctx.get('delta_days')"
+                            /> day(s) before the deadline!</strong></p>
+</t>
+
+<t t-if="ctx.get('delta_days') == 0">
+    <p>The deadline is today!</p>
+
+    <t t-if="object.fr_vat_remind_auto_generate_and_transmit">
+        <p>The option <em
+                            >Auto-generate and Transmit on Deadline Day</em> is enabled on this company.</p>
+        <t t-if="ctx.get('transmit_ok')">
+            <p><strong
+                                >The VAT return has been successfully sent via the gateway.</strong></p>
+        </t>
+        <t t-else="">
+            <p><strong
+                                >Odoo failed to automatically generate (if not already generated) and transmit the VAT return via the gateway.</strong> You must send it today to avoid late fees!</p>
+        </t>
+        <p>Here are the logs:<br />
+            <t t-foreach="ctx.get('msg_list', [])" t-as="msg">
+                <t t-out="msg" /><br />
+            </t>
+        </p>
+    </t>
+    <t t-else="">
+        <p><strong>You must send it today to avoid late fees!</strong></p>
+    </t>
+</t>
+
+<p
+                    style="margin: 0px; padding: 0px; font-size: 10px; font-family: 'Courier New', Courier, Prestige, monospace"
+                >
+-- <br />
+Automatic e-mail sent by Odoo.
+</p>
+</div>
+</field>
+        </record>
+</odoo>
