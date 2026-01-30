@@ -40,11 +40,6 @@ class ResCompany(models.Model):
         "E-mail for Teledec.fr",
         help="Must correspond to your login on the Teledec.fr website",
     )
-    fr_vat_teledec_test_mode = fields.Boolean(
-        string="Teledec.fr Test Mode",
-        help="If active, the request will be sent to the test serveur of "
-        "Teledec.fr and nothing will be retransmitted to DGFiP.",
-    )
 
     def _test_fr_vat_create_company(
         self, company_name=None, fr_vat_exigibility="on_invoice"
@@ -68,7 +63,6 @@ class ResCompany(models.Model):
             {
                 "fr_vat_teledec_legal_representative_id": legal_rep_partner.id,
                 "fr_vat_teledec_legal_form": "SRL",
-                "fr_vat_teledec_test_mode": True,
             }
         )
         return company

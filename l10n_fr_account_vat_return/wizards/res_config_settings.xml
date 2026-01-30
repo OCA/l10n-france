@@ -87,9 +87,89 @@
                                     widget="analytic_distribution"
                                     options="{'business_domain': 'general'}"
                                 />
+                    </div>
+
+                    <div
+                                class="row"
+                                id="fr_vat_send_gateway"
+                                attrs="{'invisible': [('fr_vat_periodicity', 'not in', ('1', '3'))]}"
+                            >
+                            <label
+                                    for="fr_vat_send_gateway"
+                                    class="col-md-3"
+                                    string="Default VAT Gateway"
+                                />
+                            <field name="fr_vat_send_gateway" />
+                    </div>
+                        <div
+                                class="row"
+                                id="fr_vat_remind_user_ids"
+                                attrs="{'invisible': [('fr_vat_periodicity', 'not in', ('1', '3'))]}"
+                            >
+                            <label
+                                    for="fr_vat_remind_user_ids"
+                                    class="col-md-3"
+                                    string="Users to Remind"
+                                />
+                            <field
+                                    name="fr_vat_remind_user_ids"
+                                    widget="many2many_tags"
+                                />
+                        </div>
+                        <div
+                                class="row"
+                                id="fr_vat_remind_deadline_day"
+                                attrs="{'invisible': [('fr_vat_periodicity', 'not in', ('1', '3'))]}"
+                            >
+                            <label
+                                    for="fr_vat_remind_deadline_day"
+                                    class="col-md-3"
+                                    string="Deadline Day"
+                                />
+                            <field name="fr_vat_remind_deadline_day" />
                         </div>
                     </div>
-                </div>
+            </div>
+                <div
+                        class="col-xs-12 col-md-12 o_setting_box"
+                        attrs="{'invisible': [('fr_vat_periodicity', 'not in', ('1', '3'))]}"
+                    >
+                    <div class="o_setting_left_pane">
+                        <div class="row">
+                            <field name="fr_vat_remind_auto_generate_and_transmit" />
+                        </div>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <div class="row">
+                            <label
+                                    for="fr_vat_remind_auto_generate_and_transmit"
+                                    class="col-md-5"
+                                />
+                        </div>
+                    </div>
+            </div>
+            <div
+                        class="col-xs-12 col-md-12 o_setting_box"
+                        id="fr_vat_manual_autoliq_line_default_option"
+                    >
+            <div class="o_setting_left_pane" />
+            <div class="o_setting_right_pane">
+                                    <span
+                                class="o_form_label"
+                            >Default for Autoliquidation Lines</span>
+                                    <span class="fa fa-lg fa-building-o" role="img" />
+                                    <div class="text-muted">
+                                    This is the default option for unreconciled VAT autoliquidation journal items for which Odoo cannot compute the option automatically (usually correspond to journal items that are not in the purchase journal). This option is required only when the option 'Auto-generate and Transmit on Deadline Day' is enabled.
+                                    </div>
+                                    <div class="text-muted">
+                            <field
+                                    name="fr_vat_manual_autoliq_line_default_option"
+                                    attrs="{'required': [('fr_vat_remind_auto_generate_and_transmit', '=', True)]}"
+                                />
+                    </div>
+            </div>
+                    </div>
+
                 <div class="col-xs-12 col-md-12 o_setting_box">
                     <div class="o_setting_left_pane">
                         <div class="row">
