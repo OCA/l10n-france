@@ -20,9 +20,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
 msgid ""
 "<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
-"                    <span class=\"fa fa-lg fa-building-o\" title=\"Values "
-"set here are company-specific.\" groups=\"base.group_multi_company\" role="
-"\"img\"/>"
+"                    <span class=\"fa fa-lg fa-building-o\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
@@ -141,16 +139,6 @@ msgid "Go to configuration page"
 msgstr "Aller à la page de configuration"
 
 #. module: l10n_fr_account_vat_return_teledec
-#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_test_mode
-#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_test_mode
-msgid ""
-"If active, the request will be sent to the test serveur of Teledec.fr and "
-"nothing will be retransmitted to DGFiP."
-msgstr ""
-"Si activé, la requête sera envoyée au serveur de test de Teledec.fr et rien "
-"ne sera retransmis à la DGFiP."
-
-#. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
@@ -248,38 +236,6 @@ msgid "SNC"
 msgstr "SNC"
 
 #. module: l10n_fr_account_vat_return_teledec
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return__teledec_sent_datetime
-msgid "Teledec.fr Dispatch Date"
-msgstr "Date d'envoi à Teledec.fr"
-
-#. module: l10n_fr_account_vat_return_teledec
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_test_mode
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_test_mode
-msgid "Teledec.fr Test Mode"
-msgstr "Mode de test pour Teledec.fr"
-
-#. module: l10n_fr_account_vat_return_teledec
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"Teletransmission via Teledec.fr is not yet supported for CA12 (yearly VAT "
-"returns). At the moment, it only works for CA3 (monthly or quarterly)."
-msgstr ""
-"La télétransmission via Teledec.fr n'est pas supportée pour le moment pour "
-"la CA12 (déclaration de TVA annuelle). Pour le moment, cela ne fonctionne "
-"qu'avec la CA3 (mensuelle et trimestrielle)."
-
-#. module: l10n_fr_account_vat_return_teledec
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"The VAT declaration '%(vat_return)s' has already been sent on %(datetime)s."
-msgstr ""
-"La déclaration de TVA '%(vat_return)s' a déjà été envoyée le %(datetime)s."
-
-#. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
@@ -361,53 +317,68 @@ msgid "Title (Mister or Madam) missing on partner '%s'."
 msgstr "Titre (Monsieur ou Madame) manquant sur le partenaire '%s'."
 
 #. module: l10n_fr_account_vat_return_teledec
-#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.l10n_fr_account_vat_return_form
-msgid "Transmit via Teledec.fr"
-msgstr "Envoyer via Teledec.fr"
-
-#. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "VAT number not set on company '%s'."
 msgstr "Numéro de TVA non renseigné sur la société '%s'."
 
-#. module: l10n_fr_account_vat_return_teledec
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"VAT return successfully sent to <a href=\"https://teledec.fr/\">Teledec.fr</"
-"a>. Technical data sent: <a href=# data-oe-model=ir.attachment data-oe-id="
-"%(attach_id)s>%(attach_name)s</a>"
-msgstr ""
+#~ msgid ""
+#~ "If active, the request will be sent to the test serveur of Teledec.fr and "
+#~ "nothing will be retransmitted to DGFiP."
+#~ msgstr ""
+#~ "Si activé, la requête sera envoyée au serveur de test de Teledec.fr et "
+#~ "rien ne sera retransmis à la DGFiP."
 
-#. module: l10n_fr_account_vat_return_teledec
-#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.l10n_fr_account_vat_return_form
-msgid ""
-"You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
-msgstr ""
-"Vous êtes sur le point d'envoyer votre déclaration de TVA via Teledec.fr. "
-"Confirmez-vous l'envoi ?"
+#~ msgid "Teledec.fr Dispatch Date"
+#~ msgstr "Date d'envoi à Teledec.fr"
+
+#~ msgid "Teledec.fr Test Mode"
+#~ msgstr "Mode de test pour Teledec.fr"
 
 #, python-format
 #~ msgid ""
-#~ "VAT return successfully sent to <a href=\"https://teledec.fr/\">Teledec."
-#~ "fr</a>."
+#~ "Teletransmission via Teledec.fr is not yet supported for CA12 (yearly VAT "
+#~ "returns). At the moment, it only works for CA3 (monthly or quarterly)."
+#~ msgstr ""
+#~ "La télétransmission via Teledec.fr n'est pas supportée pour le moment "
+#~ "pour la CA12 (déclaration de TVA annuelle). Pour le moment, cela ne "
+#~ "fonctionne qu'avec la CA3 (mensuelle et trimestrielle)."
+
+#, python-format
+#~ msgid ""
+#~ "The VAT declaration '%(vat_return)s' has already been sent on "
+#~ "%(datetime)s."
+#~ msgstr ""
+#~ "La déclaration de TVA '%(vat_return)s' a déjà été envoyée le %(datetime)s."
+
+#~ msgid "Transmit via Teledec.fr"
+#~ msgstr "Envoyer via Teledec.fr"
+
+#~ msgid ""
+#~ "You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
+#~ msgstr ""
+#~ "Vous êtes sur le point d'envoyer votre déclaration de TVA via Teledec.fr. "
+#~ "Confirmez-vous l'envoi ?"
+
+#, python-format
+#~ msgid ""
+#~ "VAT return successfully sent to <a href=\"https://teledec.fr/"
+#~ "\">Teledec.fr</a>."
 #~ msgstr ""
 #~ "Déclaration de TVA envoyée avec succès à <a href=\"https://teledec.fr/"
 #~ "\">Teledec.fr</a>."
 
 #~ msgid ""
 #~ "<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
-#~ "                        <span class=\"fa fa-lg fa-building-o\" title="
-#~ "\"Values set here are company-specific.\" groups=\"base."
-#~ "group_multi_company\" role=\"img\"/>"
+#~ "                        <span class=\"fa fa-lg fa-building-o\" "
+#~ "title=\"Values set here are company-specific.\" "
+#~ "groups=\"base.group_multi_company\" role=\"img\"/>"
 #~ msgstr ""
 #~ "<span class=\"o_form_label\">Télétransmission via Teledec.fr</span>\n"
-#~ "                        <span class=\"fa fa-lg fa-building-o\" title="
-#~ "\"Values set here are company-specific.\" groups=\"base."
-#~ "group_multi_company\" role=\"img\"/>"
+#~ "                        <span class=\"fa fa-lg fa-building-o\" "
+#~ "title=\"Values set here are company-specific.\" "
+#~ "groups=\"base.group_multi_company\" role=\"img\"/>"
 
 #~ msgid "Display Name"
 #~ msgstr "Nom affiché"
