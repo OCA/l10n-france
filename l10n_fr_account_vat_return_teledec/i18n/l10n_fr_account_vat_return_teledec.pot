@@ -17,7 +17,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
 msgid ""
 "<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
-"                    <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+"                    <span class=\"fa fa-lg fa-building-o\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
@@ -134,14 +134,6 @@ msgid "Go to configuration page"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
-#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_test_mode
-#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_test_mode
-msgid ""
-"If active, the request will be sent to the test serveur of Teledec.fr and "
-"nothing will be retransmitted to DGFiP."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
@@ -237,34 +229,6 @@ msgid "SNC"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_l10n_fr_account_vat_return__teledec_sent_datetime
-msgid "Teledec.fr Dispatch Date"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_test_mode
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_test_mode
-msgid "Teledec.fr Test Mode"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"Teletransmission via Teledec.fr is not yet supported for CA12 (yearly VAT "
-"returns). At the moment, it only works for CA3 (monthly or quarterly)."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"The VAT declaration '%(vat_return)s' has already been sent on %(datetime)s."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
@@ -335,29 +299,8 @@ msgid "Title (Mister or Madam) missing on partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
-#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.l10n_fr_account_vat_return_form
-msgid "Transmit via Teledec.fr"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid "VAT number not set on company '%s'."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"VAT return successfully sent to <a "
-"href=\"https://teledec.fr/\">Teledec.fr</a>. Technical data sent: <a href=# "
-"data-oe-model=ir.attachment data-oe-id=%(attach_id)s>%(attach_name)s</a>"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
-#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.l10n_fr_account_vat_return_form
-msgid ""
-"You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
 msgstr ""
