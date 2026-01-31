@@ -35,7 +35,7 @@ This module supports EDI teletransmission of:
 - 3310-A (Appendix),
 - 3514 (Credit VAT reimbursement).
 
-The price of this EDI service for VAT returns is written on the `VAT page <https://www.teledec.fr/teledeclarer-et-payer-la-tva>`_ of the Teledec.fr website.
+The price of this EDI service for VAT returns is written on the page `TELEDEC : la solution pour vos déclarations fiscales <https://www.teledec.fr/presentation/solutions/liasse-fiscale-teledeclaration>`_ in the drop-down section *Déclarer et payer la TVA* at the bottom of the page.
 
 **Table of contents**
 
@@ -58,10 +58,9 @@ In the Odoo Server configuration file, add an entry **teledec_private_key** with
 Usage
 =====
 
-On a VAT return in Odoo, when you reach the step *Automatic Lines*, you will see a button *Transmit via Teledec.fr*. Simply click on this button to teletransmit the VAT return to DGFiP via Teledec.
+On a VAT return in Odoo, when you reach the step *Automatic Lines*, you will see a button *Send via Gateway* and a field *Send Gateway* to select the gateway. Make sure the field *Send Gateway* is set to *Teledec.fr* and then click on the button *Send via Gateway* to teletransmit the VAT return to DGFiP via Teledec.
 
 .. figure:: https://raw.githubusercontent.com/OCA/l10n-france/16.0/l10n_fr_account_vat_return_teledec/static/description/transmit_teledec_button.png
-   :scale: 80 %
    :alt: VAT Return with option to teletransmit via Teledec.fr.
 
 Teledec will send you an email once they have successfully transmitted your VAT return to DGFiP.
