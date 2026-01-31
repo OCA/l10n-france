@@ -38,7 +38,7 @@ class TestFrAccountVatReturn(TransactionCase):
         ):
             box2value[(line.box_form_code, line.box_edi_code)] = line.value
         for box_xmlid, expected_value in box_result.items():
-            box = self.env.ref("l10n_fr_account_vat_return.%s" % box_xmlid)
+            box = self.env.ref(f"l10n_fr_account_vat_return.{box_xmlid}")
             real_valuebox = box2value.pop((box.form_code, box.edi_code))
             self.assertEqual(real_valuebox, expected_value)
         self.assertFalse(box2value)
@@ -65,8 +65,30 @@ class TestFrAccountVatReturn(TransactionCase):
         )
         self.assertEqual(currency.compare_amounts(move_dict.get("658000", 0), 1), -1)
 
+    def test_tax_fr_vat_autoliquidation(self):
+        intracom_extracom_autoliq_taxes = (
+            self.env["account.tax"]
+            .with_context(active_test=False)
+            .search(
+                [
+                    ("company_id", "=", self.on_invoice_company.id),
+                    ("type_tax_use", "=", "purchase"),
+                    ("amount", ">", 0),
+                    ("unece_type_code", "=", "VAT"),
+                    ("country_id", "=", self.env.ref("base.fr").id),
+                    "|",
+                    ("name", "ilike", "intracom"),
+                    ("name", "ilike", "extracom"),
+                ]
+            )
+        )
+        self.assertTrue(len(intracom_extracom_autoliq_taxes) > 6)
+        for tax in intracom_extracom_autoliq_taxes:
+            self.assertEqual(tax.fr_vat_autoliquidation, "total")
+
     def test_vat_return_on_invoice(self):
         company = self.on_invoice_company
+        aao = self.env["account.account"]
         currency = company.currency_id
         initial_credit_vat = 3333
         company._test_create_move_init_vat_credit(
@@ -81,9 +103,10 @@ class TestFrAccountVatReturn(TransactionCase):
             }
         )
         self.assertEqual(vat_return.end_date, self.end_date)
+        self.assertEqual(vat_return.vat_on_payment_option, "non_native")
         self.assertEqual(vat_return.state, "manual")
         # Create a manual line without rate
-        new_manual_account_id = self.env["account.account"].create(
+        new_manual_account_id = aao.create(
             {
                 "code": "635900",
                 "name": "Taxe spécifique",
@@ -102,7 +125,7 @@ class TestFrAccountVatReturn(TransactionCase):
             }
         )
         # Create another manual line with a rate
-        existing_manual_account_id = self.env["account.account"].search(
+        existing_manual_account_id = aao.search(
             [
                 ("code", "=", "635800"),
                 ("company_id", "=", company.id),
@@ -124,6 +147,7 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(vat_return.state, "auto")
         box_result = {
             "ca3_ca": 51510,  # A
+            "ca3_cb": 100,  # A2 France autoliq (for royalty)
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_dk": 2810,  # A4 HA extracom products
             "ca3_cc": 2410,  # B2 HA intracom products
@@ -148,14 +172,16 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_lj": 28,  # montant autoliq import 5.5%
             "ca3_lk": 2000,  # base autoliq import 2,1%
             "ca3_ll": 42,  # montant autoliq import 2,1%
-            "ca3_gh": 2466,  # Total TVA collectée
+            "ca3_mg": 100,  # base droits d'auteur
+            "ca3_md": 9,  # montant droits d'auteur
+            "ca3_gh": 2475,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
             ######
             "ca3_ha": 1065,  # TVA déduc immo
-            "ca3_hb": 634,  # TVA déduc biens et services
+            "ca3_hb": 644,  # TVA déduc biens et services
             "ca3_hd": initial_credit_vat,  # report crédit TVA
-            "ca3_hg": 5032,  # total VAT deduc
+            "ca3_hg": 5042,  # total VAT deduc
             ######
             "a_ud": 134,
             "a_mk": 1000,
@@ -163,8 +189,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "a_hb": 186,
             "ca3_kb": 186,  # Report taxes annexes
             "ca3_ke": 186,  # Total à payer
-            "ca3_ja": 2566,  # credit TVA (ligne 23 - 16)
-            "ca3_jc": 2566,  # crédit à reporter
+            "ca3_ja": 2567,  # credit TVA (ligne 23 - 16)
+            "ca3_jc": 2567,  # crédit à reporter
         }
         move_result = {
             "445711": 46,
@@ -183,6 +209,8 @@ class TestFrAccountVatReturn(TransactionCase):
             "445303": 165,
             "445304": 65.1,
             "445663": -321.1,
+            "445719": 9.2,
+            "445669": -10,
             "447000": box_result["ca3_kb"] * -1,
             "445670": box_result["ca3_jc"] - box_result["ca3_hd"],
             "635800": box_result["a_kj"],
@@ -194,13 +222,18 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertTrue(vat_return.reimbursement_show_button)
         reimbursement_type = "first"
         reimbursement_amount = 2000
-        reimb_wiz = self.env["l10n.fr.account.vat.return.reimbursement"].create(
-            {
-                "return_id": vat_return.id,
-                "amount": reimbursement_amount,
-                "reimbursement_type": reimbursement_type,
-                "first_creation_date": self.first_creation_date,
-            }
+        reimb_wiz = (
+            self.env["l10n.fr.account.vat.return.reimbursement"]
+            .with_context(
+                active_model="l10n.fr.account.vat.return", active_id=vat_return.id
+            )
+            .create(
+                {
+                    "amount": reimbursement_amount,
+                    "reimbursement_type": reimbursement_type,
+                    "first_creation_date": self.first_creation_date,
+                }
+            )
         )
         reimb_wiz.validate()
         reimb_box_result = dict(box_result)
@@ -225,17 +258,18 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(
             vat_return.reimbursement_first_creation_date, self.first_creation_date
         )
+        # Remove reimbursement
         vat_return.remove_credit_vat_reimbursement()
         self._check_vat_return_result(vat_return, box_result, move_result)
         self.assertFalse(vat_return.reimbursement_type)
         self.assertFalse(vat_return.reimbursement_first_creation_date)
         vat_return.print_ca3()
-        vat_return.auto2sent()
+        vat_return.auto2sent_manual()
         self.assertEqual(vat_return.state, "sent")
+        self.assertTrue(vat_return.sent_datetime)
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")
         self._check_vat_return_result(vat_return, box_result, move_result)
-        aao = self.env["account.account"]
         speedy = vat_return._prepare_speedy()
         bal_zero_accounts = ["445711", "445712", "445713", "445714", "445715"]
         for acc_code in bal_zero_accounts:
@@ -249,6 +283,12 @@ class TestFrAccountVatReturn(TransactionCase):
         for line in vat_return.move_id.line_ids:
             if line.account_id.code in must_be_reconciled:
                 self.assertTrue(line.full_reconcile_id)
+        # The reimbursement has been removed, but we call generate_zip_deductible_vat()
+        # just to make sure it works, even if it's not a real life scenario to call it
+        # without a reimbursement
+        action = vat_return.generate_zip_deductible_vat()
+        self.assertTrue(vat_return.deductible_vat_zip_file_id)
+        self.assertEqual(action.get("type"), "ir.actions.act_url")
 
     def test_vat_return_on_payment(self):
         aao = self.env["account.account"]
@@ -269,6 +309,7 @@ class TestFrAccountVatReturn(TransactionCase):
                 "vat_periodicity": "1",
             }
         )
+        self.assertEqual(vat_return.vat_on_payment_option, "non_native")
         manual_acc2amt = {
             "445711": 30,  # 20%
             "445712": 20,  # 10%
@@ -294,6 +335,7 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(vat_return.state, "auto")
         box_result = {
             "ca3_ca": 38889,  # A
+            "ca3_cb": 100,  # A2 France autoliq (for royalty)
             "ca3_kh": 2210,  # A3 HA intracom services
             "ca3_dk": 2810,  # A4 HA extracom products
             "ca3_cc": 2410,  # B2 HA intracom products
@@ -319,18 +361,20 @@ class TestFrAccountVatReturn(TransactionCase):
             "ca3_lj": 28,  # montant autoliq import 5.5%
             "ca3_lk": 2000,  # base autoliq import 2,1%
             "ca3_ll": 42,  # montant autoliq import 2,1%
-            "ca3_gh": 1971,  # Total TVA collectée
+            "ca3_mg": 100,  # base droits d'auteur
+            "ca3_md": 9,  # montant droits d'auteur
+            "ca3_gh": 1980,  # Total TVA collectée
             "ca3_gj": 141,  # dont TVA sur acquisitions intracom
             "ca3_gk": 891,  # dont TVA à Monaco
             ######
             "ca3_ha": 1065,  # TVA déduc immo
-            "ca3_hb": 574,  # TVA déduc biens et services
+            "ca3_hb": 584,  # TVA déduc biens et services
             "ca3_hd": initial_credit_vat,  # report crédit TVA
-            "ca3_hg": 1661,  # total VAT deduc
+            "ca3_hg": 1671,  # total VAT deduc
             ######
-            "ca3_ka": 310,  # TVA à payer (ligne 16 - 23)
-            "ca3_nd": 310,  # TVA nette due (ligne TD - X5)
-            "ca3_ke": 310,  # Total à payer
+            "ca3_ka": 309,  # TVA à payer (ligne 16 - 23)
+            "ca3_nd": 309,  # TVA nette due (ligne TD - X5)
+            "ca3_ke": 309,  # Total à payer
         }
         move_result = {
             "445711": 7.5,
@@ -349,17 +393,19 @@ class TestFrAccountVatReturn(TransactionCase):
             "445303": 165,
             "445304": 65.1,
             "445663": -321.1,
+            "445719": 9.2,
+            "445669": -10,
             "445510": box_result["ca3_ke"] * -1,
             "445670": initial_credit_vat * -1,
         }
         self._check_vat_return_result(vat_return, box_result, move_result)
         vat_return.print_ca3()
-        vat_return.auto2sent()
+        vat_return.auto2sent_manual()
         self.assertEqual(vat_return.state, "sent")
+        self.assertTrue(vat_return.sent_datetime)
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")
         self._check_vat_return_result(vat_return, box_result, move_result)
-        aao = self.env["account.account"]
         speedy = vat_return._prepare_speedy()
         acc2bal = {
             "445711": -38.5,  # 20%
@@ -567,7 +613,7 @@ class TestFrAccountVatReturn(TransactionCase):
         }
         self._check_vat_return_result(vat_return, box_result, move_result)
         vat_return.print_ca3()
-        vat_return.auto2sent()
+        vat_return.auto2sent_manual()
         self.assertEqual(vat_return.state, "sent")
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")

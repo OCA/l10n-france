@@ -19,13 +19,22 @@
                         class="btn-primary"
                     />
                                                 <button
-                        name="auto2sent"
+                        name="auto2sent_via_gateway"
+                        type="object"
+                        string="Send via Gateway"
+                        attrs="{'invisible': ['|', '|', ('state', '!=', 'auto'), ('line_ids', '=', []), ('gateway_available', '=', False)]}"
+                        class="btn-primary"
+                        confirm="You are about to transmit your VAT return. Do you confirm?"
+                    />
+                                                <button
+                        name="auto2sent_manual"
                         type="object"
                         string="Mark as sent"
                         attrs="{'invisible': ['|', ('state', '!=', 'auto'), ('line_ids', '=', [])]}"
-                        class="btn-primary"
+                        class="btn-default"
                         confirm="Do you confirm that you have validated the VAT return on impots.gouv.fr?"
                     />
+
                                                 <button
                         name="sent2posted"
                         type="object"
@@ -68,11 +77,31 @@
                         confirm="This VAT return has been marked as sent. Are you sure you want to go back to Manual Lines?"
                         states="sent"
                     />
+                                                <button
+                        name="reconcile_account_move_button"
+                        type="object"
+                        states="posted"
+                        string="Reconcile Journal Entry Again"
+                    />
+                                                <button
+                        name="generate_zip_deductible_vat"
+                        type="object"
+                        attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False)]}"
+                        string="Generate Deductible VAT Justification File"
+                    />
                                                 <field
                         name="state"
                         widget="statusbar"
                     />
                                         </header>
+                                        <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': ['|', '|', ('state', 'in', ('sent', 'posted')), ('send_gateway', '=', False), ('gateway_test_mode', '=', False)]}"
+                >
+                                                Gateway is in <strong
+                    >test</strong> mode: this VAT return will not be sent to DGFiP.
+            </div>
                                         <sheet>
                                                 <div class="oe_title">
                     <label for="name" class="oe_edit_only" />
@@ -132,10 +161,48 @@
                                 groups="base.group_multi_company"
                             />
                             <field name="company_id" invisible="1" />
+                                                <field name="vat_on_payment_option" />
                                                 <field name="bank_account_id" />
                                                 <field name="move_id" />
                                                 <field
+                                name="deductible_vat_zip_other_threshold"
+                                attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False)]}"
+                            />
+                                                <field
+                                name="deductible_vat_zip_file_datas"
+                                filename="deductible_vat_zip_file_name"
+                                attrs="{'invisible': ['|', '|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False), ('deductible_vat_zip_file_id', '=', False)]}"
+                            />
+                                                <field
+                                name="sent_datetime"
+                                attrs="{'invisible': [('sent_datetime', '=', False)]}"
+                            />
+                                                <field
+                                name="deductible_vat_zip_file_name"
+                                invisible="1"
+                            />
+                                                <field
+                                name="deductible_vat_zip_file_id"
+                                invisible="1"
+                            />
+                                                <field
                                 name="unpaid_vat_on_payment_manual_line_filter_account_ids"
+                                invisible="1"
+                            />
+                                                <field
+                                name="send_gateway"
+                                attrs="{'readonly': [('state', 'in', ('sent', 'posted'))], 'invisible': [('gateway_available', '=', False)]}"
+                            />
+                                                <field
+                                name="gateway_attachment_id"
+                                attrs="{'invisible': [('gateway_attachment_id', '=', False)]}"
+                            />
+                                                <field
+                                name="gateway_available"
+                                invisible="1"
+                            />
+                                                <field
+                                name="gateway_test_mode"
                                 invisible="1"
                             />
                                             </group>
@@ -216,6 +283,12 @@
                     name="reimbursement_type"
                     optional="hide"
                 />
+                                                <field
+                    name="vat_on_payment_option"
+                    optional="hide"
+                />
+                                        <field name="sent_datetime" optional="hide" />
+                                        <field name="send_gateway" optional="hide" />
                                        <field
                     name="company_id"
                     groups="base.group_multi_company"

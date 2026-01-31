@@ -8,10 +8,11 @@
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
 
 See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
@@ -274,7 +275,7 @@ pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
 
-pre.code .ln { color: grey; } /* line numbers */
+pre.code .ln { color: gray; } /* line numbers */
 pre.code, code { background-color: #eeeeee }
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
@@ -300,7 +301,7 @@ span.option {
 span.pre {
   white-space: pre }
 
-span.problematic {
+span.problematic, pre.problematic {
   color: red }
 
 span.section-subtitle {
@@ -374,7 +375,7 @@ ul.auto-toc {
 - 3310-CA3 monthly and quarterly,
 - 3310-A (Appendix),
 - 3514 (Credit VAT reimbursement).</p>
-<p>The price of this EDI service for VAT returns is written on the <a class="reference external" href="https://www.teledec.fr/teledeclarer-et-payer-la-tva">VAT page</a> of the Teledec.fr website.</p>
+<p>The price of this EDI service for VAT returns is written on the page <a class="reference external" href="https://www.teledec.fr/presentation/solutions/liasse-fiscale-teledeclaration">TELEDEC : la solution pour vos déclarations fiscales</a> in the drop-down section <em>Déclarer et payer la TVA</em> at the bottom of the page.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -403,7 +404,7 @@ ul.auto-toc {
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
-<p>On a VAT return in Odoo, when you reach the step <em>Automatic Lines</em>, you will see a button <em>Transmit via Teledec.fr</em>. Simply click on this button to teletransmit the VAT return to DGFiP via Teledec.</p>
+<p>On a VAT return in Odoo, when you reach the step <em>Automatic Lines</em>, you will see a button <em>Send via Gateway</em> and a field <em>Send Gateway</em> to select the gateway. Make sure the field <em>Send Gateway</em> is set to <em>Teledec.fr</em> and then click on the button <em>Send via Gateway</em> to teletransmit the VAT return to DGFiP via Teledec.</p>
 <div class="figure">
 <img alt="VAT Return with option to teletransmit via Teledec.fr." src="https://raw.githubusercontent.com/OCA/l10n-france/16.0/l10n_fr_account_vat_return_teledec/static/description/transmit_teledec_button.png" />
 </div>
@@ -434,7 +435,9 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <div class="section" id="maintainers">
 <h2><a class="toc-backref" href="#toc-entry-7">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
-<a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
