@@ -5,4 +5,4 @@ This module supports EDI teletransmission of:
 - 3310-A (Appendix),
 - 3514 (Credit VAT reimbursement).
 
-The price of this EDI service for VAT returns is written on the `VAT page <https://www.teledec.fr/teledeclarer-et-payer-la-tva>`_ of the Teledec.fr website.
+The price of this EDI service for VAT returns is written on the page `TELEDEC : la solution pour vos déclarations fiscales <https://www.teledec.fr/presentation/solutions/liasse-fiscale-teledeclaration>`_ in the drop-down section *Déclarer et payer la TVA* at the bottom of the page.
