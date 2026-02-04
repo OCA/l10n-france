@@ -3196,6 +3196,7 @@ class L10nFrAccountVatReturnLineLog(models.Model):
             "Percentage Analytic"
         ),
     )
+    company_id = fields.Many2one(related="parent_id.company_id", store=True)
     compute_type = fields.Selection(
         [
             # previously used for untaxed operations (until 01/2024). I keep it for the
