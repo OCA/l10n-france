@@ -30,7 +30,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">AB</field>
       <field name="description">Frais d'établissement</field>
-      <field name="expression">bale[201%,2801%]</field>
+      <field name="expression">bale[201%,2801%,2901%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -41,7 +41,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">CX</field>
       <field name="description">Frais de développement</field>
-      <field name="expression">bale[203%,2803%]</field>
+      <field name="expression">bale[203%,2803%,2903%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -63,9 +63,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">AH</field>
       <field name="description">Fonds commercial</field>
-      <field
-            name="expression"
-        >bale[206%,207%,2807%,2906%,2907%]</field>  <!-- do we put 206 here ? -->
+      <field name="expression">bale[207%,2807%,2907%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -76,7 +74,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">AJ</field>
       <field name="description">Autres immobilisations incorporelles</field>
-      <field name="expression">bale[208%,232%,2808%,2908%,2932%]</field>
+      <field name="expression">bale[206%,208%,2806%,2808%,2906%,2908%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -88,8 +86,8 @@
       <field name="name">AL</field>
       <field
             name="description"
-        >Avances et acomptes sur immobilisations incorporelles</field>
-      <field name="expression">bale[237%]</field>
+        >Immobilisations incorporelles en cours, avances et acomptes</field>
+      <field name="expression">bale[232%,237%,2932%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -101,9 +99,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">AN</field>
       <field name="description">Terrains</field>
-      <field
-            name="expression"
-        >bale[211%,212%,22%,2811%,2812%,2911%,282%,292%]</field> <!-- 22, 282 and 292 could also be in "Constructions" or "Installations techniques, matériel et outillage industriels", depending on the nature of the items -->
+      <field name="expression">bale[211%,212%,2812%,2911%,2912%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -114,7 +110,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">AP</field>
       <field name="description">Constructions</field>
-      <field name="expression">bale[213%,214%,2813%,2814%]</field>
+      <field name="expression">bale[213%,214%,2813%,2814%,2913%,2914%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -127,7 +123,7 @@
       <field
             name="description"
         >Installations techniques, matériel et outillage industriels</field>
-      <field name="expression">bale[215%,2815%]</field>
+      <field name="expression">bale[215%,2815%,2915%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -138,7 +134,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">AT</field>
       <field name="description">Autres immobilisations corporelles</field>
-      <field name="expression">bale[218%,2818%]</field>
+      <field name="expression">bale[218%,2818%,2918%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -148,33 +144,22 @@
     <record model="mis.report.kpi" id="mis_report_bs_av">
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">AV</field>
-      <field name="description">Immobilisations corporelles en cours</field>
-      <field name="expression">bale[231%,2931%]</field>
+      <field
+            name="description"
+        >Immobilisations corporelles en cours, avances et acomptes</field>
+      <field name="expression">bale[231%,238%,2931%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
       <field name="auto_expand_accounts_style_id" ref="account_detail" />
       <field name="sequence">120</field>
     </record>
-    <record model="mis.report.kpi" id="mis_report_bs_ax">
-      <field name="report_id" ref="mis_report_bs" />
-      <field name="name">AX</field>
-      <field name="description">Avances et acomptes</field>
-      <field name="expression">bale[238%]</field>
-      <field name="type">num</field>
-      <field name="compare_method">pct</field>
-      <field name="auto_expand_accounts" eval="True" />
-      <field name="auto_expand_accounts_style_id" ref="account_detail" />
-      <field name="sequence">130</field>
-    </record>
     <!-- IMMO FINANCIERES -->
     <record model="mis.report.kpi" id="mis_report_bs_cs">
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">CS</field>
-      <field
-            name="description"
-        >Participations évaluées selon la méthode de mise en équivalence</field>
-      <field name="expression">bale[262%]</field>
+      <field name="description">Participations</field>
+      <field name="expression">bale[26%,296%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -184,8 +169,8 @@
     <record model="mis.report.kpi" id="mis_report_bs_cu">
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">CU</field>
-      <field name="description">Autres participations</field>
-      <field name="expression">bale[261%,266%,2961%,2966%]</field>
+      <field name="description">Titres immobilisés de l’activité de portefeuille</field>
+      <field name="expression">bale[271%,272%,27682%,2971%,2972%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -196,21 +181,18 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">BB</field>
       <field name="description">Créances rattachées à des participations</field>
-      <field name="expression">bale[267%,268%,2967%,2968%]</field>
+      <field name="expression">bale[273%,2973%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
       <field name="auto_expand_accounts_style_id" ref="account_detail" />
       <field name="sequence">160</field>
     </record>
-    <!-- quid du 269 ? -->
     <record model="mis.report.kpi" id="mis_report_bs_bd">
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">BD</field>
       <field name="description">Autres titres immobilisés</field>
-      <field
-            name="expression"
-        >bale[271%,272%,273%,27682%,277%,2971%,2972%,2973%]</field>
+      <field name="expression">bale[277%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -245,7 +227,7 @@
       <field name="description">Total actif immobilisé (II)</field>
       <field
             name="expression"
-        >+AB +CX +AF +AH +AJ +AL +AN +AP +AR +AT +AV +AX +CS +CU +BB +BD +BF +BH</field>
+        >+AB +CX +AF +AH +AJ +AL +AN +AP +AR +AT +AV +CS +CU +BB +BD +BF +BH</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level2" />
@@ -289,7 +271,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">BR</field>
       <field name="description">Produits intermédiaires et finis</field>
-      <field name="expression">bale[35%] -bale[395%]</field>
+      <field name="expression">bale[35%,395%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -322,7 +304,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">BX</field>
       <field name="description">Clients et comptes rattachés</field>
-      <field name="expression">bale[410%,411%,413%,416%,418%,491%]</field>
+      <field name="expression">bale[411%,413%,416%,418%,491%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -335,7 +317,7 @@
       <field name="description">Autres créances</field>
       <field
             name="expression"
-        >bale[4096%,4097%,4098%,425%,4287%,4387%,441%,4452%,4456%,44581%,44582%,44583%,44586%,4487%,462%,465%,4687%,471%] +max([bale[443%], 0]) +max([bale[444%], 0]) +max([bale[451%], 0]) +max([bale[455%], 0]) +max([bale[4561%], 0]) +max([bale[4563%], 0]) +max([bale[4564%], 0]) +max([bale[4566%], 0]) +max([bale[4567%], 0]) +max([bale[458%], 0]) +max([bale[467%], 0]) +max([bale[478%], 0]) +bale[495%,496%]</field>
+        >bale[4096%,4097%,4098%,425%,439%,462%,465%,467%,495%,496%] +pbal[44%,451%,455%,4561%,4563%,4564%,4566%,4567%,457%,458%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -357,9 +339,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">CD</field>
       <field name="description">Valeurs mobilières de placement</field>
-      <field
-            name="expression"
-        >bale[501%,502%,503%,504%,505%,506%,507%,508%] -bale[59%]</field>
+      <field name="expression">bale[502%,503%,504%,505%,506%,507%,508%,590%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -370,9 +350,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">CF</field>
       <field name="description">Disponibilités</field>
-      <field
-            name="expression"
-        >bale[53%,54%,58%] +max([bale[511%], 0]) +max([bale[512%], 0]) +max([bale[514%], 0]) +max([bale[515%], 0]) +max([bale[516%], 0]) +max([bale[517%], 0]) +max([bale[5188%], 0]) +max([bale[52%], 0])</field>
+      <field name="expression">bale[53%,58%] +pbal[51%,52%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -402,11 +380,10 @@
       <field name="style_id" ref="level2" />
       <field name="sequence">330</field>
     </record>
-
     <record model="mis.report.kpi" id="mis_report_bs_cw">
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">CW</field>
-      <field name="description">Frais d'émission d'emprunt à étaler (IV)</field>
+      <field name="description">Frais d'émission d'emprunt (IV)</field>
       <field name="expression">bale[481%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -418,7 +395,7 @@
     <record model="mis.report.kpi" id="mis_report_bs_cm">
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">CM</field>
-      <field name="description">Primes de remboursement des obligations (V)</field>
+      <field name="description">Primes de remboursement des emprunts (V)</field>
       <field name="expression">bale[169%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
@@ -430,8 +407,10 @@
     <record model="mis.report.kpi" id="mis_report_bs_cn">
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">CN</field>
-      <field name="description">Ecarts de conversion actif (VI)</field>
-      <field name="expression">bale[476%]</field>
+      <field
+            name="description"
+        >Ecarts de conversion actif et différences d'évaluation (VI)</field>
+      <field name="expression">bale[474%,476%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3" />
@@ -456,7 +435,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DA</field>
       <field name="description">Capital social ou individuel</field>
-      <field name="expression">-bale[101%,102%,108%]</field>
+      <field name="expression">-bale[101%,108%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -500,7 +479,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DE</field>
       <field name="description">Réserves statutaires ou contractuelles</field>
-      <field name="expression">-bale[1063%]</field>
+      <field name="expression">-bale[1062%,1063%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -511,7 +490,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DF</field>
       <field name="description">Réserves réglementées</field>
-      <field name="expression">-bale[1062%,1064%]</field>
+      <field name="expression">-bale[1064%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -631,7 +610,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DQ</field>
       <field name="description">Provisions pour charges</field>
-      <field name="expression">-bale[153%,154%,155%,156%,157%,158%]</field>
+      <field name="expression">-bale[152%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -652,7 +631,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DS</field>
       <field name="description">Emprunts obligataires convertibles</field>
-      <field name="expression">-bale[161%,16881%]</field>
+      <field name="expression">-bale[161%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -663,7 +642,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DT</field>
       <field name="description">Autres emprunts obligataires</field>
-      <field name="expression">-bale[163%,16883%]</field>
+      <field name="expression">-bale[163%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -676,9 +655,7 @@
       <field
             name="description"
         >Emprunts et dettes auprès des établissements de crédit</field>
-      <field
-            name="expression"
-        >-bale[164%,16884%,5181%,519%] +max([-bale[512%], 0]) +max([-bale[514%], 0]) +max([-bale[517%], 0]) +max([-bale[52%], 0])</field>
+      <field name="expression">-bale[164%] -nbal[51%,52%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -689,9 +666,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DV</field>
       <field name="description">Emprunts et dettes financières divers</field>
-      <field
-            name="expression"
-        >-bale[165%,166%,1675%,1681%,1685%,1687%,16885%,16886%,16887%,16888%,17%,426%,451%,455%,456%] +max([-bale[451%], 0]) +max([-bale[455%], 0]) +max([-bale[4561%], 0])</field>
+      <field name="expression">-bale[165%,166%,1675%,168%,17%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -713,7 +688,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DX</field>
       <field name="description">Dettes fournisseurs et comptes rattachés</field>
-      <field name="expression">-bale[400%,401%,403%,4081%,4088%]</field>
+      <field name="expression">-bale[401%,403%,4081%,4088%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -726,7 +701,7 @@
       <field name="description">Dettes fiscales et sociales</field>
       <field
             name="expression"
-        >-bale[421%,422%,424%,427%,4282%,4284%,4286%,43%,442%,4455%,4457%,44584%,44587%,446%,447%,4482%,4486%,449%,457%] +max([-bale[443%], 0]) +max([-bale[444%], 0])</field>
+        >-bale[421%,422%,424%,426%,427%,428%,431%,437%,438%] -nbal[44%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -737,7 +712,7 @@
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">DZ</field>
       <field name="description">Dettes sur immobilisations et comptes rattachés</field>
-      <field name="expression">-bale[269%,279%,404%,405%,1685%,4084%]</field>
+      <field name="expression">-bale[269%,279%,404%,405%,4084%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -750,7 +725,7 @@
       <field name="description">Autres dettes</field>
       <field
             name="expression"
-        >-bale[4196%,4197%,4198%,464%,4686%,509%,489%] +max([-bale[467%], 0]) +max([-bale[478%], 0])</field>
+        >-bale[4196%,4197%,4198%,464%,468%,509%] -nbal[451%,455%,4561%,4563%,4564%,4566%,4567%,457%,458%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="auto_expand_accounts" eval="True" />
@@ -783,8 +758,10 @@
     <record model="mis.report.kpi" id="mis_report_bs_ed">
       <field name="report_id" ref="mis_report_bs" />
       <field name="name">ED</field>
-      <field name="description">Ecarts de conversion de passif (V)</field>
-      <field name="expression">-bale[477%]</field>
+      <field
+            name="description"
+        >Ecarts de conversion passif et différences d'évaluation (V)</field>
+      <field name="expression">-bale[475%,477%]</field>
       <field name="type">num</field>
       <field name="compare_method">pct</field>
       <field name="style_id" ref="level3" />
