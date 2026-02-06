@@ -5,41 +5,38 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
-
-        <record id="l10n_fr_vat_exigibility_update_form" model="ir.ui.view">
+    <record id="l10n_fr_vat_exigibility_update_form" model="ir.ui.view">
         <field name="model">l10n.fr.vat.exigibility.update</field>
         <field name="arch" type="xml">
-                <form>
-                        <group name="main">
-                                <field name="company_id" />
-                                <field name="current_fr_vat_exigibility" />
-                                <field name="new_fr_vat_exigibility" />
-                                <field name="update_type" widget="radio" />
-                                <field
+            <form>
+                <group name="main">
+                    <field name="company_id" />
+                    <field name="current_fr_vat_exigibility" />
+                    <field name="new_fr_vat_exigibility" />
+                    <field name="update_type" widget="radio" />
+                    <field
                         name="update_date"
                         attrs="{'invisible': [('update_type', '!=', 'date')], 'required': [('update_type', '=', 'date')]}"
                         options="{'datepicker': {'warn_future': true}}"
                     />
-                        </group>
-                        <footer>
-                                <button
+                </group>
+                <footer>
+                    <button
                         type="object"
                         string="Update"
                         name="run"
                         class="btn-primary"
                     />
-                                <button special="cancel" string="Cancel" />
-                        </footer>
-                </form>
+                    <button special="cancel" string="Cancel" />
+                </footer>
+            </form>
         </field>
-</record>
+    </record>
 
-<record id="l10n_fr_vat_exigibility_update_action" model="ir.actions.act_window">
+    <record id="l10n_fr_vat_exigibility_update_action" model="ir.actions.act_window">
         <field name="name">Update Company VAT Exigibility</field>
         <field name="res_model">l10n.fr.vat.exigibility.update</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-</record>
-
+    </record>
 </odoo>

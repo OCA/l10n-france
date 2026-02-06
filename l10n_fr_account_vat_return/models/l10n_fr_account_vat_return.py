@@ -1572,9 +1572,9 @@ class L10nFrAccountVatReturn(models.Model):
                 )
             if not speedy["native_vat_on_payment"]:
                 # remove on_payment invoices unpaid on end_date for type_rate2logs
-                type_rate2logs["regular_france"][
-                    rate_int
-                ] += vat_on_payment_account2logs[sale_vat_account]
+                type_rate2logs["regular_france"][rate_int] += (
+                    vat_on_payment_account2logs[sale_vat_account]
+                )
         # MONACO
         monaco_logs = self._generate_due_vat_monaco(speedy)
         return monaco_logs
@@ -1587,9 +1587,9 @@ class L10nFrAccountVatReturn(models.Model):
         }
         for line in self.autoliq_line_ids:
             if line.vat_rate_int not in autoliq_rate2product_ratio[line.autoliq_type]:
-                autoliq_rate2product_ratio[line.autoliq_type][
-                    line.vat_rate_int
-                ] = defaultdict(float)
+                autoliq_rate2product_ratio[line.autoliq_type][line.vat_rate_int] = (
+                    defaultdict(float)
+                )
             # If the implementation was perfect, we would not have to use abs() !
             # But, in the current implementation, we take the balance of the autoliq VAT
             # account and we apply a product ratio. With this implementation, we don't
@@ -2233,13 +2233,13 @@ class L10nFrAccountVatReturn(models.Model):
                         )
                 for mapping in revenue_account_mappings:
                     if box_meaning_id not in box_meaning_id2accounts:
-                        box_meaning_id2accounts[
-                            box_meaning_id
-                        ] = mapping.account_dest_id
+                        box_meaning_id2accounts[box_meaning_id] = (
+                            mapping.account_dest_id
+                        )
                     else:
-                        box_meaning_id2accounts[
-                            box_meaning_id
-                        ] |= mapping.account_dest_id
+                        box_meaning_id2accounts[box_meaning_id] |= (
+                            mapping.account_dest_id
+                        )
         # check that an account is not present in several fiscal positions
         # and create lines
         account_unicity = []
@@ -2376,7 +2376,7 @@ class L10nFrAccountVatReturn(models.Model):
                     )
                 account2amount[
                     (account, json.dumps(line.manual_analytic_distribution))
-                ] += (line.value_manual_int * sign)
+                ] += line.value_manual_int * sign
             else:
                 for log in line.log_ids:
                     assert log.account_id  # there is a python constrain on this
