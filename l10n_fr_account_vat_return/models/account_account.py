@@ -10,9 +10,10 @@ class AccountAccount(models.Model):
 
     def _fr_vat_get_balance(self, domain_key, speedy):
         amlo = self.env["account.move.line"]
-        rg_res = amlo.read_group(
-            speedy[domain_key] + [("account_id", "=", self.id)], ["balance"], []
+        rg_res = amlo._read_group(
+            speedy[domain_key] + [("account_id", "=", self.id)],
+            aggregates=["balance:sum"],
         )
-        balance = rg_res and rg_res[0]["balance"] or 0
+        balance = rg_res and rg_res[0][0] or 0
         balance = speedy["currency"].round(balance)
         return balance

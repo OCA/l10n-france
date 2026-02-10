@@ -7,7 +7,7 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
@@ -42,8 +42,8 @@ class TestFrAccountVatReturn(TransactionCase):
             real_valuebox = box2value.pop((box.form_code, box.edi_code))
             self.assertEqual(real_valuebox, expected_value)
         self.assertFalse(box2value)
-        move = vat_return.move_id
         company = vat_return.company_id
+        move = vat_return.move_id.with_company(company.id)
         self.assertTrue(move)
         self.assertTrue(move.ref)
         if vat_return.state in ("auto", "sent"):
@@ -56,7 +56,7 @@ class TestFrAccountVatReturn(TransactionCase):
         currency = company.currency_id
         move_dict = defaultdict(float)
         for line in move.line_ids:
-            move_dict[line.account_id.code] += line.balance
+            move_dict[line.account_id.with_company(company.id).code] += line.balance
         for account_code, amount in move_result.items():
             self.assertFalse(currency.compare_amounts(move_dict[account_code], amount))
         # Check that 758 and 658 have an amount under 1 €
@@ -88,7 +88,7 @@ class TestFrAccountVatReturn(TransactionCase):
 
     def test_vat_return_on_invoice(self):
         company = self.on_invoice_company
-        aao = self.env["account.account"]
+        aao = self.env["account.account"].with_company(company.id)
         currency = company.currency_id
         initial_credit_vat = 3333
         company._test_create_move_init_vat_credit(
@@ -110,7 +110,7 @@ class TestFrAccountVatReturn(TransactionCase):
             {
                 "code": "635900",
                 "name": "Taxe spécifique",
-                "company_id": company.id,
+                "company_ids": [Command.set([company.id])],
                 "account_type": "expense",
             }
         )
@@ -128,7 +128,7 @@ class TestFrAccountVatReturn(TransactionCase):
         existing_manual_account_id = aao.search(
             [
                 ("code", "=", "635800"),
-                ("company_id", "=", company.id),
+                ("company_ids", "in", company.id),
                 ("account_type", "=", "expense"),
             ],
             limit=1,
@@ -274,14 +274,14 @@ class TestFrAccountVatReturn(TransactionCase):
         bal_zero_accounts = ["445711", "445712", "445713", "445714", "445715"]
         for acc_code in bal_zero_accounts:
             acc = aao.search(
-                [("code", "=", acc_code), ("company_id", "=", company.id)], limit=1
+                [("code", "=", acc_code), ("company_ids", "in", company.id)], limit=1
             )
             self.assertTrue(acc)
             balance = acc._fr_vat_get_balance("base_domain_end", speedy)
             self.assertTrue(currency.is_zero(balance))
         must_be_reconciled = bal_zero_accounts + ["445620"]
         for line in vat_return.move_id.line_ids:
-            if line.account_id.code in must_be_reconciled:
+            if line.account_id.with_company(company.id).code in must_be_reconciled:
                 self.assertTrue(line.full_reconcile_id)
         # The reimbursement has been removed, but we call generate_zip_deductible_vat()
         # just to make sure it works, even if it's not a real life scenario to call it
@@ -291,11 +291,11 @@ class TestFrAccountVatReturn(TransactionCase):
         self.assertEqual(action.get("type"), "ir.actions.act_url")
 
     def test_vat_return_on_payment(self):
-        aao = self.env["account.account"]
+        company = self.on_payment_company
+        aao = self.env["account.account"].with_company(company.id)
         lfavruvopmlo = self.env[
             "l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line"
         ]
-        company = self.on_payment_company
         currency = company.currency_id
         initial_credit_vat = 22
         company._test_create_move_init_vat_credit(
@@ -318,7 +318,7 @@ class TestFrAccountVatReturn(TransactionCase):
         }
         for acc_code, amount in manual_acc2amt.items():
             account = aao.search(
-                [("code", "=", acc_code), ("company_id", "=", company.id)], limit=1
+                [("code", "=", acc_code), ("company_ids", "in", company.id)], limit=1
             )
             self.assertTrue(account)
             lfavruvopmlo.create(
@@ -416,7 +416,7 @@ class TestFrAccountVatReturn(TransactionCase):
         }
         for acc_code, expected_bal in acc2bal.items():
             acc = aao.search(
-                [("code", "=", acc_code), ("company_id", "=", company.id)], limit=1
+                [("code", "=", acc_code), ("company_ids", "in", company.id)], limit=1
             )
             self.assertTrue(acc)
             real_bal = acc._fr_vat_get_balance("base_domain_end", speedy)
@@ -565,8 +565,8 @@ class TestFrAccountVatReturn(TransactionCase):
         )
 
     def test_vat_return_btp_subcontracting(self):
-        aao = self.env["account.account"]
         company = self.on_payment_company
+        aao = self.env["account.account"].with_company(company.id)
         currency = company.currency_id
         initial_credit_vat = 22
         company._test_create_move_init_vat_credit(
@@ -618,7 +618,6 @@ class TestFrAccountVatReturn(TransactionCase):
         vat_return.sent2posted()
         self.assertEqual(vat_return.state, "posted")
         self._check_vat_return_result(vat_return, box_result, move_result)
-        aao = self.env["account.account"]
         speedy = vat_return._prepare_speedy()
         acc2bal = {
             "445711": 0,  # 20%
@@ -631,7 +630,7 @@ class TestFrAccountVatReturn(TransactionCase):
         }
         for acc_code, expected_bal in acc2bal.items():
             acc = aao.search(
-                [("code", "=", acc_code), ("company_id", "=", company.id)], limit=1
+                [("code", "=", acc_code), ("company_ids", "in", company.id)], limit=1
             )
             self.assertTrue(acc)
             real_bal = acc._fr_vat_get_balance("base_domain_end", speedy)

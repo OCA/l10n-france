@@ -16,7 +16,8 @@
                     <field name="update_type" widget="radio" />
                     <field
                         name="update_date"
-                        attrs="{'invisible': [('update_type', '!=', 'date')], 'required': [('update_type', '=', 'date')]}"
+                        invisible="update_type != 'date'"
+                        required="update_type == 'date'"
                         options="{'datepicker': {'warn_future': true}}"
                     />
                 </group>

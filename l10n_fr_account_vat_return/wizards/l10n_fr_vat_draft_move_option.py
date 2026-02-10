@@ -29,7 +29,7 @@ class L10nFrVatDraftMoveOption(models.TransientModel):
                 {
                     "views": False,
                     "view_id": False,
-                    "view_mode": "form,tree,kanban",
+                    "view_mode": "form,list,kanban",
                     "res_id": self.draft_move_ids.id,
                 }
             )

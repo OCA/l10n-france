@@ -13,7 +13,7 @@
                 <field name="fiscal_position_fr_vat_type" invisible="1" />
                 <field
                     name="out_vat_on_payment"
-                    attrs="{'invisible': ['|', ('move_type', 'not in', ('out_invoice', 'out_refund')), ('fiscal_position_fr_vat_type', 'not in', (False, 'france'))]}"
+                    invisible="move_type not in ('out_invoice', 'out_refund') or fiscal_position_fr_vat_type not in (False, 'france')"
                     string="VAT on Payment"
                 />
             </field>
@@ -24,11 +24,11 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
-            <field name="payment_state" position="after">
+            <field name="status_in_payment" position="after">
                 <field
                     name="out_vat_on_payment"
                     optional="hide"
-                    invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+                    column_invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
                     string="VAT on Payment"
                 />
             </field>

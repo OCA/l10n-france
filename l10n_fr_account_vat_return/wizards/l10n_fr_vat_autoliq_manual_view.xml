@@ -16,7 +16,7 @@
                 </div>
                 <group name="lines">
                     <field name="line_ids" colspan="2" nolabel="1">
-                        <tree editable="bottom" create="0" delete="0">
+                        <list editable="bottom" create="0" delete="0">
                             <field name="autoliq_line_id" invisible="1" />
                             <field
                                 name="autoliq_type"
@@ -37,10 +37,11 @@
                             <field name="option" required="1" />
                             <field
                                 name="product_ratio"
-                                attrs="{'required': [('option', '=', 'mix')], 'invisible': [('option', '!=', 'mix')]}"
+                                required="option == 'mix'"
+                                invisible="option != 'mix'"
                             />
                             <field name="company_currency_id" invisible="1" />
-                        </tree>
+                        </list>
                     </field>
                     <field name="fr_vat_return_id" invisible="1" />
                 </group>
