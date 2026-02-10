@@ -14,14 +14,14 @@
                         name="manual2auto"
                         type="object"
                         string="Generate Automatic Lines"
-                        states="manual"
+                        invisible="state != 'manual'"
                         class="btn-primary"
                     />
                     <button
                         name="auto2sent_via_gateway"
                         type="object"
                         string="Send via Gateway"
-                        attrs="{'invisible': ['|', '|', ('state', '!=', 'auto'), ('line_ids', '=', []), ('gateway_available', '=', False)]}"
+                        invisible="state != 'auto' or not line_ids or not gateway_available"
                         class="btn-primary"
                         confirm="You are about to transmit your VAT return. Do you confirm?"
                     />
@@ -29,7 +29,7 @@
                         name="auto2sent_manual"
                         type="object"
                         string="Mark as sent"
-                        attrs="{'invisible': ['|', ('state', '!=', 'auto'), ('line_ids', '=', [])]}"
+                        invisible="state != 'auto' or not line_ids"
                         class="btn-default"
                         confirm="Do you confirm that you have validated the VAT return on impots.gouv.fr?"
                     />
@@ -38,22 +38,22 @@
                         name="sent2posted"
                         type="object"
                         string="Post"
-                        states="sent"
+                        invisible="state != 'sent'"
                         class="btn-primary"
                     />
                     <button
                         name="%(l10n_fr_account_vat_return_reimbursement_action)d"
                         type="action"
                         string="Credit VAT Reimbursement"
-                        attrs="{'invisible': [('reimbursement_show_button', '=', False)]}"
+                        invisible="not reimbursement_show_button"
                         class="btn-default"
-                        context="{'default_return_id': active_id}"
+                        context="{'default_return_id': id}"
                     />
                     <button
                         name="remove_credit_vat_reimbursement"
                         type="object"
                         string="Remove Credit VAT Reimbursement"
-                        attrs="{'invisible': ['|', ('reimbursement_type', '=', False), ('state', '!=', 'auto')]}"
+                        invisible="not reimbursement_type or state != 'auto'"
                         class="btn-default"
                         confirm="Do you confirm the removal of the credit VAT reimbursement?"
                     />
@@ -61,31 +61,31 @@
                         name="print_ca3"
                         type="object"
                         string="Print"
-                        states="auto,sent,posted"
+                        invisible="state not in ('auto', 'sent', 'posted')"
                     />
                     <button
                         name="back_to_manual"
                         type="object"
                         string="Back to Manual Lines"
-                        states="auto"
+                        invisible="state != 'auto'"
                     />
                     <button
                         name="back_to_manual"
                         type="object"
                         string="Back to Manual Lines"
                         confirm="This VAT return has been marked as sent. Are you sure you want to go back to Manual Lines?"
-                        states="sent"
+                        invisible="state != 'sent'"
                     />
                     <button
                         name="reconcile_account_move_button"
                         type="object"
-                        states="posted"
+                        invisible="state != 'posted'"
                         string="Reconcile Journal Entry Again"
                     />
                     <button
                         name="generate_zip_deductible_vat"
                         type="object"
-                        attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False)]}"
+                        invisible="state != 'posted' or not reimbursement_type"
                         string="Generate Deductible VAT Justification File"
                     />
                     <field name="state" widget="statusbar" />
@@ -93,7 +93,7 @@
                 <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': ['|', '|', ('state', 'in', ('sent', 'posted')), ('send_gateway', '=', False), ('gateway_test_mode', '=', False)]}"
+                    invisible="state in ('sent', 'posted') or not send_gateway or not gateway_test_mode"
                 >
                                                 Gateway is in <strong
                 >test</strong> mode: this VAT return will not be sent to DGFiP.
@@ -110,28 +110,32 @@
                             <field
                                 name="start_date"
                                 options="{'datepicker': {'warn_future': true}}"
+                                readonly="state != 'manual'"
                             />
                             <field
                                 name="end_date"
                                 options="{'datepicker': {'warn_future': true}}"
                             />
-                            <field name="vat_periodicity" />
+                            <field
+                                name="vat_periodicity"
+                                readonly="state != 'manual'"
+                            />
                             <field
                                 name="reimbursement_type"
-                                attrs="{'invisible': [('reimbursement_type', '=', False)]}"
+                                invisible="not reimbursement_type"
                             />
                             <field
                                 name="reimbursement_first_creation_date"
-                                attrs="{'invisible': [('reimbursement_type', '!=', 'first')]}"
+                                invisible="reimbursement_type != 'first'"
                             />
                             <field
                                 name="reimbursement_end_date"
-                                attrs="{'invisible': [('reimbursement_type', '!=', 'end')]}"
+                                invisible="reimbursement_type != 'end'"
                             />
                             <field name="vat_credit_total" invisible="1" />
                             <field
                                 name="reimbursement_min_amount"
-                                arres="{'invisible': [('vat_credit_total', '&lt;=', 0)]}"
+                                invisible="vat_credit_total &lt;= 0"
                                 widget="monetary"
                                 options="{'currency_field': 'company_currency_id'}"
                             />
@@ -143,24 +147,25 @@
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
+                                readonly="state != 'manual'"
                             />
                             <field name="company_id" invisible="1" />
                             <field name="vat_on_payment_option" />
-                            <field name="bank_account_id" />
+                            <field
+                                name="bank_account_id"
+                                readonly="state in ('sent', 'posted')"
+                            />
                             <field name="move_id" />
                             <field
                                 name="deductible_vat_zip_other_threshold"
-                                attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False)]}"
+                                invisible="state != 'posted' or not reimbursement_type"
                             />
                             <field
                                 name="deductible_vat_zip_file_datas"
                                 filename="deductible_vat_zip_file_name"
-                                attrs="{'invisible': ['|', '|', ('state', '!=', 'posted'), ('reimbursement_type', '=', False), ('deductible_vat_zip_file_id', '=', False)]}"
+                                invisible="state != 'posted' or not reimbursement_type or not deductible_vat_zip_file_id"
                             />
-                            <field
-                                name="sent_datetime"
-                                attrs="{'invisible': [('sent_datetime', '=', False)]}"
-                            />
+                            <field name="sent_datetime" invisible="not sent_datetime" />
                             <field name="deductible_vat_zip_file_name" invisible="1" />
                             <field name="deductible_vat_zip_file_id" invisible="1" />
                             <field
@@ -169,11 +174,12 @@
                             />
                             <field
                                 name="send_gateway"
-                                attrs="{'readonly': [('state', 'in', ('sent', 'posted'))], 'invisible': [('gateway_available', '=', False)]}"
+                                readonly="state in ('sent', 'posted')"
+                                invisible="not gateway_available"
                             />
                             <field
                                 name="gateway_attachment_id"
-                                attrs="{'invisible': [('gateway_attachment_id', '=', False)]}"
+                                invisible="not gateway_attachment_id"
                             />
                             <field name="gateway_available" invisible="1" />
                             <field name="gateway_test_mode" invisible="1" />
@@ -181,47 +187,55 @@
                     </group>
                     <notebook>
                         <page name="lines" string="Lines">
-                            <field name="line_ids" nolabel="1" colspan="2" />
+                            <field
+                                name="line_ids"
+                                nolabel="1"
+                                colspan="2"
+                                readonly="state != 'manual'"
+                            />
                         </page>
                         <page name="comment" string="Comment for DGFIP">
-                            <field name="comment_dgfip" nolabel="1" colspan="2" />
+                            <field
+                                name="comment_dgfip"
+                                nolabel="1"
+                                colspan="2"
+                                readonly="state in ('sent', 'posted')"
+                            />
                         </page>
                         <page
                             name="reimbursement_comment"
                             string="Reimbursement Comment for DGFIP"
-                            attrs="{'invisible': [('reimbursement_type', '=', False)]}"
+                            invisible="not reimbursement_type"
                         >
                             <field
                                 name="reimbursement_comment_dgfip"
                                 nolabel="1"
                                 colspan="2"
+                                readonly="state in ('sent', 'posted')"
                             />
                         </page>
                         <page
                             name="autoliq_lines"
                             string="Autoliquidation Lines"
-                            attrs="{'invisible': [('autoliq_line_ids', '=', [])]}"
+                            invisible="not autoliq_line_ids"
                         >
                             <field name="autoliq_line_ids" colspan="2" nolabel="1" />
                         </page>
                         <page
                             name="unpaid_vat_on_payment_manual_lines"
                             string="Manual Unpaid VAT on Payment Lines"
-                            attrs="{'invisible': [('state', '!=', 'manual'), ('unpaid_vat_on_payment_manual_line_ids', '=', [])]}"
+                            invisible="state != 'manual' and not unpaid_vat_on_payment_manual_line_ids"
                         >
                             <field
                                 name="unpaid_vat_on_payment_manual_line_ids"
                                 colspan="2"
                                 nolabel="1"
+                                readonly="state != 'manual'"
                             />
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
@@ -229,7 +243,7 @@
     <record id="l10n_fr_account_vat_return_tree" model="ir.ui.view">
         <field name="model">l10n.fr.account.vat.return</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" decoration-bf="1" />
                 <field name="start_date" optional="hide" />
                 <field name="end_date" optional="hide" />
@@ -245,7 +259,7 @@
                     decoration-info="state == 'draft'"
                     decoration-warning="state == 'sent'"
                 />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -289,13 +303,13 @@
     <record id="l10n_fr_account_vat_return_action" model="ir.actions.act_window">
         <field name="name">VAT Return</field>
         <field name="res_model">l10n.fr.account.vat.return</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
         id="l10n_fr_account_vat_return_menu"
         action="l10n_fr_account_vat_return_action"
-        parent="l10n_fr.account_reports_fr_statements_menu"
+        parent="l10n_fr_account.account_reports_fr_statements_menu"
         sequence="5"
     />
 
@@ -306,7 +320,7 @@
                 <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('box_negative', '=', False)]}"
+                    invisible="not box_negative"
                 >The logs lines below have a negative total, so they were moved from their original box(es) to this box and the sign of the total has been inverted.</div>
                 <group name="main">
                     <field name="box_id" domain="[('manual', '=', True)]" />
@@ -318,31 +332,29 @@
 
                     <field
                         name="value"
-                        attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                        invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
                     />
                     <field
                         name="value_float"
-                        attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                        invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
                     />
-                    <field
-                        name="value_bool"
-                        attrs="{'invisible': [('box_edi_type', '!=', 'CCI_TBX')]}"
-                    />
+                    <field name="value_bool" invisible="box_edi_type != 'CCI_TBX'" />
                     <field
                         name="value_char"
-                        attrs="{'invisible': [('box_edi_type', 'not in', ('FTX', 'NAD'))]}"
+                        invisible="box_edi_type not in ('FTX', 'NAD')"
                     />
                     <field
                         name="value_manual_int"
-                        attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                        invisible="not box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
                     />
                     <field
                         name="box_accounting_method"
-                        attrs="{'invisible': [('box_accounting_method', '=', False)]}"
+                        invisible="not box_accounting_method"
                     />
                     <field
                         name="manual_account_id"
-                        attrs="{'invisible': ['|', ('box_manual', '=', False), ('box_accounting_method', '=', False)], 'required': [('box_manual', '=', True), ('box_accounting_method', '!=', False)]}"
+                        invisible="not box_manual or not box_accounting_method"
+                        required="box_manual and box_accounting_method"
                     />
                     <field
                         name="manual_analytic_distribution"
@@ -354,7 +366,7 @@
                 <group
                     name="logs"
                     string="Computation and Accounting Details"
-                    attrs="{'invisible': [('log_ids', '=', [])]}"
+                    invisible="not log_ids"
                 >
                     <field nolabel="1" name="log_ids" colspan="2" />
                 </group>
@@ -364,7 +376,7 @@
     <record id="l10n_fr_account_vat_return_line_tree" model="ir.ui.view">
         <field name="model">l10n.fr.account.vat.return.line</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-info="box_display_type == 'section'"
                 decoration-success="box_display_type == 'sub_section'"
                 decoration-danger="box_negative == True"
@@ -373,37 +385,34 @@
                 <field name="box_form_code" />
                 <field name="box_code" />
                 <field name="box_name" />
-                <field name="box_display_type" invisible="1" />
-                <field name="box_negative" invisible="1" />
-                <field name="box_manual" invisible="1" />
-                <field name="box_edi_type" invisible="1" />
+                <field name="box_display_type" column_invisible="1" />
+                <field name="box_negative" column_invisible="1" />
+                <field name="box_manual" column_invisible="1" />
+                <field name="box_edi_type" column_invisible="1" />
 
-                <field
-                    name="value"
-                    attrs="{'invisible': [('box_display_type', '!=', False)]}"
-                />
+                <field name="value" invisible="box_display_type" />
                 <field
                     name="value_float"
                     optional="hide"
-                    attrs="{'invisible': ['|', ('box_manual', '=', True), ('box_edi_type', 'not in', ('MOA', 'QTY', 'PCD'))]}"
+                    invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
                 />
                 <field
                     name="value_bool"
                     optional="hide"
-                    attrs="{'invisible': [('box_edi_type', '!=', 'CCI_TBX')]}"
+                    invisible="box_edi_type != 'CCI_TBX'"
                 />
                 <field
                     name="value_char"
                     optional="show"
-                    attrs="{'invisible': [('box_edi_type', 'not in', ('FTX', 'NAD'))]}"
+                    invisible="box_edi_type not in ('FTX', 'NAD')"
                 />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="l10n_fr_account_vat_return_line_log_tree" model="ir.ui.view">
         <field name="model">l10n.fr.account.vat.return.line.log</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-info="compute_type == 'period_balance'"
                 decoration-success="compute_type in ('balance', 'balance_ratio', 'base_from_balance', 'base_from_balance_ratio')"
                 decoration-warning="compute_type == 'subtraction'"
@@ -411,7 +420,7 @@
             >
                 <field
                     name="parent_id"
-                    invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
+                    column_invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
                 />
                 <field name="compute_type" />
                 <field name="account_id" />
@@ -420,12 +429,12 @@
                     groups="analytic.group_analytic_accounting"
                     optional="hide"
                     widget="analytic_distribution"
-                    attrs="{'column_invisible': [('parent.box_accounting_method', '=', False)]}"
+                    column_invisible="not parent.box_accounting_method"
                     options="{'account_field': 'account_id', 'business_domain': 'general'}"
                 />
                 <field name="amount" sum="1" />
                 <field name="note" optional="show" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -447,10 +456,7 @@
                         options="{'account_field': 'account_id', 'business_domain': 'general'}"
                     />
                     <field name="amount" />
-                    <field
-                        name="origin_move_id"
-                        attrs="{'invisible': [('origin_move_id', '=', False)]}"
-                    />
+                    <field name="origin_move_id" invisible="not origin_move_id" />
                 </group>
                 <group string="Notes">
                     <field name="note" nolabel="1" colspan="2" />
@@ -502,7 +508,7 @@
     <record id="l10n_fr_account_vat_return_autoliq_line_tree" model="ir.ui.view">
         <field name="model">l10n.fr.account.vat.return.autoliq.line</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field
                     name="parent_id"
                     invisible="not context.get('l10n_fr_account_vat_return_autoliq_line_main_view')"
@@ -538,7 +544,7 @@
                     string="Product Ratio (%)"
                     decoration-bf="1"
                 />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -574,7 +580,7 @@
             name="model"
         >l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line</field>
         <field name="arch" type="xml">
-            <tree decoration-danger="amount &lt; 0" editable="bottom">
+            <list decoration-danger="amount &lt; 0" editable="bottom">
                 <field
                     name="parent_id"
                     invisible="not context.get('l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_main_view')"
@@ -584,7 +590,7 @@
                 <field name="note" />
                 <field name="company_currency_id" invisible="1" />
                 <field name="company_id" invisible="1" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>

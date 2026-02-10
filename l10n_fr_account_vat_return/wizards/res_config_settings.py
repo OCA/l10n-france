@@ -24,16 +24,19 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         domain="[('company_id', '=', company_id), ('type', '=', 'general')]",
     )
+    # The 2 fields below are from the official module l10n_fr_account
+    # but this module only defines the fields on res.company, it doesn't
+    # add them on the Accounting config page
     l10n_fr_rounding_difference_loss_account_id = fields.Many2one(
         related="company_id.l10n_fr_rounding_difference_loss_account_id",
         readonly=False,
-        domain="[('company_id', '=', company_id), "
+        domain="[('company_ids', 'in', company_id), "
         "('deprecated', '=', False), ('account_type', '=', 'expense')]",
     )
     l10n_fr_rounding_difference_profit_account_id = fields.Many2one(
         related="company_id.l10n_fr_rounding_difference_profit_account_id",
         readonly=False,
-        domain="[('company_id', '=', company_id), "
+        domain="[('company_ids', 'in', company_id), "
         "('deprecated', '=', False), ('account_type', '=', 'income')]",
     )
     fr_vat_expense_analytic_distribution = fields.Json(

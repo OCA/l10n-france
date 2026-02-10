@@ -80,7 +80,8 @@ class L10nFrAccountVatBox(models.Model):
     account_id = fields.Many2one(
         "account.account",
         company_dependent=True,
-        domain="[('deprecated', '=', False), ('company_id', '=', current_company_id)]",
+        domain="[('deprecated', '=', False), "
+        "('company_ids', 'in', current_company_id)]",
         help="If not set, Odoo will use the first account that starts with the "
         "Generic Account Code. If set, Odoo will ignore the Generic Account Code "
         "and use this account.",
@@ -182,7 +183,8 @@ class L10nFrAccountVatBox(models.Model):
                 ):
                     raise ValidationError(
                         _(
-                            "The section or sub-section '%s' is not properly configured.",
+                            "The section or sub-section '%s' is not "
+                            "properly configured.",
                             box.display_name,
                         )
                     )
@@ -219,7 +221,8 @@ class L10nFrAccountVatBox(models.Model):
                     if not box.due_vat_base_box_id:
                         raise ValidationError(
                             _(
-                                "Missing Due VAT Base on box '%s' which is a Due VAT box.",
+                                "Missing Due VAT Base on box '%s' "
+                                "which is a Due VAT box.",
                                 box.display_name,
                             )
                         )
@@ -279,7 +282,8 @@ class L10nFrAccountVatBox(models.Model):
                     if not box.push_sequence:
                         raise ValidationError(
                             _(
-                                "Box '%s' has a push box but is missing a push sequence.",
+                                "Box '%s' has a push box but is missing "
+                                "a push sequence.",
                                 box.display_name,
                             )
                         )
@@ -322,8 +326,7 @@ class L10nFrAccountVatBox(models.Model):
                         )
 
     @api.depends("code", "name", "display_type")
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         form2label = dict(
             self.fields_get("form_code", "selection")["form_code"]["selection"]
         )
@@ -339,5 +342,4 @@ class L10nFrAccountVatBox(models.Model):
                     name += f"{box.code}. {box.name}"
                 else:
                     name += box.name
-            res.append((box.id, name))
-        return res
+            box.display_name = name

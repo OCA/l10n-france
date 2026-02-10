@@ -26,12 +26,14 @@
                     <field name="reimbursement_type" />
                     <field
                         name="first_creation_date"
-                        attrs="{'invisible': [('reimbursement_type', '!=', 'first')], 'required': [('reimbursement_type', '=', 'first')]}"
+                        invisible="reimbursement_type != 'first'"
+                        required="reimbursement_type == 'first'"
                         options="{'datepicker': {'warn_future': true}}"
                     />
                     <field
                         name="end_date"
-                        attrs="{'invisible': [('reimbursement_type', '!=', 'end')], 'required': [('reimbursement_type', '=', 'end')]}"
+                        invisible="reimbursement_type != 'end'"
+                        required="reimbursement_type == 'end'"
                         options="{'datepicker': {'warn_future': true}}"
                     />
                     <field name="reimbursement_comment_dgfip" />

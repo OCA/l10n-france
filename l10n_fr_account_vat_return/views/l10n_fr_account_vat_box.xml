@@ -13,7 +13,7 @@
                     name="web_ribbon"
                     title="Archived"
                     bg_color="bg-danger"
-                    attrs="{'invisible': [('active', '=', True)]}"
+                    invisible="active"
                 />
                 <group name="main">
                     <group name="params">
@@ -22,95 +22,46 @@
                         <field name="form_code" />
                         <field
                             name="code"
-                            attrs="{'invisible': [('display_type', '!=', False)], 'required': [('display_type', '=', False)]}"
+                            invisible="display_type"
+                            required="not display_type"
                         />
                         <field name="name" />
                         <field name="full_label" groups="base.group_no_one" />
-                        <field
-                            name="manual"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        />
-                        <field
-                            name="accounting_method"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        />
-                        <field
-                            name="account_code"
-                            attrs="{'invisible': [('accounting_method', '=', False)]}"
-                        />
-                        <field
-                            name="account_id"
-                            attrs="{'invisible': [('accounting_method', '=', False)]}"
-                        />
+                        <field name="manual" invisible="display_type" />
+                        <field name="accounting_method" invisible="display_type" />
+                        <field name="account_code" invisible="not accounting_method" />
+                        <field name="account_id" invisible="not accounting_method" />
                     </group>
                     <group name="technical" string="Technical">
                         <field name="meaning_id" />
-                        <field
-                            name="negative"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        />
+                        <field name="negative" invisible="display_type" />
                         <field name="sequence" />
-                        <field
-                            name="due_vat_rate"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        />
-                        <field
-                            name="due_vat_base_box_id"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        />
-                        <field
-                            name="push_sequence"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        />
-                        <field
-                            name="push_box_id"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        />
-                        <label
-                            for="push_rate"
-                            attrs="{'invisible': [('push_box_id', '=', False)]}"
-                        />
-                        <div
-                            name="push_rate"
-                            attrs="{'invisible': [('push_box_id', '=', False)]}"
-                        >
+                        <field name="due_vat_rate" invisible="display_type" />
+                        <field name="due_vat_base_box_id" invisible="display_type" />
+                        <field name="push_sequence" invisible="display_type" />
+                        <field name="push_box_id" invisible="display_type" />
+                        <label for="push_rate" invisible="not push_box_id" />
+                        <div name="push_rate" invisible="not push_box_id">
                                                     <field
                             name="push_rate"
                             class="oe_inline"
                         /> %
                                             </div>
-                        <field
-                            name="push_box_2_id"
-                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                        />
-                        <label
-                            for="push_rate_2"
-                            attrs="{'invisible': [('push_box_id', '=', False)]}"
-                        />
-                        <div
-                            name="push_rate_2"
-                            attrs="{'invisible': [('push_box_id', '=', False)]}"
-                        >
+                        <field name="push_box_2_id" invisible="display_type" />
+                        <label for="push_rate_2" invisible="not push_box_2_id" />
+                        <div name="push_rate_2" invisible="not push_box_2_id">
                                                     <field
                             name="push_rate_2"
                             class="oe_inline"
                         /> %
                                             </div>
                     </group>
-                    <group
-                        name="edi"
-                        string="EDI"
-                        attrs="{'invisible': [('display_type', '!=', False)]}"
-                    >
+                    <group name="edi" string="EDI" invisible="display_type">
                         <field name="edi_code" />
                         <field name="edi_type" />
                         <field name="nref_code" />
                     </group>
-                    <group
-                        name="print"
-                        string="Report"
-                        attrs="{'invisible': [('display_type', '!=', False)]}"
-                    >
+                    <group name="print" string="Report" invisible="display_type">
                         <field name="print_page" />
                         <field name="print_x" />
                         <field name="print_y" />
@@ -123,7 +74,7 @@
     <record id="l10n_fr_account_vat_box_tree" model="ir.ui.view">
         <field name="model">l10n.fr.account.vat.box</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-info="display_type == 'section'"
                 decoration-success="display_type == 'sub_section'"
             >
@@ -140,12 +91,12 @@
                 <field name="accounting_method" optional="hide" />
                 <field
                     name="account_code"
-                    attrs="{'invisible': [('accounting_method', '=', False)]}"
+                    invisible="not accounting_method"
                     optional="hide"
                 />
                 <field
                     name="account_id"
-                    attrs="{'invisible': [('accounting_method', '=', False)]}"
+                    invisible="not accounting_method"
                     optional="hide"
                 />
                 <field name="edi_code" optional="show" />
@@ -158,7 +109,7 @@
                 <field name="push_box_id" optional="hide" />
                 <field name="push_rate" optional="hide" />
                 <field name="negative" optional="hide" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -215,7 +166,7 @@
     <record id="l10n_fr_account_vat_box_action" model="ir.actions.act_window">
         <field name="name">France VAT Boxes</field>
         <field name="res_model">l10n.fr.account.vat.box</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

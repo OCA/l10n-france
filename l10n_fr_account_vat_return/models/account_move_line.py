@@ -47,13 +47,15 @@ class AccountMoveLine(models.Model):
         res = "service"
         if self.product_id:
             if (
-                self.product_id.type in ("product", "consu")
+                self.product_id.intrastat_type == "product"
                 or self.product_id.is_accessory_cost
             ):
                 res = "product"
         else:
             product_account_prefixes = self._fr_product_account_prefixes()
-            if self.account_id.code.startswith(product_account_prefixes):
+            if self.account_id.with_company(self.company_id.id).code.startswith(
+                product_account_prefixes
+            ):
                 res = "product"
         return res
 
