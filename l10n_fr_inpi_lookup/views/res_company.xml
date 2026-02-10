@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_company_form_inherit_inpi" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.inpi</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="INPI" name="inpi_config">
+                    <group>
+                        <group string="Identifiants API">
+                            <field name="inpi_user" string="Utilisateur INPI" />
+                            <field
+                                name="inpi_pass"
+                                string="Mot de passe INPI"
+                                password="True"
+                            />
+                            <field name="inpi_timeout" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

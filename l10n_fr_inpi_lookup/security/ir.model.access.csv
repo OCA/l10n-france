@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fr_inpi_lookup,Full access on fr.inpi.lookup to partner manager,model_fr_inpi_lookup,base.group_partner_manager,1,1,1,1
+access_fr_inpi_lookup_line,Full access on fr.inpi.lookup.line to partner manager,model_fr_inpi_lookup_line,base.group_partner_manager,1,1,1,1
+access_api_inpi,Full access on api.inpi to partner manager,model_api_inpi,base.group_partner_manager,1,1,1,1
