@@ -234,8 +234,8 @@ class ResCompany(models.Model):
         now = datetime.utcnow()
         logger.debug("_get_token expiry_date_gmt=%s now=%s", expiry_date_gmt, now)
         if now > expiry_date_gmt:
-            # force clear cache
-            self._get_new_token.clear_cache(self.env[self._name])
+            # force clear ormcache for _get_new_token
+            self.env.registry.clear_cache()
             logger.info("PISTE Token cleared from cache.")
             token, expiry_date_gmt = self._get_new_token(
                 api_params["oauth_id"], api_params["oauth_secret"], api_params["qualif"]
