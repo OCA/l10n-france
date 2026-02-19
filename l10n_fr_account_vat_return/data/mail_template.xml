@@ -46,7 +46,7 @@
                         <t t-if="ctx.get('transmit_ok')">
                             <p>
                                 <strong
-                                >The VAT return has been successfully sent via the gateway.</strong>
+                                >The VAT return has been successfully sent via the gateway. You must now post it.</strong>
                             </p>
                         </t>
                         <t t-else="">

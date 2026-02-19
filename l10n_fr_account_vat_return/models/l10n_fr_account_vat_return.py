@@ -2543,7 +2543,7 @@ class L10nFrAccountVatReturn(models.Model):
             sorted_account_codes = sorted(success_account_codes, key=lambda x: x[0])
             self.message_post(
                 body=_(
-                    "Successful reconciliation in accounts %s.",
+                    "Successful reconciliation in account(s) %s.",
                     ", ".join(sorted_account_codes),
                 )
             )
