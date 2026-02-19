@@ -182,7 +182,8 @@ class L10nFrAccountVatBox(models.Model):
                 ):
                     raise ValidationError(
                         _(
-                            "The section or sub-section '%s' is not properly configured.",
+                            "The section or sub-section '%s' is not "
+                            "properly configured.",
                             box.display_name,
                         )
                     )
@@ -219,7 +220,8 @@ class L10nFrAccountVatBox(models.Model):
                     if not box.due_vat_base_box_id:
                         raise ValidationError(
                             _(
-                                "Missing Due VAT Base on box '%s' which is a Due VAT box.",
+                                "Missing Due VAT Base on box '%s' "
+                                "which is a Due VAT box.",
                                 box.display_name,
                             )
                         )
@@ -279,7 +281,8 @@ class L10nFrAccountVatBox(models.Model):
                     if not box.push_sequence:
                         raise ValidationError(
                             _(
-                                "Box '%s' has a push box but is missing a push sequence.",
+                                "Box '%s' has a push box but is missing "
+                                "a push sequence.",
                                 box.display_name,
                             )
                         )

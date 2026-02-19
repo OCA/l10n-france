@@ -197,9 +197,9 @@ class L10nFrAccountVatReturn(models.Model):
         currency_field="company_currency_id",
         default=500,
         tracking=True,
-        help="When generating the deductible VAT justification ZIP file, do not provide "
-        "a copy of the non-asset invoice whose total untaxed amount in company "
-        "currency is under that threshold.",
+        help="When generating the deductible VAT justification ZIP file, do not "
+        "provide a copy of the non-asset invoice whose total untaxed amount in "
+        "company currency is under that threshold.",
     )
     deductible_vat_zip_file_id = fields.Many2one(
         "ir.attachment", string="Deductible VAT ZIP Attachment"
@@ -450,8 +450,9 @@ class L10nFrAccountVatReturn(models.Model):
         if self.vat_periodicity not in ("1", "3"):
             raise UserError(
                 _(
-                    "The transmission of the VAT return %s via a gateway is not possible. "
-                    "It is only possible for monthly and quarterly periodicity.",
+                    "The transmission of the VAT return %s via a gateway is not "
+                    "possible. It is only possible for monthly and quarterly "
+                    "periodicity.",
                     self.display_name,
                 )
             )
@@ -708,9 +709,11 @@ class L10nFrAccountVatReturn(models.Model):
                     _(
                         "The autoliquidation tax '%(tax)s' is set on the tax mapping "
                         "of fiscal position '%(fp)s' which is configured with type "
-                        "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be configured "
-                        "on fiscal positions with type '%(fp_fr_vat_type_intracom_b2b)s', "
-                        "'%(fp_fr_vat_type_extracom)s' or '%(fp_fr_vat_type_france_exo)s'.",
+                        "'%(fp_fr_vat_type)s'. Autoliquidation taxes should only be "
+                        "configured on fiscal positions with type "
+                        "'%(fp_fr_vat_type_intracom_b2b)s', "
+                        "'%(fp_fr_vat_type_extracom)s' or "
+                        "'%(fp_fr_vat_type_france_exo)s'.",
                         tax=tax.with_context(append_type_to_tax_name=True).display_name,
                         fp=tax_map.position_id.display_name,
                         fp_fr_vat_type=speedy["fp_frvattype2label"][fr_vat_type],
@@ -1463,9 +1466,15 @@ class L10nFrAccountVatReturn(models.Model):
             "regular_extracom_service_autoliq": defaultdict(list),
             "regular_france_autoliq": defaultdict(list),
             "regular_france": defaultdict(list),
-            # 'regular_france': {2000: {'vat': [logs], 1000: [logs], 550: [], 'base': [logs]}
+            # 'regular_france': {
+            #     2000: [logs],
+            #     1000: [logs],
+            #     550: [logs],
+            #     'base': [logs],
+            # }
             # I put regular_france at the end, so that intracom/extracom autoliq
-            # logs are not hidden at the end of the long list of unpaid_vat_on_payment logs
+            # logs are not hidden at the end of the long list of
+            # unpaid_vat_on_payment logs
         }
 
         # Compute France and Monaco
@@ -1623,9 +1632,10 @@ class L10nFrAccountVatReturn(models.Model):
                     }
                     type_rate2logs["regular_france_autoliq"][rate_int].append(vat_log)
                     continue
-                # If you have a small residual amount in intracom/extracom autoliq accounts
-                # and you set it to 0 with a write-off at a date after the VAT period, you
-                # have 0 unreconciled move lines, but total_vat_amount != 0
+                # If you have a small residual amount in intracom/extracom autoliq
+                # accounts and you set it to 0 with a write-off at a date after the
+                # VAT period, you have 0 unreconciled move lines, but
+                # total_vat_amount != 0
                 # In such a corner case, there is not rate_int key in
                 # autoliq_rate2product_ratio[autoliq_type]
                 # => we consider product_ratio = 0% and service_ratio = 100%
@@ -2134,8 +2144,8 @@ class L10nFrAccountVatReturn(models.Model):
 
     def _generate_deductible_vat_prepare_struct(self, speedy):
         vat_account2type = {}
-        # order is designed to have the autoliq log lines first, so that they are not after
-        # the long list of VAT on payment log lines
+        # order is designed to have the autoliq log lines first, so that they are
+        # not after the long list of VAT on payment log lines
         deduc_vat_taxes = speedy["at_obj"].search(
             speedy["purchase_vat_tax_domain"],
             order="fr_vat_autoliquidation, sequence",
@@ -2181,10 +2191,10 @@ class L10nFrAccountVatReturn(models.Model):
             vat_account2type[vat_account] = vtype
 
         logger.info(
-            "Deduc VAT accounts: %s"
-            % ", ".join(
+            "Deduc VAT accounts: %s",
+            ", ".join(
                 [f"{acc.code} ({vtype})" for (acc, vtype) in vat_account2type.items()]
-            )
+            ),
         )
         return vat_account2type
 
@@ -2216,7 +2226,8 @@ class L10nFrAccountVatReturn(models.Model):
                             body=_(
                                 "No account mapping on fiscal position "
                                 "<a href=# data-oe-model=account.fiscal.position "
-                                "data-oe-id=%(fiscal_position_id)d>%(fiscal_position)s</a>. "
+                                "data-oe-id=%(fiscal_position_id)d "
+                                ">%(fiscal_position)s</a>. "
                                 "If this fiscal position is not "
                                 "only used for purchase but also for sale, you must "
                                 "configure an account mapping on revenue accounts.",
@@ -2420,20 +2431,20 @@ class L10nFrAccountVatReturn(models.Model):
                 lvals["debit"] = -amount
                 lvals_list.append(lvals)
             logger.debug("VAT move account %s: %s", account.code, lvals)
-        # On 1 due VAT or deductible VAT cell, the rounding effect can cause a gap of 0.50 €
-        # between due/deduc VAT account and VAT to pay (or VAT credit)
+        # On 1 due VAT or deductible VAT cell, the rounding effect can cause a gap
+        # of 0.50 € between due/deduc VAT account and VAT to pay (or VAT credit)
         # We have 2 deduc VAT cells (immo and 5 regular) and 10 due VAT cells
         # (5 VAT rates x 2 for regular and import)
         if speedy["currency"].compare_amounts(abs(total), 0.5 * 12) > 0:
             raise UserError(
                 _(
-                    "Error in the generation of the journal entry: the adjustment amount "
-                    "is %s. The ajustment is only needed because, in the VAT "
+                    "Error in the generation of the journal entry: the adjustment "
+                    "amount is %s. The ajustment is only needed because, in the VAT "
                     "journal entry, the amount of the VAT to pay (or VAT credit) is "
                     "rounded (because the amounts are rounded in the VAT return) "
                     "and the other amounts are not rounded."
-                    "As a consequence, the amount of the adjustment should be under 6 €. "
-                    "This error may be caused by a bad configuration of the "
+                    "As a consequence, the amount of the adjustment should be under "
+                    "6 €. This error may be caused by a bad configuration of the "
                     "accounting method of some VAT boxes.",
                     format_amount(self.env, total, speedy["currency"]),
                 )
@@ -2537,7 +2548,7 @@ class L10nFrAccountVatReturn(models.Model):
             sorted_account_codes = sorted(success_account_codes, key=lambda x: x[0])
             self.message_post(
                 body=_(
-                    "Successful reconciliation in accounts %s.",
+                    "Successful reconciliation in account(s) %s.",
                     ", ".join(sorted_account_codes),
                 )
             )
@@ -2820,8 +2831,8 @@ class L10nFrAccountVatReturn(models.Model):
                 raise UserError(
                     _(
                         "There are %(account_count)s accounts whose code start with "
-                        "%(account_prefix)s in company '%(company)s' : %(account_list)s. "
-                        "Odoo expects to have only one.",
+                        "%(account_prefix)s in company '%(company)s': "
+                        "%(account_list)s. Odoo expects to have only one.",
                         account_count=len(accounts),
                         account_prefix=box.account_code,
                         company=self.company_id.display_name,
@@ -3336,7 +3347,8 @@ class L10nFrAccountVatReturnUnpaidVatOnPaymentManualLine(models.Model):
         "account.account",
         string="VAT Account",
         required=True,
-        domain="[('id', 'in', parent.unpaid_vat_on_payment_manual_line_filter_account_ids)]",
+        domain="[('id', 'in', "
+        "parent.unpaid_vat_on_payment_manual_line_filter_account_ids)]",
     )
     amount = fields.Monetary(
         string="VAT Amount",

@@ -89,11 +89,11 @@
                         />
                                                 <label
                             for="push_rate_2"
-                            attrs="{'invisible': [('push_box_id', '=', False)]}"
+                            attrs="{'invisible': [('push_box_2_id', '=', False)]}"
                         />
                                                 <div
                             name="push_rate_2"
-                            attrs="{'invisible': [('push_box_id', '=', False)]}"
+                            attrs="{'invisible': [('push_box_2_id', '=', False)]}"
                         >
                                                     <field
                                 name="push_rate_2"

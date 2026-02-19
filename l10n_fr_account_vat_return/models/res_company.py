@@ -1347,6 +1347,7 @@ class ResCompany(models.Model):
         amount = 555.55
         move = self.env["account.move"].create(
             {
+                "company_id": self.id,
                 "date": start_date,
                 "journal_id": self.fr_vat_journal_id.id,
                 "line_ids": [
