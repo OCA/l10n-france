@@ -12,7 +12,8 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "depends": ["l10n_fr_account_oca", "intrastat_base"],
-    "external_dependencies": {"python": ["pypdf>=3.1.0", "xlsxwriter"]},
+    # there is a bug in pypdf 4.2.0 which trigger a crash in PDF generation
+    "external_dependencies": {"python": ["pypdf>=4.3.0", "xlsxwriter"]},
     "data": [
         "security/ir.model.access.csv",
         "security/ir_rule.xml",

@@ -854,7 +854,16 @@ class L10nFrAccountVatReturn(models.Model):
         self.ensure_one()
         assert self.state == "auto"
         if not self.ca3_attachment_id:  # for archive
-            self.generate_ca3_attachment()
+            try:
+                self.generate_ca3_attachment()
+            except Exception as err:
+                logger.warning("Error in generation of CA3 PDF: %s", err)
+                self.message_post(
+                    body=_(
+                        "Failed to generate CA3 PDF attachment. Technical error: %s",
+                        err,
+                    )
+                )
         self.write(
             {
                 "state": "sent",
