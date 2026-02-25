@@ -9,4 +9,15 @@
         <field name="binding_model_id" ref="base.model_res_partner" />
         <field name="binding_view_types">form</field>
     </record>
+
+    <record id="view_api_inpi_mapping_tree" model="ir.ui.view">
+        <field name="name">api.inpi.mapping.tree</field>
+        <field name="model">api.inpi.mapping</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="api_key" />
+                <field name="partner_field_id" options="{'no_create': True}" />
+            </list>
+        </field>
+    </record>
 </odoo>

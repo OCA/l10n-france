@@ -16,3 +16,7 @@ class ResCompany(models.Model):
     inpi_user = fields.Char("User")
     inpi_pass = fields.Char("Password")
     inpi_timeout = fields.Integer("API Timeout (s)", default=5)
+
+    inpi_mapping_ids = fields.One2many(
+        "api.inpi.mapping", "company_id", string="Mappings de champs API"
+    )

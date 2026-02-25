@@ -5,16 +5,14 @@
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-france",
     "author": "Le Filament, Odoo Community Association (OCA)",
-    "depends": [
-        "base_vat",
-    ],
+    "depends": [],
     "external_dependencies": {
         "python": ["requests", "python-stdnum", "jwt", "pydantic"]
     },
     "data": [
         "wizard/fr_inpi_lookup_view.xml",
         "views/res_company.xml",
-        "views/res_config_settings_views.xml",
+        "views/api_inpi_mapping.xml",
         "security/ir.model.access.csv",
     ],
     "installable": True,

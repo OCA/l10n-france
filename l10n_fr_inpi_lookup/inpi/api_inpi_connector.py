@@ -1,5 +1,6 @@
 # Copyright 2024 Le Filament (https://le-filament.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
+
 import logging
 from datetime import datetime
 from urllib.parse import urlencode
@@ -60,6 +61,31 @@ class ApiInpi(models.Model):
     # ------------------------------------------------------
     # Business methods
     # ------------------------------------------------------
+
+    def _compute_country(self, zipcode):
+        domtom2xmlid = {
+            "971": "gp",
+            "972": "mq",
+            "973": "gf",
+            "974": "re",
+            "975": "pm",  # Saint Pierre and Miquelon
+            "976": "yt",  # Mayotte
+            "977": "bl",  # Saint-Barthélemy
+            "978": "mf",  # Saint-Martin
+            "986": "wf",  # Wallis-et-Futuna
+            "987": "pf",  # Polynésie française
+            "988": "nc",  # Nouvelle calédonie
+        }
+        country_id = self.env.ref("base.fr").id
+        if (
+            isinstance(zipcode, str)
+            and len(zipcode) == 5
+            and zipcode[:3] in domtom2xmlid
+        ):
+            country_xmlid = f"base.{domtom2xmlid[zipcode[:3]]}"
+            country_id = self.env.ref(country_xmlid).id
+        return country_id
+
     def _call_api(self, url, call_type, **kwargs):
         logger.info(f"Calling {url}")
         try:
@@ -300,7 +326,7 @@ class ApiInpi(models.Model):
         else:
             adresse = {}
 
-        country_id = self.env["res.partner"]._compute_country(adresse.get("zip"))
+        country_id = self._compute_country(adresse.get("zip"))
         if (
             personne.identite.entreprise
             and personne.identite.entreprise.effectifSalarie is not None

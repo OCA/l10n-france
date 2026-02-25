@@ -2,7 +2,6 @@
 # Copyright 2021-2022 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
@@ -87,25 +86,17 @@ class FrInpiLookupLine(models.TransientModel):
     category = fields.Char()
     active = fields.Boolean()
 
-    def _prepare_partner_values(self):
-        self.ensure_one()
-        vat, vies_valid = self.env["res.partner"]._siren2vat_vies(
-            self.siren, raise_if_fail=True
-        )
-        vals = {
-            "name": self.name,
-            "street": self.street,
-            "zip": self.zip,
-            "city": self.city,
-            "country_id": self.country_id.id or False,
-            "siret": self.siret,
-            "vat": vat,
-            "vies_valid": vies_valid,
-        }
-        return vals
+    def _json(self):
+        _fields = [
+            name
+            for name, field in self._fields.items()
+            if name not in models.MAGIC_COLUMNS + ["display_name", "wizard_id"]
+        ]
+        data = self.read(_fields)
+        return data[0]
 
     def update_partner(self):
         self.ensure_one()
         partner = self.wizard_id.partner_id
-        partner.write(self._prepare_partner_values())
+        partner.update_from_api(self._json())
         partner.message_post(body=self.env._("Partner updated via the INPI API."))

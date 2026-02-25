@@ -1,93 +1,21 @@
 # Copyright 2018-2022 Le Filament (<http://www.le-filament.com>)
-# Copyright 2021-2022 Akretion France (http://www.akretion.com/)
-# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
 
-from odoo import api, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
 try:
-    from stdnum.eu.vat import check_vies
     from stdnum.fr.siren import is_valid as siren_is_valid
-    from stdnum.fr.siren import to_tva as siren_to_vat
     from stdnum.fr.siret import is_valid as siret_is_valid
 except ImportError:
     logger.debug("Cannot import stdnum")
 
-TIMEOUT = 5
-
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
-
-    @api.model
-    def _compute_country(self, zipcode):
-        domtom2xmlid = {
-            "971": "gp",
-            "972": "mq",
-            "973": "gf",
-            "974": "re",
-            "975": "pm",  # Saint Pierre and Miquelon
-            "976": "yt",  # Mayotte
-            "977": "bl",  # Saint-Barthélemy
-            "978": "mf",  # Saint-Martin
-            "986": "wf",  # Wallis-et-Futuna
-            "987": "pf",  # Polynésie française
-            "988": "nc",  # Nouvelle calédonie
-        }
-        country_id = self.env.ref("base.fr").id
-        if (
-            isinstance(zipcode, str)
-            and len(zipcode) == 5
-            and zipcode[:3] in domtom2xmlid
-        ):
-            country_xmlid = f"base.{domtom2xmlid[zipcode[:3]]}"
-            country_id = self.env.ref(country_xmlid).id
-        return country_id
-
-    @api.model
-    def _siren2vat_vies(self, siren, raise_if_fail=False):
-        """
-        Function checking VAT number generated from SIREN
-        Returns 2 values :
-          - char: VAT number (or None if not valid / not tested and not forced)
-          - bool: vies_valid (if validated by VIES server)
-        """
-        vat = f"FR{siren_to_vat(siren)}"
-        # Default return empty values
-        empty_res = False, False
-        # If we do not want to check VIES server
-        if not self.env.company.vat_check_vies:
-            # If we still want to use computed value without verification
-            if self.env.company.force_vat_siret_lookup:
-                return vat, False
-            else:
-                return empty_res
-
-        logger.info(f"VIES check of VAT {vat}")
-        vies_res = False
-        try:
-            vies_res = check_vies(vat, timeout=TIMEOUT)
-            logger.debug(f"VIES answer vies_res.valid={vies_res['valid']}")
-        except Exception as e:
-            logger.warning(f"VIES query failed: {e}")
-            if not self.env.company.vat_check_vies and raise_if_fail:
-                raise UserError(
-                    self.env._(f"Failed to query VIES.\nTechnical error: {e}.")
-                ) from e
-            # If exception is raised but we still want to force computed value
-            # We return vat number and vies_valid = False
-            elif self.env.company.force_vat_siret_lookup:
-                return vat, False
-            return empty_res
-        # If VIES validates vat we return the VAT value and vies_valid = True
-        # Otherwise we return False / False
-        if vies_res and vies_res["valid"]:
-            return vat, True
-        return empty_res
 
     @api.model
     def _inpi_get_from_siren(self, siren):
@@ -111,16 +39,7 @@ class ResPartner(models.Model):
         ):
             vals = self._inpi_get_from_siren(self.siren)
             if vals:
-                self.update(
-                    {
-                        "name": vals.get("name", ""),
-                        "street": vals.get("street", ""),
-                        "zip": vals.get("zip", ""),
-                        "city": vals.get("city", ""),
-                        "country_id": vals.get("country_id", ""),
-                        "siret": vals.get("siret", ""),
-                    }
-                )
+                self.self.update_from_api(vals)
 
     @api.onchange("siret")
     def siret_onchange(self):
@@ -133,43 +52,7 @@ class ResPartner(models.Model):
         ):
             vals = self._inpi_get_from_siren(self.siret[:9])
             if vals:
-                self.update(
-                    {
-                        "name": vals.get("name", ""),
-                        "street": vals.get("street", ""),
-                        "zip": vals.get("zip", ""),
-                        "city": vals.get("city", ""),
-                        "country_id": vals.get("country_id", ""),
-                        "siret": vals.get("siret", ""),
-                    }
-                )
-
-    @api.onchange("vat")
-    def vat_onchange(self):
-        if (
-            self.vat
-            and not self.name
-            and not self.siren
-            and not self.siret
-            and self.is_company
-            and not self.parent_id
-        ):
-            vat = self.vat.replace(" ", "").upper()
-            if vat and vat.startswith("FR") and len(vat) == 13:
-                siren = vat[4:]
-                if siren_is_valid(siren):
-                    vals = self._inpi_get_from_siren(self.siren)
-                    if vals:
-                        self.update(
-                            {
-                                "name": vals.get("name", ""),
-                                "street": vals.get("street", ""),
-                                "zip": vals.get("zip", ""),
-                                "city": vals.get("city", ""),
-                                "country_id": vals.get("country_id", ""),
-                                "siret": vals.get("siret", ""),
-                            }
-                        )
+                self.self.update_from_api(vals)
 
     @api.onchange("name")
     def siren_siret_vat_in_name_onchange(self):
@@ -199,13 +82,24 @@ class ResPartner(models.Model):
                 ):
                     vals = self._inpi_get_from_siren(name[4:])
                 if vals:
-                    self.update(
-                        {
-                            "name": vals.get("name", ""),
-                            "street": vals.get("street", ""),
-                            "zip": vals.get("zip", ""),
-                            "city": vals.get("city", ""),
-                            "country_id": vals.get("country_id", ""),
-                            "siret": vals.get("siret", ""),
-                        }
-                    )
+                    self.update_from_api(vals)
+
+    def get_mappings_data(self, api_data):
+        current_company = self.env.company
+        mappings = self.env["api.inpi.mapping"].search(
+            [("company_id", "=", current_company.id)]
+        )
+        if not mappings:
+            raise UserError(_("No mapping found for this company"))
+        vals = {}
+        for m in mappings:
+            value = api_data.get(m.api_key)
+            if value:
+                field_name = m.partner_field_id.name
+                vals[field_name] = value
+        return vals
+
+    def update_from_api(self, api_data):
+        vals = self.get_mappings_data(api_data)
+        if vals:
+            self.update(vals)

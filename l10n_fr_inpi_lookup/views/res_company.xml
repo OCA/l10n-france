@@ -16,6 +16,23 @@
                                 password="True"
                             />
                             <field name="inpi_timeout" />
+                            <div class="fw-bolder">
+                                Configuration du Mapping des Champs
+                            </div>
+
+                            <field name="inpi_mapping_ids" nolabel="1">
+                                <list editable="bottom" decoration-info="1">
+                                    <field
+                                        name="api_key"
+                                        string="Donnée issue de l'API"
+                                    />
+                                    <field
+                                        name="partner_field_id"
+                                        string="Champ Odoo Cible"
+                                        options="{'no_create': True, 'no_open': True}"
+                                    />
+                                </list>
+                            </field>
                         </group>
                     </group>
                 </page>

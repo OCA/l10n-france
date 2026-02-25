@@ -1,6 +1,6 @@
-===========
-INPI Lookup
-===========
+==========
+VAT Lookup
+==========
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,10 +17,10 @@ INPI Lookup
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--france-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_inpi_lookup
+    :target: https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_vat_lookup
     :alt: OCA/l10n-france
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-france-18-0/l10n-france-18-0-l10n_fr_inpi_lookup
+    :target: https://translation.odoo-community.org/projects/l10n-france-18-0/l10n-france-18-0-l10n_fr_vat_lookup
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
     :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-france&target_branch=18.0
@@ -28,49 +28,52 @@ INPI Lookup
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This modules updates partner fields via the INPI database
-<`https://registre-national-entreprises.inpi.fr/\\> <https://registre-national-entreprises.inpi.fr/\>>`__.
+This module depends on and enhances the l10n_fr_inpi_lookup module. It
+adds the compute of a theoretical VATnumber from the SIREN and then
+checks the validity of the VAT number (depending on configuration) on
+`VIES <https://ec.europa.eu/taxation_customs/vies/>`__ (if invalid, the
+VAT number is discarded).
 
-The module supports 2 scenarios:
-
-- update of an existing partner via the menu *Action > SIREN Lookup via
-  INPI*,
-- creation of a new partner: start by setting the SIREN field or SIRET
-  field and Odoo will set the other fields. For usability purposes, it
-  also work when you write the VAT number, SIREN or SIRET in the company
-  name field.
-
-In the 2 scenarios, it will update the configured fields:
+This module add vat and vies_valid to the l10n_fr_inpi_lookup fields
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Installation
+============
+
+It's recommended to install ``python-stdnum>=1.18`` for SIRET support.
+
 Configuration
 =============
 
-To use this module you need INPI credentials. You can create an account
-here: https://data.inpi.fr/register
+You can use this module without configuration.
 
-Once account created, you can configure your access in your company
-configuration page at INPI tabs. In ths tabs your also configure the
-mapping between INPI fields and partner fields you want to update.
+However 2 configuration parameter can be adjusted in *Invoicing* >
+Configuration > Settings :
+
+- **Verify VAT Numbers** (vat_check_vies field from base_vat module):
+  this parameter will define whether you want check computed VAT number
+  against EU VIES validation service
+- **Force VAT Numbers during SIRET Lookups if VIES check times out or is
+  disabled** (force_vat_siret_lookup): this parameter allows to force
+  use of computed VAT number even if not checked agains EU VIES
+  validation service or if an Exception is raised by EU VIES validation
+  (for instance because of Timeout, which are quite frequent while
+  checking for FR VAT)
+
+The 2 above parameters are company dependent.
+
+*Note:* if EU VIES validation service reports that VAT number is
+incorrect, the VAT field is emptied (even if Force... parameter is
+ticked)
 
 Usage
 =====
 
-To update an existing partner, go to the partner form view and click on
-*Action > SIREN Lookup via INPI*.
-
-By default, the search field is filled with Company name. To get more
-accurate results, you may want to add the City name where the company is
-registered. Then click on *Lookup*.
-
-A list of companies is displayed. You may want to click on one in order
-to see corresponding information or directly select company from list
-view. Once a company is selected, the partner information is updated and
-a message is logged in the chatter.
+Nothing to do VAT will be compute when inpi lookup for siret data
 
 Bug Tracker
 ===========
@@ -78,7 +81,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-france/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_inpi_lookup%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-france/issues/new?body=module:%20l10n_fr_vat_lookup%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -116,6 +119,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_inpi_lookup>`_ project on GitHub.
+This module is part of the `OCA/l10n-france <https://github.com/OCA/l10n-france/tree/18.0/l10n_fr_vat_lookup>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

@@ -135,17 +135,6 @@ msgstr "Nom affiché"
 #: code:addons/l10n_fr_inpi_lookup/models/res_partner.py:0
 #, python-format
 msgid ""
-"Failed to query VIES.\n"
-"Technical error: %s."
-msgstr ""
-"Erreur pendant l'interrogation du VIES.\n"
-"Erreur technique : %s."
-
-#. module: l10n_fr_inpi_lookup
-#. odoo-python
-#: code:addons/l10n_fr_inpi_lookup/models/res_partner.py:0
-#, python-format
-msgid ""
 "Failure in the request on INPI API to create or update partner "
 "from SIREN or SIRET. Technical error: %s."
 msgstr ""
