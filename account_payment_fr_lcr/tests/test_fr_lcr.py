@@ -108,6 +108,7 @@ class TestFrLcr(AccountTestInvoicingCommon):
                     cls.env.ref("account_payment_base_oca.bank_la_banque_postale").id
                 ),
                 "acc_number": "FR10 1212 2323 3434 4545 4747 676",
+                "allow_out_payment": True,
             }
         )
         cls.bank_journal = cls.env["account.journal"].create(
