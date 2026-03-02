@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="api_inpi_view_form" model="ir.ui.view">
+        <field name="name">api.inpi.view.form</field>
+        <field name="model">api.inpi</field>
+        <field name="arch" type="xml">
+            <form string="Configuration API INPI">
+                <field name="token_validity_date" />
+            </form>
+        </field>
+    </record>
+    <record id="api_inpi_action" model="ir.actions.act_window">
+        <field name="name">Configurations INPI</field>
+        <field name="res_model">api.inpi</field>
+        <field name="view_mode">form</field>
+    </record>
+</odoo>

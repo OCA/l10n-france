@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_api_inpi_mapping_tree" model="ir.ui.view">
+        <field name="name">api.inpi.mapping.tree</field>
+        <field name="model">api.inpi.mapping</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="api_key" />
+                <field name="partner_field_id" />
+            </list>
+        </field>
+    </record>
+</odoo>
