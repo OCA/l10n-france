@@ -138,7 +138,7 @@
                             />
                                                 <field
                                 name="reimbursement_min_amount"
-                                arres="{'invisible': [('vat_credit_total', '&lt;=', 0)]}"
+                                attrs="{'invisible': [('vat_credit_total', '&lt;=', 0)]}"
                                 widget="monetary"
                                 options="{'currency_field': 'company_currency_id'}"
                             />
