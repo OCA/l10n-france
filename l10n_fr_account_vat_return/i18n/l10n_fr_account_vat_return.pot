@@ -144,7 +144,7 @@ msgid ""
 "    <t t-if=\"object.fr_vat_remind_auto_generate_and_transmit\">\n"
 "        <p>The option <em>Auto-generate and Transmit on Deadline Day</em> is enabled on this company.</p>\n"
 "        <t t-if=\"ctx.get('transmit_ok')\">\n"
-"            <p><strong>The VAT return has been successfully sent via the gateway.</strong></p>\n"
+"            <p><strong>The VAT return has been successfully sent via the gateway. You must now post it.</strong></p>\n"
 "        </t>\n"
 "        <t t-else=\"\">\n"
 "            <p><strong>Odoo failed to automatically generate (if not already generated) and transmit the VAT return via the gateway.</strong> You must send it today to avoid late fees!</p>\n"
@@ -1547,10 +1547,10 @@ msgstr ""
 #, python-format
 msgid ""
 "No account mapping on fiscal position <a href=# data-oe-"
-"model=account.fiscal.position data-oe-"
-"id=%(fiscal_position_id)d>%(fiscal_position)s</a>. If this fiscal position "
-"is not only used for purchase but also for sale, you must configure an "
-"account mapping on revenue accounts."
+"model=account.fiscal.position data-oe-id=%(fiscal_position_id)d "
+">%(fiscal_position)s</a>. If this fiscal position is not only used for "
+"purchase but also for sale, you must configure an account mapping on revenue"
+" accounts."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1932,7 +1932,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
-msgid "Successful reconciliation in accounts %s."
+msgid "Successful reconciliation in account(s) %s."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -2237,8 +2237,8 @@ msgstr ""
 #, python-format
 msgid ""
 "There are %(account_count)s accounts whose code start with "
-"%(account_prefix)s in company '%(company)s' : %(account_list)s. Odoo expects"
-" to have only one."
+"%(account_prefix)s in company '%(company)s': %(account_list)s. Odoo expects "
+"to have only one."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
