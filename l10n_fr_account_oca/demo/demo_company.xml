@@ -18,7 +18,7 @@
         <field name="partner_id" ref="base.partner_demo_company_fr_oca" />
     </record>
 
-    <record id="base.demo_bank_fr" model="res.partner.bank" forcecreate="1">
+    <record id="base.demo_bank_fr_oca" model="res.partner.bank" forcecreate="1">
         <field name="acc_number">FR06 1234 5678 9012 7896 7812 A98</field>
         <field name="partner_id" ref="base.partner_demo_company_fr_oca" />
         <field name="company_id" ref="base.demo_company_fr_oca" />
