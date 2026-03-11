@@ -17,7 +17,7 @@ class TrialBalanceReportWizard(models.TransientModel):
 
     def _export_ebp(self, report_xmlid):
         self.ensure_one()
-        data = self._prepare_report_trial_balance()
+        data = self._prepare_report_data()
         ir_report = self.env.ref(f"account_balance_ebp_csv_export.{report_xmlid}")
         action = ir_report.report_action(self, data=data)
         return action
