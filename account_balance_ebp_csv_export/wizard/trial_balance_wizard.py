@@ -10,7 +10,7 @@ class TrialBalanceReportWizard(models.TransientModel):
     _inherit = "trial.balance.report.wizard"
 
     def button_export_ebp_csv(self):
-        data = self._prepare_report_trial_balance()
+        data = self._prepare_report_data()
         ir_report = self.env.ref(
             "account_balance_ebp_csv_export.action_report_trial_balance_ebp"
         )
