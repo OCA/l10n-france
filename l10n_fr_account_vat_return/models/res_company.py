@@ -408,6 +408,7 @@ class ResCompany(models.Model):
                 "partner_id": company.partner_id.id,
                 "company_id": company.id,
                 "bank_id": bank.id,
+                "allow_out_payment": True,
             }
         )
         company._setup_l10n_fr_coa_vat_company()
