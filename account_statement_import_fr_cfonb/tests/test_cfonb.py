@@ -14,6 +14,7 @@ class TestAccountStatementImportFrCfonb(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.eur_cur = cls.env.ref("base.EUR")
+        cls.eur_cur.write({"active": True})
         cls.wiz_model = cls.env["account.statement.import"]
         cls.st_model = cls.env["account.bank.statement"]
         partner_bank = cls.env["res.partner.bank"].create(
