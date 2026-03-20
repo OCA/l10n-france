@@ -141,13 +141,8 @@ class IntrastatProductDeclaration(models.Model):
                 )
                 line_vals["fr_regime_id"] = regime.id
 
-    def _generate_xml(self):
-        """Generate the INSTAT XML file export."""
-        if self.company_id.country_id.code != "FR":
-            return super()._generate_xml()
-        my_company_vat = self.company_id.partner_id.vat.replace(" ", "")
-
-        company_siren = self.company_id._get_siren(raise_if_none=True)
+    def _prepare_xml_data(self):
+        self.ensure_one()
         if self.action != "replace" or self.revision != 1:
             raise UserError(
                 self.env._(
@@ -155,72 +150,163 @@ class IntrastatProductDeclaration(models.Model):
                     "the original declaration."
                 )
             )
-        my_company_identifier = my_company_vat + company_siren
-
-        my_company_currency = self.company_id.currency_id.name
-        eu_countries = self.env.ref("base.europe").country_ids
-
-        root = objectify.Element("INSTAT")
-        envelope = objectify.SubElement(root, "Envelope")
-        if not self.company_id.fr_intrastat_accreditation:
-            msg = self.env._(
-                "The Customs Accreditation Identifier is not set for the company '%s'.",
-                self.company_id.display_name,
-            )
-            self._account_config_warning(msg)
-        envelope.envelopeId = self.company_id.fr_intrastat_accreditation
-        create_date_time = objectify.SubElement(envelope, "DateTime")
-        now_user_tz = fields.Datetime.context_timestamp(self, datetime.now())
-        create_date_time.date = datetime.strftime(now_user_tz, "%Y-%m-%d")
-        create_date_time.time = datetime.strftime(now_user_tz, "%H:%M:%S")
-        party = objectify.SubElement(
-            envelope, "Party", partyType="PSI", partyRole="PSI"
-        )
-        party.partyId = my_company_identifier
-        party.partyName = self.company_id.name
-        envelope.softwareUsed = "Odoo"
-        declaration = objectify.SubElement(envelope, "Declaration")
-        declaration.declarationId = self.year_month.replace("-", "")
-        declaration.referencePeriod = self.year_month
-        declaration.PSIId = my_company_identifier
-        function = objectify.SubElement(declaration, "Function")
-        function.functionCode = "O"  # O = Déclaration originelle
-        level2letter = {
-            "standard": "4",
-            "extended": "5",  # EMEBI 2022: stat + fisc, 2 in 1 combo
-        }
-        assert self.reporting_level in level2letter
-        declaration.declarationTypeCode = level2letter[self.reporting_level]
-        type2letter = {
-            "arrivals": "A",
-            "dispatches": "D",
-        }
-        assert self.declaration_type in type2letter
-        declaration.flowCode = type2letter[self.declaration_type]
-        assert my_company_currency == "EUR", "Company currency must be 'EUR'"
-        declaration.currencyCode = my_company_currency
-
-        # THEN, the fields which vary from a line to the next
         if not self.declaration_line_ids:
             raise UserError(
                 self.env._(
                     "No declaration lines. You probably forgot to generate them !"
                 )
             )
-        for pline in self.declaration_line_ids:
-            pline._generate_xml_line(declaration, eu_countries)
+        if not self.company_id.fr_intrastat_accreditation:
+            msg = self.env._(
+                "The Customs Accreditation Identifier is not set for the company '%s'.",
+                self.company_id.display_name,
+            )
+            self._account_config_warning(msg)
 
-        objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
+        my_company_vat = self.company_id.partner_id.vat.replace(" ", "")
+        company_siren = self.company_id._get_siren(raise_if_none=True)
+        my_company_currency = self.company_id.currency_id.name
+        assert self.company_id.currency_id.name == "EUR"
+        level2letter = {
+            "standard": "4",
+            "extended": "5",  # EMEBI 2022: stat + fisc, 2 in 1 combo
+        }
+        assert self.reporting_level in level2letter
+        type2letter = {
+            "arrivals": "A",
+            "dispatches": "D",
+        }
+        assert self.declaration_type in type2letter
+        now_user_tz = fields.Datetime.context_timestamp(self, datetime.now())
+
+        data = {
+            "my_company_vat": my_company_vat,
+            "my_company_identifier": my_company_vat + company_siren,
+            "my_company_name": self.company_id.name,
+            "my_company_currency": my_company_currency,
+            "accreditation": self.company_id.fr_intrastat_accreditation,
+            "date": datetime.strftime(now_user_tz, "%Y-%m-%d"),
+            "time": datetime.strftime(now_user_tz, "%H:%M:%S"),
+            "soft": "Odoo",
+            "decl_id": self.year_month.replace("-", ""),
+            "period": self.year_month,
+            "function_code": "O",  # O = Déclaration originelle
+            "decl_type_code": level2letter[self.reporting_level],
+            "flow_code": type2letter[self.declaration_type],
+            "currency_code": "EUR",
+            "lines": [
+                line._prepare_xml_line_data() for line in self.declaration_line_ids
+            ],
+        }
+        return data
+
+    def _generate_xml(self):
+        """Generate the INSTAT XML file export."""
+        if self.company_id.country_id.code != "FR":
+            return super()._generate_xml()
+        data = self._prepare_xml_data()
+
+        E = objectify.ElementMaker(annotate=False)
+        root = E.INSTAT(
+            E.Envelope(
+                E.envelopeId(data["accreditation"]),
+                E.DateTime(
+                    E.date(data["date"]),
+                    E.time(data["time"]),
+                ),
+                E.Party(
+                    E.partyId(data["my_company_identifier"]),
+                    E.partyName(data["my_company_name"]),
+                    partyType="PSI",
+                    partyRole="PSI",
+                ),
+                E.softwareUsed("Odoo"),
+                E.Declaration(
+                    E.declarationId(data["decl_id"]),
+                    E.referencePeriod(data["period"]),
+                    E.PSIId(data["my_company_identifier"]),
+                    E.Function(
+                        E.functionCode(data["function_code"]),
+                    ),
+                    E.declarationTypeCode(data["decl_type_code"]),
+                    E.flowCode(data["flow_code"]),
+                    E.currencyCode(data["currency_code"]),
+                    *[
+                        E.Item(
+                            E.itemNumber(ldata["line_number"]),
+                            *[
+                                E.CN8(
+                                    E.CN8Code(ldata["hs_code"]),
+                                    *[
+                                        E.SUCode(ldata["unit_code"])
+                                        for _ in [1]
+                                        if ldata.get("unit_code")
+                                    ],
+                                )
+                                for _ in [1]
+                                if ldata.get("hs_code")
+                            ],
+                            *[
+                                E.MSConsDestCode(ldata["src_dest_country_code"])
+                                for _ in [1]
+                                if ldata.get("src_dest_country_code")
+                            ],
+                            *[
+                                E.countryOfOriginCode(
+                                    ldata["product_origin_country_code"]
+                                )
+                                for _ in [1]
+                                if ldata.get("product_origin_country_code")
+                            ],
+                            *[
+                                E.netMass(ldata["weight"])
+                                for _ in [1]
+                                if ldata.get("weight")
+                            ],
+                            *[
+                                E.quantityInSU(ldata["qty"])
+                                for _ in [1]
+                                if ldata.get("qty")
+                            ],
+                            E.invoicedAmount(ldata["amount"]),
+                            *[E.partnerId(ldata["vat"]) for _ in [1] if "vat" in ldata],
+                            E.statisticalProcedureCode(ldata["regime_code"]),
+                            *[
+                                E.NatureOfTransaction(
+                                    E.natureOfTransactionACode(
+                                        ldata["nature_code_first_digit"]
+                                    ),
+                                    E.natureOfTransactionBCode(
+                                        ldata["nature_code_second_digit"]
+                                    ),
+                                )
+                                for _ in [1]
+                                if ldata.get("nature_code_first_digit")
+                            ],
+                            *[
+                                E.modeOfTransportCode(ldata["transport_code"])
+                                for _ in [1]
+                                if ldata.get("transport_code")
+                            ],
+                            *[
+                                E.regionCode(ldata["region_code"])
+                                for _ in [1]
+                                if ldata.get("region_code")
+                            ],
+                        )
+                        for ldata in data["lines"]
+                    ],
+                ),
+            )
+        )
+
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
-        # We validate the XML file against the official XML Schema Definition
-        # Because we may catch some problems with the content
-        # of the XML file this way
+        # Validate XML file against the official XSD
         self.company_id._intrastat_check_xml_schema(
             xml_bytes, "l10n_fr_intrastat_product/data/deb.xsd"
         )
-        # Attach the XML file to the current object
         return xml_bytes
 
     @api.model
@@ -398,82 +484,25 @@ class IntrastatProductDeclarationLine(models.Model):
         related="fr_regime_id.code", store=True, string="Regime Code"
     )
 
-    # flake8: noqa: C901
-    def _generate_xml_line(self, parent_node, eu_countries):
+    def _prepare_xml_line_data(self):
         self.ensure_one()
         decl = self.parent_id
         assert self.fr_regime_id, "Missing Intrastat Type"
         transaction = self.transaction_id
         regime = self.fr_regime_id
-        item = objectify.SubElement(parent_node, "Item")
-        item.itemNumber = str(self.line_number)
-        # START of elements which are only required in "detailed" level
-        if decl.reporting_level == "extended" and not regime.is_fiscal_only:
-            cn8 = objectify.SubElement(item, "CN8")
-            if not self.hs_code_id:
-                raise UserError(
-                    self.env._(
-                        "Missing H.S. code on declaration line %d.", self.line_number
-                    )
-                )
-            # local_code is required=True, so no need to check it
-            cn8.CN8Code = self.hs_code_id.local_code
-            # We fill SUCode only if the H.S. code requires it
-            iunit_id = self.intrastat_unit_id
-            if iunit_id:
-                cn8.SUCode = iunit_id.fr_xml_label or iunit_id.name
-
-            if not self.src_dest_country_code:
-                raise UserError(
-                    self.env._(
-                        "Missing country code of origin/destination on "
-                        "declaration line %d.",
-                        self.line_number,
-                    )
-                )
-            item.MSConsDestCode = self.src_dest_country_code
-
-            # EMEBI 2022 : origin country is now for arrival AND dispatches
-            if not self.product_origin_country_code:
-                raise UserError(
-                    self.env._(
-                        "Missing product country of origin code "
-                        "on declaration line %d.",
-                        self.line_number,
-                    )
-                )
-            item.countryOfOriginCode = self.product_origin_country_code
-
-            # no need for float_is_zero() because weight is an integer on decl lines
-            if not self.weight:
-                raise UserError(
-                    self.env._(
-                        "Missing weight on declaration line %d.", self.line_number
-                    )
-                )
-            item.netMass = str(self.weight)
-
-            if iunit_id:
-                # no need for float_is_zero() because suppl_unit_qty is an integer
-                # on declaration lines
-                if not self.suppl_unit_qty:
-                    raise UserError(
-                        self.env._(
-                            "Missing quantity on declaration line %d.", self.line_number
-                        )
-                    )
-                item.quantityInSU = str(self.suppl_unit_qty)
-
-        # START of elements that are part of all EMEBIs
         if not self.amount_company_currency:
             raise UserError(
                 self.env._(
                     "Missing fiscal value on declaration line %d.", self.line_number
                 )
             )
-        item.invoicedAmount = str(self.amount_company_currency)
-        # EMEBI 2022 : Partner VAT now required for all dispatches with
-        # some exceptions for regime 29 in case of B2C
+
+        ldata = {
+            "line_number": self.line_number,
+            "amount": self.amount_company_currency,
+            "regime_code": regime.code,
+        }
+
         if decl.declaration_type == "dispatches":
             if not self.vat and regime.code != "29":
                 raise UserError(
@@ -491,12 +520,39 @@ class IntrastatProductDeclarationLine(models.Model):
                         line_number=self.line_number,
                     )
                 )
-            item.partnerId = self.vat or ""
-        # Code régime is on all EMEBIs
-        item.statisticalProcedureCode = regime.code
+            ldata["vat"] = self.vat or ""
 
-        # START of elements which are only required in "detailed" level
         if decl.reporting_level == "extended" and not regime.is_fiscal_only:
+            if not self.hs_code_id:
+                raise UserError(
+                    self.env._(
+                        "Missing H.S. code on declaration line %d.", self.line_number
+                    )
+                )
+            if not self.src_dest_country_code:
+                raise UserError(
+                    self.env._(
+                        "Missing country code of origin/destination on "
+                        "declaration line %d.",
+                        self.line_number,
+                    )
+                )
+            # EMEBI 2022 : origin country is now for arrival AND dispatches
+            if not self.product_origin_country_code:
+                raise UserError(
+                    self.env._(
+                        "Missing product country of origin code "
+                        "on declaration line %d.",
+                        self.line_number,
+                    )
+                )
+            # no need for float_is_zero() because weight is an integer on decl lines
+            if not self.weight:
+                raise UserError(
+                    self.env._(
+                        "Missing weight on declaration line %d.", self.line_number
+                    )
+                )
             if not transaction:
                 raise UserError(
                     self.env._(
@@ -511,9 +567,6 @@ class IntrastatProductDeclarationLine(models.Model):
                         self.line_number,
                     )
                 )
-            transaction_nature = objectify.SubElement(item, "NatureOfTransaction")
-            transaction_nature.natureOfTransactionACode = transaction.code[0]
-            transaction_nature.natureOfTransactionBCode = transaction.code[1]
             if not self.transport_id:
                 raise UserError(
                     self.env._(
@@ -521,11 +574,35 @@ class IntrastatProductDeclarationLine(models.Model):
                         self.line_number,
                     )
                 )
-            item.modeOfTransportCode = str(self.transport_id.code)
             if not self.region_code:
                 raise UserError(
                     self.env._(
                         "Missing region code on declaration line %d.", self.line_number
                     )
                 )
-            item.regionCode = self.region_code
+
+            ldata.update(
+                {
+                    "hs_code": self.hs_code_id.local_code,
+                    "src_dest_country_code": self.src_dest_country_code,
+                    "product_origin_country_code": self.product_origin_country_code,
+                    "weight": self.weight,
+                    "nature_code_first_digit": transaction.code[0],
+                    "nature_code_second_digit": transaction.code[1],
+                    "transport_code": self.transport_id.code,
+                    "region_code": self.region_code,
+                }
+            )
+            iunit_id = self.intrastat_unit_id
+            if iunit_id:
+                # no need for float_is_zero() because suppl_unit_qty is an integer
+                # on declaration lines
+                if not self.suppl_unit_qty:
+                    raise UserError(
+                        self.env._(
+                            "Missing quantity on declaration line %d.", self.line_number
+                        )
+                    )
+                ldata["unit_code"] = iunit_id.fr_xml_label or iunit_id.name
+                ldata["qty"] = self.suppl_unit_qty
+        return ldata
