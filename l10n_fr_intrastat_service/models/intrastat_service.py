@@ -336,25 +336,16 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                 )
             )
 
-    def _generate_des_xml_root(self):
+    def _prepare_xml_data(self):
         self.ensure_one()
-        my_company_vat = self.company_id.partner_id.vat
-
-        # Tech spec of XML export are available here :
-        # https://www.douane.gouv.fr/sites/default/files/uploads/files/2020-10/ManuelDesXML.pdf # noqa
-        root = objectify.Element("fichier_des")
-        decl = objectify.SubElement(root, "declaration_des")
-        decl.num_des = self.year_month.replace("-", "")
-        decl.num_tvaFr = my_company_vat
-        decl.mois_des = str(self.start_date.month).zfill(2)
-        decl.an_des = str(self.start_date.year)
-        line = 0
-        # we now go through each service line
+        data = {
+            "my_company_vat": self.company_id.partner_id.vat,
+            "ref": self.year_month.replace("-", ""),
+            "month": str(self.start_date.month).zfill(2),
+            "year": str(self.start_date.year),
+            "lines": [],
+        }
         for sline in self.declaration_line_ids:
-            line += 1  # increment line number
-            ligne_des = objectify.SubElement(decl, "ligne_des")
-            ligne_des.numlin_des = str(line)
-            ligne_des.valeur = str(sline.amount_company_currency)
             vat = sline.partner_vat
             if not vat:
                 raise UserError(
@@ -372,7 +363,36 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
                         vat,
                     )
                 )
-            ligne_des.partner_des = vat
+            data["lines"].append(
+                {
+                    "amount": str(sline.amount_company_currency),
+                    "vat": vat,
+                }
+            )
+        return data
+
+    def _generate_des_xml_root(self):
+        self.ensure_one()
+        data = self._prepare_xml_data()
+        # Tech spec of XML export are available here :
+        # https://www.douane.gouv.fr/sites/default/files/uploads/files/2020-10/ManuelDesXML.pdf # noqa
+        E = objectify.ElementMaker(annotate=False)
+        root = E.fichier_des(
+            E.declaration_des(
+                E.num_des(data["ref"]),
+                E.num_tvaFr(data["my_company_vat"]),
+                E.mois_des(data["month"]),
+                E.an_des(data["year"]),
+                *[
+                    E.ligne_des(
+                        E.numlin_des(str(index + 1)),
+                        E.valeur(ldata["amount"]),
+                        E.partner_des(ldata["vat"]),
+                    )
+                    for index, ldata in enumerate(data["lines"])
+                ],
+            )
+        )
         return root
 
     def _generate_xml(self):
@@ -381,7 +401,6 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         if not self.declaration_line_ids:
             return
         root = self._generate_des_xml_root()
-        objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
