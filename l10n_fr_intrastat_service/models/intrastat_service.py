@@ -283,7 +283,11 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         assert self.state == "draft"
         self._check_company()
         attachment = self._generate_xml()
-        self.write({"state": "done", "attachment_id": attachment.id})
+        self.write(
+            {"state": "done", "attachment_id": attachment and attachment.id or False}
+        )
+        if not attachment:
+            return
         action = {
             "name": attachment.name,
             "type": "ir.actions.act_url",
@@ -342,33 +346,11 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
             "my_company_vat": self.company_id.partner_id.vat,
             "ref": self.year_month.replace("-", ""),
             "month": str(self.start_date.month).zfill(2),
-            "year": str(self.start_date.year),
-            "lines": [],
+            "year": self.start_date.year,
+            "lines": [
+                line._prepare_xml_line_data() for line in self.declaration_line_ids
+            ],
         }
-        for sline in self.declaration_line_ids:
-            vat = sline.partner_vat
-            if not vat:
-                raise UserError(
-                    self.env._(
-                        "Missing VAT number on partner '%s'.",
-                        sline.partner_id.display_name,
-                    )
-                )
-            if vat.startswith("GB") and self.year_month >= "2021-01":
-                raise UserError(
-                    self.env._(
-                        "VAT Number '%s' cannot be used because Brexit took "
-                        "place on January 1st 2021 and services sold "
-                        "in Northern Ireland are not under the EU VAT regime.",
-                        vat,
-                    )
-                )
-            data["lines"].append(
-                {
-                    "amount": str(sline.amount_company_currency),
-                    "vat": vat,
-                }
-            )
         return data
 
     def _generate_des_xml_root(self):
@@ -399,12 +381,12 @@ class L10nFrIntrastatServiceDeclaration(models.Model):
         self.ensure_one()
         assert not self.attachment_id
         if not self.declaration_line_ids:
-            return
+            return None
         root = self._generate_des_xml_root()
         xml_bytes = etree.tostring(
             root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
-
+        logger.debug("xml generated: %s", xml_bytes.decode("utf-8"))
         # Validate the XML file against the official XSD
         self.company_id._intrastat_check_xml_schema(
             xml_bytes, "l10n_fr_intrastat_service/data/des.xsd"
@@ -568,3 +550,22 @@ class L10nFrIntrastatServiceDeclarationLine(models.Model):
                 raise ValidationError(
                     self.env._("The VAT number '%s' is invalid.", line.partner_vat)
                 )
+
+    def _prepare_xml_line_data(self):
+        self.ensure_one()
+        vat = self.partner_vat
+        assert vat
+        if vat.startswith("GB"):
+            raise UserError(
+                self.env._(
+                    "VAT Number '%s' cannot be used because Brexit took "
+                    "place on January 1st 2021 and services sold "
+                    "in Northern Ireland are not under the EU VAT regime.",
+                    vat,
+                )
+            )
+        ldata = {
+            "amount": self.amount_company_currency,
+            "vat": vat,
+        }
+        return ldata
