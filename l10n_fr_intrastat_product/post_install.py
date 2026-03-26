@@ -19,6 +19,9 @@ def set_fr_company_intrastat(env):
     for company in companies:
         company.write(
             {
+                "intrastat_transport_id": env.ref(
+                    "intrastat_product.intrastat_transport_3"
+                ).id,
                 "intrastat_accessory_costs": True,
             }
         )
