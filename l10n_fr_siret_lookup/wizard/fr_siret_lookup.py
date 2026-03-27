@@ -28,10 +28,9 @@ class FrSiretLookup(models.TransientModel):
             if not partner.is_company:
                 raise UserError(
                     self.env._(
-                        f"Partner {partner.display_name} is not a company. "
-                        "This action is not relevant."
+                        "Partner '%s' is not a company. This action is not relevant.",
+                        partner.display_name,
                     )
-                    % partner.display_name
                 )
             res.update(
                 {
@@ -59,7 +58,9 @@ class FrSiretLookup(models.TransientModel):
             "city": data.get("libellecommuneetablissement"),
             "country_id": country_id,
             "siren": data.get("siren") and str(data["siren"]) or False,
-            "siret": data.get("siret") and str(data["siret"]) or False,
+            "siret": data.get("company_registry")
+            and str(data["company_registry"])
+            or False,
             "category": data.get("categorieentreprise"),
             "creation_date": data.get("datecreationunitelegale"),
             "ape": data.get("activiteprincipaleunitelegale"),
@@ -107,7 +108,7 @@ class FrSiretLookupLine(models.TransientModel):
     country_id = fields.Many2one("res.country", string="Country")
     legal_type = fields.Char()
     siren = fields.Char("SIREN")
-    siret = fields.Char("SIRET")
+    company_registry = fields.Char("company_registry")
     ape = fields.Char("APE Code")
     ape_label = fields.Char("APE Label")
     creation_date = fields.Date()
@@ -126,7 +127,7 @@ class FrSiretLookupLine(models.TransientModel):
             "zip": self.zip,
             "city": self.city,
             "country_id": self.country_id.id or False,
-            "siret": self.siret,
+            "company_registry": self.company_registry,
             "vat": vat,
             "vies_valid": vies_valid,
         }

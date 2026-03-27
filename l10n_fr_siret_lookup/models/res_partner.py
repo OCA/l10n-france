@@ -39,7 +39,7 @@ class ResPartner(models.Model):
             "nic",
             "codedepartementetablissement",
             # for the wizard
-            "siret",
+            "company_registry",
             "categorieentreprise",
             "datecreationunitelegale",
             "activiteprincipaleunitelegale",
@@ -91,7 +91,8 @@ class ResPartner(models.Model):
                     raise UserError(
                         self.env._(
                             "The webservice data.opendatasoft.com "
-                            f"returned an HTTP error code {res.status_code}."
+                            "returned an HTTP error code '%s'.",
+                            res.status_code,
                         )
                     )
         except Exception as e:
@@ -101,7 +102,8 @@ class ResPartner(models.Model):
                     self.env._(
                         "Failure in the request on data.opendatasoft.com "
                         "to create or update partner from SIREN or SIRET. "
-                        f"Technical error: {e}."
+                        "Technical error: '%s'.",
+                        e,
                     )
                 ) from e
         return False
@@ -199,7 +201,7 @@ class ResPartner(models.Model):
             logger.warning(f"VIES query failed: {e}")
             if not self.env.company.vat_check_vies and raise_if_fail:
                 raise UserError(
-                    self.env._(f"Failed to query VIES.\nTechnical error: {e}.")
+                    self.env._("Failed to query VIES.\nTechnical error: '%s'.", e)
                 ) from e
             # If exception is raised but we still want to force computed value
             # We return vat number and vies_valid = False
@@ -231,6 +233,11 @@ class ResPartner(models.Model):
                 f"siren:{siren} AND etablissementsiege:oui",
             )
             if vals and vals.get("siren") == siren:
+                if vals.get("siren") and vals.get("nic") and not vals.get("siret"):
+                    vals["company_registry"] = vals.get("siren") + vals.get("nic")
+                    vals.pop("siren", None)
+                    vals.pop("nic", None)
+                    vals.pop("siret", None)
                 return vals
         return False
 
@@ -241,39 +248,24 @@ class ResPartner(models.Model):
             if vals and vals.get("siren") and vals.get("nic"):
                 vals_siret = vals["siren"] + vals["nic"]
                 if vals_siret == siret:
+                    if vals.get("siren") and vals.get("nic") and not vals.get("siret"):
+                        vals["company_registry"] = vals_siret
+                        vals.pop("siren", None)
+                        vals.pop("nic", None)
+                        vals.pop("siret", None)
                     return vals
         return False
 
-    @api.onchange("siren")
-    def siren_onchange(self):
+    @api.onchange("company_registry")
+    def company_registry_onchange(self):
         if (
-            self.siren
-            and siren_is_valid(self.siren)
+            self.company_registry
+            and siret_is_valid(self.company_registry)
             and not self.name
             and self.is_company
             and not self.parent_id
         ):
-            if self.nic:
-                # We only execute the query if the full SIRET is OK
-                vals = False
-                if siret_is_valid(self.siren + self.nic):
-                    siret = self.siren + self.nic
-                    vals = self._opendatasoft_get_from_siret(siret)
-            else:
-                vals = self._opendatasoft_get_from_siren(self.siren)
-            if vals:
-                self.update(vals)
-
-    @api.onchange("siret")
-    def siret_onchange(self):
-        if (
-            self.siret
-            and siret_is_valid(self.siret)
-            and not self.name
-            and self.is_company
-            and not self.parent_id
-        ):
-            vals = self._opendatasoft_get_from_siret(self.siret)
+            vals = self._opendatasoft_get_from_siret(self.company_registry)
             if vals:
                 self.update(vals)
 
@@ -282,8 +274,8 @@ class ResPartner(models.Model):
         if (
             self.vat
             and not self.name
-            and not self.siren
-            and not self.siret
+            and not self._get_siren()
+            and not self.company_registry
             and self.is_company
             and not self.parent_id
         ):
@@ -301,9 +293,7 @@ class ResPartner(models.Model):
             self.name
             and self.is_company
             and not self.parent_id
-            and not self.siren
-            and not self.nic
-            and not self.siret
+            and not self.company_registry
             and not self.street
             and not self.city
             and not self.zip

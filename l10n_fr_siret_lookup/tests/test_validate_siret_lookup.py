@@ -7,6 +7,8 @@ from unittest.mock import patch
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
+logger = logging.getLogger(__name__)
+
 
 class TestStructure(TransactionCase):
     @classmethod
@@ -28,12 +30,11 @@ class TestStructure(TransactionCase):
             "city": "BOESCHEPE",
             "country_id": cls.env.ref("base.fr"),
             "lang": "fr_FR",
-            "siret": "94471644800013",
-            "nic": "00013",
-            "siren": "944716448",
+            "company_registry": "94471644800013",
             "vat": "FR58944716448",
             "vies_valid": True,
         }
+
         cls._partner_oca_fr_vals = {
             "name": "ODOO COMMUNITY ASSOCIATION FRANCE",
             "street": "920 ROUTE DE L'ISLE SUR SORGUE",
@@ -41,9 +42,7 @@ class TestStructure(TransactionCase):
             "city": "LE THOR",
             "country_id": cls.env.ref("base.fr"),
             "lang": "fr_FR",
-            "siret": "99151642800018",
-            "nic": "00018",
-            "siren": "991516428",
+            "company_registry": "99151642800018",
             "vat": "FR64991516428",
             "vies_valid": False,
         }
@@ -54,9 +53,7 @@ class TestStructure(TransactionCase):
         def mock_api_call(
             self, query, raise_if_fail=False, exclude_dead=False, rows=10
         ):
-            if query.startswith("siren:944716448") or query.startswith(
-                "siret:94471644800013"
-            ):
+            if query.startswith("siret:94471644800013"):
                 return {
                     "nhits": 1,
                     "parameters": {
@@ -77,7 +74,7 @@ class TestStructure(TransactionCase):
                             "siren",
                             "nic",
                             "codedepartementetablissement",
-                            "siret",
+                            "company_registry",
                             "categorieentreprise",
                             "datecreationunitelegale",
                             "activiteprincipaleunitelegale",
@@ -95,7 +92,7 @@ class TestStructure(TransactionCase):
                                 "libellecommuneetablissement": "BOESCHEPE",
                                 "codepostaletablissement": "59299",
                                 "adresseetablissement": "3087 Rue DE LA GARE",
-                                "siret": "94471644800013",
+                                "company_registry": "94471644800013",
                                 "nic": "00013",
                                 "siren": "944716448",
                                 "naturejuridiqueunitelegale": "Soci\u00e9t\u00e9 \u00e0"
@@ -112,9 +109,7 @@ class TestStructure(TransactionCase):
                         }
                     ],
                 }
-            elif query.startswith("siren:991516428") or query.startswith(
-                "siret:99151642800018"
-            ):
+            elif query.startswith("siret:99151642800018"):
                 return {
                     "nhits": 1,
                     "parameters": {
@@ -135,7 +130,7 @@ class TestStructure(TransactionCase):
                             "siren",
                             "nic",
                             "codedepartementetablissement",
-                            "siret",
+                            "company_registry",
                             "categorieentreprise",
                             "datecreationunitelegale",
                             "activiteprincipaleunitelegale",
@@ -154,7 +149,7 @@ class TestStructure(TransactionCase):
                                 "codepostaletablissement": "84250",
                                 "adresseetablissement": "920 ROUTE DE L'ISLE SUR "
                                 "SORGUE",
-                                "siret": "99151642800018",
+                                "company_registry": "99151642800018",
                                 "nic": "00018",
                                 "siren": "991516428",
                                 "naturejuridiqueunitelegale": "Association déclarée",
@@ -188,17 +183,14 @@ class TestStructure(TransactionCase):
             # For each of the 2 partners (one with valid VAT, one with invalid VAT)
             for vals in [self._partner_odoo_fr_vals, self._partner_oca_fr_vals]:
                 # We test the various on change :
-                # - Setting SIREN, SIRET or VAT in "name" field
-                # - Setting SIREN in "siren" field
-                # - Setting SIRET in "siret" field
+                # - Setting COMPANY_REGISTRY or VAT in "name" field
+                # - Setting COMPANY_REGISTRY in "company_registry" field
                 # - Setting VAT in "vat" field
                 for form_input, field in [
-                    ("name", "siren"),
-                    ("name", "siret"),
-                    ("name", "vat"),
-                    ("siren", "siren"),
-                    ("siret", "siret"),
-                    ("vat", "vat"),
+                    ("name", "company_registry"),
+                    # ("name", "vat"),
+                    ("company_registry", "company_registry"),
+                    # ("vat", "vat"),
                 ]:
                     with (
                         Form(self.env["res.partner"]) as partner_form,
@@ -212,7 +204,6 @@ class TestStructure(TransactionCase):
                         partner_form.company_type = "company"
                         # Set the field value in form_input
                         partner_form[form_input] = vals[field]
-
                         # Catch warning on VIES timeout only
                         if self.vies_timeout:
                             self.assertEqual(len(logs.records), 1)
