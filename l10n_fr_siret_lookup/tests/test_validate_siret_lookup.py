@@ -253,8 +253,7 @@ class TestStructure(TransactionCase):
                                 self.assertEqual(
                                     partner_form[value],
                                     vals[value],
-                                    f"{value} was detected from {field} "
-                                    "filled in name",
+                                    f"{value} was detected from {field} filled in name",
                                 )
                             # Specific test for vies_valid
                             elif value == "vies_valid":
