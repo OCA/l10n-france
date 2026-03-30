@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--# Copyright (C) 2020 Akretion (http://www.akretion.com/)-->
 <odoo>
-        <template id="style_rup">
+    <template id="style_rup">
             .pure-table {
             /* Remove spacing between table cells (from Normalize.css) */
             border-collapse: collapse;
@@ -72,130 +72,127 @@
             }
         </template>
 
-        <template id="rup_table_header">
-            <thead>
-                <tr>
-                    <th rowspan="2" style="width:50px;">N° de ligne</th>
-                    <th rowspan="2">Addresse de travail</th>
-                    <th rowspan="2">Nom et prénom</th>
-                    <th rowspan="2">Date de naissance</th>
-                    <th rowspan="2">Sexe</th>
-                    <th rowspan="2">Nationalité</th>
-                    <th rowspan="2">Emploi</th>
-                    <th rowspan="2">Addresse personelle</th>
-                    <th rowspan="2">N° de sécurité sociale</th>
-                    <th
-                    colspan="5"
-                >Renseignements fournis par le titre du travailleur</th>
-                    <th
+    <template id="rup_table_header">
+        <thead>
+            <tr>
+                <th rowspan="2" style="width:50px;">N° de ligne</th>
+                <th rowspan="2">Addresse de travail</th>
+                <th rowspan="2">Nom et prénom</th>
+                <th rowspan="2">Date de naissance</th>
+                <th rowspan="2">Sexe</th>
+                <th rowspan="2">Nationalité</th>
+                <th rowspan="2">Emploi</th>
+                <th rowspan="2">Addresse personelle</th>
+                <th rowspan="2">N° de sécurité sociale</th>
+                <th colspan="5">Renseignements fournis par le titre du travailleur</th>
+                <th
                     rowspan="2"
                 >Noms et addresses des entrepreneurs de travail temporaire ou
                         groupements
                         d'employeurs
                     </th>
-                    <th rowspan="2">Type du contrat</th>
-                    <th rowspan="2">Profession et catégorie socioprofessionelle</th>
-                    <th rowspan="2">Qualification</th>
-                    <th rowspan="2">Evènements postérieurs à l'embauche</th>
-                    <th
-                    rowspan="2"
-                >Date de l'autorisation administrative d'embauche ou de
+                <th rowspan="2">Type du contrat</th>
+                <th rowspan="2">Profession et catégorie socioprofessionelle</th>
+                <th rowspan="2">Qualification</th>
+                <th rowspan="2">Evènements postérieurs à l'embauche</th>
+                <th rowspan="2">Date de l'autorisation administrative d'embauche ou de
                         licenciement
                     </th>
-                    <th colspan="2">Dates</th>
-                </tr>
-                <tr>
-                    <th>Type du document</th>
-                    <th>Autorité qui a délivré ce document</th>
-                    <th>N° d'ordre du document</th>
-                    <th>Date de délivrance du document</th>
-                    <th>Durée de validité du document</th>
-                    <th>Entrée</th>
-                    <th>Sortie</th>
-                </tr>
-            </thead>
-        </template>
+                <th colspan="2">Dates</th>
+            </tr>
+            <tr>
+                <th>Type du document</th>
+                <th>Autorité qui a délivré ce document</th>
+                <th>N° d'ordre du document</th>
+                <th>Date de délivrance du document</th>
+                <th>Durée de validité du document</th>
+                <th>Entrée</th>
+                <th>Sortie</th>
+            </tr>
+        </thead>
+    </template>
 
-        <template id="rup_table_rows">
-            <tbody>
-                <tr t-foreach="docs" t-as="contract">
-                    <td>
-                        <span t-esc="contract_index + 1" />
-                    </td>
-                    <td>
-                        <span t-field="contract.work_location" />
-                    </td>
-                    <td>
-                        <span t-field="contract.employee_id.name" />
-                    </td>
-                    <td>
-                        <span t-field="contract.employee_id.birthday" />
-                    </td>
-                    <td>
-                        <span t-field="contract.employee_id.gender" />
-                    </td>
-                    <td>
-                        <span t-field="contract.employee_id.country_id.name" />
-                    </td>
-                    <td>
-                        <span t-field="contract.job_id" />
-                    </td>
-                    <td>
-                        <span
+    <template id="rup_table_rows">
+        <tbody>
+            <tr t-foreach="docs" t-as="contract">
+                <td>
+                    <span t-esc="contract_index + 1" />
+                </td>
+                <td>
+                    <span t-field="contract.work_location" />
+                </td>
+                <td>
+                    <span t-field="contract.employee_id.name" />
+                </td>
+                <td>
+                    <span t-field="contract.employee_id.birthday" />
+                </td>
+                <td>
+                    <span t-field="contract.employee_id.gender" />
+                </td>
+                <td>
+                    <span t-field="contract.employee_id.country_id.name" />
+                </td>
+                <td>
+                    <span t-field="contract.job_id" />
+                </td>
+                <td>
+                    <span
                         t-field="contract.employee_id.address_home_id"
                         t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'
                     />
-                    </td>
-                    <td>
-                        <span t-field="contract.employee_id.ssnid" />
-                    </td>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td>
-                        <span
+                </td>
+                <td>
+                    <span t-field="contract.employee_id.ssnid" />
+                </td>
+                <td />
+                <td />
+                <td />
+                <td />
+                <td />
+                <td>
+                    <span
                         t-field="contract.employer_address_id"
                         t-field-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": true}'
                     />
-                    </td>
-                    <td>
-                        <span t-field="contract.structure_type_id.name" />
-                    </td>
-                    <td>
-                        <span t-field="contract.pcs_id.name" />
-                    </td>
-                    <td>
-                        <span t-field="contract.qualification" />
-                    </td>
-                    <td />
-                    <td />
-                    <td>
-                        <span t-field="contract.date_start" />
-                    </td>
-                    <td>
-                        <span t-field="contract.date_end" />
-                    </td>
-                </tr>
-            </tbody>
-        </template>
+                </td>
+                <td>
+                    <span t-field="contract.structure_type_id.name" />
+                </td>
+                <td>
+                    <span t-field="contract.pcs_id.name" />
+                </td>
+                <td>
+                    <span t-field="contract.qualification" />
+                </td>
+                <td />
+                <td />
+                <td>
+                    <span t-field="contract.date_start" />
+                </td>
+                <td>
+                    <span t-field="contract.date_end" />
+                </td>
+            </tr>
+        </tbody>
+    </template>
 
-        <template id="report_l10n_fr_rup">
-            <style type="text/css">
-                <t t-call="l10n_fr_hr_rup.style_rup" />
-            </style>
-            <t t-call="web.html_container">
-                <div class="page">
-                    <div class="oe_structure" />
-                    <h2 style="text-align: center">REGISTRE UNIQUE DU PERSONNEL</h2>
-                    <br /><br />
-                    <table class="pure-table">
-                        <t t-call="l10n_fr_hr_rup.rup_table_header" />
-                        <t t-call="l10n_fr_hr_rup.rup_table_rows" />
-                    </table>
-                    <div class="oe_structure" />
-                </div>
-            </t>
-        </template>
+    <template id="report_l10n_fr_rup">
+        <style type="text/css">
+            <t t-call="l10n_fr_hr_rup.style_rup" />
+        </style>
+        <t t-call="web.html_container">
+            <div class="page">
+                <div class="oe_structure" />
+                <h2 style="text-align: center">REGISTRE UNIQUE DU PERSONNEL</h2>
+                <br />
+                <br />
+                <table class="pure-table">
+                    <t t-call="l10n_fr_hr_rup.rup_table_header" />
+                    <t t-call="l10n_fr_hr_rup.rup_table_rows" />
+                </table>
+                <div class="oe_structure" />
+            </div>
+        </t>
+    </template>
 </odoo>

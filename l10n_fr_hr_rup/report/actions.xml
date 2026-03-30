@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--# Copyright (C) 2020 Akretion (http://www.akretion.com/)-->
 <odoo>
-
     <record id="action_report_l10n_fr_rup" model="ir.actions.report">
         <field name="name">Rapport RUP</field>
         <field name="model">hr.contract</field>
@@ -10,5 +9,4 @@
         <field name="report_file">l10n_fr_hr_rup.report_l10n_fr_rup</field>
         <field name="paperformat_id" ref="paperformat_a3_rup" />
     </record>
-
 </odoo>
