@@ -12,11 +12,12 @@ class HrContract(models.Model):
         "hr.employee.pcs", "PCS", compute="_compute_pcs_id", store=True, readonly=False
     )
     qualification = fields.Char(
-        "Qualification", compute="_compute_qualification", store=True, readonly=False
+        compute="_compute_qualification", store=True, readonly=False
     )
-    work_location = fields.Char(
-        "Localisation du bureau",
-        compute="_compute_work_location",
+    work_location_id = fields.Many2one(
+        "hr.work.location",
+        string="Localisation du bureau",
+        compute="_compute_work_location_id",
         store=True,
         readonly=False,
     )
@@ -32,6 +33,6 @@ class HrContract(models.Model):
             rec.qualification = rec.employee_id.qualification
 
     @api.depends("employee_id")
-    def _compute_work_location(self):
+    def _compute_work_location_id(self):
         for rec in self:
-            rec.work_location = rec.employee_id.work_location
+            rec.work_location_id = rec.employee_id.work_location_id.id

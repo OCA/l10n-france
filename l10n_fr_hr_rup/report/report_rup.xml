@@ -119,7 +119,7 @@
                     <span t-esc="contract_index + 1" />
                 </td>
                 <td>
-                    <span t-field="contract.work_location" />
+                    <span t-field="contract.work_location_id.name" />
                 </td>
                 <td>
                     <span t-field="contract.employee_id.name" />
@@ -137,10 +137,37 @@
                     <span t-field="contract.job_id" />
                 </td>
                 <td>
-                    <span
-                        t-field="contract.employee_id.address_home_id"
-                        t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'
-                    />
+                    <div class="o_address_format">
+                        <t t-if="contract.employee_id.private_street">
+                            <span t-field="contract.employee_id.private_street" />
+                            <br />
+                        </t>
+
+                        <t t-if="contract.employee_id.private_street2">
+                            <span t-field="contract.employee_id.private_street2" />
+                            <br />
+                        </t>
+
+                        <t
+                            t-if="contract.employee_id.private_zip or contract.employee_id.private_city"
+                        >
+                            <span
+                                t-if="contract.employee_id.private_zip"
+                                t-field="contract.employee_id.private_zip"
+                            />
+                            <span
+                                t-if="contract.employee_id.private_city"
+                                t-field="contract.employee_id.private_city"
+                            />
+                            <br />
+                        </t>
+
+                        <t t-if="contract.employee_id.private_country_id">
+                            <span
+                                t-field="contract.employee_id.private_country_id.name"
+                            />
+                        </t>
+                    </div>
                 </td>
                 <td>
                     <span t-field="contract.employee_id.ssnid" />
@@ -153,7 +180,7 @@
                 <td>
                     <span
                         t-field="contract.employer_address_id"
-                        t-field-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": true}'
+                        t-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": True}'
                     />
                 </td>
                 <td>
@@ -182,8 +209,8 @@
             <t t-call="l10n_fr_hr_rup.style_rup" />
         </style>
         <t t-call="web.html_container">
-            <div class="page">
-                <div class="oe_structure" />
+            <div class="page" id="rup_page">
+                <div class="oe_structure" id="oe_structure_rup_header" />
                 <h2 style="text-align: center">REGISTRE UNIQUE DU PERSONNEL</h2>
                 <br />
                 <br />
@@ -191,7 +218,7 @@
                     <t t-call="l10n_fr_hr_rup.rup_table_header" />
                     <t t-call="l10n_fr_hr_rup.rup_table_rows" />
                 </table>
-                <div class="oe_structure" />
+                <div class="oe_structure" id="oe_structure_rup_footer" />
             </div>
         </t>
     </template>

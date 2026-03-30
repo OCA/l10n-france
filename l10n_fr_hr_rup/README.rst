@@ -28,9 +28,9 @@ Rapport RUP
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module imports the French official RUP report with columns:
-Profession et catégorie socioprofessionnelle (PCS) Employer address
-Qualification Work location Social Security Number etc...
+This module adds the French official RUP report with columns: Profession
+et catégorie socioprofessionnelle (PCS) Employer address Qualification
+Work location Social Security Number etc...
 
 **Table of contents**
 
