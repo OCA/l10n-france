@@ -13,25 +13,31 @@
         owl="1"
     >
         <xpath expr="//select[@name='country_id']/.." position="after">
-            <div class="partner-detail">
-                <span class="label">SIREN</span>
-                <input
-                    class="detail"
-                    name="siren"
-                    placeholder="123456789"
-                    t-model="changes.siren"
-                    t-on-change="captureChange"
-                />
-            </div>
-            <div class="partner-detail">
-                <span class="label">NIC</span>
-                <input
-                    class="detail"
-                    name="nic"
-                    placeholder="12345"
-                    t-model="changes.nic"
-                    t-on-change="captureChange"
-                />
+            <div
+                class="is_company"
+                t-on-change="captureChange"
+                t-attf-style="display: {{changes.is_company ? 'block': 'none'}};"
+            >
+                <div class="partner-detail">
+                    <span class="label">SIREN</span>
+                    <input
+                        class="detail"
+                        name="siren"
+                        placeholder="123456789"
+                        t-model="changes.siren"
+                        t-on-change="captureChange"
+                    />
+                </div>
+                <div class="partner-detail">
+                    <span class="label">NIC</span>
+                    <input
+                        class="detail"
+                        name="nic"
+                        placeholder="12345"
+                        t-model="changes.nic"
+                        t-on-change="captureChange"
+                    />
+                </div>
             </div>
         </xpath>
     </t>

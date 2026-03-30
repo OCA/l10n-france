@@ -11,7 +11,7 @@
     "maintainers": ["legalsylvain"],
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
-    "depends": ["l10n_fr_siret", "point_of_sale"],
+    "depends": ["l10n_fr_siret", "point_of_sale", "pos_partner_is_company"],
     "data": [],
     "assets": {
         "point_of_sale.assets": [
@@ -20,5 +20,5 @@
         ],
     },
     "installable": True,
-    "auto_install": True,
+    "auto_install": False,
 }
