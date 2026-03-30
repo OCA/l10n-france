@@ -12,7 +12,7 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
     "license": "AGPL-3",
-    "depends": ["l10n_fr"],
+    "depends": ["l10n_fr", "mail"],
     "external_dependencies": {"python": ["python-stdnum"]},
     "data": ["views/res_partner.xml"],
     "demo": ["demo/partner_demo.xml"],
