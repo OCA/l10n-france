@@ -23,20 +23,18 @@ class IntrastatProductDeclaration(models.Model):
     ]
     _description = "EMEBI"
 
-    # WARNING: will probably be switched to Float in the very near future
-    total_amount = fields.Integer(compute="_compute_fr_numbers")
-
-    @api.depends("declaration_line_ids.amount_company_currency")
-    def _compute_fr_numbers(self):
-        # TODO exclude countries other than France
+    def _compute_numbers(self):
+        res = super()._compute_numbers()
         for decl in self:
-            total_amount = 0.0
-            for line in decl.declaration_line_ids:
-                multi = 1
-                if line.fr_regime_id:
-                    multi = line.fr_regime_id.fiscal_value_multiplier
-                total_amount += int(round(line.amount_company_currency)) * multi
-            decl.total_amount = total_amount
+            if decl.company_id.country_id.code == "FR":
+                total_amount = 0
+                for line in decl.declaration_line_ids:
+                    multi = 1
+                    if line.fr_regime_id:
+                        multi = line.fr_regime_id.fiscal_value_multiplier
+                    total_amount += int(round(line.amount_company_currency)) * multi
+                decl.total_amount = total_amount
+        return res
 
     @api.constrains("reporting_level", "declaration_type")
     def _check_fr_declaration(self):

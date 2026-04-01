@@ -4,7 +4,7 @@
 
 {
     "name": "EMEBI",
-    "version": "18.0.1.1.0",
+    "version": "18.0.2.0.0",
     "category": "Localisation/Report Intrastat",
     "license": "AGPL-3",
     "summary": "EMEBI (ex-DEB) for France",

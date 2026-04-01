@@ -352,11 +352,6 @@ msgid "No declaration lines. You probably forgot to generate them !"
 msgstr ""
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__num_decl_lines
-msgid "Number of Declaration Lines"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 msgid "Pro.dou@ne only accepts XML file upload for the original declaration."
@@ -406,16 +401,6 @@ msgstr ""
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.constraint,message:l10n_fr_intrastat_product.constraint_intrastat_fr_regime_code_unique
 msgid "This code regime already exists."
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
-msgid "Total Fiscal Amount"
-msgstr ""
-
-#. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
-msgid "Total fiscal amount in company currency of the declaration."
 msgstr ""
 
 #. module: l10n_fr_intrastat_product

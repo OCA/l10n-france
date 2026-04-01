@@ -360,11 +360,6 @@ msgid "No declaration lines. You probably forgot to generate them !"
 msgstr "No hay líneas de declaración. ¡Probablemente olvidó generarlas!"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__num_decl_lines
-msgid "Number of Declaration Lines"
-msgstr "Número de líneas de declaración"
-
-#. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 msgid "Pro.dou@ne only accepts XML file upload for the original declaration."
@@ -420,16 +415,6 @@ msgid "This code regime already exists."
 msgstr "Este régimen de código ya existe."
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
-msgid "Total Fiscal Amount"
-msgstr "Importe Fiscal Total"
-
-#. module: l10n_fr_intrastat_product
-#: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_product_declaration__total_amount
-msgid "Total fiscal amount in company currency of the declaration."
-msgstr "Importe fiscal total en la divisa de la empresa de la declaración."
-
-#. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 msgid "Transaction code on declaration line %d should have 2 digits."
@@ -455,6 +440,15 @@ msgstr ""
 "{{dict(object.fields_get('declaration_type', 'selection')['declaration_type']"
 "['selection'])[object.declaration_type]}} EMEBI {{object.year_month}} for "
 "{{object.company_id.name}}"
+
+#~ msgid "Number of Declaration Lines"
+#~ msgstr "Número de líneas de declaración"
+
+#~ msgid "Total Fiscal Amount"
+#~ msgstr "Importe Fiscal Total"
+
+#~ msgid "Total fiscal amount in company currency of the declaration."
+#~ msgstr "Importe fiscal total en la divisa de la empresa de la declaración."
 
 #~ msgid ""
 #~ "<div style=\"margin: 0px; padding: 0px;\">\n"
