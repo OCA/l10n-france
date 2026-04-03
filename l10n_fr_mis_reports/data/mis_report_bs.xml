@@ -10,7 +10,7 @@
         <field
             name="description"
         >Si vous avez besoin de personnaliser ce modèle de rapport MIS, dupliquez-le et modifiez la version dupliquée.</field>
-        <!-- <field name="constraint_type">balance_sheet</field> -->
+        <field name="constraint_type">balance_sheet</field>
     </record>
 
     <!-- ACTIF -->
@@ -163,7 +163,7 @@
         <field name="report_id" ref="mis_report_bs" />
         <field name="name">CS</field>
         <field name="description">Participations</field>
-        <field name="expression">bale[26%,296%]</field>
+        <field name="expression">bale[261%,262%,266%,267%,268%,296%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />

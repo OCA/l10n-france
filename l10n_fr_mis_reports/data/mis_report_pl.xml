@@ -10,7 +10,7 @@
         <field
             name="description"
         >Si vous avez besoin de personnaliser ce modèle de rapport MIS, dupliquez-le et modifiez la version dupliquée.</field>
-        <!-- <field name="constraint_type">profit_and_loss</field>  -->
+        <field name="constraint_type">profit_and_loss</field>
     </record>
 
     <!-- EXPLOITATION -->
