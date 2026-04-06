@@ -10,6 +10,7 @@ from lxml import etree, objectify
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import float_is_zero
 
 logger = logging.getLogger(__name__)
 
@@ -22,23 +23,18 @@ class IntrastatProductDeclaration(models.Model):
     ]
     _description = "EMEBI"
 
-    total_amount = fields.Integer(compute="_compute_fr_numbers")
-    # Inherit also num_decl_lines to avoid double loop
-    num_decl_lines = fields.Integer(compute="_compute_fr_numbers")
-
-    @api.depends("declaration_line_ids.amount_company_currency")
-    def _compute_fr_numbers(self):
+    def _compute_numbers(self):
+        res = super()._compute_numbers()
         for decl in self:
-            total_amount = 0.0
-            num_lines = 0
-            for line in decl.declaration_line_ids:
-                multi = 1
-                if line.fr_regime_id:
-                    multi = line.fr_regime_id.fiscal_value_multiplier
-                total_amount += line.amount_company_currency * multi
-                num_lines += 1
-            decl.num_decl_lines = num_lines
-            decl.total_amount = total_amount
+            if decl.company_id.country_id.code == "FR":
+                total_amount = 0
+                for line in decl.declaration_line_ids:
+                    multi = 1
+                    if line.fr_regime_id:
+                        multi = line.fr_regime_id.fiscal_value_multiplier
+                    total_amount += int(round(line.amount_company_currency)) * multi
+                decl.total_amount = total_amount
+        return res
 
     @api.constrains("reporting_level", "declaration_type")
     def _check_fr_declaration(self):
@@ -162,7 +158,7 @@ class IntrastatProductDeclaration(models.Model):
         my_company_identifier = my_company_vat + self.company_id.siret[9:]
 
         my_company_currency = self.company_id.currency_id.name
-        eu_countries = self.env.ref("base.europe").country_ids
+        weight_prec = self.env["decimal.precision"].precision_get("Stock Weight")
 
         root = objectify.Element("INSTAT")
         envelope = objectify.SubElement(root, "Envelope")
@@ -213,7 +209,7 @@ class IntrastatProductDeclaration(models.Model):
                 _("No declaration lines. You probably forgot to generate " "them !")
             )
         for pline in self.declaration_line_ids:
-            pline._generate_xml_line(declaration, eu_countries)
+            pline._generate_xml_line(declaration, weight_prec)
 
         objectify.deannotate(root, xsi_nil=True, cleanup_namespaces=True)
         xml_bytes = etree.tostring(
@@ -394,6 +390,23 @@ class IntrastatProductComputationLine(models.Model):
         vals["fr_regime_id"] = self.fr_regime_id.id or False
         return vals
 
+    def _prepare_declaration_line(self, line_number):
+        vals = super()._prepare_declaration_line(line_number)
+        if self[0].company_id.country_id and self[0].company_id.country_id.code == "FR":
+            fields_to_sum = self._fields_to_sum()
+            for field in fields_to_sum:
+                vals[field] = int(round(vals[field]))
+            # the EMEBI specs say that, if the value for weight and suppl_unit_qty
+            # is between 0 and 0.5, it should be rounded to 1
+            if not vals["weight"]:
+                vals["weight"] = 1
+            if vals["intrastat_unit_id"] and not vals["suppl_unit_qty"]:
+                vals["suppl_unit_qty"] = 1
+            vals["amount_company_currency"] = int(
+                round(vals["amount_company_currency"])
+            )
+        return vals
+
 
 class IntrastatProductDeclarationLine(models.Model):
     _inherit = "intrastat.product.declaration.line"
@@ -404,8 +417,9 @@ class IntrastatProductDeclarationLine(models.Model):
     )
 
     # flake8: noqa: C901
-    def _generate_xml_line(self, parent_node, eu_countries):
+    def _generate_xml_line(self, parent_node, weight_prec):
         self.ensure_one()
+
         decl = self.parent_id
         assert self.fr_regime_id, "Missing Intrastat Type"
         transaction = self.transaction_id
@@ -445,11 +459,11 @@ class IntrastatProductDeclarationLine(models.Model):
             item.countryOfOriginCode = self.product_origin_country_code
 
             # no need for float_is_zero() because weight is an integer on decl lines
-            if not self.weight:
+            if float_is_zero(self.weight, precision_digits=weight_prec):
                 raise UserError(
                     _("Missing weight on declaration line %d.") % self.line_number
                 )
-            item.netMass = str(self.weight)
+            item.netMass = str(int(round(self.weight)))
 
             if iunit_id:
                 # no need for float_is_zero() because suppl_unit_qty is an integer
@@ -461,11 +475,11 @@ class IntrastatProductDeclarationLine(models.Model):
                 item.quantityInSU = str(self.suppl_unit_qty)
 
         # START of elements that are part of all EMEBIs
-        if not self.amount_company_currency:
+        if self.company_currency_id.is_zero(self.amount_company_currency):
             raise UserError(
                 _("Missing fiscal value on declaration line %d.") % self.line_number
             )
-        item.invoicedAmount = str(self.amount_company_currency)
+        item.invoicedAmount = str(int(round(self.amount_company_currency)))
         # EMEBI 2022 : Partner VAT now required for all dispatches with
         # some exceptions for regime 29 in case of B2C
         if decl.declaration_type == "dispatches":
