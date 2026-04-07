@@ -58,9 +58,7 @@ class FrSiretLookup(models.TransientModel):
             "city": data.get("libellecommuneetablissement"),
             "country_id": country_id,
             "siren": data.get("siren") and str(data["siren"]) or False,
-            "siret": data.get("company_registry")
-            and str(data["company_registry"])
-            or False,
+            "siret": data.get("siret") and str(data["siret"]) or False,
             "category": data.get("categorieentreprise"),
             "creation_date": data.get("datecreationunitelegale"),
             "ape": data.get("activiteprincipaleunitelegale"),
@@ -108,7 +106,7 @@ class FrSiretLookupLine(models.TransientModel):
     country_id = fields.Many2one("res.country", string="Country")
     legal_type = fields.Char()
     siren = fields.Char("SIREN")
-    company_registry = fields.Char("company_registry")
+    siret = fields.Char("SIRET")
     ape = fields.Char("APE Code")
     ape_label = fields.Char("APE Label")
     creation_date = fields.Date()
@@ -127,7 +125,7 @@ class FrSiretLookupLine(models.TransientModel):
             "zip": self.zip,
             "city": self.city,
             "country_id": self.country_id.id or False,
-            "company_registry": self.company_registry,
+            "company_registry": self.siret,
             "vat": vat,
             "vies_valid": vies_valid,
         }

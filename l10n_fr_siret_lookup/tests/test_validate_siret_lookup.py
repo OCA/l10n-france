@@ -186,10 +186,12 @@ class TestStructure(TransactionCase):
                 # - Setting COMPANY_REGISTRY or VAT in "name" field
                 # - Setting COMPANY_REGISTRY in "company_registry" field
                 # - Setting VAT in "vat" field
+
+                # Removed due to excessively long response times in the VAT field
                 for form_input, field in [
                     ("name", "company_registry"),
-                    # ("name", "vat"),
                     ("company_registry", "company_registry"),
+                    # ("name", "vat"),
                     # ("vat", "vat"),
                 ]:
                     with (

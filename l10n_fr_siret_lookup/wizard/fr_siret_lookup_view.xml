@@ -27,7 +27,7 @@
                             <field name="legal_type" optional="show" />
                             <field name="active" optional="show" />
                             <field name="siren" optional="hide" />
-                            <field name="company_registry" optional="hide" />
+                            <field name="siret" optional="hide" />
                             <field name="ape" optional="hide" />
                             <field name="ape_label" optional="hide" />
                             <field name="category" optional="hide" />
@@ -74,7 +74,7 @@
                     <group string="Legal Infos">
                         <field name="legal_type" />
                         <field name="siren" />
-                        <field name="company_registry" />
+                        <field name="siret" />
                         <field name="ape" />
                         <field name="ape_label" />
                     </group>
