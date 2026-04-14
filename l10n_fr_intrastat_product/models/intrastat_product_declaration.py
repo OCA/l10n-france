@@ -403,6 +403,19 @@ class IntrastatProductComputationLine(models.Model):
         vals["fr_regime_id"] = self.fr_regime_id.id or False
         return vals
 
+    def _prepare_declaration_line(self):
+        vals = super()._prepare_declaration_line()
+        if self[0].company_id.country_id and self[0].company_id.country_id.code == "FR":
+            if (
+                self[0].transaction_id
+                and self[0].transaction_id.code == "12"
+                and self[0].fr_regime_id
+                and self[0].fr_regime_id.code == "29"
+                and not self[0].vat
+            ):
+                vals["vat"] = "QN999999999999"
+        return vals
+
 
 class IntrastatProductDeclarationLine(models.Model):
     _inherit = "intrastat.product.declaration.line"
@@ -474,10 +487,10 @@ class IntrastatProductDeclarationLine(models.Model):
                 _("Missing fiscal value on declaration line %d.") % self.line_number
             )
         item.invoicedAmount = str(self.amount_company_currency)
-        # EMEBI 2022 : Partner VAT now required for all dispatches with
-        # some exceptions for regime 29 in case of B2C
+        # EMEBI 2026 : Partner VAT now required for all dispatches
+        # including regime 29
         if decl.declaration_type == "dispatches":
-            if not self.vat and regime.code != "29":
+            if not self.vat:
                 raise UserError(
                     _("Missing VAT number on declaration line %d.") % self.line_number
                 )
