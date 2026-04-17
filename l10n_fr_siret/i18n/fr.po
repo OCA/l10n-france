@@ -29,14 +29,45 @@ msgid "Companies"
 msgstr "Sociétés"
 
 #. module: l10n_fr_siret
+#: model:ir.model,name:l10n_fr_siret.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_partner
 msgid "Contact"
 msgstr "Contact"
 
 #. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__fr_siret_dup_check
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_config_settings__fr_siret_dup_check
+msgid "Duplicate Partner Check"
+msgstr "Détection de doublons de partenaires"
+
+#. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "Duplicate warning: partner"
 msgstr "Avertissement doublon: le partenaire"
+
+#. module: l10n_fr_siret
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_config_settings_view_form
+msgid "Field used to detect duplicate partners"
+msgstr "Champ utilisé pour détecter les partenaires en doublon"
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__fr_siret_dup_check
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_config_settings__fr_siret_dup_check
+msgid ""
+"Field used to detect duplicate partners: SIREN (company level) or SIRET "
+"(establishment level)."
+msgstr ""
+"Champ utilisé pour détecter les partenaires en doublon : SIREN (niveau "
+"société) ou SIRET (niveau établissement)."
+
+#. module: l10n_fr_siret
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_config_settings_view_form
+msgid "French Localization"
+msgstr "Localisation française"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
@@ -61,6 +92,7 @@ msgstr "Partenaire avec SIREN identique"
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siren
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siren
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siren
+#: model:ir.model.fields.selection,name:l10n_fr_siret.selection__res_company__fr_siret_dup_check__siren
 msgid "SIREN"
 msgstr "SIREN"
 
@@ -68,6 +100,7 @@ msgstr "SIREN"
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret
+#: model:ir.model.fields.selection,name:l10n_fr_siret.selection__res_company__fr_siret_dup_check__siret
 msgid "SIRET"
 msgstr "SIRET"
 
@@ -77,6 +110,27 @@ msgstr "SIRET"
 #, python-format
 msgid "SIRET '%s' is invalid."
 msgstr "Le SIRET '%s' est invalide."
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields.selection,name:l10n_fr_siret.selection__res_partner__same_siren_partner_match_type__siren
+msgid "Same SIREN"
+msgstr "Même SIREN"
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields.selection,name:l10n_fr_siret.selection__res_partner__same_siren_partner_match_type__siren_no_nic
+msgid "Same SIREN without NIC"
+msgstr "Même SIREN sans NIC"
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields.selection,name:l10n_fr_siret.selection__res_partner__same_siren_partner_match_type__siret
+msgid "Same SIRET"
+msgstr "Même SIRET"
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__same_siren_partner_match_type
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__same_siren_partner_match_type
+msgid "Same Siren Partner Match Type"
+msgstr "Type de correspondance de partenaire même SIREN"
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -151,8 +205,18 @@ msgstr ""
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
+msgid "has the same <b>SIREN</b> (no NIC set)."
+msgstr "a le même <b>SIREN</b> (sans NIC)."
+
+#. module: l10n_fr_siret
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "has the same <b>SIREN</b>."
 msgstr "a le même <b>SIREN</b>."
+
+#. module: l10n_fr_siret
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
+msgid "has the same <b>SIRET</b>."
+msgstr "a le même <b>SIRET</b>."
 
 #~ msgid "Company Registry"
 #~ msgstr "RCS"
