@@ -166,7 +166,7 @@ class Partner(models.Model):
             if raise_if_none:
                 raise UserError(
                     self.env._(
-                        "Cannot get %(field)s from partner '%(partner)s' "
+                        "Cannot get %(field)s of partner '%(partner)s' "
                         "because the country is not set on that partner.",
                         field=field,
                         partner=self.display_name,
@@ -178,7 +178,7 @@ class Partner(models.Model):
             if raise_if_none:
                 raise UserError(
                     self.env._(
-                        "Cannot get %(field)s from partner '%(partner)s' "
+                        "Cannot get %(field)s of partner '%(partner)s' "
                         "because the partner's country is %(country)s "
                         "which is not France.",
                         field=field,
@@ -194,7 +194,7 @@ class Partner(models.Model):
             if raise_if_none:
                 raise UserError(
                     self.env._(
-                        "Cannot get %(field)s from partner '%(partner)s' "
+                        "Cannot get %(field)s of partner '%(partner)s' "
                         "because the SIRET field is empty.",
                         field=field,
                         partner=self.display_name,
@@ -226,7 +226,7 @@ class Partner(models.Model):
             if raise_if_none:
                 raise UserError(
                     self.env._(
-                        "Cannot get SIREN from partner %(partner)s because "
+                        "Cannot get SIREN of partner '%(partner)s' because "
                         "the SIRET field is invalid (%(company_registry)s).",
                         partner=partner.display_name,
                         company_registry=company_registry,
@@ -244,7 +244,7 @@ class Partner(models.Model):
         if raise_if_none:
             raise UserError(
                 self.env._(
-                    "Cannot get SIRET from partner %(partner)s because "
+                    "Cannot get SIRET of partner '%(partner)s' because "
                     "the SIRET field is invalid (%(company_registry)s).",
                     partner=self.display_name,
                     company_registry=company_registry,
@@ -261,7 +261,7 @@ class Partner(models.Model):
         if raise_if_none:
             raise UserError(
                 self.env._(
-                    "Cannot get NIC from partner %(partner)s because "
+                    "Cannot get NIC of partner '%(partner)s' because "
                     "the SIRET field (%(company_registry)s) doesn't "
                     "contain a full SIRET.",
                     partner=self.display_name,
