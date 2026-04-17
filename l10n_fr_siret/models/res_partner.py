@@ -1,7 +1,7 @@
 import logging
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 logger = logging.getLogger(__name__)
 try:
@@ -176,3 +176,52 @@ class Partner(models.Model):
             "target": "current",
         }
         return action
+
+    def _get_siren(self, raise_if_none=False):
+        self.ensure_one()
+        partner = self.parent_id or self
+        if partner.vat:
+            vat = "".join(x for x in partner.vat if not x.isspace())
+            if (
+                vat
+                and vat.startswith("FR")
+                and len(vat) == 13
+                and siren.is_valid(vat[4:])
+            ):
+                return vat[4:]
+        if partner.siren and siren.is_valid(partner.siren):
+            return partner.siren
+        if raise_if_none:
+            raise UserError(
+                self.env._(
+                    "SIREN is not set on partner '%(partner)s'.",
+                    partner=partner.display_name,
+                )
+            )
+        return None
+
+    def _get_siret(self, raise_if_none=False):
+        self.ensure_one()
+        if self.siren and self.nic and siret.is_valid(self.siret):
+            return self.siret
+        if raise_if_none:
+            raise UserError(
+                self.env._(
+                    "SIRET is not set on partner '%(partner)s'.",
+                    partner=self.display_name,
+                )
+            )
+        return None
+
+    def _get_nic(self, raise_if_none=False):
+        self.ensure_one()
+        if self.siren and self.nic and siret.is_valid(self.siret):
+            return self.nic
+        if raise_if_none:
+            raise UserError(
+                self.env._(
+                    "NIC is not set on partner '%(partner)s'.",
+                    partner=self.display_name,
+                )
+            )
+        return None
