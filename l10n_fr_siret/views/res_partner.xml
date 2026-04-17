@@ -47,14 +47,33 @@
                 attrs="{'invisible': [('same_vat_partner_id', '=', False)]}"
                 position="after"
             >
+                <field name="same_siren_partner_match_type" invisible="1" />
                 <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('same_siren_partner_id', '=', False)]}"
+                    attrs="{'invisible': [('same_siren_partner_match_type', '!=', 'siren')]}"
                 >
                         Duplicate warning: partner <field
                         name="same_siren_partner_id"
                     /> has the same <b>SIREN</b>.
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('same_siren_partner_match_type', '!=', 'siret')]}"
+                >
+                        Duplicate warning: partner <field
+                        name="same_siren_partner_id"
+                    /> has the same <b>SIRET</b>.
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('same_siren_partner_match_type', '!=', 'siren_no_nic')]}"
+                >
+                        Duplicate warning: partner <field
+                        name="same_siren_partner_id"
+                    /> has the same <b>SIREN</b> (no NIC set).
                 </div>
             </div>
         </field>

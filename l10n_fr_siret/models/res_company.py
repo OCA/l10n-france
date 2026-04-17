@@ -18,3 +18,11 @@ class ResCompany(models.Model):
     nic = fields.Char(
         string="NIC", related="partner_id.nic", store=True, readonly=False
     )
+    fr_siret_dup_check = fields.Selection(
+        [("siren", "SIREN"), ("siret", "SIRET")],
+        string="Duplicate Partner Check",
+        default="siren",
+        required=True,
+        help="Field used to detect duplicate partners: SIREN (company level) "
+        "or SIRET (establishment level).",
+    )
