@@ -31,9 +31,10 @@ class IntrastatFrRegime(models.Model):
     )
 
     # replace the native SQL constraint of the intrastat_product module
-    _sql_constraints = [
-        ("code_unique", "unique(code)", "This code regime already exists.")
-    ]
+    _code_unique = models.Constraint(
+        "unique(code)",
+        "This code regime already exists.",
+    )
 
     @api.depends("code", "name")
     def _compute_display_name(self):

@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from lxml import etree, objectify
 
-from odoo import _, api, fields, models
+from odoo import Domain, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 logger = logging.getLogger(__name__)
@@ -49,7 +49,7 @@ class IntrastatProductDeclaration(models.Model):
                 and decl.company_id.country_id.code == "FR"
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "In France, an arrival EMEBI cannot have a 'standard' "
                         "reporting level."
                     )
@@ -77,7 +77,7 @@ class IntrastatProductDeclaration(models.Model):
         move_type = inv_line.move_id.move_type
         if move_type in ("in_invoice", "in_refund"):
             po_line = self.env["purchase.order.line"].search(
-                [("invoice_lines", "in", inv_line.id)], limit=1
+                Domain("invoice_lines", "in", inv_line.id), limit=1
             )
             if po_line:
                 wh = po_line.order_id.picking_type_id.warehouse_id
@@ -88,7 +88,7 @@ class IntrastatProductDeclaration(models.Model):
                     dpt = location._get_fr_department()
         elif move_type in ("out_invoice", "out_refund"):
             so_line = self.env["sale.order.line"].search(
-                [("invoice_lines", "in", inv_line.id)], limit=1
+                Domain("invoice_lines", "in", inv_line.id), limit=1
             )
             if so_line:
                 so = so_line.order_id
@@ -96,7 +96,7 @@ class IntrastatProductDeclaration(models.Model):
         if not dpt:
             dpt = self.company_id.partner_id.country_department_id
             if not dpt:
-                msg = _(
+                msg = self.env._(
                     "Missing department. "
                     "To set it, set the country and the zip code on this partner."
                 )
@@ -137,7 +137,7 @@ class IntrastatProductDeclaration(models.Model):
                         regime_code = 29
             if regime_code:
                 regime = self.env.ref(
-                    "l10n_fr_intrastat_product.fr_regime_%d" % regime_code
+                    f"l10n_fr_intrastat_product.fr_regime_{regime_code}"
                 )
                 line_vals["fr_regime_id"] = regime.id
 
@@ -149,12 +149,14 @@ class IntrastatProductDeclaration(models.Model):
 
         if not self.company_id.siret:
             raise UserError(
-                _("The SIRET is not set on company '%s'.")
-                % self.company_id.display_name
+                self.env._(
+                    "The SIRET is not set on company '%s'.",
+                    self.company_id.display_name,
+                )
             )
         if self.action != "replace" or self.revision != 1:
             raise UserError(
-                _(
+                self.env._(
                     "Pro.dou@ne only accepts XML file upload for "
                     "the original declaration."
                 )
@@ -167,12 +169,9 @@ class IntrastatProductDeclaration(models.Model):
         root = objectify.Element("INSTAT")
         envelope = objectify.SubElement(root, "Envelope")
         if not self.company_id.fr_intrastat_accreditation:
-            msg = (
-                _(
-                    "The Customs Accreditation "
-                    "Identifier is not set for the company '%s'."
-                )
-                % self.company_id.display_name
+            msg = self.env._(
+                "The Customs Accreditation Identifier is not set for the company '%s'.",
+                self.company_id.display_name,
             )
             self._account_config_warning(msg)
         envelope.envelopeId = self.company_id.fr_intrastat_accreditation
@@ -210,7 +209,9 @@ class IntrastatProductDeclaration(models.Model):
         # THEN, the fields which vary from a line to the next
         if not self.declaration_line_ids:
             raise UserError(
-                _("No declaration lines. You probably forgot to generate them !")
+                self.env._(
+                    "No declaration lines. You probably forgot to generate them !"
+                )
             )
         for pline in self.declaration_line_ids:
             pline._generate_xml_line(declaration, eu_countries)
@@ -236,7 +237,7 @@ class IntrastatProductDeclaration(models.Model):
         )
         # I can't search on [('country_id', '=', ..)]
         # because it is a fields.function not stored and without fnct_search
-        companies = self.env["res.company"].search([])
+        companies = self.env["res.company"].search(Domain.TRUE)
         mail_template = self.env.ref(
             "l10n_fr_intrastat_product."
             "l10n_fr_intrastat_product_reminder_email_template"
@@ -247,11 +248,9 @@ class IntrastatProductDeclaration(models.Model):
             for declaration_type in ["arrivals", "dispatches"]:
                 # Check if a declaration already exists for month N-1
                 intrastats = self.search(
-                    [
-                        ("year_month", "=", previous_month),
-                        ("declaration_type", "=", declaration_type),
-                        ("company_id", "=", company.id),
-                    ]
+                    Domain("year_month", "=", previous_month)
+                    & Domain("declaration_type", "=", declaration_type)
+                    & Domain("company_id", "=", company.id)
                 )
                 if intrastats:
                     # if it already exists, we don't do anything
@@ -299,7 +298,7 @@ class IntrastatProductDeclaration(models.Model):
                         company.display_name,
                     )
                     intrastat.message_post(
-                        body=_(
+                        body=self.env._(
                             "This EMEBI has been auto-generated by the EMEBI reminder "
                             "scheduled action."
                         )
@@ -334,7 +333,7 @@ class IntrastatProductDeclaration(models.Model):
                 "fr_regime_id": {
                     "header": {
                         "type": "string",
-                        "value": _("Regime"),
+                        "value": self.env._("Regime"),
                     },
                     "line": {
                         "value": self._render(
@@ -346,7 +345,7 @@ class IntrastatProductDeclaration(models.Model):
                 "fr_regime_code": {
                     "header": {
                         "type": "string",
-                        "value": _("Regime Code"),
+                        "value": self.env._("Regime Code"),
                     },
                     "line": {
                         "value": self._render("line.fr_regime_code"),
@@ -417,7 +416,9 @@ class IntrastatProductDeclarationLine(models.Model):
             cn8 = objectify.SubElement(item, "CN8")
             if not self.hs_code_id:
                 raise UserError(
-                    _("Missing H.S. code on declaration line %d.") % self.line_number
+                    self.env._(
+                        "Missing H.S. code on declaration line %d.", self.line_number
+                    )
                 )
             # local_code is required=True, so no need to check it
             cn8.CN8Code = self.hs_code_id.local_code
@@ -428,26 +429,31 @@ class IntrastatProductDeclarationLine(models.Model):
 
             if not self.src_dest_country_code:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Missing country code of origin/destination on "
-                        "declaration line %d."
+                        "declaration line %d.",
+                        self.line_number,
                     )
-                    % self.line_number
                 )
             item.MSConsDestCode = self.src_dest_country_code
 
             # EMEBI 2022 : origin country is now for arrival AND dispatches
             if not self.product_origin_country_code:
                 raise UserError(
-                    _("Missing product country of origin code on declaration line %d.")
-                    % self.line_number
+                    self.env._(
+                        "Missing product country of origin code on "
+                        "declaration line %d.",
+                        self.line_number,
+                    )
                 )
             item.countryOfOriginCode = self.product_origin_country_code
 
             # no need for float_is_zero() because weight is an integer on decl lines
             if not self.weight:
                 raise UserError(
-                    _("Missing weight on declaration line %d.") % self.line_number
+                    self.env._(
+                        "Missing weight on declaration line %d.", self.line_number
+                    )
                 )
             item.netMass = str(self.weight)
 
@@ -456,14 +462,18 @@ class IntrastatProductDeclarationLine(models.Model):
                 # on declaration lines
                 if not self.suppl_unit_qty:
                     raise UserError(
-                        _("Missing quantity on declaration line %d.") % self.line_number
+                        self.env._(
+                            "Missing quantity on declaration line %d.", self.line_number
+                        )
                     )
                 item.quantityInSU = str(self.suppl_unit_qty)
 
         # START of elements that are part of all EMEBIs
         if not self.amount_company_currency:
             raise UserError(
-                _("Missing fiscal value on declaration line %d.") % self.line_number
+                self.env._(
+                    "Missing fiscal value on declaration line %d.", self.line_number
+                )
             )
         item.invoicedAmount = str(self.amount_company_currency)
         # EMEBI 2022 : Partner VAT now required for all dispatches with
@@ -471,11 +481,13 @@ class IntrastatProductDeclarationLine(models.Model):
         if decl.declaration_type == "dispatches":
             if not self.vat and regime.code != "29":
                 raise UserError(
-                    _("Missing VAT number on declaration line %d.") % self.line_number
+                    self.env._(
+                        "Missing VAT number on declaration line %d.", self.line_number
+                    )
                 )
             if self.vat and self.vat.startswith("GB") and decl.year >= "2021":
                 raise UserError(
-                    _(
+                    self.env._(
                         "Bad VAT number '%(vat)s' on declaration line %(line_number)d. "
                         "Brexit took place on January 1st 2021 and companies "
                         "in Northern Ireland have a new VAT number starting with 'XI'.",
@@ -491,25 +503,33 @@ class IntrastatProductDeclarationLine(models.Model):
         if decl.reporting_level == "extended" and not regime.is_fiscal_only:
             if not transaction:
                 raise UserError(
-                    _("Missing intrastat transaction on declaration line %d.")
-                    % self.line_number
+                    self.env._(
+                        "Missing intrastat transaction on declaration line %d.",
+                        self.line_number,
+                    )
                 )
             if len(transaction.code) != 2 or not transaction.code.isdigit():
                 raise UserError(
-                    _("Transaction code on declaration line %d should have 2 digits.")
-                    % self.line_number
+                    self.env._(
+                        "Transaction code on declaration line %d should have 2 digits.",
+                        self.line_number,
+                    )
                 )
             transaction_nature = objectify.SubElement(item, "NatureOfTransaction")
             transaction_nature.natureOfTransactionACode = transaction.code[0]
             transaction_nature.natureOfTransactionBCode = transaction.code[1]
             if not self.transport_id:
                 raise UserError(
-                    _("Missing mode of transport on declaration line %d.")
-                    % self.line_number
+                    self.env._(
+                        "Missing mode of transport on declaration line %d.",
+                        self.line_number,
+                    )
                 )
             item.modeOfTransportCode = str(self.transport_id.code)
             if not self.region_code:
                 raise UserError(
-                    _("Missing region code on declaration line %d.") % self.line_number
+                    self.env._(
+                        "Missing region code on declaration line %d.", self.line_number
+                    )
                 )
             item.regionCode = self.region_code

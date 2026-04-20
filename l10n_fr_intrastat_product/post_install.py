@@ -4,6 +4,8 @@
 
 import logging
 
+from odoo import Domain
+
 logger = logging.getLogger(__name__)
 
 
@@ -11,7 +13,7 @@ def set_fr_company_intrastat(env):
     imdo = env["ir.model.data"]
     afpo = env["account.fiscal.position"]
     fr_id = env.ref("base.fr").id
-    companies = env["res.company"].search([("partner_id.country_id", "=", fr_id)])
+    companies = env["res.company"].search(Domain("partner_id.country_id", "=", fr_id))
     fpdict = {
         "intraeub2b": "b2b",
         "intraeub2c": "b2c",
@@ -22,14 +24,12 @@ def set_fr_company_intrastat(env):
                 "intrastat_accessory_costs": True,
             }
         )
-        fps = afpo.search([("company_id", "=", company.id)])
+        fps = afpo.search(Domain("company_id", "=", company.id))
         for fp in fps:
             xmlid_rec = imdo.search(
-                [
-                    ("model", "=", "account.fiscal.position"),
-                    ("module", "=like", "l10n_fr%"),
-                    ("res_id", "=", fp.id),
-                ],
+                Domain("model", "=", "account.fiscal.position")
+                & Domain("module", "=like", "l10n_fr%")
+                & Domain("res_id", "=", fp.id),
                 limit=1,
             )
             if xmlid_rec:
