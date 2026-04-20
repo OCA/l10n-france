@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import Domain
+from odoo.fields import Domain
 
 logger = logging.getLogger(__name__)
 

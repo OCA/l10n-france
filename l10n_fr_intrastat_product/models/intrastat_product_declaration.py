@@ -8,8 +8,9 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from lxml import etree, objectify
 
-from odoo import Domain, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.fields import Domain
 
 logger = logging.getLogger(__name__)
 
