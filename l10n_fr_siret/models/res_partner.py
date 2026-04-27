@@ -53,6 +53,13 @@ class Partner(models.Model):
         string="Partners with same SIREN",
         compute_sudo=True,
     )
+    # Field below is identical to the field on res.company defined in l10n_fr.
+    # It is different from fiscal_country_codes defined in the 'account' module
+    # which takes into account both the country of the company
+    # AND the country of the partner
+    is_france_country = fields.Boolean(
+        compute="_compute_is_france_country",
+    )
 
     @api.depends("siren", "nic")
     def _compute_siret(self):
@@ -102,6 +109,15 @@ class Partner(models.Model):
                     self.with_context(active_test=False).search(domain)
                 ).ids or False
             partner.same_siren_partner_ids = same_siren_partner_ids
+
+    @api.depends("country_id")
+    def _compute_is_france_country(self):
+        fr_country_codes = self.env["res.company"]._get_france_country_codes()
+        for partner in self:
+            is_france_country = False
+            if partner.country_id and partner.country_id.code in fr_country_codes:
+                is_france_country = True
+            partner.is_france_country = is_france_country
 
     @api.constrains("siren", "nic")
     def _check_siret(self):
