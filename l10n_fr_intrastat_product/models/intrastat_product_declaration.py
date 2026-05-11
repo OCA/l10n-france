@@ -206,7 +206,7 @@ class IntrastatProductDeclaration(models.Model):
         # THEN, the fields which vary from a line to the next
         if not self.declaration_line_ids:
             raise UserError(
-                _("No declaration lines. You probably forgot to generate " "them !")
+                _("No declaration lines. You probably forgot to generate them !")
             )
         for pline in self.declaration_line_ids:
             pline._generate_xml_line(declaration, weight_prec)
