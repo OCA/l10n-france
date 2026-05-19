@@ -10,7 +10,14 @@
     "category": "Accounting/Payment Providers",
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-france",
-    "depends": ["payment"],
+    "depends": [
+        "payment",
+        "phone_validation",
+        "partner_address_split",
+    ],
+    "external_dependencies": {
+        "python": ["phonenumbers"],
+    },
     "data": [
         "views/payment_provider_views.xml",
         "views/payment_monetico_templates.xml",

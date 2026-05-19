@@ -2,9 +2,12 @@
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+# https://www.monetico.com/fr/telechargements/
+# Monetico_Paiement_documentation_technique_v2.0.pdf
 
 import json
 import logging
+import re
 from base64 import b64encode
 
 from werkzeug import urls
@@ -27,9 +30,54 @@ RESPONSE_CODES_MAPPING = {
     "cancel": ["annulation"],
 }
 
+MONETICO_MAIL_REGEX = r".+@.+\..+"
+
 
 class PaymentTransaction(models.Model):
     _inherit = "payment.transaction"
+
+    partner_address_2 = fields.Char(string="Address 2")
+    partner_address_3 = fields.Char(string="Address 3")
+
+    def _get_specific_create_values(self, provider_code, values):
+        if provider_code == "monetico":
+            name = values.get("partner_name")
+            if name and len(name) > 45:
+                values["partner_name"] = name[:45]
+            city = values.get("partner_city")
+            if city and len(city) > 50:
+                values["partner_city"] = city[:50]
+            zip_code = values.get("partner_zip")
+            if zip_code and len(zip_code) > 10:
+                values["partner_zip"] = zip_code[:10]
+            email = values.get("partner_email")
+            if email:
+                if len(email) > 254:
+                    email = email[:254]
+                if not re.match(MONETICO_MAIL_REGEX, email):
+                    email = None
+                values["partner_email"] = email
+
+            partner = self.env["res.partner"].browse(values["partner_id"])
+            (
+                values["partner_address"],
+                values["partner_address_2"],
+                values["partner_address_3"],
+            ) = partner._get_split_address(3, 50)
+
+            try:
+                phone = partner._phone_format(
+                    partner.phone, force_format="INTERNATIONAL"
+                )
+                phone = phone.replace(" ", "-", 1).replace(" ", "")
+                assert phone.startswith("+")
+                assert len(phone) < 19
+                values["partner_phone"] = phone
+            except Exception:
+                _logger.warning("Failed to format billing phone: %s", partner.phone)
+                values["partner_phone"] = None
+
+        return values
 
     def _get_monetico_contexte_commande(self):
         billing = dict(
@@ -38,37 +86,17 @@ class PaymentTransaction(models.Model):
             addressLine1=self.partner_address or None,
             city=self.partner_city or None,
             postalCode=self.partner_zip or None,
-            country=(
-                self.partner_id.country_id.code if self.partner_country_id else None
-            ),
+            country=self.partner_country_id.code if self.partner_country_id else None,
             email=self.partner_email or None,
-            stateOrProvince=(
-                self.partner_id.state_id.code if self.partner_state_id else None
-            ),
+            stateOrProvince=self.partner_state_id.code
+            if self.partner_state_id
+            else None,
         )
 
-        # shipping = dict(
-        #     firstName="Ada",
-        #     lastName="Lovelace",
-        #     addressLine1="101 Rue de Roisel",
-        #     city="Y",
-        #     postalCode="80190",
-        #     country="FR",
-        #     email="ada@some.tld",
-        #     phone="+33-612345678",
-        #     shipIndicator="billing_address",
-        #     deliveryTimeframe="two_day",
-        #     firstUseDate="2017-01-25",
-        #     matchBillingAddress=True,
-        # )
-
-        # client = dict(
-        #     email="ada@some.tld",
-        #     birthCity="Londre",
-        #     birthPostalCode="W1",
-        #     birthCountry="GB",
-        #     birthdate="2000-12-10",
-        # )
+        if self.partner_address_2:
+            billing["addressLine2"] = self.partner_address_2
+            if self.partner_address_3:
+                billing["addressLine3"] = self.partner_address_3
 
         return dict(billing=billing)
 
