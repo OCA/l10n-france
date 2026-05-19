@@ -28,8 +28,8 @@ Journal Entry Monetico import
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module extends the functionality of account_move_base_import, in
-order to handle the file format used for Monetico card remitance
+This module extends the functionality of ``account_move_base_import``,
+in order to handle the file format used for Monetico card remitance
 
 **Table of contents**
 
@@ -53,6 +53,11 @@ Authors
 -------
 
 * Akretion
+
+Contributors
+------------
+
+- Florian da Costa <<florian.dacosta@akretion.com>
 
 Maintainers
 -----------

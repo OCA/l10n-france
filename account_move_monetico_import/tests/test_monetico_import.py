@@ -1,9 +1,10 @@
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# Copyright 2025  Akretion (https://www.akretion.com).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
 import base64
 
-from odoo.modules.module import get_resource_path
 from odoo.tests.common import TransactionCase
+from odoo.tools.misc import file_path
 
 
 class TestMoneticoImportCardRemitance(TransactionCase):
@@ -37,10 +38,8 @@ class TestMoneticoImportCardRemitance(TransactionCase):
         )
 
     def _get_import_wizard(self, filename):
-        file_path = get_resource_path(
-            "account_move_monetico_import", "tests/files/", filename
-        )
-        data = base64.b64encode(open(file_path, "rb").read())
+        f_path = file_path(f"account_move_monetico_import/tests/files/{filename}")
+        data = base64.b64encode(open(f_path, "rb").read())
         wizard = self.env["credit.statement.import"].create(
             {
                 "journal_id": self.monetico_journal.id,
@@ -62,7 +61,7 @@ class TestMoneticoImportCardRemitance(TransactionCase):
         payment_aml1 = move.line_ids.filtered(lambda line: line.name == "ref1")
         self.assertAlmostEqual(payment_aml1.credit, 2197.89)
         payment_aml2 = move.line_ids.filtered(lambda line: line.name == "ref2")
-        self.assertAlmostEqual(refund_aml1.credit, 1577.54)
+        self.assertAlmostEqual(payment_aml2.credit, 1577.54)
         counterpart_aml = move.line_ids.filtered(
             lambda line: line.account_id == self.bank_monetico_account
         )
