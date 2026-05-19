@@ -5,6 +5,7 @@
 
 import json
 import logging
+import re
 from base64 import b64encode
 from datetime import datetime
 from encodings import hex_codec
@@ -18,7 +19,9 @@ from odoo import api, fields, models
 from odoo.tools.float_utils import float_compare
 from odoo.tools.translate import _
 
+from odoo.addons.partner_helper.models.partner import split_char
 from odoo.addons.payment.models.payment_acquirer import ValidationError
+from odoo.addons.phone_validation.tools import phone_validation
 
 from ..controllers.main import MoneticoController
 
@@ -26,6 +29,7 @@ _logger = logging.getLogger(__name__)
 
 OUT_DATE_FORMAT = "%d/%m/%Y:%H:%M:%S"
 IN_DATE_FORMAT = "%d/%m/%Y_a_%H:%M:%S"
+MONETICO_MAIL_REGEX = r".+@.+\..+"
 
 
 class AcquirerMonetico(models.Model):
@@ -82,41 +86,61 @@ class AcquirerMonetico(models.Model):
         billing_country = billing_country.code if billing_country else None
         billing_state = values.get("billing_partner_state")
         billing_state = billing_state.code if billing_state else None
+        billing_phone = values.get("billing_partner_phone")
+        billing_first_name = values.get("billing_partner_first_name")
+        billing_last_name = values.get("billing_partner_last_name")
+        billing_city = values.get("billing_partner_city")
+        billing_zip = values.get("billing_partner_zip")
+        billing_email = values.get("billing_partner_email")
+        billing_address = values.get("billing_partner_address")
+
+        if billing_first_name:
+            billing_first_name = billing_first_name[:45]
+        if billing_last_name:
+            billing_last_name = billing_last_name[:45]
+        if billing_city:
+            billing_city = billing_city[:50]
+        if billing_zip:
+            billing_zip = billing_zip[:10]
+        if billing_email:
+            billing_email = billing_email[:254]
+
+        billing_address_3 = billing_address_2 = None
+        if billing_address:
+            billing_address, billing_address_2, billing_address_3 = split_char(
+                billing_address, 3, 50
+            )
+
+        # Phones should be in +33-612345678 format
+        try:
+            billing_phone = phone_validation.phone_format(
+                billing_phone, billing_country, None
+            )
+            billing_phone = billing_phone.replace(" ", "-", 1).replace(" ", "")
+            assert billing_phone.startswith("+")
+            assert len(billing_phone) < 19
+        except Exception:
+            _logger.warning("Failed to format billing phone: %s", billing_phone)
+            billing_phone = None
+
+        if billing_email and not re.match(MONETICO_MAIL_REGEX, billing_email):
+            billing_email = None
 
         billing = dict(
-            firstName=values.get("billing_partner_first_name"),
-            lastName=values.get("billing_partner_last_name"),
-            mobilePhone=values.get("billing_partner_phone"),
-            addressLine1=values.get("billing_partner_address"),
-            city=values.get("billing_partner_city"),
-            postalCode=values.get("billing_partner_zip"),
+            firstName=billing_first_name,
+            lastName=billing_last_name,
+            mobilePhone=billing_phone,
+            addressLine1=billing_address,
+            city=billing_city,
+            postalCode=billing_zip,
             country=billing_country,
-            email=values.get("billing_partner_email"),
+            email=billing_email,
             stateOrProvince=billing_state,
         )
-
-        # shipping = dict(
-        #     firstName="Ada",
-        #     lastName="Lovelace",
-        #     addressLine1="101 Rue de Roisel",
-        #     city="Y",
-        #     postalCode="80190",
-        #     country="FR",
-        #     email="ada@some.tld",
-        #     phone="+33-612345678",
-        #     shipIndicator="billing_address",
-        #     deliveryTimeframe="two_day",
-        #     firstUseDate="2017-01-25",
-        #     matchBillingAddress=True,
-        # )
-
-        # client = dict(
-        #     email="ada@some.tld",
-        #     birthCity="Londre",
-        #     birthPostalCode="W1",
-        #     birthCountry="GB",
-        #     birthdate="2000-12-10",
-        # )
+        if billing_address_2:
+            billing["addressLine2"] = billing_address_2
+            if billing_address_3:
+                billing["addressLine3"] = billing_address_3
 
         return dict(billing=billing)
 
@@ -143,7 +167,7 @@ class AcquirerMonetico(models.Model):
         self.ensure_one()
         base_url = self.get_base_url()
         currency = self.env["res.currency"].sudo().browse(values["currency_id"])
-        amount = f"{values['amount']:.2f}{currency.name}"
+        amount = f"{values['amount']: .2f}{currency.name}"
 
         lang = values.get("partner_lang")
         if lang:
@@ -207,7 +231,6 @@ class TxMonetico(models.Model):
             raise ValidationError(error_msg)
 
         if shasign.upper() != tx.acquirer_id._monetico_generate_shasign(data).upper():
-
             raise ValidationError(_("Monetico: invalid shasign"))
 
         return tx

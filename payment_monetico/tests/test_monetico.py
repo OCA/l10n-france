@@ -13,7 +13,7 @@ from odoo.tests import tagged
 from odoo.addons.payment.tests.common import PaymentAcquirerCommon
 
 
-@tagged("post_install", "-at_install", "-standard", "external")
+@tagged("post_install", "-at_install", "external", "-standard")
 class TestPaymentMonetico(PaymentAcquirerCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
@@ -51,7 +51,7 @@ class TestPaymentMonetico(PaymentAcquirerCommon):
                     billing=dict(
                         firstName="Norbert",
                         lastName="Buyer",
-                        mobilePhone="0032 12 34 56 78",
+                        mobilePhone="+32-12345678",
                         addressLine1="Huge Street 2/543",
                         city="Sin City",
                         postalCode="1000",
@@ -75,7 +75,7 @@ class TestPaymentMonetico(PaymentAcquirerCommon):
             <input type="hidden" name="date" value="09/04/2024:14:08:37"/>
             <input type="hidden" name="montant" value="100.00EUR"/>
             <input type="hidden" name="reference" value="SO404"/>
-            <input type="hidden" name="MAC" value="11a9b947ad89f875f4a1c12f0b66bf8e29e40dff"/>
+            <input type="hidden" name="MAC" value="00076752218d88aec2c9f1a33cb0c1f3fccaac61"/>
             <input type="hidden" name="url_retour_ok" value="http://localhost:8069/payment/monetico/return/"/>
             <input type="hidden" name="url_retour_err" value="http://localhost:8069/payment/monetico/return/"/>
             <input type="hidden" name="lgue" value="EN"/>
@@ -173,4 +173,143 @@ class TestPaymentMonetico(PaymentAcquirerCommon):
         self.assertEqual(
             tx.state,
             "cancel",
+        )
+
+    @freeze_time("2024-04-09 14:08:37")
+    def test_monetico_form_formats(self):
+        self.assertEqual(self.monetico.state, "test", "test without test environment")
+        # Make an instance local copy to avoid modifying the original:
+        self.buyer_values = dict(self.buyer_values)
+        # Test out of bounds values to ensure they are properly formatted:
+        self.buyer_values["billing_partner_name"] = (
+            "Noooooooooooooooooooooooooooooooooooooooooooorbert "
+            "Buuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuyer"
+        )
+        self.buyer_values["billing_partner_address"] = (
+            "Huge Street Address that is too long, reaaaaaally too long "
+            "and will be split into multiple lines that will fit within the "
+            "allowed length as much as possible as determined by the acquirer."
+        )
+        self.buyer_values[
+            "billing_partner_city"
+        ] = "Siiiiiiiiiiiiiiiiiiiiiiiiiiiiin Ciiiiiiiiiityyyyyyyyyyyyy"
+        self.buyer_values["billing_partner_zip"] = "12345678909876543210"
+        self.buyer_values["billing_partner_email"] = (
+            "noooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+            "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooorbert."
+            "buuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
+            "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuyer@example.com"
+        )
+
+        self.env["payment.transaction"].create(
+            {
+                "acquirer_id": self.monetico.id,
+                "amount": 100.0,
+                "reference": "SO404",
+                "currency_id": self.currency_euro.id,
+                "partner_country_id": self.country_france.id,
+            }
+        )
+
+        order_ctx = b64encode(
+            json.dumps(
+                dict(
+                    billing=dict(
+                        firstName="Noooooooooooooooooooooooooooooooooooooooooooo",
+                        lastName="Buuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu",
+                        mobilePhone="+32-12345678",
+                        addressLine1="Huge Street Address that is too long, reaaaaaally",
+                        city="Siiiiiiiiiiiiiiiiiiiiiiiiiiiiin Ciiiiiiiiiityyyyyy",
+                        postalCode="1234567890",
+                        country="BE",
+                        email="noooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+                        "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooorbert."
+                        "buuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
+                        "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuyer@example.co",
+                        stateOrProvince=None,
+                        addressLine2="too long and will be split into multiple lines",
+                        addressLine3="that will fit within the allowed length as much as",
+                    )
+                )
+            ).encode("utf-8")
+        ).decode("utf-8")
+
+        self.assertEqual(
+            self.monetico.render(
+                "SO404", 100.0, self.currency_euro.id, values=self.buyer_values
+            ).decode("utf-8"),
+            """
+            <input type="hidden" name="data_set" data-remove-me="" data-action-url="https://p.monetico-services.com/test/paiement.cgi"/>
+            <input type="hidden" name="version" value="3.0"/>
+            <input type="hidden" name="TPE" value="1234567"/>
+            <input type="hidden" name="contexte_commande" value="%s"/>
+            <input type="hidden" name="date" value="09/04/2024:14:08:37"/>
+            <input type="hidden" name="montant" value="100.00EUR"/>
+            <input type="hidden" name="reference" value="SO404"/>
+            <input type="hidden" name="MAC" value="b6a8c77a1e55af009876d0d5d1136c2111087ebb"/>
+            <input type="hidden" name="url_retour_ok" value="http://localhost:8069/payment/monetico/return/"/>
+            <input type="hidden" name="url_retour_err" value="http://localhost:8069/payment/monetico/return/"/>
+            <input type="hidden" name="lgue" value="EN"/>
+            <input type="hidden" name="societe" value="company_1"/>
+            <input type="hidden" name="mail" value="norbert.buyer@example.com"/>
+        """  # noqa
+            % order_ctx,
+        )
+
+    @freeze_time("2024-04-09 14:08:37")
+    def test_monetico_form_bad_mail_phone(self):
+        self.assertEqual(self.monetico.state, "test", "test without test environment")
+        # Make an instance local copy to avoid modifying the original:
+        self.buyer_values = dict(self.buyer_values)
+        self.buyer_values["billing_partner_email"] = "test@"
+        self.buyer_values["billing_partner_phone"] = "24"
+
+        self.env["payment.transaction"].create(
+            {
+                "acquirer_id": self.monetico.id,
+                "amount": 100.0,
+                "reference": "SO404",
+                "currency_id": self.currency_euro.id,
+                "partner_country_id": self.country_france.id,
+            }
+        )
+
+        order_ctx = b64encode(
+            json.dumps(
+                dict(
+                    billing=dict(
+                        firstName="Norbert",
+                        lastName="Buyer",
+                        mobilePhone=None,
+                        addressLine1="Huge Street 2/543",
+                        city="Sin City",
+                        postalCode="1000",
+                        country="BE",
+                        email=None,
+                        stateOrProvince=None,
+                    )
+                )
+            ).encode("utf-8")
+        ).decode("utf-8")
+
+        self.assertEqual(
+            self.monetico.render(
+                "SO404", 100.0, self.currency_euro.id, values=self.buyer_values
+            ).decode("utf-8"),
+            """
+            <input type="hidden" name="data_set" data-remove-me="" data-action-url="https://p.monetico-services.com/test/paiement.cgi"/>
+            <input type="hidden" name="version" value="3.0"/>
+            <input type="hidden" name="TPE" value="1234567"/>
+            <input type="hidden" name="contexte_commande" value="%s"/>
+            <input type="hidden" name="date" value="09/04/2024:14:08:37"/>
+            <input type="hidden" name="montant" value="100.00EUR"/>
+            <input type="hidden" name="reference" value="SO404"/>
+            <input type="hidden" name="MAC" value="942d02d04903f7d8ccd886cebd3522e4698f7732"/>
+            <input type="hidden" name="url_retour_ok" value="http://localhost:8069/payment/monetico/return/"/>
+            <input type="hidden" name="url_retour_err" value="http://localhost:8069/payment/monetico/return/"/>
+            <input type="hidden" name="lgue" value="EN"/>
+            <input type="hidden" name="societe" value="company_1"/>
+            <input type="hidden" name="mail" value="norbert.buyer@example.com"/>
+        """  # noqa
+            % order_ctx,
         )
