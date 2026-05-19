@@ -5,7 +5,7 @@
 {
     "name": "Payment Provider: Monetico",
     "summary": "Accept payments with Monetico secure payment gateway.",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "category": "Accounting/Payment Providers",
     "author": "Akretion,Odoo Community Association (OCA)",
@@ -21,7 +21,7 @@
     "data": [
         "views/payment_provider_views.xml",
         "views/payment_monetico_templates.xml",
-        "data/payment_icon_data.xml",
+        "data/payment_method_data.xml",
         "data/payment_provider_data.xml",
     ],
     "application": False,

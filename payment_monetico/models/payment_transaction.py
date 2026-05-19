@@ -12,7 +12,7 @@ from base64 import b64encode
 
 from werkzeug import urls
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import ValidationError
 
 from odoo.addons.payment import utils as payment_utils
@@ -67,14 +67,14 @@ class PaymentTransaction(models.Model):
 
             try:
                 phone = partner._phone_format(
-                    partner.phone, force_format="INTERNATIONAL"
+                    fname="phone", force_format="INTERNATIONAL"
                 )
                 phone = phone.replace(" ", "-", 1).replace(" ", "")
                 assert phone.startswith("+")
                 assert len(phone) < 19
                 values["partner_phone"] = phone
             except Exception:
-                _logger.warning("Failed to format billing phone: %s", partner.phone)
+                _logger.info("Failed to format billing phone: %s", partner.phone)
                 values["partner_phone"] = None
 
         return values
@@ -170,7 +170,9 @@ class PaymentTransaction(models.Model):
         values = dict(notification_data)
         shasign = values.pop("MAC", False)
         if not shasign:
-            raise ValidationError(_("Monetico: received data with missing MAC"))
+            raise ValidationError(
+                self.env._("Monetico: received data with missing MAC")
+            )
         reference = values.get("reference")
 
         tx = self.search(
@@ -181,8 +183,8 @@ class PaymentTransaction(models.Model):
         )
         if not tx:
             raise ValidationError(
-                _("Monetico: ")
-                + _("No transaction found matching reference %s.", reference)
+                self.env._("Monetico: ")
+                + self.env._("No transaction found matching reference %s.", reference)
             )
 
         return tx
@@ -216,7 +218,7 @@ class PaymentTransaction(models.Model):
         else:
             status = "error"
             self._set_error(
-                _("Unrecognized response received from the payment provider.")
+                self.env._("Unrecognized response received from the payment provider.")
             )
         _logger.info(
             "received data with response %(response)s for transaction "

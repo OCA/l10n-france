@@ -10,34 +10,34 @@
         <field name="model">payment.provider</field>
         <field name="inherit_id" ref="payment.payment_provider_form" />
         <field name="arch" type="xml">
-        <group name="provider_credentials" position='inside'>
-                <group attrs="{'invisible': [('code', '!=', 'monetico')]}">
+            <group name="provider_credentials" position="inside">
+                <group invisible="code != 'monetico'">
                     <field
                         name="monetico_ept"
-                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                        required="code == 'monetico' and state != 'disabled'"
                     />
                     <field
                         name="monetico_company_code"
-                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                        required="code == 'monetico' and state != 'disabled'"
                     />
                     <field
                         name="monetico_secret"
-                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                        required="code == 'monetico' and state != 'disabled'"
                         password="True"
                     />
                     <field
                         name="monetico_test_url"
-                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
-                        groups='base.group_no_one'
+                        required="code == 'monetico' and state != 'disabled'"
+                        groups="base.group_no_one"
                     />
                     <field
                         name="monetico_prod_url"
-                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
-                        groups='base.group_no_one'
+                        required="code == 'monetico' and state != 'disabled'"
+                        groups="base.group_no_one"
                     />
                     <field
                         name="monetico_version"
-                        attrs="{'required':[ ('code', '=', 'monetico'), ('state', '!=', 'disabled')]}"
+                        required="code == 'monetico' and state != 'disabled'"
                     />
                 </group>
             </group>

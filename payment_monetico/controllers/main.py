@@ -28,7 +28,8 @@ class MoneticoController(http.Controller):
         save_session=False,
     )
     def monetico_return_from_checkout(self, **data):
-        """Process the notification data sent by Monetico after redirection from checkout.
+        """Process the notification data sent by Monetico after redirection from
+        checkout.
 
         The route is flagged with `save_session=False` to prevent Odoo
         from assigning a new session to the user if they are redirected to
@@ -111,7 +112,8 @@ class MoneticoController(http.Controller):
             _logger.warning("received notification with missing signature")
             raise Forbidden()
 
-        # Compare the received signature with the expected signature computed from the data
+        # Compare the received signature with the expected signature computed
+        # from the data
         expected_signature = tx_sudo.provider_id._monetico_generate_shasign(values)
         if not hmac.compare_digest(
             received_signature.upper(), expected_signature.upper()
