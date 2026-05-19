@@ -60,7 +60,7 @@ class MoneticoFileParser(FileParser):
             extra_fields=conversion_dict,
             dialect=MoneticoDialect,
             header=monetico_header,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
