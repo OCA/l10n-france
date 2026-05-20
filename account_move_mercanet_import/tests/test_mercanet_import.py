@@ -6,8 +6,6 @@ from odoo.modules.module import get_resource_path
 from odoo.tests.common import TransactionCase
 
 
-
-
 class TestMercanetImport(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -16,7 +14,7 @@ class TestMercanetImport(TransactionCase):
                 "name": "Customer account",
                 "code": "411101",
                 "user_type_id": self.env.ref("account.data_account_type_receivable").id,
-                "reconcile": True 
+                "reconcile": True,
             }
         )
         self.bank_mercanet_account = self.env["account.account"].create(

@@ -7,14 +7,14 @@ from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
 
 def float_or_zero(val):
-    """ Conversion function used to manage
+    """Conversion function used to manage
     empty string into float usecase"""
     val = val.strip()
-    return (float(val.replace(',', '.')) if val else 0.0) / 100.
+    return (float(val.replace(",", ".")) if val else 0.0) / 100.0
 
 
 class MercanetDialect(Dialect):
-    delimiter = '\t'
+    delimiter = "\t"
     quotechar = '"'
     doublequote = False
     skipinitialspace = False
@@ -38,7 +38,7 @@ class MercanetFileParser(FileParser):
             ftype="csv",  # force format because extension is xls
             extra_fields=conversion_dict,
             dialect=MercanetDialect,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -70,6 +70,6 @@ class MercanetFileParser(FileParser):
             "name": line.get("transactionReference", ""),
             "credit": line["operationAmount"] > 0.0 and line["operationAmount"] or 0.0,
             "debit": line["operationAmount"] < 0.0 and -line["operationAmount"] or 0.0,
-            'date': line["operationDateTime"],
+            "date": line["operationDateTime"],
         }
         return res
