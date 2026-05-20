@@ -1,4 +1,5 @@
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
+# Copyright 2025  Akretion (https://www.akretion.com).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
 import datetime
 from csv import QUOTE_MINIMAL, Dialect, register_dialect

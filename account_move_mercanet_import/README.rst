@@ -28,8 +28,8 @@ Journal Entry Mercanet import
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module extends the functionality of account_move_base_import, in
-order to handle the file format used for Mercanet online payment
+This module extends the functionality of ``account_move_base_import``,
+in order to handle the file format used for Mercanet online payment.
 
 **Table of contents**
 
@@ -53,6 +53,11 @@ Authors
 -------
 
 * Akretion
+
+Contributors
+------------
+
+- Matthieu Saison <<matthieu.saison@akretion.com>
 
 Maintainers
 -----------

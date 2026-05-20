@@ -1,9 +1,10 @@
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# Copyright 2025  Akretion (https://www.akretion.com).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
 import base64
 
-from odoo.modules.module import get_resource_path
 from odoo.tests.common import TransactionCase
+from odoo.tools.misc import file_path
 
 
 class TestMercanetImport(TransactionCase):
@@ -13,7 +14,7 @@ class TestMercanetImport(TransactionCase):
             {
                 "name": "Customer account",
                 "code": "411101",
-                "user_type_id": self.env.ref("account.data_account_type_receivable").id,
+                "account_type": "asset_receivable",
                 "reconcile": True,
             }
         )
@@ -21,7 +22,7 @@ class TestMercanetImport(TransactionCase):
             {
                 "name": "Adyen bank account",
                 "code": "511007",
-                "user_type_id": self.env.ref("account.data_account_type_revenue").id,
+                "account_type": "income",
             }
         )
         self.mercanet_journal = self.env["account.journal"].create(
@@ -37,10 +38,8 @@ class TestMercanetImport(TransactionCase):
         )
 
     def _get_import_wizard(self, filename):
-        file_path = get_resource_path(
-            "account_move_mercanet_import", "tests/files/", filename
-        )
-        data = base64.b64encode(open(file_path, "rb").read())
+        f_path = file_path(f"account_move_mercanet_import/tests/files/{filename}")
+        data = base64.b64encode(open(f_path, "rb").read())
         wizard = self.env["credit.statement.import"].create(
             {
                 "journal_id": self.mercanet_journal.id,

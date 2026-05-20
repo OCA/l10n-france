@@ -1,7 +1,8 @@
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
+# Copyright 2025  Akretion (https://www.akretion.com).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 {
     "name": "Journal Entry Mercanet import",
-    "version": "14.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainer": "Odoo Community Association (OCA)",
     "category": "Finance",
