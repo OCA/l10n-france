@@ -135,17 +135,34 @@ class Partner(models.Model):
         string="Partner with same SIREN",
         compute_sudo=True,
     )
+    same_siren_partner_match_type = fields.Selection(
+        [
+            ("siren", "Same SIREN"),
+            ("siret", "Same SIRET"),
+            ("siren_no_nic", "Same SIREN without NIC"),
+        ],
+        compute="_compute_same_siren_partner_id",
+        compute_sudo=True,
+    )
 
-    @api.depends("siren", "company_id")
+    @api.depends("siren", "nic", "company_id")
     def _compute_same_siren_partner_id(self):
         # Inspired by same_vat_partner_id from 'base' module
         for partner in self:
             same_siren_partner_id = False
+            match_type = False
+            company = partner.company_id or self.env.company
+            dup_check = company.fr_siret_dup_check
             if partner.siren and not partner.parent_id:
-                domain = [
-                    ("siren", "=", partner.siren),
-                    ("parent_id", "=", False),
-                ]
+                domain = [("parent_id", "=", False), ("siren", "=", partner.siren)]
+                if dup_check == "siret":
+                    if partner.nic:
+                        domain.append(("nic", "=", partner.nic))
+                        match_type = "siret"
+                    else:
+                        match_type = "siren_no_nic"
+                else:
+                    match_type = "siren"
                 if partner.company_id:
                     domain += [
                         "|",
@@ -160,3 +177,6 @@ class Partner(models.Model):
                     self.with_context(active_test=False).search(domain, limit=1)
                 ).id or False
             partner.same_siren_partner_id = same_siren_partner_id
+            partner.same_siren_partner_match_type = (
+                match_type if same_siren_partner_id else False
+            )
