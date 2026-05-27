@@ -40,10 +40,22 @@ msgid "Duplicate warning: partner(s)"
 msgstr ""
 
 #. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__is_france_country
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__is_france_country
+msgid "Is France Country"
+msgstr ""
+
+#. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__nic
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__nic
 msgid "NIC"
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid "NIC is not set on partner '%(partner)s'."
 msgstr ""
 
 #. module: l10n_fr_siret
@@ -72,6 +84,12 @@ msgid "SIREN"
 msgstr ""
 
 #. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid "SIREN is not set on partner '%(partner)s'."
+msgstr ""
+
+#. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret
@@ -82,6 +100,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid "SIRET '%s' is invalid."
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid "SIRET is not set on partner '%(partner)s'."
 msgstr ""
 
 #. module: l10n_fr_siret
