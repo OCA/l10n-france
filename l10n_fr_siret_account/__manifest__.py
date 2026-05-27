@@ -5,7 +5,7 @@
 {
     "name": "French localization - SIRET and Accounting",
     "summary": "Glue module between l10n_fr_siret and account",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "French Localization",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
