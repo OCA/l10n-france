@@ -210,6 +210,10 @@ class TestStructure(TransactionCase):
                     ):
                         # First we set company type so that name becomes readwrite
                         partner_form.company_type = "company"
+                        # In this cases we need to set country first to display fields
+                        # in view
+                        if form_input in ["siren", "siret"]:
+                            partner_form.country_id = self.env.ref("base.fr")
                         # Set the field value in form_input
                         partner_form[form_input] = vals[field]
 

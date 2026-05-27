@@ -1,7 +1,7 @@
 import logging
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 logger = logging.getLogger(__name__)
 try:
@@ -53,6 +53,13 @@ class Partner(models.Model):
         string="Partners with same SIREN",
         compute_sudo=True,
     )
+    # Field below is identical to the field on res.company defined in l10n_fr.
+    # It is different from fiscal_country_codes defined in the 'account' module
+    # which takes into account both the country of the company
+    # AND the country of the partner
+    is_france_country = fields.Boolean(
+        compute="_compute_is_france_country",
+    )
 
     @api.depends("siren", "nic")
     def _compute_siret(self):
@@ -102,6 +109,15 @@ class Partner(models.Model):
                     self.with_context(active_test=False).search(domain)
                 ).ids or False
             partner.same_siren_partner_ids = same_siren_partner_ids
+
+    @api.depends("country_id")
+    def _compute_is_france_country(self):
+        fr_country_codes = self.env["res.company"]._get_france_country_codes()
+        for partner in self:
+            is_france_country = False
+            if partner.country_id and partner.country_id.code in fr_country_codes:
+                is_france_country = True
+            partner.is_france_country = is_france_country
 
     @api.constrains("siren", "nic")
     def _check_siret(self):
@@ -176,3 +192,52 @@ class Partner(models.Model):
             "target": "current",
         }
         return action
+
+    def _get_siren(self, raise_if_none=False):
+        self.ensure_one()
+        partner = self.parent_id or self
+        if partner.vat:
+            vat = "".join(x for x in partner.vat if not x.isspace())
+            if (
+                vat
+                and vat.startswith("FR")
+                and len(vat) == 13
+                and siren.is_valid(vat[4:])
+            ):
+                return vat[4:]
+        if partner.siren and siren.is_valid(partner.siren):
+            return partner.siren
+        if raise_if_none:
+            raise UserError(
+                self.env._(
+                    "SIREN is not set on partner '%(partner)s'.",
+                    partner=partner.display_name,
+                )
+            )
+        return None
+
+    def _get_siret(self, raise_if_none=False):
+        self.ensure_one()
+        if self.siren and self.nic and siret.is_valid(self.siret):
+            return self.siret
+        if raise_if_none:
+            raise UserError(
+                self.env._(
+                    "SIRET is not set on partner '%(partner)s'.",
+                    partner=self.display_name,
+                )
+            )
+        return None
+
+    def _get_nic(self, raise_if_none=False):
+        self.ensure_one()
+        if self.siren and self.nic and siret.is_valid(self.siret):
+            return self.nic
+        if raise_if_none:
+            raise UserError(
+                self.env._(
+                    "NIC is not set on partner '%(partner)s'.",
+                    partner=self.display_name,
+                )
+            )
+        return None

@@ -7,47 +7,16 @@
 <odoo>
     <record id="res_partner_form_l10n_fr" model="ir.ui.view">
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="l10n_fr_siret.res_partner_form_l10n_fr" />
+        <field name="inherit_id" ref="l10n_fr_account.res_partner_form_l10n_fr" />
         <field name="arch" type="xml">
-            <!-- siret invisible attribute is customized both in l10n_fr_siret
-            and l10n_fr_account. As we depend on both modules, it should work fine -->
+            <!-- the invisible attribute has the same value as in l10n_fr_siret
+            But, as this attribute is defined in l10n_fr_account, we need to
+                over-write it here -->
             <field name="siret" position="attributes">
                 <attribute
                     name="invisible"
-                >'FR' not in fiscal_country_codes or (not is_company and not parent_is_company)</attribute>
+                >(not is_company and not parent_is_company) or not is_france_country</attribute>
             </field>
-            <field name="siren" position="attributes">
-                <attribute
-                    name="invisible"
-                >'FR' not in fiscal_country_codes or (not is_company and not parent_is_company)</attribute>
-            </field>
-            <field name="nic" position="attributes">
-                <attribute
-                    name="invisible"
-                >'FR' not in fiscal_country_codes or (not is_company and not parent_is_company)</attribute>
-            </field>
-            <xpath
-                expr="//field[@name='child_ids']/form//field[@name='nic']"
-                position="after"
-            >
-                <field name="fiscal_country_codes" invisible="1" />
-            </xpath>
-            <xpath
-                expr="//field[@name='child_ids']/form//field[@name='nic']"
-                position="attributes"
-            >
-                <attribute
-                    name="invisible"
-                >'FR' not in fiscal_country_codes or type in ('contact', 'private')</attribute>
-            </xpath>
-            <xpath
-                expr="//field[@name='child_ids']/form//field[@name='siret']"
-                position="attributes"
-            >
-                <attribute
-                    name="invisible"
-                >'FR' not in fiscal_country_codes or type in ('contact', 'private')</attribute>
-            </xpath>
         </field>
     </record>
 </odoo>
