@@ -27,7 +27,9 @@ class PosPaymentMethod(models.Model):
         return res
 
     fr_caisse_ap_ip_mode = fields.Selection(
-        [("card", "Card"), ("check", "Check")], string="Payment Mode", default="card"
+        [("card", "Card"), ("check", "Check"), ("ancv", "ANCV")],
+        string="Payment Mode",
+        default="card",
     )
     fr_caisse_ap_ip_address = fields.Char(
         string="Caisse-AP Payment Terminal IP Address",
@@ -71,6 +73,13 @@ class PosPaymentMethod(models.Model):
                         _("Port %s for the payment terminal is not a valid TCP port.")
                         % method.fr_caisse_ap_ip_port
                     )
+
+    @api.model
+    def _fr_caisse_ap_ip_cc_map(self):
+        return {
+            "check": "00C",
+            "ancv": "00V",
+        }
 
     def _fr_caisse_ap_ip_prepare_msg(self, msg_dict):
         assert isinstance(msg_dict, dict)
@@ -171,8 +180,9 @@ class PosPaymentMethod(models.Model):
                 "error_message": error_msg,
             }
             return res
-        if self.fr_caisse_ap_ip_mode == "check":
-            msg_dict["CC"] = "00C"
+        cc_map = self._fr_caisse_ap_ip_cc_map()
+        if self.fr_caisse_ap_ip_mode in cc_map:
+            msg_dict["CC"] = cc_map[self.fr_caisse_ap_ip_mode]
         return msg_dict
 
     @api.model
@@ -190,10 +200,12 @@ class PosPaymentMethod(models.Model):
         timeout_sec = timeout_ms / 1000 - 3
         ip_addr = payment_method.fr_caisse_ap_ip_address
         port = payment_method.fr_caisse_ap_ip_port
+        cc_map = self._fr_caisse_ap_ip_cc_map()
+        cc_reverse_map = {value: key for key, value in cc_map.items()}
         logger.info(
             "Sending %s %s %s %s cents to payment terminal %s:%s",
             msg_dict["CD"] == "1" and "reimbursement" or "payment",
-            msg_dict.get("CC") == "00C" and "check" or "card",
+            cc_reverse_map.get(msg_dict.get("CC"), "card"),
             data["currency"].name,
             data["amount_str"],
             ip_addr,
@@ -307,11 +319,9 @@ class PosPaymentMethod(models.Model):
     def _fr_caisse_ap_ip_prepare_success(self, answer_dict):
         card_type_list = []
         cc_labels = {
+            "0": "Autres",
             "1": "CB contact",
-            "B": "CB sans contact",
-            "C": "Chèque",
             "2": "Amex contact",
-            "D": "Amex sans contact",
             "3": "CB Enseigne",
             "5": "Cofinoga",
             "6": "Diners",
@@ -319,10 +329,15 @@ class PosPaymentMethod(models.Model):
             "8": "Franfinance",
             "9": "JCB",
             "A": "Banque Accord",
-            "I": "CPEI",
+            "B": "CB sans contact",
+            "C": "Chèque",
+            "D": "Amex sans contact",
             "E": "CMCIC-Pay TPE",
-            "U": "CUP",
-            "0": "Autres",
+            "G": "QuickPass UPI sans contact Crédit Agricole",
+            "I": "CPEI",
+            "S": "Carte magasin",
+            "U": "UPI / NX3",
+            "V": "ANCV",
         }
         ci_labels = {
             "0": "indifférent",
