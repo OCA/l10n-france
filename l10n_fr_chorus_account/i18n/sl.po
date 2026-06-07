@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-23 15:34+0000\n"
-"PO-Revision-Date: 2026-01-22 17:34+0000\n"
+"PO-Revision-Date: 2026-06-07 11:46+0000\n"
 "Last-Translator: Matjaz Mozetic <matjaz@luxim.si>\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "Language: sl\n"
@@ -505,7 +505,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_flow__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_chorus_partner_service__write_uid
 msgid "Last Updated by"
-msgstr "Zadnjič posodobil"
+msgstr "Zadnji posodobil"
 
 #. module: l10n_fr_chorus_account
 #: model:ir.model.fields,field_description:l10n_fr_chorus_account.field_account_invoice_chorus_send__write_date
