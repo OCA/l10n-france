@@ -150,8 +150,10 @@ class AccountFrFecOca(models.TransientModel):
             domain.append(("parent_state", "=", "posted"))
         if self.excluded_journal_ids:
             domain.append(("journal_id", "not in", self.excluded_journal_ids.ids))
-        if self.exclude_zero:
-            domain.append(("balance", "!=", 0.0))
+        # In Odoo 19, the parent wizard removed the 'exclude_zero' field and
+        # always excludes zero-balance lines in its base domain. We align on
+        # this behavior to stay consistent with l10n_fr_account.
+        domain.append(("balance", "!=", 0.0))
         return domain
 
     def _do_query_unaffected_earnings(self):
@@ -331,7 +333,7 @@ class AccountFrFecOca(models.TransientModel):
                 aa_name=aa_name,
             )
         )
-        self._cr.execute(
+        self.env.cr.execute(
             SQL(
                 """
                 %s
@@ -343,7 +345,7 @@ class AccountFrFecOca(models.TransientModel):
             )
         )
 
-        for row in self._cr.fetchall():
+        for row in self.env.cr.fetchall():
             listrow = list(row)
             account_id = listrow.pop()
             if not unaffected_earnings_line:
@@ -449,7 +451,7 @@ class AccountFrFecOca(models.TransientModel):
                 aux_fields=self._get_aux_fields(),
             )
         )
-        self._cr.execute(
+        self.env.cr.execute(
             SQL(
                 """
                 %s
@@ -463,7 +465,7 @@ class AccountFrFecOca(models.TransientModel):
             )
         )
 
-        for row in self._cr.fetchall():
+        for row in self.env.cr.fetchall():
             listrow = list(row)
             listrow.pop()
             rows_to_write.append(listrow)
@@ -644,12 +646,12 @@ class AccountFrFecOca(models.TransientModel):
         rows_to_write = []
         has_more_results = True
         while has_more_results:
-            self._cr.execute(query.select(columns))
+            self.env.cr.execute(query.select(columns))
             query.offset += query_limit
             has_more_results = (
-                self._cr.rowcount > query_limit
+                self.env.cr.rowcount > query_limit
             )  # we load one more result than the limit to check if there is more
-            query_results = self._cr.fetchall()
+            query_results = self.env.cr.fetchall()
             rows_to_write.append(query_results[:query_limit])
         return rows_to_write
 
@@ -705,7 +707,7 @@ class AccountFrFecOca(models.TransientModel):
         suffix = ""
         if self.export_type == "nonofficial":
             suffix = "-NONOFFICIAL"
-        extension = self._context.get("extension", "csv")
+        extension = self.env.context.get("extension", "csv")
 
         # Generate content
         content = self.generate_fec_content()
@@ -742,8 +744,10 @@ class AccountFrFecOca(models.TransientModel):
         return {
             "name": "FEC",
             "type": "ir.actions.act_url",
-            "url": "web/content/?model=%s&id=%d&filename_field=filename&"
-            "field=fec_data&download=true&filename=%s"
-            % (self._name, self.id, self.filename),
+            "url": (
+                f"web/content/?model={self._name}&id={self.id}"
+                f"&filename_field=filename&field=fec_data&download=true"
+                f"&filename={self.filename}"
+            ),
             "target": "self",
         }
