@@ -25,6 +25,10 @@
                     invisible="use_payment_terminal != 'fr-caisse_ap_ip'"
                     required="use_payment_terminal == 'fr-caisse_ap_ip'"
                 />
+                <field
+                    name="fr_caisse_ap_ip_fast_payment"
+                    invisible="use_payment_terminal != 'fr-caisse_ap_ip'"
+                />
             </field>
         </field>
     </record>

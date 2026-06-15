@@ -41,6 +41,21 @@ class PosPaymentMethod(models.Model):
         help="TCP port of the payment terminal that support Caisse-AP protocol over IP",
         default=8888,
     )
+    fr_caisse_ap_ip_fast_payment = fields.Boolean(
+        string="Auto-send Amount to Payment Terminal",
+        default=True,
+        help="If you want to allow several payments by cards on the same order, "
+        "you should disable this option. When this option is disabled, you can "
+        "change the amount and there is a button to send the amount to the "
+        "payment terminal. When the option is enabled, Odoo automatically "
+        "sends the total residual amount to the payment terminal.",
+    )
+
+    @api.model
+    def _load_pos_data_fields(self, config_id):
+        field_list = super()._load_pos_data_fields(config_id)
+        field_list.append("fr_caisse_ap_ip_fast_payment")
+        return field_list
 
     @api.constrains(
         "use_payment_terminal", "fr_caisse_ap_ip_address", "fr_caisse_ap_ip_port"

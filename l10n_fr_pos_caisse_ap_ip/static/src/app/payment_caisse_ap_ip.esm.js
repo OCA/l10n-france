@@ -44,6 +44,11 @@ export class PaymentCaisseAPIP extends PaymentInterface {
         return Promise.reject();
     }
 
+    get fast_payments() {
+        var fast_payment = this.payment_method_id.fr_caisse_ap_ip_fast_payment || false;
+        return fast_payment;
+    }
+
     async send_payment_request(uuid) {
         await super.send_payment_request(...arguments);
         const order = this.pos.get_order();
