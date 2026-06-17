@@ -4,7 +4,7 @@
 
 {
     "name": "MIS reports for France",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Accounting & Finance",
     "license": "AGPL-3",
     "summary": "MIS Report templates for the French P&L and Balance Sheets",
