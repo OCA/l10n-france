@@ -4,6 +4,7 @@
 
 import logging
 import socket
+import time
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -16,6 +17,12 @@ except ImportError:
     logger.debug("Cannot import pycountry")
 
 BUFFER_SIZE = 1024
+# The Caisse-AP protocol has no length header nor end-of-message marker.
+# When the buffer parses as a whole number of fields, we drain the socket
+# during DRAIN_TIMEOUT to catch an answer split exactly on a field boundary.
+DRAIN_TIMEOUT = 0.3
+# Safety cap: a real Caisse-AP answer is well under a few KB
+MAX_ANSWER_SIZE = 65536
 
 
 class PosPaymentMethod(models.Model):
@@ -220,14 +227,40 @@ class PosPaymentMethod(models.Model):
             with socket.create_connection((ip_addr, port), timeout=timeout_sec) as sock:
                 sock.sendall(msg_bytes)
                 # The answer may be split across several TCP packets and may
-                # exceed BUFFER_SIZE: read until the message is complete
+                # exceed BUFFER_SIZE: read until the terminal closes the
+                # connection or the message is complete. As the protocol has
+                # no length header, 'complete' can be a false positive when
+                # the split falls on a field boundary: when the buffer looks
+                # complete, keep reading with a short timeout (DRAIN_TIMEOUT)
+                # and only stop when no more data arrives.
+                deadline = time.monotonic() + timeout_sec
                 while True:
-                    chunk = sock.recv(BUFFER_SIZE)
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError(
+                            "Global timeout reading the answer from the "
+                            "payment terminal"
+                        )
+                    try:
+                        chunk = sock.recv(BUFFER_SIZE)
+                    except TimeoutError:
+                        if answer and self._fr_caisse_ap_ip_answer_complete(answer):
+                            # Drain timeout expired without extra data:
+                            # the answer is really complete
+                            break
+                        raise
                     if not chunk:
+                        # The terminal closed the connection
                         break
                     answer += chunk.decode("ascii")
+                    if len(answer) > MAX_ANSWER_SIZE:
+                        raise ValueError(
+                            "Answer from the payment terminal exceeds "
+                            f"{MAX_ANSWER_SIZE} bytes"
+                        )
                     if self._fr_caisse_ap_ip_answer_complete(answer):
-                        break
+                        sock.settimeout(DRAIN_TIMEOUT)
+                    else:
+                        sock.settimeout(max(deadline - time.monotonic(), DRAIN_TIMEOUT))
                 logger.debug("Answer received from payment terminal: %s", answer)
         except Exception as e:
             logger.warning("Exception raised in socket to payment terminal: %s", e)
