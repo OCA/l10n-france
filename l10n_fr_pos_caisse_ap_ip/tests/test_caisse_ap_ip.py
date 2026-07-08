@@ -8,6 +8,9 @@ import time
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
+
+MODEL_LOGGER = "odoo.addons.l10n_fr_pos_caisse_ap_ip.models.pos_payment_method"
 
 
 class FakeTerminal(threading.Thread):
@@ -176,6 +179,7 @@ class TestCaisseApIp(TransactionCase):
         msg_dict = self.method._fr_caisse_ap_ip_prepare_message(data)
         self.assertEqual(msg_dict.get("CC"), "00C")
 
+    @mute_logger(MODEL_LOGGER)
     def test_null_amount_returns_issue(self):
         res = self.env["pos.payment.method"].fr_caisse_ap_ip_send_payment(
             self._payment_data(0.0)
@@ -183,6 +187,7 @@ class TestCaisseApIp(TransactionCase):
         self.assertEqual(res["payment_status"], "issue")
         self.assertIn("null amount", res["error_message"])
 
+    @mute_logger(MODEL_LOGGER)
     def test_over_maximum_amount_returns_issue(self):
         res = self.env["pos.payment.method"].fr_caisse_ap_ip_send_payment(
             self._payment_data(10**12)
@@ -276,6 +281,7 @@ class TestCaisseApIp(TransactionCase):
         self.assertEqual(res["payment_status"], "failure")
         self.assertIn("Abandon", res["error_message"])
 
+    @mute_logger(MODEL_LOGGER)
     def test_payment_garbage_answer(self):
         res, _terminal = self._send(10.0, lambda req: "GARBAGE?!")
         self.assertEqual(res["payment_status"], "issue")
@@ -289,6 +295,7 @@ class TestCaisseApIp(TransactionCase):
         res, _terminal = self._send(10.0, wrong_echo)
         self.assertEqual(res["payment_status"], "issue")
 
+    @mute_logger(MODEL_LOGGER)
     def test_payment_connection_refused(self):
         # Reserve a port and close it so that nothing listens on it
         srv = socket.socket()
