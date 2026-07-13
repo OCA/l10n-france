@@ -1,6 +1,6 @@
 import logging
 
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
 
 logger = logging.getLogger(__name__)
@@ -196,6 +196,14 @@ class Partner(models.Model):
     def _get_siren(self, raise_if_none=False):
         self.ensure_one()
         partner = self.parent_id or self
+        running_env = tools.config.get("running_env")
+        # Hack for SUPER PDP sandbox because, unfortunately,
+        # SUPER PDP demo SIRENs don't have a compliant checksum
+        if running_env in ("test", "dev") and partner.siren in (
+            "000000001",
+            "000000002",
+        ):
+            return partner.siren
         if partner.vat:
             vat = "".join(x for x in partner.vat if not x.isspace())
             if (
