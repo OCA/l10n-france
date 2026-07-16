@@ -291,7 +291,12 @@ class ChorusFlow(models.Model):
                 ("move_type", "in", ("out_invoice", "out_refund")),
                 ("transmit_method_code", "=", "fr-chorus"),
                 ("chorus_identifier", "!=", False),
-                ("chorus_status", "not in", ("MANDATEE", "MISE_EN_PAIEMENT")),
+                ("chorus_status", "not in", (
+                    "MANDATEE",
+                    "MISE_EN_PAIEMENT",
+                    "REJETEE",
+                    "SUPPRIMEE",
+                    )),
             ]
         )
         invoices_update_invoice_status.chorus_update_invoice_status()
