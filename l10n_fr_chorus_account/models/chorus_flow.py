@@ -2,6 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import json
 import logging
 
 from odoo import _, api, fields, models
@@ -54,6 +55,7 @@ class ChorusFlow(models.Model):
         readonly=True,
         help="Invoices in the flow after potential rejections",
     )
+    chorus_response = fields.Text()
 
     @api.depends("status")
     def _compute_status_display(self):
@@ -119,30 +121,10 @@ class ChorusFlow(models.Model):
                             error.get("libelleErreurDP"),
                         )
                     )
-                    # If we can identify the invoice in Odoo, we detach it
-                    # from the flow, so that it can be fixed and re-transmitted
-                    if error.get("numeroDP"):
-                        invoice = self.env["account.move"].search(
-                            [
-                                ("company_id", "=", self.company_id.id),
-                                ("name", "=", error["numeroDP"]),
-                            ],
-                            limit=1,
-                        )
-                        if invoice:
-                            invoice.message_post(
-                                body=_(
-                                    "This invoice has been <b>rejected by Chorus Pro</b> "
-                                    "for the following reason:<br/><i>%s</i><br/>"
-                                    "You should fix the error and send this invoice to "
-                                    "Chorus Pro again."
-                                )
-                                % error.get("libelleErreurDP")
-                            )
-                            invoice.sudo().write({"chorus_flow_id": False})
             res = {
                 "status": answer.get("etatCourantDepotFlux"),
                 "notes": notes or answer.get("libelle"),
+                "chorus_response": json.dumps(answer),
             }
         return (res, session)
 
@@ -177,27 +159,39 @@ class ChorusFlow(models.Model):
         payload = {
             "numeroFluxDepot": self.name,
             "rechercheFactureParFournisseur": {
-                "nbResultatsParPage": len(self.initial_invoice_ids) + 2,
+                "nbResultatsParPage": 10,
+                "pageResultatDemandee": 0,
             },
         }
-        answer, session = self.env["res.company"].chorus_post(
-            api_params, url_path, payload
-        )
         invnum2chorus = {}
-        # key = odoo invoice number, value = {} to write on odoo invoice
-        if answer.get("listeFactures") and isinstance(answer["listeFactures"], list):
-            for cinv in answer["listeFactures"]:
-                if cinv.get("numeroFacture") and cinv.get("identifiantFactureCPP"):
-                    invnum2chorus[cinv["numeroFacture"]] = {
-                        "chorus_identifier": cinv["identifiantFactureCPP"],
-                    }
-                    if cinv.get("statut"):
-                        invnum2chorus[cinv["numeroFacture"]].update(
-                            {
-                                "chorus_status": cinv["statut"],
-                                "chorus_status_date": fields.Datetime.now(),
-                            }
-                        )
+        while True:
+            payload["rechercheFactureParFournisseur"]["pageResultatDemandee"] += 1
+            answer, session = self.env["res.company"].chorus_post(
+                api_params, url_path, payload
+            )
+            # key = odoo invoice number, value = {} to write on odoo invoice
+            if answer.get("listeFactures") and isinstance(
+                answer["listeFactures"], list
+            ):
+                for cinv in answer["listeFactures"]:
+                    if cinv.get("numeroFacture") and cinv.get("identifiantFactureCPP"):
+                        invnum2chorus[cinv["numeroFacture"]] = {
+                            "chorus_identifier": cinv["identifiantFactureCPP"],
+                        }
+                        if cinv.get("statut"):
+                            invnum2chorus[cinv["numeroFacture"]].update(
+                                {
+                                    "chorus_status": cinv["statut"],
+                                    "chorus_status_date": fields.Datetime.now(),
+                                }
+                            )
+                if (
+                    payload["rechercheFactureParFournisseur"]["pageResultatDemandee"]
+                    >= answer["parametresRetour"]["pages"]
+                ):
+                    break
+            else:
+                break
         return invnum2chorus, session
 
     def get_invoice_identifiers(self):
@@ -226,10 +220,7 @@ class ChorusFlow(models.Model):
             if flow.invoice_identifiers:
                 if raise_if_ko:
                     raise UserError(
-                        _(
-                            "The Chorus Invoice Identifiers are already set "
-                            "for flow %s"
-                        )
+                        _("The Chorus Invoice Identifiers are already set for flow %s")
                         % flow.name
                     )
                 logger.warning(
@@ -253,7 +244,31 @@ class ChorusFlow(models.Model):
                 for inv in flow.invoice_ids:
                     if inv.name in invnum2chorus:
                         inv.write(invnum2chorus[inv.name])
+            flow._process_rejected_invoices()
         logger.info("End of the retrieval of chorus invoice identifiers")
+
+    def _process_rejected_invoices(self):
+        self.ensure_one()
+        if self.chorus_response:
+            inv2errors = {
+                error["numeroDP"]: error.get("libelleErreurDP")
+                for error in json.loads(self.chorus_response).get("listeErreurDP", [])
+            }
+        else:
+            inv2errors = {}
+        for invoice in self.invoice_ids:
+            if not invoice.chorus_identifier:
+                # All the infoice without any chorus_identifier are considered as
+                # rejected.
+                # Most of the time chorus have sucessfully returned the right error
+                # message in the response when calling flow update state
+                # but sometime it doesn't ;) so missing invoice are we always rejected,
+                # invoice without error message will have a generic error message
+                invoice._chorus_set_as_rejected(
+                    inv2errors.get(
+                        invoice.name, _("Internal Chorus Error, please Resumit")
+                    )
+                )
 
     @api.model
     def chorus_cron(self):
@@ -276,7 +291,12 @@ class ChorusFlow(models.Model):
                 ("move_type", "in", ("out_invoice", "out_refund")),
                 ("transmit_method_code", "=", "fr-chorus"),
                 ("chorus_identifier", "!=", False),
-                ("chorus_status", "not in", ("MANDATEE", "MISE_EN_PAIEMENT")),
+                ("chorus_status", "not in", (
+                    "MANDATEE",
+                    "MISE_EN_PAIEMENT",
+                    "REJETEE",
+                    "SUPPRIMEE",
+                    )),
             ]
         )
         invoices_update_invoice_status.chorus_update_invoice_status()

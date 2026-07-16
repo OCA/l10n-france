@@ -4,3 +4,4 @@ from . import partner
 from . import company
 from . import config_settings
 from . import account_move
+from . import account_journal
