@@ -1,0 +1,1 @@
+odoo-addon-l10n_fr_siret @ git+https://github.com/OCA/l10n-france.git@refs/pull/770/head#subdirectory=l10n_fr_siret
