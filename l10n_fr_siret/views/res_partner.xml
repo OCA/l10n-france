@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Add warning banner same SIREN -->
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.same_siren_banner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <div name="warning_tax" position="after">
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    name="warn_duplicate_siren"
+                    invisible="not same_siren_partner_ids"
+                >
+                        Partner(s) <field
+                    name="same_siren_partner_ids"
+                    widget="x2many_buttons"
+                /> has/have the same <b>SIREN</b>.
+                </div>
+            </div>
+            <field
+                name="company_registry"
+                invisible="not l10n_fr_is_french"
+                position="attributes"
+            >
+                <attribute name="string">SIREN or SIRET</attribute>
+                <attribute name="placeholder">33417522100012</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
