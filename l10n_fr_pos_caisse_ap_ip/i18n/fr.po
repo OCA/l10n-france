@@ -18,10 +18,20 @@ msgstr ""
 "X-Generator: Weblate 5.10.4\n"
 
 #. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__ancv
+msgid "ANCV"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 msgid "Application %(label)s (code %(code)s)"
 msgstr "Application %(label)s (code %(code)s)"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_fast_payment
+msgid "Auto-send Amount to Payment Terminal"
+msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
@@ -31,8 +41,8 @@ msgid ""
 "the query and %(answer_val)s in the answer, but these values should be "
 "identical. This should never happen!"
 msgstr ""
-"Protocole Caisse AP sur IP : Le tag %(label)s (%(tag)s) a pour valeur "
-"%(request_val)s dans la requête et %(answer_val)s dans la réponse, alors que "
+"Protocole Caisse AP sur IP : Le tag %(label)s (%(tag)s) a pour valeur %"
+"(request_val)s dans la requête et %(answer_val)s dans la réponse, alors que "
 "ces valeurs devraient être identiques. Cela ne devrait jamais arriver !"
 
 #. module: l10n_fr_pos_caisse_ap_ip
@@ -124,8 +134,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 msgid ""
-"Failure in the connection to the payment terminal on %(ip_addr)s port "
-"%(port)s: %(error)s."
+"Failure in the connection to the payment terminal on %(ip_addr)s port %"
+"(port)s: %(error)s."
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
@@ -136,6 +146,16 @@ msgid ""
 msgstr ""
 "Adresse IP ou nom DNS du terminal de paiement qui supporte le protocole "
 "Caisse-AP sur IP"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,help:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_fast_payment
+msgid ""
+"If you want to allow several payments by cards on the same order, you should "
+"disable this option. When this option is disabled, you can change the amount "
+"and there is a button to send the amount to the payment terminal. When the "
+"option is enabled, Odoo automatically sends the total residual amount to the "
+"payment terminal."
+msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-javascript

@@ -17,10 +17,20 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__ancv
+msgid "ANCV"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 msgid "Application %(label)s (code %(code)s)"
 msgstr "Aplicación %(label)s (código %(code)s)"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_fast_payment
+msgid "Auto-send Amount to Payment Terminal"
+msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
@@ -125,8 +135,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 msgid ""
-"Failure in the connection to the payment terminal on %(ip_addr)s port "
-"%(port)s: %(error)s."
+"Failure in the connection to the payment terminal on %(ip_addr)s port %"
+"(port)s: %(error)s."
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
@@ -137,6 +147,16 @@ msgid ""
 msgstr ""
 "Dirección IP o nombre DNS del terminal de pago que soporta el protocolo "
 "Caisse-AP sobre IP"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,help:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_fast_payment
+msgid ""
+"If you want to allow several payments by cards on the same order, you should "
+"disable this option. When this option is disabled, you can change the amount "
+"and there is a button to send the amount to the payment terminal. When the "
+"option is enabled, Odoo automatically sends the total residual amount to the "
+"payment terminal."
+msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-javascript
