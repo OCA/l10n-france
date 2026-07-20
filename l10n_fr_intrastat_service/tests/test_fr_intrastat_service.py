@@ -110,7 +110,7 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
                 "invoice_line_ids": [
                     Command.create(
                         {
-                            "product_id": cls.env.ref("product.product_product_1").id,
+                            "product_id": cls.service_product.id,
                             "quantity": 2,
                             "price_unit": 90.2,
                             "name": "GAP Analysis for your Odoo v10 project",
@@ -120,7 +120,7 @@ class TestFrIntrastatService(AccountTestInvoicingCommon):
                     Command.create(
                         {
                             # consu product
-                            "product_id": cls.env.ref("product.product_product_7").id,
+                            "product_id": cls.hw_product.id,
                             "quantity": 1,
                             "price_unit": 45,
                             "name": "Apple headphones",
