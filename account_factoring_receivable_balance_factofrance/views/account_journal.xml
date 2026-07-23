@@ -1,0 +1,18 @@
+<odoo>
+
+    <record id="view_account_journal_form" model="ir.ui.view">
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+
+            <field name="factor_code" position="after">
+                <field
+                    name="partner_identification_type"
+                    required="factor_type == 'factofrance'"
+                />
+            </field>
+
+        </field>
+    </record>
+
+</odoo>
