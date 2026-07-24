@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-31 09:55+0000\n"
-"PO-Revision-Date: 2023-06-20 16:08+0000\n"
+"PO-Revision-Date: 2026-07-24 22:34+0000\n"
 "Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__parent_is_company
@@ -36,13 +36,13 @@ msgstr "Contact"
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "Duplicate warning: partner(s)"
-msgstr ""
+msgstr "Avertissement doublon : partenaire(s)"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__is_france_country
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__is_france_country
 msgid "Is France Country"
-msgstr ""
+msgstr "Est en France"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
@@ -55,7 +55,7 @@ msgstr "NIC"
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid "NIC is not set on partner '%(partner)s'."
-msgstr ""
+msgstr "Le NIC n'est pas renseigné sur le partenaire '%(partner)s'."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__parent_is_company
@@ -67,13 +67,13 @@ msgstr "Le parent est une société"
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid "Partners"
-msgstr ""
+msgstr "Partenaires"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__same_siren_partner_ids
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__same_siren_partner_ids
 msgid "Partners with same SIREN"
-msgstr ""
+msgstr "Partenaires ayant le même SIREN"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siren
@@ -86,7 +86,7 @@ msgstr "SIREN"
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid "SIREN is not set on partner '%(partner)s'."
-msgstr ""
+msgstr "Le SIREN n'est pas renseigné sur le partenaire '%(partner)s'."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
@@ -105,7 +105,7 @@ msgstr "Le SIRET '%s' est invalide."
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid "SIRET is not set on partner '%(partner)s'."
-msgstr ""
+msgstr "Le SIRET n'est pas renseigné sur le partenaire '%(partner)s'."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -114,6 +114,8 @@ msgid ""
 "The NIC '{nic}' of partner '{partner_name}' is incorrect: it must have "
 "exactly 5 digits."
 msgstr ""
+"Le NIC '{nic}' du partenaire '{partner_name}' est incorrect : il doit "
+"comporter exactement 5 chiffres."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__nic
@@ -133,6 +135,8 @@ msgid ""
 "The SIREN '{siren}' of partner '{partner_name}' is incorrect: it must have "
 "exactly 9 digits."
 msgstr ""
+"Le SIREN '{siren}' du partenaire '{partner_name}' est incorrect : il doit "
+"comporter exactement 9 chiffres."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -141,6 +145,8 @@ msgid ""
 "The SIREN '{siren}' of partner '{partner_name}' is invalid: the checksum is "
 "wrong."
 msgstr ""
+"Le SIREN '{siren}' du partenaire '{partner_name}' n'est pas valide : la "
+"somme de contrôle est erronée."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siren
@@ -160,6 +166,8 @@ msgid ""
 "The SIRET '{siret}' of partner '{partner_name}' is invalid: the checksum is "
 "wrong."
 msgstr ""
+"Le SIRET '{siret}' du partenaire '{partner_name}' n'est pas valide : la "
+"somme de contrôle est erronée."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
@@ -177,7 +185,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
 msgid "has/have the same <b>SIREN</b>."
-msgstr ""
+msgstr "ont le même <b>SIREN</b>."
 
 #~ msgid "Duplicate warning: partner"
 #~ msgstr "Avertissement doublon: le partenaire"
