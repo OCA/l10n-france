@@ -119,7 +119,7 @@ class Partner(models.Model):
                 is_france_country = True
             partner.is_france_country = is_france_country
 
-    @api.constrains("siren", "nic")
+    @api.constrains("siren", "nic", "vat")
     def _check_siret(self):
         """Check the SIREN's and NIC's keys (last digits)"""
         for rec in self:
@@ -160,6 +160,23 @@ class Partner(models.Model):
                             siret=(rec.siren + rec.nic), partner_name=rec.display_name
                         )
                     )
+                if rec.vat:
+                    vat = "".join(x for x in rec.vat if not x.isspace())
+                    # vat numbers have no spaces when base_vat is installed
+                    # but installation of base_vat doesn't remove spaces in vat numbers
+                    # encoded before the installation of the module
+                    if vat and vat.startswith("FR") and not vat.endswith(rec.siren):
+                        raise ValidationError(
+                            _(
+                                "On partner '%(partner_name)s', "
+                                "the VAT number %(vat)s is not consistent with "
+                                "SIREN %(siren)s: a french VAT number has the 9 "
+                                "digits of SIREN at the end.",
+                                partner_name=rec.display_name,
+                                siren=rec.siren,
+                                vat=vat,
+                            )
+                        )
 
     @api.model
     def _commercial_fields(self):
