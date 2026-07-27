@@ -62,6 +62,14 @@ msgid "NIC is not set on partner '%(partner)s'."
 msgstr ""
 
 #. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"On partner '%(partner_name)s', the VAT number %(vat)s is not consistent with "
+"SIREN %(siren)s: a french VAT number has the 9 digits of SIREN at the end."
+msgstr ""
+
+#. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__parent_is_company
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__parent_is_company
 msgid "Parent is a Company"
