@@ -11,18 +11,19 @@
                 <attribute
                     name="attrs"
                     operation="update"
-                >{'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}</attribute>
+                >{'readonly': [('parent_id', '!=', False)], 'invisible': ['|', ('is_france_country', '=', False), '&amp;', ('is_company', '=', False), ('parent_is_company', '=', False)]}</attribute>
             </field>
             <field name="siret" position="after">
                 <field
                     name="siren"
-                    attrs="{'readonly': [('parent_id', '!=', False)], 'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
+                    attrs="{'readonly': [('parent_id', '!=', False)], 'invisible': ['|', ('is_france_country', '=', False), '&amp;', ('is_company', '=', False), ('parent_is_company', '=', False)]}"
                 />
                 <field
                     name="nic"
-                    attrs="{'invisible': [('is_company', '=', False), ('parent_is_company', '=', False)]}"
+                    attrs="{'invisible': ['|', ('is_france_country', '=', False), '&amp;', ('is_company', '=', False), ('parent_is_company', '=', False)]}"
                 />
                 <field name="parent_is_company" invisible="1" />
+                <field name="is_france_country" invisible="1" />
             </field>
             <field name="child_ids" position="attributes">
                 <attribute name="context" operation="update">
@@ -35,13 +36,14 @@
             >
                 <field
                     name="nic"
-                    attrs="{'invisible': [('type','in', ('contact', 'private'))]}"
+                    attrs="{'invisible': ['|', ('type','in', ('contact', 'private')), ('is_france_country', '=', False)]}"
                 />
                 <field
                     name="siret"
-                    attrs="{'invisible': [('type','in', ('contact', 'private'))]}"
+                    attrs="{'invisible': ['|', ('type','in', ('contact', 'private')), ('is_france_country', '=', False)]}"
                     readonly="1"
                 />
+                <field name="is_france_country" invisible="1" />
             </xpath>
             <div
                 attrs="{'invisible': [('same_vat_partner_id', '=', False)]}"
