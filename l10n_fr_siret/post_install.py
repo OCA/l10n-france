@@ -13,6 +13,13 @@ logger = logging.getLogger(__name__)
 
 def set_siren_nic(env):
     logger.info("Starting data migration of fields siret/siren/nic on res.partner")
+    # Fix demo data a the beginning, to avoid the logger.warning that break tests
+    demo_fr_company = env.ref("base.partner_demo_company_fr", raise_if_not_found=False)
+    if demo_fr_company:
+        demo_fr_company.write({"siret": "74694878500017"})
+        logger.info(
+            "Changed SIRET on demo partner FR Company to be consistent with VAT"
+        )
     partners = (
         env["res.partner"]
         .with_context(active_test=False)
