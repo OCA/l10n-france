@@ -4,7 +4,7 @@
 
 {
     "name": "DAS2",
-    "version": "16.0.4.0.0",
+    "version": "16.0.4.1.0",
     "category": "Invoicing Management",
     "license": "AGPL-3",
     "summary": "DAS2 (France)",
