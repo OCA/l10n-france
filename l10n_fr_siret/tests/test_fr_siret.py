@@ -137,3 +137,31 @@ class TestL10nFrSiret(TransactionCase):
 
         self.assertEqual(partner2.siren, contact.siren)
         self.assertEqual(partner2.nic, contact.nic)
+
+    def test_vat_siren_consistency(self):
+        with self.assertRaises(ValidationError):
+            self.env["res.partner"].create(
+                {
+                    "name": "Test partner1",
+                    "country_id": self.env.ref("base.fr").id,
+                    "siren": "790067136",
+                    "vat": "FR86792377731",
+                }
+            )
+        with self.assertRaises(ValidationError):
+            self.env["res.partner"].create(
+                {
+                    "name": "Test partner1",
+                    "country_id": self.env.ref("base.fr").id,
+                    "siret": "79006713600016",
+                    "vat": "FR86792377731",
+                }
+            )
+        self.env["res.partner"].create(
+            {
+                "name": "Akretion France",
+                "country_id": self.env.ref("base.fr").id,
+                "siren": "792377731",
+                "vat": "FR86792377731",
+            }
+        )
