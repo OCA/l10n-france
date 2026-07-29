@@ -7,6 +7,10 @@
 <odoo>
     <record model="mis.report" id="mis_report_pl">
         <field name="name">Compte de résultat (FR - liasse fiscale)</field>
+        <field
+            name="description"
+        >Si vous avez besoin de personnaliser ce modèle de rapport MIS, dupliquez-le et modifiez la version dupliquée.</field>
+        <field name="constraint_type">profit_and_loss</field>
     </record>
 
     <!-- EXPLOITATION -->
@@ -91,21 +95,33 @@
     <record model="mis.report.kpi" id="mis_report_pl_fp">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FP</field>
-        <field
-            name="description"
-        >Reprises sur amortissements et provisions, transferts de charges</field>
-        <field name="expression">-balp[781%,791%]</field>
+        <field name="description">Reprises sur amortissements et provisions</field>
+        <field name="expression">-balp[781%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
         <field name="sequence">50</field>
     </record>
+    <record model="mis.report.kpi" id="mis_report_pl_f1">
+        <field name="report_id" ref="mis_report_pl" />
+        <field name="name">F1</field>
+        <field
+            name="description"
+        >Produits des cessions d’immobilisations incorporelles et corporelles</field>
+        <field name="expression">-balp[757%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">55</field>
+    </record>
     <record model="mis.report.kpi" id="mis_report_pl_fq">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FQ</field>
         <field name="description">Autres produits</field>
-        <field name="expression">-balp[751%,752%,753%,754%,758%]</field>
+        <field name="expression">-balp[751%,752%,753%,754%,756%,758%,791%]</field>
+        <!-- Account 791 has been removed in PCG 2025, but it is still used in many companies -->
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -116,7 +132,7 @@
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FR</field>
         <field name="description">Total des produits d'exploitation (I)</field>
-        <field name="expression">+FL +FM +FN +FO +FP +FQ</field>
+        <field name="expression">+FL +FM +FN +FO +FP +F1 +FQ</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
@@ -177,7 +193,9 @@
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FW</field>
         <field name="description">Autres achats et charges externes</field>
-        <field name="expression">balp[604%,605%,606%,6094%,6095%,6096%,61%,62%]</field>
+        <field
+            name="expression"
+        >balp[604%,605%,606%,6094%,6095%,6096%,6098%,61%,62%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -209,7 +227,7 @@
     <record model="mis.report.kpi" id="mis_report_pl_fz">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FZ</field>
-        <field name="description">Charges sociales</field>
+        <field name="description">Cotisations sociales</field>
         <field name="expression">balp[645%,646%,647%,649%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
@@ -221,7 +239,7 @@
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GA</field>
         <field name="description">Dotations aux amortissements</field>
-        <field name="expression">balp[6811%,6812%]</field>
+        <field name="expression">balp[6811%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -231,7 +249,7 @@
     <record model="mis.report.kpi" id="mis_report_pl_gb">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GB</field>
-        <field name="description">Dotations aux provisions</field>
+        <field name="description">Dotations aux dépréciations</field>
         <field name="expression">balp[6816%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
@@ -242,7 +260,9 @@
     <record model="mis.report.kpi" id="mis_report_pl_gc">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GC</field>
-        <field name="description">Sur actif circulant : dotations aux provisions</field>
+        <field
+            name="description"
+        >Sur actif circulant : dotations aux dépréciations</field>
         <field name="expression">balp[6817%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
@@ -263,11 +283,24 @@
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
         <field name="sequence">190</field>
     </record>
+    <record model="mis.report.kpi" id="mis_report_pl_g1">
+        <field name="report_id" ref="mis_report_pl" />
+        <field name="name">G1</field>
+        <field
+            name="description"
+        >Valeurs comptables des immobilisations incorporelles et corporelles cédées</field>
+        <field name="expression">balp[657%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">195</field>
+    </record>
     <record model="mis.report.kpi" id="mis_report_pl_ge">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GE</field>
         <field name="description">Autres charges</field>
-        <field name="expression">balp[651%,653%,654%,658%]</field>
+        <field name="expression">balp[651%,653%,654%,656%,658%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -280,7 +313,7 @@
         <field name="description">Total des charges d'exploitation (II)</field>
         <field
             name="expression"
-        >+FS +FT +FU +FV +FW +FX +FY +FZ +GA +GB +GC +GD +GE</field>
+        >+FS +FT +FU +FV +FW +FX +FY +FZ +GA +GB +GC +GD +G1 +GE</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
@@ -345,7 +378,7 @@
         <field
             name="description"
         >Produits des autres valeurs mobilières et créances de l'actif immobilisé</field>
-        <field name="expression">-balp[762%]</field>
+        <field name="expression">-balp[762%,764%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -356,7 +389,7 @@
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GL</field>
         <field name="description">Autres intérêts et produits assimilés</field>
-        <field name="expression">-balp[763%,764%,765%,768%]</field>
+        <field name="expression">-balp[763%,765%,768%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -366,10 +399,8 @@
     <record model="mis.report.kpi" id="mis_report_pl_gm">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GM</field>
-        <field
-            name="description"
-        >Reprises sur provisions et transferts de charges</field>
-        <field name="expression">-balp[786%,796%]</field>
+        <field name="description">Reprises sur dépréciations</field>
+        <field name="expression">-balp[786%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -392,19 +423,32 @@
         <field name="name">GO</field>
         <field
             name="description"
-        >Produits nets sur cessions de valeurs mobilières de placement</field>
-        <field name="expression">-balp[767%]</field>
+        >Produits nets sur cessions de valeurs mobilières de placement et d'instruments de trésorerie</field>
+        <field name="expression">-balp[7673%,7674%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
         <field name="sequence">300</field>
     </record>
+    <record model="mis.report.kpi" id="mis_report_pl_g2">
+        <field name="report_id" ref="mis_report_pl" />
+        <field name="name">G2</field>
+        <field
+            name="description"
+        >Produits des cessions d'immobilisations financières</field>
+        <field name="expression">-balp[7671%,7672%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">305</field>
+    </record>
     <record model="mis.report.kpi" id="mis_report_pl_gp">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GP</field>
         <field name="description">Total des produits financiers (V)</field>
-        <field name="expression">+GJ +GK +GL +GM +GN +GO</field>
+        <field name="expression">+GJ +GK +GL +GM +GN +GO +G2</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
@@ -446,13 +490,26 @@
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
         <field name="sequence">340</field>
     </record>
+    <record model="mis.report.kpi" id="mis_report_pl_g3">
+        <field name="report_id" ref="mis_report_pl" />
+        <field name="name">G3</field>
+        <field
+            name="description"
+        >Valeurs comptables des immobilisations financières cédées</field>
+        <field name="expression">balp[6671%,6672%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">345</field>
+    </record>
     <record model="mis.report.kpi" id="mis_report_pl_gt">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GT</field>
         <field
             name="description"
         >Charges nettes sur cessions de valeurs mobilières de placement</field>
-        <field name="expression">balp[667%]</field>
+        <field name="expression">balp[6673%,6674%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -463,7 +520,7 @@
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GU</field>
         <field name="description">Total des charges financières (VI)</field>
-        <field name="expression">+GQ +GR +GS +GT</field>
+        <field name="expression">+GQ +GR +GS +G3 +GT</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
@@ -495,100 +552,21 @@
     </record>
 
     <!-- EXCEPTIONNEL -->
-    <record model="mis.report.kpi" id="mis_report_pl_ha">
-        <field name="report_id" ref="mis_report_pl" />
-        <field name="name">HA</field>
-        <field
-            name="description"
-        >Produits exceptionnels sur opérations de gestion</field>
-        <field name="expression">-balp[771%]</field>
-        <field name="type">num</field>
-        <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">390</field>
-    </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hb">
-        <field name="report_id" ref="mis_report_pl" />
-        <field name="name">HB</field>
-        <field
-            name="description"
-        >Produits exceptionnels sur opérations en capital</field>
-        <field name="expression">-balp[775%,777%,778%]</field>
-        <field name="type">num</field>
-        <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">400</field>
-    </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hc">
-        <field name="report_id" ref="mis_report_pl" />
-        <field name="name">HC</field>
-        <field
-            name="description"
-        >Reprises sur provisions et transferts de charges</field>
-        <field name="expression">-balp[787%,797%]</field>
-        <field name="type">num</field>
-        <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">410</field>
-    </record>
     <record model="mis.report.kpi" id="mis_report_pl_hd">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HD</field>
-        <field name="description">Total des produits exceptionnels (VII)</field>
-        <field name="expression">+HA +HB +HC</field>
+        <field name="description">Produits exceptionnels (VII)</field>
+        <field name="expression">-balp[77%,787%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
         <field name="sequence">420</field>
     </record>
-
-    <record model="mis.report.kpi" id="mis_report_pl_he">
-        <field name="report_id" ref="mis_report_pl" />
-        <field name="name">HE</field>
-        <field
-            name="description"
-        >Charges exceptionnelles sur opérations de gestion</field>
-        <field name="expression">balp[671%]</field>
-        <field name="type">num</field>
-        <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">430</field>
-    </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hf">
-        <field name="report_id" ref="mis_report_pl" />
-        <field name="name">HF</field>
-        <field
-            name="description"
-        >Charges exceptionnelles sur opérations en capital</field>
-        <field name="expression">balp[675%,678%]</field>
-        <field name="type">num</field>
-        <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">440</field>
-    </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hg">
-        <field name="report_id" ref="mis_report_pl" />
-        <field name="name">HG</field>
-        <field
-            name="description"
-        >Dotations exceptionnelles aux amortissements et provisions</field>
-        <field name="expression">balp[687%]</field>
-        <field name="type">num</field>
-        <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">450</field>
-    </record>
     <record model="mis.report.kpi" id="mis_report_pl_hh">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HH</field>
-        <field name="description">Total des charges exceptionnelles (VIII)</field>
-        <field name="expression">+HE +HF +HG</field>
+        <field name="description">Charges exceptionnelles (VIII)</field>
+        <field name="expression">balp[67%,687%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
@@ -625,7 +603,7 @@
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HK</field>
         <field name="description">Impôts sur les bénéfices (X)</field>
-        <field name="expression">balp[695%,696%,697%,698%,699%]</field>
+        <field name="expression">balp[695%,696%,698%,699%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level3" />

@@ -7,13 +7,25 @@
 <odoo>
     <record model="mis.report" id="mis_report_bs_simplified">
         <field name="name">Bilan (FR - liasse fiscale simplifiée)</field>
+        <field
+            name="description"
+        >Si vous avez besoin de personnaliser ce modèle de rapport MIS, dupliquez-le et modifiez la version dupliquée.</field>
+        <field name="constraint_type">balance_sheet</field>
     </record>
 
-    <!-- I don't understand why so many accounts of the PCG are absent from
-    the BS "Système abrégé" of the Francis Lefèvre Comptable
-    So, below, sometimes I use the accounts mentionned in the Francis Lefèbre
-    book, sometimes I also add the accounts in the regular BS -->
     <!-- ACTIF -->
+    <record model="mis.report.kpi" id="mis_report_bs_simplified_csna">
+        <!-- This KPI is not on the simplified liasse fiscale, but it is on the ANC simplified BS -->
+        <field name="report_id" ref="mis_report_bs_simplified" />
+        <field name="name">csna</field>
+        <field name="description">Capital souscrit non appelé</field>
+        <field name="expression">bale[109%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">5</field>
+    </record>
     <!-- ACTIF IMMOBILISE -->
     <record model="mis.report.kpi" id="mis_report_bs_simplified_010">
         <field name="report_id" ref="mis_report_bs_simplified" />
@@ -32,7 +44,9 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf014</field>
         <field name="description">Immobilisations incorporelles - Autres</field>
-        <field name="expression">bale[201%,208%,280%,290%]</field>
+        <field
+            name="expression"
+        >bale[201%,203%,205%,208%,232%,237%,280%,290%,2932%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -43,7 +57,10 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf028</field>
         <field name="description">Immobilisations corporelles</field>
-        <field name="expression">bale[21%,23%,281%,291%]</field>
+        <field
+            name="expression"
+        >bale[21%,231%,238%,281%,291%,2931%,22%,282%,292%]</field>
+        <!-- Accounts 22, 282 and 292 are not mentionned in ANC BS -->
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -54,7 +71,9 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf040</field>
         <field name="description">Immobilisations financières</field>
-        <field name="expression">bale[27%,297%]</field>
+        <field
+            name="expression"
+        >bale[261%,262%,266%,267%,268%,271%,272%,273%,274%,275%,2761%,27682%,27684%,27685%,27688%,277%,2961%,2962%,2966%,2967%,2968%,2971%,2972%,2973%,2974%,2975%,2976%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -79,7 +98,9 @@
         <field
             name="description"
         >Matières premières, approvisionnements, en cours de production</field>
-        <field name="expression">bale[31%,33%,34%,35%]-bale[391%,393%,394%,395%]</field>
+        <field
+            name="expression"
+        >bale[31%,32%,33%,34%,35%,391%,392%,393%,394%,395%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -90,7 +111,8 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf060</field>
         <field name="description">Marchandises</field>
-        <field name="expression">bale[37%]-bale[397%]</field>
+        <field name="expression">bale[37%,397%,36%,38%]</field>
+        <!-- Accounts 36x and 38x are not mentionned by ANC BS -->
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -100,7 +122,9 @@
     <record model="mis.report.kpi" id="mis_report_bs_simplified_064">
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf064</field>
-        <field name="description">Avances et acomptes versés sur commandes</field>
+        <field
+            name="description"
+        >Avances et acomptes versés sur commandes en cours</field>
         <field name="expression">bale[4091%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
@@ -112,7 +136,7 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf068</field>
         <field name="description">Créances - Clients et comptes rattachés</field>
-        <field name="expression">bale[410%,411%,413%,416%,418%,491%]</field>
+        <field name="expression">bale[411%,413%,416%,418%,491%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -125,18 +149,30 @@
         <field name="description">Créances - Autres</field>
         <field
             name="expression"
-        >bale[4096%,4097%,4098%,428%,46%] +pbale[43%,444%,445%,455%]</field>
+        >bale[4096%,4097%,4098%,425%,439%,462%,465%,467%,495%,496%] +pbale[44%,451%,456%,457%,458%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
         <field name="sequence">100</field>
     </record>
+    <record model="mis.report.kpi" id="mis_report_bs_simplified_092">
+        <field name="report_id" ref="mis_report_bs_simplified" />
+        <field name="name">lf092</field>
+        <field name="description">Charges constatées d'avance</field>
+        <field name="expression">bale[486%,278%,471%,472%,473%,478%,4886%]</field>
+        <!-- accounts 278, 478 and 4886 are not mentionned by ANC BS. 471/472/473 are waiting accounts, so they should have a balance at 0 at the end of the fiscal year anyway -->
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">105</field>
+    </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_080">
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf080</field>
         <field name="description">Valeurs mobilières de placement</field>
-        <field name="expression">bale[50%]-bale[590%]</field>
+        <field name="expression">bale[502%,503%,504%,505%,506%,507%,508%,590%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -147,41 +183,43 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf084</field>
         <field name="description">Disponibilités</field>
-        <field name="expression">bale[53%,54%,58%] +pbale[51%]</field>
+        <field name="expression">bale[53%,58%] +pbale[51%,52%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
         <field name="sequence">120</field>
     </record>
-    <record model="mis.report.kpi" id="mis_report_bs_simplified_092">
-        <field name="report_id" ref="mis_report_bs_simplified" />
-        <field name="name">lf092</field>
-        <field name="description">Charges constatées d'avance</field>
-        <field name="expression">bale[486%]</field>
-        <field name="type">num</field>
-        <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">130</field>
-    </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_096">
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf096</field>
-        <field name="description">Total actif circulant et CCA (II)</field>
+        <field
+            name="description"
+        >Total actif circulant et charges constatées d'avance (II)</field>
         <field
             name="expression"
-        >+lf050 +lf060 +lf064 +lf068 +lf072 +lf080 +lf084 +lf092</field>
+        >+lf050 +lf060 +lf064 +lf068 +lf072 +lf092 +lf080 +lf084</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level3" />
         <field name="sequence">140</field>
     </record>
+    <record model="mis.report.kpi" id="mis_report_bs_simplified_reg_actif">
+        <field name="report_id" ref="mis_report_bs_simplified" />
+        <field name="name">reg_actif</field>
+        <field name="description">Comptes de régularisation</field>
+        <field name="expression">bale[169%,474%,476%,481%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">145</field>
+    </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_110">
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf110</field>
         <field name="description">Total actif (I + II)</field>
-        <field name="expression">+lf044 +lf096</field>
+        <field name="expression">+csna +lf044 +lf096 +reg_actif</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />
@@ -194,12 +232,24 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf120</field>
         <field name="description">Capital social ou individuel</field>
-        <field name="expression">-bale[101%,102%,108%]</field>
+        <field name="expression">-bale[101%,108%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
         <field name="sequence">160</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_simplified_pefa">
+        <!-- This KPI is not on the simplified liasse fiscale, but it is on the ANC simplified BS -->
+        <field name="report_id" ref="mis_report_bs_simplified" />
+        <field name="name">pefa</field>
+        <field name="description">Primes d'émission, de fusion, d'apport</field>
+        <field name="expression">-bale[104%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">165</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_124">
         <field name="report_id" ref="mis_report_bs_simplified" />
@@ -227,7 +277,7 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf130</field>
         <field name="description">Réserves réglementées</field>
-        <field name="expression">-bale[1062%,1064%]</field>
+        <field name="expression">-bale[1064%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -238,7 +288,8 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf132</field>
         <field name="description">Autres réserves</field>
-        <field name="expression">-bale[1063%,1068%]</field>
+        <field name="expression">-bale[1062%,1063%,1068%,102%]</field>
+        <!-- Account 102 is not mentionned by ANC BS simplified -->
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -260,11 +311,22 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf136</field>
         <field name="description">Résultat de l'exercice</field>
-        <field name="expression">-bale[12%] -bale[6%,7%]</field>
+        <field name="expression">-bale[6%,7%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="False" />
         <field name="sequence">220</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_simplified_137">
+        <field name="report_id" ref="mis_report_bs_simplified" />
+        <field name="name">lf137</field>
+        <field name="description">Subventions d'investissement</field>
+        <field name="expression">-bale[13%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">225</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_140">
         <field name="report_id" ref="mis_report_bs_simplified" />
@@ -283,13 +345,12 @@
         <field name="description">Total capitaux propres (I)</field>
         <field
             name="expression"
-        >+lf120 +lf124 +lf126 +lf130 +lf132 +lf134 +lf136 +lf140</field>
+        >+lf120 +pefa +lf124 +lf126 +lf130 +lf132 +lf134 +lf136 +lf137 +lf140</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level3" />
         <field name="sequence">240</field>
     </record>
-
     <record model="mis.report.kpi" id="mis_report_bs_simplified_154">
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf154</field>
@@ -308,7 +369,10 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf156</field>
         <field name="description">Emprunts et dettes assimilées</field>
-        <field name="expression">-bale[16%]</field>
+        <field
+            name="expression"
+        >-bale[161%,162%,163%,164%,165%,166%,167%,168%,17%,18%] -nbale[51%,52%]</field>
+        <!-- Accounts 18x are not mentionned by ANC BS -->
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -332,7 +396,7 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf166</field>
         <field name="description">Fournisseurs et comptes rattachés</field>
-        <field name="expression">-bale[400%,401%,403%,4081%,4088%]</field>
+        <field name="expression">-bale[401%,403%,4081%,4088%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -342,10 +406,34 @@
     <record model="mis.report.kpi" id="mis_report_bs_simplified_172">
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf172</field>
+        <field name="description">Dettes fiscales et sociales</field>
+        <field
+            name="expression"
+        >-bale[421%,422%,424%,426%,427%,428%,431%,437%,438%] -nbale[44%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">282</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_simplified_173">
+        <field name="report_id" ref="mis_report_bs_simplified" />
+        <field name="name">lf173</field>
+        <field name="description">Comptes courants d'associés</field>
+        <field name="expression">-bale[455%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">284</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_bs_simplified_175">
+        <field name="report_id" ref="mis_report_bs_simplified" />
+        <field name="name">lf175</field>
         <field name="description">Autres dettes</field>
         <field
             name="expression"
-        >-bale[4196%,4197%,4198%,421%,422%,424%,427%,4282%,4284%,4286%,442%,446%,447%,448%,449%,457%,46%] -nbale[43%,444%,445%,455%,51%]</field>
+        >-bale[269%,279%,404%,405%,4084%,4196%,4197%,4198%,464%,468%,509%] -nbale[451%,456%,457%,458%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -356,7 +444,8 @@
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf174</field>
         <field name="description">Produits constatés d'avance</field>
-        <field name="expression">-bale[487%]</field>
+        <field name="expression">-bale[487%,4887%]</field>
+        <!-- Account 4887 is not mentionned by ANC BS -->
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -366,18 +455,33 @@
     <record model="mis.report.kpi" id="mis_report_bs_simplified_176">
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf176</field>
-        <field name="description">Total dettes et PCA (III)</field>
-        <field name="expression">+lf156 +lf164 +lf166 +lf172 +lf174</field>
+        <field
+            name="description"
+        >Total dettes et produits constatés d'avance (III)</field>
+        <field
+            name="expression"
+        >+lf156 +lf164 +lf166 +lf172 +lf173 +lf174 +lf175</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level3" />
         <field name="sequence">310</field>
     </record>
+    <record model="mis.report.kpi" id="mis_report_bs_simplified_reg_passif">
+        <field name="report_id" ref="mis_report_bs_simplified" />
+        <field name="name">reg_passif</field>
+        <field name="description">Comptes de régularisation</field>
+        <field name="expression">-bale[475%,477%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">315</field>
+    </record>
     <record model="mis.report.kpi" id="mis_report_bs_simplified_180">
         <field name="report_id" ref="mis_report_bs_simplified" />
         <field name="name">lf180</field>
         <field name="description">Total passif (I + II + III)</field>
-        <field name="expression">+lf142 +lf154 +lf176</field>
+        <field name="expression">+lf142 +lf154 +lf176 +reg_passif</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />

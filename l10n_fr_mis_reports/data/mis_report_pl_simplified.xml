@@ -7,6 +7,10 @@
 <odoo>
     <record model="mis.report" id="mis_report_pl_simplified">
         <field name="name">Compte de résultat (FR - liasse fiscale simplifiée)</field>
+        <field
+            name="description"
+        >Si vous avez besoin de personnaliser ce modèle de rapport MIS, dupliquez-le et modifiez la version dupliquée.</field>
+        <field name="constraint_type">profit_and_loss</field>
     </record>
 
     <record model="mis.report.kpi" id="mis_report_pl_simplified_210">
@@ -81,7 +85,10 @@
         <field name="report_id" ref="mis_report_pl_simplified" />
         <field name="name">lf230</field>
         <field name="description">Autres produits</field>
-        <field name="expression">-balp[75%,781%,791%]</field>
+        <field
+            name="expression"
+        >-balp[751%,752%,753%,754%,756%,757%,758%,781%,791%]</field>
+        <!-- Account 791 has been removed in PCG 2025, but it is still used in many companies -->
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -155,7 +162,9 @@
         <field name="report_id" ref="mis_report_pl_simplified" />
         <field name="name">lf242</field>
         <field name="description">Autres charges externes</field>
-        <field name="expression">balp[604%,605%,606%,6094%,6095%,6096%,61%,62%]</field>
+        <field
+            name="expression"
+        >balp[604%,605%,606%,6094%,6095%,6096%,6098%,61%,62%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -187,7 +196,7 @@
     <record model="mis.report.kpi" id="mis_report_pl_simplified_252">
         <field name="report_id" ref="mis_report_pl_simplified" />
         <field name="name">lf252</field>
-        <field name="description">Charges sociales</field>
+        <field name="description">Cotisations sociales</field>
         <field name="expression">balp[645%,646%,647%,649%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
@@ -199,7 +208,7 @@
         <field name="report_id" ref="mis_report_pl_simplified" />
         <field name="name">lf254</field>
         <field name="description">Dotations aux amortissements</field>
-        <field name="expression">balp[6811%,6812%]</field>
+        <field name="expression">balp[6811%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -209,7 +218,7 @@
     <record model="mis.report.kpi" id="mis_report_pl_simplified_256">
         <field name="report_id" ref="mis_report_pl_simplified" />
         <field name="name">lf256</field>
-        <field name="description">Dotations aux provisions</field>
+        <field name="description">Dotations aux dépréciations</field>
         <field name="expression">balp[6815%,6816%,6817%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
@@ -221,7 +230,7 @@
         <field name="report_id" ref="mis_report_pl_simplified" />
         <field name="name">lf262</field>
         <field name="description">Autres charges</field>
-        <field name="expression">balp[651%,653%,654%,658%]</field>
+        <field name="expression">balp[651%,653%,654%,656%,657%,658%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
@@ -256,25 +265,13 @@
         <field name="report_id" ref="mis_report_pl_simplified" />
         <field name="name">lf280</field>
         <field name="description">Produits financiers (III)</field>
-        <field name="expression">-balp[76%,786%,796%]</field>
+        <field name="expression">-balp[755%,76%,786%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level3" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
         <field name="sequence">250</field>
-    </record>
-    <record model="mis.report.kpi" id="mis_report_pl_simplified_290">
-        <field name="report_id" ref="mis_report_pl_simplified" />
-        <field name="name">lf290</field>
-        <field name="description">Produits exceptionnels (IV)</field>
-        <field name="expression">-balp[77%,787%,797%]</field>
-        <field name="type">num</field>
-        <field name="compare_method">pct</field>
-        <field name="style_id" ref="level3" />
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">260</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_294">
         <field name="report_id" ref="mis_report_pl_simplified" />
@@ -287,7 +284,19 @@
         <field name="style_id" ref="level3" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">320</field>
+        <field name="sequence">255</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_pl_simplified_290">
+        <field name="report_id" ref="mis_report_pl_simplified" />
+        <field name="name">lf290</field>
+        <field name="description">Produits exceptionnels (IV)</field>
+        <field name="expression">-balp[77%,787%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="level3" />
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="account_detail" />
+        <field name="sequence">260</field>
     </record>
     <record model="mis.report.kpi" id="mis_report_pl_simplified_300">
         <field name="report_id" ref="mis_report_pl_simplified" />
@@ -305,7 +314,7 @@
         <field name="report_id" ref="mis_report_pl_simplified" />
         <field name="name">lf306</field>
         <field name="description">Impôts sur les bénéfices (VII)</field>
-        <field name="expression">balp[695%,696%,697%,698%,699%]</field>
+        <field name="expression">balp[695%,696%,698%,699%]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level3" />
