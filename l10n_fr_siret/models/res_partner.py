@@ -218,7 +218,7 @@ class Partner(models.Model):
             return partner.siren
         if raise_if_none:
             raise UserError(
-                self.env._(
+                _(
                     "SIREN is not set on partner '%(partner)s'.",
                     partner=partner.display_name,
                 )
@@ -231,7 +231,7 @@ class Partner(models.Model):
             return self.siret
         if raise_if_none:
             raise UserError(
-                self.env._(
+                _(
                     "SIRET is not set on partner '%(partner)s'.",
                     partner=self.display_name,
                 )
@@ -244,7 +244,7 @@ class Partner(models.Model):
             return self.nic
         if raise_if_none:
             raise UserError(
-                self.env._(
+                _(
                     "NIC is not set on partner '%(partner)s'.",
                     partner=self.display_name,
                 )
