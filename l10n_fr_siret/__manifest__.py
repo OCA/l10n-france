@@ -5,7 +5,7 @@
 
 {
     "name": "French company identity numbers SIRET/SIREN/NIC",
-    "version": "16.0.1.3.0",
+    "version": "16.0.1.4.0",
     "category": "French Localization",
     "author": "Numérigraphe,Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
