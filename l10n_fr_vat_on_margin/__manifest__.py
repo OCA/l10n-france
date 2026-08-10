@@ -5,7 +5,7 @@
 {
     "name": "France - TVA sur marge",
     "summary": "l10n_fr_vat_on_margin",
-    "version": "16.0.1.0.2",
+    "version": "16.0.1.0.3",
     "author": "Moka",
     "website": "https://moka.cloud",
     "license": "AGPL-3",

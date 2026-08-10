@@ -59,15 +59,17 @@ class AccountTax(models.Model):
             handle_price_include=True,
             extra_context=None,
     ):
-        print("=== _convert_to_tax_base_line_dict account_tax ===", taxes)
+        taxes = taxes or self.env['account.tax']
         return {
             'record': base_line,
             'partner': partner or self.env['res.partner'],
             'currency': currency or self.env['res.currency'],
             'product': product or self.env['product.product'],
-            'taxes': taxes or self.env['account.tax'],
+            'taxes': taxes,
             'price_unit': price_unit or 0.0,
-            'price_unit_margin': price_unit_margin if taxes.vat_on_margin else 0.0,
+            # Keep the raw margin, negative values included: the tax computation must
+            # be able to tell "no margin scheme" from "margin scheme, nothing to tax".
+            'price_unit_margin': (price_unit_margin or 0.0) if any(taxes.mapped('vat_on_margin')) else 0.0,
             'quantity': quantity or 0.0,
             'discount': discount or 0.0,
             'account': account or self.env['account.account'],
@@ -221,16 +223,13 @@ class AccountTax(models.Model):
     @api.model
     def _compute_taxes_for_single_line(self, base_line, handle_price_include=True, include_caba_tags=False,
                                        early_pay_discount_computation=None, early_pay_discount_percentage=None):
-        print("=== base_line ===", base_line)
-        price_unit_margin = 0.0
         orig_price_unit_after_discount = base_line['price_unit'] * (1 - (base_line['discount'] / 100.0))
-        if base_line['price_unit_margin'] != 0.0 and base_line['price_unit_margin'] > 0.0:
-            print("=== ICI price_unit_margin pas nul ===", base_line['price_unit_margin'])
-            price_unit_margin = base_line['price_unit_margin']
-            print("=== price_unit_margin result ===", price_unit_margin)
+        # Forward the margin as-is; clamping it to zero here would make a negative
+        # margin indistinguishable from a line that has no margin scheme at all.
+        price_unit_margin = base_line['price_unit_margin']
         price_unit_after_discount = orig_price_unit_after_discount
         taxes = base_line['taxes']._origin
-        print("=== taxes ===", taxes, taxes.vat_on_margin, taxes.mapped('tax_calculation_method'))
+        vat_on_margin = any(taxes.mapped('vat_on_margin'))
         currency = base_line['currency'] or self.env.company.currency_id
         rate = base_line['rate']
 
@@ -248,7 +247,7 @@ class AccountTax(models.Model):
                 is_refund=base_line['is_refund'],
                 handle_price_include=base_line['handle_price_include'],
                 include_caba_tags=include_caba_tags,
-                price_unit_margin=price_unit_margin if taxes.vat_on_margin else 0.0,
+                price_unit_margin=price_unit_margin if vat_on_margin else 0.0,
             )
 
             to_update_vals = {
@@ -267,7 +266,7 @@ class AccountTax(models.Model):
                     is_refund=base_line['is_refund'],
                     handle_price_include=base_line['handle_price_include'],
                     include_caba_tags=include_caba_tags,
-                    price_unit_margin=price_unit_margin if taxes.vat_on_margin else 0.0,
+                    price_unit_margin=price_unit_margin if vat_on_margin else 0.0,
                 )
                 for tax_res, new_taxes_res in zip(taxes_res['taxes'], new_taxes_res['taxes']):
                     delta_tax = new_taxes_res['amount'] - tax_res['amount']
@@ -415,28 +414,27 @@ class AccountTax(models.Model):
                 'fixed_amount': 0.0,
             })
 
-            print("=== base_amount ===", base_amount)
-            print("=== fixed_amount ===", fixed_amount)
-            print("=== percent_amount ===", percent_amount)
-            print("=== division_amount ===", division_amount)
-            print("=== result ===", (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
-            print("=== kwargs ===", kwargs.get('price_unit_margin'), type(kwargs.get('price_unit_margin')))
-            print("=== SELF ICI===", self)
-            if self.vat_on_margin:
-                if kwargs.get('price_unit_margin') and kwargs.get('price_unit_margin') != 0.0 and kwargs.get('price_unit_margin') > 0.0 and type(kwargs.get('price_unit_margin')) == float:
-                    print("=== ICI 1=== ", base_amount, kwargs.get('price_unit_margin'), fixed_amount, percent_amount, division_amount)
-                    result_1 = base_amount - kwargs.get('price_unit_margin') + ((kwargs.get('price_unit_margin') - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
-                    print("=== ICI 1 ====", result_1)
-                    return result_1
-                else:
-                    result = (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (
-                            100 - division_amount) / 100
-                    return result
-            else:
-                print("=== ICI 2 ===")
-                result =  (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100
-                print("=== ICI 3 ===", result)
-                return result
+            standard_base = (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) \
+                * (100 - division_amount) / 100
+
+            # 'self' holds every tax of the line, not a single one. Testing the flag
+            # on the recordset itself raises "Expected singleton" as soon as a line
+            # carries two taxes (e.g. margin VAT + eco-contribution).
+            if not any(self.mapped('vat_on_margin')):
+                return standard_base
+
+            price_unit_margin = kwargs.get('price_unit_margin') or 0.0
+            if price_unit_margin > 0.0:
+                # Only the margin bears the VAT, the rest of the price stays untaxed.
+                return base_amount - price_unit_margin + (
+                    (price_unit_margin - fixed_amount) / (1.0 + percent_amount / 100.0)
+                    * (100 - division_amount) / 100
+                )
+
+            # Nil or negative margin: no VAT is due under the margin scheme, so the
+            # whole price is the untaxed base. Falling back to the standard formula
+            # would tax the full price instead of nothing.
+            return base_amount
 
         # The first/last base must absolutely be rounded to work in round globally.
         # Indeed, the sum of all taxes ('taxes' key in the result dictionary) must be strictly equals to
