@@ -15,6 +15,14 @@ class TestAccountTax(AccountTestInvoicingCommon):
         super().setUpClass(chart_template_ref=chart_template_ref)
         # Launch test with root user
         cls.env = cls.env(user=cls.env.ref('base.user_root'))
+        # The taxes are no longer a single xmlid'd record: loading the French
+        # chart generates one per company. Looking it up by name on the test
+        # company is what proves that generation happened at all.
+        cls.margin_tax = cls.env['account.tax'].search([
+            ('name', '=', 'TVA sur marge 20% TTC - Vente'),
+            ('company_id', '=', cls.env.company.id),
+        ], limit=1)
+        assert cls.margin_tax, "The margin tax was not generated for the company"
 
 
 
@@ -54,7 +62,7 @@ class TestAccountTax(AccountTestInvoicingCommon):
                         'price_unit': 150,
                         'purchase_price': 110,
                         'margin': 40,
-                        'tax_id': [(6, 0, self.env.ref('l10n_fr_vat_on_margin.tax_margin_20_sale').ids)],
+                        'tax_id': [(6, 0, self.margin_tax.ids)],
                     }
                 )
             ],
@@ -104,7 +112,7 @@ class TestAccountTax(AccountTestInvoicingCommon):
                         'price_unit': 150,
                         'purchase_price': 110,
                         'margin': 40,
-                        'tax_id': [(6, 0, self.env.ref('l10n_fr_vat_on_margin.tax_margin_20_sale').ids)],
+                        'tax_id': [(6, 0, self.margin_tax.ids)],
                     }
                 )
             ],

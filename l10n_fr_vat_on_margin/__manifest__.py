@@ -5,7 +5,7 @@
 {
     "name": "France - TVA sur marge",
     "summary": "l10n_fr_vat_on_margin",
-    "version": "16.0.1.0.3",
+    "version": "16.0.1.0.4",
     "author": "Moka",
     "website": "https://moka.cloud",
     "license": "AGPL-3",
@@ -33,4 +33,7 @@
         # 'data/account_fiscal_position.xml',
         'wizard/sale_order_fiscal_position_wizard.xml',
     ],
+    # Companies that loaded the French chart before this module was installed
+    # are not served by the chart template machinery; the hook fills them in.
+    "post_init_hook": "post_init_hook",
 }

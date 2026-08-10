@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
-    <record id="account_706500" model="account.account">
+    <!-- Accounts of the French margin scheme (art. 297 A CGI).
+
+         They are account.account.template records attached to the French
+         chart, not plain accounts: Odoo then creates one account per company
+         loading that chart, instead of a single account owned by whichever
+         company happened to be active when the module was installed. -->
+
+    <record id="account_template_706500" model="account.account.template">
+        <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
         <field name="name">Ventes de prestations de services (Régime spécial)</field>
         <field name="code">706500</field>
         <field name="account_type">income</field>
         <field name="reconcile" eval="False"/>
     </record>
 
-    <record id="account_707500" model="account.account">
+    <record id="account_template_707500" model="account.account.template">
+        <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
         <field name="name">Ventes de marchandises (Régime spécial)</field>
         <field name="code">707500</field>
         <field name="account_type">income</field>
         <field name="reconcile" eval="False"/>
     </record>
 
-    <record id="account_604500" model="account.account">
+    <record id="account_template_604500" model="account.account.template">
+        <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
         <field name="name">Achat d'études et prestations de services (Régime spécial)</field>
         <field name="code">604500</field>
         <field name="account_type">expense</field>
         <field name="reconcile" eval="False"/>
     </record>
 
-    <record id="account_607500" model="account.account">
+    <record id="account_template_607500" model="account.account.template">
+        <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
         <field name="name">Achats de marchandises (Régime spécial)</field>
         <field name="code">607500</field>
         <field name="account_type">expense</field>
         <field name="reconcile" eval="False"/>
     </record>
 
-    <record id="account_445750" model="account.account">
+    <record id="account_template_445750" model="account.account.template">
+        <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
         <field name="name">TVA collectée (Régime spécial)</field>
         <field name="code">445750</field>
         <field name="account_type">liability_current</field>
         <field name="reconcile" eval="True"/>
     </record>
 
-    <record id="account_445665" model="account.account">
+    <record id="account_template_445665" model="account.account.template">
+        <field name="chart_template_id" ref="l10n_fr.l10n_fr_pcg_chart_template"/>
         <field name="name">TVA déductible sur autres biens et services (Régime spécial)</field>
         <field name="code">445665</field>
         <field name="account_type">asset_current</field>

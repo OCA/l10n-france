@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
-    <!-- Groupe de taxes TVA sur marge -->
+    <!-- The tax group itself is company-independent, but its payable and
+         receivable accounts are company_dependent properties: setting them
+         here would only ever write the value of the company active during the
+         install. They are assigned per company by the post-install hook. -->
     <record id="tax_group_margin_vat" model="account.tax.group">
         <field name="name">TVA sur marge</field>
         <field name="country_id" ref="base.fr"/>
-        <field name="property_tax_payable_account_id" ref="l10n_fr_vat_on_margin.account_445750"/>
-        <field name="property_tax_receivable_account_id" ref="l10n_fr_vat_on_margin.account_445665"/>
     </record>
 </odoo>
