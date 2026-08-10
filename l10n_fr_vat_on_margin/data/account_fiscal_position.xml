@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+    <!-- ⚠ THIS FILE IS NOT LOADED: it is commented out in __manifest__.py, and
+         it cannot be loaded as it stands. Three problems, none of which shows
+         until someone uncomments the line:
+
+         1. Every ref() below points at an xmlid that no longer exists. The
+            accounts and taxes became templates generated per company
+            (account_template_604500, tax_template_margin_20_purchase, ...),
+            so this file would have to become account.fiscal.position.template
+            records mapping template to template.
+         2. Three of the four account mappings are commented out, so the
+            706500/707500/607500 accounts this module creates would still
+            never receive anything. Only purchases of services would be
+            rerouted.
+         3. The record lost the `note` field that carried the mention French
+            law requires on a margin scheme invoice (art. 242 nonies A CGI).
+            i18n/fr.po still holds the orphan entry for it:
+            "<strong>TVA sur marge</strong> - Régime particulier de
+            taxation<br>", untranslated.
+
+         Wiring this up is a fiscal decision, not a mechanical fix. -->
+
     <!--! Position fiscale pour le module TVA sur marge -->
     <record id="fiscal_position_margin" model="account.fiscal.position">
         <field name="name">TVA sur marge</field>
