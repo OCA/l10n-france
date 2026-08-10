@@ -132,3 +132,12 @@ class TestAccountTax(AccountTestInvoicingCommon):
         self.assertEqual(account_move.amount_tax, 6.67, 'The tax amount is wrong')
         self.assertEqual(account_move.amount_untaxed, 143.33, 'The untaxed amount is wrong')
         self.assertEqual(account_move.amount_residual, 150, 'The residual amount is wrong')
+
+        # The base stored on the tax line is what the VAT return adds up, and
+        # under the margin scheme it is the margin excluding tax, not the net
+        # price. Reporting 143.33 against 6.67 of VAT would not even match the
+        # rate: 40 - 6.67 = 33.33, and 33.33 * 20% = 6.67.
+        tax_line = account_move.line_ids.filtered('tax_line_id')
+        self.assertEqual(len(tax_line), 1, 'Expected a single tax line')
+        self.assertEqual(
+            tax_line.tax_base_amount, 33.33, 'The declared tax base is wrong')

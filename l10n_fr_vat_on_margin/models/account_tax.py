@@ -529,6 +529,19 @@ class AccountTax(models.Model):
         if self._context.get('round_base', True):
             total_excluded = currency.round(total_excluded)
 
+        # Under the margin scheme the taxable base is the margin excluding tax,
+        # not the net price. It is what the tax line stores as tax_base_amount
+        # and therefore what the VAT return adds up: reporting the net price
+        # yields a base and a tax amount that do not match the rate.
+        # Derived from total_excluded rather than redoing the rate arithmetic,
+        # since recompute_base() returned base - margin_incl + margin_excl.
+        margin_tax_base = None
+        if any(self.mapped('vat_on_margin')):
+            margin_incl = kwargs.get('price_unit_margin') or 0.0
+            margin_tax_base = (
+                total_excluded - base + margin_incl if margin_incl > 0.0 else 0.0
+            )
+
         # 4) Iterate the taxes in the sequence order to compute missing tax amounts.
         # Start the computation of accumulated amounts at the total_excluded value.
         base = total_included = total_void = total_excluded
@@ -621,11 +634,17 @@ class AccountTax(models.Model):
                 else:
                     repartition_line_tags = repartition_line.tag_ids
 
+                # Only the margin tax reports the margin; a regular tax sharing
+                # the same line keeps the ordinary base.
+                reported_base = tax_base_amount
+                if margin_tax_base is not None and tax.vat_on_margin:
+                    reported_base = margin_tax_base
+
                 taxes_vals.append({
                     'id': tax.id,
                     'name': partner and tax.with_context(lang=partner.lang).name or tax.name,
                     'amount': sign * line_amount,
-                    'base': float_round(sign * tax_base_amount, precision_rounding=prec),
+                    'base': float_round(sign * reported_base, precision_rounding=prec),
                     'sequence': tax.sequence,
                     'account_id': repartition_line._get_aml_target_tax_account(
                         force_caba_exigibility=include_caba_tags).id,
