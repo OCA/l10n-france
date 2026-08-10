@@ -24,8 +24,11 @@ class SaleOrderLine(models.Model):
     @api.depends('tax_id')
     def _compute_line_concerned_by_margin(self):
         for line in self:
-            if line.tax_id.filtered(lambda tax: tax.vat_on_margin):
-                line.line_concerned_by_margin = True
+            # Assign on every branch: without the False case the flag stayed True
+            # after the margin tax was replaced by a regular one.
+            line.line_concerned_by_margin = any(
+                tax.vat_on_margin for tax in line.tax_id
+            )
 
     @api.onchange('product_id')
     def _onchange_product_id_warning_margin(self):
@@ -38,13 +41,6 @@ class SaleOrderLine(models.Model):
                             'This order is concerned by VAT on margin. You should select the VAT on margin fiscal position.')
                     }
                 }
-
-    # @api.depends('purchase_price', 'price_unit', 'product_uom_qty', 'price_total')
-    # def _compute_margin_untaxed(self):
-    #     for line in self:
-    #         print("=== _compute_margin_untaxed ===", line, line.purchase_price, line.price_unit, line.product_uom_qty,
-    #               line.price_total)
-    #         line.margin_amount_untaxed = (line.price_total - (line.purchase_price * line.product_uom_qty))
 
     @api.depends('purchase_price', 'price_unit', 'product_uom_qty', 'discount', 'tax_id')
     def _compute_margin_untaxed(self):
@@ -77,17 +73,6 @@ class SaleOrderLine(models.Model):
 
             line.margin_amount_untaxed = margin_brut_ttc
 
-            print(f"=== Margin Calculation (from TTC) ===")
-            print(f"Price unit: {line.price_unit}")
-            print(f"Discount: {line.discount}%")
-            print(f"Price after discount: {price_unit_discounted}")
-            print(f"Quantity: {line.product_uom_qty}")
-            print(f"Subtotal HT: {price_subtotal}")
-            print(f"Price TTC (calculated): {price_total_calculated}")
-            print(f"Purchase total: {purchase_total}")
-            print(f"Margin brut TTC: {margin_brut_ttc}")
-            print(f"Margin HT: {line.margin_amount_untaxed}")
-
     def _convert_to_tax_base_line_dict(self):
         """ Convert the current record to a dictionary in order to use the generic taxes computation method
         defined on account.tax.
@@ -98,9 +83,7 @@ class SaleOrderLine(models.Model):
         price_unit_margin = 0.0
         if self.line_concerned_by_margin:
             price_unit_margin = self.margin_amount_untaxed
-        else:
-            print("NON ICI")
-        result = self.env['account.tax']._convert_to_tax_base_line_dict(
+        return self.env['account.tax']._convert_to_tax_base_line_dict(
             self,
             partner=self.order_id.partner_id,
             currency=self.order_id.currency_id,
@@ -112,8 +95,6 @@ class SaleOrderLine(models.Model):
             discount=self.discount,
             price_subtotal=self.price_subtotal,
         )
-        print("=== result ici ===", result)
-        return result
 
     @api.depends('state', 'price_reduce', 'product_id', 'untaxed_amount_invoiced', 'qty_delivered', 'product_uom_qty')
     def _compute_untaxed_amount_to_invoice(self):

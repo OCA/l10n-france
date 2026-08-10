@@ -67,17 +67,6 @@ class AccountMoveLine(models.Model):
 
             line.margin = margin_brut_ttc
 
-            print(f"=== Margin Calculation (from TTC) ===")
-            print(f"Price unit: {line.price_unit}")
-            print(f"Discount: {line.discount}%")
-            print(f"Price after discount: {price_unit_discounted}")
-            print(f"Quantity: {line.quantity}")
-            print(f"Subtotal HT: {price_subtotal}")
-            print(f"Price TTC (calculated): {price_total_calculated}")
-            print(f"Purchase total: {purchase_total}")
-            print(f"Margin brut TTC: {margin_brut_ttc}")
-            print(f"Margin HT: {line.margin}")
-
     line_concerned_by_margin = fields.Boolean(
         string='Line Concerned by Margin',
         compute='_compute_line_concerned_by_margin',
@@ -198,7 +187,6 @@ class AccountMoveLine(models.Model):
                 line.available_vendor_ids = []
 
     def _convert_to_tax_base_line_dict(self):
-        print("=== convert_to_tax_base_line_dict ===", self, self.margin)
         """ Convert the current record to a dictionary in order to use the generic taxes computation method
         defined on account.tax.
         :return: A python dictionary.
@@ -231,7 +219,6 @@ class AccountMoveLine(models.Model):
     @api.depends('product_id', 'price_unit', 'margin', 'quantity', 'vendor_price', 'tax_id')
     def _compute_margin_tax(self):
         for line in self:
-            print('=== _compute_margin_tax ===', line)
             if line.line_concerned_by_margin:
                 margin = (line.price_unit - line.vendor_price) * line.quantity
                 if margin > 0:

@@ -83,8 +83,6 @@ class AccountTax(models.Model):
 
     @api.model
     def _prepare_tax_totals(self, base_lines, currency, tax_lines=None):
-        print("=== base_lines ===", base_lines)
-        print("=== tax_lines ===", tax_lines)
         """ Compute the tax totals details for the business documents.
         :param base_lines:  A list of python dictionaries created using the '_convert_to_tax_base_line_dict' method.
         :param currency:    The currency set on the business document.
@@ -301,7 +299,6 @@ class AccountTax(models.Model):
 
     def compute_all(self, price_unit, currency=None, quantity=1.0, product=None, partner=None, is_refund=False,
                     handle_price_include=True, include_caba_tags=False, fixed_multiplicator=1, **kwargs):
-        print("=== compute_all ===", kwargs.get('price_unit_margin'))
         """Compute all information required to apply taxes (in self + their children in case of a tax group).
         We consider the sequence of the parent for group of taxes.
             Eg. considering letters as taxes and alphabetic order as sequence :
@@ -490,7 +487,6 @@ class AccountTax(models.Model):
         cached_tax_amounts = {}
         is_base_affected = True
         if handle_price_include:
-            print("=== handle_price_include ===")
             for tax in reversed(taxes):
                 tax_repartition_lines = (
                         is_refund
@@ -501,7 +497,6 @@ class AccountTax(models.Model):
 
                 if tax.include_base_amount and is_base_affected:
                     base = recompute_base(base, incl_tax_amounts)
-                    print("=== base ici ===", base)
                     store_included_tax_total = True
                 if self._context.get('force_price_include', tax.price_include):
                     if tax.amount_type == 'percent' or tax.amount_type == 'margin_percentage':
@@ -531,7 +526,6 @@ class AccountTax(models.Model):
                 is_base_affected = tax.is_base_affected
 
         total_excluded = recompute_base(base, incl_tax_amounts)
-        print("=== total_excluded ===", total_excluded)
         if self._context.get('round_base', True):
             total_excluded = currency.round(total_excluded)
 

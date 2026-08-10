@@ -119,17 +119,12 @@ class TestAccountTax(AccountTestInvoicingCommon):
 
         sale_order_consu.action_confirm()
 
-        print("sale_order_consu.amount_total", sale_order_consu.amount_total)
-        print("sale_order_consu.amount_tax", sale_order_consu.amount_tax)
-
         # Check the amount of the tax
         self.assertEqual(sale_order_consu.amount_tax, 8, 'The tax amount is wrong')
         self.assertEqual(sale_order_consu.amount_total, 150, 'The total amount is wrong')
         self.assertEqual(sale_order_consu.amount_untaxed, 142, 'The untaxed amount is wrong')
 
         account_move = sale_order_consu._create_invoices()
-
-        print("account_move", account_move)
 
         self.assertEqual(account_move.amount_total, 150, 'The total amount is wrong')
         self.assertEqual(account_move.amount_tax, 8, 'The tax amount is wrong')
