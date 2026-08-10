@@ -98,35 +98,16 @@ class AccountMoveLine(models.Model):
                 line.available_vendor_ids = []
 
     def _convert_to_tax_base_line_dict(self):
-        """ Convert the current record to a dictionary in order to use the generic taxes computation method
-        defined on account.tax.
-        :return: A python dictionary.
+        """Add the margin to the dict the tax engine consumes.
+
+        The margin travels through this key alone. It used to be subtracted
+        from price_unit as well, counting it twice: the totals block printed
+        10.00 where the journal entry posted 120.00.
         """
-        self.ensure_one()
-        is_invoice = self.move_id.is_invoice(include_receipts=True)
-        sign = -1 if self.move_id.is_inbound(include_receipts=True) else 1
-        # The margin travels on its own through price_unit_margin below. It used
-        # to be subtracted from price_unit here as well, counting it twice: with
-        # a supplier price of 110 on a 120 line, the totals block printed 10.00
-        # while the journal entry posted 120.00. This dict also feeds
-        # _prepare_invoice_aggregated_taxes, hence the tax report and Factur-X.
-        price_unit = self.price_unit if is_invoice else self.amount_currency
-        return self.env['account.tax']._convert_to_tax_base_line_dict(
-            self,
-            partner=self.partner_id,
-            currency=self.currency_id,
-            product=self.product_id,
-            taxes=self.tax_ids,
-            price_unit=price_unit,
-            price_unit_margin=self.margin,
-            quantity=self.quantity if is_invoice else 1.0,
-            discount=self.discount if is_invoice else 0.0,
-            account=self.account_id,
-            analytic_distribution=self.analytic_distribution,
-            price_subtotal=sign * self.amount_currency,
-            is_refund=self.is_refund,
-            rate=(abs(self.amount_currency) / abs(self.balance)) if self.balance else 1.0
-        )
+        res = super()._convert_to_tax_base_line_dict()
+        if self.line_concerned_by_margin:
+            res['price_unit_margin'] = self.margin
+        return res
 
     @api.depends('quantity', 'discount', 'price_unit', 'margin', 'tax_ids', 'currency_id')
     def _compute_totals(self):

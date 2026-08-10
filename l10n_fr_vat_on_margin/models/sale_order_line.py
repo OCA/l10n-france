@@ -74,27 +74,11 @@ class SaleOrderLine(models.Model):
             line.margin_amount_untaxed = margin_brut_ttc
 
     def _convert_to_tax_base_line_dict(self):
-        """ Convert the current record to a dictionary in order to use the generic taxes computation method
-        defined on account.tax.
-
-        :return: A python dictionary.
-        """
-        self.ensure_one()
-        price_unit_margin = 0.0
+        """Add the margin to the dict the tax engine consumes."""
+        res = super()._convert_to_tax_base_line_dict()
         if self.line_concerned_by_margin:
-            price_unit_margin = self.margin_amount_untaxed
-        return self.env['account.tax']._convert_to_tax_base_line_dict(
-            self,
-            partner=self.order_id.partner_id,
-            currency=self.order_id.currency_id,
-            product=self.product_id,
-            taxes=self.tax_id,
-            price_unit=self.price_unit,
-            price_unit_margin=price_unit_margin,
-            quantity=self.product_uom_qty,
-            discount=self.discount,
-            price_subtotal=self.price_subtotal,
-        )
+            res['price_unit_margin'] = self.margin_amount_untaxed
+        return res
 
     @api.depends('state', 'price_reduce', 'product_id', 'untaxed_amount_invoiced', 'qty_delivered', 'product_uom_qty')
     def _compute_untaxed_amount_to_invoice(self):
@@ -151,37 +135,11 @@ class SaleOrderLine(models.Model):
             line.untaxed_amount_to_invoice = amount_to_invoice
 
     def _prepare_invoice_line(self, **optional_values):
-        """Prepare the values to create the new invoice line for a sales order line.
-        :param optional_values: any parameter that should be added to the returned invoice line
-        :rtype: dict
+        """Carry the purchase price over to the invoice line.
+
+        The whole native method used to be copied to add this single key,
+        which froze it at the version it was copied from.
         """
-        self.ensure_one()
-        res = {
-            'display_type': self.display_type or 'product',
-            'sequence': self.sequence,
-            'name': self.name,
-            'product_id': self.product_id.id,
-            'product_uom_id': self.product_uom.id,
-            'quantity': self.qty_to_invoice,
-            'discount': self.discount,
-            'price_unit': self.price_unit,
-            'purchase_price': self.purchase_price,
-            'tax_ids': [Command.set(self.tax_id.ids)],
-            'sale_line_ids': [Command.link(self.id)],
-            'is_downpayment': self.is_downpayment,
-        }
-        analytic_account_id = self.order_id.analytic_account_id.id
-        if self.analytic_distribution and not self.display_type:
-            res['analytic_distribution'] = self.analytic_distribution
-        if analytic_account_id and not self.display_type:
-            analytic_account_id = str(analytic_account_id)
-            if 'analytic_distribution' in res:
-                res['analytic_distribution'][analytic_account_id] = res['analytic_distribution'].get(
-                    analytic_account_id, 0) + 100
-            else:
-                res['analytic_distribution'] = {analytic_account_id: 100}
-        if optional_values:
-            res.update(optional_values)
-        if self.display_type:
-            res['account_id'] = False
+        res = super()._prepare_invoice_line(**optional_values)
+        res['purchase_price'] = self.purchase_price
         return res
