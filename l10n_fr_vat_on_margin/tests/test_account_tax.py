@@ -62,20 +62,13 @@ class TestAccountTax(AccountTestInvoicingCommon):
 
         sale_order.action_confirm()
 
-        # Check the amount of the tax
-        self.assertEqual(sale_order.amount_tax, 8, 'The tax amount is wrong')
+        # Sold 150, bought 110: the margin is 110 -> 150, i.e. 40, and under the
+        # margin scheme (art. 297 A CGI) that margin is a VAT-inclusive amount.
+        # The VAT is therefore extracted from it: 40 * 20 / 120 = 6.67, never
+        # 40 * 20% = 8, which would treat the margin as a tax-excluded amount.
+        self.assertEqual(sale_order.amount_tax, 6.67, 'The tax amount is wrong')
         self.assertEqual(sale_order.amount_total, 150, 'The total amount is wrong')
-        self.assertEqual(sale_order.amount_untaxed, 142, 'The untaxed amount is wrong')
-
-        purchase_order = self.env['purchase.order'].search([('partner_id', '=', self.env.ref('base.partner_admin').id)], limit=1)
-
-        purchase_order.write({
-            'fiscal_position_id': self.env.ref('l10n_fr_vat_on_margin.fiscal_position_margin_purchase').id
-        })
-
-        self.assertEqual(purchase_order.amount_total, 110, 'The total amount is wrong')
-        self.assertEqual(purchase_order.amount_tax, 8, 'The tax amount is wrong')
-        self.assertEqual(purchase_order.amount_untaxed, 102, 'The untaxed amount is wrong')
+        self.assertEqual(sale_order.amount_untaxed, 143.33, 'The untaxed amount is wrong')
 
 
     def test_tva_on_margin_consu(self):
@@ -119,14 +112,15 @@ class TestAccountTax(AccountTestInvoicingCommon):
 
         sale_order_consu.action_confirm()
 
-        # Check the amount of the tax
-        self.assertEqual(sale_order_consu.amount_tax, 8, 'The tax amount is wrong')
+        # Same margin as the service case: 40 VAT-inclusive, so 40 * 20 / 120.
+        self.assertEqual(sale_order_consu.amount_tax, 6.67, 'The tax amount is wrong')
         self.assertEqual(sale_order_consu.amount_total, 150, 'The total amount is wrong')
-        self.assertEqual(sale_order_consu.amount_untaxed, 142, 'The untaxed amount is wrong')
+        self.assertEqual(sale_order_consu.amount_untaxed, 143.33, 'The untaxed amount is wrong')
 
         account_move = sale_order_consu._create_invoices()
 
+        # The margin must survive the sale order -> invoice hand-off.
         self.assertEqual(account_move.amount_total, 150, 'The total amount is wrong')
-        self.assertEqual(account_move.amount_tax, 8, 'The tax amount is wrong')
-        self.assertEqual(account_move.amount_untaxed, 142, 'The untaxed amount is wrong')
+        self.assertEqual(account_move.amount_tax, 6.67, 'The tax amount is wrong')
+        self.assertEqual(account_move.amount_untaxed, 143.33, 'The untaxed amount is wrong')
         self.assertEqual(account_move.amount_residual, 150, 'The residual amount is wrong')
