@@ -141,3 +141,20 @@ class TestAccountTax(AccountTestInvoicingCommon):
         self.assertEqual(len(tax_line), 1, 'Expected a single tax line')
         self.assertEqual(
             tax_line.tax_base_amount, 33.33, 'The declared tax base is wrong')
+
+        # The totals block is built from _convert_to_tax_base_line_dict, the
+        # journal entry from _compute_all_tax. They must agree: subtracting the
+        # supplier price from price_unit in the first one counted the margin
+        # twice and printed 10.00 on an invoice posting 120.00.
+        product_line = account_move.line_ids.filtered(
+            lambda l: l.display_type == 'product')
+        product_line.vendor_id = seller
+        self.assertTrue(
+            product_line.vendor_price,
+            'The supplier price is needed for this check to mean anything')
+        self.assertEqual(
+            account_move.tax_totals['amount_total'], account_move.amount_total,
+            'The printed total and the accounting total diverge')
+        self.assertEqual(
+            account_move.tax_totals['amount_untaxed'], account_move.amount_untaxed,
+            'The printed untaxed amount and the accounting one diverge')

@@ -31,7 +31,6 @@
         'data/account_tax_group.xml',
         'data/account_tax_template.xml',
         # 'data/account_fiscal_position.xml',
-        'wizard/sale_order_fiscal_position_wizard.xml',
     ],
     # Companies that loaded the French chart before this module was installed
     # are not served by the chart template machinery; the hook fills them in.

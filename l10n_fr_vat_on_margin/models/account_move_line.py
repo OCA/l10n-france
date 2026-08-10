@@ -1,7 +1,6 @@
 from odoo import models, fields, api
 from odoo.tools import frozendict, formatLang, format_date, float_compare, Query
 
-
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
@@ -80,102 +79,14 @@ class AccountMoveLine(models.Model):
                 tax.vat_on_margin for tax in line.tax_ids
             )
 
-    @api.depends('move_id')
-    def _compute_balance(self):
-        for line in self:
-            if line.display_type in ('line_section', 'line_note'):
-                line.balance = False
-            elif not line.move_id.is_invoice(include_receipts=True):
-                # Only act as a default value when none of balance/debit/credit is specified
-                # balance is always the written field because of `_sanitize_vals`
-                line.balance = -sum((line.move_id.line_ids - line).mapped('balance'))
-            else:
-                line.balance = 0
-
-    @api.depends('balance', 'move_id.is_storno')
-    def _compute_debit_credit(self):
-        for line in self:
-            if not line.is_storno:
-                line.debit = line.balance if line.balance > 0.0 else 0.0
-                line.credit = -line.balance if line.balance < 0.0 else 0.0
-            else:
-                line.debit = line.balance if line.balance < 0.0 else 0.0
-                line.credit = -line.balance if line.balance > 0.0 else 0.0
-
-    @api.depends('debit', 'credit', 'amount_currency', 'account_id', 'currency_id', 'company_id',
-                 'matched_debit_ids', 'matched_credit_ids')
-    def _compute_amount_residual(self):
-        """ Computes the residual amount of a move line from a reconcilable account in the company currency and the line's currency.
-            This amount will be 0 for fully reconciled lines or lines from a non-reconcilable account, the original line amount
-            for unreconciled lines, and something in-between for partially reconciled lines.
-        """
-        need_residual_lines = self.filtered(
-            lambda x: x.account_id.reconcile or x.account_id.account_type in ('asset_cash', 'liability_credit_card'))
-        # Run the residual amount computation on all lines stored in the db. By
-        # using _origin, new records (with a NewId) are excluded and the
-        # computation works automagically for virtual onchange records as well.
-        stored_lines = need_residual_lines._origin
-
-        if stored_lines:
-            self.env['account.partial.reconcile'].flush_model()
-            self.env['res.currency'].flush_model(['decimal_places'])
-
-            aml_ids = tuple(stored_lines.ids)
-            self._cr.execute('''
-                             SELECT part.debit_move_id                                          AS line_id,
-                                    'debit'                                                     AS flag,
-                                    COALESCE(SUM(part.amount), 0.0)                             AS amount,
-                                    ROUND(SUM(part.debit_amount_currency), curr.decimal_places) AS amount_currency
-                             FROM account_partial_reconcile part
-                                      JOIN res_currency curr ON curr.id = part.debit_currency_id
-                             WHERE part.debit_move_id IN %s
-                             GROUP BY part.debit_move_id, curr.decimal_places
-                             UNION ALL
-                             SELECT part.credit_move_id                                          AS line_id,
-                                    'credit'                                                     AS flag,
-                                    COALESCE(SUM(part.amount), 0.0)                              AS amount,
-                                    ROUND(SUM(part.credit_amount_currency), curr.decimal_places) AS amount_currency
-                             FROM account_partial_reconcile part
-                                      JOIN res_currency curr ON curr.id = part.credit_currency_id
-                             WHERE part.credit_move_id IN %s
-                             GROUP BY part.credit_move_id, curr.decimal_places
-                             ''', [aml_ids, aml_ids])
-            amounts_map = {
-                (line_id, flag): (amount, amount_currency)
-                for line_id, flag, amount, amount_currency in self.env.cr.fetchall()
-            }
-        else:
-            amounts_map = {}
-
-        # Lines that can't be reconciled with anything since the account doesn't allow that.
-        for line in self - need_residual_lines:
-            line.amount_residual = 0.0
-            line.amount_residual_currency = 0.0
-            line.reconciled = False
-
-        for line in need_residual_lines:
-            # Since this part could be call on 'new' records, 'company_currency_id'/'currency_id' could be not set.
-            comp_curr = line.company_currency_id or self.env.company.currency_id
-            foreign_curr = line.currency_id or comp_curr
-            # Retrieve the amounts in both foreign/company currencies. If the record is 'new', the amounts_map is empty.
-            debit_amount, debit_amount_currency = amounts_map.get((line._origin.id, 'debit'), (0.0, 0.0))
-            credit_amount, credit_amount_currency = amounts_map.get((line._origin.id, 'credit'), (0.0, 0.0))
-
-            # Subtract the values from the account.partial.reconcile to compute the residual amounts.
-            line.amount_residual = comp_curr.round(line.balance - debit_amount + credit_amount)
-            line.amount_residual_currency = foreign_curr.round(
-                line.amount_currency - debit_amount_currency + credit_amount_currency)
-            line.reconciled = (
-                comp_curr.is_zero(line.amount_residual)
-                and foreign_curr.is_zero(line.amount_residual_currency)
-            )
-
     @api.depends("vendor_id")
     def _compute_vendor_price(self):
         for rec in self:
-            if rec.vendor_id:
-                rec.vendor_price = rec.product_id.product_tmpl_id.seller_ids.filtered(
-                    lambda s: s.partner_id == rec.vendor_id).price
+            # Assign on every branch: without the else the price stayed at
+            # its previous value after the supplier was removed.
+            rec.vendor_price = rec.product_id.product_tmpl_id.seller_ids.filtered(
+                lambda s: s.partner_id == rec.vendor_id
+            ).price if rec.vendor_id else 0.0
 
     @api.depends('product_id')
     def _compute_available_vendor_ids(self):
@@ -194,11 +105,12 @@ class AccountMoveLine(models.Model):
         self.ensure_one()
         is_invoice = self.move_id.is_invoice(include_receipts=True)
         sign = -1 if self.move_id.is_inbound(include_receipts=True) else 1
+        # The margin travels on its own through price_unit_margin below. It used
+        # to be subtracted from price_unit here as well, counting it twice: with
+        # a supplier price of 110 on a 120 line, the totals block printed 10.00
+        # while the journal entry posted 120.00. This dict also feeds
+        # _prepare_invoice_aggregated_taxes, hence the tax report and Factur-X.
         price_unit = self.price_unit if is_invoice else self.amount_currency
-        price_unit_margin = 0.0
-        if self.line_concerned_by_margin:
-            price_unit = (self.price_unit - self.vendor_price)
-            price_unit_margin = self.margin / self.quantity
         return self.env['account.tax']._convert_to_tax_base_line_dict(
             self,
             partner=self.partner_id,
@@ -215,27 +127,6 @@ class AccountMoveLine(models.Model):
             is_refund=self.is_refund,
             rate=(abs(self.amount_currency) / abs(self.balance)) if self.balance else 1.0
         )
-
-    @api.depends('product_id', 'price_unit', 'margin', 'quantity', 'vendor_price', 'tax_id')
-    def _compute_margin_tax(self):
-        for line in self:
-            if line.line_concerned_by_margin:
-                margin = (line.price_unit - line.vendor_price) * line.quantity
-                if margin > 0:
-                    for tax in line.tax_ids:
-                        if tax.amount_type == 'percent':
-                            tax_amount = margin * (tax.amount / 100)
-                            line.tax_base_amount = margin
-                            line.tax_amount = tax_amount
-                        else:
-                            line.tax_base_amount = line.price_subtotal
-                            line.tax_amount = line.price_subtotal * (tax.amount / 100)
-                else:
-                    line.tax_base_amount = line.price_subtotal
-                    line.tax_amount = 0.0
-            else:
-                line.tax_base_amount = line.price_subtotal
-                line.tax_amount = line.price_subtotal * (line.tax_ids.amount / 100)
 
     @api.depends('quantity', 'discount', 'price_unit', 'margin', 'tax_ids', 'currency_id')
     def _compute_totals(self):
@@ -254,7 +145,6 @@ class AccountMoveLine(models.Model):
                     product=line.product_id,
                     partner=line.partner_id,
                     is_refund=line.is_refund,
-                    is_tva_on_margin_move=True,
                     price_unit_margin=line.margin
                 )
                 line.price_subtotal = taxes_res['total_excluded']
@@ -291,7 +181,7 @@ class AccountMoveLine(models.Model):
                 fixed_multiplicator=sign,
                 price_unit_margin=line.margin,
             )
-            rate = line.amount_currency / line.balance if line.balance else 1
+            rate = line.amount_currency / line.balance if line.balance else line.currency_rate
             line.compute_all_tax_dirty = True
             line.compute_all_tax = {
                 frozendict({

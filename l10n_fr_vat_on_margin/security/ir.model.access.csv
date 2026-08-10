@@ -1,2 +1,1 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sale_order_fiscal_position_wizard,sale_order_fiscal_position_wizard,l10n_fr_vat_on_margin.model_sale_order_fiscal_position_wizard,base.group_user,1,1,1,1
