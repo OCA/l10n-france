@@ -54,7 +54,7 @@ class ProductTemplate(models.Model):
             template.department_id_domain = [("state_id", "=", template.state_id.id)]
         for template in self.filtered(lambda x: not x.state_id and x.country_id):
             template.department_id_domain = [
-                ("state_id", "in", template.country_id.state_ids.ids)
+                ("country_id", "=", template.country_id.id)
             ]
         for template in self.filtered(lambda x: not x.state_id and not x.country_id):
             template.department_id_domain = []
