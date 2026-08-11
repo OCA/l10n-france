@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-l10n-france"
-version = "19.0.20260720.2"
+version = "19.0.20260811.0"
 dependencies = [
     "odoo-addon-account_payment_fr_lcr==19.0.*",
     "odoo-addon-account_statement_import_fr_cfonb==19.0.*",
@@ -11,6 +11,7 @@ dependencies = [
     "odoo-addon-l10n_fr_department==19.0.*",
     "odoo-addon-l10n_fr_department_oversea==19.0.*",
     "odoo-addon-l10n_fr_intrastat_service==19.0.*",
+    "odoo-addon-l10n_fr_mis_reports==19.0.*",
     "odoo-addon-l10n_fr_pos_caisse_ap_ip==19.0.*",
     "odoo-addon-l10n_fr_siret==19.0.*",
     "odoo-addon-l10n_fr_state==19.0.*",
