@@ -426,6 +426,9 @@ class PosPaymentMethod(models.Model):
         overwrite each other; the lock makes them queue instead.
         """
         self.ensure_one()
+        # Raw SQL reads the database, not the ORM cache: a pending write of
+        # this very field would otherwise be invisible and get overwritten
+        self.env.flush_all()
         self.env.cr.execute(
             "SELECT fr_caisse_ap_ip_latest_response FROM pos_payment_method "
             "WHERE id = %s FOR UPDATE",
