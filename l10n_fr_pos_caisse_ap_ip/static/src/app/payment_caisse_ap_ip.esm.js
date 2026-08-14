@@ -24,7 +24,8 @@ export class PaymentCaisseAPIP extends PaymentInterface {
 
     async send_payment_cancel(order, uuid) {
         super.send_payment_cancel(...arguments);
-        if (this.pendingPayments[uuid]) {
+        const pending = this.pendingPayments[uuid];
+        if (pending) {
             this.pos.data
                 .silentCall("pos.payment.method", "fr_caisse_ap_ip_cancel_payment", [
                     uuid,
@@ -32,6 +33,12 @@ export class PaymentCaisseAPIP extends PaymentInterface {
                 .catch(() => {
                     // Nothing to do: the terminal keeps the last word
                 });
+            // Closing the socket makes the pending read return nothing, which
+            // would surface as "Empty answer from payment terminal. This should
+            // never happen." -- an alarming message for something the cashier
+            // just asked for. Stop waiting here so that answer is ignored.
+            this._clear_pending(uuid);
+            pending.resolve(false);
         }
         this._show_error(
             _t(
