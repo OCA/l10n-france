@@ -115,6 +115,14 @@ msgstr "Chèque"
 #. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
+msgid "Could not prepare the request for the payment terminal."
+msgstr ""
+"Impossible de préparer la demande à destination du terminal de paiement."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
 msgid "Empty answer from payment terminal. This should never happen."
 msgstr ""
 "La réponse du terminal de paiement est vide. Cela ne devrait jamais arriver."

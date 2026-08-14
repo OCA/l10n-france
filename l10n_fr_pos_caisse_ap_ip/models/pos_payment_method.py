@@ -2,11 +2,17 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import json
 import logging
 import socket
+import threading
+import time
 
-from odoo import _, api, fields, models
+import psycopg2
+
+from odoo import SUPERUSER_ID, _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.modules.registry import Registry
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +22,140 @@ except ImportError:
     logger.debug("Cannot import pycountry")
 
 BUFFER_SIZE = 1024
+# Connecting to the terminal must fail fast: an unplugged or powered-off
+# terminal should not make the cashier wait for the full payment timeout.
+CONNECT_TIMEOUT = 10
+# Quiet period on a record boundary before considering the answer over
+INTER_FRAGMENT_TIMEOUT = 1
+# Answers kept in the buffer, waiting to be collected by the POS
+MAX_BUFFERED_ANSWERS = 5
+# Concurrent writes on the payment method row are retried, not lost
+WRITE_ATTEMPTS = 5
+RETRY_DELAY = 0.2
+
+# Live sockets, keyed by payment_id, so that a cancellation from the POS can
+# close the connection instead of letting the thread wait for its timeout.
+_ACTIVE_SOCKETS = {}
+_ACTIVE_SOCKETS_LOCK = threading.Lock()
+
+
+def _is_answer_complete(answer):
+    """Caisse-AP answers are a stream of TAG(2) + LENGTH(3) + VALUE records.
+
+    The answer is complete when walking those records lands exactly on the end
+    of the buffer. TCP is a stream: the terminal is free to split its answer
+    over several segments, so a single recv() may hold only part of it.
+    """
+    idx = 0
+    while idx < len(answer):
+        if len(answer) < idx + 5:
+            return False
+        try:
+            size = int(answer[idx + 2 : idx + 5])
+        except ValueError:
+            # Not parsable: stop reading and let the parser report the problem
+            return True
+        idx += 5 + size
+    return idx == len(answer)
+
+
+def _read_answer(sock, read_timeout):
+    """Read the whole answer, however the terminal splits it over TCP.
+
+    The protocol carries no total length, so a prefix of complete records is
+    indistinguishable from a complete answer -- reading until the records parse
+    is not enough. Two rules settle it:
+      - mid-record, keep waiting with the full payment timeout;
+      - on a record boundary, wait a short quiet period for a next fragment,
+        and stop when none comes (or when the terminal closes).
+    """
+    buf = b""
+    sock.settimeout(read_timeout)
+    while True:
+        try:
+            chunk = sock.recv(BUFFER_SIZE)
+        except socket.timeout:
+            if not buf:
+                # The terminal never answered at all
+                raise
+            break
+        if not chunk:
+            # Terminal closed the connection: nothing more is coming
+            break
+        buf += chunk
+        sock.settimeout(
+            INTER_FRAGMENT_TIMEOUT
+            if _is_answer_complete(buf.decode("ascii", "replace"))
+            else read_timeout
+        )
+    return buf.decode("ascii")
+
+
+def _talk_to_terminal(msg_bytes, ip_addr, port, read_timeout, payment_id):
+    """Full dialog with the terminal. Runs outside any database cursor."""
+    with socket.create_connection(
+        (ip_addr, port), timeout=CONNECT_TIMEOUT
+    ) as sock:
+        # create_connection's timeout covers the connection only; it is then
+        # inherited by recv(). _read_answer sets the read timeout explicitly,
+        # otherwise the worst case is twice the intended timeout.
+        with _ACTIVE_SOCKETS_LOCK:
+            _ACTIVE_SOCKETS[payment_id] = sock
+        try:
+            sock.sendall(msg_bytes)
+            return _read_answer(sock, read_timeout)
+        finally:
+            with _ACTIVE_SOCKETS_LOCK:
+                _ACTIVE_SOCKETS.pop(payment_id, None)
+
+
+def _terminal_thread(
+    dbname, method_id, payment_id, msg_bytes, msg_dict, ip_addr, port, read_timeout
+):
+    """Dialog with the terminal, off the HTTP worker.
+
+    The worker that received the RPC has already answered the POS: nothing here
+    may hold it. The socket wait happens with no cursor open, and a cursor is
+    taken only to buffer the result for the POS to collect.
+    """
+    threading.current_thread().dbname = dbname
+    answer = False
+    error = False
+    try:
+        answer = _talk_to_terminal(
+            msg_bytes, ip_addr, port, read_timeout, payment_id
+        )
+    except Exception as e:
+        logger.warning("Exception raised in socket to payment terminal: %s", e)
+        error = e
+    for attempt in range(WRITE_ATTEMPTS):
+        try:
+            with Registry(dbname).cursor() as cr:
+                env = api.Environment(cr, SUPERUSER_ID, {})
+                method = env["pos.payment.method"].browse(method_id)
+                res = method._fr_caisse_ap_ip_build_result(
+                    answer, msg_dict, error, ip_addr, port
+                )
+                res["payment_id"] = payment_id
+                method._fr_caisse_ap_ip_store_answer(payment_id, res)
+            return
+        except psycopg2.OperationalError as e:
+            # Two terminals answering at the same instant write the same row:
+            # PostgreSQL aborts one of them, and the answer must not be lost
+            logger.info("Concurrent update while recording the answer: %s", e)
+            time.sleep(RETRY_DELAY * (attempt + 1))
+        except Exception:
+            # Never let this thread die silently: the POS would wait forever
+            logger.exception(
+                "Could not record the answer of payment terminal %s:%s", ip_addr, port
+            )
+            return
+    logger.error(
+        "Gave up recording the answer of payment terminal %s:%s after %s attempts",
+        ip_addr,
+        port,
+        WRITE_ATTEMPTS,
+    )
 
 
 class PosPaymentMethod(models.Model):
@@ -39,6 +179,16 @@ class PosPaymentMethod(models.Model):
         help="TCP port of the payment terminal that support Caisse-AP protocol over IP",
         default=8888,
     )
+    # Buffers the answer of the terminal until the POS collects it
+    fr_caisse_ap_ip_latest_response = fields.Char(
+        copy=False, groups="base.group_erp_manager"
+    )
+
+    def _is_write_forbidden(self, fields):
+        # The buffer is written while a session is open, by design
+        return super()._is_write_forbidden(
+            fields - {"fr_caisse_ap_ip_latest_response"}
+        )
 
     @api.constrains(
         "use_payment_terminal", "fr_caisse_ap_ip_address", "fr_caisse_ap_ip_port"
@@ -176,12 +326,29 @@ class PosPaymentMethod(models.Model):
 
     @api.model
     def fr_caisse_ap_ip_send_payment(self, data):
-        """Method called by the JS code of this module"""
+        """Method called by the JS code of this module.
+
+        It only prepares the request and hands the dialog over to a thread:
+        talking to the terminal here would pin an HTTP worker (and a database
+        connection) for as long as the customer takes to insert a card and type
+        a PIN, freezing the whole Odoo instance once every worker is busy.
+        """
         logger.debug("fr_caisse_ap_ip_send_payment data=%s", data)
         payment_method_id = data["payment_method_id"]
         payment_method = self.browse(payment_method_id)
         msg_dict = payment_method._fr_caisse_ap_ip_prepare_message(data)
-        msg_str = self._fr_caisse_ap_ip_prepare_msg(msg_dict)
+        if not isinstance(msg_dict, dict):
+            return {
+                "payment_status": "issue",
+                "error_message": _(
+                    "Could not prepare the request for the payment terminal."
+                ),
+            }
+        if "payment_status" in msg_dict:
+            # Synchronous rejection (null amount, amount too large, ...)
+            return msg_dict
+        payment_id = data["payment_id"]
+        msg_str = self._fr_caisse_ap_ip_prepare_msg(dict(msg_dict))
         msg_bytes = msg_str.encode("ascii")
         timeout_ms = data["timeout"]
         # For the timeout of the TCP socket to the payment terminal, we remove
@@ -199,38 +366,103 @@ class PosPaymentMethod(models.Model):
             port,
         )
         logger.debug("Data about to be sent to payment terminal: %s" % msg_str)
-        answer = False
-        try:
-            with socket.create_connection((ip_addr, port), timeout=timeout_sec) as sock:
-                sock.send(msg_bytes)
-                answer_bytes = sock.recv(BUFFER_SIZE)
-                answer = answer_bytes.decode("ascii")
-                logger.debug("Answer received from payment terminal: %s", answer)
-        except Exception as e:
-            logger.warning("Exception raised in socket to payment terminal: %s", e)
-            error_msg = _(
-                "Failure in the connection to the payment terminal on "
-                "%(ip_addr)s port %(port)s: %(error)s.",
-                ip_addr=ip_addr,
-                port=port,
-                error=e,
-            )
-            res = {
+        threading.Thread(
+            target=_terminal_thread,
+            args=(
+                self.env.cr.dbname,
+                payment_method_id,
+                payment_id,
+                msg_bytes,
+                msg_dict,
+                ip_addr,
+                port,
+                timeout_sec,
+            ),
+            daemon=True,
+        ).start()
+        return {"payment_status": "waiting", "payment_id": payment_id}
+
+    def _fr_caisse_ap_ip_lock_buffer(self):
+        """Read the buffer with the row locked, for a safe read-modify-write.
+
+        Reading through the ORM would serve a cached value and let two writers
+        overwrite each other; the lock makes them queue instead.
+        """
+        self.ensure_one()
+        self.env.cr.execute(
+            "SELECT fr_caisse_ap_ip_latest_response FROM pos_payment_method "
+            "WHERE id = %s FOR UPDATE",
+            (self.id,),
+        )
+        row = self.env.cr.fetchone()
+        self.invalidate_recordset(["fr_caisse_ap_ip_latest_response"])
+        return json.loads((row and row[0]) or "{}")
+
+    def _fr_caisse_ap_ip_store_answer(self, payment_id, res):
+        """Buffer the answer, keyed by payment, until the POS collects it.
+
+        Keyed rather than a single slot: a terminal shared by two payments in a
+        row (a cancelled one then its retry) must not have one answer silently
+        overwrite the other.
+        """
+        self.ensure_one()
+        buf = self._fr_caisse_ap_ip_lock_buffer()
+        buf[payment_id] = res
+        # Keep the buffer from growing over a whole session
+        for stale in list(buf)[:-MAX_BUFFERED_ANSWERS]:
+            del buf[stale]
+        self.sudo().fr_caisse_ap_ip_latest_response = json.dumps(buf)
+
+    @api.model
+    def fr_caisse_ap_ip_get_payment_status(self, payment_method_id, payment_id):
+        """Collect the answer of the terminal, once the thread has recorded it.
+
+        Answers in a few milliseconds whether the payment is over or not, so it
+        can be called repeatedly without ever holding a worker.
+        """
+        payment_method = self.browse(payment_method_id).sudo()
+        buf = payment_method._fr_caisse_ap_ip_lock_buffer()
+        if payment_id not in buf:
+            return {"payment_status": "waiting"}
+        res = buf.pop(payment_id)
+        payment_method.fr_caisse_ap_ip_latest_response = json.dumps(buf)
+        logger.debug("JSON sent back to POS: %s", res)
+        return res
+
+    @api.model
+    def fr_caisse_ap_ip_cancel_payment(self, payment_id):
+        """Close the socket of a payment the cashier gave up on."""
+        with _ACTIVE_SOCKETS_LOCK:
+            sock = _ACTIVE_SOCKETS.get(payment_id)
+        if sock:
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+            except OSError as e:
+                logger.debug("Could not shutdown terminal socket: %s", e)
+        return True
+
+    def _fr_caisse_ap_ip_build_result(self, answer, msg_dict, error, ip_addr, port):
+        """Turn what came back from the terminal into the POS answer."""
+        if error:
+            return {
                 "payment_status": "issue",
-                "error_message": error_msg,
+                "error_message": _(
+                    "Failure in the connection to the payment terminal on "
+                    "%(ip_addr)s port %(port)s: %(error)s.",
+                    ip_addr=ip_addr,
+                    port=port,
+                    error=error,
+                ),
             }
-            return res
-        if answer:
-            res = self._fr_caisse_ap_ip_answer(answer, msg_dict)
-        else:
-            res = {
+        if not answer:
+            return {
                 "payment_status": "issue",
                 "error_message": _(
                     "Empty answer from payment terminal. This should never happen."
                 ),
             }
-        logger.debug("JSON sent back to POS: %s", res)
-        return res
+        logger.debug("Answer received from payment terminal: %s", answer)
+        return self._fr_caisse_ap_ip_answer(answer, msg_dict)
 
     def _fr_caisse_ap_ip_answer(self, answer, msg_dict):
         answer_dict = self._fr_caisse_ap_ip_parse_answer(answer)
