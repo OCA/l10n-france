@@ -6,7 +6,7 @@
 {
     "name": "Improved SIRET/SIREN support",
     "summary": "Check validity of SIRET/SIREN on partners",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "French Localization",
     "author": "Numérigraphe,Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
