@@ -19,9 +19,51 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__parent_is_company
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__parent_is_company
-msgid "Check if the contact is a company, otherwise it is a person"
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"Cannot get %(field)s of partner '%(partner)s' because the SIRET field is "
+"empty."
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"Cannot get %(field)s of partner '%(partner)s' because the country is not set "
+"on that partner."
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"Cannot get %(field)s of partner '%(partner)s' because the partner's country "
+"is %(country)s which is not France."
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"Cannot get NIC of partner '%(partner)s' because the SIRET field (%"
+"(company_registry)s) doesn't contain a full SIRET."
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"Cannot get SIREN of partner '%(partner)s' because the SIRET field is invalid "
+"(%(company_registry)s)."
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"Cannot get SIRET of partner '%(partner)s' because the SIRET field is invalid "
+"(%(company_registry)s)."
 msgstr ""
 
 #. module: l10n_fr_siret
@@ -30,26 +72,61 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__company_registry
+msgid "Company ID"
+msgstr ""
+
+#. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_partner
 msgid "Contact"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
-msgid "Duplicate warning: partner(s)"
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__display_name
+msgid "Display Name"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__nic
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__nic
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__nic
-msgid "NIC"
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__id
+msgid "ID"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__parent_is_company
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__parent_is_company
-msgid "Parent is a Company"
+#. odoo-python
+#: code:addons/l10n_fr_siret/post_install.py:0
+msgid ""
+"Initial SIRET '%(company_registry)s' was invalid, but the 9 first digits was "
+"a valid SIREN, so the value was updated to '%(siren)s'."
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/post_install.py:0
+msgid ""
+"Initial SIRET '%(company_registry)s' was invalid, so the value has been "
+"removed."
+msgstr ""
+
+#. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__is_france_country
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__is_france_country
+msgid "Is France Country"
+msgstr ""
+
+#. module: l10n_fr_siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"On partner '%(partner_name)s', the VAT number %(vat)s is not consistent with "
+"SIREN %(siren)s: a french VAT number has the 9 digits of SIREN at the end."
+msgstr ""
+
+#. module: l10n_fr_siret
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
+msgid "Partner(s)"
 msgstr ""
 
 #. module: l10n_fr_siret
@@ -65,87 +142,68 @@ msgid "Partners with same SIREN"
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siren
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siren
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siren
-msgid "SIREN"
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
+msgid ""
+"SIREN '%(child_siren)s' of child partner '%(child_partner)s' is different "
+"from SIREN '%(parent_siren)s' of its parent partner '%(parent_partner)s'."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_company__siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__siret
-#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__siret
-msgid "SIRET"
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
+msgid "SIREN or SIRET"
 msgstr ""
 
 #. module: l10n_fr_siret
 #. odoo-python
-#: code:addons/l10n_fr_siret/models/res_partner.py:0
-msgid "SIRET '%s' is invalid."
-msgstr ""
-
-#. module: l10n_fr_siret
-#. odoo-python
-#: code:addons/l10n_fr_siret/models/res_partner.py:0
+#: code:addons/l10n_fr_siret/post_install.py:0
 msgid ""
-"The NIC '{nic}' of partner '{partner_name}' is incorrect: it must have "
-"exactly 5 digits."
-msgstr ""
-
-#. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__nic
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__nic
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__nic
-msgid ""
-"The NIC number is the official rank number of this office in the company in "
-"France. It composes the last 5 digits of the SIRET number."
+"SIRET '%(company_registry)s' has been removed because it is not consistent "
+"with VAT '%(vat)s'."
 msgstr ""
 
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid ""
-"The SIREN '{siren}' of partner '{partner_name}' is incorrect: it must have "
-"exactly 9 digits."
+"The SIREN '%(company_registry)s' of partner '%(partner_name)s' is invalid: "
+"the checksum is wrong."
 msgstr ""
 
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid ""
-"The SIREN '{siren}' of partner '{partner_name}' is invalid: the checksum is "
-"wrong."
-msgstr ""
-
-#. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siren
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siren
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__siren
-msgid ""
-"The SIREN number is the official identity number of the company in France. "
-"It composes the first 9 digits of the SIRET number."
+"The SIRET '%(company_registry)s' of partner '%(partner_name)s' is invalid: "
+"the checksum is wrong."
 msgstr ""
 
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid ""
-"The SIRET '{siret}' of partner '{partner_name}' is invalid: the checksum is "
-"wrong."
+"The SIRET (or SIREN) '%(company_registry)s' of partner '%(partner_name)s' is "
+"incorrect: it must contain only digits."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_company__siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__siret
-#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__siret
+#. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid ""
-"The SIRET number is the official identity number of this company's office in "
-"France. It is composed of the 9 digits of the SIREN number and the 5 digits "
-"of the NIC number, ie. 14 digits."
+"The SIRET (or SIREN) '%(company_registry)s' of partner '%(partner_name)s' is "
+"wrong: it should have 14 digits (or 9 digits for SIREN)."
 msgstr ""
 
 #. module: l10n_fr_siret
-#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.res_partner_form_l10n_fr
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__company_registry
+#: model:ir.model.fields,help:l10n_fr_siret.field_res_users__company_registry
+msgid ""
+"The registry number of the company. Use it if it is different from the Tax "
+"ID. It must be unique across all partners of a same country"
+msgstr ""
+
+#. module: l10n_fr_siret
+#: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
 msgid "has/have the same <b>SIREN</b>."
 msgstr ""
 
