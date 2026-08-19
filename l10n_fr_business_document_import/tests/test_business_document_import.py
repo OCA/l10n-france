@@ -35,3 +35,13 @@ class TestL10nFRBusinessDocumentImport(TransactionCase):
         partner_dict = {"siret": "380 129 866 00022"}
         res = bdio._match_partner(partner_dict, [])
         self.assertIn(res, [partner1, partner2])
+        partner3 = self.env["res.partner"].create(
+            {
+                "name": "Renault",
+                "is_company": True,
+                "vat": "FR63441639465",
+                "country_id": self.env.ref("base.fr").id,
+            }
+        )
+        partner_dict = {"siren": "441639465"}
+        self.assertEqual(bdio._match_partner(partner_dict, []), partner3)
