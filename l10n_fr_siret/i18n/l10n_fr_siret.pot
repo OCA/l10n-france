@@ -106,6 +106,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_siret
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__is_france_country
+#: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__is_france_country
+msgid "Is France Country"
+msgstr ""
+
+#. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid ""
