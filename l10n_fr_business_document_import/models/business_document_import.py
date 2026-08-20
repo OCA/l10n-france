@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from stdnum.fr.siren import is_valid as siren_is_valid
+from stdnum.fr.siren import is_valid as siren_is_valid, to_tva
 from stdnum.fr.siret import is_valid as siret_is_valid
 
 from odoo import _, api, models
@@ -37,6 +37,18 @@ class BusinessDocumentImport(models.AbstractModel):
                     + [
                         ("parent_id", "=", False),
                         ("siren", "=", siren),
+                    ],
+                    limit=1,
+                    order=order,
+                )
+                if partner:
+                    return partner
+                vat_from_siren = f"FR{to_tva(siren)}"
+                partner = rpo.search(
+                    domain
+                    + [
+                        ("parent_id", "=", False),
+                        ("vat", "=", vat_from_siren),
                     ],
                     limit=1,
                     order=order,

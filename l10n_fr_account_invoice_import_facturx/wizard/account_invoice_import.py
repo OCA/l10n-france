@@ -10,13 +10,13 @@ class AccountInvoiceImport(models.TransientModel):
 
     def prepare_facturx_xpath_dict(self):
         xpathd = super().prepare_facturx_xpath_dict()
-        xpathd["partner"]["siret"] = [
+        xpathd["partner"]["siren"] = [
             "//ram:ApplicableHeaderTradeAgreement"
             "/ram:SellerTradeParty"
             "/ram:SpecifiedLegalOrganization"
             "/ram:ID[@schemeID='0002']"
         ]
-        xpathd["company"]["siret"] = [
+        xpathd["company"]["siren"] = [
             "//ram:ApplicableHeaderTradeAgreement"
             "/ram:BuyerTradeParty"
             "/ram:SpecifiedLegalOrganization"
