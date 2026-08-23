@@ -1,0 +1,1 @@
+odoo-addon-l10n_fr_fec_oca @ git+https://github.com/OCA/l10n-france.git@refs/pull/707/head#subdirectory=l10n_fr_fec_oca
