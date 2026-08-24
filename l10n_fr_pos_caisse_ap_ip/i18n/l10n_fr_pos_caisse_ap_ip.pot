@@ -102,6 +102,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
 #, python-format
+msgid "Could not prepare the request for the payment terminal."
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+#, python-format
 msgid "Empty answer from payment terminal. This should never happen."
 msgstr ""
 
