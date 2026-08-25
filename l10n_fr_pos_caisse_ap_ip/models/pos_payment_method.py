@@ -4,6 +4,7 @@
 
 import logging
 import socket
+import time
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -16,6 +17,12 @@ except ImportError:
     logger.debug("Cannot import pycountry")
 
 BUFFER_SIZE = 1024
+# The Caisse-AP protocol has no length header nor end-of-message marker.
+# When the buffer parses as a whole number of fields, we drain the socket
+# during DRAIN_TIMEOUT to catch an answer split exactly on a field boundary.
+DRAIN_TIMEOUT = 0.3
+# Safety cap: a real Caisse-AP answer is well under a few KB
+MAX_ANSWER_SIZE = 65536
 
 
 class PosPaymentMethod(models.Model):
@@ -75,13 +82,17 @@ class PosPaymentMethod(models.Model):
                     )
 
     def _fr_caisse_ap_ip_prepare_msg(self, msg_dict):
-        assert isinstance(msg_dict, dict)
+        # Explicit checks instead of assert, so that they are not
+        # skipped when Python runs in optimized mode (-O)
+        if not isinstance(msg_dict, dict):
+            raise ValueError("msg_dict must be a dict")
         for tag, value in msg_dict.items():
-            assert isinstance(tag, str)
-            assert len(tag) == 2
-            assert isinstance(value, str)
-            assert len(value) >= 1
-            assert len(value) <= 999
+            if not isinstance(tag, str) or len(tag) != 2:
+                raise ValueError(f"Tag {tag!r} must be a string of 2 chars")
+            if not isinstance(value, str) or not 1 <= len(value) <= 999:
+                raise ValueError(
+                    f"Value {value!r} of tag '{tag}' must be a string of 1 to 999 chars"
+                )
         msg_list = []
         # CZ tag: protocol version
         # Always start with tag CZ
@@ -90,7 +101,8 @@ class PosPaymentMethod(models.Model):
             version = msg_dict.pop("CZ")
         else:
             version = "0300"  # 0301 ??
-        assert len(version) == 4
+        if len(version) != 4:
+            raise ValueError(f"Version {version!r} must be a string of 4 chars")
         msg_list.append(("CZ", version))
         msg_list += list(msg_dict.items())
         msg_str = "".join(
@@ -156,10 +168,7 @@ class PosPaymentMethod(models.Model):
             amount_cent = amount_positive
         amount_str = str(int(round(amount_cent)))
         data["amount_str"] = amount_str
-        msg_dict["CB"] = amount_str
-        if len(amount_str) < 2:
-            amount_str = amount_str.zfill(2)
-        elif len(amount_str) > 12:
+        if len(amount_str) > 12:
             logger.error("Amount with cents %s is over the maximum.", amount_str)
             error_msg = self.env._(
                 "You are tying to send amount %s cents to the payment terminal, "
@@ -171,6 +180,8 @@ class PosPaymentMethod(models.Model):
                 "error_message": error_msg,
             }
             return res
+        # The protocol requires a minimum size of 2 chars for the CB tag
+        msg_dict["CB"] = amount_str.zfill(2)
         if self.fr_caisse_ap_ip_mode == "check":
             msg_dict["CC"] = "00C"
         return msg_dict
@@ -182,6 +193,17 @@ class PosPaymentMethod(models.Model):
         payment_method_id = data["payment_method_id"]
         payment_method = self.browse(payment_method_id)
         msg_dict = payment_method._fr_caisse_ap_ip_prepare_message(data)
+        if not msg_dict:
+            return {
+                "payment_status": "issue",
+                "error_message": self.env._(
+                    "Odoo could not prepare the message for the payment terminal. "
+                    "Check the Odoo server logs for more details."
+                ),
+            }
+        if msg_dict.get("payment_status"):
+            # _fr_caisse_ap_ip_prepare_message() returned an error dict
+            return msg_dict
         msg_str = self._fr_caisse_ap_ip_prepare_msg(msg_dict)
         msg_bytes = msg_str.encode("ascii")
         timeout_ms = data["timeout"]
@@ -200,12 +222,45 @@ class PosPaymentMethod(models.Model):
             port,
         )
         logger.debug("Data about to be sent to payment terminal: %s", msg_str)
-        answer = False
+        answer = ""
         try:
             with socket.create_connection((ip_addr, port), timeout=timeout_sec) as sock:
-                sock.send(msg_bytes)
-                answer_bytes = sock.recv(BUFFER_SIZE)
-                answer = answer_bytes.decode("ascii")
+                sock.sendall(msg_bytes)
+                # The answer may be split across several TCP packets and may
+                # exceed BUFFER_SIZE: read until the terminal closes the
+                # connection or the message is complete. As the protocol has
+                # no length header, 'complete' can be a false positive when
+                # the split falls on a field boundary: when the buffer looks
+                # complete, keep reading with a short timeout (DRAIN_TIMEOUT)
+                # and only stop when no more data arrives.
+                deadline = time.monotonic() + timeout_sec
+                while True:
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError(
+                            "Global timeout reading the answer from the "
+                            "payment terminal"
+                        )
+                    try:
+                        chunk = sock.recv(BUFFER_SIZE)
+                    except TimeoutError:
+                        if answer and self._fr_caisse_ap_ip_answer_complete(answer):
+                            # Drain timeout expired without extra data:
+                            # the answer is really complete
+                            break
+                        raise
+                    if not chunk:
+                        # The terminal closed the connection
+                        break
+                    answer += chunk.decode("ascii")
+                    if len(answer) > MAX_ANSWER_SIZE:
+                        raise ValueError(
+                            "Answer from the payment terminal exceeds "
+                            f"{MAX_ANSWER_SIZE} bytes"
+                        )
+                    if self._fr_caisse_ap_ip_answer_complete(answer):
+                        sock.settimeout(DRAIN_TIMEOUT)
+                    else:
+                        sock.settimeout(max(deadline - time.monotonic(), DRAIN_TIMEOUT))
                 logger.debug("Answer received from payment terminal: %s", answer)
         except Exception as e:
             logger.warning("Exception raised in socket to payment terminal: %s", e)
@@ -222,7 +277,21 @@ class PosPaymentMethod(models.Model):
             }
             return res
         if answer:
-            res = self._fr_caisse_ap_ip_answer(answer, msg_dict)
+            try:
+                res = self._fr_caisse_ap_ip_answer(answer, msg_dict)
+            except Exception as e:
+                logger.error(
+                    "Cannot parse the answer '%s' from the payment terminal: %s",
+                    answer,
+                    e,
+                )
+                res = {
+                    "payment_status": "issue",
+                    "error_message": self.env._(
+                        "Cannot understand the answer from the payment terminal: %s",
+                        answer,
+                    ),
+                }
         else:
             res = {
                 "payment_status": "issue",
@@ -271,7 +340,7 @@ class PosPaymentMethod(models.Model):
                     "Caisse AP IP protocol: tag %s is required but it is "
                     "not present in the answer from the terminal. "
                     "This should never happen!",
-                    answer_dict.get(tag),
+                    tag,
                 )
                 return fail_res
             if (
@@ -291,8 +360,10 @@ class PosPaymentMethod(models.Model):
                 )
                 return fail_res
             elif not props["fixed_size"] and answer_dict.get(tag):
+                # Strip the leading zeros on both sides: the terminal may
+                # zero-pad the value differently from the request
                 strip_answer = answer_dict[tag].lstrip("0")
-                if msg_dict[tag] != strip_answer:
+                if msg_dict[tag].lstrip("0") != strip_answer:
                     fail_res["error_message"] = self.env._(
                         "Caisse AP IP protocol: Tag %(label)s (%(tag)s) has value "
                         "%(request_val)s in the request and %(answer_val)s in the "
@@ -403,6 +474,19 @@ class PosPaymentMethod(models.Model):
         logger.info("Failure answer from payment terminal (failure report: %s)", label)
         return res
 
+    @api.model
+    def _fr_caisse_ap_ip_answer_complete(self, data_str):
+        # A Caisse-AP message is a sequence of TAG(2 chars) SIZE(3 digits)
+        # VALUE(SIZE chars) fields. Return True when data_str contains a
+        # complete sequence of fields.
+        i = 0
+        while i < len(data_str):
+            size_str = data_str[i + 2 : i + 5]
+            if len(size_str) < 3 or not size_str.isdigit():
+                return False
+            i += 5 + int(size_str)
+        return i > 0 and i == len(data_str)
+
     def _fr_caisse_ap_ip_parse_answer(self, data_str):
         logger.debug("Received raw data: %s", data_str)
         data_dict = {}
@@ -411,9 +495,19 @@ class PosPaymentMethod(models.Model):
             tag = data_str[i : i + 2]
             i += 2
             size_str = data_str[i : i + 3]
+            if len(size_str) < 3 or not size_str.isdigit():
+                raise ValueError(
+                    f"Wrong size '{size_str}' for tag '{tag}': the answer from "
+                    "the payment terminal is malformed or truncated."
+                )
             size = int(size_str)
             i += 3
             value = data_str[i : i + size]
+            if len(value) != size:
+                raise ValueError(
+                    f"Value of tag '{tag}' is truncated: expected {size} chars, "
+                    f"got {len(value)}."
+                )
             data_dict[tag] = value
             i += size
         logger.debug("Answer dict: %s", data_dict)
