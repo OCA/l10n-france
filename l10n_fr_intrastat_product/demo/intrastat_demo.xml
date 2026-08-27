@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2011-2022 Akretion France (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo noupdate="1">
+    <record id="base.main_company" model="res.company">
+        <field name="fr_intrastat_accreditation">A12B</field>
+        <field name="country_id" ref="base.fr" />
+        <field name="intrastat_accessory_costs">1</field>
+    </record>
+    <!-- Use a SIRET whose SIREN (441019213) matches the intrastat_base demo VAT FR58441019213 -->
+    <record id="base.main_partner" model="res.partner">
+        <field name="company_registry">44101921300004</field>
+    </record>
+    <record id="intrastat_product.intrastat_unit_pce" model="intrastat.unit">
+        <field name="fr_xml_label">PCE</field>
+    </record>
+</odoo>
