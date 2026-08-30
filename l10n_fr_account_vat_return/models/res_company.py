@@ -19,11 +19,7 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     fr_vat_periodicity = fields.Selection(
-        [
-            ("1", "Monthly"),
-            ("3", "Quarterly"),
-            ("12", "Yearly"),
-        ],
+        "_fr_vat_periodicity_selection",
         default="1",
         string="VAT Periodicity",
     )
@@ -102,6 +98,16 @@ class ResCompany(models.Model):
     fr_vat_remind_auto_generate_and_transmit = fields.Boolean(
         string="Auto-generate and Transmit on Deadline Day"
     )
+
+    @api.model
+    def _fr_vat_periodicity_selection(self):
+        res = [
+            ("1", self.env._("Monthly")),
+            ("3", self.env._("Quarterly")),
+            ("12", self.env._("Yearly")),
+        ]
+        return res
+
 
     @api.model
     def _fr_vat_exigibility_selection(self):

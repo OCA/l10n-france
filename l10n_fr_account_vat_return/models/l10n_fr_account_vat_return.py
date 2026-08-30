@@ -60,11 +60,7 @@ class L10nFrAccountVatReturn(models.Model):
         precompute=True,
     )
     vat_periodicity = fields.Selection(
-        [
-            ("1", "Monthly"),
-            ("3", "Quarterly"),
-            ("12", "Yearly"),
-        ],
+        "_vat_periodicity_selection",
         string="VAT Periodicity",
         required=True,
         tracking=True,
@@ -238,6 +234,10 @@ class L10nFrAccountVatReturn(models.Model):
             ),
             ("other", "Demande déposée suite à autres motifs"),
         ]
+
+    @api.model
+    def _vat_periodicity_selection(self):
+        return self.env['res.company']._fr_vat_periodicity_selection()
 
     @api.model
     def _send_gateway_selection(self):
@@ -2225,16 +2225,18 @@ class L10nFrAccountVatReturn(models.Model):
                         # it may be a purchase-only fiscal position (ex: Auto-entrep)
                         # -> no raise, only write a warning in chatter
                         self.message_post(
-                            body=_(
-                                "No account mapping on fiscal position "
-                                "<a href=# data-oe-model=account.fiscal.position "
-                                "data-oe-id=%(fiscal_position_id)d "
-                                ">%(fiscal_position)s</a>. "
-                                "If this fiscal position is not "
-                                "only used for purchase but also for sale, you must "
-                                "configure an account mapping on revenue accounts.",
-                                fiscal_position_id=fposition.id,
-                                fiscal_position=fposition.display_name,
+                            body=Markup(
+                                _(
+                                    "No account mapping on fiscal position "
+                                    "<a href=# data-oe-model=account.fiscal.position "
+                                    "data-oe-id=%(fiscal_position_id)d "
+                                    ">%(fiscal_position)s</a>. "
+                                    "If this fiscal position is not only used "
+                                    "for purchase but also for sale, you must "
+                                    "configure an account mapping on revenue accounts.",
+                                    fiscal_position_id=fposition.id,
+                                    fiscal_position=fposition.display_name,
+                                )
                             )
                         )
                     else:
