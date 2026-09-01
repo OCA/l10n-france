@@ -65,7 +65,9 @@ class AccountMove(models.Model):
     # The related field below should be native... I hope we won't have conflict issues
     # if another module defines the same related field.
     invoice_sending_method = fields.Selection(
-        related="commercial_partner_id.invoice_sending_method", store=True
+        selection="_selection_invoice_sending_method",
+        compute="_compute_invoice_sending_method",
+        store=True,
     )
     chorus_flow_id = fields.Many2one(
         "chorus.flow",
@@ -96,6 +98,19 @@ class AccountMove(models.Model):
         string="Chorus Service Code",
         store=True,
     )
+
+    def _selection_invoice_sending_method(self):
+        return self.env["res.partner"]._fields["invoice_sending_method"].selection
+
+    @api.depends("commercial_partner_id.invoice_sending_method", "company_id")
+    def _compute_invoice_sending_method(self):
+        for move in self:
+            if move.commercial_partner_id:
+                move.invoice_sending_method = move.commercial_partner_id.with_company(
+                    move.company_id
+                ).invoice_sending_method
+            else:
+                move.invoice_sending_method = False
 
     @api.constrains("chorus_attachment_ids", "invoice_sending_method")
     def _check_chorus_attachments(self):
