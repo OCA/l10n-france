@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="base.ad" model="res.country">
+    <field name="fr_cog">99130</field>
+</record>
+
+<record id="base.ae" model="res.country">
+    <field name="fr_cog">99247</field>
+</record>
+
+<record id="base.af" model="res.country">
+    <field name="fr_cog">99212</field>
+</record>
+
+<record id="base.ag" model="res.country">
+    <field name="fr_cog">99441</field>
+</record>
+
+<record id="base.ai" model="res.country">
+    <field name="fr_cog">99425</field>
+</record>
+
+<record id="base.al" model="res.country">
+    <field name="fr_cog">99125</field>
+</record>
+
+<record id="base.am" model="res.country">
+    <field name="fr_cog">99252</field>
+</record>
+
+<record id="base.ao" model="res.country">
+    <field name="fr_cog">99395</field>
+</record>
+
+<record id="base.ar" model="res.country">
+    <field name="fr_cog">99415</field>
+</record>
+
+<record id="base.as" model="res.country">
+    <field name="fr_cog">99505</field>
+</record>
+
+<record id="base.at" model="res.country">
+    <field name="fr_cog">99110</field>
+</record>
+
+<record id="base.au" model="res.country">
+    <field name="fr_cog">99501</field>
+</record>
+
+<record id="base.aw" model="res.country">
+    <field name="fr_cog">99135</field>
+</record>
+
+<record id="base.az" model="res.country">
+    <field name="fr_cog">99253</field>
+</record>
+
+<record id="base.ba" model="res.country">
+    <field name="fr_cog">99118</field>
+</record>
+
+<record id="base.bb" model="res.country">
+    <field name="fr_cog">99434</field>
+</record>
+
+<record id="base.bd" model="res.country">
+    <field name="fr_cog">99246</field>
+</record>
+
+<record id="base.be" model="res.country">
+    <field name="fr_cog">99131</field>
+</record>
+
+<record id="base.bf" model="res.country">
+    <field name="fr_cog">99331</field>
+</record>
+
+<record id="base.bg" model="res.country">
+    <field name="fr_cog">99111</field>
+</record>
+
+<record id="base.bh" model="res.country">
+    <field name="fr_cog">99249</field>
+</record>
+
+<record id="base.bi" model="res.country">
+    <field name="fr_cog">99321</field>
+</record>
+
+<record id="base.bj" model="res.country">
+    <field name="fr_cog">99327</field>
+</record>
+
+<record id="base.bm" model="res.country">
+    <field name="fr_cog">99425</field>
+</record>
+
+<record id="base.bn" model="res.country">
+    <field name="fr_cog">99225</field>
+</record>
+
+<record id="base.bo" model="res.country">
+    <field name="fr_cog">99418</field>
+</record>
+
+<record id="base.bq" model="res.country">
+    <field name="fr_cog">99443</field>
+</record>
+
+<record id="base.br" model="res.country">
+    <field name="fr_cog">99416</field>
+</record>
+
+<record id="base.bs" model="res.country">
+    <field name="fr_cog">99436</field>
+</record>
+
+<record id="base.bt" model="res.country">
+    <field name="fr_cog">99214</field>
+</record>
+
+<record id="base.bv" model="res.country">
+    <field name="fr_cog">99103</field>
+</record>
+
+<record id="base.bw" model="res.country">
+    <field name="fr_cog">99347</field>
+</record>
+
+<record id="base.by" model="res.country">
+    <field name="fr_cog">99148</field>
+</record>
+
+<record id="base.bz" model="res.country">
+    <field name="fr_cog">99429</field>
+</record>
+
+<record id="base.ca" model="res.country">
+    <field name="fr_cog">99401</field>
+</record>
+
+<record id="base.cc" model="res.country">
+    <field name="fr_cog">99501</field>
+</record>
+
+<record id="base.cf" model="res.country">
+    <field name="fr_cog">99323</field>
+</record>
+
+<record id="base.cd" model="res.country">
+    <field name="fr_cog">99312</field>
+</record>
+
+<record id="base.cg" model="res.country">
+    <field name="fr_cog">99324</field>
+</record>
+
+<record id="base.ch" model="res.country">
+    <field name="fr_cog">99140</field>
+</record>
+
+<record id="base.ci" model="res.country">
+    <field name="fr_cog">99326</field>
+</record>
+
+<record id="base.ck" model="res.country">
+    <field name="fr_cog">99502</field>
+</record>
+
+<record id="base.cl" model="res.country">
+    <field name="fr_cog">99417</field>
+</record>
+
+<record id="base.cm" model="res.country">
+    <field name="fr_cog">99322</field>
+</record>
+
+<record id="base.cn" model="res.country">
+    <field name="fr_cog">99216</field>
+</record>
+
+<record id="base.co" model="res.country">
+    <field name="fr_cog">99419</field>
+</record>
+
+<record id="base.cr" model="res.country">
+    <field name="fr_cog">99406</field>
+</record>
+
+<record id="base.cu" model="res.country">
+    <field name="fr_cog">99407</field>
+</record>
+
+<record id="base.cv" model="res.country">
+    <field name="fr_cog">99396</field>
+</record>
+
+<record id="base.cw" model="res.country">
+    <field name="fr_cog">99444</field>
+</record>
+
+<record id="base.cx" model="res.country">
+    <field name="fr_cog">99501</field>
+</record>
+
+<record id="base.cy" model="res.country">
+    <field name="fr_cog">99254</field>
+</record>
+
+<record id="base.cz" model="res.country">
+    <field name="fr_cog">99116</field>
+</record>
+
+<record id="base.de" model="res.country">
+    <field name="fr_cog">99109</field>
+</record>
+
+<record id="base.dj" model="res.country">
+    <field name="fr_cog">99399</field>
+</record>
+
+<record id="base.dk" model="res.country">
+    <field name="fr_cog">99101</field>
+</record>
+
+<record id="base.dm" model="res.country">
+    <field name="fr_cog">99438</field>
+</record>
+
+<record id="base.do" model="res.country">
+    <field name="fr_cog">99408</field>
+</record>
+
+<record id="base.dz" model="res.country">
+    <field name="fr_cog">99352</field>
+</record>
+
+<record id="base.ec" model="res.country">
+    <field name="fr_cog">99420</field>
+</record>
+
+<record id="base.ee" model="res.country">
+    <field name="fr_cog">99106</field>
+</record>
+
+<record id="base.eg" model="res.country">
+    <field name="fr_cog">99301</field>
+</record>
+
+<record id="base.eh" model="res.country">
+    <field name="fr_cog">99389</field>
+</record>
+
+<record id="base.er" model="res.country">
+    <field name="fr_cog">99317</field>
+</record>
+
+<record id="base.es" model="res.country">
+    <field name="fr_cog">99134</field>
+</record>
+
+<record id="base.et" model="res.country">
+    <field name="fr_cog">99315</field>
+</record>
+
+<record id="base.fi" model="res.country">
+    <field name="fr_cog">99105</field>
+</record>
+
+<record id="base.fj" model="res.country">
+    <field name="fr_cog">99508</field>
+</record>
+
+<record id="base.fk" model="res.country">
+    <field name="fr_cog">99427</field>
+</record>
+
+<record id="base.fm" model="res.country">
+    <field name="fr_cog">99516</field>
+</record>
+
+<record id="base.fo" model="res.country">
+    <field name="fr_cog">99101</field>
+</record>
+
+<record id="base.ga" model="res.country">
+    <field name="fr_cog">99328</field>
+</record>
+
+<record id="base.gd" model="res.country">
+    <field name="fr_cog">99435</field>
+</record>
+
+<record id="base.ge" model="res.country">
+    <field name="fr_cog">99255</field>
+</record>
+
+<record id="base.gh" model="res.country">
+    <field name="fr_cog">99329</field>
+</record>
+
+<record id="base.gi" model="res.country">
+    <field name="fr_cog">99133</field>
+</record>
+
+<record id="base.gg" model="res.country">
+    <field name="fr_cog">99132</field>
+</record>
+
+<record id="base.gl" model="res.country">
+    <field name="fr_cog">99430</field>
+</record>
+
+<record id="base.gm" model="res.country">
+    <field name="fr_cog">99304</field>
+</record>
+
+<record id="base.gn" model="res.country">
+    <field name="fr_cog">99330</field>
+</record>
+
+<record id="base.gq" model="res.country">
+    <field name="fr_cog">99314</field>
+</record>
+
+<record id="base.gr" model="res.country">
+    <field name="fr_cog">99126</field>
+</record>
+
+<record id="base.gs" model="res.country">
+    <field name="fr_cog">99427</field>
+</record>
+
+<record id="base.gt" model="res.country">
+    <field name="fr_cog">99409</field>
+</record>
+
+<record id="base.gu" model="res.country">
+    <field name="fr_cog">99505</field>
+</record>
+
+<record id="base.gw" model="res.country">
+    <field name="fr_cog">99392</field>
+</record>
+
+<record id="base.gy" model="res.country">
+    <field name="fr_cog">99428</field>
+</record>
+
+<record id="base.hk" model="res.country">
+    <field name="fr_cog">99230</field>
+</record>
+
+<record id="base.hm" model="res.country">
+    <field name="fr_cog">99501</field>
+</record>
+
+<record id="base.hn" model="res.country">
+    <field name="fr_cog">99411</field>
+</record>
+
+<record id="base.hr" model="res.country">
+    <field name="fr_cog">99119</field>
+</record>
+
+<record id="base.ht" model="res.country">
+    <field name="fr_cog">99410</field>
+</record>
+
+<record id="base.hu" model="res.country">
+    <field name="fr_cog">99112</field>
+</record>
+
+<record id="base.id" model="res.country">
+    <field name="fr_cog">99231</field>
+</record>
+
+<record id="base.ie" model="res.country">
+    <field name="fr_cog">99136</field>
+</record>
+
+<record id="base.il" model="res.country">
+    <field name="fr_cog">99207</field>
+</record>
+
+<record id="base.im" model="res.country">
+    <field name="fr_cog">99132</field>
+</record>
+
+<record id="base.in" model="res.country">
+    <field name="fr_cog">99223</field>
+</record>
+
+<record id="base.io" model="res.country">
+    <field name="fr_cog">99308</field>
+</record>
+
+<record id="base.iq" model="res.country">
+    <field name="fr_cog">99203</field>
+</record>
+
+<record id="base.ir" model="res.country">
+    <field name="fr_cog">99204</field>
+</record>
+
+<record id="base.is" model="res.country">
+    <field name="fr_cog">99102</field>
+</record>
+
+<record id="base.it" model="res.country">
+    <field name="fr_cog">99127</field>
+</record>
+
+<record id="base.je" model="res.country">
+    <field name="fr_cog">99132</field>
+</record>
+
+<record id="base.jm" model="res.country">
+    <field name="fr_cog">99426</field>
+</record>
+
+<record id="base.jo" model="res.country">
+    <field name="fr_cog">99222</field>
+</record>
+
+<record id="base.jp" model="res.country">
+    <field name="fr_cog">99217</field>
+</record>
+
+<record id="base.ke" model="res.country">
+    <field name="fr_cog">99332</field>
+</record>
+
+<record id="base.kg" model="res.country">
+    <field name="fr_cog">99257</field>
+</record>
+
+<record id="base.kh" model="res.country">
+    <field name="fr_cog">99234</field>
+</record>
+
+<record id="base.ki" model="res.country">
+    <field name="fr_cog">99513</field>
+</record>
+
+<record id="base.km" model="res.country">
+    <field name="fr_cog">99397</field>
+</record>
+
+<record id="base.kn" model="res.country">
+    <field name="fr_cog">99442</field>
+</record>
+
+<record id="base.kp" model="res.country">
+    <field name="fr_cog">99238</field>
+</record>
+
+<record id="base.kr" model="res.country">
+    <field name="fr_cog">99239</field>
+</record>
+
+<record id="base.kw" model="res.country">
+    <field name="fr_cog">99240</field>
+</record>
+
+<record id="base.ky" model="res.country">
+    <field name="fr_cog">99425</field>
+</record>
+
+<record id="base.kz" model="res.country">
+    <field name="fr_cog">99256</field>
+</record>
+
+<record id="base.la" model="res.country">
+    <field name="fr_cog">99241</field>
+</record>
+
+<record id="base.lb" model="res.country">
+    <field name="fr_cog">99205</field>
+</record>
+
+<record id="base.lc" model="res.country">
+    <field name="fr_cog">99439</field>
+</record>
+
+<record id="base.li" model="res.country">
+    <field name="fr_cog">99113</field>
+</record>
+
+<record id="base.lk" model="res.country">
+    <field name="fr_cog">99235</field>
+</record>
+
+<record id="base.lr" model="res.country">
+    <field name="fr_cog">99302</field>
+</record>
+
+<record id="base.ls" model="res.country">
+    <field name="fr_cog">99348</field>
+</record>
+
+<record id="base.lt" model="res.country">
+    <field name="fr_cog">99108</field>
+</record>
+
+<record id="base.lu" model="res.country">
+    <field name="fr_cog">99137</field>
+</record>
+
+<record id="base.lv" model="res.country">
+    <field name="fr_cog">99107</field>
+</record>
+
+<record id="base.ly" model="res.country">
+    <field name="fr_cog">99316</field>
+</record>
+
+<record id="base.ma" model="res.country">
+    <field name="fr_cog">99350</field>
+</record>
+
+<record id="base.mc" model="res.country">
+    <field name="fr_cog">99138</field>
+</record>
+
+<record id="base.md" model="res.country">
+    <field name="fr_cog">99151</field>
+</record>
+
+<record id="base.me" model="res.country">
+    <field name="fr_cog">99120</field>
+</record>
+
+<record id="base.mg" model="res.country">
+    <field name="fr_cog">99333</field>
+</record>
+
+<record id="base.mh" model="res.country">
+    <field name="fr_cog">99515</field>
+</record>
+
+<record id="base.mk" model="res.country">
+    <field name="fr_cog">99156</field>
+</record>
+
+<record id="base.ml" model="res.country">
+    <field name="fr_cog">99335</field>
+</record>
+
+<record id="base.mm" model="res.country">
+    <field name="fr_cog">99224</field>
+</record>
+
+<record id="base.mn" model="res.country">
+    <field name="fr_cog">99242</field>
+</record>
+
+<record id="base.mo" model="res.country">
+    <field name="fr_cog">99232</field>
+</record>
+
+<record id="base.mp" model="res.country">
+    <field name="fr_cog">99505</field>
+</record>
+
+<record id="base.mr" model="res.country">
+    <field name="fr_cog">99336</field>
+</record>
+
+<record id="base.ms" model="res.country">
+    <field name="fr_cog">99425</field>
+</record>
+
+<record id="base.mt" model="res.country">
+    <field name="fr_cog">99144</field>
+</record>
+
+<record id="base.mu" model="res.country">
+    <field name="fr_cog">99390</field>
+</record>
+
+<record id="base.mv" model="res.country">
+    <field name="fr_cog">99229</field>
+</record>
+
+<record id="base.mw" model="res.country">
+    <field name="fr_cog">99334</field>
+</record>
+
+<record id="base.mx" model="res.country">
+    <field name="fr_cog">99405</field>
+</record>
+
+<record id="base.my" model="res.country">
+    <field name="fr_cog">99227</field>
+</record>
+
+<record id="base.mz" model="res.country">
+    <field name="fr_cog">99393</field>
+</record>
+
+<record id="base.na" model="res.country">
+    <field name="fr_cog">99311</field>
+</record>
+
+<record id="base.ne" model="res.country">
+    <field name="fr_cog">99337</field>
+</record>
+
+<record id="base.nf" model="res.country">
+    <field name="fr_cog">99501</field>
+</record>
+
+<record id="base.ng" model="res.country">
+    <field name="fr_cog">99338</field>
+</record>
+
+<record id="base.ni" model="res.country">
+    <field name="fr_cog">99412</field>
+</record>
+
+<record id="base.nl" model="res.country">
+    <field name="fr_cog">99135</field>
+</record>
+
+<record id="base.no" model="res.country">
+    <field name="fr_cog">99103</field>
+</record>
+
+<record id="base.np" model="res.country">
+    <field name="fr_cog">99215</field>
+</record>
+
+<record id="base.nr" model="res.country">
+    <field name="fr_cog">99507</field>
+</record>
+
+<record id="base.nu" model="res.country">
+    <field name="fr_cog">99502</field>
+</record>
+
+<record id="base.nz" model="res.country">
+    <field name="fr_cog">99502</field>
+</record>
+
+<record id="base.om" model="res.country">
+    <field name="fr_cog">99250</field>
+</record>
+
+<record id="base.pa" model="res.country">
+    <field name="fr_cog">99413</field>
+</record>
+
+<record id="base.pe" model="res.country">
+    <field name="fr_cog">99422</field>
+</record>
+
+<record id="base.pg" model="res.country">
+    <field name="fr_cog">99510</field>
+</record>
+
+<record id="base.ph" model="res.country">
+    <field name="fr_cog">99220</field>
+</record>
+
+<record id="base.pk" model="res.country">
+    <field name="fr_cog">99213</field>
+</record>
+
+<record id="base.pl" model="res.country">
+    <field name="fr_cog">99122</field>
+</record>
+
+<record id="base.pn" model="res.country">
+    <field name="fr_cog">99503</field>
+</record>
+
+<record id="base.pr" model="res.country">
+    <field name="fr_cog">99432</field>
+</record>
+
+<record id="base.ps" model="res.country">
+    <field name="fr_cog">99261</field>
+</record>
+
+<record id="base.pt" model="res.country">
+    <field name="fr_cog">99139</field>
+</record>
+
+<record id="base.pw" model="res.country">
+    <field name="fr_cog">99517</field>
+</record>
+
+<record id="base.py" model="res.country">
+    <field name="fr_cog">99421</field>
+</record>
+
+<record id="base.qa" model="res.country">
+    <field name="fr_cog">99248</field>
+</record>
+
+<record id="base.ro" model="res.country">
+    <field name="fr_cog">99114</field>
+</record>
+
+<record id="base.rs" model="res.country">
+    <field name="fr_cog">99121</field>
+</record>
+
+<record id="base.ru" model="res.country">
+    <field name="fr_cog">99123</field>
+</record>
+
+<record id="base.rw" model="res.country">
+    <field name="fr_cog">99340</field>
+</record>
+
+<record id="base.sa" model="res.country">
+    <field name="fr_cog">99201</field>
+</record>
+
+<record id="base.sb" model="res.country">
+    <field name="fr_cog">99512</field>
+</record>
+
+<record id="base.sc" model="res.country">
+    <field name="fr_cog">99398</field>
+</record>
+
+<record id="base.sd" model="res.country">
+    <field name="fr_cog">99343</field>
+</record>
+
+<record id="base.se" model="res.country">
+    <field name="fr_cog">99104</field>
+</record>
+
+<record id="base.sg" model="res.country">
+    <field name="fr_cog">99226</field>
+</record>
+
+<record id="base.sh" model="res.country">
+    <field name="fr_cog">99306</field>
+</record>
+
+<record id="base.si" model="res.country">
+    <field name="fr_cog">99145</field>
+</record>
+
+<record id="base.sj" model="res.country">
+    <field name="fr_cog">99103</field>
+</record>
+
+<record id="base.sk" model="res.country">
+    <field name="fr_cog">99117</field>
+</record>
+
+<record id="base.sl" model="res.country">
+    <field name="fr_cog">99342</field>
+</record>
+
+<record id="base.sm" model="res.country">
+    <field name="fr_cog">99128</field>
+</record>
+
+<record id="base.sn" model="res.country">
+    <field name="fr_cog">99341</field>
+</record>
+
+<record id="base.so" model="res.country">
+    <field name="fr_cog">99318</field>
+</record>
+
+<record id="base.sr" model="res.country">
+    <field name="fr_cog">99437</field>
+</record>
+
+<record id="base.ss" model="res.country">
+    <field name="fr_cog">99349</field>
+</record>
+
+<record id="base.st" model="res.country">
+    <field name="fr_cog">99394</field>
+</record>
+
+<record id="base.sv" model="res.country">
+    <field name="fr_cog">99414</field>
+</record>
+
+<record id="base.sx" model="res.country">
+    <field name="fr_cog">99445</field>
+</record>
+
+<record id="base.sy" model="res.country">
+    <field name="fr_cog">99206</field>
+</record>
+
+<record id="base.sz" model="res.country">
+    <field name="fr_cog">99391</field>
+</record>
+
+<record id="base.tc" model="res.country">
+    <field name="fr_cog">99425</field>
+</record>
+
+<record id="base.td" model="res.country">
+    <field name="fr_cog">99344</field>
+</record>
+
+<record id="base.tg" model="res.country">
+    <field name="fr_cog">99345</field>
+</record>
+
+<record id="base.th" model="res.country">
+    <field name="fr_cog">99219</field>
+</record>
+
+<record id="base.tj" model="res.country">
+    <field name="fr_cog">99259</field>
+</record>
+
+<record id="base.tk" model="res.country">
+    <field name="fr_cog">99502</field>
+</record>
+
+<record id="base.tl" model="res.country">
+    <field name="fr_cog">99262</field>
+</record>
+
+<record id="base.tm" model="res.country">
+    <field name="fr_cog">99260</field>
+</record>
+
+<record id="base.tn" model="res.country">
+    <field name="fr_cog">99351</field>
+</record>
+
+<record id="base.to" model="res.country">
+    <field name="fr_cog">99509</field>
+</record>
+
+<record id="base.tr" model="res.country">
+    <field name="fr_cog">99208</field>
+</record>
+
+<record id="base.tt" model="res.country">
+    <field name="fr_cog">99433</field>
+</record>
+
+<record id="base.tv" model="res.country">
+    <field name="fr_cog">99511</field>
+</record>
+
+<record id="base.tw" model="res.country">
+    <field name="fr_cog">99236</field>
+</record>
+
+<record id="base.tz" model="res.country">
+    <field name="fr_cog">99309</field>
+</record>
+
+<record id="base.ua" model="res.country">
+    <field name="fr_cog">99155</field>
+</record>
+
+<record id="base.ug" model="res.country">
+    <field name="fr_cog">99339</field>
+</record>
+
+<record id="base.uk" model="res.country">
+    <field name="fr_cog">99132</field>
+</record>
+
+<record id="base.us" model="res.country">
+    <field name="fr_cog">99404</field>
+</record>
+
+<record id="base.uy" model="res.country">
+    <field name="fr_cog">99423</field>
+</record>
+
+<record id="base.uz" model="res.country">
+    <field name="fr_cog">99258</field>
+</record>
+
+<record id="base.va" model="res.country">
+    <field name="fr_cog">99129</field>
+</record>
+
+<record id="base.vc" model="res.country">
+    <field name="fr_cog">99440</field>
+</record>
+
+<record id="base.ve" model="res.country">
+    <field name="fr_cog">99424</field>
+</record>
+
+<record id="base.vg" model="res.country">
+    <field name="fr_cog">99425</field>
+</record>
+
+<record id="base.vi" model="res.country">
+    <field name="fr_cog">99432</field>
+</record>
+
+<record id="base.vn" model="res.country">
+    <field name="fr_cog">99243</field>
+</record>
+
+<record id="base.vu" model="res.country">
+    <field name="fr_cog">99514</field>
+</record>
+
+<record id="base.ws" model="res.country">
+    <field name="fr_cog">99506</field>
+</record>
+
+<record id="base.ye" model="res.country">
+    <field name="fr_cog">99251</field>
+</record>
+
+<record id="base.za" model="res.country">
+    <field name="fr_cog">99303</field>
+</record>
+
+<record id="base.zm" model="res.country">
+    <field name="fr_cog">99346</field>
+</record>
+
+<record id="base.zw" model="res.country">
+    <field name="fr_cog">99310</field>
+</record>
+
+<record id="base.xk" model="res.country">
+    <field name="fr_cog">99157</field>
+</record>
+
+
+</odoo>
