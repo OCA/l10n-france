@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-31 09:55+0000\n"
-"PO-Revision-Date: 2026-09-01 17:35+0000\n"
+"PO-Revision-Date: 2026-09-01 18:00+0000\n"
 "Last-Translator: Sabrina MANOU <sabrina.manou@xcg-consulting.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -140,8 +140,8 @@ msgid ""
 "SIREN %(siren)s: a french VAT number has the 9 digits of SIREN at the end."
 msgstr ""
 "Sur le partenaire « %(partner_name)s », le numéro de TVA %(vat)s n’est pas "
-"composé avec le SIREN %(siren)s : un numéro de TVA français comporte les 9 "
-"chiffres du SIREN à la fin."
+"compatible avec le SIREN %(siren)s : un numéro de TVA français comporte les "
+"9 chiffres du SIREN à la fin."
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
@@ -167,6 +167,9 @@ msgid ""
 "SIREN '%(child_siren)s' of child partner '%(child_partner)s' is different "
 "from SIREN '%(parent_siren)s' of its parent partner '%(parent_partner)s'."
 msgstr ""
+"Le SIREN '%(child_siren)s' du partenaire enfant '%(child_partner)s' est "
+"différent du SIREN '%(parent_siren)s' de son partenaire parent '%"
+"(parent_partner)s'."
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
@@ -180,6 +183,8 @@ msgid ""
 "SIRET '%(company_registry)s' has been removed because it is not consistent "
 "with VAT '%(vat)s'."
 msgstr ""
+"Le SIRET '%(company_registry)s' a été retiré car il n'est pas compatible "
+"avec le N° de TVA '%(vat)s'."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -188,6 +193,8 @@ msgid ""
 "The SIREN '%(company_registry)s' of partner '%(partner_name)s' is invalid: "
 "the checksum is wrong."
 msgstr ""
+"Le SIREN '%(company_registry)s' du partenaire '%(partner_name)s' est "
+"invalide : La clé de contrôle est incorrecte."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -196,6 +203,8 @@ msgid ""
 "The SIRET '%(company_registry)s' of partner '%(partner_name)s' is invalid: "
 "the checksum is wrong."
 msgstr ""
+"Le SIRET '%(company_registry)s' du partenaire '%(partner_name)s' est "
+"invalide : La clé de contrôle est incorrecte."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -204,6 +213,8 @@ msgid ""
 "The SIRET (or SIREN) '%(company_registry)s' of partner '%(partner_name)s' is "
 "incorrect: it must contain only digits."
 msgstr ""
+"Le SIRET (ou SIREN) '%(company_registry)s' du partenaire '%(partner_name)s' "
+"est incorrect : il doit comporter uniquement des chiffres."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -213,7 +224,7 @@ msgid ""
 "wrong: it should have 14 digits (or 9 digits for SIREN)."
 msgstr ""
 "Le SIRET (ou SIREN) '%(company_registry)s' du partenaire '%(partner_name)s' "
-"est incorrect : il devrait comporter 14 caractères (ou 9 caractères pour le "
+"est incorrect : il devrait comporter 14 chiffres (ou 9 chiffres pour le "
 "SIREN)."
 
 #. module: l10n_fr_siret
@@ -227,7 +238,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
 msgid "has/have the same <b>SIREN</b>."
-msgstr "ont le même <b>SIREN</b>."
+msgstr "a/ont le même <b>SIREN</b>."
 
 #~ msgid "Check if the contact is a company, otherwise it is a person"
 #~ msgstr "Vérifier si le contact est une société, sinon c'est une personne"
