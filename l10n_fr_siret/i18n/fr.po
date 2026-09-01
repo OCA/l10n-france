@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-31 09:55+0000\n"
-"PO-Revision-Date: 2023-06-20 16:08+0000\n"
-"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
+"PO-Revision-Date: 2026-09-01 17:35+0000\n"
+"Last-Translator: Vincent Hatakeyama <vincent+github@hatakeyama.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -24,6 +24,8 @@ msgid ""
 "Cannot get %(field)s of partner '%(partner)s' because the SIRET field is "
 "empty."
 msgstr ""
+"Impossible d’obtenir %(field)s du partenaire « %(partner)s » car le SIRET "
+"est vide."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -113,7 +115,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__is_france_country
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__is_france_country
 msgid "Is France Country"
-msgstr ""
+msgstr "Est en France"
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -122,23 +124,26 @@ msgid ""
 "On partner '%(partner_name)s', the VAT number %(vat)s is not consistent with "
 "SIREN %(siren)s: a french VAT number has the 9 digits of SIREN at the end."
 msgstr ""
+"Sur le partenaire « %(partner_name)s », le numéro de TVA %(vat)s n’est pas "
+"consistent avec le SIREN %(siren)s : un numéro de TVA français a les 9 "
+"chiffres du SIREN à la fin."
 
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
 msgid "Partner(s)"
-msgstr ""
+msgstr "Partenaire(s)"
 
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 msgid "Partners"
-msgstr ""
+msgstr "Partenaires"
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__same_siren_partner_ids
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__same_siren_partner_ids
 msgid "Partners with same SIREN"
-msgstr ""
+msgstr "Partenaires ayant le même SIREN"
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -151,7 +156,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
 msgid "SIREN or SIRET"
-msgstr ""
+msgstr "SIREN ou SIRET"
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -204,7 +209,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #: model_terms:ir.ui.view,arch_db:l10n_fr_siret.view_partner_form
 msgid "has/have the same <b>SIREN</b>."
-msgstr ""
+msgstr "ont le même <b>SIREN</b>."
 
 #~ msgid "Check if the contact is a company, otherwise it is a person"
 #~ msgstr "Vérifier si le contact est une société, sinon c'est une personne"
