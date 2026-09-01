@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-31 09:55+0000\n"
 "PO-Revision-Date: 2026-09-01 17:35+0000\n"
-"Last-Translator: Vincent Hatakeyama <vincent+github@hatakeyama.fr>\n"
+"Last-Translator: Sabrina MANOU <sabrina.manou@xcg-consulting.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,8 @@ msgid ""
 "Cannot get %(field)s of partner '%(partner)s' because the country is not set "
 "on that partner."
 msgstr ""
+"Impossible d'obtenir %(field)s du partenaire '%(partner)s' car le pays n'est "
+"pas renseigné sur ce partenaire."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -42,6 +44,8 @@ msgid ""
 "Cannot get %(field)s of partner '%(partner)s' because the partner's country "
 "is %(country)s which is not France."
 msgstr ""
+"Impossible d'obtenir %(field)s du partenaire '%(partner)s' car le pays du "
+"partenaire est %(country)s et non France."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -50,6 +54,8 @@ msgid ""
 "Cannot get NIC of partner '%(partner)s' because the SIRET field (%"
 "(company_registry)s) doesn't contain a full SIRET."
 msgstr ""
+"Impossible d'obtenir le NIC du partenaire '%(partner)s' car le champ SIRET (%"
+"(company_registry)s) ne contient pas un SIRET complet."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -58,6 +64,8 @@ msgid ""
 "Cannot get SIREN of partner '%(partner)s' because the SIRET field is invalid "
 "(%(company_registry)s)."
 msgstr ""
+"Impossible d'obtenir le SIREN du partenaire '%(partner)s' car le champ SIRET "
+"est invalide (%(company_registry)s)."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -66,6 +74,8 @@ msgid ""
 "Cannot get SIRET of partner '%(partner)s' because the SIRET field is invalid "
 "(%(company_registry)s)."
 msgstr ""
+"Impossible d'obtenir le SIRET du partenaire '%(partner)s' car le champ SIRET "
+"est invalide (%(company_registry)s)."
 
 #. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_company
@@ -76,7 +86,7 @@ msgstr "Sociétés"
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__company_registry
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_users__company_registry
 msgid "Company ID"
-msgstr ""
+msgstr "ID de la société"
 
 #. module: l10n_fr_siret
 #: model:ir.model,name:l10n_fr_siret.model_res_partner
@@ -102,6 +112,9 @@ msgid ""
 "Initial SIRET '%(company_registry)s' was invalid, but the 9 first digits was "
 "a valid SIREN, so the value was updated to '%(siren)s'."
 msgstr ""
+"Le SIRET initial '%(company_registry)s' était invalide, mais les 9 premiers "
+"caractères correspondaient à un SIREN valide, donc la valeur a été mise à "
+"jour par '%(siren)s'."
 
 #. module: l10n_fr_siret
 #. odoo-python
@@ -110,6 +123,8 @@ msgid ""
 "Initial SIRET '%(company_registry)s' was invalid, so the value has been "
 "removed."
 msgstr ""
+"Le SIRET initial '%(company_registry)s' était invalide, donc la valeur a été "
+"retirée."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,field_description:l10n_fr_siret.field_res_partner__is_france_country
@@ -125,7 +140,7 @@ msgid ""
 "SIREN %(siren)s: a french VAT number has the 9 digits of SIREN at the end."
 msgstr ""
 "Sur le partenaire « %(partner_name)s », le numéro de TVA %(vat)s n’est pas "
-"consistent avec le SIREN %(siren)s : un numéro de TVA français a les 9 "
+"composé avec le SIREN %(siren)s : un numéro de TVA français comporte les 9 "
 "chiffres du SIREN à la fin."
 
 #. module: l10n_fr_siret
@@ -197,6 +212,9 @@ msgid ""
 "The SIRET (or SIREN) '%(company_registry)s' of partner '%(partner_name)s' is "
 "wrong: it should have 14 digits (or 9 digits for SIREN)."
 msgstr ""
+"Le SIRET (ou SIREN) '%(company_registry)s' du partenaire '%(partner_name)s' "
+"est incorrect : il devrait comporter 14 caractères (ou 9 caractères pour le "
+"SIREN)."
 
 #. module: l10n_fr_siret
 #: model:ir.model.fields,help:l10n_fr_siret.field_res_partner__company_registry
