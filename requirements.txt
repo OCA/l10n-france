@@ -1,7 +1,9 @@
 # generated from manifests external_dependencies
 pyfrdas2>=0.10
 pypdf>=3.1.0
+pypdf>=4.3.0
 python-stdnum
 requests
 requests_oauthlib
 unidecode
+xlsxwriter
