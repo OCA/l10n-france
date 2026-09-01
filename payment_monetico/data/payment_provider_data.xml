@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ Copyright 2024 Akretion (http://www.akretion.com).
+ @author Florian Mounier <florian.mounier@akretion.com>
+ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <record id="payment_provider_monetico" model="payment.provider">
+        <field name="name">Monetico</field>
+        <field name="display_as">Credit Card (powered by Monetico)</field>
+        <field
+            name="image_128"
+            type="base64"
+            file="payment_monetico/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_payment_monetico" />
+        <!-- https://www.monetico-paiement.fr/fr/vendre-sur-internet/moyens-paiements.html -->
+        <field
+            name="payment_icon_ids"
+            eval="[(6, 0, [
+                   ref('payment_icon_cc_cb'),
+                   ref('payment.payment_icon_cc_visa'),
+                   ref('payment.payment_icon_cc_mastercard'),
+                   ref('payment.payment_icon_cc_american_express'),
+                   ref('payment.payment_icon_apple_pay'),
+               ])]"
+        />
+        <field name="code">monetico</field>
+        <field name="redirect_form_view_id" ref="redirect_form" />
+    </record>
+
+</odoo>
