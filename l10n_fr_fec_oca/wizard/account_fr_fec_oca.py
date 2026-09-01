@@ -538,7 +538,7 @@ class AccountFrFecOca(models.TransientModel):
             TO_CHAR(COALESCE(am.invoice_date, am.date), 'YYYYMMDD') AS PieceDate,
             CASE WHEN aml.name IS NULL OR aml.name = '' THEN '/'
                 WHEN aml.name SIMILAR TO '[\\t|\\s|\\n]*' THEN '/'
-                ELSE REGEXP_REPLACE(replace(aml.name, '|', '/'), '[\\t\\n\\r]', ' ', 'g')
+                ELSE REGEXP_REPLACE(replace(aml.name, '|', '/'), '[[:cntrl:]]', ' ', 'g')
             END AS EcritureLib,
             replace(
                 CASE WHEN aml.debit = 0
