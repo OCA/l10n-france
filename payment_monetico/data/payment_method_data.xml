@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ Copyright 2026 Akretion (http://www.akretion.com).
+ @author Florian Mounier <florian.mounier@akretion.com>
+ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="payment_method_cb" model="payment.method">
+        <field name="name">CB</field>
+        <field name="code">cb</field>
+        <field
+            name="primary_payment_method_id"
+            eval="ref('payment.payment_method_card')"
+        />
+        <field name="sequence">1000</field>
+        <field name="active">False</field>
+        <field name="image" type="base64" file="payment_monetico/static/img/cb.png" />
+    </record>
+</odoo>
