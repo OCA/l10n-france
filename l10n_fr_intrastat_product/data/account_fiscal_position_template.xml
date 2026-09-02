@@ -11,4 +11,10 @@
     >
         <field name="intrastat" eval="True" />
     </record>
+    <record
+        id="l10n_fr.fiscal_position_template_intraeub2c"
+        model="account.fiscal.position.template"
+    >
+        <field name="intrastat" eval="True" />
+    </record>
 </odoo>
