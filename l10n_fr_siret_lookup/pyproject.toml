@@ -1,0 +1,10 @@
+[build-system]
+requires = ["whool"]
+build-backend = "whool.buildapi"
+
+[project]
+name = "odoo-addons-l10n_fr_siret"
+version = "19.0.20260327.0"
+dependencies = [
+    "odoo-addon-l10n_fr_siret @ git+https://github.com/akretion/l10n-france/tree/19-mig-l10n_fr_siret",
+]
