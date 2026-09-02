@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="base.partner_demo_company_fr_oca" model="res.partner" forcecreate="1">
+        <field name="name">FR OCA Company</field>
+        <field name="vat">FR91746948785</field>
+        <field name="street">42 rue de la charité</field>
+        <field name="city">Lyon</field>
+        <field name="zip">69002</field>
+        <field name="country_id" ref="base.fr" />
+        <field name="phone">+33 6 42 12 42 88</field>
+        <field name="email">contact@frocaxample.com</field>
+        <field name="website">www.frocaxample.com</field>
+        <field name="is_company" eval="True" />
+    </record>
+
+    <record id="base.demo_company_fr_oca" model="res.company" forcecreate="1">
+        <field name="name">FR OCA Company</field>
+        <field name="partner_id" ref="base.partner_demo_company_fr_oca" />
+    </record>
+
+    <record id="base.demo_bank_fr_oca" model="res.partner.bank" forcecreate="1">
+        <field name="acc_number">FR06 1234 5678 9012 7896 7812 A98</field>
+        <field name="partner_id" ref="base.partner_demo_company_fr_oca" />
+        <field name="company_id" ref="base.demo_company_fr_oca" />
+    </record>
+
+    <function model="res.company" name="_onchange_country_id">
+        <value eval="[ref('base.demo_company_fr_oca')]" />
+    </function>
+
+    <function model="res.users" name="write">
+        <value
+            eval="[ref('base.user_root'), ref('base.user_admin'), ref('base.user_demo')]"
+        />
+        <value eval="{'company_ids': [(4, ref('base.demo_company_fr_oca'))]}" />
+    </function>
+
+    <function model="account.chart.template" name="try_loading">
+        <value eval="[]" />
+        <value>fr_oca</value>
+        <value model="res.company" eval="obj().env.ref('base.demo_company_fr_oca')" />
+        <value name="install_demo" eval="True" />
+    </function>
+</odoo>
