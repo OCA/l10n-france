@@ -10,6 +10,7 @@ from odoo.tests.common import TransactionCase
 class TestL10nFrSiret(TransactionCase):
     def setUp(self):
         super().setUp()
+        self.env = self.env(context=dict(self.env.context, _enable_siret_check=True))
         self.company1_id = self.env.ref("base.main_company").id
         partner_company = self.env["res.partner"].create(
             {
