@@ -42,6 +42,9 @@ msgid ""
 "the request and %(answer_val)s in the answer, but these values should be "
 "identical. This should never happen!"
 msgstr ""
+"Protocole Caisse AP sur IP : Le tag %(label)s (%(tag)s) a pour valeur "
+"%(request_val)s dans la requête et %(answer_val)s dans la réponse, alors que "
+"ces valeurs devraient être identiques. Cela ne devrait jamais arriver !"
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
@@ -87,6 +90,12 @@ msgstr ""
 "paiement '%s'."
 
 #. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+msgid "Cannot understand the answer from the payment terminal: %s"
+msgstr "Impossible de comprendre la réponse du terminal de paiement : %s"
+
+#. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__card
 msgid "Card"
 msgstr "Carte"
@@ -100,7 +109,7 @@ msgstr "Type de carte : %s"
 #. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__check
 msgid "Check"
-msgstr "Vérifier"
+msgstr "Chèque"
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
@@ -126,6 +135,8 @@ msgid ""
 "Failure in the connection to the payment terminal on %(ip_addr)s port "
 "%(port)s: %(error)s."
 msgstr ""
+"Échec de la connexion au terminal de paiement sur %(ip_addr)s port "
+"%(port)s : %(error)s."
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields,help:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_address
@@ -141,6 +152,16 @@ msgstr ""
 #: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js:0
 msgid "No answer from the payment terminal in the given time."
 msgstr "Pas de réponse du terminal de paiement dans le délai imparti."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+msgid ""
+"Odoo could not prepare the message for the payment terminal. Check the Odoo "
+"server logs for more details."
+msgstr ""
+"Odoo n'a pas pu préparer le message pour le terminal de paiement. Consultez "
+"les logs du serveur Odoo pour plus de détails."
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_mode
