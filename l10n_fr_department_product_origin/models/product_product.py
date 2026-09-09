@@ -51,8 +51,6 @@ class ProductProduct(models.Model):
         for product in self.filtered(lambda x: x.state_id):
             product.department_id_domain = [("state_id", "=", product.state_id.id)]
         for product in self.filtered(lambda x: not x.state_id and x.country_id):
-            product.department_id_domain = [
-                ("state_id", "in", product.country_id.state_ids)
-            ]
+            product.department_id_domain = [("country_id", "=", product.country_id.id)]
         for product in self.filtered(lambda x: not x.state_id and not x.country_id):
             product.department_id_domain = []
