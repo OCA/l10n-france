@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2024 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="account_payment_mode_form" model="ir.ui.view">
+        <field name="name">fr_lcr.account.payment.mode.form</field>
+        <field name="model">account.payment.mode</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <group name="payment_order_options" position="before">
+                <group
+                    name="fr_lcr"
+                    string="Bill of Exchange"
+                    attrs="{'invisible': [('payment_method_code', '!=', 'fr_lcr')]}"
+                >
+                    <field
+                        name="fr_lcr_type"
+                        attrs="{'required': [('payment_method_code', '=', 'fr_lcr')]}"
+                    />
+                    <field name="fr_lcr_default_collection_option" />
+                    <field name="fr_lcr_dailly" />
+                    <field
+                        name="fr_lcr_default_dailly_option"
+                        attrs="{'invisible': [('fr_lcr_dailly', '=', False)]}"
+                    />
+                    <field
+                        name="fr_lcr_convention_type"
+                        attrs="{'invisible': [('fr_lcr_dailly', '=', False)]}"
+                    />
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>
