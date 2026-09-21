@@ -17,6 +17,7 @@ class AccountChartTemplate(models.AbstractModel):
             "categ_k": self.env.ref("account_tax_unece.tax_categ_k").id,
             "categ_g": self.env.ref("account_tax_unece.tax_categ_g").id,
             "categ_e": self.env.ref("account_tax_unece.tax_categ_e").id,
+            "vatex_nr": self.env.ref("l10n_fr_account_tax_unece.tax_vatex_fr_nr").id,
         }
         res = {}
         tax_data = self._parse_csv("fr", "account.tax")
@@ -32,6 +33,8 @@ class AccountChartTemplate(models.AbstractModel):
                 res[tax_xmlid]["unece_categ_id"] = False
             elif tax_xmlid.endswith(("_good_0", "_service_0")):
                 res[tax_xmlid]["unece_categ_id"] = xmlid2id["categ_e"]
+                if "_sale_" in tax_xmlid:
+                    res[tax_xmlid]["unece_vatex_id"] = xmlid2id["vatex_nr"]
             else:
                 res[tax_xmlid]["unece_categ_id"] = xmlid2id["categ_s"]
         return res

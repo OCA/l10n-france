@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
+    <!-- A type "E" (VAT exempt) tax record requires a VATEX code.
+         Use the "NR" code for exemptions not covered by the EU VATEX list. -->
+    <record id="tax_vatex_fr_nr" model="unece.code.list">
+        <field name="type">tax_vatex</field>
+        <field name="code">NR</field>
+        <field name="name">Exempt to be explained</field>
+        <field
+            name="description"
+        >>Utilisable uniquement pour la facturation domestique en France. Le libellé ("name") DOIT être remplacé par le motif d'exonération officiel applicable.</field>
+    </record>
+</odoo>
