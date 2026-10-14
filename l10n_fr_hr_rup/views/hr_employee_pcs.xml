@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--# Copyright (C) 2020 Akretion (http://www.akretion.com/)-->
+<odoo>
+    <record id="action_pcs" model="ir.actions.act_window">
+        <field name="name">Professions et catégories socioprofessionelles</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.employee.pcs</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_pcs"
+        name="PCS"
+        parent="hr.menu_human_resources_configuration"
+        action="action_pcs"
+    />
+</odoo>
