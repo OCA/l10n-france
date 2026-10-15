@@ -1,0 +1,43 @@
+id,sequence,name,name@fr,fr_vat_type,intrastat,auto_apply,vat_required,country_id,country_group_id,tax_ids/tax_src_id,tax_ids/tax_dest_id,account_ids/account_src_id,account_ids/account_dest_id
+fiscal_position_template_domestic,10,France,France,france,no,1,,,l10n_fr.fr_and_mc,,,,
+fiscal_position_template_domestic_supplier_vat_on_payment,20,France - Supplier VAT on payment,France - Fournisseur TVA sur encaissement,france_vendor_vat_on_payment,no,,,,,,,,
+fiscal_position_template_intraeub2b,30,Intra-EU B2B,Intra-UE B2B,intracom_b2b,b2b,1,1,,base.europe,tva_sale_200,tva_sale_0_intracom,pcg_7011,pcg_7012
+,,,,,,,,,,tva_sale_200_ttc,tva_sale_0_intracom,pcg_7061,pcg_7062
+,,,,,,,,,,tva_sale_100,tva_sale_0_intracom,pcg_7071,pcg_7072
+,,,,,,,,,,tva_sale_100_ttc,tva_sale_0_intracom,pcg_70851,pcg_70852
+,,,,,,,,,,tva_sale_85,tva_sale_0_intracom,,
+,,,,,,,,,,tva_sale_85_ttc,tva_sale_0_intracom,,
+,,,,,,,,,,tva_sale_55,tva_sale_0_intracom,,
+,,,,,,,,,,tva_sale_55_ttc,tva_sale_0_intracom,,
+,,,,,,,,,,tva_sale_21,tva_sale_0_intracom,,
+,,,,,,,,,,tva_sale_21_ttc,tva_sale_0_intracom,,
+,,,,,,,,,,tva_purchase_200,tva_purchase_200_intracom,,
+,,,,,,,,,,tva_purchase_200_ttc,tva_purchase_200_intracom,,
+,,,,,,,,,,tva_purchase_100,tva_purchase_100_intracom,,
+,,,,,,,,,,tva_purchase_100_ttc,tva_purchase_100_intracom,,
+,,,,,,,,,,tva_purchase_55,tva_purchase_55_intracom,,
+,,,,,,,,,,tva_purchase_55_ttc,tva_purchase_55_intracom,,
+,,,,,,,,,,tva_purchase_21,tva_purchase_21_intracom,,
+,,,,,,,,,,tva_purchase_21_ttc,tva_purchase_21_intracom,,
+fiscal_position_template_intraeub2c,40,Intra-EU B2C,Intra-UE B2C,intracom_b2c,b2c,1,,,base.europe,,,pcg_7011,pcg_7013
+,,,,,,,,,,,,pcg_7061,pcg_7063
+,,,,,,,,,,,,pcg_7071,pcg_7073
+,,,,,,,,,,,,pcg_70851,pcg_70853
+fiscal_position_template_import_export,50,Extra-EU + DOM-TOM,Extra-UE + DOM-TOM,extracom,no,1,,,,tva_sale_200,tva_sale_0_extracom,pcg_7011,pcg_7014
+,,,,,,,,,,tva_sale_200_ttc,tva_sale_0_extracom,pcg_7061,pcg_7064
+,,,,,,,,,,tva_sale_100,tva_sale_0_extracom,pcg_7071,pcg_7074
+,,,,,,,,,,tva_sale_100_ttc,tva_sale_0_extracom,pcg_70851,pcg_70854
+,,,,,,,,,,tva_sale_85,tva_sale_0_extracom,,
+,,,,,,,,,,tva_sale_85_ttc,tva_sale_0_extracom,,
+,,,,,,,,,,tva_sale_55,tva_sale_0_extracom,,
+,,,,,,,,,,tva_sale_55_ttc,tva_sale_0_extracom,,
+,,,,,,,,,,tva_sale_21,tva_sale_0_extracom,,
+,,,,,,,,,,tva_sale_21_ttc,tva_sale_0_extracom,,
+,,,,,,,,,,tva_purchase_200,tva_purchase_200_extracom,,
+,,,,,,,,,,tva_purchase_200_ttc,tva_purchase_200_extracom,,
+,,,,,,,,,,tva_purchase_100,tva_purchase_100_extracom,,
+,,,,,,,,,,tva_purchase_100_ttc,tva_purchase_100_extracom,,
+,,,,,,,,,,tva_purchase_55,tva_purchase_55_extracom,,
+,,,,,,,,,,tva_purchase_55_ttc,tva_purchase_55_extracom,,
+,,,,,,,,,,tva_purchase_21,tva_purchase_21_extracom,,
+,,,,,,,,,,tva_purchase_21_ttc,tva_purchase_21_extracom,,
