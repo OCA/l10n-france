@@ -32,6 +32,8 @@ class AccountChartTemplate(models.AbstractModel):
                 res[tax_xmlid]["unece_categ_id"] = False
             elif tax_xmlid.endswith(("_good_0", "_service_0")):
                 res[tax_xmlid]["unece_categ_id"] = xmlid2id["categ_e"]
+                if "_sale_" in tax_xmlid:
+                    res[tax_xmlid]["active"] = False
             else:
                 res[tax_xmlid]["unece_categ_id"] = xmlid2id["categ_s"]
         return res
