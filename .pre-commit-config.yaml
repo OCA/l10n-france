@@ -18,6 +18,9 @@ exclude: |
   /build/|/dist/|
   # Ignore test files in addons
   /tests/samples/.*|
+  # To be able to compare the code of l10n_fr_fec_oca with the native code of
+  # l10n_fr_account, we disable reformatting on the code of l10n_fr_fec_oca
+  l10n_fr_fec_oca/wizards/account_fr_fec_oca.py|
   # You don't usually want a bot to modify your legal texts
   (LICENSE.*|COPYING.*)
 default_language_version:

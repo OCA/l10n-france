@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  @author: Florent de Labarre <https://github.com/fmdl>
+  Without the ir.rule below, a user in the group 'account.group_account_user'
+  from another company can download (by RPC) a FEC created by another user
+  a few hours ago (before the autovacuum of transient models).
+-->
+<odoo noupdate="1">
+    <record id="account_fr_fec_multicompany_rule" model="ir.rule">
+        <field name="name">Multi-company FEC (OCA)</field>
+        <field name="model_id" ref="model_account_fr_fec_oca" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
