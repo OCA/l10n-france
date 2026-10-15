@@ -1,0 +1,383 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_account_vat_return_teledec
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-03-18 12:39+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
+msgid ""
+"<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
+"                    <span class=\"fa fa-lg fa-building-o\" role=\"img\"/>"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ass
+msgid "Association"
+msgstr "Asociación"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "BIC is missing on the company bank account '%s'."
+msgstr "Falta el BIC en la cuenta bancaria de la empresa '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Cannot teletransmit box '%(box)s': box types '%(box_edi_type)s' are not "
+"supported for the moment."
+msgstr ""
+"No se puede teletransmitir la casilla '%(box)s: los tipos de casilla "
+"'%(box_edi_type)s' no son compatibles por el momento."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_legal_form
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_legal_form
+msgid "Company Legal Form"
+msgstr "Forma Jurídica de la Empresa"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Company Legal Form is not set on company '%s'."
+msgstr ""
+"La forma jurídica de la empresa no está establecida en la empresa '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes Config"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_email
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_email
+msgid "E-mail for Teledec.fr"
+msgstr "Correo electrónico para Teledec.fr"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "E-mail for Teledec.fr is not set on company '%s'."
+msgstr ""
+"El correo electrónico de Teledec.fr no está configurado en la empresa '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "E-mail missing on partner '%s'."
+msgstr "Falta el correo electrónico en el contacto '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__arl
+msgid "EARL"
+msgstr "EARL"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ei
+msgid "EI"
+msgstr "EI"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__eir
+msgid "EIRL"
+msgstr "EIRL"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__erl
+msgid "EURL"
+msgstr "EURL"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Failed to send the request to Teledec.fr. Technical error: %s."
+msgstr "Error al enviar la solicitud a Teledec.fr. Error técnico: %s."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model,name:l10n_fr_account_vat_return_teledec.model_l10n_fr_account_vat_return
+msgid "France VAT Return (CA3)"
+msgstr "Declaración de IVA en Francia (CA3)"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__gec
+msgid "GAEC"
+msgstr "GAEC"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__gie
+msgid "GIE"
+msgstr "GIE"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Go to configuration page"
+msgstr "Ir a la página de configuración"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Job position missing on partner '%s'."
+msgstr "Falta el puesto de trabajo en el socio '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_legal_representative_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_legal_representative_id
+msgid "Legal Representative"
+msgstr "Representante Legal"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Legal Representative is not set on company '%s'."
+msgstr "El Representante Legal no está establecido en la empresa '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Missing 'teledec_private_key' in the Odoo server configuration file."
+msgstr ""
+"Falta 'teledec_private_key' en el archivo de configuración del servidor Odoo."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_company__fr_vat_teledec_email
+#: model:ir.model.fields,help:l10n_fr_account_vat_return_teledec.field_res_config_settings__fr_vat_teledec_email
+msgid "Must correspond to your login on the Teledec.fr website"
+msgstr "Debe corresponder a su nombre de usuario en el sitio web Teledec.fr"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__zzz
+msgid "Other"
+msgstr "Otra/o"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
+msgid "Parameters required for the teletransmission of CA3"
+msgstr "Parámetros necesarios para la teletransmisión de CA3"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sa
+msgid "SA"
+msgstr "SA"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__srl
+msgid "SARL"
+msgstr "SARL"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sas
+msgid "SAS"
+msgstr "SAS"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sasu
+msgid "SASU"
+msgstr "SASU"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sea
+msgid "SCEA"
+msgstr "SCEA"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__sci
+msgid "SCI"
+msgstr "SCI"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__scm
+msgid "SCM"
+msgstr "SCM"
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__slr
+msgid "SELARL"
+msgstr "SELARL"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "SIRET not set on company '%s'."
+msgstr "SIRET no establecido en la empresa '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__snc
+msgid "SNC"
+msgstr "SNC"
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The address of partner '%s' is incomplete: it must have at least the street, "
+"zip, city and country."
+msgstr ""
+"La dirección del interlocutor '%s' está incompleta: debe tener al menos la "
+"calle, el código postal, la ciudad y el país."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The company bank account '%s' is not an IBAN."
+msgstr "La cuenta bancaria de la empresa \"%s\" no es un IBAN."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The company bank account is not set on VAT return '%s'."
+msgstr ""
+"La cuenta bancaria de la empresa no está configurada en la declaración de "
+"IVA \"%s\"."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The query to the Teledec.fr webservice was successful, but the answer of the "
+"webservice was not in the expected format. You should contact Teledec.fr and "
+"request them to setup your account with a JSON answer."
+msgstr ""
+"La consulta al servicio web de Teledec.fr se ha realizado correctamente, "
+"pero la respuesta del servicio web no está en el formato esperado. Debe "
+"ponerse en contacto con Teledec.fr y solicitarles que configuren su cuenta "
+"con una respuesta JSON."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The request sent to Teledec.fr got an HTTP error code %s."
+msgstr "La solicitud enviada a Teledec.fr obtuvo un código de error HTTP %s."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The request sent to Teledec.fr got an answer '%(answer)s' (it should have "
+"received 'ok'). Error message: '%(error)s'."
+msgstr ""
+"La solicitud enviada a Teledec.fr obtuvo una respuesta '%(answer)s' (debería "
+"haber recibido 'ok'). Mensaje de error: %(error)s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "The title of partner '%s' must be Mister or Madam."
+msgstr "El título del socio '%s' debe ser Señor o Señora."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "There are no lines on VAT return %s."
+msgstr "No hay líneas en la declaración del IVA %s."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Title (Mister or Madam) missing on partner '%s'."
+msgstr "Falta el título (Señor o Señora) en el socio '%s'."
+
+#. module: l10n_fr_account_vat_return_teledec
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "VAT number not set on company '%s'."
+msgstr "Número de IVA no establecido en la empresa '%s'."
+
+#~ msgid ""
+#~ "<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
+#~ "                    <span class=\"fa fa-lg fa-building-o\" title=\"Values "
+#~ "set here are company-specific.\" groups=\"base.group_multi_company\" "
+#~ "role=\"img\"/>"
+#~ msgstr ""
+#~ "<span class=\"o_form_label\">Teletransmisión vía Teledec.fr</span>\n"
+#~ "                                               <span class=\"fa fa-lg fa-"
+#~ "building-o\" title=\"Values set here are company-specific.\" "
+#~ "groups=\"base.group_multi_company\" role=\"img\"/>"
+
+#~ msgid ""
+#~ "If active, the request will be sent to the test serveur of Teledec.fr and "
+#~ "nothing will be retransmitted to DGFiP."
+#~ msgstr ""
+#~ "Si está activa, la solicitud se enviará al servidor de prueba de "
+#~ "Teledec.fr y no se retransmitirá nada a la DGFiP."
+
+#~ msgid "Teledec.fr Dispatch Date"
+#~ msgstr "Teledec.fr Fecha de envío"
+
+#~ msgid "Teledec.fr Test Mode"
+#~ msgstr "Teledec.fr Modo de prueba"
+
+#, python-format
+#~ msgid ""
+#~ "Teletransmission via Teledec.fr is not yet supported for CA12 (yearly VAT "
+#~ "returns). At the moment, it only works for CA3 (monthly or quarterly)."
+#~ msgstr ""
+#~ "La teletransmisión a través de Teledec.fr aún no es compatible con la "
+#~ "CA12 (declaración anual del IVA). Por el momento, solo funciona para CA3 "
+#~ "(mensual o trimestral)."
+
+#, python-format
+#~ msgid ""
+#~ "The VAT declaration '%(vat_return)s' has already been sent on "
+#~ "%(datetime)s."
+#~ msgstr ""
+#~ "La declaración de IVA '%(vat_return)s' ya ha sido enviada en %(datetime)s."
+
+#~ msgid "Transmit via Teledec.fr"
+#~ msgstr "Transmitir a través de Teledec.fr"
+
+#, python-format
+#~ msgid ""
+#~ "VAT return successfully sent to <a href=\"https://teledec.fr/"
+#~ "\">Teledec.fr</a>. Technical data sent: <a href=# data-oe-"
+#~ "model=ir.attachment data-oe-id=%(attach_id)s>%(attach_name)s</a>"
+#~ msgstr ""
+#~ "Declaración de IVA enviada correctamente a <a href=\"https://teledec.fr/"
+#~ "\">Teledec.fr</a>. Datos técnicos enviados: <a href=# data-oe-"
+#~ "model=ir.attachment data-oe-id=%(attach_id)s>%(attach_name)s</a>"
+
+#~ msgid ""
+#~ "You are about to transmit your VAT return via Teledec.fr. Do you confirm?"
+#~ msgstr ""
+#~ "Está a punto de transmitir su declaración de IVA a través de Teledec.fr. "
+#~ "¿Lo confirma?"

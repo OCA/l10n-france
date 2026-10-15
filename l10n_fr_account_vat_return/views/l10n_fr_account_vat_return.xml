@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2021-2023 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="l10n_fr_account_vat_return_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="manual2auto"
+                        type="object"
+                        string="Generate Automatic Lines"
+                        invisible="state != 'manual'"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="auto2sent_via_gateway"
+                        type="object"
+                        string="Send via Gateway"
+                        invisible="state != 'auto' or not line_ids or not gateway_available"
+                        class="btn-primary"
+                        confirm="You are about to transmit your VAT return. Do you confirm?"
+                    />
+                    <button
+                        name="auto2sent_manual"
+                        type="object"
+                        string="Mark as sent"
+                        invisible="state != 'auto' or not line_ids"
+                        class="btn-default"
+                        confirm="Do you confirm that you have validated the VAT return on impots.gouv.fr?"
+                    />
+
+                    <button
+                        name="sent2posted"
+                        type="object"
+                        string="Post"
+                        invisible="state != 'sent'"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="%(l10n_fr_account_vat_return_reimbursement_action)d"
+                        type="action"
+                        string="Credit VAT Reimbursement"
+                        invisible="not reimbursement_show_button"
+                        class="btn-default"
+                        context="{'default_return_id': id}"
+                    />
+                    <button
+                        name="remove_credit_vat_reimbursement"
+                        type="object"
+                        string="Remove Credit VAT Reimbursement"
+                        invisible="not reimbursement_type or state != 'auto'"
+                        class="btn-default"
+                        confirm="Do you confirm the removal of the credit VAT reimbursement?"
+                    />
+                    <button
+                        name="print_ca3"
+                        type="object"
+                        string="Print"
+                        invisible="state not in ('auto', 'sent', 'posted')"
+                    />
+                    <button
+                        name="back_to_manual"
+                        type="object"
+                        string="Back to Manual Lines"
+                        invisible="state != 'auto'"
+                    />
+                    <button
+                        name="back_to_manual"
+                        type="object"
+                        string="Back to Manual Lines"
+                        confirm="This VAT return has been marked as sent. Are you sure you want to go back to Manual Lines?"
+                        invisible="state != 'sent'"
+                    />
+                    <button
+                        name="reconcile_account_move_button"
+                        type="object"
+                        invisible="state != 'posted'"
+                        string="Reconcile Journal Entry Again"
+                    />
+                    <button
+                        name="generate_zip_deductible_vat"
+                        type="object"
+                        invisible="state != 'posted' or not reimbursement_type"
+                        string="Generate Deductible VAT Justification File"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    invisible="state in ('sent', 'posted') or not send_gateway or not gateway_test_mode"
+                >
+                                                Gateway is in <strong
+                >test</strong> mode: this VAT return will not be sent to DGFiP.
+            </div>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group name="main">
+                        <group name="main-left">
+                            <field
+                                name="start_date"
+                                options="{'datepicker': {'warn_future': true}}"
+                                readonly="state != 'manual'"
+                            />
+                            <field
+                                name="end_date"
+                                options="{'datepicker': {'warn_future': true}}"
+                            />
+                            <field
+                                name="vat_periodicity"
+                                readonly="state != 'manual'"
+                            />
+                            <field
+                                name="reimbursement_type"
+                                invisible="not reimbursement_type"
+                            />
+                            <field
+                                name="reimbursement_first_creation_date"
+                                invisible="reimbursement_type != 'first'"
+                            />
+                            <field
+                                name="reimbursement_end_date"
+                                invisible="reimbursement_type != 'end'"
+                            />
+                            <field name="vat_credit_total" invisible="1" />
+                            <field
+                                name="reimbursement_min_amount"
+                                invisible="vat_credit_total &lt;= 0"
+                                widget="monetary"
+                                options="{'currency_field': 'company_currency_id'}"
+                            />
+                            <field name="reimbursement_show_button" invisible="1" />
+                            <field name="company_partner_id" invisible="1" />
+                            <field name="company_currency_id" invisible="1" />
+                        </group>
+                        <group name="main-right">
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                readonly="state != 'manual'"
+                            />
+                            <field name="company_id" invisible="1" />
+                            <field name="vat_on_payment_option" />
+                            <field
+                                name="bank_account_id"
+                                readonly="state in ('sent', 'posted')"
+                            />
+                            <field name="move_id" />
+                            <field
+                                name="deductible_vat_zip_other_threshold"
+                                invisible="state != 'posted' or not reimbursement_type"
+                            />
+                            <field
+                                name="deductible_vat_zip_file_datas"
+                                filename="deductible_vat_zip_file_name"
+                                invisible="state != 'posted' or not reimbursement_type or not deductible_vat_zip_file_id"
+                            />
+                            <field name="sent_datetime" invisible="not sent_datetime" />
+                            <field name="deductible_vat_zip_file_name" invisible="1" />
+                            <field name="deductible_vat_zip_file_id" invisible="1" />
+                            <field
+                                name="unpaid_vat_on_payment_manual_line_filter_account_ids"
+                                invisible="1"
+                            />
+                            <field
+                                name="send_gateway"
+                                readonly="state in ('sent', 'posted')"
+                                invisible="not gateway_available"
+                            />
+                            <field
+                                name="gateway_attachment_id"
+                                invisible="not gateway_attachment_id"
+                            />
+                            <field name="gateway_available" invisible="1" />
+                            <field name="gateway_test_mode" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="lines" string="Lines">
+                            <field
+                                name="line_ids"
+                                nolabel="1"
+                                colspan="2"
+                                readonly="state != 'manual'"
+                            />
+                        </page>
+                        <page name="comment" string="Comment for DGFIP">
+                            <field
+                                name="comment_dgfip"
+                                nolabel="1"
+                                colspan="2"
+                                readonly="state in ('sent', 'posted')"
+                            />
+                        </page>
+                        <page
+                            name="reimbursement_comment"
+                            string="Reimbursement Comment for DGFIP"
+                            invisible="not reimbursement_type"
+                        >
+                            <field
+                                name="reimbursement_comment_dgfip"
+                                nolabel="1"
+                                colspan="2"
+                                readonly="state in ('sent', 'posted')"
+                            />
+                        </page>
+                        <page
+                            name="autoliq_lines"
+                            string="Autoliquidation Lines"
+                            invisible="not autoliq_line_ids"
+                        >
+                            <field name="autoliq_line_ids" colspan="2" nolabel="1" />
+                        </page>
+                        <page
+                            name="unpaid_vat_on_payment_manual_lines"
+                            string="Manual Unpaid VAT on Payment Lines"
+                            invisible="state != 'manual' and not unpaid_vat_on_payment_manual_line_ids"
+                        >
+                            <field
+                                name="unpaid_vat_on_payment_manual_line_ids"
+                                colspan="2"
+                                nolabel="1"
+                                readonly="state != 'manual'"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_fr_account_vat_return_tree" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" decoration-bf="1" />
+                <field name="start_date" optional="hide" />
+                <field name="end_date" optional="hide" />
+                <field name="reimbursement_type" optional="hide" />
+                <field name="vat_on_payment_option" optional="hide" />
+                <field name="sent_datetime" optional="hide" />
+                <field name="send_gateway" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'posted'"
+                    decoration-info="state == 'draft'"
+                    decoration-warning="state == 'sent'"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="l10n_fr_account_vat_return_search" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="start_date" />
+                <filter
+                    name="manual"
+                    string="Manual Lines"
+                    domain="[('state', '=', 'manual')]"
+                />
+                <filter
+                    name="auto"
+                    string="Automatic Lines"
+                    domain="[('state', '=', 'auto')]"
+                />
+                <filter name="sent" string="Sent" domain="[('state', '=', 'sent')]" />
+                <filter
+                    name="posted"
+                    string="Posted"
+                    domain="[('state', '=', 'posted')]"
+                />
+                <group name="groupby">
+                    <filter
+                        name="state_groupby"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="company_groupby"
+                        string="Company"
+                        context="{'group_by': 'company_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="l10n_fr_account_vat_return_action" model="ir.actions.act_window">
+        <field name="name">VAT Return</field>
+        <field name="res_model">l10n.fr.account.vat.return</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="l10n_fr_account_vat_return_menu"
+        action="l10n_fr_account_vat_return_action"
+        parent="l10n_fr_account.account_reports_fr_statements_menu"
+        sequence="5"
+    />
+
+    <record id="l10n_fr_account_vat_return_line_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    invisible="not box_negative"
+                >The logs lines below have a negative total, so they were moved from their original box(es) to this box and the sign of the total has been inverted.</div>
+                <group name="main">
+                    <field name="box_id" domain="[('manual', '=', True)]" />
+                    <field name="box_edi_type" invisible="1" />
+                    <field name="box_manual" invisible="1" />
+                    <field name="box_form_code" invisible="1" />
+                    <field name="company_id" invisible="1" />
+                    <field name="box_negative" invisible="1" />
+
+                    <field
+                        name="value"
+                        invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
+                    />
+                    <field
+                        name="value_float"
+                        invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
+                    />
+                    <field name="value_bool" invisible="box_edi_type != 'CCI_TBX'" />
+                    <field
+                        name="value_char"
+                        invisible="box_edi_type not in ('FTX', 'NAD')"
+                    />
+                    <field
+                        name="value_manual_int"
+                        invisible="not box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
+                    />
+                    <field
+                        name="box_accounting_method"
+                        invisible="not box_accounting_method"
+                    />
+                    <field
+                        name="manual_account_id"
+                        invisible="not box_manual or not box_accounting_method"
+                        required="box_manual and box_accounting_method"
+                    />
+                    <field
+                        name="manual_analytic_distribution"
+                        widget="analytic_distribution"
+                        groups="analytic.group_analytic_accounting"
+                        options="{'account_field': 'manual_account_id', 'business_domain': 'general'}"
+                    />
+                </group>
+                <group
+                    name="logs"
+                    string="Computation and Accounting Details"
+                    invisible="not log_ids"
+                >
+                    <field nolabel="1" name="log_ids" colspan="2" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_fr_account_vat_return_line_tree" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.line</field>
+        <field name="arch" type="xml">
+            <list
+                decoration-info="box_display_type == 'section'"
+                decoration-success="box_display_type == 'sub_section'"
+                decoration-danger="box_negative == True"
+                limit="100"
+            >
+                <field name="box_form_code" />
+                <field name="box_code" />
+                <field name="box_name" />
+                <field name="box_display_type" column_invisible="1" />
+                <field name="box_negative" column_invisible="1" />
+                <field name="box_manual" column_invisible="1" />
+                <field name="box_edi_type" column_invisible="1" />
+
+                <field name="value" invisible="box_display_type" />
+                <field
+                    name="value_float"
+                    optional="hide"
+                    invisible="box_manual or box_edi_type not in ('MOA', 'QTY', 'PCD')"
+                />
+                <field
+                    name="value_bool"
+                    optional="hide"
+                    invisible="box_edi_type != 'CCI_TBX'"
+                />
+                <field
+                    name="value_char"
+                    optional="show"
+                    invisible="box_edi_type not in ('FTX', 'NAD')"
+                />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_fr_account_vat_return_line_log_tree" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.line.log</field>
+        <field name="arch" type="xml">
+            <list
+                decoration-info="compute_type == 'period_balance'"
+                decoration-success="compute_type in ('balance', 'balance_ratio', 'base_from_balance', 'base_from_balance_ratio')"
+                decoration-warning="compute_type == 'subtraction'"
+                decoration-danger="compute_type == 'adjustment'"
+            >
+                <field
+                    name="parent_id"
+                    column_invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
+                />
+                <field name="compute_type" />
+                <field name="account_id" />
+                <field
+                    name="analytic_distribution"
+                    groups="analytic.group_analytic_accounting"
+                    optional="hide"
+                    widget="analytic_distribution"
+                    column_invisible="not parent.box_accounting_method"
+                    options="{'account_field': 'account_id', 'business_domain': 'general'}"
+                />
+                <field name="amount" sum="1" />
+                <field name="note" optional="show" />
+            </list>
+        </field>
+    </record>
+
+    <record id="l10n_fr_account_vat_return_line_log_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.line.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main">
+                    <field
+                        name="parent_id"
+                        invisible="not context.get('l10n_fr_account_vat_return_line_log_main_view')"
+                    />
+                    <field name="compute_type" />
+                    <field name="account_id" />
+                    <field
+                        name="analytic_distribution"
+                        widget="analytic_distribution"
+                        groups="analytic.group_analytic_accounting"
+                        options="{'account_field': 'account_id', 'business_domain': 'general'}"
+                    />
+                    <field name="amount" />
+                    <field name="origin_move_id" invisible="not origin_move_id" />
+                </group>
+                <group string="Notes">
+                    <field name="note" nolabel="1" colspan="2" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_fr_account_vat_return_autoliq_line_form" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.autoliq.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main">
+                    <group name="move_line" string="Journal Item">
+                        <field
+                            name="parent_id"
+                            invisible="not context.get('l10n_fr_account_vat_return_autoliq_line_main_view')"
+                        />
+                        <field name="move_line_id" />
+                        <field name="move_id" />
+                        <field name="journal_id" />
+                        <field name="date" />
+                        <field name="ref" />
+                        <field name="label" />
+                        <field name="account_id" />
+                        <field name="partner_id" />
+                        <field name="debit" />
+                        <field name="credit" />
+                        <field name="company_currency_id" invisible="1" />
+                        <field name="company_id" invisible="1" />
+                    </group>
+                    <group name="result" string="Information for VAT Return">
+                        <field name="autoliq_type" />
+                        <field name="compute_type" />
+                        <label for="product_ratio" />
+                        <div name="product_ratio">
+                                                            <field
+                            name="product_ratio"
+                            class="oe_inline"
+                        /> %
+                                                        </div>
+                        <field name="vat_rate_int" groups="base.group_no_one" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_fr_account_vat_return_autoliq_line_tree" model="ir.ui.view">
+        <field name="model">l10n.fr.account.vat.return.autoliq.line</field>
+        <field name="arch" type="xml">
+            <list>
+                <field
+                    name="parent_id"
+                    invisible="not context.get('l10n_fr_account_vat_return_autoliq_line_main_view')"
+                />
+                <field
+                    name="autoliq_type"
+                    widget="badge"
+                    decoration-warning="autoliq_type == 'intracom'"
+                    decoration-danger="autoliq_type == 'extracom'"
+                />
+                <field
+                    name="compute_type"
+                    optional="show"
+                    widget="badge"
+                    decoration-info="compute_type == 'auto'"
+                    decoration-success="compute_type == 'manual'"
+                />
+                <field name="vat_rate_int" groups="base.group_no_one" optional="hide" />
+                <field name="move_line_id" />
+                <field name="move_id" optional="hide" />
+                <field name="journal_id" optional="hide" />
+                <field name="date" optional="show" />
+                <field name="ref" optional="hide" />
+                <field name="label" optional="hide" />
+                <field name="account_id" />
+                <field name="partner_id" optional="show" />
+                <field name="debit" optional="show" />
+                <field name="credit" optional="show" />
+                <field name="company_currency_id" invisible="1" />
+                <field name="company_id" invisible="1" />
+                <field
+                    name="product_ratio"
+                    string="Product Ratio (%)"
+                    decoration-bf="1"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record
+        id="l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_form"
+        model="ir.ui.view"
+    >
+        <field
+            name="model"
+        >l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main">
+                    <field
+                        name="parent_id"
+                        invisible="not context.get('l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_main_view')"
+                    />
+                    <field name="account_id" />
+                    <field name="amount" />
+                    <field name="note" />
+                    <field name="company_currency_id" invisible="1" />
+                    <field name="company_id" invisible="1" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record
+        id="l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_tree"
+        model="ir.ui.view"
+    >
+        <field
+            name="model"
+        >l10n.fr.account.vat.return.unpaid.vat.on.payment.manual.line</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="amount &lt; 0" editable="bottom">
+                <field
+                    name="parent_id"
+                    invisible="not context.get('l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_main_view')"
+                />
+                <field name="account_id" />
+                <field name="amount" />
+                <field name="note" />
+                <field name="company_currency_id" invisible="1" />
+                <field name="company_id" invisible="1" />
+            </list>
+        </field>
+    </record>
+</odoo>
