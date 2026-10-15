@@ -1,0 +1,11 @@
+<odoo>
+    <record id="public_holiday_partner" model="res.partner">
+        <field name="name">Jours Fériés</field>
+        <field name="is_company" eval="False" />
+        <field
+            name="image_1920"
+            type="base64"
+            file="l10n_fr_calendar_event_public_holiday/static/img/holiday.jpg"
+        />
+    </record>
+</odoo>
