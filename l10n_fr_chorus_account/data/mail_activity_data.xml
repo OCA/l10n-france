@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="mail_activity_type_chorus_error" model="mail.activity.type">
+        <field name="name">Traité l'erreur de transmission Chorus</field>
+        <field name="icon">fa-exclamation-triangle</field>
+        <field name="sequence">3</field>
+        <field name="res_model_id" ref="account.model_account_move" />
+    </record>
+
+</odoo>
