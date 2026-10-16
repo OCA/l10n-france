@@ -91,20 +91,7 @@ class Partner(models.Model):
         for partner in self:
             same_siren_partner_id = False
             if partner.siren and not partner.parent_id:
-                domain = [
-                    ("siren", "=", partner.siren),
-                    ("parent_id", "=", False),
-                ]
-                if partner.company_id:
-                    domain += [
-                        "|",
-                        ("company_id", "=", False),
-                        ("company_id", "=", partner.company_id.id),
-                    ]
-                # use _origin to deal with onchange()
-                partner_id = partner._origin.id
-                if partner_id:
-                    domain.append(("id", "!=", partner_id))
+                domain = partner._get_same_siren_partner_domain()
                 same_siren_partner_id = (
                     self.with_context(active_test=False).search(domain, limit=1)
                 ).id or False
@@ -165,3 +152,21 @@ class Partner(models.Model):
         res = super()._address_fields()
         res.append("nic")
         return res
+
+    def _get_same_siren_partner_domain(self):
+        self.ensure_one()
+        domain = [
+            ("siren", "=", self.siren),
+            ("parent_id", "=", False),
+        ]
+        if self.company_id:
+            domain += [
+                "|",
+                ("company_id", "=", False),
+                ("company_id", "=", self.company_id.id),
+            ]
+        # use _origin to deal with onchange()
+        partner_id = self._origin.id
+        if partner_id:
+            domain.append(("id", "!=", partner_id))
+        return domain
