@@ -80,6 +80,7 @@ class AccountInvoiceImport(models.TransientModel):
                 base_domain
                 + ["|", ("siren", "=", siren), ("vat", "=", vat_from_siren)],
                 limit=1,
+                order=import_config["partner_match_order"],
             )
             if partner:
                 msg = (
