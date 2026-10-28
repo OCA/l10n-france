@@ -12,6 +12,7 @@
         <field name="arch" type="xml">
             <field name="state_ids" position="after">
                 <field name="department_ids" widget="many2many_tags" />
+                <field name="unallowed_department_ids" widget="many2many_tags" />
             </field>
         </field>
     </record>

@@ -11,10 +11,24 @@ class DeliveryCarrier(models.Model):
 
     department_ids = fields.Many2many("res.country.department", string="Departments")
 
+    unallowed_department_ids = fields.Many2many(
+        "res.country.department",
+        "delivery_carrier_unallowed_department_rel",
+        "carrier_id",
+        "department_id",
+        string="Unallowed Departments",
+    )
+
     def _match_address(self, partner):
         self.ensure_one()
         res = super()._match_address(partner)
-        if res and self.department_ids:
-            if partner.department_id not in self.department_ids:
-                return False
+        if not res:
+            return res
+        if self.department_ids and partner.country_department_id not in self.department_ids:
+            return False
+        if (
+            self.unallowed_department_ids
+            and partner.country_department_id in self.unallowed_department_ids
+        ):
+            return False
         return res
