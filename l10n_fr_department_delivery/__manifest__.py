@@ -5,7 +5,7 @@
 {
     "name": "French Departments - Delivery",
     "summary": "Use French Departments in delivery costs",
-    "version": "14.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "French Localization",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
