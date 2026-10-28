@@ -24,7 +24,10 @@ class DeliveryCarrier(models.Model):
         res = super()._match_address(partner)
         if not res:
             return res
-        if self.department_ids and partner.country_department_id not in self.department_ids:
+        if (
+            self.department_ids
+            and partner.country_department_id not in self.department_ids
+        ):
             return False
         if (
             self.unallowed_department_ids
