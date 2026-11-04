@@ -1,0 +1,119 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_account_ubl_cii
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-22 09:21+0000\n"
+"PO-Revision-Date: 2026-06-22 09:21+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_account_ubl_cii
+#: model:ir.model,name:l10n_fr_account_ubl_cii.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#: model:ir.model,name:l10n_fr_account_ubl_cii.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#: model:ir.model,name:l10n_fr_account_ubl_cii.model_account_edi_xml_cii
+msgid "Factur-x/XRechnung CII 2.2.0"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#: model:ir.model.fields.selection,name:l10n_fr_account_ubl_cii.selection__res_partner__invoice_edi_format__ubl_21_fr
+msgid "France E-Invoicing (UBL 2.1)"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#: model:ir.model,name:l10n_fr_account_ubl_cii.model_account_edi_xml_ubl_21_fr
+msgid "France UBL 2.1 E-Invoicing Format"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/account_move.py:0
+msgid ""
+"In the event of late payment, a flat-rate fee of €40 for collection costs "
+"will be charged (Articles L.441-10 and D.441-5 of the Code de commerce)."
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#: model:ir.model,name:l10n_fr_account_ubl_cii.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/account_move.py:0
+msgid ""
+"Late payment penalties at an annual rate of 10% are applied if the payment "
+"is made after the due date."
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/account_move.py:0
+msgid "No discount for early payment."
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#: model:ir.model.fields,field_description:l10n_fr_account_ubl_cii.field_res_company__pdp_identifier
+msgid "Pdp Identifier"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/res_partner.py:0
+msgid ""
+"The Peppol endpoint is not valid. The expected format is: SIREN, "
+"SIREN_SIRET, SIREN_SIRET_CodeRoutage or SIREN_SuffixeAdressage"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/account_edi_xml_ubl_21_fr.py:0
+msgid "The following partner's PDP identifier is missing: %s"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/account_edi_xml_ubl_21_fr.py:0
+msgid "The following partner's SIREN or SIRET is missing: %s"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/account_edi_xml_ubl_21_fr.py:0
+msgid "The following partner's VAT is missing: %s"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/res_company.py:0
+msgid ""
+"The identifier %s is not valid. The expected format is: SIREN, SIREN_SIRET, "
+"SIREN_SIRET_CodeRoutage or SIREN_SuffixeAdressage"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#. odoo-python
+#: code:addons/l10n_fr_account_ubl_cii/models/account_edi_xml_ubl_21_fr.py:0
+msgid "The original journal entry's name or issue date are missing: %s"
+msgstr ""
+
+#. module: l10n_fr_account_ubl_cii
+#: model:ir.model.fields,field_description:l10n_fr_account_ubl_cii.field_res_partner__invoice_edi_format
+#: model:ir.model.fields,field_description:l10n_fr_account_ubl_cii.field_res_users__invoice_edi_format
+msgid "eInvoice format"
+msgstr ""

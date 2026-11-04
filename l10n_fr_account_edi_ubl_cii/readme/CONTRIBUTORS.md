@@ -1,0 +1,2 @@
+- Odoo SA
+- Rémi CAZENAVE <remi-filament> (https://le-filament.com)
