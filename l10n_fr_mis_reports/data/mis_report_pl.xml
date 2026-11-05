@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   Copyright 2015-2023 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-    <record model="mis.report" id="mis_report_pl">
+    <record id="mis_report_pl" model="mis.report">
         <field name="name">Compte de résultat (FR - liasse fiscale)</field>
     </record>
 
     <!-- EXPLOITATION -->
-    <record model="mis.report.kpi" id="mis_report_pl_fc">
+    <record id="mis_report_pl_fc" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FC</field>
         <field name="description">Ventes de marchandises</field>
@@ -19,9 +19,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">2</field>
+        <field name="sequence" eval="2" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_ff">
+    <record id="mis_report_pl_ff" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FF</field>
         <field name="description">Production vendue de biens</field>
@@ -30,9 +30,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">4</field>
+        <field name="sequence" eval="4" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fi">
+    <record id="mis_report_pl_fi" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FI</field>
         <field name="description">Production vendue de services</field>
@@ -43,9 +43,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">6</field>
+        <field name="sequence" eval="6" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fl">
+    <record id="mis_report_pl_fl" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FL</field>
         <field name="description">Chiffres d'affaires nets</field>
@@ -53,9 +53,9 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level3" />
-        <field name="sequence">10</field>
+        <field name="sequence" eval="10" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fm">
+    <record id="mis_report_pl_fm" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FM</field>
         <field name="description">Production stockée</field>
@@ -64,9 +64,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">20</field>
+        <field name="sequence" eval="20" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fn">
+    <record id="mis_report_pl_fn" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FN</field>
         <field name="description">Production immobilisée</field>
@@ -75,9 +75,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">30</field>
+        <field name="sequence" eval="30" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fo">
+    <record id="mis_report_pl_fo" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FO</field>
         <field name="description">Subventions d'exploitation</field>
@@ -86,9 +86,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">40</field>
+        <field name="sequence" eval="40" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fp">
+    <record id="mis_report_pl_fp" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FP</field>
         <field
@@ -99,9 +99,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">50</field>
+        <field name="sequence" eval="50" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fq">
+    <record id="mis_report_pl_fq" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FQ</field>
         <field name="description">Autres produits</field>
@@ -110,9 +110,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">60</field>
+        <field name="sequence" eval="60" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fr">
+    <record id="mis_report_pl_fr" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FR</field>
         <field name="description">Total des produits d'exploitation (I)</field>
@@ -120,10 +120,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
-        <field name="sequence">70</field>
+        <field name="sequence" eval="70" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_fs">
+    <record id="mis_report_pl_fs" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FS</field>
         <field
@@ -134,9 +134,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">80</field>
+        <field name="sequence" eval="80" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_ft">
+    <record id="mis_report_pl_ft" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FT</field>
         <field name="description">Variation de stock (marchandises)</field>
@@ -145,9 +145,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">90</field>
+        <field name="sequence" eval="90" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fu">
+    <record id="mis_report_pl_fu" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FU</field>
         <field
@@ -158,9 +158,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">100</field>
+        <field name="sequence" eval="100" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fv">
+    <record id="mis_report_pl_fv" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FV</field>
         <field
@@ -171,9 +171,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">110</field>
+        <field name="sequence" eval="110" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fw">
+    <record id="mis_report_pl_fw" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FW</field>
         <field name="description">Autres achats et charges externes</field>
@@ -182,9 +182,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">120</field>
+        <field name="sequence" eval="120" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fx">
+    <record id="mis_report_pl_fx" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FX</field>
         <field name="description">Impôts, taxes et versements assimilés</field>
@@ -193,9 +193,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">130</field>
+        <field name="sequence" eval="130" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fy">
+    <record id="mis_report_pl_fy" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FY</field>
         <field name="description">Salaires et traitements</field>
@@ -204,9 +204,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">140</field>
+        <field name="sequence" eval="140" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_fz">
+    <record id="mis_report_pl_fz" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">FZ</field>
         <field name="description">Charges sociales</field>
@@ -215,9 +215,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">150</field>
+        <field name="sequence" eval="150" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_ga">
+    <record id="mis_report_pl_ga" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GA</field>
         <field name="description">Dotations aux amortissements</field>
@@ -226,9 +226,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">160</field>
+        <field name="sequence" eval="160" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gb">
+    <record id="mis_report_pl_gb" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GB</field>
         <field name="description">Dotations aux provisions</field>
@@ -237,9 +237,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">170</field>
+        <field name="sequence" eval="170" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gc">
+    <record id="mis_report_pl_gc" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GC</field>
         <field name="description">Sur actif circulant : dotations aux provisions</field>
@@ -248,9 +248,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">180</field>
+        <field name="sequence" eval="180" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gd">
+    <record id="mis_report_pl_gd" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GD</field>
         <field
@@ -261,9 +261,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">190</field>
+        <field name="sequence" eval="190" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_ge">
+    <record id="mis_report_pl_ge" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GE</field>
         <field name="description">Autres charges</field>
@@ -272,9 +272,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">200</field>
+        <field name="sequence" eval="200" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gf">
+    <record id="mis_report_pl_gf" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GF</field>
         <field name="description">Total des charges d'exploitation (II)</field>
@@ -284,10 +284,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
-        <field name="sequence">210</field>
+        <field name="sequence" eval="210" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_gg">
+    <record id="mis_report_pl_gg" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GG</field>
         <field name="description">1. Résultat d'exploitation (I - II)</field>
@@ -295,10 +295,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />
-        <field name="sequence">220</field>
+        <field name="sequence" eval="220" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_gh">
+    <record id="mis_report_pl_gh" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GH</field>
         <field
@@ -310,9 +310,9 @@
         <field name="style_id" ref="level3" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">230</field>
+        <field name="sequence" eval="230" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gi">
+    <record id="mis_report_pl_gi" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GI</field>
         <field
@@ -324,11 +324,11 @@
         <field name="style_id" ref="level3" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">240</field>
+        <field name="sequence" eval="240" />
     </record>
 
     <!-- FINANCIER -->
-    <record model="mis.report.kpi" id="mis_report_pl_gj">
+    <record id="mis_report_pl_gj" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GJ</field>
         <field name="description">Produits financiers de participations</field>
@@ -337,9 +337,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">250</field>
+        <field name="sequence" eval="250" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gk">
+    <record id="mis_report_pl_gk" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GK</field>
         <field
@@ -350,9 +350,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">260</field>
+        <field name="sequence" eval="260" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gl">
+    <record id="mis_report_pl_gl" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GL</field>
         <field name="description">Autres intérêts et produits assimilés</field>
@@ -361,9 +361,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">270</field>
+        <field name="sequence" eval="270" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gm">
+    <record id="mis_report_pl_gm" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GM</field>
         <field
@@ -374,9 +374,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">280</field>
+        <field name="sequence" eval="280" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gn">
+    <record id="mis_report_pl_gn" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GN</field>
         <field name="description">Différences positives de change</field>
@@ -385,9 +385,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">290</field>
+        <field name="sequence" eval="290" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_go">
+    <record id="mis_report_pl_go" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GO</field>
         <field
@@ -398,9 +398,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">300</field>
+        <field name="sequence" eval="300" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gp">
+    <record id="mis_report_pl_gp" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GP</field>
         <field name="description">Total des produits financiers (V)</field>
@@ -408,10 +408,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
-        <field name="sequence">310</field>
+        <field name="sequence" eval="310" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_gq">
+    <record id="mis_report_pl_gq" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GQ</field>
         <field
@@ -422,9 +422,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">320</field>
+        <field name="sequence" eval="320" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gr">
+    <record id="mis_report_pl_gr" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GR</field>
         <field name="description">Intérêts et charges assimilées</field>
@@ -433,9 +433,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">330</field>
+        <field name="sequence" eval="330" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gs">
+    <record id="mis_report_pl_gs" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GS</field>
         <field name="description">Différences négatives de change</field>
@@ -444,9 +444,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">340</field>
+        <field name="sequence" eval="340" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gt">
+    <record id="mis_report_pl_gt" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GT</field>
         <field
@@ -457,9 +457,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">350</field>
+        <field name="sequence" eval="350" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_gu">
+    <record id="mis_report_pl_gu" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GU</field>
         <field name="description">Total des charges financières (VI)</field>
@@ -467,10 +467,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
-        <field name="sequence">360</field>
+        <field name="sequence" eval="360" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_gv">
+    <record id="mis_report_pl_gv" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GV</field>
         <field name="description">2. Résultat financier (V - VI)</field>
@@ -478,10 +478,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />
-        <field name="sequence">370</field>
+        <field name="sequence" eval="370" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_gw">
+    <record id="mis_report_pl_gw" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">GW</field>
         <field
@@ -491,11 +491,11 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />
-        <field name="sequence">380</field>
+        <field name="sequence" eval="380" />
     </record>
 
     <!-- EXCEPTIONNEL -->
-    <record model="mis.report.kpi" id="mis_report_pl_ha">
+    <record id="mis_report_pl_ha" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HA</field>
         <field
@@ -506,9 +506,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">390</field>
+        <field name="sequence" eval="390" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hb">
+    <record id="mis_report_pl_hb" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HB</field>
         <field
@@ -519,9 +519,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">400</field>
+        <field name="sequence" eval="400" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hc">
+    <record id="mis_report_pl_hc" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HC</field>
         <field
@@ -532,9 +532,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">410</field>
+        <field name="sequence" eval="410" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hd">
+    <record id="mis_report_pl_hd" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HD</field>
         <field name="description">Total des produits exceptionnels (VII)</field>
@@ -542,10 +542,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
-        <field name="sequence">420</field>
+        <field name="sequence" eval="420" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_he">
+    <record id="mis_report_pl_he" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HE</field>
         <field
@@ -556,9 +556,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">430</field>
+        <field name="sequence" eval="430" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hf">
+    <record id="mis_report_pl_hf" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HF</field>
         <field
@@ -569,9 +569,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">440</field>
+        <field name="sequence" eval="440" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hg">
+    <record id="mis_report_pl_hg" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HG</field>
         <field
@@ -582,9 +582,9 @@
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">450</field>
+        <field name="sequence" eval="450" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hh">
+    <record id="mis_report_pl_hh" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HH</field>
         <field name="description">Total des charges exceptionnelles (VIII)</field>
@@ -592,10 +592,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level2" />
-        <field name="sequence">460</field>
+        <field name="sequence" eval="460" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_hi">
+    <record id="mis_report_pl_hi" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HI</field>
         <field name="description">4. Résultat exceptionnel (VII - VIII)</field>
@@ -603,11 +603,11 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />
-        <field name="sequence">470</field>
+        <field name="sequence" eval="470" />
     </record>
 
     <!-- FIN -->
-    <record model="mis.report.kpi" id="mis_report_pl_hj">
+    <record id="mis_report_pl_hj" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HJ</field>
         <field
@@ -619,9 +619,9 @@
         <field name="style_id" ref="level3" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">480</field>
+        <field name="sequence" eval="480" />
     </record>
-    <record model="mis.report.kpi" id="mis_report_pl_hk">
+    <record id="mis_report_pl_hk" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HK</field>
         <field name="description">Impôts sur les bénéfices (X)</field>
@@ -631,10 +631,10 @@
         <field name="style_id" ref="level3" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="account_detail" />
-        <field name="sequence">490</field>
+        <field name="sequence" eval="490" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_hl">
+    <record id="mis_report_pl_hl" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HL</field>
         <field name="description">Total des produits (I + III + V + VII)</field>
@@ -642,10 +642,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />
-        <field name="sequence">500</field>
+        <field name="sequence" eval="500" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_hm">
+    <record id="mis_report_pl_hm" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HM</field>
         <field
@@ -655,10 +655,10 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />
-        <field name="sequence">510</field>
+        <field name="sequence" eval="510" />
     </record>
 
-    <record model="mis.report.kpi" id="mis_report_pl_hn">
+    <record id="mis_report_pl_hn" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl" />
         <field name="name">HN</field>
         <field
@@ -668,6 +668,6 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="level1" />
-        <field name="sequence">520</field>
+        <field name="sequence" eval="520" />
     </record>
 </odoo>
