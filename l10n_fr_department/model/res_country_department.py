@@ -11,7 +11,7 @@ class ResCountryDepartment(models.Model):
     _description = "Department"
     _name = "res.country.department"
     _order = "country_id, code"
-    _rec_names_search = ["name", "code"]
+    _rec_names_search = ("name", "code")
 
     state_id = fields.Many2one(
         "res.country.state",

@@ -6,7 +6,7 @@
 {
     "name": "French Departments (Départements)",
     "summary": "Populate Database with French Departments (Départements)",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "French Localization",
     "author": "GRAP, Akretion, Nicolas JEUDY, Odoo Community Association (OCA)",
     "maintainers": ["legalsylvain", "alexis-via"],
@@ -18,7 +18,7 @@
     ],
     "external_dependencies": {"python": ["unidecode"]},
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/res_country_department.xml",
         "view/res_country_department.xml",
         "view/res_partner.xml",

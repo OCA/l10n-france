@@ -42,7 +42,6 @@ class ResPartner(models.Model):
     country_department_id = fields.Many2one(
         "res.country.department",
         compute="_compute_country_department",
-        string="Country Department",
         store=True,
     )
 

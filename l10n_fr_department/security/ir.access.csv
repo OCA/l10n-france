@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_res_country_department_user,Read access to res.country.department to employee group,res.country.department,base.group_user,r,
+access_res_country_department_portal,Read access to res.country.department to portal group,res.country.department,base.group_portal,r,
+access_res_country_department_public,Read access to res.country.department to public group,res.country.department,base.group_public,r,
+access_res_country_department_manager,Full access to res.country.department to System user,res.country.department,base.group_system,crud,
