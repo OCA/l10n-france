@@ -5,14 +5,13 @@
 import io
 import logging
 
+from odoo import _, api, fields, models, tools
+from odoo.exceptions import UserError
+from odoo.tools.misc import format_amount, format_date
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
-
-from odoo import _, api, fields, models, tools
-from odoo.exceptions import UserError
-from odoo.tools.misc import format_amount, format_date
 
 logger = logging.getLogger(__name__)
 
@@ -268,11 +267,11 @@ class AccountMove(models.Model):
         ) as empty_report_fd:
             empty_report_reader = PdfReader(empty_report_fd)
             final_report_writer = PdfWriter()
-            # add the "watermark" (which is the new pdf) on the existing page
-            page = empty_report_reader.pages[0]
+            # add the "watermark" (which is the new pdf) on the existing pag
+            final_report_writer.add_page(empty_report_reader.pages[0])
+            page = final_report_writer.pages[-1]
             page.merge_page(watermark_pdf_reader.pages[0])
-            final_report_writer.add_page(page)
-            final_report_writer.pages[0].compress_content_streams()
+            page.compress_content_streams()
             # finally, write "output" to a real file
             final_report_io = io.BytesIO()
             final_report_writer.write(final_report_io)
