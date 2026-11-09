@@ -6,7 +6,7 @@
 {
     "name": "French States (Régions)",
     "summary": "Populate Database with French States (Régions)",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "French Localization",
     "author": "GRAP, Akretion, Nicolas JEUDY, Odoo Community Association (OCA)",
     "maintainers": ["legalsylvain", "alexis-via"],
