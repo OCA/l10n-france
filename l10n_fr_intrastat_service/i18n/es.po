@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-26 02:41+0000\n"
-"PO-Revision-Date: 2024-02-16 21:34+0000\n"
-"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
+"PO-Revision-Date: 2026-11-11 12:46+0000\n"
+"Last-Translator: Carlos Dauden <carlos.dauden@tecnativa.com>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.actions.report,print_report_name:l10n_fr_intrastat_service.xlsx_report
@@ -120,9 +120,9 @@ msgid ""
 "currency = amount in invoice currency converted to company currency with the "
 "rate of the invoice date and rounded at 0 digits"
 msgstr ""
-"Importe en la divisa de la empresa para escribir en la declaración. Importe "
-"en la divisa de la empresa = importe en la divisa de la factura convertido a "
-"la divisa de la empresa con el tipo de la fecha de la factura y redondeado a "
+"Importe en la moneda de la empresa para escribir en la declaración. Importe "
+"en la moneda de la empresa = importe en la moneda de la factura convertido a "
+"la moneda de la empresa con el tipo de la fecha de la factura y redondeado a "
 "0 dígitos"
 
 #. module: l10n_fr_intrastat_service
@@ -161,7 +161,7 @@ msgstr "Companía"
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration__currency_id
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__company_currency_id
 msgid "Company Currency"
-msgstr "Divisa de la Compañía"
+msgstr "Moneda de la Compañía"
 
 #. module: l10n_fr_intrastat_service
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_service.l10n_fr_intrastat_service_declaration_form
@@ -342,7 +342,7 @@ msgstr "Factura"
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__invoice_currency_id
 msgid "Invoice Currency"
-msgstr "Divisa de facturación"
+msgstr "Moneda de facturación"
 
 #. module: l10n_fr_intrastat_service
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_service.field_l10n_fr_intrastat_service_declaration_line__invoice_date
