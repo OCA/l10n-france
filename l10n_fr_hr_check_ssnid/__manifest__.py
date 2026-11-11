@@ -4,7 +4,7 @@
 
 {
     "name": "French Localization - Check Social Security Number",
-    "version": "18.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Human Resources",
     "development_status": "Mature",
     "license": "AGPL-3",
@@ -12,7 +12,7 @@
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
-    "depends": ["hr"],
+    "depends": ["hr", "l10n_fr"],
     "external_dependencies": {"python": ["python-stdnum"]},
     "installable": True,
 }

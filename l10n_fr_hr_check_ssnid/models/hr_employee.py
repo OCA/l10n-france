@@ -1,10 +1,10 @@
-# Copyright 2018-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2018-2020 Akretion France (https://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
@@ -15,33 +15,21 @@ except ImportError:
     logger.debug("Cannot import stdnum")
 
 
-class HrEmployee(models.Model):
-    _inherit = "hr.employee"
+class HrVersion(models.Model):
+    _inherit = "hr.version"
 
-    @api.constrains("ssnid")
+    @api.constrains("identification_id", "company_id")
     def _check_france_ssnid(self):
-        fr_country_codes = (
-            "FR",
-            "GP",
-            "MQ",
-            "GF",
-            "RE",
-            "YT",
-            "PF",
-            "PM",
-            "MF",
-            "BL",
-            "NC",
-        )
         for empl in self:
-            if empl.company_id.country_id.code in fr_country_codes and empl.ssnid:
+            if empl.company_id.is_france_country and empl.identification_id:
                 try:
-                    validate(empl.ssnid)
+                    validate(empl.identification_id)
                 except (InvalidFormat, InvalidLength, InvalidChecksum) as e:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "The French Social Security Number '%(ssnid)s' "
-                            "is invalid. %(e)s"
+                            "is invalid. %(e)s",
+                            ssnid=empl.identification_id,
+                            e=e,
                         )
-                        % {"ssnid": empl.ssnid, "e": e}
                     ) from e

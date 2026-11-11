@@ -1,4 +1,4 @@
-# Copyright 2018-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2018-2020 Akretion France (https://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -12,8 +12,8 @@ class TestSsnidCheck(TransactionCase):
         # Set company to France
         self.env.company.country_id = self.env.ref("base.fr").id
         with self.assertRaises(ValidationError):
-            heo.create({"name": "AA", "ssnid": "1 91 12"})
+            heo.create({"name": "AA", "identification_id": "1 91 12"})
         with self.assertRaises(ValidationError):
-            heo.create({"name": "AB", "ssnid": "1 91 02 99 412 042 19"})
-        heo.create({"name": "AC", "ssnid": "1 91 02 99 412 042 42"})
-        heo.create({"name": "AD", "ssnid": "1 55 01 2A 011 222 86"})
+            heo.create({"name": "AB", "identification_id": "1 91 02 99 412 042 19"})
+        heo.create({"name": "AC", "identification_id": "1 91 02 99 412 042 42"})
+        heo.create({"name": "AD", "identification_id": "1 55 01 2A 011 222 86"})
