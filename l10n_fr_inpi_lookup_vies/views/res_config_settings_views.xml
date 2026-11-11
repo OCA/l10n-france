@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.fr.siret.lookup</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_vat.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <setting id="vies_service_setting" position="after">
+                <setting
+                    id="force_vat_siret_lookup"
+                    help="VAT verification often times out causing VAT number not to be stored on partner. This parameter allows to store the value nonetheless."
+                    company_dependent="1"
+                    title="If this checkbox is ticked, if calling VIES server fails (e.g. timeout) or is disabled, deduced VAT number would still be stored on partner (which may not be valid)."
+                >
+                    <field name="force_vat_siret_lookup" />
+                </setting>
+            </setting>
+        </field>
+    </record>
+</odoo>
