@@ -1,0 +1,72 @@
+# Copyright 2021 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from odoo import fields, models
+
+
+class ResConfigSettings(models.TransientModel):
+    _inherit = "res.config.settings"
+
+    fr_vat_periodicity = fields.Selection(
+        related="company_id.fr_vat_periodicity", readonly=False
+    )
+    fr_vat_exigibility = fields.Selection(
+        related="company_id.fr_vat_exigibility",
+        readonly=True,
+        # value is updated by the wizard l10n.fr.vat.exigibility.update
+    )
+    fr_vat_update_lock_dates = fields.Boolean(
+        related="company_id.fr_vat_update_lock_dates", readonly=False
+    )
+    fr_vat_journal_id = fields.Many2one(
+        related="company_id.fr_vat_journal_id",
+        readonly=False,
+        domain="[('company_id', '=', company_id), ('type', '=', 'general')]",
+    )
+    # The 2 fields below are from the official module l10n_fr_account
+    # but this module only defines the fields on res.company, it doesn't
+    # add them on the Accounting config page
+    l10n_fr_rounding_difference_loss_account_id = fields.Many2one(
+        related="company_id.l10n_fr_rounding_difference_loss_account_id",
+        readonly=False,
+        domain="[('company_ids', 'in', company_id), "
+        "('deprecated', '=', False), ('account_type', '=', 'expense')]",
+    )
+    l10n_fr_rounding_difference_profit_account_id = fields.Many2one(
+        related="company_id.l10n_fr_rounding_difference_profit_account_id",
+        readonly=False,
+        domain="[('company_ids', 'in', company_id), "
+        "('deprecated', '=', False), ('account_type', '=', 'income')]",
+    )
+    fr_vat_expense_analytic_distribution = fields.Json(
+        related="company_id.fr_vat_expense_analytic_distribution",
+        readonly=False,
+    )
+    fr_vat_income_analytic_distribution = fields.Json(
+        related="company_id.fr_vat_income_analytic_distribution",
+        readonly=False,
+    )
+    analytic_precision = fields.Integer(related="company_id.analytic_precision")
+    fr_vat_manual_autoliq_line_default_option = fields.Selection(
+        related="company_id.fr_vat_manual_autoliq_line_default_option", readonly=False
+    )
+    fr_vat_bank_account_id = fields.Many2one(
+        related="company_id.fr_vat_bank_account_id",
+        readonly=False,
+        domain="[('partner_id','=', fr_vat_company_partner_id), "
+        "('company_id', 'in', (False, company_id))]",
+    )
+    fr_vat_company_partner_id = fields.Many2one(related="company_id.partner_id")
+    fr_vat_send_gateway = fields.Selection(
+        related="company_id.fr_vat_send_gateway", readonly=False
+    )
+    fr_vat_remind_user_ids = fields.Many2many(
+        related="company_id.fr_vat_remind_user_ids", readonly=False
+    )
+    fr_vat_remind_deadline_day = fields.Selection(
+        related="company_id.fr_vat_remind_deadline_day", readonly=False
+    )
+    fr_vat_remind_auto_generate_and_transmit = fields.Boolean(
+        related="company_id.fr_vat_remind_auto_generate_and_transmit", readonly=False
+    )
