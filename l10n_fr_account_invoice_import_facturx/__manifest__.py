@@ -15,6 +15,6 @@
         "account_invoice_import_facturx",
         "l10n_fr_business_document_import",
     ],
-    "auto_install": True,
-    "installable": True,
+    "auto_install": False,
+    "installable": False,
 }
