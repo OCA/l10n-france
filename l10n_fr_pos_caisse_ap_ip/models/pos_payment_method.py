@@ -34,6 +34,21 @@ class PosPaymentMethod(models.Model):
         help="IP address or DNS name of the payment terminal that support "
         "Caisse-AP protocol over IP",
     )
+    fr_caisse_ap_ip_beneficiary = fields.Selection(
+        [
+            ("1", "1"),
+            ("2", "2"),
+            ("3", "3"),
+            ("4", "4"),
+            ("5", "5"),
+            ("6", "6"),
+            ("7", "7"),
+        ],
+        string="Caisse-AP Beneficiary (leave empty if you don't have multi-beneficiary mode)",
+        help="This field should only have a value if the payment terminal "
+        "is configured to be able to switch between multiple entities, which "
+        "is not very common.",
+    )
     fr_caisse_ap_ip_port = fields.Integer(
         string="Caisse-AP Payment Terminal Port",
         help="TCP port of the payment terminal that support Caisse-AP protocol over IP",
@@ -172,6 +187,12 @@ class PosPaymentMethod(models.Model):
             return res
         if self.fr_caisse_ap_ip_mode == "check":
             msg_dict["CC"] = "00C"
+        if self.fr_caisse_ap_ip_beneficiary:
+            if msg_dict["CD"] == "1":  # reimbursement
+                transaction_type = "2"
+            else:
+                transaction_type = "1"
+            msg_dict["CF"] = f"{self.fr_caisse_ap_ip_beneficiary}1{transaction_type}"
         return msg_dict
 
     @api.model
