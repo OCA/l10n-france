@@ -60,6 +60,12 @@ msgid "Caisse AP over IP (France only)"
 msgstr "Caisse AP sur IP (France uniquement)"
 
 #. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_beneficiary
+msgid ""
+"Caisse-AP Beneficiary (leave empty if you don't have multi-beneficiary mode)"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_address
 msgid "Caisse-AP Payment Terminal IP Address"
 msgstr "Adresse IP du terminal de paiement Caisse-AP"
@@ -214,6 +220,13 @@ msgstr "Le paiement a échoué."
 #, python-format
 msgid "The payment transaction has failed: %s"
 msgstr "Le paiement a échoué : %s"
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#: model:ir.model.fields,help:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_beneficiary
+msgid ""
+"This field should only have a value if the payment terminal is configured to "
+"be able to switch between multiple entities, which is not very common."
+msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
