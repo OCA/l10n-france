@@ -11,6 +11,8 @@ from odoo.tests.common import TransactionCase
 
 @tagged("post_install", "-at_install")
 class TestL10nFrSiret(TransactionCase):
+    _test_user_groups = None
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -34,38 +36,12 @@ class TestL10nFrSiret(TransactionCase):
         cls.valid_siren2 = "987 654 324"
         cls.valid_siret2 = f"{cls.valid_siren2} 00019"
 
-    def test_siret_cleanup(self):
-        partner = self.env["res.partner"].create(
-            {
-                "name": "Test partner1",
-                "country_id": self.env.ref("base.fr").id,
-                "company_registry": self.valid_siret,
-            }
-        )
-        self.assertEqual(partner.company_registry, self.valid_siret_no_space)
-        partnertab = self.env["res.partner"].create(
-            {
-                "name": "Test partner with tab",
-                "country_id": self.env.ref("base.fr").id,
-                "company_registry": "792  377\t\n731",
-            }
-        )
-        self.assertEqual(partnertab.company_registry, self.valid_siren_no_space)
-        partner2 = self.env["res.partner"].create(
-            {
-                "name": "Test partner1",
-                "country_id": self.env.ref("base.fr").id,
-            }
-        )
-        partner2.write({"company_registry": self.valid_siret})
-        self.assertEqual(partner2.company_registry, self.valid_siret_no_space)
-
     def test_siret(self):
         partner1 = self.env["res.partner"].create(
             {
                 "name": "Test partner1",
                 "country_id": self.env.ref("base.fr").id,
-                "company_registry": "55555555600011",
+                "additional_identifiers": {"FR_SIRET": "55555555600011"},
             }
         )
         self.assertEqual(partner1._get_siret(), "55555555600011")
@@ -81,15 +57,15 @@ class TestL10nFrSiret(TransactionCase):
         self.assertFalse(partner1.same_siren_partner_ids)
         # Try to update SIRET
         partner1.write({"country_id": self.env.ref("base.fr").id})
-        partner1.write({"company_registry": "81862078300048"})
-        partner1.write({"company_registry": "79237773100023"})
-        partner1.write({"company_registry": "55555555600011"})
+        partner1.write({"additional_identifiers": {"FR_SIRET": "81862078300048"}})
+        partner1.write({"additional_identifiers": {"FR_SIRET": "79237773100023"}})
+        partner1.write({"additional_identifiers": {"FR_SIRET": "55555555600011"}})
 
         partner2 = self.env["res.partner"].create(
             {
                 "name": "Test partner2",
                 "country_id": self.env.ref("base.fr").id,
-                "company_registry": "55555555600011",
+                "additional_identifiers": {"FR_SIRET": "55555555600011"},
             }
         )
         self.assertEqual(partner2._get_siren(), "555555556")
@@ -99,7 +75,7 @@ class TestL10nFrSiret(TransactionCase):
         partner3 = self.env["res.partner"].create(
             {
                 "name": "Test SIREN only",
-                "company_registry": "555555556",
+                "additional_identifiers": {"FR_SIREN": "555555556"},
                 "country_id": self.env.ref("base.fr").id,
             }
         )
@@ -108,55 +84,17 @@ class TestL10nFrSiret(TransactionCase):
         self.assertIn(partner1, partner3.same_siren_partner_ids)
         self.assertIn(partner2, partner3.same_siren_partner_ids)
 
-    def test_wrong_siret(self):
-        vals = {
-            "name": "Wrong Akretion France",
-            "country_id": self.env.ref("base.fr").id,
-        }
-        with self.assertRaises(ValidationError):
-            self.env["res.partner"].create(
-                dict(vals, company_registry="79237773100022")
-            )
-
-        with self.assertRaises(ValidationError):
-            self.env["res.partner"].create(dict(vals, company_registry="792377999"))
-
-        with self.assertRaises(ValidationError):
-            self.env["res.partner"].create(
-                dict(vals, company_registry="78237773100023")
-            )
-
-        with self.assertRaises(ValidationError):
-            self.env["res.partner"].create(dict(vals, company_registry="782377731"))
-        # Test inconsistency between VAT and SIRET
-        with self.assertRaises(ValidationError):
-            self.env["res.partner"].create(
-                dict(vals, company_registry=self.valid_siret2, vat=self.valid_vat)
-            )
-        with self.assertRaises(ValidationError):
-            self.env["res.partner"].create(
-                dict(vals, company_registry=self.valid_siren2, vat=self.valid_vat)
-            )
-        self.env["res.partner"].create(
-            dict(vals, company_registry=self.valid_siret, vat=self.valid_vat)
-        )
-        self.env["res.partner"].create(
-            dict(vals, company_registry=self.valid_siren, vat=self.valid_vat)
-        )
-
     def test_company(self):
         vals = {
             "name": "New company",
             "country_id": self.env.ref("base.fr").id,
         }
-        with self.assertRaises(ValidationError):
-            self.env["res.company"].create(
-                dict(vals, company_registry="79237773100022")
-            )
-        with self.assertRaises(ValidationError):
-            self.env["res.company"].create(dict(vals, company_registry="792377999"))
         c1 = self.env["res.company"].create(
-            dict(vals, company_registry=self.valid_siret, vat=self.valid_vat)
+            dict(
+                vals,
+                additional_identifiers={"FR_SIRET": self.valid_siret},
+                vat=self.valid_vat,
+            )
         )
         self.assertEqual(c1._get_siret(), self.valid_siret.replace(" ", ""))
         self.assertEqual(c1._get_siren(), self.valid_siren.replace(" ", ""))
@@ -166,7 +104,7 @@ class TestL10nFrSiret(TransactionCase):
         partner_company1 = self.env["res.partner"].create(
             {
                 "name": "TestDup",
-                "company_registry": "444444442",
+                "additional_identifiers": {"FR_SIREN": "444444442"},
                 "company_id": self.company1_id,
                 "country_id": self.env.ref("base.fr").id,
             }
@@ -174,7 +112,7 @@ class TestL10nFrSiret(TransactionCase):
         partner_company2 = self.env["res.partner"].create(
             {
                 "name": "TestDup",
-                "company_registry": "44444444200016",
+                "additional_identifiers": {"FR_SIRET": "44444444200016"},
                 "company_id": self.company2_id,
                 "country_id": self.env.ref("base.fr").id,
             }
@@ -189,14 +127,14 @@ class TestL10nFrSiret(TransactionCase):
             {
                 "name": "Akretion France",
                 "country_id": self.env.ref("base.fr").id,
-                "company_registry": "79237773100023",
+                "additional_identifiers": {"FR_SIRET": "79237773100023"},
             }
         )
         partner2 = self.env["res.partner"].create(
             {
                 "name": "Akretion Fr",
                 "country_id": self.env.ref("base.fr").id,
-                "company_registry": "78467169500087",
+                "additional_identifiers": {"FR_SIRET": "78467169500087"},
             }
         )
         contact = self.env["res.partner"].create(
@@ -217,55 +155,58 @@ class TestL10nFrSiret(TransactionCase):
         partner = self.env["res.partner"].create(
             {
                 "name": "Akretion France",
-                "is_company": True,
                 "country_id": self.env.ref("base.fr").id,
-                "company_registry": "79237773100023",
+                "additional_identifiers": {"FR_SIRET": "79237773100023"},
             }
         )
+
+        # Create
         with self.assertRaises(ValidationError):
             child_partner = self.env["res.partner"].create(
                 {
                     "name": "Invoicing child partner",
                     "parent_id": partner.id,
-                    "is_company": False,
                     "country_id": self.env.ref("base.fr").id,
                     "type": "invoice",
-                    "company_registry": "11998877200024",
+                    "additional_identifiers": {"FR_SIRET": "11998877200024"},
                 }
             )
+
+        # Write on child
         child_partner = self.env["res.partner"].create(
             {
                 "name": "Invoicing child partner",
                 "parent_id": partner.id,
-                "is_company": False,
                 "country_id": self.env.ref("base.fr").id,
                 "type": "invoice",
-                "company_registry": "79237773100015",
+                "additional_identifiers": {"FR_SIRET": "79237773100023"},
             }
         )
+        with self.assertRaises(ValidationError):
+            child_partner.additional_identifiers = {"FR_SIRET": "33998877600029"}
+
+        # Write on parent
+        partner.additional_identifiers = {"FR_SIREN": "792377731", "FR_SIRET": False}
+        self.assertEqual(child_partner._get_siren(), partner._get_siren())
+
         # also test when creating parent and child at the same time
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
                 {
                     "name": "Test me",
-                    "is_company": True,
                     "country_id": self.env.ref("base.fr").id,
-                    "company_registry": "22998877900026",
+                    "additional_identifiers": {"FR_SIRET": "22998877900026"},
                     "child_ids": [
                         Command.create(
                             {
                                 "name": "Child test",
                                 "country_id": self.env.ref("base.fr").id,
                                 "type": "invoice",
-                                "company_registry": "33998877600029",
+                                "additional_identifiers": {
+                                    "FR_SIRET": "33998877600029"
+                                },
                             }
                         )
                     ],
                 }
             )
-        # Write on child
-        with self.assertRaises(ValidationError):
-            child_partner.write({"company_registry": "33998877600029"})
-        # Write on parent
-        partner.write({"company_registry": "33998877600029"})
-        self.assertEqual(child_partner._get_siren(), partner._get_siren())
