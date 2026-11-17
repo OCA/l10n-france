@@ -7,6 +7,7 @@ from stdnum.fr.siren import to_tva
 from stdnum.fr.siret import is_valid as siret_is_valid
 
 from odoo import api, models
+from odoo.exceptions import UserError
 
 
 class AccountInvoiceImport(models.TransientModel):
@@ -109,4 +110,35 @@ class AccountInvoiceImport(models.TransientModel):
                 siret = partner_dict["identifiers"]["0009"]
                 if siret_is_valid(siret):
                     vals["import_partner_data"]["nic"] = siret[9:]
+        return res
+
+    def _check_import_company(self, parsed_inv, import_config):
+        res = super()._check_import_company(parsed_inv, import_config)
+        company = import_config["company"]
+        company_dict = self._get_company_dict(parsed_inv, import_config)
+        if (
+            company_dict
+            and company_dict.get("legal_identifier_schemeid") == "0002"
+            and company_dict.get("legal_identifier")
+            and siren_is_valid(company_dict["legal_identifier"])
+            and company.siren
+        ):
+            invoice_siren = (
+                "".join(
+                    x for x in company_dict["legal_identifier"] if not x.isspace()
+                ).upper()
+                or False
+            )
+            if invoice_siren != company.siren:
+                raise UserError(
+                    self.env._(
+                        "Trying to import invoice in company %(company)s "
+                        "that has SIREN '%(import_company_siren)s' but "
+                        "the SIREN of the destination company written in "
+                        "the invoice to import is '%(invoice_siren)s'.",
+                        company=company.display_name,
+                        import_company_siren=company.siren,
+                        invoice_siren=invoice_siren,
+                    )
+                )
         return res
