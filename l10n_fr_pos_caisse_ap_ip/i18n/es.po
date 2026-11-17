@@ -53,8 +53,8 @@ msgid ""
 "Caisse AP IP protocol: tag %s is required but it is not present in the "
 "answer from the terminal. This should never happen!"
 msgstr ""
-"Caisse AP IP protocol: tag %s is required but it is not present in the "
-"answer from the terminal. ¡Esto no debería ocurrir nunca!"
+"Protocolo Caisse AP IP: la etiqueta %s es obligatoria pero no está presente "
+"en la respuesta del terminal. ¡Esto no debería ocurrir nunca!"
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #. odoo-python
@@ -88,6 +88,12 @@ msgid "Caisse-AP payment terminal port is not set on payment method '%s'."
 msgstr ""
 "El puerto del terminal de pago Caisse-AP no está configurado en el método de "
 "pago '%s'."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+msgid "Cannot understand the answer from the payment terminal: %s"
+msgstr "No se puede entender la respuesta del terminal de pago: %s"
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__card
@@ -128,6 +134,8 @@ msgid ""
 "Failure in the connection to the payment terminal on %(ip_addr)s port "
 "%(port)s: %(error)s."
 msgstr ""
+"Fallo en la conexión con el terminal de pago en %(ip_addr)s puerto "
+"%(port)s: %(error)s."
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields,help:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_address
@@ -143,6 +151,16 @@ msgstr ""
 #: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/payment_caisse_ap_ip.esm.js:0
 msgid "No answer from the payment terminal in the given time."
 msgstr "No hay respuesta del terminal de pago en el tiempo dado."
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+msgid ""
+"Odoo could not prepare the message for the payment terminal. Check the Odoo "
+"server logs for more details."
+msgstr ""
+"Odoo no pudo preparar el mensaje para el terminal de pago. Consulte los "
+"registros del servidor Odoo para más detalles."
 
 #. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields,field_description:l10n_fr_pos_caisse_ap_ip.field_pos_payment_method__fr_caisse_ap_ip_mode

@@ -75,6 +75,12 @@ msgid "Caisse-AP payment terminal port is not set on payment method '%s'."
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+msgid "Cannot understand the answer from the payment terminal: %s"
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
 #: model:ir.model.fields.selection,name:l10n_fr_pos_caisse_ap_ip.selection__pos_payment_method__fr_caisse_ap_ip_mode__card
 msgid "Card"
 msgstr ""
@@ -133,6 +139,14 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/l10n_fr_pos_caisse_ap_ip/static/src/app/utils/payment/payment_caisse_ap_ip.esm.js:0
 msgid "No answer from the payment terminal in the given time."
+msgstr ""
+
+#. module: l10n_fr_pos_caisse_ap_ip
+#. odoo-python
+#: code:addons/l10n_fr_pos_caisse_ap_ip/models/pos_payment_method.py:0
+msgid ""
+"Odoo could not prepare the message for the payment terminal. Check the Odoo "
+"server logs for more details."
 msgstr ""
 
 #. module: l10n_fr_pos_caisse_ap_ip
