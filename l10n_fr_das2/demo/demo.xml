@@ -17,8 +17,8 @@
     has child contacts, it will sync the siren with the childs
     while keeping the nic, so the SIRET will become invalid on the childs -->
 <record id="base.main_partner" model="res.partner">
-    <field name="siren">999999998</field>
-    <field name="nic">00019</field>
+    <field name="siren">441019213</field>
+    <field name="nic">00012</field>
 </record>
 
 
