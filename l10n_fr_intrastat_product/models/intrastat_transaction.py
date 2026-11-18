@@ -1,6 +1,8 @@
-# Copyright 2010-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2010-2022 Akretion France (http://www.akretion.com/)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+from textwrap import shorten
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -48,7 +50,7 @@ class IntrastatTransaction(models.Model):
             ("99", "99"),
         ],
         string="Transaction code",
-        help="For the 'DEB' declaration to France's customs "
+        help="For the 'EMEBI' declaration to France's customs "
         "administration, you should enter the number 'nature de la "
         "transaction' here.",
     )
@@ -58,12 +60,12 @@ class IntrastatTransaction(models.Model):
     )
     fr_fiscal_value_multiplier = fields.Integer(
         string="Fiscal value multiplier",
+        default=1,
         help="'0' for procedure codes 19 and 29, "
         "'-1' for procedure code 25, '1' for all the others. "
         "This multiplier is used to compute the total fiscal value of "
         "the declaration.",
     )
-    # TODO : see with Luc if we can move it to intrastat_product
     fr_intrastat_product_type = fields.Selection(
         [
             ("arrivals", "Arrivals"),
@@ -121,6 +123,6 @@ class IntrastatTransaction(models.Model):
                 name += "/%s" % trans.fr_transaction_code
             if trans.description:
                 name += " " + trans.description
-            name = len(name) > 55 and name[:55] + "..." or name
+            name = shorten(name, 55, placeholder="...")
             res.append((trans.id, name))
         return res

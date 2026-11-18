@@ -1,6 +1,6 @@
-===
-DEB
-===
+=====
+EMEBI
+=====
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -28,9 +28,9 @@ DEB
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds support for the *Déclaration d'Échange de Biens* (DEB) for France.
+This module adds support for the *Enquête mensuelle statistique sur les échanges de biens intra-UE* (EMEBI), for France. Before 2022, this declaration was called Déclaration d'Échange de Biens (DEB).
 
-More information about the DEB is available on this `official web page <http://www.douane.gouv.fr/articles/a10897-notions-essentielles-sur-la-declaration-d-echanges-de-biens>`_.
+More information about the EMEBI is available on this `official web page <https://www.douane.gouv.fr/fiche/reglementation-sur-la-reponse-lenquete-mensuelle-statistique-sur-les-echanges-de-biens-intra>`_.
 
 **Table of contents**
 
@@ -52,7 +52,7 @@ WARNING: there are A LOT of settings for DEB and all these settings need to be c
 Usage
 =====
 
-To use this module, you need to go to the menu Invoicing > Reports > Intrastat > DEB and create a new DEB. Depending on your obligation levels, you may have to create 2 DEBs: one for export (Expéditions) and one for import (Introductions). Then, click on the button *Generate lines from invoices* to automatically generate the lines of DEB. After checking the lines that have been automatically generated, click on the button *Attach XML file* to create the XML file corresponding to the DEB. Eventually, connect to your account on `pro.douane <https://pro.douane.gouv.fr/>`_ and upload the DEB XML file.
+To use this module, you need to go to the menu Invoicing > Reports > Intrastat > EMEBI and create a new EMEBI. Depending on your obligation levels, you may have to create 2 EMEBIs: one for departures (Expéditions) and one for arrivals (Introductions). Then, click on the button *Generate lines from invoices* to automatically generate the computation lines of EMEBI. After checking the lines that have been automatically generated, click on the button *Confirm* to generate the declaration lines, create the XML file and set the declaration readonly. Eventually, connect to your account on `douane.gouv.fr <https://www.douane.gouv.fr/>`_ and upload the EMEBI XML file.
 
 Bug Tracker
 ===========
