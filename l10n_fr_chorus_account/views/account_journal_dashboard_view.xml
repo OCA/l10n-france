@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="account_journal_dashboard_kanban_view" model="ir.ui.view">
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view" />
+        <field name="arch" type="xml">
+            <div class="row" t-if="dashboard.number_waiting" position="after">
+                <div class="row text-danger" t-if="dashboard.number_chorus_error">
+                    <div class="col overflow-hidden text-left">
+                        <a
+                            type="object"
+                            name="open_action"
+                            class="text-danger"
+                            context="{'search_default_chorus_error': 1}"
+                            id="account_dashboard_error_chorus"
+                        >
+                        <t t-esc="dashboard.number_chorus_error" /> Error Chorus
+                        </a>
+                    </div>
+                    <div class="col-auto text-right">
+                        <span><t t-esc="dashboard.sum_chorus_error" /></span>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+
+</odoo>
