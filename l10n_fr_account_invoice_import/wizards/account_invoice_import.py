@@ -116,12 +116,13 @@ class AccountInvoiceImport(models.TransientModel):
         res = super()._check_import_company(parsed_inv, import_config)
         company = import_config["company"]
         company_dict = self._get_company_dict(parsed_inv, import_config)
+        company_siren = company.partner_id._get_siren()
         if (
             company_dict
             and company_dict.get("legal_identifier_schemeid") == "0002"
             and company_dict.get("legal_identifier")
             and siren_is_valid(company_dict["legal_identifier"])
-            and company.siren
+            and company_siren
         ):
             invoice_siren = (
                 "".join(
@@ -129,15 +130,15 @@ class AccountInvoiceImport(models.TransientModel):
                 ).upper()
                 or False
             )
-            if invoice_siren != company.siren:
+            if invoice_siren != company_siren:
                 raise UserError(
                     self.env._(
                         "Trying to import invoice in company %(company)s "
-                        "that has SIREN '%(import_company_siren)s' but "
+                        "that has SIREN '%(company_siren)s' but "
                         "the SIREN of the destination company written in "
                         "the invoice to import is '%(invoice_siren)s'.",
                         company=company.display_name,
-                        import_company_siren=company.siren,
+                        company_siren=company_siren,
                         invoice_siren=invoice_siren,
                     )
                 )
