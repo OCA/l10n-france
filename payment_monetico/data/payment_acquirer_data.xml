@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ Copyright 2024 Akretion (http://www.akretion.com).
+ @author Florian Mounier <florian.mounier@akretion.com>
+ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="payment_acquirer_monetico" model="payment.acquirer">
+            <field name="name">Monetico</field>
+            <field
+                name="image_128"
+                type="base64"
+                file="payment_monetico/static/src/img/logo.png"
+            />
+            <field name="provider">monetico</field>
+            <field name="state">test</field>
+            <field name="company_id" ref="base.main_company" />
+            <field name="view_template_id" ref="payment_monetico.monetico_form" />
+
+            <field name="monetico_ept">0000001</field>
+            <field name="monetico_company_code">company_code</field>
+            <field
+                name="monetico_secret"
+            >12345678901234567890123456789012345678P0</field>
+
+            <field name="description" type="html">
+                <p>Accept payments with Monetico secure payment gateway.</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><i
+                            class="fa fa-check"
+                        />Online Payment</li>
+                    <li class="list-inline-item"><i class="fa fa-check" />eCommerce</li>
+                </ul>
+            </field>
+        </record>
+
+    </data>
+</odoo>
