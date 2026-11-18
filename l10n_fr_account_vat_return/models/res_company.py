@@ -366,6 +366,35 @@ class ResCompany(models.Model):
         if vals:
             self.write(vals)
 
+    def _fr_vat_init_payment_accounts(self):
+        payment_type2prefix = {
+            "inbound": "IN",
+            "outbound": "OUT",
+        }
+        for payment_type, prefix in payment_type2prefix.items():
+            pay_account_id = (
+                self.env["account.account"]
+                .with_company(self.id)
+                .create(
+                    {
+                        "code": f"{prefix}PAYTEST",
+                        "name": f"Outstanding {payment_type} payments",
+                        "company_ids": [Command.set([self.id])],
+                        "account_type": "asset_current",
+                        "reconcile": True,
+                    }
+                )
+                .id
+            )
+            payment_method_lines = self.env["account.payment.method.line"].search(
+                [
+                    ("company_id", "=", self.id),
+                    ("payment_method_id.payment_type", "=", payment_type),
+                    ("payment_account_id", "=", False),
+                ]
+            )
+            payment_method_lines.write({"payment_account_id": pay_account_id})
+
     @api.model
     def _test_fr_vat_create_company(
         self, company_name=None, fr_vat_exigibility="on_invoice"
@@ -438,6 +467,8 @@ class ResCompany(models.Model):
                 "fr_vat_bank_account_id": self.partner_id.bank_ids[0].id,
             }
         )
+        # outstanding payment accounts
+        self._fr_vat_init_payment_accounts()
         # Set 658/758 accounts
         self._fr_vat_init_adjustment_accounts()
         # activate all taxes
