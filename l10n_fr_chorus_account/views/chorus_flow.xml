@@ -69,6 +69,12 @@
                 <field name="date" />
                 <field name="syntax" optional="show" />
                 <field
+                    name="initial_invoice_ids"
+                    widget="many2many_tags"
+                    optional="show"
+                />
+                <field name="invoice_ids" widget="many2many_tags" optional="hide" />
+                <field
                     name="status_display"
                     widget="badge"
                     decoration-info="status == 'IN_DEPOT_PORTAIL_EN_ATTENTE_TRAITEMENT_SE_CPP'"
