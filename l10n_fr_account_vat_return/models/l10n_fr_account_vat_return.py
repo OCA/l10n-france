@@ -237,7 +237,7 @@ class L10nFrAccountVatReturn(models.Model):
 
     @api.model
     def _vat_periodicity_selection(self):
-        return self.env['res.company']._fr_vat_periodicity_selection()
+        return self.env["res.company"]._fr_vat_periodicity_selection()
 
     @api.model
     def _send_gateway_selection(self):

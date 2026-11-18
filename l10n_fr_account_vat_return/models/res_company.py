@@ -108,7 +108,6 @@ class ResCompany(models.Model):
         ]
         return res
 
-
     @api.model
     def _fr_vat_exigibility_selection(self):
         res = [
@@ -442,6 +441,11 @@ class ResCompany(models.Model):
         # Set 658/758 accounts
         self._fr_vat_init_adjustment_accounts()
         # activate all taxes
+        sale_tax_exo = self.env.ref(f"account.{self.id}_tva_sale_0_exo")
+        sale_tax_exo.write(
+            {"unece_vatex_id": self.env.ref("account_tax_unece.tax_vatex_fr_ae")}
+        )
+
         ato.search(cdomain + [("active", "=", False)]).write({"active": True})
         # France autoliq taxes for BTP subcontracting
         btp_account_map = {
