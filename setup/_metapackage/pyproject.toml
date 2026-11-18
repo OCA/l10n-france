@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-l10n-france"
-version = "18.0.20261116.0"
+version = "18.0.20261118.0"
 dependencies = [
     "odoo-addon-account_balance_ebp_csv_export==18.0.*",
     "odoo-addon-account_move_mercanet_import==18.0.*",
@@ -14,6 +14,8 @@ dependencies = [
     "odoo-addon-l10n_fr_account_oca==18.0.*",
     "odoo-addon-l10n_fr_account_payment_intl_credit_transfer==18.0.*",
     "odoo-addon-l10n_fr_account_tax_unece==18.0.*",
+    "odoo-addon-l10n_fr_account_vat_return==18.0.*",
+    "odoo-addon-l10n_fr_account_vat_return_teledec==18.0.*",
     "odoo-addon-l10n_fr_business_document_import==18.0.*",
     "odoo-addon-l10n_fr_chorus_account==18.0.*",
     "odoo-addon-l10n_fr_chorus_facturx==18.0.*",
