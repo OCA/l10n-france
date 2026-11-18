@@ -1,0 +1,209 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_fec_oca
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-16 10:25+0000\n"
+"PO-Revision-Date: 2023-06-16 10:37+0000\n"
+"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__ascii
+msgid "ASCII"
+msgstr "ASCII"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_account_ids
+msgid "Accounts"
+msgstr "Comptes"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__all
+msgid "All"
+msgstr "Tous"
+
+#. module: l10n_fr_fec_oca
+#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__date_range_id
+msgid "Date Range"
+msgstr "Période"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__encoding
+msgid "Encoding"
+msgstr "Encodage"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__date_to
+msgid "End Date"
+msgstr "Date de fin"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__export_type
+msgid "Export Type"
+msgstr "Type d'export"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.actions.act_window,name:l10n_fr_fec_oca.account_fr_fec_oca_action
+#: model:ir.ui.menu,name:l10n_fr_fec_oca.account_fr_fec_oca_menu
+msgid "FEC (OCA)"
+msgstr "FEC (OCA)"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__fec_data
+msgid "FEC File"
+msgstr "Fichier FEC"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model,name:l10n_fr_fec_oca.model_account_fr_fec_oca
+msgid "Ficher Echange Informatise"
+msgstr "Fichier Echange Informatise"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__delimiter
+msgid "Field Delimiter"
+msgstr "Séparateur de champ"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,help:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_identifier
+msgid ""
+"Field on partner used for the column CompAuxNum. If you select 'Reference', "
+"make sure all partners used in journal items have a Reference and that this "
+"reference is unique."
+msgstr ""
+"Champ du partenaire utilisé pour la colonne CompAuxNum. Si vous sélectionnez "
+"\"Référence\", assurez-vous que tous les partenaires utilisés dans les "
+"écritures comptables ont une référence et que cette référence est unique."
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__filename
+msgid "Filename"
+msgstr "Nom du fichier"
+
+#. module: l10n_fr_fec_oca
+#: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
+msgid "Generate"
+msgstr "Générer"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__id
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_identifier__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__iso8859_15
+msgid "ISO-8859-15"
+msgstr "ISO-8859-15"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: l10n_fr_fec_oca
+#. odoo-python
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:0
+#, python-format
+msgid "Missing SIRET on company %s."
+msgstr "SIRET manquant sur la société %s."
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__nonofficial
+msgid "Non-official FEC report (posted and draft entries)"
+msgstr "Rapport FEC non officiel (écritures comptabilisées et brouillons)"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__export_type__official
+msgid "Official FEC report (posted entries only)"
+msgstr "Rapport FEC officiel (écritures comptabilisées uniquement)"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_option
+msgid "Partner Export Option"
+msgstr "Option d'export pour le partenaire"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__partner_identifier
+msgid "Partner Identifier"
+msgstr "Identifiant du partenaire"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__receivable_payable
+msgid "Receivable and Payable Accounts"
+msgstr "Comptes client et fournisseur"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_identifier__ref
+msgid "Reference"
+msgstr "Référence"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__partner_option__accounts
+msgid "Selected Accounts"
+msgstr "Comptes sélectionnés"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__date_from
+msgid "Start Date"
+msgstr "Date de début"
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__delimiter__tab
+msgid "Tab"
+msgstr "Tabulation"
+
+#. module: l10n_fr_fec_oca
+#. odoo-python
+#: code:addons/l10n_fr_fec_oca/wizard/account_fr_fec_oca.py:0
+#, python-format
+msgid "The start date must be before the end date."
+msgstr "La date de début doit être antérieure à la date de fin."
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields.selection,name:l10n_fr_fec_oca.selection__account_fr_fec_oca__encoding__utf-8
+msgid "UTF-8"
+msgstr "UTF-8"
