@@ -23,8 +23,8 @@ msgstr ""
 #: code:addons/l10n_fr_account_invoice_import/wizards/account_invoice_import.py:0
 msgid ""
 "Trying to import invoice in company %(company)s that has SIREN "
-"'%(import_company_siren)s' but the SIREN of the destination company written "
-"in the invoice to import is '%(invoice_siren)s'."
+"'%(company_siren)s' but the SIREN of the destination company written in the "
+"invoice to import is '%(invoice_siren)s'."
 msgstr ""
 
 #. module: l10n_fr_account_invoice_import
