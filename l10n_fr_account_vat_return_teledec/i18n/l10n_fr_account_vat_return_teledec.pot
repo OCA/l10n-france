@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,13 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_fr_account_vat_return_teledec
-#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
-msgid ""
-"<span class=\"o_form_label\">Teletransmission via Teledec.fr</span>\n"
-"                    <span class=\"fa fa-lg fa-building-o\" role=\"img\"/>"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return_teledec
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return_teledec.selection__res_company__fr_vat_teledec_legal_form__ass
 msgid "Association"
 msgstr ""
@@ -28,14 +21,12 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "BIC is missing on the company bank account '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid ""
 "Cannot teletransmit box '%(box)s': box types '%(box_edi_type)s' are not "
 "supported for the moment."
@@ -55,7 +46,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "Company Legal Form is not set on company '%s'."
 msgstr ""
 
@@ -73,14 +63,12 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "E-mail for Teledec.fr is not set on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "E-mail missing on partner '%s'."
 msgstr ""
 
@@ -107,7 +95,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "Failed to send the request to Teledec.fr. Technical error: %s."
 msgstr ""
 
@@ -129,14 +116,12 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "Go to configuration page"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "Job position missing on partner '%s'."
 msgstr ""
 
@@ -149,14 +134,12 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "Legal Representative is not set on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "Missing 'teledec_private_key' in the Odoo server configuration file."
 msgstr ""
 
@@ -173,7 +156,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return_teledec.res_config_settings_view_form
-msgid "Parameters required for the teletransmission of CA3"
+msgid "Parameter required for the teletransmission of CA3"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
@@ -219,7 +202,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "SIRET not set on company '%s'."
 msgstr ""
 
@@ -231,7 +213,6 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid ""
 "The address of partner '%s' is incomplete: it must have at least the street,"
 " zip, city and country."
@@ -240,21 +221,18 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "The company bank account '%s' is not an IBAN."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "The company bank account is not set on VAT return '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid ""
 "The query to the Teledec.fr webservice was successful, but the answer of the"
 " webservice was not in the expected format. You should contact Teledec.fr "
@@ -264,14 +242,12 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "The request sent to Teledec.fr got an HTTP error code %s."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid ""
 "The request sent to Teledec.fr got an answer '%(answer)s' (it should have "
 "received 'ok'). Error message: '%(error)s'."
@@ -280,27 +256,23 @@ msgstr ""
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "The title of partner '%s' must be Mister or Madam."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "There are no lines on VAT return %s."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "Title (Mister or Madam) missing on partner '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return_teledec
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return_teledec/models/l10n_fr_account_vat_return.py:0
-#, python-format
 msgid "VAT number not set on company '%s'."
 msgstr ""
