@@ -8,7 +8,8 @@ from odoo.addons.l10n_fr_department.model.res_partner import FR_SPECIAL_ZIPCODES
 
 
 @openupgrade.migrate()
-def migrate(env, version):
+def migrate(cr, version):
+    env = cr
     fr_country_id = env.ref("base.fr").id
     partners = env["res.partner"].search(
         [
