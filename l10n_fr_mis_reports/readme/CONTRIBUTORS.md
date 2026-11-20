@@ -1,0 +1,3 @@
+- Alexis de Lattre \<alexis.delattre@akretion.com\>
+- [Logisteme](https://logisteme.fr):
+  - Yann Le Gall
