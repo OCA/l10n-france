@@ -639,3 +639,62 @@ class TestFrAccountVatReturn(TransactionCase):
         for line in vat_return.move_id.line_ids:
             if line.account_id.code in must_be_reconciled:
                 self.assertTrue(line.full_reconcile_id)
+
+    def test_fr_is_product_or_service_supply_sale_account(self):
+        company = self.on_invoice_company
+        account = (
+            self.env["account.account"]
+            .with_company(company.id)
+            .search([("code", "=", "708800"), ("company_ids", "in", company.id)])
+        )
+        self.assertTrue(account)
+        invoice = (
+            self.env["account.move"]
+            .with_company(company.id)
+            .create(
+                {
+                    "company_id": company.id,
+                    "move_type": "out_invoice",
+                    "partner_id": company._test_prepare_partner_dict()["france"].id,
+                    "invoice_date": self.start_date,
+                    "invoice_line_ids": [
+                        Command.create(
+                            {
+                                "name": "Supply sale",
+                                "account_id": account.id,
+                                "price_unit": 100,
+                            }
+                        )
+                    ],
+                }
+            )
+        )
+        line = invoice.invoice_line_ids
+        self.assertFalse(line.product_id)
+        self.assertEqual(line._fr_is_product_or_service(), "product")
+
+    def test_credit_box_account_with_several_44567_accounts(self):
+        company = self.on_invoice_company
+        aao = self.env["account.account"].with_company(company.id)
+        credit_account = aao.search(
+            [("code", "=", "445670"), ("company_ids", "in", company.id)]
+        )
+        self.assertTrue(credit_account)
+        aao.create(
+            {
+                "code": "445671",
+                "name": "Crédit de TVA en attente d'imputation",
+                "company_ids": [Command.set([company.id])],
+                "account_type": "asset_current",
+            }
+        )
+        vat_return = self.env["l10n.fr.account.vat.return"].create(
+            {
+                "company_id": company.id,
+                "start_date": self.start_date,
+                "vat_periodicity": "1",
+            }
+        )
+        for box_xmlid in ("ca3_hd", "ca3_jc"):
+            box = self.env.ref(f"l10n_fr_account_vat_return.{box_xmlid}")
+            self.assertEqual(vat_return._get_box_account(box), credit_account)

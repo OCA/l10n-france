@@ -789,6 +789,9 @@ class L10nFrAccountVatReturn(models.Model):
         action = self._setup_data_pre_check(speedy)
         if action:
             return action
+        action = self._generate_autoliq_lines(speedy)
+        if action:
+            return action
         self._delete_move_and_attachments()  # should not be necessary at that step
         self._generate_operation_untaxed(speedy)
         self._generate_due_vat(speedy)
@@ -853,6 +856,17 @@ class L10nFrAccountVatReturn(models.Model):
     def _auto2sent(self, gateway_attachment_id=False):
         self.ensure_one()
         assert self.state == "auto"
+        self._auto2sent_generate_attachment()
+        self.write(
+            {
+                "state": "sent",
+                "sent_datetime": fields.Datetime.now(),
+                "gateway_attachment_id": gateway_attachment_id,
+            }
+        )
+
+    def _auto2sent_generate_attachment(self):
+        self.ensure_one()
         if not self.ca3_attachment_id:  # for archive
             try:
                 self.generate_ca3_attachment()
@@ -864,13 +878,6 @@ class L10nFrAccountVatReturn(models.Model):
                         err,
                     )
                 )
-        self.write(
-            {
-                "state": "sent",
-                "sent_datetime": fields.Datetime.now(),
-                "gateway_attachment_id": gateway_attachment_id,
-            }
-        )
 
     def sent2manual(self):
         self.ensure_one()
@@ -991,6 +998,12 @@ class L10nFrAccountVatReturn(models.Model):
                     default_fr_vat_return_id=self.id,
                 )
                 return action
+        self._check_vat_on_payment_setup(speedy)
+        return False
+
+    def _check_vat_on_payment_setup(self, speedy):
+        self.ensure_one()
+        company = self.company_id
         if speedy["native_vat_on_payment"]:
             if not company.tax_cash_basis_journal_id:
                 raise UserError(
@@ -1040,8 +1053,6 @@ class L10nFrAccountVatReturn(models.Model):
                         company=company.display_name,
                     )
                 )
-        action = self._generate_autoliq_lines(speedy)
-        return action
 
     def _generate_autoliq_lines(self, speedy):  # noqa: C901
         self.ensure_one()
@@ -2210,17 +2221,11 @@ class L10nFrAccountVatReturn(models.Model):
                 speedy["company_domain"] + [("fr_vat_type", "=", fp_type)]
             )
             fpositions2box_meaning_id[fpositions] = box_meaning_id
-        sale_account_types = ["income", "income_other", "liability_current"]
-        # liability_current added to include
-        # 419100 Clients créditeurs - Avances et acomptes reçus sur commandes
         box_meaning_id2accounts = {}
         for fpositions, box_meaning_id in fpositions2box_meaning_id.items():
             for fposition in fpositions:
-                revenue_account_mappings = fposition.account_ids.filtered(
-                    lambda x: x.account_src_id.account_type in sale_account_types
-                    and x.account_dest_id.account_type in sale_account_types
-                )
-                if not revenue_account_mappings:
+                accounts = self._untaxed_op_accounts(fposition)
+                if not accounts:
                     if fposition.fr_vat_type == "france_exo":
                         # it may be a purchase-only fiscal position (ex: Auto-entrep)
                         # -> no raise, only write a warning in chatter
@@ -2246,15 +2251,10 @@ class L10nFrAccountVatReturn(models.Model):
                                 fposition.display_name,
                             )
                         )
-                for mapping in revenue_account_mappings:
-                    if box_meaning_id not in box_meaning_id2accounts:
-                        box_meaning_id2accounts[box_meaning_id] = (
-                            mapping.account_dest_id
-                        )
-                    else:
-                        box_meaning_id2accounts[box_meaning_id] |= (
-                            mapping.account_dest_id
-                        )
+                if box_meaning_id not in box_meaning_id2accounts:
+                    box_meaning_id2accounts[box_meaning_id] = accounts
+                else:
+                    box_meaning_id2accounts[box_meaning_id] |= accounts
         # check that an account is not present in several fiscal positions
         # and create lines
         account_unicity = []
@@ -2285,6 +2285,15 @@ class L10nFrAccountVatReturn(models.Model):
             self._create_line(
                 speedy, logs, box_meaning_id, negative_box="negative_untaxed_op"
             )
+
+    def _untaxed_op_accounts(self, fpositions):
+        sale_account_types = ["income", "income_other", "liability_current"]
+        # liability_current added to include
+        # 419100 Clients créditeurs - Avances et acomptes reçus sur commandes
+        return fpositions.account_ids.filtered(
+            lambda x: x.account_src_id.account_type in sale_account_types
+            and x.account_dest_id.account_type in sale_account_types
+        ).account_dest_id
 
     def _generate_negative_boxes(self, speedy):
         for box, logs in speedy["negative_box2logs"].items():
