@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Form: add warning banner for same SIREN -->
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.l10n_fr_siret</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <div name="warning_tax" position="after">
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    name="warn_duplicate_siren"
+                    invisible="not same_siren_partner_ids"
+                >
+                    Potential duplicates:
+                    <field name="same_siren_partner_ids" widget="x2many_buttons" />
+                    (Same SIREN)
+                </div>
+            </div>
+        </field>
+    </record>
+
+    <!-- List: add SIREN and SIRET -->
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="name">res.partner.list.l10n_fr_siret</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree" />
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="l10n_fr_siren" optional="hide" />
+                <field name="l10n_fr_siret" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <!-- Search: add search by VAT or SIRET -->
+    <record id="view_res_partner_filter" model="ir.ui.view">
+        <field name="name">res.partner.select.l10n_fr_siret</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field
+                    name="vat"
+                    string="VAT or SIREN"
+                    filter_domain="['|', ('vat', 'ilike', self), ('l10n_fr_siren', 'ilike', self)]"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
