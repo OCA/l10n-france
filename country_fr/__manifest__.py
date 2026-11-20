@@ -2,7 +2,7 @@
     "name": "Country Fr",
     "summary": "Set FR country on `base.main_company` record "
     "to set up French localisation.",
-    "version": "18.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Akretion, Odoo Community Association (OCA)",
     "development_status": "Beta",
     "category": "Localisation",
@@ -11,6 +11,8 @@
     "depends": [
         "base",
     ],
-    "data": ["partner.xml"],
+    "data": [
+        "views/res_partner_views.xml",
+    ],
     "installable": True,
 }
