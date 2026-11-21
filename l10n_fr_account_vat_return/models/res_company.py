@@ -438,6 +438,23 @@ class ResCompany(models.Model):
         # Set 658/758 accounts
         self._fr_vat_init_adjustment_accounts()
         # activate all taxes
+        vatex_to_set = ato.search(
+            [
+                ("active", "=", False),
+                ("amount", "<", 0.01),
+                ("type_tax_use", "=", "sale"),
+                ("unece_type_code", "=", "VAT"),
+                ("unece_categ_code", "=", "E"),
+                ("unece_vatex_id", "=", False),
+            ]
+        )
+        vatex_to_set.write(
+            {
+                "unece_vatex_id": self.env.ref(
+                    "account_tax_unece.tax_vatex_fr_cgi261c_3"
+                ).id
+            }
+        )
         ato.search(cdomain + [("active", "=", False)]).write({"active": True})
         # France autoliq taxes for BTP subcontracting
         btp_account_map = {

@@ -462,6 +462,7 @@
         <field name="tax_group_id" ref="tax_group_tva_0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+        <field name="unece_vatex_id" ref="account_tax_unece.tax_vatex_eu_ic" />
         <field
             name="invoice_repartition_line_ids"
             eval="[(5, 0, 0),
@@ -504,6 +505,7 @@
         <field name="tax_group_id" ref="tax_group_tva_0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+        <field name="unece_vatex_id" ref="account_tax_unece.tax_vatex_eu_g" />
         <field
             name="invoice_repartition_line_ids"
             eval="[(5, 0, 0),
@@ -542,6 +544,7 @@
         <field name="amount_type">percent</field>
         <field name="sequence" eval="120" />
         <field name="type_tax_use">sale</field>
+        <field name="active" eval="0" />
         <field name="include_base_amount" eval="1" />
         <field name="tax_group_id" ref="tax_group_tva_0" />
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
