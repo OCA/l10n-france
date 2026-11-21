@@ -25,7 +25,7 @@ addon | version | maintainers | summary
 [account_banking_fr_lcr](account_banking_fr_lcr/) | 16.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Create French LCR CFONB files
 [account_statement_import_fr_cfonb](account_statement_import_fr_cfonb/) | 16.0.1.1.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Import CFONB bank statements files in Odoo
 [l10n_fr_account_invoice_facturx](l10n_fr_account_invoice_facturx/) | 16.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | France-specific module to generate Factur-X invoices
-[l10n_fr_account_invoice_import_facturx](l10n_fr_account_invoice_import_facturx/) | 16.0.1.3.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | France-specific module to import Factur-X invoices
+[l10n_fr_account_invoice_import](l10n_fr_account_invoice_import/) | 16.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | France-specific module to import invoices
 [l10n_fr_account_invoice_import_simple_pdf](l10n_fr_account_invoice_import_simple_pdf/) | 16.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Invoice import simple PDF: match partners using SIREN
 [l10n_fr_account_tax_unece](l10n_fr_account_tax_unece/) | 16.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Auto-configure UNECE params on French taxes
 [l10n_fr_account_vat_return](l10n_fr_account_vat_return/) | 16.0.8.1.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | VAT return for France: CA3, 3310-A, 3519
@@ -51,6 +51,13 @@ addon | version | maintainers | summary
 [l10n_fr_siret](l10n_fr_siret/) | 16.0.1.4.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | French company identity numbers SIRET/SIREN/NIC
 [l10n_fr_siret_lookup](l10n_fr_siret_lookup/) | 16.0.1.2.0 | <a href='https://github.com/remi-filament'><img src='https://github.com/remi-filament.png' width='32' height='32' style='border-radius:50%;' alt='remi-filament'/></a> <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Lookup partner via an API on the SIRENE directory
 [l10n_fr_state](l10n_fr_state/) | 16.0.1.0.0 | <a href='https://github.com/legalsylvain'><img src='https://github.com/legalsylvain.png' width='32' height='32' style='border-radius:50%;' alt='legalsylvain'/></a> | Populate Database with French States (Régions)
+
+
+Unported addons
+---------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[l10n_fr_account_invoice_import_facturx](l10n_fr_account_invoice_import_facturx/) | 16.0.1.3.0 (unported) | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | France-specific module to import Factur-X invoices
 
 [//]: # (end addons)
 
