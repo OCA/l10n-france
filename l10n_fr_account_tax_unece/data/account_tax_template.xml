@@ -289,31 +289,37 @@
     <record id="l10n_fr.tva_sale_good_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_e" />
+        <field name="active" eval="0" />
     </record>
     <!-- EXO-0 service -->
     <record id="l10n_fr.tva_sale_service_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_e" />
+        <field name="active" eval="0" />
     </record>
     <!-- EXPORT-0 goods -->
     <record id="l10n_fr.tva_sale_good_export_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+        <field name="unece_vatex_id" ref="account_tax_unece.tax_vatex_eu_g" />
     </record>
     <!-- EXPORT-0 service -->
     <record id="l10n_fr.tva_sale_service_export_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_g" />
+        <field name="unece_vatex_id" ref="account_tax_unece.tax_vatex_eu_g" />
     </record>
     <!-- UE-0 goods -->
     <record id="l10n_fr.tva_sale_good_intra_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+        <field name="unece_vatex_id" ref="account_tax_unece.tax_vatex_eu_ic" />
     </record>
     <!-- UE-0 service -->
     <record id="l10n_fr.tva_sale_service_intra_0" model="account.tax.template">
         <field name="unece_type_id" ref="account_tax_unece.tax_type_vat" />
         <field name="unece_categ_id" ref="account_tax_unece.tax_categ_k" />
+        <field name="unece_vatex_id" ref="account_tax_unece.tax_vatex_eu_ic" />
     </record>
     <!-- IMPORT-hors-UE-20.0 -->
     <record id="l10n_fr.tva_import_outside_eu_20" model="account.tax.template">

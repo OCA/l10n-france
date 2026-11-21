@@ -56,6 +56,8 @@ def set_unece_on_taxes(cr, registry):
                     for rfield, rxmlid in data[xmlid_ori].items():
                         if rxmlid:
                             vals[rfield] = env.ref(rxmlid).id
+                        else:
+                            vals[rfield] = False
                     logger.debug(
                         "set_unece_on_taxes writing vals=%s on tax ID %d", vals, tax.id
                     )
