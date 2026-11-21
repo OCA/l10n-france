@@ -50,12 +50,14 @@ msgstr ""
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "NIC is not set on partner '%(partner)s'."
 msgstr ""
 
 #. module: l10n_fr_siret
 #. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid ""
@@ -85,6 +87,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "SIREN is not set on partner '%(partner)s'."
 msgstr ""
@@ -99,6 +102,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "SIRET '%s' is invalid."
 msgstr ""
@@ -106,12 +110,14 @@ msgstr ""
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid "SIRET is not set on partner '%(partner)s'."
 msgstr ""
 
 #. module: l10n_fr_siret
 #. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid ""
@@ -131,6 +137,7 @@ msgstr ""
 #. module: l10n_fr_siret
 #. odoo-python
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid ""
 "The SIREN '{siren}' of partner '{partner_name}' is incorrect: it must have "
@@ -139,6 +146,7 @@ msgstr ""
 
 #. module: l10n_fr_siret
 #. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid ""
@@ -157,6 +165,7 @@ msgstr ""
 
 #. module: l10n_fr_siret
 #. odoo-python
+#: code:addons/l10n_fr_siret/models/res_partner.py:0
 #: code:addons/l10n_fr_siret/models/res_partner.py:0
 #, python-format
 msgid ""
