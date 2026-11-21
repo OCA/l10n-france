@@ -21,14 +21,12 @@ msgstr ""
 #. module: l10n_fr_business_document_import
 #. odoo-python
 #: code:addons/l10n_fr_business_document_import/models/business_document_import.py:0
-#: code:addons/l10n_fr_business_document_import/models/business_document_import.py:0
 #, python-format
 msgid "Missing SIRET on company '%s'."
 msgstr ""
 
 #. module: l10n_fr_business_document_import
 #. odoo-python
-#: code:addons/l10n_fr_business_document_import/models/business_document_import.py:0
 #: code:addons/l10n_fr_business_document_import/models/business_document_import.py:0
 #, python-format
 msgid ""
