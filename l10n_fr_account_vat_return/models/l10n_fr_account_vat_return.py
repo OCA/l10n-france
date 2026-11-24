@@ -789,6 +789,19 @@ class L10nFrAccountVatReturn(models.Model):
         action = self._setup_data_pre_check(speedy)
         if action:
             return action
+        action = self._generate_lines(speedy)
+        if action:
+            return action
+        move = self._create_draft_account_move(speedy)
+        self.write(
+            {
+                "state": "auto",
+                "move_id": move.id,
+            }
+        )
+
+    def _generate_lines(self, speedy):
+        self.ensure_one()
         action = self._generate_autoliq_lines(speedy)
         if action:
             return action
@@ -802,13 +815,7 @@ class L10nFrAccountVatReturn(models.Model):
         self._create_push_lines("start", speedy)
         self._generate_ca3_bottom_totals(speedy)
         self._create_sections(speedy)
-        move = self._create_draft_account_move(speedy)
-        self.write(
-            {
-                "state": "auto",
-                "move_id": move.id,
-            }
-        )
+        return False
 
     def back_to_manual(self):
         self.ensure_one()
