@@ -35,6 +35,7 @@ class AccountMoveLine(models.Model):
             "703",
             "707",
             "7085",
+            "7088",
             "7091",
             "7092",
             "7093",
