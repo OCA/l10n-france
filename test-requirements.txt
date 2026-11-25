@@ -1,0 +1,2 @@
+odoo-addon-l10n_fr_state @ git+https://github.com/OCA/l10n-france@refs/pull/818/head#subdirectory=l10n_fr_state
+odoo-addon-l10n_fr_department @ git+https://github.com/OCA/l10n-france@refs/pull/819/head#subdirectory=l10n_fr_department
