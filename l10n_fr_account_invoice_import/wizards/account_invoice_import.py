@@ -40,14 +40,7 @@ class AccountInvoiceImport(models.TransientModel):
             parsed_inv.get("EXT-FR-FE-185")
             and parsed_inv["EXT-FR-FE-185"] in incoterms_code2id
         ):
-            vals.update(
-                {
-                    "invoice_incoterm_id": incoterms_code2id[
-                        parsed_inv["EXT-FR-FE-185"]
-                    ],
-                    "incoterm_location": parsed_inv.get("EXT-FR-FE-186"),
-                }
-            )
+            vals["invoice_incoterm_id"] = incoterms_code2id[parsed_inv["EXT-FR-FE-185"]]
         if (
             import_config["invoice_type"] == "in"
             and import_config.get("fr_vendor_vat_on_payment_fiscal_position_id")
