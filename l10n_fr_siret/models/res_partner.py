@@ -73,13 +73,22 @@ class Partner(models.Model):
             else:
                 rec.siret = False
 
+    def _siret_check_active(self):
+        """Return True if SIRET/SIREN checksum validation must run"""
+        if tools.config["test_enable"]:
+            return bool(self.env.context.get("_enable_siret_check"))
+        return True
+
     def _inverse_siret(self):
+        check_active = self._siret_check_active()
         for rec in self:
             if rec.siret:
                 if siret.is_valid(rec.siret):
                     rec.write({"siren": rec.siret[:9], "nic": rec.siret[9:]})
                 elif siren.is_valid(rec.siret[:9]) and rec.siret[9:] == "*****":
                     rec.write({"siren": rec.siret[:9], "nic": False})
+                elif not check_active:
+                    rec.write({"siren": rec.siret[:9], "nic": rec.siret[9:]})
                 else:
                     raise ValidationError(_("SIRET '%s' is invalid.") % rec.siret)
             else:
@@ -122,6 +131,8 @@ class Partner(models.Model):
     @api.constrains("siren", "nic", "vat")
     def _check_siret(self):
         """Check the SIREN's and NIC's keys (last digits)"""
+        if not self._siret_check_active():
+            return
         for rec in self:
             if rec.type == "contact" and rec.parent_id:
                 continue
