@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright (C) 2026-Today GRAP (http://www.grap.coop)
+    @author Sylvain LE GAL
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<templates id="template" xml:space="preserve">
+
+    <t
+        t-name="PartnerDetailsEdit"
+        t-inherit="point_of_sale.PartnerDetailsEdit"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+        <xpath expr="//select[@name='country_id']/.." position="after">
+            <div
+                class="is_company"
+                t-on-change="captureChange"
+                t-attf-style="display: {{changes.is_company ? 'block': 'none'}};"
+            >
+                <div class="partner-detail">
+                    <span class="label">SIREN</span>
+                    <input
+                        class="detail"
+                        name="siren"
+                        placeholder="123456789"
+                        t-model="changes.siren"
+                        t-on-change="captureChange"
+                    />
+                </div>
+                <div class="partner-detail">
+                    <span class="label">NIC</span>
+                    <input
+                        class="detail"
+                        name="nic"
+                        placeholder="12345"
+                        t-model="changes.nic"
+                        t-on-change="captureChange"
+                    />
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>
