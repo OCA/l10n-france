@@ -435,7 +435,7 @@ class L10nFrAccountVatReturn(models.Model):
 
     def auto2sent_via_gateway(self):
         self.ensure_one()
-        assert self.state == "auto"
+        self._check_before_send()
         if self.vat_periodicity not in ("1", "3"):
             raise UserError(
                 _(
@@ -449,8 +449,6 @@ class L10nFrAccountVatReturn(models.Model):
             raise UserError(
                 _("No gateway selected for VAT return %s.", self.display_name)
             )
-        if not self.line_ids:
-            raise UserError(_("VAT return %s has no lines.", self.display_name))
         method_name = f"_send_via_{self.send_gateway}"
         if not hasattr(self, method_name):
             raise UserError(
@@ -843,12 +841,29 @@ class L10nFrAccountVatReturn(models.Model):
 
     def auto2sent_manual(self):
         self.ensure_one()
+        self._check_before_send()
         self.message_post(
             body=Markup(
                 _("This VAT return has been <strong>manually marked as sent</strong>.")
             )
         )
         self._auto2sent()
+
+    def _check_before_send(self):
+        self.ensure_one()
+        assert self.state == "auto"
+        if not self.line_ids:
+            raise UserError(_("VAT return %s has no lines.", self.display_name))
+        today = fields.Date.context_today(self)
+        if today <= self.end_date:
+            raise UserError(
+                _(
+                    "The end date (%(end_date)s) of VAT return '%(vat_return)s' "
+                    "is in the future.",
+                    end_date=format_date(self.env, self.end_date),
+                    vat_return=self.display_name,
+                )
+            )
 
     def _auto2sent(self, gateway_attachment_id=False):
         self.ensure_one()
