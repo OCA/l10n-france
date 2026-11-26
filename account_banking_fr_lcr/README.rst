@@ -28,22 +28,35 @@ French Letter of Change
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds support for French Letters of Change (in French:
-*Lettre de Change Relevé* aka LCR). This module supports direct LCR
-(in French, *LCR Directe*) and not paper LCR.
+This module adds support for French Letters of Change. This module supports:
 
-This payment type is still in use in France and it is *not* replaced by SEPA
-one-off Direct Debits.
+* **Direct letter of change** (in French : *Lettre de change directe* or *LCR directe*),
+* **Accepted letter of change** (in French : *Lettre de change acceptée* ; I call it *paper letter of change*),
+* **Promissory note** (in French : *Billet à ordre*),
 
-With this module, you can generate an LCR CFONB file to send to your
-bank. Then, your customer will be notified by their bank about the debit
-(amount, date of debit). Eventually, the debit will take place at the
-planned date.
+It supports cash discounts debit orders and Dailly convention.
+
+This module has 2 main features:
+
+* for **Accepted Letter of Change**, generate a paper letter of change as PDF following the official layout NF K 11-030-1.
+* generate of LCR (or BOR) CFONB files to send to your bank.
+
+This module follows the specifications published on the `CFONB website <https://www.cfonb.org/>`_, section *Espace documentaire > Instruments de paiement > Effet de commerce* (document version of September 2002).
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Installation
+============
+
+This module requires 2 Python libs:
+
+* `pypdf <https://pypi.org/project/pypdf/>`_ version 3.10 or above,
+* `unidecode <https://pypi.org/project/Unidecode/>`_ (any version).
+
+In order to have the SIREN of the company and of the customer set in the CFONB file (optional field) and printed on the paper letter of exchange, the OCA module **l10n_fr_siret** must be installed. The installation of the module **l10n_fr_siret** is optional (because the SIREN field in the CFONB file is optional).
 
 Configuration
 =============
@@ -52,11 +65,25 @@ To configure this module, you need to create a new payment mode linked
 to the payment method *Lettre de Change Relevé* that is automatically
 created when you install this module.
 
+Once you selected this payment method, you will have a new section *Bill of Exchange* on the payment mode where you will have to configure:
+
+* the *LCR type*: *Lettre de change non acceptée (LCR directe)*, *Lettre de change acceptée* or *Billet à ordre*,
+* the *Default Collection Option*,
+* if you have a *Dailly Convention*,
+* in case you have a Dailly convention, you will be able to configure the *Default Dailly Option* and the *Convention Type*.
+
 Usage
 =====
 
-To use this module, you need to create a new Debit Order and
-select the LCR payment mode.
+This module adds a new field *Bill of Exchange Bank Account* on customer invoices to select the bank account of the customer that will be debited by the letter of exchange. This bank account must be a french IBAN.
+
+If you configured the payment mode for **Accepted Letter of Change**, you will have a button *Print Bill of Exchange* on customer invoices to get the letter of change as PDF.
+
+This module uses the standard workflow of debit orders as implemented in the OCA module **account_payment_order**. A debit order linked to a payment mode with the payment method *Lettre de change relevé* has a few additionnal constraints:
+
+* all payment lines must be in euro currency,
+* the bank accounts on the payment lines must be french IBANs,
+* if the payment order is configured with cash discount, you must configure the value date on the payment order (new field added by this module).
 
 Bug Tracker
 ===========
